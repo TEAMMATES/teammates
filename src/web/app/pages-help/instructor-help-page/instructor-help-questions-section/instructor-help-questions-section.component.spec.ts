@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
+import { PanelLinkModule } from '../../../components/panel-link/panel-link.module';
 import { QuestionEditFormModule } from '../../../components/question-edit-form/question-edit-form.module';
 import {
   QuestionSubmissionFormModule,
@@ -34,6 +35,7 @@ describe('InstructorHelpQuestionsSectionComponent', () => {
         InstructorSessionResultViewModule, NgbModule, RouterTestingModule, HttpClientTestingModule,
         NgxPageScrollCoreModule, NoopAnimationsModule, ExampleBoxModule, TeammatesRouterModule,
         QuestionEditFormModule, QuestionStatisticsModule, QuestionSubmissionFormModule, PanelChevronModule,
+        PanelLinkModule,
       ],
     })
     .compileComponents();

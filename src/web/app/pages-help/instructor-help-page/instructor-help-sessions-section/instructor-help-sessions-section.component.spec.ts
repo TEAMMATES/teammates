@@ -11,6 +11,7 @@ import {
 } from '../../../components/comment-box/comment-box.module';
 import { FeedbackPathPanelModule } from '../../../components/feedback-path-panel/feedback-path-panel.module';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
+import { PanelLinkModule } from '../../../components/panel-link/panel-link.module';
 import { PreviewSessionPanelModule } from '../../../components/preview-session-panel/preview-session-panel.module';
 import {
   QuestionResponsePanelModule,
@@ -57,7 +58,9 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         InstructorSearchComponentsModule, InstructorSessionResultViewModule,
         PreviewSessionPanelModule, QuestionTextWithInfoModule, AddingQuestionPanelModule,
         FeedbackPathPanelModule, SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
-        QuestionResponsePanelModule, RichTextEditorModule, VisibilityPanelModule, PanelChevronModule],
+        QuestionResponsePanelModule, RichTextEditorModule, VisibilityPanelModule, PanelChevronModule,
+        PanelLinkModule,
+      ],
     })
     .compileComponents();
   }));

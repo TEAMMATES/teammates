@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
+import { PanelLinkModule } from '../../../components/panel-link/panel-link.module';
 import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpGeneralSectionComponent } from './instructor-help-general-section.component';
@@ -26,6 +27,7 @@ describe('InstructorHelpGeneralSectionComponent', () => {
         NoopAnimationsModule,
         HttpClientTestingModule,
         PanelChevronModule,
+        PanelLinkModule,
         TeammatesRouterModule,
       ],
     })

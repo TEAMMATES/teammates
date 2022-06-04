@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+import { PanelLinkModule } from '../../components/panel-link/panel-link.module';
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import { InstructorHelpPageModule } from './instructor-help-page.module';
 
@@ -19,6 +20,7 @@ describe('InstructorHelpPageComponent', () => {
         FormsModule,
         NgbModule,
         PanelChevronModule,
+        PanelLinkModule,
         RouterTestingModule,
         InstructorHelpPageModule,
         NoopAnimationsModule,
