@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { collapseAnim } from './collapse-anim';
 
@@ -13,6 +14,7 @@ import { collapseAnim } from './collapse-anim';
 export class InstructorHelpPanelComponent {
 
   @Input() id: string = '';
+  @Input() section: string = '';
   @Input() headerText: string = '';
 
   isPanelExpandedValue: boolean = false;
@@ -27,6 +29,14 @@ export class InstructorHelpPanelComponent {
     this.isPanelExpandedChange.emit(value);
   }
 
-  constructor(public elementRef: ElementRef) { }
+  constructor(public elementRef: ElementRef,
+              private clipboard: Clipboard,
+  ) { }
 
+  copyUrlToClipboard(): void {
+    const frontendUrl = window.location.host;
+    const currentRoute = window.location.pathname;
+
+    this.clipboard.copy(`${frontendUrl}${currentRoute}?section=${this.section}&questionId=${(this.id)}`);
+  }
 }

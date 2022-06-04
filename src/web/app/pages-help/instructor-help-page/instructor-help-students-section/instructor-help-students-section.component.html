@@ -5,6 +5,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_PROFILE)"
                             [id]="StudentsSectionQuestions.STUDENT_VIEW_PROFILE"
+                            [section]="Sections.students"
                             headerText="How do I view a student's profile?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]">
     <p>To view the profile of Student A from Course B:</p>
@@ -49,6 +50,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_EDIT_DETAILS)"
                             [id]="StudentsSectionQuestions.STUDENT_EDIT_DETAILS"
+                            [section]="Sections.students"
                             headerText="How do I edit a student's details after enrolling the student?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]">
     <p>
@@ -81,6 +83,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_RESPONSES)"
                             [id]="StudentsSectionQuestions.STUDENT_VIEW_RESPONSES"
+                            [section]="Sections.students"
                             headerText="How do I view all the responses a student has given and received?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]">
     <p>
@@ -99,6 +102,7 @@
   <!--Question -->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_SEARCH)"
                             [id]="StudentsSectionQuestions.STUDENT_SEARCH"
+                            [section]="Sections.students"
                             headerText="How do I search for a student in my course?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
     <p>
@@ -142,6 +146,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT)"
                             [id]="StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT"
+                            [section]="Sections.students"
                             headerText="Is it compulsory for students to use Google accounts?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]">
     <p>
@@ -160,6 +165,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_CHANGE_ID)"
                             [id]="StudentsSectionQuestions.STUDENT_CHANGE_ID"
+                            [section]="Sections.students"
                             headerText="How do I change the Google ID associated with a student?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]">
     <p>

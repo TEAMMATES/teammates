@@ -8,6 +8,7 @@ import { AddingQuestionPanelModule } from '../../components/adding-question-pane
 import { CommentBoxModule } from '../../components/comment-box/comment-box.module';
 import { FeedbackPathPanelModule } from '../../components/feedback-path-panel/feedback-path-panel.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+import { PanelLinkModule } from '../../components/panel-link/panel-link.module';
 import { PreviewSessionPanelModule } from '../../components/preview-session-panel/preview-session-panel.module';
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 import { QuestionResponsePanelModule } from '../../components/question-response-panel/question-response-panel.module';
@@ -93,6 +94,7 @@ const routes: Routes = [
     InstructorSearchComponentsModule,
     InstructorCourseStudentEditFormModule,
     PanelChevronModule,
+    PanelLinkModule,
     TeammatesRouterModule,
     VisibilityPanelModule,
     PreviewSessionPanelModule,

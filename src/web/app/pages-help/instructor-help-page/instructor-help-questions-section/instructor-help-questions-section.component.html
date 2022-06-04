@@ -5,6 +5,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.ESSAY)"
                             [id]="QuestionsSectionQuestions.ESSAY"
+                            [section]="Sections.questions"
                             headerText="Essay Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
     <p>
@@ -33,6 +34,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.SINGLE_ANSWER_MCQ)"
                             [id]="QuestionsSectionQuestions.SINGLE_ANSWER_MCQ"
+                            [section]="Sections.questions"
                             headerText="Multiple Choice (Single Answer) Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
     <p>
@@ -91,6 +93,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ)"
                             [id]="QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ"
+                            [section]="Sections.questions"
                             headerText="Multiple Choice (Multiple Answer) Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]">
     <p>
@@ -107,6 +110,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.NUMERICAL_SCALE)"
                             [id]="QuestionsSectionQuestions.NUMERICAL_SCALE"
+                            [section]="Sections.questions"
                             headerText="Numerical Scale Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
     <p>
@@ -157,6 +161,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.POINTS_OPTIONS)"
                             [id]="QuestionsSectionQuestions.POINTS_OPTIONS"
+                            [section]="Sections.questions"
                             headerText="Distribute Points (Among Options) Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
     <p>
@@ -206,6 +211,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.POINTS_RECIPIENTS)"
                             [id]="QuestionsSectionQuestions.POINTS_RECIPIENTS"
+                            [section]="Sections.questions"
                             headerText="Distribute Points (Among Recipients) Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
     <p>
@@ -240,6 +246,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.CONTRIBUTION)"
                             [id]="QuestionsSectionQuestions.CONTRIBUTION"
+                            [section]="Sections.questions"
                             headerText="Team Contribution Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
     <p>
@@ -493,6 +500,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.RUBRIC)"
                             [id]="QuestionsSectionQuestions.RUBRIC"
+                            [section]="Sections.questions"
                             headerText="Rubric Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
     <p>
@@ -584,6 +592,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.RANK_OPTIONS)"
                             [id]="QuestionsSectionQuestions.RANK_OPTIONS"
+                            [section]="Sections.questions"
                             headerText="Rank (Options) Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]">
     <p>
@@ -621,6 +630,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.RANK_RECIPIENTS)"
                             [id]="QuestionsSectionQuestions.RANK_RECIPIENTS"
+                            [section]="Sections.questions"
                             headerText="Rank (Recipients) Questions"
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
     <p>

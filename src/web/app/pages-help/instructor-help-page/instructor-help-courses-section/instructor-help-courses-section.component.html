@@ -5,6 +5,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_STUDENTS)"
                             [id]="CoursesSectionQuestions.COURSE_ADD_STUDENTS"
+                            [section]="Sections.courses"
                             headerText="How do I add students to a course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]">
     <p>
@@ -22,6 +23,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SIZE_LIMIT)"
                             [id]="CoursesSectionQuestions.SIZE_LIMIT"
+                            [section]="Sections.courses"
                             headerText="Is there a size limit for a course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
     <p>
@@ -32,6 +34,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.NO_TEAMS)"
                             [id]="CoursesSectionQuestions.NO_TEAMS"
+                            [section]="Sections.courses"
                             headerText="What should I do if my course doesn't have teams?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
     <p>
@@ -42,6 +45,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SECTIONS)"
                             [id]="CoursesSectionQuestions.SECTIONS"
+                            [section]="Sections.courses"
                             headerText="What are sections meant for?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SECTIONS]">
     <p>
@@ -57,6 +61,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question class="instr-help-qn-last" [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.ENROLL_SECTIONS)"
                             [id]="CoursesSectionQuestions.ENROLL_SECTIONS"
+                            [section]="Sections.courses"
                             headerText="How do I enroll students into sections?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
     <p>
@@ -69,6 +74,7 @@
   <!--Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR)"
                             [id]="CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR"
+                            [section]="Sections.courses"
                             headerText="How do I add instructors to my course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
     <p>
@@ -93,6 +99,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR)"
                             [id]="CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR"
+                            [section]="Sections.courses"
                             headerText="How do I edit the information of an instructor in my course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
     <p>
@@ -119,6 +126,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS)"
                             [id]="CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS"
+                            [section]="Sections.courses"
                             headerText="How do I set an instructor's access level?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
     <p>
@@ -147,6 +155,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PRIVILEGES)"
                             [id]="CoursesSectionQuestions.PRIVILEGES"
+                            [section]="Sections.courses"
                             headerText="How do I set custom privileges for an instructor?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]">
     <p>
@@ -164,6 +173,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_STUDENTS)"
                             [id]="CoursesSectionQuestions.COURSE_VIEW_STUDENTS"
+                            [section]="Sections.courses"
                             headerText="How do I view a list of students in a course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]">
     <p>
@@ -184,6 +194,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.CHANGE_SECTION)"
                             [id]="CoursesSectionQuestions.CHANGE_SECTION"
+                            [section]="Sections.courses"
                             headerText="How do I change a student's section?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]">
     <p>
@@ -207,6 +218,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DISAPPEARED_COURSE)"
                             [id]="CoursesSectionQuestions.DISAPPEARED_COURSE"
+                            [section]="Sections.courses"
                             headerText="What should I do if a student says his/her courses have disappeared from the system?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]">
     <p>
@@ -217,6 +229,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DEL_STUDENTS)"
                             [id]="CoursesSectionQuestions.DEL_STUDENTS"
+                            [section]="Sections.courses"
                             headerText="How do I delete students from a course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]">
     <p>
@@ -239,6 +252,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ARCHIVE)"
                             [id]="CoursesSectionQuestions.COURSE_ARCHIVE"
+                            [section]="Sections.courses"
                             headerText="How do I archive a course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]">
     <p>
@@ -258,6 +272,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED)"
                             [id]="CoursesSectionQuestions.COURSE_VIEW_ARCHIVED"
+                            [section]="Sections.courses"
                             headerText="How do I view courses I have archived?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]">
     <p>
@@ -272,6 +287,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_UNARCHIVE)"
                             [id]="CoursesSectionQuestions.COURSE_UNARCHIVE"
+                            [section]="Sections.courses"
                             headerText="How do I unarchive an archived course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
     <p>
@@ -284,6 +300,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_DELETED)"
                             [id]="CoursesSectionQuestions.COURSE_VIEW_DELETED"
+                            [section]="Sections.courses"
                             headerText="How do I view courses I have deleted?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]">
     <p>
@@ -298,6 +315,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_RESTORE)"
                             [id]="CoursesSectionQuestions.COURSE_RESTORE"
+                            [section]="Sections.courses"
                             headerText="How do I restore a deleted course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
     <p>
@@ -311,6 +329,7 @@
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PERM_DEL)"
                             [id]="CoursesSectionQuestions.PERM_DEL"
+                            [section]="Sections.courses"
                             headerText="How do I permanently delete a course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
     <p>
@@ -324,6 +343,7 @@
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.RESTORE_ALL)"
                             [id]="CoursesSectionQuestions.RESTORE_ALL"
+                            [section]="Sections.courses"
                             headerText="How do I restore/delete all courses from Recycle Bin?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
     <p>
