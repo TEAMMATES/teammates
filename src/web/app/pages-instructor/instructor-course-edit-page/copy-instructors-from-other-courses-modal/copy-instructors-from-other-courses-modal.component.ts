@@ -91,7 +91,7 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
     this.courses.forEach((course: CourseTabModel) => {
       if (course.instructorCandidates.length > 0) {
         selectedInstructors.push(
-          ...course.instructorCandidates  // TODO: what does ... mean?
+          ...course.instructorCandidates
             .filter((c: InstructorToCopyCandidateModel) => c.isSelected)
             .map((c: InstructorToCopyCandidateModel) => c.instructor),
         );

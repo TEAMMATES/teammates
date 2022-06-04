@@ -698,7 +698,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   copyInstructors(): void {
     this.isCopyingInstructor = true;
-    console.log('copying............................');
     const courseTabModels: CourseTabModel[] = [];
 
     forkJoin([
@@ -792,7 +791,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
         modalRef.close();
       }),
     ).subscribe((newInstructor: Instructor) => {
-      // TODO: update privileges
       const newDetailPanels: InstructorEditPanelDetail = {
         originalInstructor: { ...newInstructor },
         originalPanel: this.getInstructorEditPanelModel(newInstructor),
