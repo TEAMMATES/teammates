@@ -13,6 +13,9 @@ import { FeedbackPathPanelModule } from '../../../components/feedback-path-panel
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 import { PreviewSessionPanelModule } from '../../../components/preview-session-panel/preview-session-panel.module';
 import {
+  QuestionEditBriefDescriptionFormModule,
+} from '../../../components/question-edit-brief-description-form/question-edit-brief-description-form.module';
+import {
   QuestionResponsePanelModule,
 } from '../../../components/question-response-panel/question-response-panel.module';
 import {
@@ -22,7 +25,6 @@ import {
   StudentViewResponsesModule,
 } from '../../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../../components/question-text-with-info/question-text-with-info.module';
-import { RichTextEditorModule } from '../../../components/rich-text-editor/rich-text-editor.module';
 import { SessionEditFormModule } from '../../../components/session-edit-form/session-edit-form.module';
 import {
   SessionsRecycleBinTableModule,
@@ -57,7 +59,8 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         InstructorSearchComponentsModule, InstructorSessionResultViewModule,
         PreviewSessionPanelModule, QuestionTextWithInfoModule, AddingQuestionPanelModule,
         FeedbackPathPanelModule, SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
-        QuestionResponsePanelModule, RichTextEditorModule, VisibilityPanelModule, PanelChevronModule],
+        QuestionResponsePanelModule, VisibilityPanelModule, PanelChevronModule,
+        QuestionEditBriefDescriptionFormModule],
     })
     .compileComponents();
   }));
