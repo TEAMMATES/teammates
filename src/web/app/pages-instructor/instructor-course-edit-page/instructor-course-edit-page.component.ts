@@ -749,14 +749,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
       modalRef.componentInstance.courses = courseTabModels;
 
       modalRef.componentInstance.copyClickedEvent.subscribe((instructors: Instructor[]) => {
-        if (!this.currInstructorCoursePrivilege.canModifyInstructor) {
-          this.isCopyingInstructor = false;
-          modalRef.componentInstance.isCopyingSelectedInstructors = false;
-          modalRef.close();
-          this.statusMessageService.showErrorToast('You are not authorized to access this resource.');
-          return;
-        }
-
         this.verifyInstructorsToCopy(instructors).subscribe((hasCheckPassed: boolean) => {
           if (!hasCheckPassed) {
             modalRef.componentInstance.isCopyingSelectedInstructors = false;
