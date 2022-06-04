@@ -193,24 +193,9 @@
       Not at the moment. But you can mention in the question description that it is a compulsory question (TEAMMATES will not enforce it though).
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SET_QUESTION_COMPULSORY]" @collapseAnim>
-      <div class="background-color-light-blue">
-        <div class="row padding-15px text-left">
-          <div class="col-md-2">
-            <div class="question-basic-info">Question</div>
-          </div>
-          <div class="col-md-10">
-            <textarea class="form-control" [disabled]="true" placeholder="How many hours did you spend on the project?"></textarea>
-          </div>
-        </div>
-        <div class="row padding-15px text-left">
-          <div class="col-md-2">
-            <div class="question-basic-info">[Optional]<br/>Description</div>
-          </div>
-          <div class="col-md-10">
-            <tm-rich-text-editor [richText]="'<p><strong>This question is </strong><span style=\'color: rgb(255, 0, 0); background-color: rgb(255, 255, 0);\'><strong>compulsory</strong></span><strong>!</strong></p>'" minHeightInPx="100"></tm-rich-text-editor>
-          </div>
-        </div>
-      </div>
+      <tm-question-edit-brief-description-form [briefPlaceholder]="'How many hours did you spend on the project?'" [isBriefDisabled]="true"
+                                               [descriptionRichText]="'<p><strong>This question is </strong><span style=\'color: rgb(255, 0, 0); background-color: rgb(255, 255, 0);\'><strong>compulsory</strong></span><strong>!</strong></p>'"
+      ></tm-question-edit-brief-description-form>
     </tm-example-box>
   </tm-instructor-help-panel>
   <!-- Question -->
