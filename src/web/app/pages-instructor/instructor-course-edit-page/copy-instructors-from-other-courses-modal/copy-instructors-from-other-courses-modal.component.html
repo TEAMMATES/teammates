@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">Copy Instructors</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()" [disabled]="isCopyingSelectedInstructors">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -104,5 +104,5 @@
   <button id="btn-confirm-copy-instructor" type="button" class="btn btn-primary" (click)="copySelectedInstructors()" [disabled]="!isAnyInstructorCandidatesSelected || isCopyingSelectedInstructors">
     <tm-ajax-loading *ngIf="isCopyingSelectedInstructors"></tm-ajax-loading>Copy
   </button>
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()" [disabled]="isCopyingSelectedInstructors">Cancel</button>
 </div>

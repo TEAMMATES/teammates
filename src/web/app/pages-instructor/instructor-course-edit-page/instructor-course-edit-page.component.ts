@@ -703,11 +703,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     forkJoin([
       this.courseService.getAllCoursesAsInstructor('active'),
       this.courseService.getAllCoursesAsInstructor('archived'),
-    ]).pipe(
-      finalize(() => {
-        this.isCopyingInstructor = false;
-      }),
-    ).subscribe((values: any[]) => {
+    ]).subscribe((values: any[]) => {
       const activeCourses: Courses = values[0] as Courses;
       const archivedCourses: Courses = values[1] as Courses;
 
@@ -745,12 +741,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
           courseTabModels.push(model);
         }
       });
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
+    }, (err: ErrorMessageOutput) => {
+      this.isCopyingInstructor = false;
+      this.statusMessageService.showErrorToast(err.error.message);
+    }, () => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
       modalRef.componentInstance.courses = courseTabModels;
 
       modalRef.componentInstance.copyClickedEvent.subscribe((instructors: Instructor[]) => {
         if (!this.currInstructorCoursePrivilege.canModifyInstructor) {
+          this.isCopyingInstructor = false;
           modalRef.componentInstance.isCopyingSelectedInstructors = false;
           modalRef.close();
           this.statusMessageService.showErrorToast('You are not authorized to access this resource.');
@@ -786,7 +786,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
           },
         });
       }),
+      // always close the modal after it enters the last step no matter adding succeeds or fails
       finalize(() => {
+        this.isCopyingInstructor = false;
         modalRef.componentInstance.isCopyingSelectedInstructors = false;
         modalRef.close();
       }),
