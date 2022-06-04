@@ -48,10 +48,10 @@ import {
 } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
 import {
-  CourseTabModel
+  CourseTabModel,
 } from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
 import {
-  CopyInstructorsFromOtherCoursesModalComponent
+  CopyInstructorsFromOtherCoursesModalComponent,
 } from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
 import {
   InstructorOverallPermission,
@@ -783,7 +783,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             role: instructor.role!,
             displayName: instructor.displayedToStudentsAs,
             isDisplayedToStudent: instructor.isDisplayedToStudents!,
-          }
+          },
         });
       }),
       finalize(() => {
