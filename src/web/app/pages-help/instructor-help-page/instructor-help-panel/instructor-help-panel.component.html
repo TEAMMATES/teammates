@@ -2,6 +2,9 @@
   <div class="card-header bg-light cursor-pointer" (click)="isPanelExpanded = !isPanelExpanded">
     {{ headerText }}
     <div class="card-header-btn-toolbar">
+      <div (click)="copyUrlToClipboard($event)">
+        <div class="fas fa-anchor" ngbTooltip="Copy Link"></div>
+      </div>
       <tm-panel-chevron [isExpanded]="isPanelExpanded"></tm-panel-chevron>
     </div>
   </div>

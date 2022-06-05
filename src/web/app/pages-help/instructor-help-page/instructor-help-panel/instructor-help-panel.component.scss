@@ -1,5 +1,20 @@
 .card-header {
   cursor: pointer;
+
+  .fa-anchor {
+    display: none;
+    opacity: 30%;
+  }
+
+  &:hover {
+    .fa-anchor {
+      display: block;
+
+      &:hover {
+        opacity: 100%;
+      }
+    }
+  }
 }
 
 .card-body {

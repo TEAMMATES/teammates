@@ -1,5 +1,7 @@
 import { Clipboard } from '@angular/cdk/clipboard';
+import { Location } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { collapseAnim } from './collapse-anim';
 
 /**
@@ -30,13 +32,23 @@ export class InstructorHelpPanelComponent {
   }
 
   constructor(public elementRef: ElementRef,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private location: Location,
               private clipboard: Clipboard,
   ) { }
 
-  copyUrlToClipboard(): void {
-    const frontendUrl = window.location.host;
-    const currentRoute = window.location.pathname;
+  copyUrlToClipboard(event: Event): void {
+    // Prevent panel from changing state
+    event.stopPropagation();
 
-    this.clipboard.copy(`${frontendUrl}${currentRoute}?section=${this.section}&questionId=${(this.id)}`);
+    const queryParams = { section: this.section, questionId: this.id };
+    const url = this.router.createUrlTree(
+        [],
+        { relativeTo: this.activatedRoute, queryParams },
+    ).toString();
+
+    this.clipboard.copy(url);
+    this.location.go(url);
   }
 }
