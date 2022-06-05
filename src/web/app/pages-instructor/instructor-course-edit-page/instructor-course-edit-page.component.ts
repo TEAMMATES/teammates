@@ -748,6 +748,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
       modalRef.componentInstance.courses = courseTabModels;
 
+      modalRef.dismissed.subscribe(() => { this.isCopyingInstructor = false; });
+
       modalRef.componentInstance.copyClickedEvent.subscribe((instructors: Instructor[]) => {
         this.verifyInstructorsToCopy(instructors).subscribe((hasCheckPassed: boolean) => {
           if (!hasCheckPassed) {
