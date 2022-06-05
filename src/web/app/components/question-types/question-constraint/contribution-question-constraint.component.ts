@@ -96,7 +96,8 @@ export class ContributionQuestionConstraintComponent
   }
 
   get isValid(): boolean {
-    return !this.questionDetails.isZeroSum || (this.isAllFormsAnswered && this.isAllContributionsDistributed);
+    return !this.questionDetails.isZeroSum || this.isAllFormsNotAnswered
+        || (this.isAllFormsAnswered && this.isAllContributionsDistributed);
   }
 
   toFloor(num: number): number {

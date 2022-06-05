@@ -519,6 +519,26 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses,
                 VALID_NON_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS.size()).isEmpty());
 
+        ______TS("success: all answers of all responses are POINTS_NOT_SUBMITTED regardless value of zeroSum");
+        responses.clear();
+        feedbackContributionQuestionDetails.setZeroSum(true);
+        feedbackContributionQuestionDetails.setNotSureAllowed(false);
+        for (int i = 0; i < 10; i++) {
+            FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
+            responses.add(details);
+        }
+        assertEquals(expectedResponsesValidationResults,
+                feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
+
+        responses.clear();
+        feedbackContributionQuestionDetails.setZeroSum(false);
+        for (int i = 0; i < 10; i++) {
+            FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
+            responses.add(details);
+        }
+        assertEquals(expectedResponsesValidationResults,
+                feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
+
         ______TS("failure: all answers of all responses are either not in range or are not multiple of 10");
         responses.clear();
         feedbackContributionQuestionDetails.setZeroSum(false);
@@ -544,13 +564,20 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
 
-        ______TS("failure: all answers of all responses are POINTS_NOT_SUBMITTED and zeroSum is true");
+        ______TS("failure: some answers of all responses are POINTS_NOT_SUBMITTED and zeroSum is true");
         responses.clear();
+        expectedResponsesValidationResults.clear();
         feedbackContributionQuestionDetails.setZeroSum(true);
         feedbackContributionQuestionDetails.setNotSureAllowed(false);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
+            FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
+            details.setAnswer(VALID_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS.get(i));
+            responses.add(details);
+        }
+        for (int i = 0; i < 5; i++) {
             FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
             responses.add(details);
+            expectedResponsesValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION);
         }
         // actualTotal not zero-sum
         expectedResponsesValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION);
