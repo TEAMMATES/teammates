@@ -193,8 +193,8 @@
       Not at the moment. But you can mention in the question description that it is a compulsory question (TEAMMATES will not enforce it though).
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SET_QUESTION_COMPULSORY]" @collapseAnim>
-      <tm-question-edit-brief-description-form [briefPlaceholder]="'How many hours did you spend on the project?'" [isBriefDisabled]="true"
-                                               [descriptionRichText]="'<p><strong>This question is </strong><span style=\'color: rgb(255, 0, 0); background-color: rgb(255, 255, 0);\'><strong>compulsory</strong></span><strong>!</strong></p>'"
+      <tm-question-edit-brief-description-form [brief]="'How many hours did you spend on the project?'" [isBriefDisabled]="true"
+                                               [description]="'<p><strong>This question is </strong><span style=\'color: rgb(255, 0, 0); background-color: rgb(255, 255, 0);\'><strong>compulsory</strong></span><strong>!</strong></p>'"
       ></tm-question-edit-brief-description-form>
     </tm-example-box>
   </tm-instructor-help-panel>

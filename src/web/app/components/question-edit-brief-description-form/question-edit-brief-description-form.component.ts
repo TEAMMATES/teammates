@@ -20,13 +20,7 @@ export class QuestionEditBriefDescriptionFormComponent {
   brief: string = '';
 
   @Input()
-  briefPlaceholder: string = '';
-
-  @Input()
-  descriptionRichText: string = '';
-
-  @Input()
-  descriptionPlaceholderText: string = '';
+  description: string = '';
 
   @Output()
   briefChange: EventEmitter<string> = new EventEmitter();

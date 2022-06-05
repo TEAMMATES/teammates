@@ -60,9 +60,7 @@
         <div class="row">
           <div class="col-12">
             <tm-question-edit-brief-description-form [brief]="model.questionBrief" (briefChange)="triggerModelChange('questionBrief', $event)" [isBriefDisabled]="!model.isEditable"
-                                                     briefPlaceholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;"
-                                                     [descriptionRichText]="model.questionDescription" (descriptionChange)="triggerModelChange('questionDescription', $event)" [isDescriptionDisabled]="!model.isEditable"
-                                                     descriptionPlaceholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
+                                                     [description]="model.questionDescription" (descriptionChange)="triggerModelChange('questionDescription', $event)" [isDescriptionDisabled]="!model.isEditable"
             ></tm-question-edit-brief-description-form>
             <div class="padding-15px">
               <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>

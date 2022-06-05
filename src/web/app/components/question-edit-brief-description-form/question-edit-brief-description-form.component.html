@@ -4,7 +4,7 @@
       <div class="question-basic-info">Question</div>
     </div>
     <div class="col-md-10">
-    <textarea id="question-brief" class="form-control" [ngModel]="brief" (ngModelChange)="triggerBriefChange($event)" [disabled]="isBriefDisabled" [placeholder]="briefPlaceholder"></textarea>
+    <textarea id="question-brief" class="form-control" [ngModel]="brief" (ngModelChange)="triggerBriefChange($event)" [disabled]="isBriefDisabled" [placeholder]="'A concise version of the question e.g. &quot;How well did the team member communicate?&quot;'"></textarea>
     </div>
   </div>
   <div class="row padding-15px text-left">
@@ -12,7 +12,7 @@
       <div class="question-basic-info">[Optional]<br/>Description</div>
     </div>
     <div class="col-md-10">
-      <tm-rich-text-editor [richText]="descriptionRichText" (richTextChange)="triggerDescriptionChange($event)" [isDisabled]="isDescriptionDisabled" minHeightInPx="100" [placeholderText]="descriptionPlaceholderText"></tm-rich-text-editor>
+      <tm-rich-text-editor [richText]="description" (richTextChange)="triggerDescriptionChange($event)" [isDisabled]="isDescriptionDisabled" minHeightInPx="100" [placeholderText]="'More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;'"></tm-rich-text-editor>
     </div>
   </div>
 </div>

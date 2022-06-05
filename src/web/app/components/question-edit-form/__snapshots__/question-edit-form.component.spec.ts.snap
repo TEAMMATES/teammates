@@ -114,10 +114,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             <div
               class="col-12"
             >
-              <tm-question-edit-brief-description-form
-                briefplaceholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
-                descriptionplaceholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
-              >
+              <tm-question-edit-brief-description-form>
                 <div
                   class="background-color-light-blue"
                 >
