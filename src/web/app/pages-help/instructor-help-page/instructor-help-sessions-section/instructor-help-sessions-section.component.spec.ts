@@ -57,8 +57,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         InstructorSearchComponentsModule, InstructorSessionResultViewModule,
         PreviewSessionPanelModule, QuestionTextWithInfoModule, AddingQuestionPanelModule,
         FeedbackPathPanelModule, SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
-        QuestionResponsePanelModule, RichTextEditorModule, VisibilityPanelModule, PanelChevronModule,
-      ],
+        QuestionResponsePanelModule, RichTextEditorModule, VisibilityPanelModule, PanelChevronModule],
     })
     .compileComponents();
   }));

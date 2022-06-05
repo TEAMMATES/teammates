@@ -42,13 +42,15 @@ export class InstructorHelpPanelComponent {
     // Prevent panel from changing state
     event.stopPropagation();
 
+    const frontendUrl = window.location.origin;
     const queryParams = { section: this.section, questionId: this.id };
-    const url = this.router.createUrlTree(
+    const path = this.router.createUrlTree(
         [],
         { relativeTo: this.activatedRoute, queryParams },
     ).toString();
+    const urlToCopy = frontendUrl + path;
 
-    this.clipboard.copy(url);
-    this.location.go(url);
+    this.clipboard.copy(urlToCopy);
+    this.location.go(path);
   }
 }
