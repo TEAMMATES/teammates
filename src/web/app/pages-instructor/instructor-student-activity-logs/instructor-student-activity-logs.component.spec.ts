@@ -1,8 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { CourseService } from '../../../services/course.service';
+// import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -25,7 +26,7 @@ import { InstructorStudentActivityLogsModule } from './instructor-student-activi
 describe('InstructorStudentActivityLogsComponent', () => {
   let component: InstructorStudentActivityLogsComponent;
   let fixture: ComponentFixture<InstructorStudentActivityLogsComponent>;
-  let courseService: CourseService;
+  // let courseService: CourseService;
   let studentService: StudentService;
   let logService: LogService;
   let timezoneService: TimezoneService;
@@ -50,42 +51,6 @@ describe('InstructorStudentActivityLogsComponent', () => {
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const testCourse2: Course = {
-    courseId: 'MA1234',
-    courseName: 'MA1234',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const testCourse3: Course = {
-    courseId: 'EE1111',
-    courseName: 'EE1111',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: false,
-      canModifySession: false,
-      canModifyStudent: false,
-      canModifyInstructor: false,
       canViewStudentInSections: true,
       canModifySessionCommentsInSections: true,
       canViewSessionInSections: true,
@@ -143,13 +108,17 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [InstructorStudentActivityLogsModule, HttpClientTestingModule],
+      imports: [
+        InstructorStudentActivityLogsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(InstructorStudentActivityLogsComponent);
-    courseService = TestBed.inject(CourseService);
+    // courseService = TestBed.inject(CourseService);
     studentService = TestBed.inject(StudentService);
     logService = TestBed.inject(LogService);
     timezoneService = TestBed.inject(TimezoneService);
@@ -172,19 +141,17 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should snap when searching for details in search form', () => {
-    component.courses = [testCourse1, testCourse2];
+    component.course = testCourse1;
     component.formModel = {
       logsDateFrom: { year: 1997, month: 9, day: 11 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
-      courseId: 'CS9999',
       studentEmail: 'doejohn@email.com',
+      logType: 'session access',
+      feedbackSessionName: '',
     };
-    component.courseToStudents = {
-      CS9999: [testStudent],
-      MA1234: [],
-    };
+    component.students = [testStudent];
     component.isLoading = false;
     component.isSearching = true;
     fixture.detectChanges();
@@ -193,7 +160,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should snap with results of a search', () => {
-    component.searchResults = [
+    component.responseSubmissionSearchResults = [
       {
         feedbackSessionName: 'Feedback session 1',
         logColumnsData: resultColumns,
@@ -221,27 +188,6 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should load all courses that instructor has on init', () => {
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor')
-        .mockReturnValue(of({
-          courses: [
-            testCourse1, testCourse2, testCourse3,
-          ],
-        }));
-
-    component.ngOnInit();
-
-    expect(component.isLoading).toBeFalsy();
-    expect(courseSpy).toBeCalledWith('active');
-    expect(component.courses.length).toEqual(2);
-    expect(component.courses).toContainEqual(testCourse1);
-    expect(component.courses).toContainEqual(testCourse2);
-    expect(component.courses).not.toContainEqual(testCourse3);
-
-    // courseToStudents not loaded on init
-    expect(component.courseToStudents).toMatchObject({});
-  });
-
   it('should load all students of selected course has on select', () => {
     const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
         .mockReturnValue(of({
@@ -250,11 +196,10 @@ describe('InstructorStudentActivityLogsComponent', () => {
           ],
         }));
 
-    component.formModel.courseId = testCourse1.courseId;
-    component.loadStudents();
+    component.loadStudents(testCourse1.courseId);
 
-    expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
-    expect(component.courseToStudents[testCourse1.courseId][1]).toEqual(testStudent);
+    expect(component.students[0]).toEqual(emptyStudent);
+    expect(component.students[1]).toEqual(testStudent);
     expect(studentSpy).toHaveBeenNthCalledWith(1, { courseId: testCourse1.courseId });
   });
 
@@ -266,12 +211,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
           ],
         }));
 
-    component.formModel.courseId = testCourse1.courseId;
-    component.courseToStudents[testCourse1.courseId] = [emptyStudent];
-    component.loadStudents();
+    component.students = [emptyStudent];
+    component.loadStudents(testCourse1.courseId);
 
-    expect(component.courseToStudents[testCourse1.courseId].length).toEqual(1);
-    expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
+    expect(component.students.length).toEqual(1);
+    expect(component.students[0]).toEqual(emptyStudent);
     expect(studentSpy).not.toHaveBeenCalled();
   });
 
@@ -288,11 +232,12 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      courseId: testCourse1.courseId,
       studentEmail: testStudent.email,
+      logType: 'response submission',
+      feedbackSessionName: '',
     };
-    component.courses = [testCourse1];
-    component.courseToStudents = { CS9999: [testStudent] };
+    component.course = testCourse1;
+    component.students = [testStudent];
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#search-button').click();
@@ -312,13 +257,13 @@ describe('InstructorStudentActivityLogsComponent', () => {
       studentEmail: testStudent.email,
     });
 
-    expect(component.searchResults.length).toEqual(2);
+    expect(component.responseSubmissionSearchResults.length).toEqual(2);
 
     for (let i: number = 0; i < 2; i += 1) {
-      expect(component.searchResults[i].isTabExpanded).toBeFalsy();
-      expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
+      expect(component.responseSubmissionSearchResults[i].isTabExpanded).toBeFalsy();
+      expect(component.responseSubmissionSearchResults[i].logColumnsData).toEqual(resultColumns);
       // Testing that the LogType is converted correctly.
-      expect(component.searchResults[i].logRowsData[0][2].value).toEqual('Submitted responses');
+      expect(component.responseSubmissionSearchResults[i].logRowsData[0][2].value).toEqual('Submitted responses');
     }
   });
 });

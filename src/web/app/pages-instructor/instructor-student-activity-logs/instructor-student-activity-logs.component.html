@@ -86,7 +86,7 @@
 </div>
 <div id="logs-output">
   <div *tmIsLoading="isSearching">
-    <div *ngFor="let results of searchResults">
+    <div *ngFor="let results of responseSubmissionSearchResults">
       <div [ngClass]="{ 'alert-success-border': results.logRowsData.length, 'alert-failure-border': !results.logRowsData.length }" class="card mb-3">
         <div [ngClass]="{ 'alert-success': results.logRowsData.length, 'alert-failure': !results.logRowsData.length}" class="card-header cursor-pointer text-break" (click)="results.isTabExpanded = !results.isTabExpanded">
           {{results.feedbackSessionName}}
@@ -105,6 +105,10 @@
           </ng-template>
         </div>
       </div>
+    </div>
+    <div *ngIf="sessionAccessSearchResults.hasData">
+      <p class="font-weight-bold text-break">{{sessionAccessSearchResults.feedbackSessionName}} (published on: {{sessionAccessSearchResults.publishedDate}})</p>
+      <tm-sortable-table [rows]="sessionAccessSearchResults.logRowsData" [columns]="sessionAccessSearchResults.logColumnsData" [initialSortBy]="SortBy.RESULT_VIEW_STATUS"></tm-sortable-table>
     </div>
   </div>
 </div>
