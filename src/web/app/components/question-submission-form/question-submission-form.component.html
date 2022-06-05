@@ -24,10 +24,10 @@
       </ul>
     </div>
 
-    <tm-contribution-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-instruction>
+    <tm-contribution-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"
+                                          [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-contribution-question-instruction>
     <tm-text-question-instruction *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-instruction>
     <tm-num-scale-question-instruction *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-instruction>
-    <tm-contribution-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-constraint>
     <tm-text-question-constraint *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-constraint>
     <tm-num-scale-question-constraint *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-constraint>
     <tm-rank-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="model.questionDetails"></tm-rank-options-question-instruction>

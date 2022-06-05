@@ -1913,9 +1913,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <tm-contribution-question-instruction />
-            <tm-contribution-question-constraint>
-            </tm-contribution-question-constraint>
+            <tm-contribution-question-instruction>
+            </tm-contribution-question-instruction>
             <p
               class="margin-top-30px margin-bottom-0px"
             >
@@ -4148,9 +4147,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <tm-contribution-question-instruction />
-            <tm-contribution-question-constraint>
-            </tm-contribution-question-constraint>
+            <tm-contribution-question-instruction>
+            </tm-contribution-question-instruction>
             <p
               class="margin-top-30px margin-bottom-0px"
             >
