@@ -695,8 +695,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void verifyContributionQuestionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
         assertEquals(questionDetails.isZeroSum(), getZeroSumCheckbox(questionNum).isSelected());
-        if (!questionDetails.isZeroSum()) {
-            assertEquals(questionDetails.isNotSureAllowed(), getAllowNotSureContributionCheckbox(questionNum).isSelected());
+        assertEquals(questionDetails.isNotSureAllowed(), getAllowNotSureContributionCheckbox(questionNum).isSelected());
+        if (questionDetails.isZeroSum()) {
+            assertFalse(getAllowNotSureContributionCheckbox(questionNum).isSelected());
         }
     }
 
