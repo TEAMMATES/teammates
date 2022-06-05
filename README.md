@@ -1,4 +1,6 @@
-# TEAMMATES Developer Web Site
+<img src="src/web/assets/images/teammateslogo-black.png" width="400">
+
+## TEAMMATES Developer Web Site
 
 [![GitHub Actions Build Status Component Tests](https://github.com/TEAMMATES/teammates/workflows/Component%20Tests/badge.svg)](https://github.com/TEAMMATES/teammates/actions)
 [![GitHub Actions Build Status E2E Tests](https://github.com/TEAMMATES/teammates/workflows/E2E%20Tests/badge.svg)](https://github.com/TEAMMATES/teammates/actions)
@@ -12,15 +14,86 @@ It is provided as a cloud-based service for educators/students and is currently 
 
 This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
 
-[**Documentation for Developers** :book:](https://teammates.github.io/teammates) |
-[Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
-[Project Stats](https://www.openhub.net/p/teammatesonline)
+## Documentation
 
-## Interested to join TEAMMATES developer team?
+### Documentation for:
+* [**Developers** :book:](https://teammates.github.io/teammates)
+* [**Instructors** :book:](https://teammatesv4.appspot.com/web/front/help/instructor)
+* [**Students** :book:](https://teammatesv4.appspot.com/web/front/help/student)
 
-We welcome contributions from developers, especially students. Here are some resources:
+### Other Documentation:
+* [Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed)
+* [Project Stats](https://www.openhub.net/p/teammatesonline)
+* [Design](https://github.com/TEAMMATES/teammates/blob/master/docs/design.md)
+
+## Installation
+
+1. Install `Node.js` (minimum version 12).
+1. Run `npm ci` to install the necessary tools to build documentation, including MarkBind.
+
+Install the following additional dependencies required by MarkBind to generate [PlantUML](https://plantuml.com/) diagrams locally:
+
+1. Install Java 8 or later.
+1. Install [Graphviz](https://www.graphviz.org/download/) v2.38 (or later).
+
+<box type="tip" light>
+
+You can also use a globally installed MarkBind if you have one. Make sure to use version `3.*.*`.
+</box>
+
+
+## Quickstart
+
+Run the following command to view the site locally:
+```sh
+npm run serve
+
+# Alternative if you wish to use a globally installed MarkBind
+markbind serve
+```
+The live preview will be available at `localhost:8080` by default and should update automatically to reflect changes you make to the docs. If you wish to use another port (e.g. `8090`), use the `-p` flag as follows:
+```sh
+npm run serve -- -p 8090
+markbind serve -p 8090
+```
+
+Working with a MarkBind page is almost exactly the same as working with a standard Markdown page, with the following additional pointers:
+
+1. You may want to add `<frontmatter>` code block at the top of the page. For example, setting `title` allows for the page to be titled as such instead of following the file name. Refer [here](https://markbind.org/userGuide/tweakingThePageStructure.html#front-matter) for more details.
+   ```markdown
+   <frontmatter>
+     title: "YOUR TITLE HERE"
+   </frontmatter>
+   ```
+1. If you are adding a new page and want to include it in the site navigation, you can do so by including the link at the appropriate location in <code>_markbind/layouts/default.md</code>.
+1. You can take advantage of MarkBind's additional features such as:
+   1. [Content reuse: reusing and including portions of documents in other documents](https://markbind.org/userGuide/reusingContents.html)
+   1. [Expandable panels](https://markbind.org/userGuide/components/presentation.html#panels)
+   1. [Support for PUML diagrams](https://markbind.org/userGuide/components/imagesAndDiagrams.html#diagrams)
+   1. [Additional text formatting](https://markbind.org/userGuide/markBindSyntaxOverview.html)
+  
+You can refer to [MarkBind user guide](https://markbind.org/userGuide) for more information.
+
+## Contributing
+
+We welcome contributions from developers, especially students. Here are some resources on how to get started:
+
+### Contribution Guidelines
+
 * [**Contributor Orientation Guide**](https://teammates.github.io/teammates/contributing-doc.html): This document describes what you need to know/do to become a contributor.
 * [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
+* [**Report an issue**](https://github.com/TEAMMATES/teammates/issues/new): Report issues here by posting a message to our issues tracker.
+
+### Code of Conduct
+
+* [**Contributor Covenant Code of Conduct**](https://github.com/TEAMMATES/teammates/blob/master/.github/CODE_OF_CONDUCT.md)
+
+### Best Practices
+
+* [**UI Design**](https://teammates.github.io/teammates/best-practices/ui-design.html)
+* [**Coding**](https://github.com/TEAMMATES/teammates/blob/master/docs/best-practices/coding.md)
+* [**Testing**](https://github.com/TEAMMATES/teammates/blob/master/docs/best-practices/testing.md)
+* [**Data Migration**](https://github.com/TEAMMATES/teammates/blob/master/docs/best-practices/data-migration.md)
 
 ## Acknowledgements
 
