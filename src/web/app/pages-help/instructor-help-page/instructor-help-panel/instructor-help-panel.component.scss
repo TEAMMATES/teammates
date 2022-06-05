@@ -3,15 +3,17 @@
 
   .fa-anchor {
     display: none;
-    opacity: 30%;
   }
 
   &:hover {
-    .fa-anchor {
-      display: block;
+    @media (min-width: 1000px) {
+      .fa-anchor {
+        display: block;
+        opacity: 30%;
 
-      &:hover {
-        opacity: 100%;
+        &:hover {
+          opacity: 100%;
+        }
       }
     }
   }
@@ -19,9 +21,4 @@
 
 .card-body {
   overflow: hidden;
-}
-
-.card-header-btn-toolbar {
-  display: flex;
-  gap: 10px;
 }

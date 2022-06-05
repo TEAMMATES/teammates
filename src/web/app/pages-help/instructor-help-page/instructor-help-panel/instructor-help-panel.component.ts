@@ -1,7 +1,6 @@
-import { Clipboard } from '@angular/cdk/clipboard';
 import { Location } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationService } from '../../../../services/navigation.service';
 import { collapseAnim } from './collapse-anim';
 
 /**
@@ -32,25 +31,18 @@ export class InstructorHelpPanelComponent {
   }
 
   constructor(public elementRef: ElementRef,
-              private router: Router,
-              private activatedRoute: ActivatedRoute,
               private location: Location,
-              private clipboard: Clipboard,
+              private navigationService: NavigationService,
   ) { }
 
-  copyUrlToClipboard(event: Event): void {
+  changeBrowserUrl(event: Event): void {
     // Prevent panel from changing state
     event.stopPropagation();
 
-    const frontendUrl = window.location.origin;
-    const queryParams = { section: this.section, questionId: this.id };
-    const path = this.router.createUrlTree(
-        [],
-        { relativeTo: this.activatedRoute, queryParams },
-    ).toString();
-    const urlToCopy = frontendUrl + path;
+    const queryParams: Record<string, string> = { section: this.section, questionId: this.id };
+    const queryParamsString: string = this.navigationService.encodeParams(queryParams);
+    const newUrl: string = `/web/instructor/help${queryParamsString}`;
 
-    this.clipboard.copy(urlToCopy);
-    this.location.go(path);
+    this.location.go(newUrl);
   }
 }
