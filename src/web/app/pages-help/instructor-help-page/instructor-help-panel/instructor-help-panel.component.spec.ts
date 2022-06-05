@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
-import { PanelLinkModule } from '../../../components/panel-link/panel-link.module';
 import { InstructorHelpPanelComponent } from './instructor-help-panel.component';
 
 describe('InstructorHelpPanelComponent', () => {
@@ -11,7 +10,7 @@ describe('InstructorHelpPanelComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorHelpPanelComponent],
-      imports: [NoopAnimationsModule, PanelChevronModule, PanelLinkModule],
+      imports: [NoopAnimationsModule, PanelChevronModule],
     })
     .compileComponents();
   }));

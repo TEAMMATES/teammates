@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
-import { PanelLinkModule } from '../../../components/panel-link/panel-link.module';
 import {
   InstructorCourseStudentEditFormModule,
 } from '../../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-form.module';
@@ -38,7 +37,6 @@ describe('InstructorHelpStudentsSectionComponent', () => {
         InstructorSearchComponentsModule,
         InstructorCourseStudentEditFormModule,
         PanelChevronModule,
-        PanelLinkModule,
       ],
     })
     .compileComponents();

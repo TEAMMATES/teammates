@@ -2,7 +2,6 @@
   <div class="card-header bg-light cursor-pointer" (click)="isPanelExpanded = !isPanelExpanded">
     {{ headerText }}
     <div class="card-header-btn-toolbar">
-      <tm-panel-link (click)="copyUrlToClipboard()"></tm-panel-link>
       <tm-panel-chevron [isExpanded]="isPanelExpanded"></tm-panel-chevron>
     </div>
   </div>
