@@ -4,8 +4,8 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div id="copy-question-modal" class="modal-body">
-  <div class="col-12 mb-3 text-md-right">
+<div id="copy-instructor-modal" class="modal-body">
+  <div class="col-12 mb-3 text-md-right" *ngIf="courses.length > 0">
     <strong class="d-inline"> Sort Courses By: </strong>
     <div class="btn-group" data-toggle="buttons">
       <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCourses(SortBy.COURSE_ID)">Course ID</button>
@@ -13,7 +13,7 @@
       <button id="sort-course-creation-date" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortCourses(SortBy.COURSE_CREATION_DATE)">Creation Date</button>
     </div>
   </div>
-  <div class="feedback-session-tabs" *ngFor="let course of courses">
+  <div *ngFor="let course of courses">
     <div class="card">
       <div class="card-header cursor-pointer text-white" [ngClass]="{'bg-primary': !course.isArchived, 'bg-info': course.isArchived}" (click)="toggleCard(course)">
         <strong class="text-break" *ngIf="!course.isArchived">[{{course.courseId}}]: {{course.courseName}}</strong>
@@ -27,7 +27,7 @@
         <tm-loading-retry [shouldShowRetry]="course.hasLoadingFailed" [message]="'Failed to load instructors'" (retryEvent)="loadInstructors(course)">
           <div *tmIsLoading="!course.hasInstructorsLoaded">
             <div *ngIf="!course.hasLoadingFailed" class="card-body">
-              <ng-container *ngIf="course.hasInstructorsLoaded && course.instructorCandidates.length > 0, else noInstructorsTemplate">
+              <ng-container *ngIf="course.hasInstructorsLoaded">
                 <table id="copy-instructor-table" class="table table-bordered table-responsive-lg">
                   <thead class="text-white" [ngClass]="{'bg-primary': !course.isArchived, 'bg-info': course.isArchived}">
                     <tr>
@@ -92,11 +92,6 @@
           </div>
         </tm-loading-retry>
       </div>
-
-      <ng-template #noInstructorsTemplate>
-        <h5>There are no instructors in this course available for copying.</h5>
-      </ng-template>
-
     </div>
   </div>
 </div>
