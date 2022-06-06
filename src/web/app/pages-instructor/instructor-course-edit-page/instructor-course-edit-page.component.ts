@@ -708,7 +708,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       const archivedCourses: Courses = values[1] as Courses;
 
       activeCourses.courses.forEach((course: Course) => {
-        if (course.courseId !== this.courseId) {
+        if (course.courseId !== this.courseId && course.institute === this.course.institute) {
           const model: CourseTabModel = {
             courseId: course.courseId,
             courseName: course.courseName,
@@ -725,7 +725,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }
       });
       archivedCourses.courses.forEach((course: Course) => {
-        if (course.courseId !== this.courseId) {
+        if (course.courseId !== this.courseId && course.institute === this.course.institute) {
           const model: CourseTabModel = {
             courseId: course.courseId,
             courseName: course.courseName,
