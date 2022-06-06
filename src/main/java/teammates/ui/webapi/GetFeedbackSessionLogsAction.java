@@ -56,9 +56,25 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new EntityNotFoundException("Student not found");
         }
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+
         if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
+        String fslTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
+        ArrayList<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
+        if (fslTypes != null) {
+            // Multiple log types are separated by a hyphen e.g access-submission
+            for (String fslType: fslTypes.split("-")) {
+                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
+
+                if (convertedFslType == null) {
+                    throw new InvalidHttpParameterException("Invalid log type");
+                }
+
+                convertedFslTypes.add(convertedFslType);
+            }
+        }
+
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
         long startTime;
@@ -91,10 +107,11 @@ public class GetFeedbackSessionLogsAction extends Action {
         feedbackSessions.forEach(fs -> sessionsMap.put(fs.getFeedbackSessionName(), fs));
 
         fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
-            String fslType = logEntry.getFeedbackSessionLogType();
-            FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
-            if (convertedFslType == null) {
-                // If the feedback session log type retrieved from the log is invalid, ignore the log
+            String logType = logEntry.getFeedbackSessionLogType();
+            FeedbackSessionLogType convertedLogType = FeedbackSessionLogType.valueOfLabel(logType);
+            if (convertedLogType == null || (fslTypes != null && !convertedFslTypes.contains(convertedLogType))) {
+                // If the feedback session log type retrieved from the log is invalid
+                // or not the type being queried, ignore the log
                 return false;
             }
 

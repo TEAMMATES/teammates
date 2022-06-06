@@ -12,7 +12,7 @@ import { ApiConst } from '../../../types/api-const';
 import {
   Course, FeedbackSession,
   FeedbackSessionLog, FeedbackSessionLogEntry,
-  FeedbackSessionLogs, FeedbackSessionLogType, FeedbackSessions,
+  FeedbackSessionLogs, FeedbackSessions,
   Student,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
@@ -35,25 +35,19 @@ interface SearchLogsFormModel {
   studentEmail: string;
 }
 
+interface LogType {
+  label: string;
+  value: string;
+}
+
 /**
- * Model for displaying of session access logs
+ * Model for displaying of feedback session logs
  */
-interface ResponseSubmissionLogModel {
+interface FeedbackSessionLogModel {
   feedbackSessionName: string;
   logColumnsData: ColumnData[];
   logRowsData: SortableTableCellData[][];
   isTabExpanded: boolean;
-}
-
-/**
- * Model for displaying of response submission logs
- */
-interface SessionAccessLogModel {
-  feedbackSessionName: string;
-  publishedDate: string;
-  logColumnsData: ColumnData[];
-  logRowsData: SortableTableCellData[][];
-  hasData: boolean;
 }
 
 /**
@@ -68,7 +62,12 @@ interface SessionAccessLogModel {
 export class InstructorStudentActivityLogsComponent implements OnInit {
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
-  LOG_TYPES = ['session access', 'response submission', 'session access and response submission'];
+  LOG_TYPES: LogType[] = [
+    { label: 'session access', value: 'access' },
+    { label: 'session submission', value: 'submission' },
+    { label: 'session access and submission', value: 'access-submission' },
+    { label: 'view session results', value: 'view result' }
+  ];
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -93,18 +92,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   studentToLog: Record<string, FeedbackSessionLogEntry> = {};
-  publishedTime: number = 0;
-  notViewedSince: number = 0;
   students: Student[] = [];
   feedbackSessions: FeedbackSession[] = [];
-  sessionAccessSearchResults: SessionAccessLogModel = {
-    feedbackSessionName: '',
-    publishedDate: '',
-    logColumnsData: [],
-    logRowsData: [],
-    hasData: false,
-  };
-  responseSubmissionSearchResults: ResponseSubmissionLogModel[] = [];
+  searchResults: FeedbackSessionLogModel[] = [];
   isLoading: boolean = true;
   isSearching: boolean = false;
 
@@ -153,25 +143,13 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
   }
 
-  search(): void {
-    switch (this.formModel.logType) {
-      case this.LOG_TYPES[0]:
-        this.searchSessionAccess();
-        break;
-      case this.LOG_TYPES[1]:
-        this.searchResponseSubmission();
-        break;
-      default:
-        break;
-    }
-  }
-
   /**
    * Search for logs of student activity
    */
-  private searchResponseSubmission(): void {
+  search(): void {
+    this.searchResults = [];
     this.isSearching = true;
-    this.responseSubmissionSearchResults = [];
+
     const timeZone: string = this.course.timeZone;
     const searchFrom: number = this.timezoneService.resolveLocalDateTime(
         this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
@@ -183,54 +161,24 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       searchFrom: searchFrom.toString(),
       searchUntil: searchUntil.toString(),
       studentEmail: this.formModel.studentEmail,
-    }).pipe(
-        finalize(() => {
-          this.isSearching = false;
-        }),
-    ).subscribe((logs: FeedbackSessionLogs) => {
-      logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
-          this.responseSubmissionSearchResults.push(this.toResponseSubmissionLogModel(log)));
-    }, (e: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(e.error.message);
-    });
-  }
-
-  /**
-   * Search for logs of student activity
-   */
-  private searchSessionAccess(): void {
-    const logsDateFrom: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
-    const logsDateTo: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateTo, this.formModel.logsTimeTo);
-
-    this.logsService.searchFeedbackSessionLog({
-      courseId: this.course.courseId,
-      searchFrom: logsDateFrom.toString(),
-      searchUntil: logsDateTo.toString(),
+      logType: this.formModel.logType,
       sessionName: this.formModel.feedbackSessionName,
     }).pipe(
         finalize(() => {
           this.isSearching = false;
         }),
     ).subscribe((logs: FeedbackSessionLogs) => {
-      const targetFeedbackSessionLog: FeedbackSessionLog | undefined = logs.feedbackSessionLogs
-          .find((fsLog: FeedbackSessionLog) =>
-              fsLog.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
-      if (!targetFeedbackSessionLog) {
-        return;
+      if (this.formModel.feedbackSessionName !== '') {
+        const targetFeedbackSessionLog = logs.feedbackSessionLogs.find((log: FeedbackSessionLog) =>
+            log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
+
+        if (targetFeedbackSessionLog) {
+          this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
+        }
+      } else {
+        logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
+            this.searchResults.push(this.toFeedbackSessionLogModel(log)));
       }
-
-      targetFeedbackSessionLog.feedbackSessionLogEntries
-          .filter((entry: FeedbackSessionLogEntry) =>
-              entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
-              === 'VIEW_RESULT')
-          .filter((entry: FeedbackSessionLogEntry) => !(entry.studentData.email in this.students))
-          .forEach((entry: FeedbackSessionLogEntry) => {
-            this.studentToLog[entry.studentData.email] = entry;
-          });
-
-      this.sessionAccessSearchResults = this.toSessionAccessLogModel(targetFeedbackSessionLog);
     }, (e: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(e.error.message);
     });
@@ -282,7 +230,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     }
   }
 
-  private toResponseSubmissionLogModel(log: FeedbackSessionLog): ResponseSubmissionLogModel {
+  private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
     return {
       isTabExpanded: log.feedbackSessionLogEntries.length === 0,
       feedbackSessionName: log.feedbackSessionData.feedbackSessionName,
@@ -295,9 +243,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         { header: 'Team', sortBy: SortBy.TEAM_NAME },
       ],
       logRowsData: log.feedbackSessionLogEntries
-        .filter((entry: FeedbackSessionLogEntry) =>
-            entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
-            !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
             {
@@ -308,8 +253,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             },
             { value: entry.studentData.name },
             {
-              value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
-                  === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses',
+              value: this.logTypeToActivityDisplay(entry.feedbackSessionLogType.toString()),
             },
             { value: entry.studentData.email },
             { value: entry.studentData.sectionName },
@@ -319,46 +263,16 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     };
   }
 
-  private toSessionAccessLogModel(log: FeedbackSessionLog): SessionAccessLogModel {
-    return {
-      feedbackSessionName: this.formModel.feedbackSessionName,
-      publishedDate: this.timezoneService.formatToString(
-          this.publishedTime, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT),
-      logColumnsData: [
-        { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
-        { header: 'Name', sortBy: SortBy.GIVER_NAME },
-        { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
-        { header: 'Section', sortBy: SortBy.SECTION_NAME },
-        { header: 'Team', sortBy: SortBy.TEAM_NAME },
-      ],
-      logRowsData: this.students
-          .filter((student: Student) => student.email === this.formModel.studentEmail)
-          .map((student: Student) => {
-            let status: string;
-            let dataStyle: string = 'font-family:monospace; white-space:pre;';
-            if (student.email in this.studentToLog) {
-              const entry: FeedbackSessionLogEntry = this.studentToLog[student.email];
-              const timestamp: string = this.timezoneService.formatToString(
-                  entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `Viewed last at   ${timestamp}`;
-            } else {
-              const timestamp: string = this.timezoneService.formatToString(
-                  this.notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `Not viewed since ${timestamp}`;
-              dataStyle += 'color:red;';
-            }
-            return [
-              {
-                value: status,
-                style: dataStyle,
-              },
-              { value: student.name },
-              { value: student.email },
-              { value: student.sectionName },
-              { value: student.teamName },
-            ];
-          }),
-      hasData: true,
-    };
+  private logTypeToActivityDisplay(logType: string): string {
+    switch (logType) {
+      case 'ACCESS':
+        return 'Viewed the submission page';
+      case 'SUBMISSION':
+        return 'Submitted responses';
+      case 'VIEW_RESULT':
+        return 'Viewed the session results';
+      default:
+        return 'Unknown activity';
+    }
   }
 }
