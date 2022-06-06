@@ -20,11 +20,11 @@ import teammates.test.BaseTestCase;
  */
 public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     static final List<Integer> VALID_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS =
-            new ArrayList<>(Arrays.asList(100, 50, 150, 100, 170, 30, 100));
+            new ArrayList<>(Arrays.asList(100, 55, 150, 95, 170, 30, 100));
     static final List<Integer> VALID_NON_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS =
-            new ArrayList<>(Arrays.asList(0, 10, 50, 100, 150, 190, 200));
+            new ArrayList<>(Arrays.asList(0, 10, 15, 50, 100, 150, 190, 195, 200));
     static final List<Integer> INVALID_CONTRIBUTION_RESPONSE_ANSWERS =
-            new ArrayList<>(Arrays.asList(-983, -1, 1, 5, 19, 51, 155, 199, 201, 1000));
+            new ArrayList<>(Arrays.asList(-983, -1, 1, 4, 19, 51, 101, 199, 201, 1000));
 
     @Test
     public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnFalse() {
@@ -472,7 +472,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         List<FeedbackResponseDetails> responses = new ArrayList<>();
         List<String> expectedResponsesValidationResults = new ArrayList<>();
 
-        ______TS("success: all answers of all responses are in range and are multiple of 10");
+        ______TS("success: all answers of all responses are in range and are multiple of 5");
         for (int answer : VALID_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS) {
             FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
             details.setAnswer(answer);
@@ -501,8 +501,8 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         }
         assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10).isEmpty());
 
-        ______TS("success: mix of answers of all responses that are 1) in range and is multiple of 10 "
-                + "2) POINTS_NOT_SURE and notSure is allowed 3) POINTS_NOT_SUBMITTED and zeroSum is false");
+        ______TS("success: mix of answers of all responses that are 1) in range and is multiple of 5 "
+                + "2) POINTS_NOT_SURE and notSure is allowed 3) POINTS_NOT_SUBMITTED");
         responses.clear();
         feedbackContributionQuestionDetails.setZeroSum(false);
         feedbackContributionQuestionDetails.setNotSureAllowed(true);
@@ -539,7 +539,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
 
-        ______TS("failure: all answers of all responses are either not in range or are not multiple of 10");
+        ______TS("failure: all answers of all responses are either not in range or are not multiple of 5");
         responses.clear();
         feedbackContributionQuestionDetails.setZeroSum(false);
         for (int answer : INVALID_CONTRIBUTION_RESPONSE_ANSWERS) {
@@ -585,7 +585,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
 
         ______TS("failure: mix of answers of all responses that are 1) either not in range or not multiple of"
-                + "10, 2) POINTS_NOT_SURE and notSure is not allowed");
+                + "5, 2) POINTS_NOT_SURE and notSure is not allowed");
         responses.clear();
         expectedResponsesValidationResults.clear();
         feedbackContributionQuestionDetails.setZeroSum(false);
