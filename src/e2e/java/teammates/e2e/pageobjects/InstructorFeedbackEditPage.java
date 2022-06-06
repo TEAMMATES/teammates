@@ -1495,11 +1495,11 @@ public class InstructorFeedbackEditPage extends AppPage {
             markOptionAsSelected(getZeroSumCheckbox(questionNum));
         } else {
             markOptionAsUnselected(getZeroSumCheckbox(questionNum));
-            if (questionDetails.isNotSureAllowed()) {
-                markOptionAsSelected(getAllowNotSureContributionCheckbox(questionNum));
-            } else {
-                markOptionAsUnselected(getAllowNotSureContributionCheckbox(questionNum));
-            }
+        }
+        if (questionDetails.isNotSureAllowed()) {
+            markOptionAsSelected(getAllowNotSureContributionCheckbox(questionNum));
+        } else {
+            markOptionAsUnselected(getAllowNotSureContributionCheckbox(questionNum));
         }
     }
 
