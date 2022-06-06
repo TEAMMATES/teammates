@@ -59,26 +59,9 @@
       <div class="background-color-light-blue">
         <div class="row">
           <div class="col-12">
-            <div class="row padding-15px text-left">
-              <div class="col-md-2">
-                <div class="question-basic-info">Question</div>
-              </div>
-              <div class="col-md-10">
-                <textarea id="question-brief" class="form-control" [ngModel]="model.questionBrief" (ngModelChange)="triggerModelChange('questionBrief', $event)" [disabled]="!model.isEditable"
-                          placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;"
-                ></textarea>
-              </div>
-            </div>
-            <div class="row padding-15px text-left">
-              <div class="col-md-2">
-                <div class="question-basic-info">[Optional]<br/>Description</div>
-              </div>
-              <div class="col-md-10">
-                <tm-rich-text-editor [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable" minHeightInPx="100"
-                                     placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
-                ></tm-rich-text-editor>
-              </div>
-            </div>
+            <tm-question-edit-brief-description-form [brief]="model.questionBrief" (briefChange)="triggerModelChange('questionBrief', $event)" [isBriefDisabled]="!model.isEditable"
+                                                     [description]="model.questionDescription" (descriptionChange)="triggerModelChange('questionDescription', $event)" [isDescriptionDisabled]="!model.isEditable"
+            ></tm-question-edit-brief-description-form>
             <div class="padding-15px">
               <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
               <tm-contribution-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
