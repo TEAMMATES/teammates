@@ -5,8 +5,14 @@
     display: none;
   }
 
-  &:hover {
-    @media (min-width: 1000px) {
+  @media (max-width: 768px) {
+    .fa-anchor {
+      display: block;
+    }
+  }
+
+  @media (min-width: 768px) {
+    &:hover {
       .fa-anchor {
         display: block;
         opacity: 30%;

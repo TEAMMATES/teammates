@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { NavigationService } from '../../../../services/navigation.service';
 import { collapseAnim } from './collapse-anim';
@@ -31,7 +30,6 @@ export class InstructorHelpPanelComponent {
   }
 
   constructor(public elementRef: ElementRef,
-              private location: Location,
               private navigationService: NavigationService,
   ) { }
 
@@ -40,9 +38,6 @@ export class InstructorHelpPanelComponent {
     event.stopPropagation();
 
     const queryParams: Record<string, string> = { section: this.section, questionId: this.id };
-    const queryParamsString: string = this.navigationService.encodeParams(queryParams);
-    const newUrl: string = `/web/instructor/help${queryParamsString}`;
-
-    this.location.go(newUrl);
+    this.navigationService.changeBrowserUrl(queryParams);
   }
 }

@@ -4,8 +4,10 @@ import {
   SimpleChanges, ViewChildren,
 } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
+import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
+import { Sections } from './sections';
 
 interface QuestionDetail {
   id: string;
@@ -30,6 +32,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
   constructor(protected simpleModalService: SimpleModalService,
               private pageScrollService: PageScrollService,
+              private navigationService: NavigationService,
               @Inject(DOCUMENT) private document: any) {
     this.key = '';
     this.showQuestion = [];
@@ -150,4 +153,11 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
   abstract getQuestionsOrder(): string[];
 
+  changeBrowserUrl(event: Event, section: Sections): void {
+    // Prevent panel from changing state
+    event.stopPropagation();
+
+    const queryParams: Record<string, string> = { section };
+    this.navigationService.changeBrowserUrl(queryParams);
+  }
 }
