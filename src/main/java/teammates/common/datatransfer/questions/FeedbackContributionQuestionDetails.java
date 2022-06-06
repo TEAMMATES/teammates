@@ -53,8 +53,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        isZeroSum = true;
-        isNotSureAllowed = false;
+        isZeroSum = false;
+        isNotSureAllowed = true;
     }
 
     @Override
