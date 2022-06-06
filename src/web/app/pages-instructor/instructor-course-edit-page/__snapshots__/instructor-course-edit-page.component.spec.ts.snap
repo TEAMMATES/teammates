@@ -21,6 +21,7 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
   instructorDetailPanels={[Function Array]}
   instructorService={[Function InstructorService]}
   isAddingNewInstructor="false"
+  isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
   isEditingCourse={[Function Boolean]}
   isInstructorsLoading="false"
@@ -75,15 +76,23 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
     <div>
     </div>
   </tm-loading-retry><div
-    class="text-center"
+    class="card-body text-center"
   >
     <button
-      class="btn btn-success"
+      class="btn btn-success margin-left-right-1em"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
     >
        Add New Instructor 
+    </button>
+    <button
+      class="btn btn-info margin-left-right-1em"
+      id="btn-copy-instructor"
+      tabindex="6"
+      type="button"
+    >
+      Copy Instructors 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -110,6 +119,7 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
   instructorDetailPanels={[Function Array]}
   instructorService={[Function InstructorService]}
   isAddingNewInstructor="false"
+  isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
   isEditingCourse="false"
   isInstructorsLoading="false"
@@ -164,15 +174,23 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
     <div>
     </div>
   </tm-loading-retry><div
-    class="text-center"
+    class="card-body text-center"
   >
     <button
-      class="btn btn-success"
+      class="btn btn-success margin-left-right-1em"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
     >
        Add New Instructor 
+    </button>
+    <button
+      class="btn btn-info margin-left-right-1em"
+      id="btn-copy-instructor"
+      tabindex="6"
+      type="button"
+    >
+      Copy Instructors 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -199,6 +217,7 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
   instructorDetailPanels={[Function Array]}
   instructorService={[Function InstructorService]}
   isAddingNewInstructor="false"
+  isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
   isEditingCourse="false"
   isInstructorsLoading="false"
@@ -253,15 +272,23 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
     <div>
     </div>
   </tm-loading-retry><div
-    class="text-center"
+    class="card-body text-center"
   >
     <button
-      class="btn btn-success"
+      class="btn btn-success margin-left-right-1em"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
     >
        Add New Instructor 
+    </button>
+    <button
+      class="btn btn-info margin-left-right-1em"
+      id="btn-copy-instructor"
+      tabindex="6"
+      type="button"
+    >
+      Copy Instructors 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -288,6 +315,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
   instructorDetailPanels={[Function Array]}
   instructorService={[Function InstructorService]}
   isAddingNewInstructor="false"
+  isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
   isEditingCourse="false"
   isInstructorsLoading="false"
@@ -500,15 +528,23 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
       <br />
     </div>
   </tm-loading-retry><div
-    class="text-center"
+    class="card-body text-center"
   >
     <button
-      class="btn btn-success"
+      class="btn btn-success margin-left-right-1em"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
     >
        Add New Instructor 
+    </button>
+    <button
+      class="btn btn-info margin-left-right-1em"
+      id="btn-copy-instructor"
+      tabindex="6"
+      type="button"
+    >
+      Copy Instructors 
     </button>
   </div>
 </tm-instructor-course-edit-page>

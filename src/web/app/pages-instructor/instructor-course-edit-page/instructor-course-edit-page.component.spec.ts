@@ -12,6 +12,7 @@ import { InstructorCreateRequest } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
@@ -113,6 +114,7 @@ describe('InstructorCourseEditPageComponent', () => {
         TeammatesRouterModule,
         SimpleModalModule,
         BrowserAnimationsModule,
+        PanelChevronModule,
       ],
     })
     .compileComponents();
