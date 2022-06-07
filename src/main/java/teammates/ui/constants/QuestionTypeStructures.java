@@ -31,6 +31,7 @@ import teammates.common.util.JsonUtils;
 public enum QuestionTypeStructures {
     // CHECKSTYLE.OFF:JavadocVariable
     DEFAULT_CONTRIBUTION_QUESTION_DETAILS(new FeedbackContributionQuestionDetails("")),
+    DEFAULT_NEW_CONTRIBUTION_QUESTION_DETAILS(new FeedbackContributionQuestionDetails("", true)),
     DEFAULT_CONTRIBUTION_RESPONSE_DETAILS(new FeedbackContributionResponseDetails()),
     DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(getConstSumOptionsQuestionStruct()),
     DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS(getConstSumRecipientsQuestionStruct()),

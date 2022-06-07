@@ -48,13 +48,22 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private boolean isNotSureAllowed;
 
     public FeedbackContributionQuestionDetails() {
-        this(null);
+        this(null, false);
     }
 
     public FeedbackContributionQuestionDetails(String questionText) {
+        this(questionText, false);
+    }
+
+    public FeedbackContributionQuestionDetails(String questionText, boolean isNewQuestion) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        isZeroSum = false;
-        isNotSureAllowed = true;
+        if (isNewQuestion) {
+            isZeroSum = true;
+            isNotSureAllowed = false;
+        } else {
+            isZeroSum = false;
+            isNotSureAllowed = true;
+        }
     }
 
     @Override

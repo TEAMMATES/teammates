@@ -49,8 +49,7 @@ export const DEFAULT_CONTRIBUTION_QUESTION_DETAILS: () => FeedbackContributionQu
  */
 export const DEFAULT_NEW_CONTRIBUTION_QUESTION_DETAILS: () => FeedbackContributionQuestionDetails =
     (): FeedbackContributionQuestionDetails => {
-      return JSON.parse(
-          '{\'isZeroSum\':true,\'isNotSureAllowed\':false,\'questionType\':\'CONTRIB\',\'questionText\':\'\'}');
+      return JSON.parse(QuestionTypeStructures.DEFAULT_NEW_CONTRIBUTION_QUESTION_DETAILS);
     };
 
 /**
