@@ -66,7 +66,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     { label: 'session access', value: 'access' },
     { label: 'session submission', value: 'submission' },
     { label: 'session access and submission', value: 'access-submission' },
-    { label: 'view session results', value: 'view result' }
+    { label: 'view session results', value: 'view result' },
   ];
 
   // enum
@@ -168,16 +168,16 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           this.isSearching = false;
         }),
     ).subscribe((logs: FeedbackSessionLogs) => {
-      if (this.formModel.feedbackSessionName !== '') {
+      if (this.formModel.feedbackSessionName === '') {
+        logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
+            this.searchResults.push(this.toFeedbackSessionLogModel(log)));
+      } else {
         const targetFeedbackSessionLog = logs.feedbackSessionLogs.find((log: FeedbackSessionLog) =>
             log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
 
         if (targetFeedbackSessionLog) {
           this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
         }
-      } else {
-        logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
-            this.searchResults.push(this.toFeedbackSessionLogModel(log)));
       }
     }, (e: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(e.error.message);
@@ -264,7 +264,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   }
 
   private logTypeToActivityDisplay(logType: string): string {
-    switch (logType) {
+    switch (logType.toUpperCase()) {
       case 'ACCESS':
         return 'Viewed the submission page';
       case 'SUBMISSION':

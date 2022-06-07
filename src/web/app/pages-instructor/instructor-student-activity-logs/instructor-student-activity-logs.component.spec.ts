@@ -160,7 +160,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should snap with results of a search', () => {
-    component.responseSubmissionSearchResults = [
+    component.searchResults = [
       {
         feedbackSessionName: 'Feedback session 1',
         logColumnsData: resultColumns,
@@ -233,7 +233,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
       studentEmail: testStudent.email,
-      logType: 'response submission',
+      logType: 'submission',
       feedbackSessionName: '',
     };
     component.course = testCourse1;
@@ -255,15 +255,17 @@ describe('InstructorStudentActivityLogsComponent', () => {
       searchFrom: (new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
       searchUntil: (new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
       studentEmail: testStudent.email,
+      sessionName: '',
+      logType: 'submission',
     });
 
-    expect(component.responseSubmissionSearchResults.length).toEqual(2);
+    expect(component.searchResults.length).toEqual(2);
 
     for (let i: number = 0; i < 2; i += 1) {
-      expect(component.responseSubmissionSearchResults[i].isTabExpanded).toBeFalsy();
-      expect(component.responseSubmissionSearchResults[i].logColumnsData).toEqual(resultColumns);
+      expect(component.searchResults[i].isTabExpanded).toBeFalsy();
+      expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
       // Testing that the LogType is converted correctly.
-      expect(component.responseSubmissionSearchResults[i].logRowsData[0][2].value).toEqual('Submitted responses');
+      expect(component.searchResults[i].logRowsData[0][2].value).toEqual('Submitted responses');
     }
   });
 });

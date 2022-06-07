@@ -16,11 +16,8 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   isLoading={[Function Boolean]}
   isSearching="false"
   logsService={[Function LogService]}
-  notViewedSince="0"
-  publishedTime="0"
-  responseSubmissionSearchResults={[Function Array]}
   route={[Function ActivatedRoute]}
-  sessionAccessSearchResults={[Function Object]}
+  searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   studentToLog={[Function Object]}
@@ -28,7 +25,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Student Activity Logs
+    Student Activity Logs For 
   </h1><p>
     This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
     <b>
@@ -78,11 +75,8 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   isLoading="false"
   isSearching={[Function Boolean]}
   logsService={[Function LogService]}
-  notViewedSince="0"
-  publishedTime="0"
-  responseSubmissionSearchResults={[Function Array]}
   route={[Function ActivatedRoute]}
-  sessionAccessSearchResults={[Function Object]}
+  searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   studentToLog={[Function Object]}
@@ -90,7 +84,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Student Activity Logs
+    Student Activity Logs For CS9999
   </h1><p>
     This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
     <b>
@@ -138,14 +132,25 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               >
                 Select Activity Type
               </option>
-              <option>
+              <option
+                value="access"
+              >
                  session access 
               </option>
-              <option>
-                 response submission 
+              <option
+                value="submission"
+              >
+                 session submission 
               </option>
-              <option>
-                 session access and response submission 
+              <option
+                value="access-submission"
+              >
+                 session access and submission 
+              </option>
+              <option
+                value="view result"
+              >
+                 view session results 
               </option>
             </select>
           </div>
@@ -545,7 +550,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               class="font-weight-bold"
               for="session-dropdown"
             >
-              Feedback Session Name
+              Feedback Session Name (Optional)
             </label>
           </div>
           <div
@@ -555,6 +560,9 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
               id="session-dropdown"
             >
+              <option
+                value=""
+              />
             </select>
           </div>
         </div>
@@ -598,11 +606,8 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   isLoading={[Function Boolean]}
   isSearching="false"
   logsService={[Function LogService]}
-  notViewedSince="0"
-  publishedTime="0"
-  responseSubmissionSearchResults={[Function Array]}
   route={[Function ActivatedRoute]}
-  sessionAccessSearchResults={[Function Object]}
+  searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   studentToLog={[Function Object]}
@@ -610,7 +615,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Student Activity Logs
+    Student Activity Logs For 
   </h1><p>
     This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
     <b>
@@ -660,11 +665,8 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   isLoading="false"
   isSearching="false"
   logsService={[Function LogService]}
-  notViewedSince="0"
-  publishedTime="0"
-  responseSubmissionSearchResults={[Function Array]}
   route={[Function ActivatedRoute]}
-  sessionAccessSearchResults={[Function Object]}
+  searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   studentToLog={[Function Object]}
@@ -672,7 +674,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Student Activity Logs
+    Student Activity Logs For 
   </h1><p>
     This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
     <b>
@@ -720,14 +722,25 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               >
                 Select Activity Type
               </option>
-              <option>
+              <option
+                value="access"
+              >
                  session access 
               </option>
-              <option>
-                 response submission 
+              <option
+                value="submission"
+              >
+                 session submission 
               </option>
-              <option>
-                 session access and response submission 
+              <option
+                value="access-submission"
+              >
+                 session access and submission 
+              </option>
+              <option
+                value="view result"
+              >
+                 view session results 
               </option>
             </select>
           </div>
@@ -1122,7 +1135,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               class="font-weight-bold"
               for="session-dropdown"
             >
-              Feedback Session Name
+              Feedback Session Name (Optional)
             </label>
           </div>
           <div
@@ -1132,6 +1145,9 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
               id="session-dropdown"
             >
+              <option
+                value=""
+              />
             </select>
           </div>
         </div>
