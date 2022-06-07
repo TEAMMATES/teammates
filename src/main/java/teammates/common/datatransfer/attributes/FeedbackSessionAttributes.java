@@ -219,17 +219,20 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         if (!errors.isEmpty()) {
             return errors;
         }
+        addNonEmptyError(FieldValidator.getInvalidityInfoForStartTime(startTime), errors);
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEndTime(endTime), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                sessionVisibleFromTime, startTime), errors);
 
         Instant actualSessionVisibleFromTime = sessionVisibleFromTime;
 
         if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             actualSessionVisibleFromTime = startTime;
         }
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                actualSessionVisibleFromTime, startTime), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);

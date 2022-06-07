@@ -30,4 +30,13 @@ public final class TimeHelperExtension {
         return Instant.now().plus(Duration.ofHours(offsetInHours));
     }
 
+    /**
+     * Returns an java.time.Instant object that is offset by a number of days from now.
+     * @param offsetInDays number of days offset by (integer).
+     * @return java.time.Instant offset by offsetInDays days from now.
+     */
+    public static Instant getInstantDaysOffsetFromNow(long offsetInDays) {
+        return Instant.now().plus(Duration.ofDays(offsetInDays));
+    }
+
 }

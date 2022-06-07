@@ -663,6 +663,60 @@ public final class FieldValidator {
     }
 
     /**
+     * Checks if Session Start Time is after 1 hour and before 90 days.
+     * @return Error string if {@code sessionStart} is before 1 hour or after 90 days
+     *         Empty string if {@code sessionStart} is after 1 hour and before 90 days
+     */
+    public static String getInvalidityInfoForStartTime(Instant startTime) {
+        Instant oneHourFromNow = TimeHelper.getInstantHoursOffsetFromNow(1);
+        String beforeOneHourError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                oneHourFromNow, startTime, SESSION_NAME,
+                "1 hour from now", SESSION_START_TIME_FIELD_NAME,
+                (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                "The %s for this %s cannot be earlier than %s.");
+        if (!beforeOneHourError.isEmpty()) {
+            return beforeOneHourError;
+        }
+        Instant ninetyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(90);
+        String afterNinetyDaysError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                ninetyDaysFromNow, startTime, SESSION_NAME,
+                "90 days from now", SESSION_START_TIME_FIELD_NAME,
+                (firstTime, secondTime) -> firstTime.isAfter(secondTime) || firstTime.equals(secondTime),
+                "The %s for this %s cannot be later than %s.");
+        if (!afterNinetyDaysError.isEmpty()) {
+            return afterNinetyDaysError;
+        }
+        return "";
+    }
+
+    /**
+     * Checks if Session End Time is after 1 hour and before 180 days.
+     * @return Error string if {@code sessionStart} is before 1 hour or after 180 days
+     *         Empty string if {@code sessionStart} is after 1 hour and before 180 days
+     */
+    public static String getInvalidityInfoForEndTime(Instant startTime) {
+        Instant oneHourFromNow = TimeHelper.getInstantHoursOffsetFromNow(1);
+        String beforeOneHourError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                oneHourFromNow, startTime, SESSION_NAME,
+                "1 hour from now", SESSION_END_TIME_FIELD_NAME,
+                (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                "The %s for this %s cannot be earlier than %s.");
+        if (!beforeOneHourError.isEmpty()) {
+            return beforeOneHourError;
+        }
+        Instant oneHundredEightyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(180);
+        String afterOneHundredEightyDaysError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                oneHundredEightyDaysFromNow, startTime, SESSION_NAME,
+                "180 days from now", SESSION_END_TIME_FIELD_NAME,
+                (firstTime, secondTime) -> firstTime.isAfter(secondTime) || firstTime.equals(secondTime),
+                "The %s for this %s cannot be later than %s.");
+        if (!afterOneHundredEightyDaysError.isEmpty()) {
+            return afterOneHundredEightyDaysError;
+        }
+        return "";
+    }
+
+    /**
      * Checks if Session Start Time is before Session End Time.
      * @return Error string if {@code sessionStart} is before {@code sessionEnd}
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
@@ -674,13 +728,29 @@ public final class FieldValidator {
 
     /**
      * Checks if Session Visibility Start Time is before Session Start Time.
-     * @return Error string if {@code visibilityStart} is before {@code sessionStart}
-     *         Empty string if {@code visibilityStart} is after {@code sessionStart}
+     * @return Error string if {@code visibilityStart} is more than 30 days before {@code sessionStart} or after
+     *         {@code sessionStart}
+     *         Empty string if {@code visibilityStart} is less than 30 days before {@code sessionStart} and before
+     *         {@code sessionStart}
      */
     public static String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
             Instant visibilityStart, Instant sessionStart) {
-        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, sessionStart,
-                SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
+        Instant visibilityStartThirtyDaysBeforeSessionStart = TimeHelper.getInstantDaysOffsetBeforeNow(30);
+        String visibilityStartMoreThanThirtyDaysBeforeSessionStartError =
+                getInvalidityInfoForFirstTimeComparedToSecondTime(
+                        visibilityStartThirtyDaysBeforeSessionStart, visibilityStart, SESSION_NAME,
+                        "30 days before start time", SESSION_VISIBLE_TIME_FIELD_NAME,
+                        (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                        "The %s for this %s cannot be earlier than %s.");
+        if (!visibilityStartMoreThanThirtyDaysBeforeSessionStartError.isEmpty()) {
+            return visibilityStartMoreThanThirtyDaysBeforeSessionStartError;
+        }
+        String visibilityStartAfterSessionStartError = getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart,
+                sessionStart, SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
+        if (!visibilityStartAfterSessionStartError.isEmpty()) {
+            return visibilityStartAfterSessionStartError;
+        }
+        return "";
     }
 
     /**

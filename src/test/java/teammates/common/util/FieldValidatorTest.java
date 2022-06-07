@@ -539,6 +539,38 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetInvalidityInfoForStartTime_valid_returnEmptyString() {
+        Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        assertEquals("", FieldValidator.getInvalidityInfoForStartTime(sessionStart));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForStartTime_invalid_returnErrorString() {
+        Instant sessionStartBeforeOneHour = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        assertEquals("The start time for this feedback session cannot be earlier than 1 hour from now.",
+                FieldValidator.getInvalidityInfoForStartTime(sessionStartBeforeOneHour));
+        Instant sessionStartAfterNinetyDays = TimeHelperExtension.getInstantDaysOffsetFromNow(91);
+        assertEquals("The start time for this feedback session cannot be later than 90 days from now.",
+                FieldValidator.getInvalidityInfoForStartTime(sessionStartAfterNinetyDays));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForEndTime_valid_returnEmptyString() {
+        Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(2);
+        assertEquals("", FieldValidator.getInvalidityInfoForStartTime(sessionEnd));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForEndTime_invalid_returnErrorString() {
+        Instant sessionEndBeforeOneHour = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        assertEquals("The end time for this feedback session cannot be earlier than 1 hour from now.",
+                FieldValidator.getInvalidityInfoForEndTime(sessionEndBeforeOneHour));
+        Instant sessionEndAfterOneHundredEightyDays = TimeHelperExtension.getInstantDaysOffsetFromNow(181);
+        assertEquals("The end time for this feedback session cannot be later than 180 days from now.",
+                FieldValidator.getInvalidityInfoForEndTime(sessionEndAfterOneHundredEightyDays));
+    }
+
+    @Test
     public void testGetInvalidityInfoForTimeForSessionStartAndEnd_valid_returnEmptyString() {
         Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
@@ -564,12 +596,17 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForTimeForVisibilityStartAndSessionStart_invalid_returnErrorString() {
-        Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
-        Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        Instant visibilityStartThirtyDaysBeforeSessionStart = TimeHelperExtension.getInstantDaysOffsetFromNow(-31);
+        assertEquals("The time when the session will be visible for this feedback session cannot be "
+                        + "earlier than 30 days before start time.",
+                FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                        visibilityStartThirtyDaysBeforeSessionStart, sessionStart));
+        Instant visibilityStartAfterSessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(2);
         assertEquals("The start time for this feedback session cannot be earlier than the time when the "
                          + "session will be visible.",
-                     FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                         visibilityStart, sessionStart));
+                FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                        visibilityStartAfterSessionStart, sessionStart));
     }
 
     @Test
