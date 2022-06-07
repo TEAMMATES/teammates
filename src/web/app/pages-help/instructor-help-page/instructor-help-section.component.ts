@@ -153,10 +153,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
   abstract getQuestionsOrder(): string[];
 
-  changeBrowserUrl(event: Event, section: Sections): void {
-    // Prevent panel from changing state
-    event.stopPropagation();
-
+  changeBrowserUrl(section: Sections): void {
     const queryParams: Record<string, string> = { section };
     this.navigationService.changeBrowserUrl(queryParams);
   }
