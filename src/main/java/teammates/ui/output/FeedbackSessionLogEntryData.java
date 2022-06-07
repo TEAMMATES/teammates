@@ -1,6 +1,6 @@
 package teammates.ui.output;
 
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 

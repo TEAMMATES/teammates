@@ -3,7 +3,7 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogEvent;

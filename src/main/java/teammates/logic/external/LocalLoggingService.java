@@ -16,7 +16,7 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonParseException;
 
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
