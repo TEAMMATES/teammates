@@ -279,12 +279,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
-        int actualTotal = 0;
+
+        // Nothing to validate if there are no responses
         boolean isAllNotSubmitted = responses
                 .stream()
-                .map(r -> ((FeedbackContributionResponseDetails) r).getAnswer() == Const.POINTS_NOT_SUBMITTED)
-                .reduce(true, (acc, curr) -> acc && curr);
+                .allMatch(r -> ((FeedbackContributionResponseDetails) r).getAnswer() == Const.POINTS_NOT_SUBMITTED);
+        if (isAllNotSubmitted) {
+            return errors;
+        }
 
+        int actualTotal = 0;
         for (FeedbackResponseDetails response : responses) {
             FeedbackContributionResponseDetails details = (FeedbackContributionResponseDetails) response;
             boolean validAnswer = false;
@@ -292,14 +296,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             // Valid answers: 0, 5, 10, 15, .... 190, 195, 200
             boolean isValidRange = details.getAnswer() >= 0 && details.getAnswer() <= 200;
             boolean isMultipleOf5 = details.getAnswer() % 5 == 0;
-
             if (isValidRange && isMultipleOf5) {
                 validAnswer = true;
             }
 
             boolean isValidNotSure = details.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed;
-            boolean isValidNotSubmitted = details.getAnswer() == Const.POINTS_NOT_SUBMITTED
-                    && (isAllNotSubmitted || !isZeroSum);
+            boolean isValidNotSubmitted = details.getAnswer() == Const.POINTS_NOT_SUBMITTED && !isZeroSum;
             if (isValidNotSure || isValidNotSubmitted) {
                 validAnswer = true;
             }
@@ -311,11 +313,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             actualTotal += details.getAnswer();
         }
 
-        if (!isAllNotSubmitted) {
-            int expectedTotal = numRecipients * 100;
-            if (actualTotal != expectedTotal && isZeroSum) {
-                errors.add(CONTRIB_ERROR_INVALID_OPTION);
-            }
+        int expectedTotal = numRecipients * 100;
+        if (actualTotal != expectedTotal && isZeroSum) {
+            errors.add(CONTRIB_ERROR_INVALID_OPTION);
         }
 
         return errors;
