@@ -184,7 +184,8 @@
         <button id="btn-submit-qn-{{ model.questionNumber }}" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses for this question at any time and come back later to continue."
                 (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionDisabled"
-        ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses</button>
+        ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>
+          {{ "Submit Responses to Question " + model.questionNumber }}</button>
       </div>
     </div>
   </div>

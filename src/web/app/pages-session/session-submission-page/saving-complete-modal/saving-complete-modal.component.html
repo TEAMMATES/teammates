@@ -1,8 +1,11 @@
 <div class="modal-header text-white"
      [ngClass]="{'bg-danger': hasFailToSaveQuestions, 'bg-success': !hasFailToSaveQuestions}">
   <h5 class="modal-title">
-    <span *ngIf="!hasFailToSaveQuestions">
-      <i class="fas fa-check-circle"></i> Responses submitted successfully!
+    <span *ngIf="!hasFailToSaveQuestions && questions.length === 1">
+      <i class="fas fa-check-circle"></i> Responses to question {{ questions[0].questionNumber }} submitted successfully!
+    </span>
+    <span *ngIf="!hasFailToSaveQuestions && questions.length > 1">
+      <i class="fas fa-check-circle"></i> Responses to all questions submitted successfully!
     </span>
     <span *ngIf="hasFailToSaveQuestions">
       <i class="fas fa-exclamation-circle"></i> Some response submissions failed!
@@ -29,7 +32,7 @@
     Please try to submit your responses again.
   </p>
   <p *ngIf="!hasFailToSaveQuestions && questions.length === 1">
-    Your responses for question {{ questions[0].questionNumber }} have been successfully recorded!
+    Your responses for <b> question {{ questions[0].questionNumber }} </b> have been successfully recorded!
   </p>
   <p *ngIf="!hasFailToSaveQuestions && questions.length > 1">
     All your responses have been successfully recorded!
@@ -40,6 +43,10 @@
   <p *ngIf="!hasFailToSaveQuestions">
     <b>You are encouraged to download the proof of submission, which will also contain your latest responses.</b>
   </p>
+  <span class="color-red" *ngIf="!hasFailToSaveQuestions && questions.length === 1">
+      <i class="fas fa-exclamation"></i>
+      Submitting question {{ questions[0].questionNumber }} does not submit other questions (if any).
+  </span>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn modal-btn-ok btn-info"
