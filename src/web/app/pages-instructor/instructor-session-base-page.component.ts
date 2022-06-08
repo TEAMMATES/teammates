@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment-timezone';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
@@ -16,8 +17,9 @@ import {
   FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionStats,
+  SessionVisibleSetting,
 } from '../../types/api-output';
-import { Intent } from '../../types/api-request';
+import { Intent, ResponseVisibleSetting } from '../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
@@ -59,14 +61,14 @@ export abstract class InstructorSessionBasePageComponent {
       toCopySessionName: fromFeedbackSession.feedbackSessionName,
       toCopyCourseId: oldCourseId,
 
-      submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
-      submissionEndTimestamp: fromFeedbackSession.submissionEndTimestamp,
+      submissionStartTimestamp: moment().add(2, 'hours').startOf('hour').valueOf(),
+      submissionEndTimestamp: moment().add(2, 'days').startOf('day').valueOf(),
       gracePeriod: fromFeedbackSession.gracePeriod,
 
-      sessionVisibleSetting: fromFeedbackSession.sessionVisibleSetting,
+      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
       customSessionVisibleTimestamp: fromFeedbackSession.customSessionVisibleTimestamp,
 
-      responseVisibleSetting: fromFeedbackSession.responseVisibleSetting,
+      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
