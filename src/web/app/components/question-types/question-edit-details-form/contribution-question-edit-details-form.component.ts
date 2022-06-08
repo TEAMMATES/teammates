@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
-import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import {
   QuestionsSectionQuestions,
 } from '../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
@@ -23,7 +23,7 @@ export class ContributionQuestionEditDetailsFormComponent
   Sections: typeof Sections = Sections;
 
   constructor() {
-    super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
+    super(DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS());
   }
 
   /**

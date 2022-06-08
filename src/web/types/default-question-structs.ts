@@ -47,9 +47,9 @@ export const DEFAULT_CONTRIBUTION_QUESTION_DETAILS: () => FeedbackContributionQu
 /**
  * Structure for default new contribution question details.
  */
-export const DEFAULT_NEW_CONTRIBUTION_QUESTION_DETAILS: () => FeedbackContributionQuestionDetails =
+export const DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS: () => FeedbackContributionQuestionDetails =
     (): FeedbackContributionQuestionDetails => {
-      return JSON.parse(QuestionTypeStructures.DEFAULT_NEW_CONTRIBUTION_QUESTION_DETAILS);
+      return JSON.parse(QuestionTypeStructures.DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS);
     };
 
 /**

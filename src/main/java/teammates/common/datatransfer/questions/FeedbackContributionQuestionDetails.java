@@ -51,18 +51,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         this(null, false);
     }
 
-    public FeedbackContributionQuestionDetails(String questionText) {
-        this(questionText, false);
-    }
-
-    public FeedbackContributionQuestionDetails(String questionText, boolean isNewQuestion) {
+    public FeedbackContributionQuestionDetails(String questionText, boolean isOldQuestion) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        if (isNewQuestion) {
-            isZeroSum = true;
-            isNotSureAllowed = false;
-        } else {
+        if (isOldQuestion) {
+            // The default values below are used to deal with old sessions when isZeroSum did not exist back then
             isZeroSum = false;
             isNotSureAllowed = true;
+        } else {
+            isZeroSum = true;
+            isNotSureAllowed = false;
         }
     }
 

@@ -16,7 +16,7 @@ import {
 import { FeedbackQuestionCreateRequest, FeedbackQuestionUpdateRequest, Intent } from '../types/api-request';
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS, DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
-  DEFAULT_NEW_CONTRIBUTION_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MSQ_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
@@ -337,7 +337,7 @@ export class FeedbackQuestionsService {
           questionDescription: '',
 
           questionType: FeedbackQuestionType.CONTRIB,
-          questionDetails: DEFAULT_NEW_CONTRIBUTION_QUESTION_DETAILS(),
+          questionDetails: DEFAULT_CONTRIBUTION_QUESTION_DETAILS(),
 
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
