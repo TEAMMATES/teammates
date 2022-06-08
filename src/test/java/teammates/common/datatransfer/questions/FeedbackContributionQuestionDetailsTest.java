@@ -48,7 +48,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     public void testShouldChangesRequireResponseDeletion_sameIsZeroSum_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
-        newDetails.setZeroSum(false);
+        newDetails.setZeroSum(true);
         assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
@@ -56,7 +56,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     public void testShouldChangesRequireResponseDeletion_differentZeroSum_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
-        newDetails.setZeroSum(true);
+        newDetails.setZeroSum(false);
         assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
@@ -64,7 +64,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     public void testShouldChangesRequireResponseDeletion_sameIsNotSureAllowed_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
-        newDetails.setNotSureAllowed(true);
+        newDetails.setNotSureAllowed(false);
         assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
@@ -72,7 +72,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     public void testShouldChangesRequireResponseDeletion_differentIsNotSureAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
-        newDetails.setNotSureAllowed(false);
+        newDetails.setNotSureAllowed(true);
         assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
