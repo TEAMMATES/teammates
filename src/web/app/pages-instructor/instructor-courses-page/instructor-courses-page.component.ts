@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -18,10 +19,11 @@ import {
   FeedbackSessions,
   JoinState,
   MessageOutput,
+  SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
-import { FeedbackSessionCreateRequest } from '../../../types/api-request';
+import { FeedbackSessionCreateRequest, ResponseVisibleSetting } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
@@ -387,14 +389,14 @@ export class InstructorCoursesPageComponent implements OnInit {
       toCopySessionName: fromFeedbackSession.feedbackSessionName,
       instructions: fromFeedbackSession.instructions,
 
-      submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
-      submissionEndTimestamp: fromFeedbackSession.submissionEndTimestamp,
+      submissionStartTimestamp: moment().add(2, 'hours').startOf('hour').valueOf(),
+      submissionEndTimestamp: moment().add(2, 'days').startOf('day').valueOf(),
       gracePeriod: fromFeedbackSession.gracePeriod,
 
-      sessionVisibleSetting: fromFeedbackSession.sessionVisibleSetting,
+      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
       customSessionVisibleTimestamp: fromFeedbackSession.customSessionVisibleTimestamp,
 
-      responseVisibleSetting: fromFeedbackSession.responseVisibleSetting,
+      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
