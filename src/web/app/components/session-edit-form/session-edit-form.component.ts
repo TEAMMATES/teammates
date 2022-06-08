@@ -187,7 +187,7 @@ export class SessionEditFormComponent {
    */
   get minDateForSessionOpen(): DateFormat {
     const today = moment();
-    today.add(1, 'days');
+    today.add(1, 'hours');
     return this.getDateInstance(today);
   }
 
