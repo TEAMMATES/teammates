@@ -123,11 +123,11 @@ class CreateAccountAction extends Action {
         Instant now = Instant.now();
 
         // Used for start time + visible time for all sessions
-        String dateString1 = getDateString(now.minus(7, ChronoUnit.DAYS));
+        String dateString1 = getDateString(now.plus(1, ChronoUnit.DAYS));
         // Used for end time for sessions already past
-        String dateString2 = getDateString(now.minus(3, ChronoUnit.DAYS));
+        String dateString2 = getDateString(now.plus(3, ChronoUnit.DAYS));
         // Used for result visible time for sessions already past
-        String dateString3 = getDateString(now.minus(2, ChronoUnit.DAYS));
+        String dateString3 = getDateString(now.plus(4, ChronoUnit.DAYS));
         // Used for end time for session still ongoing
         String dateString4 = getDateString(now.plus(3, ChronoUnit.DAYS));
         // Used for timestamp of comments
