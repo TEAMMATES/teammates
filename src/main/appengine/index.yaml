@@ -93,3 +93,9 @@ indexes:
     name: targetUser
   - direction: asc
     name: endTime
+- kind: FeedbackSessionLogEntry
+  properties:
+    - direction: asc
+      name: studentEmail
+    - direction: asc
+      name: timestamp

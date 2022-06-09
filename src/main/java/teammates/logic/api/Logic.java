@@ -20,6 +20,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -39,6 +40,7 @@ import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionLogEntriesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.NotificationsLogic;
@@ -66,6 +68,7 @@ public class Logic {
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
+    final FeedbackSessionLogEntriesLogic feedbackSessionLogEntriesLogic = FeedbackSessionLogEntriesLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
@@ -114,6 +117,20 @@ public class Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         assert googleId != null;
         return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
+    }
+
+    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
+                                                                          long startTime, long endTime, String fsName) {
+        return feedbackSessionLogEntriesLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
+    }
+
+    public long getLatestLogTimestamp() {
+        return feedbackSessionLogEntriesLogic.getLatestLogTimestamp();
+    }
+
+    public List<FeedbackSessionLogEntryAttributes> createFeedbackSessionLogs(
+            List<FeedbackSessionLogEntryAttributes> entries) throws InvalidParametersException {
+        return feedbackSessionLogEntriesLogic.createFeedbackSessionLogs(entries);
     }
 
     public String getCourseInstitute(String courseId) {

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.storage.entity.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
@@ -15,12 +15,12 @@ public class FeedbackSessionLogsData extends ApiOutput {
 
     private final List<FeedbackSessionLogData> feedbackSessionLogs;
 
-    public FeedbackSessionLogsData(Map<String, List<FeedbackSessionLogEntry>> groupedEntries,
+    public FeedbackSessionLogsData(Map<String, List<FeedbackSessionLogEntryAttributes>> groupedEntries,
             Map<String, StudentAttributes> studentsMap, Map<String, FeedbackSessionAttributes> sessionsMap) {
         this.feedbackSessionLogs = groupedEntries.entrySet().stream()
                 .map(entry -> {
                     FeedbackSessionAttributes feedbackSession = sessionsMap.get(entry.getKey());
-                    List<FeedbackSessionLogEntry> logEntries = entry.getValue();
+                    List<FeedbackSessionLogEntryAttributes> logEntries = entry.getValue();
                     return new FeedbackSessionLogData(feedbackSession, logEntries, studentsMap);
                 })
                 .collect(Collectors.toList());

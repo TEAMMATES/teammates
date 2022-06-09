@@ -1,6 +1,6 @@
 package teammates.ui.output;
 
-import teammates.storage.entity.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
@@ -12,7 +12,7 @@ public class FeedbackSessionLogEntryData {
     private final FeedbackSessionLogType feedbackSessionLogType;
     private final long timestamp;
 
-    public FeedbackSessionLogEntryData(FeedbackSessionLogEntry logEntry, StudentAttributes student) {
+    public FeedbackSessionLogEntryData(FeedbackSessionLogEntryAttributes logEntry, StudentAttributes student) {
         StudentData studentData = new StudentData(student);
         FeedbackSessionLogType logType = FeedbackSessionLogType.valueOfLabel(logEntry.getFeedbackSessionLogType());
         long timestamp = logEntry.getTimestamp();

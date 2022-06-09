@@ -203,7 +203,7 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
-        FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(email, fsName,
+        FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(email, courseId, fsName,
                 fslType, Instant.now().toEpochMilli());
         FEEDBACK_SESSION_LOG_ENTRIES.computeIfAbsent(courseId, k -> new ArrayList<>()).add(logEntry);
     }

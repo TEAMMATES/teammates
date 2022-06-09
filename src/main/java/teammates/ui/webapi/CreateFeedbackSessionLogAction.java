@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
@@ -24,6 +27,7 @@ class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     public JsonResult execute() {
+
         String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
         if (convertedFslType == null) {
@@ -33,6 +37,16 @@ class CreateFeedbackSessionLogAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String fsName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        long timeDiff = Math.abs(student.getLastLogTimestamp().toEpochMilli() -
+                Instant.now().toEpochMilli());
+
+        // Minimum time difference of 2s between logs to prevent spams
+        if (timeDiff < 2 * 1000) {
+            return new JsonResult("Time difference between logs exceeded the 2s limit");
+        }
+
         // Skip rigorous validations to avoid incurring extra db reads and to keep the endpoint light
 
         // Necessary to assist local testing. For production usage, this will be a no-op.

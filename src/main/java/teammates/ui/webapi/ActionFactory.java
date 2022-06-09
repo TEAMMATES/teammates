@@ -153,6 +153,7 @@ public final class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, GET,
                 FeedbackSessionOpeningSoonRemindersAction.class);
         map(CronJobURIs.AUTOMATED_USAGE_STATISTICS_COLLECTION, GET, CalculateUsageStatisticsAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_UPDATE, GET, FeedbackSessionLogsUpdateAction.class);
 
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks

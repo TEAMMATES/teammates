@@ -24,6 +24,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     private String comments;
     private String team;
     private String section;
+    private Instant lastLogTimestamp;
     private transient String key;
     private transient Instant createdAt;
     private transient Instant updatedAt;
@@ -58,6 +59,9 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
         if (student.getUpdatedAt() != null) {
             studentAttributes.updatedAt = student.getUpdatedAt();
+        }
+        if (student.getLastLogTimestamp() != null) {
+            studentAttributes.lastLogTimestamp = student.getLastLogTimestamp();
         }
 
         return studentAttributes;
@@ -170,6 +174,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         this.comments = comments;
     }
 
+    public Instant getLastLogTimestamp() {
+        return lastLogTimestamp;
+    }
+
+    public void setLastLogTimestamp(Instant lastLogTimestamp) {
+        this.lastLogTimestamp = lastLogTimestamp;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {
@@ -236,7 +248,13 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public CourseStudent toEntity() {
-        return new CourseStudent(email, name, googleId, comments, course, team, section);
+        CourseStudent entity = new CourseStudent(email, name, googleId, comments, course, team, section);
+
+        if (lastLogTimestamp != null) {
+            entity.setLastLogTimestamp(lastLogTimestamp);
+        }
+
+        return entity;
     }
 
     @Override

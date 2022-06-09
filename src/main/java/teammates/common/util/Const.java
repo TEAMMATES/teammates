@@ -393,6 +393,8 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
         public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
                 URI_PREFIX + "/calculateUsageStatistics";
+        public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_UPDATE =
+                URI_PREFIX + "/feedbackSessionLogsUpdate";
     }
 
     /**

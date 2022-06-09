@@ -14,6 +14,7 @@ public class FeedbackSessionLogEntryAttributes extends EntityAttributes<Feedback
 
     private final String feedbackSessionLogEntryId;
     private String studentEmail;
+    private final String courseId;
     private String feedbackSessionName;
     private final String feedbackSessionLogType;
     private final long timestamp;
@@ -26,10 +27,39 @@ public class FeedbackSessionLogEntryAttributes extends EntityAttributes<Feedback
         this.feedbackSessionLogType = fslEntry.getFeedbackSessionLogType();
         this.timestamp = fslEntry.getTimestamp();
         this.createdAt = fslEntry.getCreatedAt();
+        this.courseId = fslEntry.getCourseId();
     }
 
     public static FeedbackSessionLogEntryAttributes valueOf(FeedbackSessionLogEntry fslEntry) {
         return new FeedbackSessionLogEntryAttributes(fslEntry);
+    }
+
+    public String getFeedbackSessionLogEntryId() {
+        return feedbackSessionLogEntryId;
+    }
+
+    public String getStudentEmail() {
+        return studentEmail;
+    }
+
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getFeedbackSessionLogType() {
+        return feedbackSessionLogType;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
     @Override
@@ -45,7 +75,7 @@ public class FeedbackSessionLogEntryAttributes extends EntityAttributes<Feedback
 
     @Override
     public FeedbackSessionLogEntry toEntity() {
-        return new FeedbackSessionLogEntry(studentEmail, feedbackSessionName, feedbackSessionLogType, timestamp);
+        return new FeedbackSessionLogEntry(studentEmail, courseId, feedbackSessionName, feedbackSessionLogType, timestamp);
     }
 
     @Override

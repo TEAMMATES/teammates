@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.storage.entity.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
+
 import teammates.ui.output.FeedbackSessionLogsData;
 
 /**
@@ -75,16 +75,8 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
-        long earliestSearchTime = TimeHelper.getInstantDaysOffsetBeforeNow(Const.LOGS_RETENTION_PERIOD.toDays())
-                .toEpochMilli();
-        if (startTime < earliestSearchTime) {
-            throw new InvalidHttpParameterException(
-                    "The earliest date you can search for is " + Const.LOGS_RETENTION_PERIOD.toDays() + " days before today."
-            );
-        }
-
-        List<FeedbackSessionLogEntry> fsLogEntries =
-                logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
+        List<FeedbackSessionLogEntryAttributes> fsLogEntries =
+                logic.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
         Map<String, StudentAttributes> studentsMap = new HashMap<>();
         Map<String, FeedbackSessionAttributes> sessionsMap = new HashMap<>();
         List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
@@ -110,7 +102,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             return sessionsMap.containsKey(logEntry.getFeedbackSessionName());
         }).collect(Collectors.toList());
 
-        Map<String, List<FeedbackSessionLogEntry>> groupedEntries =
+        Map<String, List<FeedbackSessionLogEntryAttributes>> groupedEntries =
                 groupFeedbackSessionLogEntries(fsLogEntries);
         feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getFeedbackSessionName(), new ArrayList<>()));
 
@@ -118,10 +110,10 @@ public class GetFeedbackSessionLogsAction extends Action {
         return new JsonResult(fslData);
     }
 
-    private Map<String, List<FeedbackSessionLogEntry>> groupFeedbackSessionLogEntries(
-            List<FeedbackSessionLogEntry> fsLogEntries) {
-        Map<String, List<FeedbackSessionLogEntry>> groupedEntries = new LinkedHashMap<>();
-        for (FeedbackSessionLogEntry fsLogEntry : fsLogEntries) {
+    private Map<String, List<FeedbackSessionLogEntryAttributes>> groupFeedbackSessionLogEntries(
+            List<FeedbackSessionLogEntryAttributes> fsLogEntries) {
+        Map<String, List<FeedbackSessionLogEntryAttributes>> groupedEntries = new LinkedHashMap<>();
+        for (FeedbackSessionLogEntryAttributes fsLogEntry : fsLogEntries) {
             String fsName = fsLogEntry.getFeedbackSessionName();
             groupedEntries.computeIfAbsent(fsName, k -> new ArrayList<>()).add(fsLogEntry);
         }

@@ -18,6 +18,8 @@ public class FeedbackSessionLogEntry extends BaseEntity {
 
     private String studentEmail;
 
+    private String courseId;
+
     private String feedbackSessionName;
 
     private String feedbackSessionLogType;
@@ -32,10 +34,11 @@ public class FeedbackSessionLogEntry extends BaseEntity {
         // required by Objectify
     }
 
-    public FeedbackSessionLogEntry(String studentEmail, String feedbackSessionName,
+    public FeedbackSessionLogEntry(String studentEmail, String courseId, String feedbackSessionName,
             String feedbackSessionLogType, long timestamp) {
         this.feedbackSessionLogEntryId = UUID.randomUUID().toString();
         this.setStudentEmail(studentEmail);
+        this.setCourseId(courseId);
         this.setFeedbackSessionName(feedbackSessionName);
         this.setFeedbackSessionLogType(feedbackSessionLogType);
         this.setTimestamp(timestamp);
@@ -52,6 +55,14 @@ public class FeedbackSessionLogEntry extends BaseEntity {
 
     public void setStudentEmail(String studentEmail) {
         this.studentEmail = studentEmail;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getFeedbackSessionName() {

@@ -154,7 +154,7 @@ public class GoogleCloudLoggingService implements LogService {
             }
 
             FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(details.getStudentEmail(),
-                    details.getFeedbackSessionName(), details.getAccessType(), timestamp);
+                    courseId, details.getFeedbackSessionName(), details.getAccessType(), timestamp);
             fsLogEntries.add(fslEntry);
         }
 

@@ -1,6 +1,10 @@
 # Reference: https://cloud.google.com/appengine/docs/standard/java11/scheduling-jobs-with-cron-yaml
 
 cron:
+- url: '/auto/feedbackSessionLogsUpdate'
+  schedule: 'every 60 minutes from 00:02 to 23:59'
+  timezone: 'Asia/Singapore'
+  description: 'Get feedback session logs from gcloud logging service every hour.'
 - url: '/auto/feedbackSessionOpeningReminders'
   schedule: 'every 60 minutes from 00:02 to 23:59'
   timezone: 'Asia/Singapore'
