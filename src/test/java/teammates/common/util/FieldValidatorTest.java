@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -540,34 +541,52 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForStartTime_valid_returnEmptyString() {
-        Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
-        assertEquals("", FieldValidator.getInvalidityInfoForStartTime(sessionStart));
+        Instant sessionStart = TimeHelperExtension
+                .getInstantHoursOffsetFromNow(2)
+                .truncatedTo(ChronoUnit.HOURS);
+        assertEquals("", FieldValidator.getInvalidityInfoForStartTime(sessionStart, Const.DEFAULT_TIME_ZONE));
     }
 
     @Test
     public void testGetInvalidityInfoForStartTime_invalid_returnErrorString() {
-        Instant sessionStartBeforeOneHour = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Instant sessionStartNotAtHourMark = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        assertEquals("The start time for this feedback session must be at exact hour mark.",
+                FieldValidator.getInvalidityInfoForStartTime(sessionStartNotAtHourMark, Const.DEFAULT_TIME_ZONE));
+        Instant sessionStartBeforeOneHour = TimeHelperExtension
+                .getInstantHoursOffsetFromNow(-1)
+                .truncatedTo(ChronoUnit.HOURS);
         assertEquals("The start time for this feedback session cannot be earlier than 1 hour from now.",
-                FieldValidator.getInvalidityInfoForStartTime(sessionStartBeforeOneHour));
-        Instant sessionStartAfterNinetyDays = TimeHelperExtension.getInstantDaysOffsetFromNow(91);
+                FieldValidator.getInvalidityInfoForStartTime(sessionStartBeforeOneHour, Const.DEFAULT_TIME_ZONE));
+        Instant sessionStartAfterNinetyDays = TimeHelperExtension
+                .getInstantDaysOffsetFromNow(91)
+                .truncatedTo(ChronoUnit.HOURS);
         assertEquals("The start time for this feedback session cannot be later than 90 days from now.",
-                FieldValidator.getInvalidityInfoForStartTime(sessionStartAfterNinetyDays));
+                FieldValidator.getInvalidityInfoForStartTime(sessionStartAfterNinetyDays, Const.DEFAULT_TIME_ZONE));
     }
 
     @Test
     public void testGetInvalidityInfoForEndTime_valid_returnEmptyString() {
-        Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(2);
-        assertEquals("", FieldValidator.getInvalidityInfoForStartTime(sessionEnd));
+        Instant sessionEnd = TimeHelperExtension
+                .getInstantHoursOffsetFromNow(2)
+                .truncatedTo(ChronoUnit.HOURS);
+        assertEquals("", FieldValidator.getInvalidityInfoForStartTime(sessionEnd, Const.DEFAULT_TIME_ZONE));
     }
 
     @Test
     public void testGetInvalidityInfoForEndTime_invalid_returnErrorString() {
-        Instant sessionEndBeforeOneHour = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        Instant sessionEndNotAtHourMark = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
+        assertEquals("The end time for this feedback session must be at exact hour mark.",
+                FieldValidator.getInvalidityInfoForEndTime(sessionEndNotAtHourMark, Const.DEFAULT_TIME_ZONE));
+        Instant sessionEndBeforeOneHour = TimeHelperExtension
+                .getInstantHoursOffsetFromNow(-1)
+                .truncatedTo(ChronoUnit.HOURS);
         assertEquals("The end time for this feedback session cannot be earlier than 1 hour from now.",
-                FieldValidator.getInvalidityInfoForEndTime(sessionEndBeforeOneHour));
-        Instant sessionEndAfterOneHundredEightyDays = TimeHelperExtension.getInstantDaysOffsetFromNow(181);
+                FieldValidator.getInvalidityInfoForEndTime(sessionEndBeforeOneHour, Const.DEFAULT_TIME_ZONE));
+        Instant sessionEndAfterOneHundredEightyDays = TimeHelperExtension
+                .getInstantDaysOffsetFromNow(181)
+                .truncatedTo(ChronoUnit.HOURS);
         assertEquals("The end time for this feedback session cannot be later than 180 days from now.",
-                FieldValidator.getInvalidityInfoForEndTime(sessionEndAfterOneHundredEightyDays));
+                FieldValidator.getInvalidityInfoForEndTime(sessionEndAfterOneHundredEightyDays, Const.DEFAULT_TIME_ZONE));
     }
 
     @Test

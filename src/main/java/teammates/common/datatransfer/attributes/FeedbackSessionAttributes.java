@@ -219,9 +219,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         if (!errors.isEmpty()) {
             return errors;
         }
-        addNonEmptyError(FieldValidator.getInvalidityInfoForStartTime(startTime), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForStartTime(startTime, timeZone), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEndTime(endTime), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEndTime(endTime, timeZone), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
 

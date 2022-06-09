@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
@@ -664,10 +665,14 @@ public final class FieldValidator {
 
     /**
      * Checks if Session Start Time is after 1 hour and before 90 days.
-     * @return Error string if {@code sessionStart} is before 1 hour or after 90 days
-     *         Empty string if {@code sessionStart} is after 1 hour and before 90 days
+     * @return Error string if {@code sessionStart} is before 1 hour, after 90 days or not at exact hour mark
+     *         Empty string if {@code sessionStart} is after 1 hour, before 90 days and at exact hour mark
      */
-    public static String getInvalidityInfoForStartTime(Instant startTime) {
+    public static String getInvalidityInfoForStartTime(Instant startTime, String timeZone) {
+        boolean isExactHour = LocalDateTime.ofInstant(startTime, ZoneId.of(timeZone)).getMinute() == 0;
+        if (!isExactHour) {
+            return "The start time for this feedback session must be at exact hour mark.";
+        }
         Instant oneHourFromNow = TimeHelper.getInstantHoursOffsetFromNow(1);
         String beforeOneHourError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 oneHourFromNow, startTime, SESSION_NAME,
@@ -691,10 +696,14 @@ public final class FieldValidator {
 
     /**
      * Checks if Session End Time is after 1 hour and before 180 days.
-     * @return Error string if {@code sessionStart} is before 1 hour or after 180 days
-     *         Empty string if {@code sessionStart} is after 1 hour and before 180 days
+     * @return Error string if {@code sessionStart} is before 1 hour, after 180 days or not at exact hour mark
+     *         Empty string if {@code sessionStart} is after 1 hour, before 180 days and at exact hour mark
      */
-    public static String getInvalidityInfoForEndTime(Instant startTime) {
+    public static String getInvalidityInfoForEndTime(Instant startTime, String timeZone) {
+        boolean isExactHour = LocalDateTime.ofInstant(startTime, ZoneId.of(timeZone)).getMinute() == 0;
+        if (!isExactHour) {
+            return "The end time for this feedback session must be at exact hour mark.";
+        }
         Instant oneHourFromNow = TimeHelper.getInstantHoursOffsetFromNow(1);
         String beforeOneHourError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 oneHourFromNow, startTime, SESSION_NAME,
