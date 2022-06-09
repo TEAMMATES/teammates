@@ -171,24 +171,28 @@ export class SessionEditFormComponent {
   }
 
   /**
-   * Gets the minimum time for a session to be opened.
-   */
-  get minTimeForSessionOpen(): TimeFormat {
-    const now = moment();
-    now.add(1, 'hours');
-    return {
-      hour: now.hour(),
-      minute: 0,
-    };
-  }
-
-  /**
    * Gets the minimum date for a session to be opened.
    */
   get minDateForSessionOpen(): DateFormat {
     const today = moment();
-    today.add(1, 'hours');
+    today.subtract(3, 'hours');
     return this.getDateInstance(today);
+  }
+
+  /**
+   * Gets the minimum time for a session to be opened.
+   */
+  get minTimeForSessionOpen(): TimeFormat {
+    const now = moment();
+    now.subtract(3, 'hours');
+    // Round up to nearest hour to ensure minTime is later than 3 hours before now
+    if (now.minute() !== 0) {
+      now.add(1, 'hours');
+    }
+    return {
+      hour: now.hour(),
+      minute: 0,
+    };
   }
 
   /**
