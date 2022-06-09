@@ -24,6 +24,7 @@ import {
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
   Instructor,
+  Instructors,
   QuestionOutput,
   ResponseOutput, ResponseVisibleSetting,
   SessionResults, SessionVisibleSetting,
@@ -113,6 +114,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   hasNoResponseLoadingFailed: boolean = false;
 
   allStudentsInCourse: Student[] = [];
+  emailOfStudentToPreview: string = '';
+  allInstructorsInCourse: Instructor[] = [];
+  emailOfInstructorToPreview: string = '';
 
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
@@ -245,10 +249,46 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         courseId,
       }).subscribe((allStudents: Students) => {
         this.allStudentsInCourse = allStudents.students;
+
+        // sort the student list based on team name and student name
+        this.allStudentsInCourse.sort((a: Student, b: Student): number => {
+          const teamNameCompare: number = a.teamName.localeCompare(b.teamName);
+          if (teamNameCompare === 0) {
+            return a.name.localeCompare(b.name);
+          }
+          return teamNameCompare;
+        });
+
+        // select the first student
+        if (this.allStudentsInCourse.length >= 1) {
+          this.emailOfStudentToPreview = this.allStudentsInCourse[0].email;
+        }
+
         this.loadNoResponseStudents(courseId, feedbackSessionName);
       }, (resp: ErrorMessageOutput) => {
+        // TODO: when instructor doesn't have view students permission, this fails without loadNoResponse is called
+        // TODO: but feedback session results have already provided all student info (no permission checking)
+        console.log("Error when loading students");
         this.statusMessageService.showErrorToast(resp.error.message);
       });
+
+      // load all instructors in course
+      this.instructorService.loadInstructors({
+        courseId: this.courseId,
+        intent: Intent.FULL_DETAIL,
+      }).subscribe((instructors: Instructors) => {
+          this.allInstructorsInCourse = instructors.instructors;
+
+          // sort the instructor list based on name
+          this.allInstructorsInCourse.sort((a: Instructor, b: Instructor): number => {
+            return a.name.localeCompare(b.name);
+          });
+
+          // select the first instructor
+          if (this.allInstructorsInCourse.length >= 1) {
+            this.emailOfInstructorToPreview = this.allInstructorsInCourse[0].email;
+          }
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
 
       // load current instructor name
       this.instructorService.getInstructor({

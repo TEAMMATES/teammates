@@ -246,6 +246,7 @@ export class SessionResultPageComponent implements OnInit {
     })
     .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
     .subscribe((feedbackSession: FeedbackSession) => {
+      console.log('Loaded feedback session!!!!!!!!!!!!!!!!');
       const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
       this.session = feedbackSession;
       this.formattedSessionOpeningTime = this.timezoneService
@@ -266,9 +267,11 @@ export class SessionResultPageComponent implements OnInit {
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
           }, (resp: ErrorMessageOutput) => {
+            console.log('here failed 22222222222222222222222222222222');
             this.handleError(resp);
           });
     }, (resp: ErrorMessageOutput) => {
+      console.log('here failed');
       this.isFeedbackSessionResultsLoading = false;
       this.handleError(resp);
     });

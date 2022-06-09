@@ -115,6 +115,13 @@
   </div>
 </tm-loading-retry>
 
+<div *ngIf="!(hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed || isFeedbackSessionLoading)" class="card top-padded">
+  <tm-preview-session-result-panel [courseId]="courseId" [feedbackSessionName]="session.feedbackSessionName"
+                                   [studentsOfCourse]="allStudentsInCourse" [emailOfStudentToPreview]="emailOfStudentToPreview"
+                                   [instructorsOfCourse]="allInstructorsInCourse" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
+  ></tm-preview-session-result-panel>
+</div>
+
 <ng-template #downloadTooltip>
   Download session results<br/>
   Show Statistics ({{ showStatistics ? "&#x2713;" : "&#x2717;" }})<br/>

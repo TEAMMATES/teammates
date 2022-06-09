@@ -18,6 +18,7 @@ export class QuestionTextWithInfoComponent {
   };
   @Input() shouldShowDownloadQuestionResult: boolean = false;
 
+  // TODO: event never emits
   @Output() downloadQuestionResultEvent: EventEmitter<any> = new EventEmitter();
 
   // enum
