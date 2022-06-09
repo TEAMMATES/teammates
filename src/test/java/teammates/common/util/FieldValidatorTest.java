@@ -553,9 +553,9 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("The start time for this feedback session must be at exact hour mark.",
                 FieldValidator.getInvalidityInfoForStartTime(sessionStartNotAtHourMark, Const.DEFAULT_TIME_ZONE));
         Instant sessionStartBeforeOneHour = TimeHelperExtension
-                .getInstantHoursOffsetFromNow(-1)
+                .getInstantHoursOffsetFromNow(-4)
                 .truncatedTo(ChronoUnit.HOURS);
-        assertEquals("The start time for this feedback session cannot be earlier than 1 hour from now.",
+        assertEquals("The start time for this feedback session cannot be earlier than 3 hours before now.",
                 FieldValidator.getInvalidityInfoForStartTime(sessionStartBeforeOneHour, Const.DEFAULT_TIME_ZONE));
         Instant sessionStartAfterNinetyDays = TimeHelperExtension
                 .getInstantDaysOffsetFromNow(91)
@@ -578,9 +578,9 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("The end time for this feedback session must be at exact hour mark.",
                 FieldValidator.getInvalidityInfoForEndTime(sessionEndNotAtHourMark, Const.DEFAULT_TIME_ZONE));
         Instant sessionEndBeforeOneHour = TimeHelperExtension
-                .getInstantHoursOffsetFromNow(-1)
+                .getInstantHoursOffsetFromNow(-4)
                 .truncatedTo(ChronoUnit.HOURS);
-        assertEquals("The end time for this feedback session cannot be earlier than 1 hour from now.",
+        assertEquals("The end time for this feedback session cannot be earlier than 3 hours before now.",
                 FieldValidator.getInvalidityInfoForEndTime(sessionEndBeforeOneHour, Const.DEFAULT_TIME_ZONE));
         Instant sessionEndAfterOneHundredEightyDays = TimeHelperExtension
                 .getInstantDaysOffsetFromNow(181)
