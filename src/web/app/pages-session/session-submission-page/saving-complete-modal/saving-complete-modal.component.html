@@ -2,7 +2,7 @@
      [ngClass]="{'bg-danger': hasFailToSaveQuestions, 'bg-success': !hasFailToSaveQuestions}">
   <h5 class="modal-title">
     <span *ngIf="!hasFailToSaveQuestions && questions.length === 1">
-      <i class="fas fa-check-circle"></i> Responses to question {{ questions[0].questionNumber }} submitted successfully!
+      <i class="fas fa-check-circle"></i> Response to question {{ questions[0].questionNumber }} submitted successfully!
     </span>
     <span *ngIf="!hasFailToSaveQuestions && questions.length > 1">
       <i class="fas fa-check-circle"></i> Responses to all questions submitted successfully!
@@ -32,7 +32,7 @@
     Please try to submit your responses again.
   </p>
   <p *ngIf="!hasFailToSaveQuestions && questions.length === 1">
-    Your responses for <b> question {{ questions[0].questionNumber }} </b> have been successfully recorded!
+    Your response for <b> question {{ questions[0].questionNumber }} </b> have been successfully recorded!
   </p>
   <p *ngIf="!hasFailToSaveQuestions && questions.length > 1">
     All your responses have been successfully recorded!
