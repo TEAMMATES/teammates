@@ -690,6 +690,7 @@ describe('SessionResultPageComponent', () => {
       feedbackSessionName: 'Peer Feedback',
       intent: Intent.STUDENT_RESULT,
       key: 'reg-key',
+      previewAs: '',
     });
     expect(component.questions.map((question: QuestionOutput) => question.feedbackQuestion.questionNumber))
         .toEqual([1, 2, 3]);

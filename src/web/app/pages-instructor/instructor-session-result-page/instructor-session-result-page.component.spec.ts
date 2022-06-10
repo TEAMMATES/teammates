@@ -10,6 +10,9 @@ import { LoadingRetryModule } from '../../components/loading-retry/loading-retry
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import {
+  PreviewSessionResultPanelModule,
+} from '../../components/preview-session-result-panel/preview-session-result-panel.module';
+import {
   GqrRqgViewResponsesModule,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
 import {
@@ -67,6 +70,7 @@ describe('InstructorSessionResultPageComponent', () => {
         TeammatesRouterModule,
         ViewResultsPanelModule,
         SectionTypeDescriptionModule,
+        PreviewSessionResultPanelModule,
       ],
       providers: [
         CommentsToCommentTableModelPipe,

@@ -6,7 +6,7 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
 import { PreviewSessionResultPanelComponent } from './preview-session-result-panel.component';
 
 /**
- * X module.
+ * Module for panel used to select respondent and preview session results as the person.
  */
 @NgModule({
   imports: [

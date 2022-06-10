@@ -288,11 +288,9 @@ export class SessionResultPageComponent implements OnInit {
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
           }, (resp: ErrorMessageOutput) => {
-            console.log('here failed 22222222222222222222222222222222');
             this.handleError(resp);
           });
     }, (resp: ErrorMessageOutput) => {
-      console.log('here failed');
       this.isFeedbackSessionResultsLoading = false;
       this.handleError(resp);
     });

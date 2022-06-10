@@ -268,7 +268,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       }, (resp: ErrorMessageOutput) => {
         // TODO: when instructor doesn't have view students permission, this fails without loadNoResponse is called
         // TODO: but feedback session results have already provided all student info (no permission checking)
-        console.log("Error when loading students");
         this.statusMessageService.showErrorToast(resp.error.message);
       });
 
