@@ -1017,6 +1017,19 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Checks whether instructors can see the question.
+     */
+    boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        boolean isGiverVisibleToInstructor =
+                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isRecipientVisibleToInstructor =
+                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isResponseVisibleToInstructor =
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
+    }
+
+    /**
      * Set contains only unique response.
      */
     private static class UniqueResponsesSet {
@@ -1044,18 +1057,5 @@ public final class FeedbackResponsesLogic {
         private List<FeedbackResponseAttributes> getResponses() {
             return responses;
         }
-    }
-
-    /**
-     * Checks whether instructors can see the question.
-     */
-    boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
-        boolean isGiverVisibleToInstructor =
-                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean isRecipientVisibleToInstructor =
-                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean isResponseVisibleToInstructor =
-                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
-        return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 }
