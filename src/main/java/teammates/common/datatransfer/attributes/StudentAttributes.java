@@ -88,6 +88,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         studentAttributes.key = key;
         studentAttributes.createdAt = createdAt;
         studentAttributes.updatedAt = updatedAt;
+        studentAttributes.lastLogTimestamp = lastLogTimestamp;
 
         return studentAttributes;
     }
@@ -303,6 +304,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         updateOptions.googleIdOption.ifPresent(s -> googleId = s);
         updateOptions.teamNameOption.ifPresent(s -> team = s);
         updateOptions.sectionNameOption.ifPresent(s -> section = s);
+        updateOptions.lastLogTimestampOption.ifPresent(s -> lastLogTimestamp = s);
     }
 
     /**
@@ -347,6 +349,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         private UpdateOption<String> googleIdOption = UpdateOption.empty();
         private UpdateOption<String> teamNameOption = UpdateOption.empty();
         private UpdateOption<String> sectionNameOption = UpdateOption.empty();
+        private UpdateOption<Instant> lastLogTimestampOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String email) {
             assert courseId != null;
@@ -375,6 +378,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                     + ", googleId = " + googleIdOption
                     + ", teamName = " + teamNameOption
                     + ", sectionName = " + sectionNameOption
+                    + ", lastLogTimestamp = " + lastLogTimestampOption
                     + "]";
         }
 
@@ -450,6 +454,11 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             assert sectionName != null;
 
             updateOptions.sectionNameOption = UpdateOption.of(sectionName);
+            return thisBuilder;
+        }
+
+        public B withLastLogTimestamp(Instant lastLogTimestamp) {
+            updateOptions.lastLogTimestampOption = UpdateOption.of(lastLogTimestamp);
             return thisBuilder;
         }
 

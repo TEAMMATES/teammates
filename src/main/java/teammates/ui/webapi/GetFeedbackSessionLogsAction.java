@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
-
 import teammates.ui.output.FeedbackSessionLogsData;
 
 /**
@@ -77,6 +76,7 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         List<FeedbackSessionLogEntryAttributes> fsLogEntries =
                 logic.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
+
         Map<String, StudentAttributes> studentsMap = new HashMap<>();
         Map<String, FeedbackSessionAttributes> sessionsMap = new HashMap<>();
         List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);

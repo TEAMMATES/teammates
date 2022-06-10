@@ -16,7 +16,6 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonParseException;
 
-import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
@@ -27,6 +26,7 @@ import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
+import teammates.storage.entity.FeedbackSessionLogEntry;
 
 /**
  * Holds functions for operations related to logs reading/writing in local dev environment.
@@ -211,6 +211,16 @@ public class LocalLoggingService implements LogService {
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
+        if (courseId == null) {
+            ArrayList<FeedbackSessionLogEntry> logEntries = new ArrayList<>();
+
+            for (String key : FEEDBACK_SESSION_LOG_ENTRIES.keySet()) {
+                logEntries.addAll(FEEDBACK_SESSION_LOG_ENTRIES.get(key));
+            }
+
+            return logEntries;
+        }
+
         return FEEDBACK_SESSION_LOG_ENTRIES
                 .getOrDefault(courseId, new ArrayList<>())
                 .stream()

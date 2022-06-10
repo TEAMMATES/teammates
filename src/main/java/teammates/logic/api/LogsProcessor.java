@@ -3,7 +3,6 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.List;
 
-import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogEvent;
@@ -12,6 +11,7 @@ import teammates.common.util.Config;
 import teammates.logic.external.GoogleCloudLoggingService;
 import teammates.logic.external.LocalLoggingService;
 import teammates.logic.external.LogService;
+import teammates.storage.entity.FeedbackSessionLogEntry;
 
 /**
  * Handles operations related to logs reading/writing.

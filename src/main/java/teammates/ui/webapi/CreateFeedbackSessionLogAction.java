@@ -5,6 +5,9 @@ import java.time.Instant;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 
@@ -39,12 +42,22 @@ class CreateFeedbackSessionLogAction extends Action {
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        long timeDiff = Math.abs(student.getLastLogTimestamp().toEpochMilli() -
-                Instant.now().toEpochMilli());
+        Instant now = Instant.now();
+        long timeDiff = Math.abs(student.getLastLogTimestamp().toEpochMilli() - now.toEpochMilli());
 
         // Minimum time difference of 2s between logs to prevent spams
         if (timeDiff < 2 * 1000) {
-            return new JsonResult("Time difference between logs exceeded the 2s limit");
+            return new JsonResult("Session log not created. Time difference between logs exceeded the 2s limit");
+        }
+
+        student.setLastLogTimestamp(now);
+        try {
+            logic.updateStudentCascade(
+                    StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
+                            .withLastLogTimestamp(now).build()
+            );
+        } catch (EntityAlreadyExistsException | EntityDoesNotExistException | InvalidParametersException e) {
+            return new JsonResult("Failed to update student's last log timestamp");
         }
 
         // Skip rigorous validations to avoid incurring extra db reads and to keep the endpoint light

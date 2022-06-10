@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
@@ -15,14 +15,15 @@ public class FeedbackSessionLogData {
     private final FeedbackSessionData feedbackSessionData;
     private final List<FeedbackSessionLogEntryData> feedbackSessionLogEntries;
 
-    public FeedbackSessionLogData(FeedbackSessionAttributes feedbackSession, List<FeedbackSessionLogEntryAttributes> logEntries,
-            Map<String, StudentAttributes> studentsMap) {
+    public FeedbackSessionLogData(FeedbackSessionAttributes feedbackSession,
+                                  List<FeedbackSessionLogEntryAttributes> logEntries,
+                                  Map<String, StudentAttributes> studentsMap) {
         FeedbackSessionData fsData = new FeedbackSessionData(feedbackSession);
-        List<FeedbackSessionLogEntryData> fsLogEntryDatas = logEntries.stream()
+        List<FeedbackSessionLogEntryData> fsLogEntryData = logEntries.stream()
                 .map(log -> new FeedbackSessionLogEntryData(log, studentsMap.get(log.getStudentEmail())))
                 .collect(Collectors.toList());
         this.feedbackSessionData = fsData;
-        this.feedbackSessionLogEntries = fsLogEntryDatas;
+        this.feedbackSessionLogEntries = fsLogEntryData;
     }
 
     public FeedbackSessionData getFeedbackSessionData() {

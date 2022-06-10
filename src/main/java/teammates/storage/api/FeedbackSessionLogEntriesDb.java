@@ -1,16 +1,22 @@
 package teammates.storage.api;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.util.List;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
-
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackSessionLogEntry;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
-
+/**
+ * Handles CRUD operations for feedback session logs.
+ *
+ * @see FeedbackSessionLogEntry
+ * @see FeedbackSessionLogEntryAttributes
+ */
 public class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessionLogEntry, FeedbackSessionLogEntryAttributes> {
 
     private static final FeedbackSessionLogEntriesDb instance = new FeedbackSessionLogEntriesDb();
@@ -23,6 +29,9 @@ public class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessionLogEn
         return instance;
     }
 
+    /**
+     * Gets the feedback session logs as filtered by the given parameters.
+     */
     public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
                                                                           long startTime, long endTime, String fsName) {
         List<FeedbackSessionLogEntry> entries = load()
@@ -36,6 +45,18 @@ public class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessionLogEn
         return makeAttributes(entries);
     }
 
+    /**
+     * Gets all feedback session logs.
+     */
+    public List<FeedbackSessionLogEntryAttributes> getAllFeedbackSessionLogs() {
+        List<FeedbackSessionLogEntry> entries = load().list();
+
+        return makeAttributes(entries);
+    }
+
+    /**
+     * Gets latest timestamp for feedback session logs.
+     */
     public long getLatestLogTimestamp() {
         List<FeedbackSessionLogEntry> entries =
                 load().order("-timestamp").limit(1).list();
@@ -47,6 +68,9 @@ public class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessionLogEn
         }
     }
 
+    /**
+     * Creates feedback session logs.
+     */
     public List<FeedbackSessionLogEntryAttributes> createFeedbackSessionLogs(
             List<FeedbackSessionLogEntryAttributes> entries) throws InvalidParametersException {
         assert entries != null;

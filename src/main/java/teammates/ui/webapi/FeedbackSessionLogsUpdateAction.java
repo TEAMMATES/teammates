@@ -5,10 +5,22 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.exception.InvalidParametersException;
-
 import teammates.storage.entity.FeedbackSessionLogEntry;
 
-public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
+/**
+ * Action: Sync feedback session logs from GCloud logging service.
+ */
+public class FeedbackSessionLogsUpdateAction extends Action {
+
+    @Override
+    AuthType getMinAuthLevel() {
+        return AuthType.ALL_ACCESS;
+    }
+
+    @Override
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+
+    }
 
     @Override
     public ActionResult execute() {

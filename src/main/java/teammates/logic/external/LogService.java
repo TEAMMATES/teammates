@@ -2,9 +2,9 @@ package teammates.logic.external;
 
 import java.util.List;
 
-import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.QueryLogsParams;
+import teammates.storage.entity.FeedbackSessionLogEntry;
 
 /**
  * An interface used for logs operations such as reading/writing.

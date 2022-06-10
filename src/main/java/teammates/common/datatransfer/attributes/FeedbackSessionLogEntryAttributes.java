@@ -10,6 +10,9 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackSessionLogEntry;
 
+/**
+ * The data transfer object for {@link FeedbackSessionLogEntry} entities.
+ */
 public class FeedbackSessionLogEntryAttributes extends EntityAttributes<FeedbackSessionLogEntry> {
 
     private final String feedbackSessionLogEntryId;
@@ -30,6 +33,9 @@ public class FeedbackSessionLogEntryAttributes extends EntityAttributes<Feedback
         this.courseId = fslEntry.getCourseId();
     }
 
+    /**
+     * Gets the {@link FeedbackSessionLogEntryAttributes} instance of the given {@link FeedbackSessionLogEntry}.
+     */
     public static FeedbackSessionLogEntryAttributes valueOf(FeedbackSessionLogEntry fslEntry) {
         return new FeedbackSessionLogEntryAttributes(fslEntry);
     }

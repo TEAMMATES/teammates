@@ -1,16 +1,23 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.ui.output.FeedbackSessionLogData;
 import teammates.ui.output.FeedbackSessionLogEntryData;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -46,18 +53,31 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         String student2Email = student2.getEmail();
         long endTime = Instant.now().toEpochMilli();
         long startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
-        long invalidStartTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() + 1) * 24 * 60 * 60 * 1000;
+        List<FeedbackSessionLogEntryAttributes> fsa1LogEntries = List.of(
+                new FeedbackSessionLogEntry(student1Email, courseId, fsa1Name,
+                        FeedbackSessionLogType.ACCESS.getLabel(), startTime),
+                new FeedbackSessionLogEntry(student2Email, courseId, fsa1Name,
+                        FeedbackSessionLogType.ACCESS.getLabel(), startTime + 3000),
+                new FeedbackSessionLogEntry(student2Email, courseId, fsa1Name,
+                        FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000)
+        ).stream().map(FeedbackSessionLogEntryAttributes::valueOf).collect(Collectors.toList());
+        List<FeedbackSessionLogEntryAttributes> fsa2LogEntries = List.of(
+                new FeedbackSessionLogEntry(student1Email, courseId, fsa2Name,
+                        FeedbackSessionLogType.ACCESS.getLabel(), startTime + 1000),
+                new FeedbackSessionLogEntry(student1Email, courseId, fsa2Name,
+                        FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000)
+        ).stream().map(FeedbackSessionLogEntryAttributes::valueOf).collect(Collectors.toList());
 
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa1Name,
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime);
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa2Name,
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime + 1000);
-        mockLogsProcessor.insertFeedbackSessionLog(student1Email, fsa2Name,
-                FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000);
-        mockLogsProcessor.insertFeedbackSessionLog(student2Email, fsa1Name,
-                FeedbackSessionLogType.ACCESS.getLabel(), startTime + 3000);
-        mockLogsProcessor.insertFeedbackSessionLog(student2Email, fsa1Name,
-                FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000);
+        try {
+            List<FeedbackSessionLogEntryAttributes> entries = new ArrayList<>();
+
+            entries.addAll(fsa1LogEntries);
+            entries.addAll(fsa2LogEntries);
+
+            logic.createFeedbackSessionLogs(entries);
+        } catch (InvalidParametersException e) {
+            e.printStackTrace();
+        }
 
         ______TS("Failure case: not enough parameters");
         verifyHttpParameterFailure(
@@ -105,25 +125,25 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         };
         verifyHttpParameterFailure(paramsInvalid4);
 
-        ______TS("Failure case: start time is before earliest search time");
-        verifyHttpParameterFailure(
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(invalidStartTime),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime)
-        );
-
         ______TS("Success case: should group by feedback session");
         String[] paramsSuccessful1 = {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsSuccessful1));
+
+        GetFeedbackSessionLogsAction action = getAction(paramsSuccessful1);
+
+        action.setLogic(logic);
+        actionOutput = getJsonResult(action);
 
         // The filtering by the logs processor cannot be tested directly, assume that it filters correctly
         // Here, it simply returns all log entries
         FeedbackSessionLogsData fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         List<FeedbackSessionLogData> fsLogs = fslData.getFeedbackSessionLogs();
+
+        fsLogs.sort((fsLog1, fsLog2) -> fsLog2.getFeedbackSessionLogEntries().size() -
+                fsLog1.getFeedbackSessionLogEntries().size());
 
         // Course has 6 feedback sessions, last 4 of which have no log entries
         assertEquals(fsLogs.size(), 6);
@@ -135,19 +155,13 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         List<FeedbackSessionLogEntryData> fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
         List<FeedbackSessionLogEntryData> fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
 
+        fsLogEntries2.sort(Comparator.comparing(entry -> entry.getStudentData().getEmail()));
+
         assertEquals(fsLogEntries1.size(), 3);
-        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1Email);
-        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2Email);
-        assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2Email);
-        assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
+        validateFeedbackSessionLogOutput(fsLogEntries1, fsa1LogEntries);
 
         assertEquals(fsLogEntries2.size(), 2);
-        assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1Email);
-        assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1Email);
-        assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
+        validateFeedbackSessionLogOutput(fsLogEntries2, fsa2LogEntries);
 
         ______TS("Success case: should accept optional email");
         String[] paramsSuccessful2 = {
@@ -187,6 +201,21 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
         loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(submissionParams);
+    }
+
+    private void validateFeedbackSessionLogOutput(
+            List<FeedbackSessionLogEntryData> outputEntries,
+            List<FeedbackSessionLogEntryAttributes> inputEntries
+    ) {
+        for (FeedbackSessionLogEntryData entryData : outputEntries) {
+            assertTrue(
+                    inputEntries.stream().anyMatch(
+                            entry -> entry.getFeedbackSessionLogType().equals(entryData.getFeedbackSessionLogType().getLabel()) &&
+                                    entry.getStudentEmail().equals(entryData.getStudentData().getEmail()) &&
+                                    entry.getTimestamp() == entryData.getTimestamp()
+                    )
+            );
+        }
     }
 
 }

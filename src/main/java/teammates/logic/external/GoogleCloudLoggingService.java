@@ -16,7 +16,6 @@ import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
 
-import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
@@ -27,6 +26,7 @@ import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
+import teammates.storage.entity.FeedbackSessionLogEntry;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
