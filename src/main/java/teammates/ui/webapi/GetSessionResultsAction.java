@@ -6,13 +6,14 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
 /**
  * Gets feedback session results including statistics where necessary.
  */
-class GetSessionResultsAction extends Action {
+class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -26,6 +27,7 @@ class GetSessionResultsAction extends Action {
 
         FeedbackSessionAttributes fs = getNonNullFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
         switch (intent) {
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
@@ -33,16 +35,16 @@ class GetSessionResultsAction extends Action {
             gateKeeper.verifyAccessible(instructor, fs);
             break;
         case INSTRUCTOR_RESULT:
-            instructor = getPossiblyUnregisteredInstructor(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
             gateKeeper.verifyAccessible(instructor, fs);
-            if (!fs.isPublished()) {
+            if (StringHelper.isEmpty(previewAsPerson) && !fs.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
             break;
         case STUDENT_RESULT:
-            StudentAttributes student = getPossiblyUnregisteredStudent(courseId);
+            StudentAttributes student = getStudentOfCourseFromRequest(courseId);
             gateKeeper.verifyAccessible(student, fs);
-            if (!fs.isPublished()) {
+            if (StringHelper.isEmpty(previewAsPerson) && !fs.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
             break;
@@ -79,7 +81,7 @@ class GetSessionResultsAction extends Action {
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here
-            instructor = getPossiblyUnregisteredInstructor(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
                     true, questionId);
@@ -92,7 +94,7 @@ class GetSessionResultsAction extends Action {
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case STUDENT_RESULT:
             // Section name filter is not applicable here
-            student = getPossiblyUnregisteredStudent(courseId);
+            student = getStudentOfCourseFromRequest(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
                     false, questionId);

@@ -7,11 +7,11 @@
       <select id="preview-student" class="form-control preview-select" [(ngModel)]="emailOfStudentToPreview">
         <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
       </select>
-      <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" tmRouterLink="/web/sessions/submission"
+      <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" tmRouterLink="/web/sessions/result"
          [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfStudentToPreview }"
          target="_blank"
          rel="noopener noreferrer"
-         [ngbTooltip]="emailOfStudentToPreview.length !== 0 ? 'View how this session would look like to a student who is submitting feedback.' : 'Preview is unavailable if the course has yet to have any student enrolled.'">
+         [ngbTooltip]="emailOfStudentToPreview.length !== 0 ? 'View how the session results would look like to a student.' : 'Preview is unavailable if the course has yet to have any student enrolled.'">
         <ng-container *ngTemplateOutlet="previewStudentBtn"></ng-container>
       </a>
       <ng-template #previewStudentBtn>
@@ -22,11 +22,11 @@
       <select id="preview-instructor" class="form-control preview-select" [(ngModel)]="emailOfInstructorToPreview">
         <option *ngFor="let instructor of instructorsOfCourse" [ngValue]="instructor.email">{{ instructor.name }}</option>
       </select>
-      <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" tmRouterLink="/web/instructor/sessions/submission"
+      <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" tmRouterLink="/web/instructor/sessions/result"
          [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfInstructorToPreview }"
          target="_blank"
          rel="noopener noreferrer"
-         ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">
+         ngbTooltip="View how the session results would look like to an instructor.">
         <ng-container *ngTemplateOutlet="previewInstructorBtn"></ng-container>
       </a>
       <ng-template #previewInstructorBtn>
