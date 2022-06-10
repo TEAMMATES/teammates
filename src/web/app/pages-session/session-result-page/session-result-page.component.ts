@@ -77,6 +77,7 @@ export class SessionResultPageComponent implements OnInit {
   intent: Intent = Intent.STUDENT_RESULT;
 
   previewAsPerson: string = '';
+  isPreviewHintExpanded: boolean = false;
 
   isCourseLoading: boolean = true;
   isFeedbackSessionDetailsLoading: boolean = true;
@@ -123,7 +124,12 @@ export class SessionResultPageComponent implements OnInit {
         if (auth.user) {
           this.loggedInUser = auth.user.id;
         }
-        if (this.regKey && !isPreview) {
+        // prevent having both key and previewas parameters in URL
+        if (this.regKey && isPreview) {
+          this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+            'You are not authorized to view this page.');
+        }
+        if (this.regKey) {
           this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
             if (resp.isAllowedAccess) {
               if (resp.isUsed) {

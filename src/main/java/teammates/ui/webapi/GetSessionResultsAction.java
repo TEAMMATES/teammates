@@ -67,6 +67,9 @@ class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.parseFetchType(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER));
 
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        boolean isForInstructorToPreview = !StringHelper.isEmpty(previewAsPerson);
+
         SessionResultsBundle bundle;
         InstructorAttributes instructor;
         StudentAttributes student;
@@ -84,7 +87,7 @@ class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             instructor = getInstructorOfCourseFromRequest(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
-                    true, questionId);
+                    true, questionId, isForInstructorToPreview);
 
             // Build a fake student object, as the results will be displayed as if they are displayed to a student
             student = StudentAttributes.builder(instructor.getCourseId(), instructor.getEmail())
@@ -97,7 +100,7 @@ class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             student = getStudentOfCourseFromRequest(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
-                    false, questionId);
+                    false, questionId, isForInstructorToPreview);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case INSTRUCTOR_SUBMISSION:

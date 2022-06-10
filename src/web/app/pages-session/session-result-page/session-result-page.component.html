@@ -1,15 +1,26 @@
+<div class="bg-light" *ngIf="previewAsPerson">
+  <div class="col-12 text-center text-break">
+    <h5>You are previewing session results as
+      <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
+      <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
+      {{ personName }} ({{ previewAsPerson }})
+      <button type="button" class="btn btn-link no-shadow" *ngIf="!isPreviewHintExpanded" (click)="isPreviewHintExpanded = true">[More]</button>
+      <button type="button" class="btn btn-link no-shadow" *ngIf="isPreviewHintExpanded" (click)="isPreviewHintExpanded = false">[Less]</button>
+    </h5>
+    <div *ngIf="isPreviewHintExpanded" class="text-left">
+      <p>
+        The page below resembles the session results page as seen by the respondent {{ personName }} ({{ previewAsPerson }}).
+        You can use it to check what the respondent has access to when the session results are published.
+      </p>
+      <p>
+        Note that due to visibility settings, questions that are not supposed to show responses to instructors (i.e you) are not shown in the page below.
+      </p>
+    </div>
+  </div>
+</div>
 <h1>
   Feedback Session Results
 </h1>
-<div class="bg-light" *ngIf="previewAsPerson">
-  <div class="col-12 text-center text-break">
-    <h4>Previewing Session Result as
-      <span *ngIf="intent === Intent.STUDENT_RESULT">student</span>
-      <span *ngIf="intent === Intent.INSTRUCTOR_RESULT">instructor</span>
-      {{ personName }} ({{ previewAsPerson }})
-    </h4>
-  </div>
-</div>
 <div class="row" *ngIf="regKey">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">

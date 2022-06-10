@@ -1080,7 +1080,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // Alice will see 3 responses
         SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
-                false, question.getId());
+                false, question.getId(), false);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
@@ -1089,7 +1089,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // Benny will see 3 responses
         bundle = frLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.benny.c@gmail.tmt",
-                false, question.getId());
+                false, question.getId(), false);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(3, responseForQuestion.size());
@@ -1097,7 +1097,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // Charlie will see 2 responses
         bundle = frLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.charlie.d@gmail.tmt",
-                false, question.getId());
+                false, question.getId(), false);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(2, responseForQuestion.size());
@@ -1105,7 +1105,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // Danny will see 2 responses
         bundle = frLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.danny.e@gmail.tmt",
-                false, question.getId());
+                false, question.getId(), false);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(2, responseForQuestion.size());
@@ -1113,7 +1113,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // Emily will see 1 response
         bundle = frLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.emily.f@gmail.tmt",
-                false, question.getId());
+                false, question.getId(), false);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(1, responseForQuestion.size());
@@ -1130,7 +1130,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         StudentAttributes student = responseBundle.students.get("student1InCourse1");
         SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), student.getEmail(),
-                false, null);
+                false, null, false);
 
         // Student can see responses: q1r1, q2r1,3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r1-2
         // We don't check the actual IDs as this is also implicitly tested
@@ -1198,7 +1198,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
         SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                true, null);
+                true, null, false);
 
         // Instructor can see responses: q3r1, q6r1
         // We don't check the actual IDs as this is also implicitly tested
@@ -1464,7 +1464,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), student.getEmail(),
-                false, fq.getId());
+                false, fq.getId(), false);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();

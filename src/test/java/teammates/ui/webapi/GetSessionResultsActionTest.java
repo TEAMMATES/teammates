@@ -111,7 +111,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         studentAttributes.getEmail(),
-                        false, null),
+                        false, null, false),
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));

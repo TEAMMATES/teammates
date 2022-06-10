@@ -488,17 +488,22 @@ public final class FeedbackResponsesLogic {
      * @param userEmail the user viewing the feedback session
      * @param isInstructor true if the user is an instructor
      * @param questionId if not null, will only return partial bundle for the question
+     * @param isForInstructorToPreview true if getting session results for previewing purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
-            @Nullable String questionId) {
+            @Nullable String questionId, boolean isForInstructorToPreview) {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
         List<FeedbackQuestionAttributes> allQuestions = getQuestionsForSession(feedbackSessionName, courseId, questionId);
+        if (isForInstructorToPreview) {
+            // remove questions not visible to instructors if results are being previewed
+            allQuestions.removeIf(question -> !canInstructorSeeQuestion(question));
+        }
         RequestTracer.checkRemainingTime();
 
         // load response(s)
@@ -1039,5 +1044,18 @@ public final class FeedbackResponsesLogic {
         private List<FeedbackResponseAttributes> getResponses() {
             return responses;
         }
+    }
+
+    /**
+     * Checks whether instructors can see the question.
+     */
+    boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        boolean isGiverVisibleToInstructor =
+                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isRecipientVisibleToInstructor =
+                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isResponseVisibleToInstructor =
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 }
