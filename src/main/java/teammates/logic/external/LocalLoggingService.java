@@ -17,6 +17,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonParseException;
 
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
@@ -26,7 +27,6 @@ import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
-import teammates.storage.entity.FeedbackSessionLogEntry;
 
 /**
  * Holds functions for operations related to logs reading/writing in local dev environment.
@@ -37,7 +37,8 @@ import teammates.storage.entity.FeedbackSessionLogEntry;
  */
 public class LocalLoggingService implements LogService {
 
-    private static final Map<String, List<FeedbackSessionLogEntry>> FEEDBACK_SESSION_LOG_ENTRIES = new ConcurrentHashMap<>();
+    private static final Map<String, List<FeedbackSessionLogEntryAttributes>> FEEDBACK_SESSION_LOG_ENTRIES =
+            new ConcurrentHashMap<>();
     private static final List<GeneralLogEntry> LOCAL_LOG_ENTRIES = loadLocalLogEntries();
     private static final String ASCENDING_ORDER = "asc";
 
@@ -203,19 +204,20 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
-        FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(email, courseId, fsName,
+        FeedbackSessionLogEntryAttributes logEntry = new FeedbackSessionLogEntryAttributes(email, courseId, fsName,
                 fslType, Instant.now().toEpochMilli());
         FEEDBACK_SESSION_LOG_ENTRIES.computeIfAbsent(courseId, k -> new ArrayList<>()).add(logEntry);
     }
 
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) {
+    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
+                                                                          long startTime, long endTime, String fsName) {
         if (courseId == null) {
-            ArrayList<FeedbackSessionLogEntry> logEntries = new ArrayList<>();
+            ArrayList<FeedbackSessionLogEntryAttributes> logEntries = new ArrayList<>();
 
-            for (String key : FEEDBACK_SESSION_LOG_ENTRIES.keySet()) {
-                logEntries.addAll(FEEDBACK_SESSION_LOG_ENTRIES.get(key));
+            for (Map.Entry<String, List<FeedbackSessionLogEntryAttributes>> entry
+                    : FEEDBACK_SESSION_LOG_ENTRIES.entrySet()) {
+                logEntries.addAll(entry.getValue());
             }
 
             return logEntries;

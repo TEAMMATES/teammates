@@ -31,7 +31,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         FeedbackSessionAttributes fsa2 = typicalBundle.feedbackSessions.get("session2InCourse1");
         StudentAttributes student1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student2 = typicalBundle.students.get("student2InCourse1");
-        StudentAttributes student3 = typicalBundle.students.get("student1InCourse3");
 
         ______TS("Failure case: not enough parameters");
         verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, courseId1);
@@ -72,15 +71,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         };
         getJsonResult(getAction(paramsSuccessfulSubmission));
 
-        ______TS("Success case: should create even for invalid parameters");
-        String[] paramsNonExistentCourseId = {
-                Const.ParamsNames.COURSE_ID, "non-existent-course-id",
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
-        };
-        getJsonResult(getAction(paramsNonExistentCourseId));
-
+        ______TS("Success case: should create even for invalid feedback session name");
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session-name",
@@ -88,23 +79,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
         getJsonResult(getAction(paramsNonExistentFsName));
-
-        String[] paramsNonExistentStudentEmail = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
-                Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
-        };
-        getJsonResult(getAction(paramsNonExistentStudentEmail));
-
-        ______TS("Success case: should create even when student cannot access feedback session in course");
-        String[] paramsWithoutAccess = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
-                Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
-        };
-        getJsonResult(getAction(paramsWithoutAccess));
     }
 
     @Test

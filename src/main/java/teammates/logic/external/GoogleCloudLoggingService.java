@@ -17,6 +17,7 @@ import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
 
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
@@ -26,7 +27,6 @@ import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
-import teammates.storage.entity.FeedbackSessionLogEntry;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
@@ -115,8 +115,8 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) {
+    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
+                                                                          long startTime, long endTime, String fsName) {
         List<String> filters = new ArrayList<>();
         if (courseId != null) {
             filters.add("jsonPayload.courseId=\"" + courseId + "\"");
@@ -137,7 +137,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .setResourceType(RESOURCE_TYPE_GAE_APP);
         List<LogEntry> logEntries = getAllLogEntries(logSearchParams);
 
-        List<FeedbackSessionLogEntry> fsLogEntries = new ArrayList<>();
+        List<FeedbackSessionLogEntryAttributes> fsLogEntries = new ArrayList<>();
         for (LogEntry entry : logEntries) {
             long timestamp = entry.getInstantTimestamp().toEpochMilli();
             Payload<?> payload = entry.getPayload();
@@ -153,7 +153,7 @@ public class GoogleCloudLoggingService implements LogService {
                 continue;
             }
 
-            FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(details.getStudentEmail(),
+            FeedbackSessionLogEntryAttributes fslEntry = new FeedbackSessionLogEntryAttributes(details.getStudentEmail(),
                     courseId, details.getFeedbackSessionName(), details.getAccessType(), timestamp);
             fsLogEntries.add(fslEntry);
         }

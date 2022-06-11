@@ -38,7 +38,6 @@ class CreateFeedbackSessionLogAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String fsName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
@@ -51,6 +50,7 @@ class CreateFeedbackSessionLogAction extends Action {
         }
 
         student.setLastLogTimestamp(now);
+
         try {
             logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
@@ -60,6 +60,7 @@ class CreateFeedbackSessionLogAction extends Action {
             return new JsonResult("Failed to update student's last log timestamp");
         }
 
+        String fsName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         // Skip rigorous validations to avoid incurring extra db reads and to keep the endpoint light
 
         // Necessary to assist local testing. For production usage, this will be a no-op.

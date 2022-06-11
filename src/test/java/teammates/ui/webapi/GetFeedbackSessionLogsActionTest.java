@@ -2,10 +2,8 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
@@ -17,7 +15,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.ui.output.FeedbackSessionLogData;
 import teammates.ui.output.FeedbackSessionLogEntryData;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -54,19 +51,17 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         long endTime = Instant.now().toEpochMilli();
         long startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
         List<FeedbackSessionLogEntryAttributes> fsa1LogEntries = List.of(
-                new FeedbackSessionLogEntry(student1Email, courseId, fsa1Name,
+                new FeedbackSessionLogEntryAttributes(student1Email, courseId, fsa1Name,
                         FeedbackSessionLogType.ACCESS.getLabel(), startTime),
-                new FeedbackSessionLogEntry(student2Email, courseId, fsa1Name,
+                new FeedbackSessionLogEntryAttributes(student2Email, courseId, fsa1Name,
                         FeedbackSessionLogType.ACCESS.getLabel(), startTime + 3000),
-                new FeedbackSessionLogEntry(student2Email, courseId, fsa1Name,
-                        FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000)
-        ).stream().map(FeedbackSessionLogEntryAttributes::valueOf).collect(Collectors.toList());
+                new FeedbackSessionLogEntryAttributes(student2Email, courseId, fsa1Name,
+                        FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000));
         List<FeedbackSessionLogEntryAttributes> fsa2LogEntries = List.of(
-                new FeedbackSessionLogEntry(student1Email, courseId, fsa2Name,
+                new FeedbackSessionLogEntryAttributes(student1Email, courseId, fsa2Name,
                         FeedbackSessionLogType.ACCESS.getLabel(), startTime + 1000),
-                new FeedbackSessionLogEntry(student1Email, courseId, fsa2Name,
-                        FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000)
-        ).stream().map(FeedbackSessionLogEntryAttributes::valueOf).collect(Collectors.toList());
+                new FeedbackSessionLogEntryAttributes(student1Email, courseId, fsa2Name,
+                        FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000));
 
         try {
             List<FeedbackSessionLogEntryAttributes> entries = new ArrayList<>();
@@ -142,8 +137,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         FeedbackSessionLogsData fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         List<FeedbackSessionLogData> fsLogs = fslData.getFeedbackSessionLogs();
 
-        fsLogs.sort((fsLog1, fsLog2) -> fsLog2.getFeedbackSessionLogEntries().size() -
-                fsLog1.getFeedbackSessionLogEntries().size());
+        fsLogs.sort((fsLog1, fsLog2) -> fsLog2.getFeedbackSessionLogEntries().size()
+                - fsLog1.getFeedbackSessionLogEntries().size());
 
         // Course has 6 feedback sessions, last 4 of which have no log entries
         assertEquals(fsLogs.size(), 6);
@@ -208,11 +203,13 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
             List<FeedbackSessionLogEntryAttributes> inputEntries
     ) {
         for (FeedbackSessionLogEntryData entryData : outputEntries) {
+            String logType = entryData.getFeedbackSessionLogType().getLabel();
+
             assertTrue(
                     inputEntries.stream().anyMatch(
-                            entry -> entry.getFeedbackSessionLogType().equals(entryData.getFeedbackSessionLogType().getLabel()) &&
-                                    entry.getStudentEmail().equals(entryData.getStudentData().getEmail()) &&
-                                    entry.getTimestamp() == entryData.getTimestamp()
+                            entry -> entry.getFeedbackSessionLogType().equals(logType)
+                                    && entry.getStudentEmail().equals(entryData.getStudentData().getEmail())
+                                    && entry.getTimestamp() == entryData.getTimestamp()
                     )
             );
         }

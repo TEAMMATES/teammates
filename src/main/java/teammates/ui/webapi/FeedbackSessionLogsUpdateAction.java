@@ -1,42 +1,29 @@
 package teammates.ui.webapi;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.entity.FeedbackSessionLogEntry;
+import teammates.common.util.Logger;
 
 /**
  * Action: Sync feedback session logs from GCloud logging service.
  */
-public class FeedbackSessionLogsUpdateAction extends Action {
+public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.ALL_ACCESS;
-    }
-
-    @Override
-    void checkSpecificAccessControl() throws UnauthorizedAccessException {
-
-    }
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public ActionResult execute() {
         long latestLogTimestamp = logic.getLatestLogTimestamp();
 
-        List<FeedbackSessionLogEntry> logEntries =
+        List<FeedbackSessionLogEntryAttributes> logEntries =
                 logsProcessor.getFeedbackSessionLogs(null, null, latestLogTimestamp, Long.MAX_VALUE, null);
 
         try {
-            List<FeedbackSessionLogEntryAttributes> createdEntries =
-                    logic.createFeedbackSessionLogs(logEntries.stream()
-                            .map(FeedbackSessionLogEntryAttributes::valueOf)
-                            .collect(Collectors.toList()));
-            System.out.println(createdEntries);
+            logic.createFeedbackSessionLogs(logEntries);
         } catch (InvalidParametersException e) {
-            e.printStackTrace();
+            log.severe("Unexpected error", e);
         }
 
         return new JsonResult("Successful");

@@ -17,7 +17,8 @@ import teammates.storage.entity.FeedbackSessionLogEntry;
  * @see FeedbackSessionLogEntry
  * @see FeedbackSessionLogEntryAttributes
  */
-public class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessionLogEntry, FeedbackSessionLogEntryAttributes> {
+public final class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessionLogEntry,
+        FeedbackSessionLogEntryAttributes> {
 
     private static final FeedbackSessionLogEntriesDb instance = new FeedbackSessionLogEntriesDb();
 
@@ -61,11 +62,11 @@ public class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessionLogEn
         List<FeedbackSessionLogEntry> entries =
                 load().order("-timestamp").limit(1).list();
 
-        if (entries.size() > 0) {
-            return entries.get(0).getTimestamp();
-        } else {
+        if (entries.isEmpty()) {
             return 0;
         }
+
+        return entries.get(0).getTimestamp();
     }
 
     /**

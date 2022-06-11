@@ -175,7 +175,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         this.comments = comments;
     }
 
+    /**
+     * Get the last log timestamp for this student.
+     */
     public Instant getLastLogTimestamp() {
+        if (lastLogTimestamp == null) {
+            return Instant.ofEpochMilli(0);
+        }
+
         return lastLogTimestamp;
     }
 

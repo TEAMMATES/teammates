@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -13,7 +14,7 @@ import teammates.storage.entity.FeedbackSessionLogEntry;
 /**
  * The data transfer object for {@link FeedbackSessionLogEntry} entities.
  */
-public class FeedbackSessionLogEntryAttributes extends EntityAttributes<FeedbackSessionLogEntry> {
+public final class FeedbackSessionLogEntryAttributes extends EntityAttributes<FeedbackSessionLogEntry> {
 
     private final String feedbackSessionLogEntryId;
     private String studentEmail;
@@ -31,6 +32,17 @@ public class FeedbackSessionLogEntryAttributes extends EntityAttributes<Feedback
         this.timestamp = fslEntry.getTimestamp();
         this.createdAt = fslEntry.getCreatedAt();
         this.courseId = fslEntry.getCourseId();
+    }
+
+    public FeedbackSessionLogEntryAttributes(String studentEmail, String courseId, String feedbackSessionName,
+                                             String fslType, long timestamp) {
+        this.feedbackSessionLogEntryId = UUID.randomUUID().toString();
+        this.studentEmail = studentEmail;
+        this.feedbackSessionName = feedbackSessionName;
+        this.feedbackSessionLogType = fslType;
+        this.timestamp = timestamp;
+        this.createdAt = Instant.now();
+        this.courseId = courseId;
     }
 
     /**
@@ -113,4 +125,5 @@ public class FeedbackSessionLogEntryAttributes extends EntityAttributes<Feedback
     public String toString() {
         return JsonUtils.toJson(this, FeedbackSessionLogEntryAttributes.class);
     }
+
 }

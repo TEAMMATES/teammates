@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import teammates.storage.entity.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
@@ -17,7 +17,7 @@ import teammates.common.datatransfer.logs.SourceLocation;
  */
 public class MockLogsProcessor extends LogsProcessor {
 
-    private List<FeedbackSessionLogEntry> feedbackSessionLogs = new ArrayList<>();
+    private List<FeedbackSessionLogEntryAttributes> feedbackSessionLogs = new ArrayList<>();
     private List<GeneralLogEntry> generalLogs = new ArrayList<>();
 
     /**
@@ -25,7 +25,7 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertFeedbackSessionLog(String studentEmail, String courseId, String feedbackSessionName,
             String fslType, long timestamp) {
-        feedbackSessionLogs.add(new FeedbackSessionLogEntry(studentEmail, courseId,
+        feedbackSessionLogs.add(new FeedbackSessionLogEntryAttributes(studentEmail, courseId,
                 feedbackSessionName, fslType, timestamp));
     }
 
@@ -102,8 +102,11 @@ public class MockLogsProcessor extends LogsProcessor {
         // No-op
     }
 
+    /**
+     * Mocks getting feedback session logs.
+     */
     @Override
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
         return feedbackSessionLogs;
     }
