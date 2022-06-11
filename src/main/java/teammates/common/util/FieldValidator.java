@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -675,7 +676,9 @@ public final class FieldValidator {
         if (!isExactHour) {
             return "The start time for this feedback session must be at exact hour mark.";
         }
-        Instant threeHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-3);
+        Instant threeHoursBeforeNow = ZonedDateTime
+                .ofInstant(TimeHelper.getInstantHoursOffsetFromNow(-3), ZoneId.of(Const.DEFAULT_TIME_ZONE))
+                .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 threeHoursBeforeNow, startTime, SESSION_NAME,
                 "3 hours before now", SESSION_START_TIME_FIELD_NAME,
@@ -684,7 +687,9 @@ public final class FieldValidator {
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
             return earlierThanThreeHoursBeforeNowError;
         }
-        Instant ninetyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(90);
+        Instant ninetyDaysFromNow = ZonedDateTime
+                .ofInstant(TimeHelper.getInstantDaysOffsetFromNow(90), ZoneId.of(Const.DEFAULT_TIME_ZONE))
+                .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
         String laterThanNinetyDaysFromNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 ninetyDaysFromNow, startTime, SESSION_NAME,
                 "90 days from now", SESSION_START_TIME_FIELD_NAME,
@@ -708,7 +713,9 @@ public final class FieldValidator {
         if (!isExactHour) {
             return "The end time for this feedback session must be at exact hour mark.";
         }
-        Instant threeHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-3);
+        Instant threeHoursBeforeNow = ZonedDateTime
+                .ofInstant(TimeHelper.getInstantHoursOffsetFromNow(-3), ZoneId.of(Const.DEFAULT_TIME_ZONE))
+                .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 threeHoursBeforeNow, startTime, SESSION_NAME,
                 "3 hours before now", SESSION_END_TIME_FIELD_NAME,
@@ -717,7 +724,9 @@ public final class FieldValidator {
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
             return earlierThanThreeHoursBeforeNowError;
         }
-        Instant oneHundredEightyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(180);
+        Instant oneHundredEightyDaysFromNow = ZonedDateTime
+                .ofInstant(TimeHelper.getInstantDaysOffsetFromNow(180), ZoneId.of(Const.DEFAULT_TIME_ZONE))
+                .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
         String laterThanOneHundredEightyDaysError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 oneHundredEightyDaysFromNow, startTime, SESSION_NAME,
                 "180 days from now", SESSION_END_TIME_FIELD_NAME,

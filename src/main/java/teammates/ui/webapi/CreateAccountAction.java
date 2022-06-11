@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -111,6 +110,10 @@ class CreateAccountAction extends Action {
         return TimeHelper.formatInstant(instant, Const.DEFAULT_TIME_ZONE, "yyyy-MM-dd");
     }
 
+    private static String getDatetimeString(Instant instant) {
+        return instant.toString();
+    }
+
     /**
      * Imports demo course for the new instructor.
      *
@@ -123,13 +126,13 @@ class CreateAccountAction extends Action {
         Instant now = Instant.now();
 
         // Used for start time + visible time for all sessions
-        String dateString1 = getDateString(now.plus(1, ChronoUnit.DAYS));
+        String datetimeString1 = getDatetimeString(TimeHelper.getInstantTruncatedHoursOffsetBeforeNow(2));
         // Used for end time for sessions already past
-        String dateString2 = getDateString(now.plus(3, ChronoUnit.DAYS));
+        String datetimeString2 = getDatetimeString(TimeHelper.getInstantTruncatedHoursOffsetBeforeNow(1));
         // Used for result visible time for sessions already past
-        String dateString3 = getDateString(now.plus(4, ChronoUnit.DAYS));
+        String datetimeString3 = getDatetimeString(TimeHelper.getInstantTruncatedHoursOffsetBeforeNow(0));
         // Used for end time for session still ongoing
-        String dateString4 = getDateString(now.plus(3, ChronoUnit.DAYS));
+        String datetimeString4 = getDatetimeString(TimeHelper.getInstantTruncatedDaysOffsetFromNow(3));
         // Used for timestamp of comments
         String dateString5 = getDateString(now);
 
@@ -145,10 +148,10 @@ class CreateAccountAction extends Action {
                 // replace timezone
                 "demo.timezone", timezone,
                 // replace dates
-                "demo.date1", dateString1,
-                "demo.date2", dateString2,
-                "demo.date3", dateString3,
-                "demo.date4", dateString4,
+                "demo.datetime1", datetimeString1,
+                "demo.datetime2", datetimeString2,
+                "demo.datetime3", datetimeString3,
+                "demo.datetime4", datetimeString4,
                 "demo.date5", dateString5);
 
         if (!Const.DEFAULT_TIME_ZONE.equals(timezone)) {
@@ -281,7 +284,7 @@ class CreateAccountAction extends Action {
             }
 
             return ZonedDateTime.ofInstant(instant, ZoneId.of(Const.DEFAULT_TIME_ZONE))
-                    .withZoneSameLocal(timezone).toInstant().toString();
+                    .withZoneSameInstant(timezone).toInstant().toString();
         });
     }
 }
