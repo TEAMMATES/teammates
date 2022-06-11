@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { NavigationService } from '../../../../services/navigation.service';
 import { collapseAnim } from './collapse-anim';
 
 /**
@@ -13,6 +14,7 @@ import { collapseAnim } from './collapse-anim';
 export class InstructorHelpPanelComponent {
 
   @Input() id: string = '';
+  @Input() section: string = '';
   @Input() headerText: string = '';
 
   isPanelExpandedValue: boolean = false;
@@ -27,6 +29,15 @@ export class InstructorHelpPanelComponent {
     this.isPanelExpandedChange.emit(value);
   }
 
-  constructor(public elementRef: ElementRef) { }
+  constructor(public elementRef: ElementRef,
+              private navigationService: NavigationService,
+  ) { }
 
+  changeBrowserUrl(event: Event): void {
+    // Prevent panel from changing state
+    event.stopPropagation();
+
+    const queryParams: Record<string, string> = { section: this.section, questionId: this.id };
+    this.navigationService.changeBrowserUrl(queryParams);
+  }
 }

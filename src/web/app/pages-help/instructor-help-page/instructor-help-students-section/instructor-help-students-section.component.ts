@@ -6,6 +6,7 @@ import {
   SearchStudentsListRowTable,
 } from '../../../pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { Sections } from '../sections';
 import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
   EXAMPLE_SINGLE_STUDENT_RESULT_TABLES,
@@ -25,8 +26,9 @@ import { StudentsSectionQuestions } from './students-section-questions';
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  // enum
+  // enums
   StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;
   readonly exampleStudentProfile: StudentProfile = EXAMPLE_STUDENT_PROFILE;

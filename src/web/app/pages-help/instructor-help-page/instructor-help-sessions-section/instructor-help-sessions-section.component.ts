@@ -30,6 +30,7 @@ import {
   InstructorSessionResultViewType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { Sections } from '../sections';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
   EXAMPLE_COURSE_CANDIDATES,
@@ -58,12 +59,13 @@ import { SessionsSectionQuestions } from './sessions-section-questions';
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  // enum
+  // enums
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;
   readonly frontendUrl: string = environment.frontendUrl;
