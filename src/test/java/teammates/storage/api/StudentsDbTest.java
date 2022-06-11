@@ -3,6 +3,7 @@ package teammates.storage.api;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -429,6 +430,7 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .withTeamName("validTeamName")
                 .withSectionName("validSectionName")
                 .withGoogleId("")
+                .withLastLogTimestamp(Instant.ofEpochMilli(0))
                 .build();
 
         studentsDb.deleteStudent(s.getCourse(), s.getEmail());
