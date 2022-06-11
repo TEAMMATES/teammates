@@ -364,12 +364,19 @@ public final class FeedbackQuestionsLogic {
         case TEAMS_IN_SAME_SECTION:
             Map<String, List<StudentAttributes>> teamToTeamMembersTable;
             List<StudentAttributes> teamStudents;
-            if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
-                teamStudents = studentsLogic.getStudentsForSection(giverSection, question.getCourseId());
+            if (courseRoster == null) {
+                if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                    teamStudents = studentsLogic.getStudentsForSection(giverSection, question.getCourseId());
+                } else {
+                    teamStudents = studentsLogic.getStudentsForCourse(question.getCourseId());
+                }
                 teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
             } else {
-                if (courseRoster == null) {
-                    teamStudents = studentsLogic.getStudentsForCourse(question.getCourseId());
+                if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                    final String finalGiverSection = giverSection;
+                    teamStudents = courseRoster.getStudents().stream()
+                            .filter(studentAttributes -> studentAttributes.getSection()
+                                    .equals(finalGiverSection)).collect(Collectors.toList());
                     teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
                 } else {
                     teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
