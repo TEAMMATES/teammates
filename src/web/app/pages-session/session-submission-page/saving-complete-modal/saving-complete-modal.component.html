@@ -43,7 +43,7 @@
   <p *ngIf="!hasFailToSaveQuestions">
     <b>You are encouraged to download the proof of submission, which will also contain your latest responses.</b>
   </p>
-  <span class="color-red" *ngIf="!hasFailToSaveQuestions && questions.length === 1">
+  <span class="text-danger" *ngIf="!hasFailToSaveQuestions && questions.length === 1">
       <i class="fas fa-exclamation"></i>
       Submitting question {{ questions[0].questionNumber }} does not submit other questions (if any).
   </span>
