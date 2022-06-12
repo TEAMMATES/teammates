@@ -375,8 +375,8 @@ public final class FeedbackQuestionsLogic {
                 if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
                     final String finalGiverSection = giverSection;
                     teamStudents = courseRoster.getStudents().stream()
-                            .filter(studentAttributes -> studentAttributes.getSection()
-                                    .equals(finalGiverSection)).collect(Collectors.toList());
+                            .filter(student -> student.getSection().equals(finalGiverSection))
+                            .collect(Collectors.toList());
                     teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
                 } else {
                     teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
