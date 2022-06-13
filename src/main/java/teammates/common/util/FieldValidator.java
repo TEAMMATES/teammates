@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -668,7 +667,7 @@ public final class FieldValidator {
      * Checks if the {@code startTime} is valid to be used as a session start time.
      * Returns an empty string if it is valid, or an error message otherwise.
      *
-     * <p> The {@code startTime} is valid if it is after 3 hours before now, before 90 days from now
+     * <p>The {@code startTime} is valid if it is after 3 hours before now, before 90 days from now
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForStartTime(Instant startTime, String timeZone) {
@@ -703,7 +702,7 @@ public final class FieldValidator {
      * Checks if the {@code endTime} is valid to be used as a session end time.
      * Returns an empty string if it is valid, or an error message otherwise.
      *
-     * <p> The {@code endTime} is valid if it is after 3 hours before now, before 180 days from now
+     * <p>The {@code endTime} is valid if it is after 3 hours before now, before 180 days from now
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForEndTime(Instant endTime, String timeZone) {
@@ -748,7 +747,7 @@ public final class FieldValidator {
      * Checks if {@code visibilityStart} is before {@code sessionStart}.
      * Returns an empty string if {@code visibilityStart} is before {@code sessionStart}, or an error message otherwise.
      *
-     * <p> If {@code isFullValidationRequired} is true, {@code visibilityStart} is also checked if it is less than
+     * <p>If {@code isFullValidationRequired} is true, {@code visibilityStart} is also checked if it is less than
      * 30 days before {@code sessionStart}.
      */
     public static String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
