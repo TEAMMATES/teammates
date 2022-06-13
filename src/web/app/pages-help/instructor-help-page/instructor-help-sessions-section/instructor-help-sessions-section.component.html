@@ -1,10 +1,16 @@
 <div>
-  <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Sessions</h2>
+  <div class="section-header d-flex align-items-center">
+    <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Sessions</h2>
+    <div class="ml-2 mb-1" (click)="changeBrowserUrl(Sections.sessions)">
+      <div class="fas fa-anchor"></div>
+    </div>
+  </div>
   <!-- Section -->
   <h4 *ngIf="displaySubsection(0, 9)">Setting Up Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL)"
                             [id]="SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL"
+                            [section]="Sections.sessions"
                             headerText="Tips for conducting team peer evaluation sessions"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]">
     <p>
@@ -50,6 +56,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_NEW_FEEDBACK)"
                             [id]="SessionsSectionQuestions.SESSION_NEW_FEEDBACK"
+                            [section]="Sections.sessions"
                             headerText="How do I create and schedule a new feedback session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]">
     To create a new feedback session, click the <b>Sessions</b> tab at the top of the page. Then,
@@ -132,6 +139,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_QUESTIONS)"
                             [id]="SessionsSectionQuestions.SESSION_QUESTIONS"
+                            [section]="Sections.sessions"
                             headerText="How do I add questions to a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]">
     <p>
@@ -187,6 +195,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SET_QUESTION_COMPULSORY)"
                             [id]="SessionsSectionQuestions.SET_QUESTION_COMPULSORY"
+                            [section]="Sections.sessions"
                             headerText="Can I set a question as 'compulsory'?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SET_QUESTION_COMPULSORY]">
     <p>
@@ -201,6 +210,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_PREVIEW)"
                             [id]="SessionsSectionQuestions.SESSION_PREVIEW"
+                            [section]="Sections.sessions"
                             headerText="How do I preview a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
     <p>
@@ -221,6 +231,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION)"
                             [id]="SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION"
+                            [section]="Sections.sessions"
                             headerText="How do I let students know about a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION]">
     <p>
@@ -238,6 +249,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK)"
                             [id]="SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK"
+                            [section]="Sections.sessions"
                             headerText="What should I do if students say they didn't receive the link to submit responses, as they were supposed to?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK]">
     <p>
@@ -260,6 +272,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EXTEND_SESSION_DEADLINE)"
                             [id]="SessionsSectionQuestions.EXTEND_SESSION_DEADLINE"
+                            [section]="Sections.sessions"
                             headerText="How do I extend the deadline of a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EXTEND_SESSION_DEADLINE]">
     <p>
@@ -296,6 +309,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START)"
                             [id]="SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START"
+                            [section]="Sections.sessions"
                             headerText="Can I change the visibility settings of questions after the session has started?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START]">
     <p>
@@ -312,6 +326,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_EDIT_RESPONSE)"
                             [id]="SessionsSectionQuestions.STUDENT_EDIT_RESPONSE"
+                            [section]="Sections.sessions"
                             headerText="Can students edit responses they submitted earlier?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_EDIT_RESPONSE]">
     <p>
@@ -321,6 +336,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SUBMIT_FOR_STUDENT)"
                             [id]="SessionsSectionQuestions.SUBMIT_FOR_STUDENT"
+                            [section]="Sections.sessions"
                             headerText="Can I submit responses on behalf of a student?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SUBMIT_FOR_STUDENT]">
     <p>
@@ -347,6 +363,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE)"
                             [id]="SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE"
+                            [section]="Sections.sessions"
                             headerText="Can I see when a student tried to access the submission page?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_ACCESS_SUBMISSION_PAGE]">
     <p>
@@ -356,6 +373,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_VIEW_RESULTS)"
                             [id]="SessionsSectionQuestions.SESSION_VIEW_RESULTS"
+                            [section]="Sections.sessions"
                             headerText="How do I view the results of my session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
     <p>
@@ -413,6 +431,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_ALL_RESPONSES)"
                             [id]="SessionsSectionQuestions.VIEW_ALL_RESPONSES"
+                            [section]="Sections.sessions"
                             headerText="How do I view all the responses a student has given and received?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]">
     <p>
@@ -430,6 +449,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.MODERATE_RESPONSE)"
                             [id]="SessionsSectionQuestions.MODERATE_RESPONSE"
+                            [section]="Sections.sessions"
                             headerText="Am I able to moderate responses submitted by students?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.MODERATE_RESPONSE]">
     <p>
@@ -453,6 +473,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_SEE_RESPONSE)"
                             [id]="SessionsSectionQuestions.STUDENT_SEE_RESPONSE"
+                            [section]="Sections.sessions"
                             headerText="When do students get to see the results collected by a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_SEE_RESPONSE]">
     <p>
@@ -463,6 +484,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_LINK)"
                             [id]="SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_LINK"
+                            [section]="Sections.sessions"
                             headerText="What should I do if students say they didn't receive the link to view results, even after I published the session responses?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENT_DID_NOT_RECEIVE_RESULT_LINK]">
     <p>
@@ -489,6 +511,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_ADD_COMMENTS)"
                             [id]="SessionsSectionQuestions.SESSION_ADD_COMMENTS"
+                            [section]="Sections.sessions"
                             headerText="How do I create a comment on a response?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
     <p>
@@ -530,6 +553,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EDIT_DEL_COMMENT)"
                             [id]="SessionsSectionQuestions.EDIT_DEL_COMMENT"
+                            [section]="Sections.sessions"
                             headerText="How do I edit or delete a comment on a response?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]">
     <p>
@@ -560,6 +584,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_DELETED_SESSION)"
                             [id]="SessionsSectionQuestions.VIEW_DELETED_SESSION"
+                            [section]="Sections.sessions"
                             headerText="How do I view sessions I have deleted?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]">
     <p>
@@ -580,6 +605,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.RESTORE_SESSION)"
                             [id]="SessionsSectionQuestions.RESTORE_SESSION"
+                            [section]="Sections.sessions"
                             headerText="How do I restore a deleted session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
     <p>
@@ -599,6 +625,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.PERMANENT_DEL_SESSION)"
                             [id]="SessionsSectionQuestions.PERMANENT_DEL_SESSION"
+                            [section]="Sections.sessions"
                             headerText="How do I permanently delete a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
     <p>
@@ -618,6 +645,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.RESTORE_DEL_ALL)"
                             [id]="SessionsSectionQuestions.RESTORE_DEL_ALL"
+                            [section]="Sections.sessions"
                             headerText="How do I restore/delete all sessions from Recycle Bin?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
     <p>

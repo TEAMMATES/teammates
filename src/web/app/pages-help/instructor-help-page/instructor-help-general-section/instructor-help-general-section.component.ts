@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { Sections } from '../sections';
 import { GeneralSectionQuestions } from './general-section-questions';
 
 /**
@@ -14,8 +15,9 @@ import { GeneralSectionQuestions } from './general-section-questions';
 })
 export class InstructorHelpGeneralSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  // enum
+  // enums
   GeneralSectionQuestions: typeof GeneralSectionQuestions = GeneralSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   readonly questionsOrder: string[] = [
     GeneralSectionQuestions.FREE_FOR_USE,
