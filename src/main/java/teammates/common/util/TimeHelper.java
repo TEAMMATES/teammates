@@ -7,7 +7,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 
 /**
  * A helper class to hold time-related functions (e.g., converting dates to strings etc.).
@@ -41,16 +40,6 @@ public final class TimeHelper {
     }
 
     /**
-     * Returns an Instant that is offset by a number of days from now truncated to days.
-     *
-     * @param offsetInDays integer number of days to offset by
-     * @return an Instant offset by {@code offsetInDays} days
-     */
-    public static Instant getInstantTruncatedDaysOffsetFromNow(long offsetInDays) {
-        return Instant.now().plus(Duration.ofDays(offsetInDays)).truncatedTo(ChronoUnit.DAYS);
-    }
-
-    /**
      * Returns an Instant that is offset by a number of days before now.
      *
      * @param offsetInDays integer number of days to offset by
@@ -68,16 +57,6 @@ public final class TimeHelper {
      */
     public static Instant getInstantHoursOffsetFromNow(long offsetInHours) {
         return Instant.now().plus(Duration.ofHours(offsetInHours));
-    }
-
-    /**
-     * Returns an Instant that is offset by a number of hours before now truncated to hours.
-     *
-     * @param offsetInHours integer number of hours to offset by
-     * @return an Instant offset by {@code offsetInHours} days
-     */
-    public static Instant getInstantTruncatedHoursOffsetBeforeNow(long offsetInHours) {
-        return Instant.now().minus(Duration.ofHours(offsetInHours)).truncatedTo(ChronoUnit.HOURS);
     }
 
     /**
