@@ -97,10 +97,10 @@ public class OriginCheckFilter implements Filter {
         case HttpPut.METHOD_NAME:
         case HttpDelete.METHOD_NAME:
             String message = getCsrfTokenErrorIfAny(request);
-            if (message != null) {
-                denyAccess(message, request, response);
-                return;
-            }
+//            if (message != null) {
+//                denyAccess(message, request, response);
+//                return;
+//            }
             break;
         default:
             break;

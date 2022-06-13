@@ -21,7 +21,12 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
                 logsProcessor.getFeedbackSessionLogs(null, null, latestLogTimestamp, Long.MAX_VALUE, null);
 
         try {
-            logic.createFeedbackSessionLogs(logEntries);
+            List<FeedbackSessionLogEntryAttributes> createdEntries = logic.createFeedbackSessionLogs(logEntries);
+            System.out.println("______________________________________________________");
+            for (FeedbackSessionLogEntryAttributes entry : createdEntries) {
+                System.out.println(entry.toString());
+            }
+            System.out.println("______________________________________________________");
         } catch (InvalidParametersException e) {
             log.severe("Unexpected error", e);
         }

@@ -7,6 +7,7 @@ import java.util.List;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
+import com.googlecode.objectify.cmd.Query;
 import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackSessionLogEntry;
@@ -35,13 +36,20 @@ public final class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessio
      */
     public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
                                                                           long startTime, long endTime, String fsName) {
-        List<FeedbackSessionLogEntry> entries = load()
-                .filter("courseId", courseId)
-                .filter("studentEmail", email)
-                .filter("feedbackSessionName", fsName)
+        Query<FeedbackSessionLogEntry> query = load()
+                .filter("courseId =", courseId)
                 .filter("timestamp >=", startTime)
-                .filter("timestamp <=", endTime)
-                .list();
+                .filter("timestamp <=", endTime);
+
+        if (email != null) {
+            query = query.filter("studentEmail =", email);
+        }
+
+        if (fsName != null) {
+            query = query.filter("feedbackSessionName =", fsName);
+        }
+
+        List<FeedbackSessionLogEntry> entries = query.list();
 
         return makeAttributes(entries);
     }
