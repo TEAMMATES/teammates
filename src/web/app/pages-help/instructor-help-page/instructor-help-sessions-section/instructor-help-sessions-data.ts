@@ -318,6 +318,7 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
             isMissingResponse: false,
           },
         ],
+        hasResponseButNotVisibleForPreview: false,
         responsesToSelf: [],
         responsesFromSelf: [],
         otherResponses: [],
@@ -357,6 +358,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
   },
   questionStatistics: '',
   allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],
+  hasResponseButNotVisibleForPreview: false,
   responsesToSelf: [
     {
       responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'

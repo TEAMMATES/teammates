@@ -73,7 +73,8 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
-                        responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
+                        responseBundle.feedbackQuestions, new HashMap<>(),
+                        new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));

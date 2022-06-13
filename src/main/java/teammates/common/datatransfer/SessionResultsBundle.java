@@ -17,6 +17,7 @@ import teammates.common.util.StringHelper;
 public class SessionResultsBundle {
 
     private final Map<String, FeedbackQuestionAttributes> questionsMap;
+    private final Map<String, FeedbackQuestionAttributes> relatedNotVisibleForPreviewQuestionsMap;
     private final Map<String, List<FeedbackResponseAttributes>> questionResponseMap;
     private final Map<String, List<FeedbackResponseAttributes>> questionMissingResponseMap;
     private final Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap;
@@ -26,6 +27,7 @@ public class SessionResultsBundle {
     private final CourseRoster roster;
 
     public SessionResultsBundle(Map<String, FeedbackQuestionAttributes> questionsMap,
+                                Map<String, FeedbackQuestionAttributes> relatedNotVisibleForPreviewQuestionsMap,
                                 List<FeedbackResponseAttributes> responses,
                                 List<FeedbackResponseAttributes> missingResponses,
                                 Map<String, Boolean> responseGiverVisibilityTable,
@@ -35,6 +37,7 @@ public class SessionResultsBundle {
                                 CourseRoster roster) {
 
         this.questionsMap = questionsMap;
+        this.relatedNotVisibleForPreviewQuestionsMap = relatedNotVisibleForPreviewQuestionsMap;
         this.responseCommentsMap = responseCommentsMap;
         this.responseGiverVisibilityTable = responseGiverVisibilityTable;
         this.responseRecipientVisibilityTable = responseRecipientVisibilityTable;
@@ -135,6 +138,10 @@ public class SessionResultsBundle {
 
     public Map<String, FeedbackQuestionAttributes> getQuestionsMap() {
         return questionsMap;
+    }
+
+    public Map<String, FeedbackQuestionAttributes> getRelatedNotVisibleForPreviewQuestionsMap() {
+        return relatedNotVisibleForPreviewQuestionsMap;
     }
 
     public Map<String, List<FeedbackResponseCommentAttributes>> getResponseCommentsMap() {
