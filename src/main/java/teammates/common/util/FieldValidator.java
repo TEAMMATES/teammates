@@ -665,11 +665,11 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if Session Start Time is after 3 hours before now, before 90 days from now and at exact hour mark.
-     * @return Error string if {@code sessionStart} is more than 3 hours before now, after 90 days from now
-     *         or not at exact hour mark
-     *         Empty string if {@code sessionStart} is after 3 hours before now, before 90 days from now
-     *         and at exact hour mark
+     * Checks if the {@code startTime} is valid to be used as a session start time.
+     * Returns an empty string if it is valid, or an error message otherwise.
+     *
+     * <p> The {@code startTime} is valid if it is after 3 hours before now, before 90 days from now
+     * and at exact hour mark.
      */
     public static String getInvalidityInfoForStartTime(Instant startTime, String timeZone) {
         boolean isExactHour = LocalDateTime.ofInstant(startTime, ZoneId.of(timeZone)).getMinute() == 0;
@@ -702,14 +702,14 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if Session End Time is after 3 hours before now, before 180 days from now and at exact hour mark.
-     * @return Error string if {@code sessionStart} is more than 3 hours before now, after 180 days from now
-     *         or not at exact hour mark
-     *         Empty string if {@code sessionStart} is after 3 hours before now, before 180 days from now
-     *         and at exact hour mark
+     * Checks if the {@code endTime} is valid to be used as a session end time.
+     * Returns an empty string if it is valid, or an error message otherwise.
+     *
+     * <p> The {@code endTime} is valid if it is after 3 hours before now, before 180 days from now
+     * and at exact hour mark.
      */
-    public static String getInvalidityInfoForEndTime(Instant startTime, String timeZone) {
-        boolean isExactHour = LocalDateTime.ofInstant(startTime, ZoneId.of(timeZone)).getMinute() == 0;
+    public static String getInvalidityInfoForEndTime(Instant endTime, String timeZone) {
+        boolean isExactHour = LocalDateTime.ofInstant(endTime, ZoneId.of(timeZone)).getMinute() == 0;
         if (!isExactHour) {
             return "The end time for this feedback session must be at exact hour mark.";
         }
@@ -717,7 +717,7 @@ public final class FieldValidator {
                 .ofInstant(TimeHelper.getInstantHoursOffsetFromNow(-3), ZoneId.of(Const.DEFAULT_TIME_ZONE))
                 .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
-                threeHoursBeforeNow, startTime, SESSION_NAME,
+                threeHoursBeforeNow, endTime, SESSION_NAME,
                 "3 hours before now", SESSION_END_TIME_FIELD_NAME,
                 (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
                 "The %s for this %s cannot be earlier than %s.");
@@ -728,7 +728,7 @@ public final class FieldValidator {
                 .ofInstant(TimeHelper.getInstantDaysOffsetFromNow(180), ZoneId.of(Const.DEFAULT_TIME_ZONE))
                 .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
         String laterThanOneHundredEightyDaysError = getInvalidityInfoForFirstTimeComparedToSecondTime(
-                oneHundredEightyDaysFromNow, startTime, SESSION_NAME,
+                oneHundredEightyDaysFromNow, endTime, SESSION_NAME,
                 "180 days from now", SESSION_END_TIME_FIELD_NAME,
                 (firstTime, secondTime) -> firstTime.isAfter(secondTime) || firstTime.equals(secondTime),
                 "The %s for this %s cannot be later than %s.");
