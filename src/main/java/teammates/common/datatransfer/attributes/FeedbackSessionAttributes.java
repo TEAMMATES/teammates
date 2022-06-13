@@ -43,6 +43,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private boolean isPublishedEmailEnabled;
     private Map<String, Instant> studentDeadlines;
     private Map<String, Instant> instructorDeadlines;
+    private boolean isFullValidationRequired;
 
     private transient String userEmail;
     private transient Supplier<Instant> deadlineSupplier;
@@ -60,6 +61,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         this.studentDeadlines = new HashMap<>();
         this.instructorDeadlines = new HashMap<>();
+
+        this.isFullValidationRequired = true;
 
         this.timeZone = Const.DEFAULT_TIME_ZONE;
         this.gracePeriod = Duration.ZERO;
@@ -99,6 +102,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         if (fs.getInstructorDeadlines() != null) {
             feedbackSessionAttributes.instructorDeadlines = fs.getInstructorDeadlines();
         }
+        feedbackSessionAttributes.isFullValidationRequired = fs.isFullValidationRequired();
 
         return feedbackSessionAttributes;
     }
@@ -169,7 +173,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 timeZone, getGracePeriodMinutes(),
                 sentOpeningSoonEmail, sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, new HashMap<>(studentDeadlines),
-                new HashMap<>(instructorDeadlines));
+                new HashMap<>(instructorDeadlines), isFullValidationRequired);
     }
 
     @Override
@@ -219,9 +223,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         if (!errors.isEmpty()) {
             return errors;
         }
-        addNonEmptyError(FieldValidator.getInvalidityInfoForStartTime(startTime, timeZone), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEndTime(endTime, timeZone), errors);
+        if (isFullValidationRequired) {
+            addNonEmptyError(FieldValidator.getInvalidityInfoForStartTime(startTime, timeZone), errors);
+
+            addNonEmptyError(FieldValidator.getInvalidityInfoForEndTime(endTime, timeZone), errors);
+        }
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
 
@@ -232,7 +239,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                actualSessionVisibleFromTime, startTime), errors);
+                actualSessionVisibleFromTime, startTime, isFullValidationRequired), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
@@ -404,14 +411,17 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     @Override
     public String toString() {
-        return "FeedbackSessionAttributes [feedbackSessionName="
-               + feedbackSessionName + ", courseId=" + courseId
-               + ", creatorEmail=" + creatorEmail + ", instructions=" + instructions
-               + ", createdTime=" + createdTime + ", deletedTime=" + deletedTime
+        return "FeedbackSessionAttributes [feedbackSessionName=" + feedbackSessionName
+               + ", courseId=" + courseId
+               + ", creatorEmail=" + creatorEmail
+               + ", instructions=" + instructions
+               + ", createdTime=" + createdTime
+               + ", deletedTime=" + deletedTime
                + ", startTime=" + startTime
-               + ", endTime=" + endTime + ", sessionVisibleFromTime="
-               + sessionVisibleFromTime + ", resultsVisibleFromTime="
-               + resultsVisibleFromTime + ", timeZone=" + timeZone
+               + ", endTime=" + endTime
+               + ", sessionVisibleFromTime=" + sessionVisibleFromTime
+               + ", resultsVisibleFromTime=" + resultsVisibleFromTime
+               + ", timeZone=" + timeZone
                + ", gracePeriod=" + getGracePeriodMinutes() + "min"
                + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
                + ", sentOpenEmail=" + sentOpenEmail
@@ -423,6 +433,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                + ", studentDeadlines=" + new TreeMap<>(studentDeadlines)
                + ", instructorDeadlines=" + new TreeMap<>(instructorDeadlines)
+               + ", isFullValidationRequired=" + isFullValidationRequired
                + "]";
     }
 
@@ -623,6 +634,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.instructorDeadlines = instructorDeadlines;
     }
 
+    public boolean isFullValidationRequired() {
+        return isFullValidationRequired;
+    }
+
+    public void setFullValidationRequired(boolean isFullValidationRequired) {
+        this.isFullValidationRequired = isFullValidationRequired;
+    }
+
     /**
      * Updates with {@link UpdateOptions}.
      */
@@ -643,6 +662,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         updateOptions.isPublishedEmailEnabledOption.ifPresent(s -> isPublishedEmailEnabled = s);
         updateOptions.studentDeadlinesOption.ifPresent(s -> studentDeadlines = s);
         updateOptions.instructorDeadlinesOption.ifPresent(s -> instructorDeadlines = s);
+        updateOptions.isFullValidationRequiredOption.ifPresent(s -> isFullValidationRequired = s);
     }
 
     /**
@@ -711,6 +731,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
         private UpdateOption<Map<String, Instant>> studentDeadlinesOption = UpdateOption.empty();
         private UpdateOption<Map<String, Instant>> instructorDeadlinesOption = UpdateOption.empty();
+        private UpdateOption<Boolean> isFullValidationRequiredOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackSessionName, String courseId) {
             assert feedbackSessionName != null;
@@ -749,6 +770,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                     + ", isPublishedEmailEnabled = " + isPublishedEmailEnabledOption
                     + ", studentDeadlines = " + studentDeadlinesOption
                     + ", instructorDeadlines = " + instructorDeadlinesOption
+                    + ", isFullValidationRequired = " + isFullValidationRequiredOption
                     + "]";
         }
 
@@ -887,6 +909,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             assert instructorDeadlines != null;
 
             updateOptions.instructorDeadlinesOption = UpdateOption.of(instructorDeadlines);
+            return thisBuilder;
+        }
+
+        public B withIsFullValidationRequired(boolean isFullValidationRequired) {
+            updateOptions.isFullValidationRequiredOption = UpdateOption.of(isFullValidationRequired);
             return thisBuilder;
         }
 

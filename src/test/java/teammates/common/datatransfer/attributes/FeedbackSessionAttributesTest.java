@@ -139,7 +139,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10,
                 false, false, false, false, false,
-                true, true, true, new HashMap<>(), new HashMap<>());
+                true, true, true, new HashMap<>(), new HashMap<>(), false);
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
 
@@ -176,7 +176,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10, false,
                 false, false, false, false,
-                true, true, true, null, null);
+                true, true, true, null, null, false);
         assertNull(feedbackSession.getInstructions());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
@@ -368,27 +368,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
         assertEquals(Arrays.asList(feedbackSessionNameError, courseIdError, creatorEmailError, gracePeriodError),
                 feedbackSessionAttributes.getInvalidityInfo());
-
-        FeedbackSessionAttributes feedbackSessionAttributes2 = FeedbackSessionAttributes
-                .builder("testName", "testCourse")
-                .withCreatorEmail("email@email.com")
-                .withStartTime(Instant.now().plus(Duration.ofDays(182)))
-                .withEndTime(Instant.now().plus(Duration.ofDays(181)))
-                .withResultsVisibleFromTime(Instant.now())
-                .withSessionVisibleFromTime(Instant.now().plus(Duration.ofDays(1)))
-                .build();
-
-        String startTimeError = "The start time for this feedback session cannot be later than 90 days from now.";
-        String endTimeError = "The end time for this feedback session cannot be later than 180 days from now.";
-        String endTimeBeforeStartTimeError = "The end time for this feedback session cannot be earlier than "
-                + "the start time.";
-        String resultsVisibleError = "The time when the session will be visible for this feedback session cannot be "
-                + "earlier than 30 days before start time.";
-        String sessionVisibleAfterResultsVisibleError = "The time when the results will be visible for this "
-                + "feedback session cannot be earlier than the time when the session will be visible.";
-
-        assertEquals(Arrays.asList(startTimeError, endTimeError, endTimeBeforeStartTimeError, resultsVisibleError,
-                        sessionVisibleAfterResultsVisibleError), feedbackSessionAttributes2.getInvalidityInfo());
     }
 
     @Test

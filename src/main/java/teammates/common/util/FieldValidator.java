@@ -745,23 +745,25 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if Session Visibility Start Time is before Session Start Time.
-     * @return Error string if {@code visibilityStart} is more than 30 days before {@code sessionStart} or after
-     *         {@code sessionStart}
-     *         Empty string if {@code visibilityStart} is less than 30 days before {@code sessionStart} and before
-     *         {@code sessionStart}
+     * Checks if {@code visibilityStart} is before {@code sessionStart}.
+     * Returns an empty string if {@code visibilityStart} is before {@code sessionStart}, or an error message otherwise.
+     *
+     * <p> If {@code isFullValidationRequired} is true, {@code visibilityStart} is also checked if it is less than
+     * 30 days before {@code sessionStart}.
      */
     public static String getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-            Instant visibilityStart, Instant sessionStart) {
-        Instant visibilityStartThirtyDaysBeforeSessionStart = TimeHelper.getInstantDaysOffsetBeforeNow(30);
-        String visibilityStartMoreThanThirtyDaysBeforeSessionStartError =
-                getInvalidityInfoForFirstTimeComparedToSecondTime(
-                        visibilityStartThirtyDaysBeforeSessionStart, visibilityStart, SESSION_NAME,
-                        "30 days before start time", SESSION_VISIBLE_TIME_FIELD_NAME,
-                        (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
-                        "The %s for this %s cannot be earlier than %s.");
-        if (!visibilityStartMoreThanThirtyDaysBeforeSessionStartError.isEmpty()) {
-            return visibilityStartMoreThanThirtyDaysBeforeSessionStartError;
+            Instant visibilityStart, Instant sessionStart, boolean isFullValidationRequired) {
+        if (isFullValidationRequired) {
+            Instant visibilityStartThirtyDaysBeforeSessionStart = TimeHelper.getInstantDaysOffsetBeforeNow(30);
+            String visibilityStartMoreThanThirtyDaysBeforeSessionStartError =
+                    getInvalidityInfoForFirstTimeComparedToSecondTime(
+                            visibilityStartThirtyDaysBeforeSessionStart, visibilityStart, SESSION_NAME,
+                            "30 days before start time", SESSION_VISIBLE_TIME_FIELD_NAME,
+                            (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                            "The %s for this %s cannot be earlier than %s.");
+            if (!visibilityStartMoreThanThirtyDaysBeforeSessionStartError.isEmpty()) {
+                return visibilityStartMoreThanThirtyDaysBeforeSessionStartError;
+            }
         }
         String visibilityStartAfterSessionStartError = getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart,
                 sessionStart, SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);

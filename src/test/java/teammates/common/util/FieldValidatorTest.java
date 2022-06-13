@@ -610,7 +610,7 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         assertEquals("",
                      FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                         visibilityStart, sessionStart));
+                         visibilityStart, sessionStart, true));
     }
 
     @Test
@@ -620,12 +620,12 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("The time when the session will be visible for this feedback session cannot be "
                         + "earlier than 30 days before start time.",
                 FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                        visibilityStartThirtyDaysBeforeSessionStart, sessionStart));
+                        visibilityStartThirtyDaysBeforeSessionStart, sessionStart, true));
         Instant visibilityStartAfterSessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(2);
         assertEquals("The start time for this feedback session cannot be earlier than the time when the "
                          + "session will be visible.",
                 FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                        visibilityStartAfterSessionStart, sessionStart));
+                        visibilityStartAfterSessionStart, sessionStart, true));
     }
 
     @Test

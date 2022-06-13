@@ -84,6 +84,8 @@ public class FeedbackSession extends BaseEntity {
     @Serialize
     private Map<String, Instant> instructorDeadlines;
 
+    private boolean isFullValidationRequired;
+
     @SuppressWarnings("unused")
     private FeedbackSession() {
         // required by Objectify
@@ -95,7 +97,7 @@ public class FeedbackSession extends BaseEntity {
             boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
             boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Map<String, Instant> studentDeadlines,
-            Map<String, Instant> instructorDeadlines) {
+            Map<String, Instant> instructorDeadlines, boolean isFullValidationRequired) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -118,6 +120,7 @@ public class FeedbackSession extends BaseEntity {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.studentDeadlines = studentDeadlines;
         this.instructorDeadlines = instructorDeadlines;
+        this.isFullValidationRequired = isFullValidationRequired;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
     }
 
@@ -305,15 +308,27 @@ public class FeedbackSession extends BaseEntity {
         this.instructorDeadlines = instructorDeadlines;
     }
 
+    public boolean isFullValidationRequired() {
+        return isFullValidationRequired;
+    }
+
+    public void setFullValidationRequired(boolean isFullValidationRequired) {
+        this.isFullValidationRequired = isFullValidationRequired;
+    }
+
     @Override
     public String toString() {
         return "FeedbackSession [feedbackSessionName=" + feedbackSessionName
-                + ", courseId=" + courseId + ", creatorId=" + creatorEmail
-                + ", instructions=" + instructions + ", createdTime="
-                + createdTime + ", deletedTime=" + deletedTime + ", startTime=" + startTime
-                + ", endTime=" + endTime + ", sessionVisibleFromTime="
-                + sessionVisibleFromTime + ", resultsVisibleFromTime="
-                + resultsVisibleFromTime + ", timeZone=" + timeZone
+                + ", courseId=" + courseId
+                + ", creatorId=" + creatorEmail
+                + ", instructions=" + instructions
+                + ", createdTime=" + createdTime
+                + ", deletedTime=" + deletedTime
+                + ", startTime=" + startTime
+                + ", endTime=" + endTime
+                + ", sessionVisibleFromTime=" + sessionVisibleFromTime
+                + ", resultsVisibleFromTime=" + resultsVisibleFromTime
+                + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod
                 + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
                 + ", sentOpenEmail=" + sentOpenEmail
@@ -325,6 +340,7 @@ public class FeedbackSession extends BaseEntity {
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                 + ", studentDeadlines=" + studentDeadlines
                 + ", instructorDeadlines=" + instructorDeadlines
+                + ", isFullValidationRequired=" + isFullValidationRequired
                 + "]";
     }
 
