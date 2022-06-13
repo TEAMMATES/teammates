@@ -672,13 +672,13 @@ public final class FieldValidator {
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForStartTime(Instant startTime, String timeZone) {
+        // Timezone offsets are usually a whole number of hours, but a few zones are offset by
+        // an additional 30 or 45 minutes, such as in India, South Australia and Nepal.
         boolean isExactHour = LocalDateTime.ofInstant(startTime, ZoneId.of(timeZone)).getMinute() == 0;
         if (!isExactHour) {
             return "The start time for this feedback session must be at exact hour mark.";
         }
-        Instant threeHoursBeforeNow = ZonedDateTime
-                .ofInstant(TimeHelper.getInstantHoursOffsetFromNow(-3), ZoneId.of(Const.DEFAULT_TIME_ZONE))
-                .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
+        Instant threeHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-3);
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 threeHoursBeforeNow, startTime, SESSION_NAME,
                 "3 hours before now", SESSION_START_TIME_FIELD_NAME,
@@ -687,9 +687,7 @@ public final class FieldValidator {
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
             return earlierThanThreeHoursBeforeNowError;
         }
-        Instant ninetyDaysFromNow = ZonedDateTime
-                .ofInstant(TimeHelper.getInstantDaysOffsetFromNow(90), ZoneId.of(Const.DEFAULT_TIME_ZONE))
-                .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
+        Instant ninetyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(90);
         String laterThanNinetyDaysFromNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 ninetyDaysFromNow, startTime, SESSION_NAME,
                 "90 days from now", SESSION_START_TIME_FIELD_NAME,
@@ -709,13 +707,13 @@ public final class FieldValidator {
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForEndTime(Instant endTime, String timeZone) {
+        // Timezone offsets are usually a whole number of hours, but a few zones are offset by
+        // an additional 30 or 45 minutes, such as in India, South Australia and Nepal.
         boolean isExactHour = LocalDateTime.ofInstant(endTime, ZoneId.of(timeZone)).getMinute() == 0;
         if (!isExactHour) {
             return "The end time for this feedback session must be at exact hour mark.";
         }
-        Instant threeHoursBeforeNow = ZonedDateTime
-                .ofInstant(TimeHelper.getInstantHoursOffsetFromNow(-3), ZoneId.of(Const.DEFAULT_TIME_ZONE))
-                .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
+        Instant threeHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-3);
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 threeHoursBeforeNow, endTime, SESSION_NAME,
                 "3 hours before now", SESSION_END_TIME_FIELD_NAME,
@@ -724,9 +722,7 @@ public final class FieldValidator {
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
             return earlierThanThreeHoursBeforeNowError;
         }
-        Instant oneHundredEightyDaysFromNow = ZonedDateTime
-                .ofInstant(TimeHelper.getInstantDaysOffsetFromNow(180), ZoneId.of(Const.DEFAULT_TIME_ZONE))
-                .withZoneSameInstant(ZoneId.of(timeZone)).toInstant();
+        Instant oneHundredEightyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(180);
         String laterThanOneHundredEightyDaysError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 oneHundredEightyDaysFromNow, endTime, SESSION_NAME,
                 "180 days from now", SESSION_END_TIME_FIELD_NAME,

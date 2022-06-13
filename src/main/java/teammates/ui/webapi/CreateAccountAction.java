@@ -284,7 +284,7 @@ class CreateAccountAction extends Action {
             }
 
             return ZonedDateTime.ofInstant(instant, ZoneId.of(Const.DEFAULT_TIME_ZONE))
-                    .withZoneSameInstant(timezone).toInstant().toString();
+                    .withZoneSameLocal(timezone).toInstant().toString();
         });
     }
 }
