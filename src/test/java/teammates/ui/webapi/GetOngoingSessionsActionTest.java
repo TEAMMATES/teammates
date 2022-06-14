@@ -56,6 +56,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                         .withEndTime(endTime)
                         .withSessionVisibleFromTime(startTime)
                         .withResultsVisibleFromTime(endTime)
+                        .withIsFullValidationRequired(false)
                         .build());
 
         params = new String[] {

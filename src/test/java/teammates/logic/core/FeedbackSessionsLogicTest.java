@@ -200,6 +200,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
+        session.setFullValidationRequired(false);
         fsLogic.createFeedbackSession(session);
         coursesLogic.createCourse(
                 CourseAttributes.builder(session.getCourseId())
@@ -241,6 +242,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
         session.setEndTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-59));
+        session.setFullValidationRequired(false);
         fsLogic.createFeedbackSession(session);
 
         sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
@@ -273,6 +275,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(5));
         session.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(5));
+        session.setFullValidationRequired(false);
         fsLogic.createFeedbackSession(session);
 
         // wait for very briefly so that the above session will be within the time limit
@@ -314,6 +317,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         session.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
         session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(1));
         session.setSentOpenEmail(false);
+        session.setFullValidationRequired(false);
         fsLogic.createFeedbackSession(session);
 
         sessionList = fsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
@@ -1002,10 +1006,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse")
                 .withCreatorEmail("valid@email.tmt")
-                .withSessionVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-62))
-                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
-                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(0))
-                .withResultsVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(1))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
+                .withStartTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
+                .withEndTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(2))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
                 .withGracePeriod(Duration.ofMinutes(5))
                 .withInstructions("Give feedback.")
                 .build();

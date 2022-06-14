@@ -538,7 +538,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         assertEquals("new instructions", updatedFs.getInstructions());
         assertEquals("new instructions", actualFs.getInstructions());
 
-        Instant startTime = typicalFs.getStartTime().minusSeconds(1);
+        Instant startTime = typicalFs.getStartTime().plus(Duration.ofHours(1));
         updatedFs = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
@@ -548,7 +548,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         assertEquals(startTime, updatedFs.getStartTime());
         assertEquals(startTime, actualFs.getStartTime());
 
-        Instant endTime = typicalFs.getEndTime().minusSeconds(1);
+        Instant endTime = typicalFs.getEndTime().plus(Duration.ofHours(1));
         updatedFs = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
@@ -670,7 +670,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
 
         assertEquals(new HashMap<>(), actualFs.getStudentDeadlines());
         Map<String, Instant> newStudentDeadlines = new HashMap<>();
-        newStudentDeadlines.put("student@school.edu", Instant.now());
+        newStudentDeadlines.put("student@school.edu", Instant.now().plus(Duration.ofHours(4)));
         updatedFs = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
@@ -682,7 +682,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
 
         assertEquals(new HashMap<>(), actualFs.getInstructorDeadlines());
         Map<String, Instant> newInstructorDeadlines = new HashMap<>();
-        newInstructorDeadlines.put("instructor@school.edu", Instant.now());
+        newInstructorDeadlines.put("instructor@school.edu", Instant.now().plus(Duration.ofHours(4)));
         updatedFs = fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
@@ -696,10 +696,10 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse")
                 .withCreatorEmail("valid@email.com")
-                .withSessionVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(-62))
-                .withStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1))
-                .withEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(0))
-                .withResultsVisibleFromTime(TimeHelperExtension.getInstantMinutesOffsetFromNow(1))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
+                .withStartTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
+                .withEndTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(3))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
                 .withGracePeriod(Duration.ofMinutes(5))
                 .withInstructions("Give feedback.")
                 .build();
