@@ -12,7 +12,11 @@
     </div>
   </div>
   <div *ngIf="question.isTabExpanded" @collapseAnim>
-    <div *tmIsLoading="!question.hasPopulated" class="card-body">
+    <div class="d-flex justify-content-center p-3 text-danger" *ngIf="!question.hasPopulated && question.errorMessage">
+        <i class="fas fa-exclamation-circle mt-1 mr-1"></i>{{ question.errorMessage }}
+    </div>
+    <div *tmIsLoading="!question.hasPopulated && !question.errorMessage"></div>
+    <div *ngIf="question.hasPopulated && !question.errorMessage" class="card-body">
       <div class="stats-table">
         <tm-single-statistics *ngIf="showStatistics"
                               [question]="question.question.questionDetails"

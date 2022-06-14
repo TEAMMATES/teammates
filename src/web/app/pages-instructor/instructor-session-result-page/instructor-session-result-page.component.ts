@@ -62,6 +62,7 @@ export interface QuestionTabModel {
   responses: ResponseOutput[];
   statistics: string; // TODO will define types later
   hasPopulated: boolean;
+  errorMessage?: string;
   isTabExpanded: boolean;
 }
 
@@ -341,9 +342,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               this.questionsModel[questionId].responses.push(response));
           missingRespMap.forEach((response: ResponseOutput) =>
               this.questionsModel[questionId].responses.push(response));
+          this.questionsModel[questionId].errorMessage = '';
           this.questionsModel[questionId].hasPopulated = true;
         },
         error: (resp: ErrorMessageOutput) => {
+          this.questionsModel[questionId].errorMessage = resp.error.message;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       },
