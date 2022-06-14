@@ -1,6 +1,10 @@
 package teammates.e2e.cases;
 
+import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -96,7 +100,16 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         copiedSession.setCourseId(otherCourse.getId());
         copiedSession.setFeedbackSessionName(newName);
         copiedSession.setCreatedTime(Instant.now());
+        copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofHours(2))
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
+        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(2))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
         copiedSession.setTimeZone(otherCourse.getTimeZone());
+        // As feedbackSessionAwaiting is loaded with isFullValidationRequired set to false, it is set to true to pass
+        // verifyPresentInDatabase() check
+        copiedSession.setFullValidationRequired(true);
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
 
         homePage.verifyStatusMessage("The feedback session has been copied. "

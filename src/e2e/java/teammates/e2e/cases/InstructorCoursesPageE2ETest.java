@@ -2,6 +2,9 @@ package teammates.e2e.cases;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,10 +56,12 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         copySession = FeedbackSessionAttributes
                 .builder("Second Session", copyCourse.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(session.getStartTime())
-                .withEndTime(session.getEndTime())
-                .withSessionVisibleFromTime(session.getSessionVisibleFromTime())
-                .withResultsVisibleFromTime(session.getResultsVisibleFromTime())
+                .withStartTime(ZonedDateTime.now(ZoneId.of("Asia/Singapore")).plus(Duration.ofHours(2))
+                        .truncatedTo(ChronoUnit.HOURS).toInstant())
+                .withEndTime(ZonedDateTime.now(ZoneId.of("Asia/Singapore")).plus(Duration.ofDays(2))
+                        .truncatedTo(ChronoUnit.DAYS).toInstant())
+                .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
+                .withResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
                 .withGracePeriod(Duration.ofMinutes(session.getGracePeriodMinutes()))
                 .withInstructions(session.getInstructions())
                 .withTimeZone(copyCourse.getTimeZone())

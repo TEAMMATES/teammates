@@ -2,9 +2,9 @@ package teammates.e2e.cases;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -51,12 +51,13 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         openSession = testData.feedbackSessions.get("openSession");
         closedSession = testData.feedbackSessions.get("closedSession");
-        int currentYear = LocalDate.now().getYear();
         newSession = FeedbackSessionAttributes
                 .builder("New Session", course.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(LocalDateTime.of(currentYear + 8, 1, 2, 12, 0).atZone(ZoneId.of("UTC")).toInstant())
-                .withEndTime(LocalDateTime.of(currentYear + 8, 1, 3, 12, 0).atZone(ZoneId.of("UTC")).toInstant())
+                .withStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofHours(1))
+                        .truncatedTo(ChronoUnit.HOURS).toInstant())
+                .withEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofHours(2))
+                        .truncatedTo(ChronoUnit.HOURS).toInstant())
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(Duration.ZERO)
@@ -109,6 +110,15 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession.setCourseId(course.getId());
         copiedSession.setFeedbackSessionName(newName);
         copiedSession.setCreatedTime(Instant.now());
+        copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofHours(2))
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
+        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(2))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+        // As openSession is loaded with isFullValidationRequired set to false, it is set to true to pass
+        // verifyPresentInDatabase() check
+        copiedSession.setFullValidationRequired(true);
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
@@ -124,6 +134,15 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession2.setCourseId(course.getId());
         copiedSession2.setFeedbackSessionName(newName);
         copiedSession2.setCreatedTime(Instant.now());
+        copiedSession2.setStartTime(ZonedDateTime.now(ZoneId.of(copiedSession2.getTimeZone())).plus(Duration.ofHours(2))
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
+        copiedSession2.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession2.getTimeZone())).plus(Duration.ofDays(2))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        copiedSession2.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        copiedSession2.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+        // As openSession2 is loaded with isFullValidationRequired set to false, it is set to true to pass
+        // verifyPresentInDatabase() check
+        copiedSession2.setFullValidationRequired(true);
         feedbackSessionsPage.copySession(openSession, course, newName);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
