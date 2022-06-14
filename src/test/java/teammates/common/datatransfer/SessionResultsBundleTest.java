@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +30,8 @@ public class SessionResultsBundleTest extends BaseTestCase {
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
                         responseBundle.feedbackQuestions, new HashMap<>(),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                        new ArrayList<>(responseBundle.feedbackResponses.values()), new ArrayList<>(),
+                        new HashMap<>(), new HashMap<>(), new HashSet<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -62,7 +63,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
                 new SessionResultsBundle(
                         responseBundle.feedbackQuestions, new HashMap<>(), new ArrayList<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                        new HashMap<>(), new HashMap<>(), new HashSet<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -104,7 +105,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
                         responseBundle.feedbackQuestions, new HashMap<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(), responseGiverVisibilityTable, responseRecipientVisibilityTable,
-                        new HashMap<>(), new HashMap<>(),
+                        new HashSet<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -132,8 +133,8 @@ public class SessionResultsBundleTest extends BaseTestCase {
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
                         responseBundle.feedbackQuestions, new HashMap<>(),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), commentGiverVisibilityTable,
+                        new ArrayList<>(responseBundle.feedbackResponses.values()), new ArrayList<>(),
+                        new HashMap<>(), new HashMap<>(), new HashSet<>(), new HashMap<>(), commentGiverVisibilityTable,
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 

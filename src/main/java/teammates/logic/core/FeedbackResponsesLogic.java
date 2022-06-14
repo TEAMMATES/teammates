@@ -344,13 +344,13 @@ public final class FeedbackResponsesLogic {
             CourseRoster roster, List<FeedbackQuestionAttributes> allQuestions,
             List<FeedbackResponseAttributes> allResponses, boolean isPreviewResults) {
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
-        Map<String, FeedbackQuestionAttributes> questionsNotVisibleToInstructorsMap = new HashMap<>();
+        Set<String> questionsNotVisibleToInstructors = new HashSet<>();
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
 
             // set questions that should not be visible to instructors if results are being previewed
             if (isPreviewResults && !canInstructorsSeeQuestion(qn)) {
-                questionsNotVisibleToInstructorsMap.put(qn.getId(), qn);
+                questionsNotVisibleToInstructors.add(qn.getId());
             }
         }
 
@@ -365,8 +365,9 @@ public final class FeedbackResponsesLogic {
 
         // related questions, responses, and comment
         Map<String, FeedbackQuestionAttributes> relatedQuestionsMap = new HashMap<>();
-        Map<String, FeedbackQuestionAttributes> relatedNotVisibleToInstructorsQuestionsMap = new HashMap<>();
+        Map<String, FeedbackQuestionAttributes> relatedQuestionsNotVisibleForPreviewMap = new HashMap<>();
         Map<String, FeedbackResponseAttributes> relatedResponsesMap = new HashMap<>();
+        Set<String> relatedResponsesWithCommentsNotVisibleForPreview = new HashSet<>();
         Map<String, List<FeedbackResponseCommentAttributes>> relatedCommentsMap = new HashMap<>();
         if (isCourseWide) {
             // all questions are related questions when viewing course-wide result
@@ -391,7 +392,7 @@ public final class FeedbackResponsesLogic {
         // build response
         for (FeedbackResponseAttributes response : allResponses) {
             if (isPreviewResults
-                    && relatedNotVisibleToInstructorsQuestionsMap.get(response.getFeedbackQuestionId()) != null) {
+                    && relatedQuestionsNotVisibleForPreviewMap.get(response.getFeedbackQuestionId()) != null) {
                 // corresponding question's responses will not be shown to previewer, ignore the response
                 continue;
             }
@@ -410,9 +411,8 @@ public final class FeedbackResponsesLogic {
 
             // if previewing results and corresponding question should not be visible to instructors,
             // note down the question and do not add the response
-            if (isPreviewResults
-                    && questionsNotVisibleToInstructorsMap.get(response.getFeedbackQuestionId()) != null) {
-                relatedNotVisibleToInstructorsQuestionsMap.put(response.getFeedbackQuestionId(), correspondingQuestion);
+            if (isPreviewResults && questionsNotVisibleToInstructors.contains(response.getFeedbackQuestionId())) {
+                relatedQuestionsNotVisibleForPreviewMap.put(response.getFeedbackQuestionId(), correspondingQuestion);
                 continue;
             }
 
@@ -442,6 +442,13 @@ public final class FeedbackResponsesLogic {
                 continue;
             }
 
+            // if previewing results and the comment should not be visible to instructors,
+            // note down the corresponding (related) response and do not add the comment
+            if (isPreviewResults && !canInstructorsSeeComment(frc)) {
+                relatedResponsesWithCommentsNotVisibleForPreview.add(frc.getFeedbackResponseId());
+                continue;
+            }
+
             relatedCommentsMap.computeIfAbsent(relatedResponse.getId(), key -> new ArrayList<>()).add(frc);
             // generate comment giver name visibility table
             commentVisibilityTable.put(frc.getId(), frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster));
@@ -457,8 +464,9 @@ public final class FeedbackResponsesLogic {
         }
         RequestTracer.checkRemainingTime();
 
-        return new SessionResultsBundle(relatedQuestionsMap, relatedNotVisibleToInstructorsQuestionsMap,
+        return new SessionResultsBundle(relatedQuestionsMap, relatedQuestionsNotVisibleForPreviewMap,
                 existingResponses, missingResponses, responseGiverVisibilityTable, responseRecipientVisibilityTable,
+                relatedResponsesWithCommentsNotVisibleForPreview,
                 relatedCommentsMap, commentVisibilityTable, roster);
     }
 
@@ -1037,13 +1045,24 @@ public final class FeedbackResponsesLogic {
      * Checks whether instructors can see the question.
      */
     boolean canInstructorsSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        boolean isResponseVisibleToInstructor =
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isGiverVisibleToInstructor =
                 feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor =
                 feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean isResponseVisibleToInstructor =
-                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
+    }
+
+    /**
+     * Checks whether instructors can see the comment.
+     */
+    boolean canInstructorsSeeComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
+        boolean isCommentVisibleToInstructor =
+                feedbackResponseComment.getShowCommentTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isGiverVisibleToInstructor =
+                feedbackResponseComment.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        return isCommentVisibleToInstructor && isGiverVisibleToInstructor;
     }
 
     /**

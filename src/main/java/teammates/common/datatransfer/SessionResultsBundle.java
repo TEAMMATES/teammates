@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -17,27 +18,29 @@ import teammates.common.util.StringHelper;
 public class SessionResultsBundle {
 
     private final Map<String, FeedbackQuestionAttributes> questionsMap;
-    private final Map<String, FeedbackQuestionAttributes> relatedNotVisibleForPreviewQuestionsMap;
+    private final Map<String, FeedbackQuestionAttributes> questionsNotVisibleForPreviewMap;
     private final Map<String, List<FeedbackResponseAttributes>> questionResponseMap;
     private final Map<String, List<FeedbackResponseAttributes>> questionMissingResponseMap;
     private final Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap;
     private final Map<String, Boolean> responseGiverVisibilityTable;
     private final Map<String, Boolean> responseRecipientVisibilityTable;
+    private final Set<String> responsesWithCommentsNotVisibleForPreview;
     private final Map<Long, Boolean> commentGiverVisibilityTable;
     private final CourseRoster roster;
 
     public SessionResultsBundle(Map<String, FeedbackQuestionAttributes> questionsMap,
-                                Map<String, FeedbackQuestionAttributes> relatedNotVisibleForPreviewQuestionsMap,
+                                Map<String, FeedbackQuestionAttributes> questionsNotVisibleForPreviewMap,
                                 List<FeedbackResponseAttributes> responses,
                                 List<FeedbackResponseAttributes> missingResponses,
                                 Map<String, Boolean> responseGiverVisibilityTable,
                                 Map<String, Boolean> responseRecipientVisibilityTable,
+                                Set<String> responsesWithCommentsNotVisibleForPreview,
                                 Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap,
                                 Map<Long, Boolean> commentGiverVisibilityTable,
                                 CourseRoster roster) {
 
         this.questionsMap = questionsMap;
-        this.relatedNotVisibleForPreviewQuestionsMap = relatedNotVisibleForPreviewQuestionsMap;
+        this.questionsNotVisibleForPreviewMap = questionsNotVisibleForPreviewMap;
         this.responseCommentsMap = responseCommentsMap;
         this.responseGiverVisibilityTable = responseGiverVisibilityTable;
         this.responseRecipientVisibilityTable = responseRecipientVisibilityTable;
@@ -45,6 +48,7 @@ public class SessionResultsBundle {
         this.roster = roster;
         this.questionResponseMap = buildQuestionToResponseMap(responses);
         this.questionMissingResponseMap = buildQuestionToResponseMap(missingResponses);
+        this.responsesWithCommentsNotVisibleForPreview = responsesWithCommentsNotVisibleForPreview;
     }
 
     private Map<String, List<FeedbackResponseAttributes>> buildQuestionToResponseMap(
@@ -128,6 +132,10 @@ public class SessionResultsBundle {
         return questionMissingResponseMap;
     }
 
+    public Set<String> getResponsesWithCommentsNotVisibleForPreview() {
+        return responsesWithCommentsNotVisibleForPreview;
+    }
+
     private static String getEncryptedName(String name) {
         return StringHelper.encrypt(name);
     }
@@ -140,8 +148,8 @@ public class SessionResultsBundle {
         return questionsMap;
     }
 
-    public Map<String, FeedbackQuestionAttributes> getRelatedNotVisibleForPreviewQuestionsMap() {
-        return relatedNotVisibleForPreviewQuestionsMap;
+    public Map<String, FeedbackQuestionAttributes> getQuestionsNotVisibleForPreviewMap() {
+        return questionsNotVisibleForPreviewMap;
     }
 
     public Map<String, List<FeedbackResponseCommentAttributes>> getResponseCommentsMap() {

@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -74,8 +75,8 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
                         responseBundle.feedbackQuestions, new HashMap<>(),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                        new ArrayList<>(responseBundle.feedbackResponses.values()), new ArrayList<>(),
+                        new HashMap<>(), new HashMap<>(), new HashSet<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 

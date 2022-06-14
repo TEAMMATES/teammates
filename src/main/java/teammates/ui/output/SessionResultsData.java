@@ -115,7 +115,7 @@ public class SessionResultsData extends ApiOutput {
         });
 
         Map<String, FeedbackQuestionAttributes> questionsWithResponsesNotVisibleForPreview =
-                bundle.getRelatedNotVisibleForPreviewQuestionsMap();
+                bundle.getQuestionsNotVisibleForPreviewMap();
         questionsWithResponsesNotVisibleForPreview.forEach((questionId, question) -> {
             QuestionOutput qnOutput = new QuestionOutput(question, "", true);
             sessionResultsData.questions.add(qnOutput);
@@ -176,6 +176,10 @@ public class SessionResultsData extends ApiOutput {
                 bundle.getResponseCommentsMap().getOrDefault(response.getId(), Collections.emptyList());
         Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
+        // check if response has comments not visible for preview
+        boolean hasCommentNotVisibleForPreview = bundle.getResponsesWithCommentsNotVisibleForPreview()
+                .contains(response.getId());
+
         return ResponseOutput.builder()
                 .withResponseId(response.getId())
                 .withGiver(giverName)
@@ -190,6 +194,7 @@ public class SessionResultsData extends ApiOutput {
                 .withResponseDetails(response.getResponseDetailsCopy())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
+                .withHasCommentNotVisibleForPreview(hasCommentNotVisibleForPreview)
                 .build();
     }
 
@@ -454,6 +459,7 @@ public class SessionResultsData extends ApiOutput {
         @Nullable
         private CommentOutput participantComment;
         private List<CommentOutput> instructorComments;
+        private boolean hasCommentNotVisibleForPreview;
 
         private ResponseOutput() {
             // use builder instead
@@ -603,6 +609,11 @@ public class SessionResultsData extends ApiOutput {
 
             Builder withInstructorComments(List<CommentOutput> instructorComments) {
                 responseOutput.instructorComments = instructorComments;
+                return this;
+            }
+
+            Builder withHasCommentNotVisibleForPreview(boolean hasCommentNotVisibleForPreview) {
+                responseOutput.hasCommentNotVisibleForPreview = hasCommentNotVisibleForPreview;
                 return this;
             }
 
