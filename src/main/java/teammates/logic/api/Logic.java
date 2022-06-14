@@ -1270,13 +1270,13 @@ public class Logic {
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
-            @Nullable String questionId, boolean isForInstructorToPreview) {
+            @Nullable String questionId, boolean isPreviewResults) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert userEmail != null;
 
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSessionName, courseId, userEmail, isInstructor, questionId, isForInstructorToPreview);
+                feedbackSessionName, courseId, userEmail, isInstructor, questionId, isPreviewResults);
     }
 
     /**

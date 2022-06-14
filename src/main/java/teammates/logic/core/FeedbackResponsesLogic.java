@@ -517,12 +517,12 @@ public final class FeedbackResponsesLogic {
      * @param userEmail the user viewing the feedback session
      * @param isInstructor true if the user is an instructor
      * @param questionId if not null, will only return partial bundle for the question
-     * @param isForInstructorToPreview true if getting session results for previewing purpose
+     * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
-            @Nullable String questionId, boolean isForInstructorToPreview) {
+            @Nullable String questionId, boolean isPreviewResults) {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
@@ -546,7 +546,7 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         return buildResultsBundle(false, feedbackSessionName, courseId, null, questionId, isInstructor, userEmail,
-                instructor, student, roster, allQuestions, allResponses, isForInstructorToPreview);
+                instructor, student, roster, allQuestions, allResponses, isPreviewResults);
     }
 
     /**
