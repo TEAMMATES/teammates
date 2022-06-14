@@ -532,6 +532,10 @@ public class SessionResultsData extends ApiOutput {
             return instructorComments;
         }
 
+        public boolean hasCommentNotVisibleForPreview() {
+            return hasCommentNotVisibleForPreview;
+        }
+
         /**
          * Builder class for {@link ResponseOutput}.
          */
