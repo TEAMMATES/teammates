@@ -332,6 +332,7 @@ describe('SessionResultPageComponent', () => {
         feedbackQuestion: testQuestion1,
         questionStatistics: '',
         allResponses: [],
+        hasResponseButNotVisibleForPreview: false,
         responsesToSelf: [],
         responsesFromSelf: [
           {
@@ -349,6 +350,7 @@ describe('SessionResultPageComponent', () => {
               otherFieldContent: '',
             } as FeedbackMcqResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
         ],
         otherResponses: [[]],
@@ -357,6 +359,7 @@ describe('SessionResultPageComponent', () => {
         feedbackQuestion: testQuestion2,
         questionStatistics: '',
         allResponses: [],
+        hasResponseButNotVisibleForPreview: false,
         responsesToSelf: [
           {
             isMissingResponse: false,
@@ -371,6 +374,7 @@ describe('SessionResultPageComponent', () => {
               answer: 120,
             } as FeedbackContributionResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
         ],
         responsesFromSelf: [
@@ -387,6 +391,7 @@ describe('SessionResultPageComponent', () => {
               answer: 110,
             } as FeedbackContributionResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
           {
             isMissingResponse: false,
@@ -401,6 +406,7 @@ describe('SessionResultPageComponent', () => {
               answer: 100,
             } as FeedbackContributionResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
         ],
         otherResponses: [[]],
@@ -409,6 +415,7 @@ describe('SessionResultPageComponent', () => {
         feedbackQuestion: testQuestion3,
         questionStatistics: '',
         allResponses: [],
+        hasResponseButNotVisibleForPreview: false,
         responsesToSelf: [],
         responsesFromSelf: [
           {
@@ -436,6 +443,7 @@ describe('SessionResultPageComponent', () => {
                 showCommentTo: [],
               },
             ],
+            hasCommentNotVisibleForPreview: false,
           },
         ],
         otherResponses: [[]],
@@ -466,6 +474,7 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
           {
             isMissingResponse: false,
@@ -480,6 +489,7 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
           {
             isMissingResponse: false,
@@ -494,8 +504,10 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
         ],
+        hasResponseButNotVisibleForPreview: false,
         responsesToSelf: [],
         responsesFromSelf: [
           {
@@ -511,6 +523,7 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
           {
             isMissingResponse: false,
@@ -525,6 +538,7 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
           {
             isMissingResponse: false,
@@ -539,6 +553,7 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
         ],
         otherResponses: [],
@@ -560,8 +575,10 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
         ],
+        hasResponseButNotVisibleForPreview: false,
         responsesToSelf: [],
         responsesFromSelf: [
           {
@@ -577,6 +594,7 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
+            hasCommentNotVisibleForPreview: false,
           },
         ],
         otherResponses: [],
@@ -653,6 +671,7 @@ describe('SessionResultPageComponent', () => {
           feedbackQuestion: testQuestion1,
           questionStatistics: '',
           allResponses: [],
+          hasResponseButNotVisibleForPreview: false,
           responsesToSelf: [],
           responsesFromSelf: [],
           otherResponses: [],
@@ -661,6 +680,7 @@ describe('SessionResultPageComponent', () => {
           feedbackQuestion: testQuestion3,
           questionStatistics: '',
           allResponses: [],
+          hasResponseButNotVisibleForPreview: false,
           responsesToSelf: [],
           responsesFromSelf: [],
           otherResponses: [],
@@ -669,6 +689,7 @@ describe('SessionResultPageComponent', () => {
           feedbackQuestion: testQuestion2,
           questionStatistics: '',
           allResponses: [],
+          hasResponseButNotVisibleForPreview: false,
           responsesToSelf: [],
           responsesFromSelf: [],
           otherResponses: [],

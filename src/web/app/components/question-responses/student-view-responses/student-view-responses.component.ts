@@ -49,7 +49,7 @@ export class StudentViewResponsesComponent implements OnInit {
   }
 
   anyResponseHasCommentNotVisibleForPreview(): boolean {
-    for (let response of this.responses) {
+    for (const response of this.responses) {
       if (response.hasCommentNotVisibleForPreview) {
         return true;
       }
