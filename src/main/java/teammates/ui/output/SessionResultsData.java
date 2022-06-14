@@ -532,7 +532,7 @@ public class SessionResultsData extends ApiOutput {
             return instructorComments;
         }
 
-        public boolean hasCommentNotVisibleForPreview() {
+        public boolean getHasCommentNotVisibleForPreview() {
             return hasCommentNotVisibleForPreview;
         }
 
