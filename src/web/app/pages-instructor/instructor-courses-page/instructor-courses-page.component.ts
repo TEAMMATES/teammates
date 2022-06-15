@@ -322,7 +322,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       // Wrap in a Promise to wait for all feedback sessions to be copied
       const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
         result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-          this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
+          this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone, result.oldCourseId)
             .pipe(finalize(() => {
               this.numberOfSessionsCopied += 1;
               this.copyProgressPercentage =
@@ -372,26 +372,26 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Copies a feedback session.
    */
-  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string, oldCourseId: string):
-      Observable<FeedbackSession> {
-    return this.feedbackSessionsService
-      .createFeedbackSession(newCourseId, this.toFbSessionCreationReqWithName(fromFeedbackSession, oldCourseId));
+  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string,
+                              newTimeZone: string, oldCourseId: string): Observable<FeedbackSession> {
+    return this.feedbackSessionsService.createFeedbackSession(newCourseId,
+        this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId));
   }
 
   /**
    * Creates a FeedbackSessionCreateRequest with the provided name.
    */
-  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, oldCourseId: string):
-      FeedbackSessionCreateRequest {
+  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, newTimeZone: string,
+                                         oldCourseId: string): FeedbackSessionCreateRequest {
     return {
       feedbackSessionName: fromFeedbackSession.feedbackSessionName,
       toCopyCourseId: oldCourseId,
       toCopySessionName: fromFeedbackSession.feedbackSessionName,
       instructions: fromFeedbackSession.instructions,
 
-      submissionStartTimestamp: moment().tz(fromFeedbackSession.timeZone).add(2, 'hours').startOf('hour')
+      submissionStartTimestamp: moment().tz(newTimeZone).add(2, 'hours').startOf('hour')
           .valueOf(),
-      submissionEndTimestamp: moment().tz(fromFeedbackSession.timeZone).add(2, 'days').startOf('day')
+      submissionEndTimestamp: moment().tz(newTimeZone).add(2, 'days').startOf('day')
           .valueOf(),
       gracePeriod: fromFeedbackSession.gracePeriod,
 
