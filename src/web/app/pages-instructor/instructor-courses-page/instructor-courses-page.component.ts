@@ -389,8 +389,10 @@ export class InstructorCoursesPageComponent implements OnInit {
       toCopySessionName: fromFeedbackSession.feedbackSessionName,
       instructions: fromFeedbackSession.instructions,
 
-      submissionStartTimestamp: moment().add(2, 'hours').startOf('hour').valueOf(),
-      submissionEndTimestamp: moment().add(2, 'days').startOf('day').valueOf(),
+      submissionStartTimestamp: moment().tz(fromFeedbackSession.timeZone).add(2, 'hours').startOf('hour')
+          .valueOf(),
+      submissionEndTimestamp: moment().tz(fromFeedbackSession.timeZone).add(2, 'days').startOf('day')
+          .valueOf(),
       gracePeriod: fromFeedbackSession.gracePeriod,
 
       sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,

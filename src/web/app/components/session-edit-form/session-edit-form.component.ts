@@ -174,7 +174,7 @@ export class SessionEditFormComponent {
    * Gets the minimum date for a session to be opened.
    */
   get minDateForSessionOpen(): DateFormat {
-    const today = moment();
+    const today = moment().tz(this.model.timeZone);
     today.subtract(3, 'hours');
     return this.getDateInstance(today);
   }
@@ -183,7 +183,7 @@ export class SessionEditFormComponent {
    * Gets the minimum time for a session to be opened.
    */
   get minTimeForSessionOpen(): TimeFormat {
-    const now = moment();
+    const now = moment().tz(this.model.timeZone);
     now.subtract(3, 'hours');
     // Round up to nearest hour to ensure minTime is later than 3 hours before now
     if (now.minute() !== 0) {
@@ -199,7 +199,7 @@ export class SessionEditFormComponent {
    * Gets the maximum date for a session to be opened.
    */
   get maxDateForSessionOpen(): DateFormat {
-    const today = moment();
+    const today = moment().tz(this.model.timeZone);
     today.add(90, 'days');
     return this.getDateInstance(today);
   }
@@ -208,7 +208,7 @@ export class SessionEditFormComponent {
    * Gets the maximum date for a session to be closed.
    */
   get maxDateForSessionClose(): DateFormat {
-    const today = moment();
+    const today = moment().tz(this.model.timeZone);
     today.add(180, 'days');
     return this.getDateInstance(today);
   }

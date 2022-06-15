@@ -61,8 +61,10 @@ export abstract class InstructorSessionBasePageComponent {
       toCopySessionName: fromFeedbackSession.feedbackSessionName,
       toCopyCourseId: oldCourseId,
 
-      submissionStartTimestamp: moment().add(2, 'hours').startOf('hour').valueOf(),
-      submissionEndTimestamp: moment().add(2, 'days').startOf('day').valueOf(),
+      submissionStartTimestamp: moment().tz(fromFeedbackSession.timeZone).add(2, 'hours').startOf('hour')
+          .valueOf(),
+      submissionEndTimestamp: moment().tz(fromFeedbackSession.timeZone).add(2, 'days').startOf('day')
+          .valueOf(),
       gracePeriod: fromFeedbackSession.gracePeriod,
 
       sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
