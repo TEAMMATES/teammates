@@ -44,6 +44,7 @@ interface LogType {
  * Model for displaying of feedback session logs
  */
 interface FeedbackSessionLogModel {
+  publishedDate: string;
   feedbackSessionName: string;
   logColumnsData: ColumnData[];
   logRowsData: SortableTableCellData[][];
@@ -93,7 +94,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   studentToLog: Record<string, FeedbackSessionLogEntry> = {};
   students: Student[] = [];
-  feedbackSessions: FeedbackSession[] = [];
+  feedbackSessions: Map<string, FeedbackSession> = new Map();
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading: boolean = true;
   isSearching: boolean = false;
@@ -169,14 +170,18 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         }),
     ).subscribe((logs: FeedbackSessionLogs) => {
       if (this.formModel.feedbackSessionName === '') {
-        logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
-            this.searchResults.push(this.toFeedbackSessionLogModel(log)));
+        logs.feedbackSessionLogs.map((log: FeedbackSessionLog) => {
+          this.searchResults.push(this.toFeedbackSessionLogModel(log));
+          log.feedbackSessionLogEntries.forEach(entry => this.studentToLog[entry.studentData.email] = entry);
+        });
       } else {
         const targetFeedbackSessionLog = logs.feedbackSessionLogs.find((log: FeedbackSessionLog) =>
             log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
 
         if (targetFeedbackSessionLog) {
           this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
+          targetFeedbackSessionLog.feedbackSessionLogEntries.forEach(entry =>
+              this.studentToLog[entry.studentData.email] = entry);
         }
       }
     }, (e: ErrorMessageOutput) => {
@@ -203,9 +208,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.feedbackSessionsService
         .getFeedbackSessionsForInstructor(courseId)
         .subscribe(((feedbackSessions: FeedbackSessions) => {
-              if (feedbackSessions.feedbackSessions.length > 0) {
-                this.feedbackSessions = [...feedbackSessions.feedbackSessions];
-              }
+              feedbackSessions.feedbackSessions.forEach(fs =>
+                  this.feedbackSessions.set(fs.feedbackSessionName, fs));
             }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
@@ -230,49 +234,101 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     }
   }
 
+  // private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
+  //   return {
+  //     isTabExpanded: log.feedbackSessionLogEntries.length === 0,
+  //     feedbackSessionName: log.feedbackSessionData.feedbackSessionName,
+  //     logColumnsData: [
+  //       { header: 'Time', sortBy: SortBy.LOG_DATE },
+  //       { header: 'Name', sortBy: SortBy.GIVER_NAME },
+  //       { header: 'Activity', sortBy: SortBy.LOG_TYPE },
+  //       { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
+  //       { header: 'Section', sortBy: SortBy.SECTION_NAME },
+  //       { header: 'Team', sortBy: SortBy.TEAM_NAME },
+  //     ],
+  //     logRowsData: log.feedbackSessionLogEntries
+  //       .map((entry: FeedbackSessionLogEntry) => {
+  //         return [
+  //           {
+  //             value: this.timezoneService.formatToString(
+  //                 entry.timestamp, log.feedbackSessionData.timeZone,
+  //                 this.LOGS_DATE_TIME_FORMAT),
+  //             style: 'font-family:monospace;',
+  //           },
+  //           { value: entry.studentData.name },
+  //           {
+  //             value: this.logTypeToActivityDisplay(entry.feedbackSessionLogType.toString()),
+  //           },
+  //           { value: entry.studentData.email },
+  //           { value: entry.studentData.sectionName },
+  //           { value: entry.studentData.teamName },
+  //         ];
+  //       }),
+  //   };
+  // }
+
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
+    const fsName = log.feedbackSessionData.feedbackSessionName;
+    const publishedTime = this.feedbackSessions.get(fsName)!!.resultVisibleFromTimestamp || 0;
+    const publishedDate: Date = new Date(publishedTime);
+    const notViewedSince = publishedDate.getTime();
+
     return {
-      isTabExpanded: log.feedbackSessionLogEntries.length === 0,
-      feedbackSessionName: log.feedbackSessionData.feedbackSessionName,
+      feedbackSessionName: fsName,
+      publishedDate: this.timezoneService.formatToString(
+          publishedTime, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT),
       logColumnsData: [
-        { header: 'Time', sortBy: SortBy.LOG_DATE },
-        { header: 'Name', sortBy: SortBy.GIVER_NAME },
+        { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
         { header: 'Activity', sortBy: SortBy.LOG_TYPE },
+        { header: 'Name', sortBy: SortBy.GIVER_NAME },
         { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
         { header: 'Section', sortBy: SortBy.SECTION_NAME },
         { header: 'Team', sortBy: SortBy.TEAM_NAME },
       ],
-      logRowsData: log.feedbackSessionLogEntries
-        .map((entry: FeedbackSessionLogEntry) => {
-          return [
-            {
-              value: this.timezoneService.formatToString(
-                  entry.timestamp, log.feedbackSessionData.timeZone,
-                  this.LOGS_DATE_TIME_FORMAT),
-              style: 'font-family:monospace;',
-            },
-            { value: entry.studentData.name },
-            {
-              value: this.logTypeToActivityDisplay(entry.feedbackSessionLogType.toString()),
-            },
-            { value: entry.studentData.email },
-            { value: entry.studentData.sectionName },
-            { value: entry.studentData.teamName },
-          ];
-        }),
+      logRowsData: this.students
+          .filter(student => student.email !== '')
+          .map((student: Student) => {
+            let status: string;
+            let dataStyle: string = 'font-family:monospace; white-space:pre;';
+            if (student.email in this.studentToLog) {
+              const entry: FeedbackSessionLogEntry = this.studentToLog[student.email];
+              const timestamp: string = this.timezoneService.formatToString(
+                  entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+              status = `Viewed last at   ${timestamp}`;
+            } else {
+              const timestamp: string = this.timezoneService.formatToString(
+                  notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+              status = `Not viewed since ${timestamp}`;
+              dataStyle += 'color:red;';
+            }
+            return [
+              {
+                value: status,
+                style: dataStyle,
+              },
+              {
+                value: this.formModel.logType,// this.logTypeToActivityDisplay(this.formModel.logType),
+              },
+              { value: student.name },
+              { value: student.email },
+              { value: student.sectionName },
+              { value: student.teamName },
+            ];
+          }),
+      isTabExpanded: log.feedbackSessionLogEntries.length === 0,
     };
   }
 
-  private logTypeToActivityDisplay(logType: string): string {
-    switch (logType.toUpperCase()) {
-      case 'ACCESS':
-        return 'Viewed the submission page';
-      case 'SUBMISSION':
-        return 'Submitted responses';
-      case 'VIEW_RESULT':
-        return 'Viewed the session results';
-      default:
-        return 'Unknown activity';
-    }
-  }
+  // private logTypeToActivityDisplay(logType: string): string {
+  //   switch (logType.toUpperCase()) {
+  //     case 'ACCESS':
+  //       return 'Viewed the submission page';
+  //     case 'SUBMISSION':
+  //       return 'Submitted responses';
+  //     case 'VIEW_RESULT':
+  //       return 'Viewed the session results';
+  //     default:
+  //       return 'Unknown activity';
+  //   }
+  // }
 }
