@@ -49,7 +49,7 @@ public class SessionResultsData extends ApiOutput {
             FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(questionId);
             FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(question, null, bundle), false);
+                    questionDetails.getQuestionResultStatisticsJson(question, null, bundle), false, false);
             // put normal responses
             List<ResponseOutput> allResponses = buildResponsesForInstructor(responses, bundle, false);
             qnOutput.allResponses.addAll(allResponses);
@@ -75,8 +75,12 @@ public class SessionResultsData extends ApiOutput {
         questionsWithResponses.forEach((questionId, responses) -> {
             FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(questionId);
             FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
+            // check if question has comments (on any responses) not visible for preview
+            boolean hasCommentNotVisibleForPreview = bundle.getQuestionsWithCommentNotVisibleForPreview()
+                    .contains(questionId);
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(question, student.getEmail(), bundle), false);
+                    questionDetails.getQuestionResultStatisticsJson(question, student.getEmail(), bundle),
+                    false, hasCommentNotVisibleForPreview);
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
@@ -117,7 +121,7 @@ public class SessionResultsData extends ApiOutput {
         Map<String, FeedbackQuestionAttributes> questionsWithResponsesNotVisibleForPreview =
                 bundle.getQuestionsNotVisibleForPreviewMap();
         questionsWithResponsesNotVisibleForPreview.forEach((questionId, question) -> {
-            QuestionOutput qnOutput = new QuestionOutput(question, "", true);
+            QuestionOutput qnOutput = new QuestionOutput(question, "", true, false);
             sessionResultsData.questions.add(qnOutput);
         });
 
@@ -176,10 +180,6 @@ public class SessionResultsData extends ApiOutput {
                 bundle.getResponseCommentsMap().getOrDefault(response.getId(), Collections.emptyList());
         Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
-        // check if response has comments not visible for preview
-        boolean hasCommentNotVisibleForPreview = bundle.getResponsesWithCommentsNotVisibleForPreview()
-                .contains(response.getId());
-
         return ResponseOutput.builder()
                 .withResponseId(response.getId())
                 .withGiver(giverName)
@@ -194,7 +194,6 @@ public class SessionResultsData extends ApiOutput {
                 .withResponseDetails(response.getResponseDetailsCopy())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
-                .withHasCommentNotVisibleForPreview(hasCommentNotVisibleForPreview)
                 .build();
     }
 
@@ -385,6 +384,7 @@ public class SessionResultsData extends ApiOutput {
 
         private final List<ResponseOutput> allResponses = new ArrayList<>();
         private final boolean hasResponseButNotVisibleForPreview;
+        private final boolean hasCommentNotVisibleForPreview;
 
         // For student view only
         private final List<ResponseOutput> responsesToSelf = new ArrayList<>();
@@ -392,10 +392,11 @@ public class SessionResultsData extends ApiOutput {
         private final List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
         private QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics,
-                               boolean hasResponseButNotVisibleForPreview) {
+                               boolean hasResponseButNotVisibleForPreview, boolean hasCommentNotVisibleForPreview) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.questionStatistics = questionStatistics;
             this.hasResponseButNotVisibleForPreview = hasResponseButNotVisibleForPreview;
+            this.hasCommentNotVisibleForPreview = hasCommentNotVisibleForPreview;
         }
 
         public FeedbackQuestionData getFeedbackQuestion() {
@@ -412,6 +413,10 @@ public class SessionResultsData extends ApiOutput {
 
         public boolean getHasResponseButNotVisibleForPreview() {
             return hasResponseButNotVisibleForPreview;
+        }
+
+        public boolean getHasCommentNotVisibleForPreview() {
+            return hasCommentNotVisibleForPreview;
         }
 
         public List<ResponseOutput> getResponsesFromSelf() {
@@ -459,7 +464,6 @@ public class SessionResultsData extends ApiOutput {
         @Nullable
         private CommentOutput participantComment;
         private List<CommentOutput> instructorComments;
-        private boolean hasCommentNotVisibleForPreview;
 
         private ResponseOutput() {
             // use builder instead
@@ -530,10 +534,6 @@ public class SessionResultsData extends ApiOutput {
 
         public List<CommentOutput> getInstructorComments() {
             return instructorComments;
-        }
-
-        public boolean getHasCommentNotVisibleForPreview() {
-            return hasCommentNotVisibleForPreview;
         }
 
         /**
@@ -613,11 +613,6 @@ public class SessionResultsData extends ApiOutput {
 
             Builder withInstructorComments(List<CommentOutput> instructorComments) {
                 responseOutput.instructorComments = instructorComments;
-                return this;
-            }
-
-            Builder withHasCommentNotVisibleForPreview(boolean hasCommentNotVisibleForPreview) {
-                responseOutput.hasCommentNotVisibleForPreview = hasCommentNotVisibleForPreview;
                 return this;
             }
 

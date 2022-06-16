@@ -366,8 +366,8 @@ public final class FeedbackResponsesLogic {
         // related questions, responses, and comment
         Map<String, FeedbackQuestionAttributes> relatedQuestionsMap = new HashMap<>();
         Map<String, FeedbackQuestionAttributes> relatedQuestionsNotVisibleForPreviewMap = new HashMap<>();
+        Set<String> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
         Map<String, FeedbackResponseAttributes> relatedResponsesMap = new HashMap<>();
-        Set<String> relatedResponsesWithCommentsNotVisibleForPreview = new HashSet<>();
         Map<String, List<FeedbackResponseCommentAttributes>> relatedCommentsMap = new HashMap<>();
         if (isCourseWide) {
             // all questions are related questions when viewing course-wide result
@@ -443,9 +443,9 @@ public final class FeedbackResponsesLogic {
             }
 
             // if previewing results and the comment should not be visible to instructors,
-            // note down the corresponding (related) response and do not add the comment
+            // note down the corresponding question and do not add the comment
             if (isPreviewResults && !canInstructorsSeeComment(frc)) {
-                relatedResponsesWithCommentsNotVisibleForPreview.add(frc.getFeedbackResponseId());
+                relatedQuestionsWithCommentNotVisibleForPreview.add(frc.getFeedbackQuestionId());
                 continue;
             }
 
@@ -465,8 +465,8 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         return new SessionResultsBundle(relatedQuestionsMap, relatedQuestionsNotVisibleForPreviewMap,
+                relatedQuestionsWithCommentNotVisibleForPreview,
                 existingResponses, missingResponses, responseGiverVisibilityTable, responseRecipientVisibilityTable,
-                relatedResponsesWithCommentsNotVisibleForPreview,
                 relatedCommentsMap, commentVisibilityTable, roster);
     }
 

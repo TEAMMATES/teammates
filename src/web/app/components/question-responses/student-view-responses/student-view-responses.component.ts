@@ -48,13 +48,4 @@ export class StudentViewResponsesComponent implements OnInit {
     this.recipient = this.responses.length ? this.responses[0].recipient : '';
   }
 
-  anyResponseHasCommentNotVisibleForPreview(): boolean {
-    for (const response of this.responses) {
-      if (response.hasCommentNotVisibleForPreview) {
-        return true;
-      }
-    }
-    return false;
-  }
-
 }

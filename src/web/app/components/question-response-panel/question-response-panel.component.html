@@ -3,6 +3,9 @@
     <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
     <div *ngIf="!question.hasResponseButNotVisibleForPreview, else nonViewableForPreview">
       <div id="other-responses" *ngIf="canUserSeeResponses(question), else nonViewableResponse">
+        <div *ngIf="question.hasCommentNotVisibleForPreview" class="alert alert-warning my-3" role="alert">
+          <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted from this preview because they are not visible to instructors, as per their visibility settings.
+        </div>
         <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
                               [responses]="question.allResponses"
                               [statistics]="question.questionStatistics"
@@ -34,7 +37,7 @@
     </div>
     <ng-template #nonViewableForPreview>
       <div class="alert alert-warning other-response" role="alert">
-        Due to visibility settings, this question has responses that are visible to the respondent but are not supposed to be shown to instructors (i.e you).
+        <i class="fas fa-eye-slash"></i> Responses received for this question are omitted from this preview because some (or all) parts of them are not visible to instructors, as per their visibility settings.
       </div>
     </ng-template>
   </div>

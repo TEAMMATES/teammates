@@ -95,7 +95,6 @@ export const EXAMPLE_RESPONSE: ResponseOutput = {
   recipientSection: 'Section B',
   responseDetails: DEFAULT_CONTRIBUTION_RESPONSE_DETAILS(),
   instructorComments: [],
-  hasCommentNotVisibleForPreview: false,
 };
 /**
  * Structure of example response with comment
@@ -124,7 +123,6 @@ export const EXAMPLE_RESPONSE_WITH_COMMENT: ResponseOutput = {
     showGiverNameTo: [CommentVisibilityType.GIVER],
     showCommentTo: [CommentVisibilityType.GIVER],
   }],
-  hasCommentNotVisibleForPreview: false,
 };
 /**
  * Structure of example course candidates
@@ -299,7 +297,6 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
             } as FeedbackMcqResponseDetails,
             instructorComments: [],
             isMissingResponse: false,
-            hasCommentNotVisibleForPreview: false,
           },
           {
             responseId: 'feedbackQuestionId%bob@example.com%danny@example.com',
@@ -319,10 +316,10 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
             } as FeedbackMcqResponseDetails,
             instructorComments: [],
             isMissingResponse: false,
-            hasCommentNotVisibleForPreview: false,
           },
         ],
         hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
         responsesToSelf: [],
         responsesFromSelf: [],
         otherResponses: [],
@@ -363,6 +360,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
   questionStatistics: '',
   allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],
   hasResponseButNotVisibleForPreview: false,
+  hasCommentNotVisibleForPreview: false,
   responsesToSelf: [
     {
       responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
@@ -379,7 +377,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
       } as FeedbackMcqResponseDetails,
       instructorComments: [],
       isMissingResponse: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
   responsesFromSelf: [
@@ -398,7 +395,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
       } as FeedbackMcqResponseDetails,
       instructorComments: [],
       isMissingResponse: false,
-      hasCommentNotVisibleForPreview: false,
     },
     {
       responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
@@ -415,7 +411,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
       } as FeedbackMcqResponseDetails,
       instructorComments: [],
       isMissingResponse: false,
-      hasCommentNotVisibleForPreview: false,
     },
   ],
   otherResponses: [],

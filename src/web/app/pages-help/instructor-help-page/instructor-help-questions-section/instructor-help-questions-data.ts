@@ -243,7 +243,6 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -261,7 +260,6 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -279,7 +277,6 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -297,7 +294,6 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -315,7 +311,6 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -333,7 +328,6 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -351,7 +345,6 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -369,7 +362,6 @@ export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
 ];
 /**
@@ -607,7 +599,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -625,7 +616,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -643,7 +633,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -661,7 +650,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -679,7 +667,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -697,7 +684,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -715,7 +701,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -733,7 +718,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
 ];
 /**
@@ -837,7 +821,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -855,7 +838,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -873,7 +855,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -891,7 +872,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -909,7 +889,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -927,7 +906,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -945,7 +923,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -963,7 +940,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
 ];
 /**
@@ -1091,7 +1067,6 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1109,7 +1084,6 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1127,7 +1101,6 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1145,7 +1118,6 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1163,7 +1135,6 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1181,7 +1152,6 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1199,7 +1169,6 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1217,7 +1186,6 @@ export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
 ];
 /**
@@ -1288,7 +1256,6 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     } as FeedbackRankRecipientsResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1306,7 +1273,6 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     } as FeedbackRankRecipientsResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1324,7 +1290,6 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     } as FeedbackRankRecipientsResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1342,7 +1307,6 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     } as FeedbackRankRecipientsResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1360,7 +1324,6 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     } as FeedbackRankRecipientsResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1378,7 +1341,6 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     } as FeedbackRankRecipientsResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1396,7 +1358,6 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     } as FeedbackRankRecipientsResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
   {
     isMissingResponse: false,
@@ -1414,7 +1375,6 @@ export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     } as FeedbackRankRecipientsResponseDetails,
     instructorComments: [],
-    hasCommentNotVisibleForPreview: false,
   },
 ];
 /**

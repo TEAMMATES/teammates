@@ -29,9 +29,9 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
-                        responseBundle.feedbackQuestions, new HashMap<>(),
+                        responseBundle.feedbackQuestions, new HashMap<>(), new HashSet<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()), new ArrayList<>(),
-                        new HashMap<>(), new HashMap<>(), new HashSet<>(), new HashMap<>(), new HashMap<>(),
+                        new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -61,9 +61,9 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
-                        responseBundle.feedbackQuestions, new HashMap<>(), new ArrayList<>(),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new HashMap<>(), new HashMap<>(), new HashSet<>(), new HashMap<>(), new HashMap<>(),
+                        responseBundle.feedbackQuestions, new HashMap<>(), new HashSet<>(),
+                        new ArrayList<>(), new ArrayList<>(responseBundle.feedbackResponses.values()),
+                        new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -102,10 +102,10 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
-                        responseBundle.feedbackQuestions, new HashMap<>(),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(), responseGiverVisibilityTable, responseRecipientVisibilityTable,
-                        new HashSet<>(), new HashMap<>(), new HashMap<>(),
+                        responseBundle.feedbackQuestions, new HashMap<>(), new HashSet<>(),
+                        new ArrayList<>(responseBundle.feedbackResponses.values()), new ArrayList<>(),
+                        responseGiverVisibilityTable, responseRecipientVisibilityTable,
+                        new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -132,9 +132,9 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
-                        responseBundle.feedbackQuestions, new HashMap<>(),
+                        responseBundle.feedbackQuestions, new HashMap<>(), new HashSet<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()), new ArrayList<>(),
-                        new HashMap<>(), new HashMap<>(), new HashSet<>(), new HashMap<>(), commentGiverVisibilityTable,
+                        new HashMap<>(), new HashMap<>(), new HashMap<>(), commentGiverVisibilityTable,
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
