@@ -33,9 +33,6 @@ public class CourseStudent extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
-    @Translate(InstantTranslatorFactory.class)
-    private Instant lastLogTimestamp;
-
     private transient String registrationKey;
 
     /**
@@ -175,14 +172,6 @@ public class CourseStudent extends BaseEntity {
 
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName == null ? null : sectionName.trim();
-    }
-
-    public Instant getLastLogTimestamp() {
-        return lastLogTimestamp;
-    }
-
-    public void setLastLogTimestamp(Instant lastLogTimestamp) {
-        this.lastLogTimestamp = lastLogTimestamp;
     }
 
     /**

@@ -124,10 +124,6 @@ public class Logic {
         return feedbackSessionLogEntriesLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 
-    public long getLatestLogTimestamp() {
-        return feedbackSessionLogEntriesLogic.getLatestLogTimestamp();
-    }
-
     public List<FeedbackSessionLogEntryAttributes> createFeedbackSessionLogs(
             List<FeedbackSessionLogEntryAttributes> entries) throws InvalidParametersException {
         return feedbackSessionLogEntriesLogic.createFeedbackSessionLogs(entries);

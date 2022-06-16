@@ -39,27 +39,6 @@ class CreateFeedbackSessionLogAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-
-        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        Instant now = Instant.now();
-        long timeDiff = Math.abs(student.getLastLogTimestamp().toEpochMilli() - now.toEpochMilli());
-
-        // Minimum time difference of 2s between logs to prevent spams
-        if (timeDiff < 2 * 1000) {
-            return new JsonResult("Session log not created. Time difference between logs exceeded the 2s limit");
-        }
-
-        student.setLastLogTimestamp(now);
-
-        try {
-            logic.updateStudentCascade(
-                    StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
-                            .withLastLogTimestamp(now).build()
-            );
-        } catch (EntityAlreadyExistsException | EntityDoesNotExistException | InvalidParametersException e) {
-            return new JsonResult("Failed to update student's last log timestamp");
-        }
-
         String fsName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         // Skip rigorous validations to avoid incurring extra db reads and to keep the endpoint light
 

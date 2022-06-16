@@ -64,20 +64,6 @@ public final class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessio
     }
 
     /**
-     * Gets latest timestamp for feedback session logs.
-     */
-    public long getLatestLogTimestamp() {
-        List<FeedbackSessionLogEntry> entries =
-                load().order("-timestamp").limit(1).list();
-
-        if (entries.isEmpty()) {
-            return 0;
-        }
-
-        return entries.get(0).getTimestamp();
-    }
-
-    /**
      * Creates feedback session logs.
      */
     public List<FeedbackSessionLogEntryAttributes> createFeedbackSessionLogs(

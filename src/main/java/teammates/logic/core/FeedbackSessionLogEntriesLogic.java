@@ -33,13 +33,6 @@ public final class FeedbackSessionLogEntriesLogic {
     }
 
     /**
-     * Gets the latest timestamp for feedback session logs.
-     */
-    public long getLatestLogTimestamp() {
-        return fslEntriesDb.getLatestLogTimestamp();
-    }
-
-    /**
      * Creates feed back session logs.
      */
     public List<FeedbackSessionLogEntryAttributes> createFeedbackSessionLogs(

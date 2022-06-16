@@ -24,7 +24,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     private String comments;
     private String team;
     private String section;
-    private Instant lastLogTimestamp;
     private transient String key;
     private transient Instant createdAt;
     private transient Instant updatedAt;
@@ -60,9 +59,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         if (student.getUpdatedAt() != null) {
             studentAttributes.updatedAt = student.getUpdatedAt();
         }
-        if (student.getLastLogTimestamp() != null) {
-            studentAttributes.lastLogTimestamp = student.getLastLogTimestamp();
-        }
 
         return studentAttributes;
     }
@@ -88,7 +84,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         studentAttributes.key = key;
         studentAttributes.createdAt = createdAt;
         studentAttributes.updatedAt = updatedAt;
-        studentAttributes.lastLogTimestamp = lastLogTimestamp;
 
         return studentAttributes;
     }
@@ -175,21 +170,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         this.comments = comments;
     }
 
-    /**
-     * Get the last log timestamp for this student.
-     */
-    public Instant getLastLogTimestamp() {
-        if (lastLogTimestamp == null) {
-            return Instant.ofEpochMilli(0);
-        }
-
-        return lastLogTimestamp;
-    }
-
-    public void setLastLogTimestamp(Instant lastLogTimestamp) {
-        this.lastLogTimestamp = lastLogTimestamp;
-    }
-
     @Override
     public boolean equals(Object other) {
         if (other == null) {
@@ -256,13 +236,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public CourseStudent toEntity() {
-        CourseStudent entity = new CourseStudent(email, name, googleId, comments, course, team, section);
-
-        if (lastLogTimestamp != null) {
-            entity.setLastLogTimestamp(lastLogTimestamp);
-        }
-
-        return entity;
+        return new CourseStudent(email, name, googleId, comments, course, team, section);
     }
 
     @Override
@@ -311,7 +285,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         updateOptions.googleIdOption.ifPresent(s -> googleId = s);
         updateOptions.teamNameOption.ifPresent(s -> team = s);
         updateOptions.sectionNameOption.ifPresent(s -> section = s);
-        updateOptions.lastLogTimestampOption.ifPresent(s -> lastLogTimestamp = s);
     }
 
     /**
@@ -356,7 +329,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         private UpdateOption<String> googleIdOption = UpdateOption.empty();
         private UpdateOption<String> teamNameOption = UpdateOption.empty();
         private UpdateOption<String> sectionNameOption = UpdateOption.empty();
-        private UpdateOption<Instant> lastLogTimestampOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String email) {
             assert courseId != null;
@@ -385,7 +357,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                     + ", googleId = " + googleIdOption
                     + ", teamName = " + teamNameOption
                     + ", sectionName = " + sectionNameOption
-                    + ", lastLogTimestamp = " + lastLogTimestampOption
                     + "]";
         }
 
@@ -461,11 +432,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             assert sectionName != null;
 
             updateOptions.sectionNameOption = UpdateOption.of(sectionName);
-            return thisBuilder;
-        }
-
-        public B withLastLogTimestamp(Instant lastLogTimestamp) {
-            updateOptions.lastLogTimestampOption = UpdateOption.of(lastLogTimestamp);
             return thisBuilder;
         }
 

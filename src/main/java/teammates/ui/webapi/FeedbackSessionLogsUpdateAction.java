@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
@@ -12,16 +15,47 @@ import teammates.common.util.Logger;
 public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
+    private static Instant lastLogTimestamp = Instant.now();
 
     @Override
     public ActionResult execute() {
-        long latestLogTimestamp = logic.getLatestLogTimestamp();
+        HashMap<String, HashMap<String, Long>> studentLatestLogs = new HashMap<>();
+        List<FeedbackSessionLogEntryAttributes> validLogEntries = new ArrayList<>();
+        List<FeedbackSessionLogEntryAttributes> allLogEntries =
+                logsProcessor.getFeedbackSessionLogs(null, null, lastLogTimestamp.toEpochMilli(), Long.MAX_VALUE, null);
 
-        List<FeedbackSessionLogEntryAttributes> logEntries =
-                logsProcessor.getFeedbackSessionLogs(null, null, latestLogTimestamp, Long.MAX_VALUE, null);
+        for (FeedbackSessionLogEntryAttributes logEntry : allLogEntries) {
+            String studentEmail = logEntry.getStudentEmail();
+            String logType = logEntry.getFeedbackSessionLogType();
+            Long logTimestamp = logEntry.getTimestamp();
+            HashMap<String, Long> studentLog = new HashMap<>();
+            boolean isValid = true;
+
+            if (studentLatestLogs.containsKey(studentEmail)) {
+                studentLog = studentLatestLogs.get(studentEmail);
+
+                if (studentLog.containsKey(logType)) {
+                    Long lastLogTimestamp = studentLog.get(logType);
+
+                    if (Math.abs(lastLogTimestamp - logTimestamp) < 2 * 1000) {
+                        isValid = false;
+                    }
+                }
+            }
+
+            if (isValid) {
+                validLogEntries.add(logEntry);
+
+                studentLog.put(logType, logTimestamp);
+                studentLatestLogs.put(studentEmail, studentLog);
+            }
+        }
+
+
+        lastLogTimestamp = Instant.now();
 
         try {
-            List<FeedbackSessionLogEntryAttributes> createdEntries = logic.createFeedbackSessionLogs(logEntries);
+            List<FeedbackSessionLogEntryAttributes> createdEntries = logic.createFeedbackSessionLogs(validLogEntries);
             System.out.println("______________________________________________________");
             for (FeedbackSessionLogEntryAttributes entry : createdEntries) {
                 System.out.println(entry.toString());

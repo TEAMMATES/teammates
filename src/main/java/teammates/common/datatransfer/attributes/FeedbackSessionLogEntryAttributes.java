@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -22,7 +23,8 @@ public final class FeedbackSessionLogEntryAttributes extends EntityAttributes<Fe
     private String feedbackSessionName;
     private final String feedbackSessionLogType;
     private final long timestamp;
-    private final Instant createdAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private FeedbackSessionLogEntryAttributes(FeedbackSessionLogEntry fslEntry) {
         this.feedbackSessionLogEntryId = fslEntry.getFeedbackSessionLogEntryId();
@@ -31,6 +33,7 @@ public final class FeedbackSessionLogEntryAttributes extends EntityAttributes<Fe
         this.feedbackSessionLogType = fslEntry.getFeedbackSessionLogType();
         this.timestamp = fslEntry.getTimestamp();
         this.createdAt = fslEntry.getCreatedAt();
+        this.updatedAt = fslEntry.getUpdatedAt();
         this.courseId = fslEntry.getCourseId();
     }
 
@@ -41,7 +44,8 @@ public final class FeedbackSessionLogEntryAttributes extends EntityAttributes<Fe
         this.feedbackSessionName = feedbackSessionName;
         this.feedbackSessionLogType = fslType;
         this.timestamp = timestamp;
-        this.createdAt = Instant.now();
+        this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.courseId = courseId;
     }
 
@@ -78,6 +82,10 @@ public final class FeedbackSessionLogEntryAttributes extends EntityAttributes<Fe
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
     @Override

@@ -2,7 +2,7 @@
 
 cron:
 - url: '/auto/feedbackSessionLogsUpdate'
-  schedule: 'every 60 minutes from 00:02 to 23:59'
+  schedule: 'every 15 minutes from 00:02 to 23:59'
   timezone: 'Asia/Singapore'
   description: 'Get feedback session logs from gcloud logging service every hour.'
 - url: '/auto/feedbackSessionOpeningReminders'

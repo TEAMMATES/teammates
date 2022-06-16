@@ -98,8 +98,8 @@ indexes:
     - direction: asc
       name: courseId
     - direction: asc
-      name: feedbackSessionName
+      name: timestamp
     - direction: asc
       name: studentEmail
     - direction: asc
-      name: timestamp
+      name: feedbackSessionName
