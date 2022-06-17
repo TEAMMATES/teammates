@@ -141,6 +141,26 @@ describe('SessionResultPageComponent', () => {
     customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
+  const testQuestion4: FeedbackQuestion = {
+    feedbackQuestionId: 'feedbackQuestion4',
+    questionNumber: 4,
+    questionBrief: 'Do you have any feedback for the course?',
+    questionDescription: '',
+    questionDetails: {
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: 'Do you have any feedback for the course?',
+      shouldAllowRichText: true,
+    } as FeedbackTextQuestionDetails,
+    questionType: FeedbackQuestionType.TEXT,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.NONE,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.STUDENTS],
+    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+  };
+
   const testQuestionAnonymousResponse1: FeedbackQuestion = {
     feedbackQuestionId: 'feedbackQuestionAnonymousResponse1',
     questionNumber: 1,
@@ -590,6 +610,93 @@ describe('SessionResultPageComponent', () => {
           },
         ],
         otherResponses: [],
+      },
+    ];
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  fit('should snap with feedback session with questions when previewing results', () => {
+    component.intent = Intent.STUDENT_RESULT;
+    component.regKey = '';
+    component.previewAsPerson = 'alice@fan.tmt';
+    component.personName = 'Alice';
+    component.personEmail = 'alice@fan.tmt';
+    component.session = testFeedbackSession;
+    component.questions = [
+      {
+        feedbackQuestion: testQuestion1,
+        questionStatistics: '',
+        allResponses: [],
+        hasResponseButNotVisibleForPreview: true,
+        hasCommentNotVisibleForPreview: false,
+        responsesToSelf: [],
+        responsesFromSelf: [],
+        otherResponses: [[]],
+      },
+      {
+        feedbackQuestion: testQuestion3,
+        questionStatistics: '',
+        allResponses: [],
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
+        responsesToSelf: [],
+        responsesFromSelf: [
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-5',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'recipient3',
+            recipientTeam: 'team2',
+            recipientSection: 'section2',
+            responseDetails: {
+              answer: [1],
+            } as FeedbackRubricResponseDetails,
+            instructorComments: [
+              {
+                commentGiver: 'comment-giver-1',
+                lastEditorEmail: 'comment@egeg.com',
+                feedbackResponseCommentId: 1,
+                commentText: 'this is a text',
+                createdAt: 1402775804,
+                lastEditedAt: 1402775804,
+                isVisibilityFollowingFeedbackQuestion: true,
+                showGiverNameTo: [],
+                showCommentTo: [],
+              },
+            ],
+          },
+        ],
+        otherResponses: [[]],
+      },
+      {
+        feedbackQuestion: testQuestion4,
+        questionStatistics: '',
+        allResponses: [],
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: true,
+        responsesToSelf: [],
+        responsesFromSelf: [
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-7',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: '-',
+            recipientTeam: 'None',
+            recipientSection: '-',
+            responseDetails: {
+              answer: "Yes",
+              questionType: 'TEXT',
+            } as FeedbackTextResponseDetails,
+            instructorComments: [],
+          },
+        ],
+        otherResponses: [[]],
       },
     ];
 
