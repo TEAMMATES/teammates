@@ -32,9 +32,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
   let timezoneService: TimezoneService;
 
   const resultColumns: ColumnData[] = [
-    { header: 'Time', sortBy: SortBy.LOG_DATE },
+    { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
     { header: 'Name', sortBy: SortBy.GIVER_NAME },
-    { header: 'Activity', sortBy: SortBy.LOG_TYPE },
     { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
     { header: 'Section', sortBy: SortBy.SECTION_NAME },
     { header: 'Team', sortBy: SortBy.TEAM_NAME },
@@ -150,6 +149,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       studentEmail: 'doejohn@email.com',
       logType: 'session access',
       feedbackSessionName: '',
+      logActivityType: 'active',
     };
     component.students = [testStudent];
     component.isLoading = false;
@@ -173,12 +173,14 @@ describe('InstructorStudentActivityLogsComponent', () => {
           { value: 'team 1' },
         ]],
         isTabExpanded: true,
+        publishedDate: '',
       },
       {
         feedbackSessionName: 'Feedback session 2',
         logColumnsData: resultColumns,
         logRowsData: [],
         isTabExpanded: true,
+        publishedDate: '',
       },
     ];
     component.isLoading = false;
@@ -235,6 +237,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       studentEmail: testStudent.email,
       logType: 'submission',
       feedbackSessionName: '',
+      logActivityType: 'active',
     };
     component.course = testCourse1;
     component.students = [testStudent];
@@ -265,7 +268,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       expect(component.searchResults[i].isTabExpanded).toBeFalsy();
       expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
       // Testing that the LogType is converted correctly.
-      expect(component.searchResults[i].logRowsData[0][2].value).toEqual('Submitted responses');
+      expect(component.searchResults[i].logRowsData[0][0].value).toContain('Submitted responses');
     }
   });
 });

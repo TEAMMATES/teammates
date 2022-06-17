@@ -10,7 +10,7 @@
           <label for="course-id-dropdown" class="font-weight-bold">Activity Type</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType">
+          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
             <option value="" disabled selected hidden>Select Activity Type</option>
             <option *ngFor="let logType of LOG_TYPES" [value]="logType.value">
               {{logType.label}}
@@ -76,10 +76,22 @@
         <div class="col-12">
           <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
             <option value=""></option>
-            <option *ngFor="let session of feedbackSessions" [value]="session.feedbackSessionName">
-              {{session.feedbackSessionName}}
+            <option *ngFor="let session of feedbackSessions | keyvalue" [value]="session.key">
+              {{session.key}}
             </option>
           </select>
+        </div>
+      </div>
+      <div class="row mt-md-1 ml-md-3">
+        <div class="col-12 form-check" style="margin-top: 30px;">
+          <label class="form-check-label">
+            <input id="show-active-logs" class="form-check-input" type="radio" name="showActiveLogs" [ngModel]="formModel.logActivityType" value="active" (ngModelChange)="triggerModelChange('logActivityType', $event)">
+            Show active logs
+          </label>
+          <label class="form-check-label" style="margin-left: 40px;">
+            <input id="show-inactive-logs" class="form-check-input" type="radio" name="showInactiveLogs" [ngModel]="formModel.logActivityType" value="inactive" (ngModelChange)="triggerModelChange('logActivityType', $event)">
+            Show inactive logs
+          </label>
         </div>
       </div>
     </div>

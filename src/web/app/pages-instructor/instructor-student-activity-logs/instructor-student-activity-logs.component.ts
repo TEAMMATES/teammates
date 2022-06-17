@@ -33,6 +33,7 @@ interface SearchLogsFormModel {
   logType: string;
   feedbackSessionName: string;
   studentEmail: string;
+  logActivityType: string;
 }
 
 interface LogType {
@@ -81,6 +82,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logType: '',
     studentEmail: '',
     feedbackSessionName: '',
+    logActivityType: 'active',
   };
   course: Course = {
     courseId: '',
@@ -148,6 +150,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
    * Search for logs of student activity
    */
   search(): void {
+    this.studentToLog = {};
     this.searchResults = [];
     this.isSearching = true;
 
@@ -170,18 +173,21 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         }),
     ).subscribe((logs: FeedbackSessionLogs) => {
       if (this.formModel.feedbackSessionName === '') {
-        logs.feedbackSessionLogs.map((log: FeedbackSessionLog) => {
+        logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
+          log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
+            this.studentToLog[entry.studentData.email] = entry;
+          });
           this.searchResults.push(this.toFeedbackSessionLogModel(log));
-          log.feedbackSessionLogEntries.forEach(entry => this.studentToLog[entry.studentData.email] = entry);
         });
       } else {
         const targetFeedbackSessionLog = logs.feedbackSessionLogs.find((log: FeedbackSessionLog) =>
             log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
 
         if (targetFeedbackSessionLog) {
+          targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
+            this.studentToLog[entry.studentData.email] = entry;
+          });
           this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
-          targetFeedbackSessionLog.feedbackSessionLogEntries.forEach(entry =>
-              this.studentToLog[entry.studentData.email] = entry);
         }
       }
     }, (e: ErrorMessageOutput) => {
@@ -208,8 +214,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.feedbackSessionsService
         .getFeedbackSessionsForInstructor(courseId)
         .subscribe(((feedbackSessions: FeedbackSessions) => {
-              feedbackSessions.feedbackSessions.forEach(fs =>
-                  this.feedbackSessions.set(fs.feedbackSessionName, fs));
+              feedbackSessions.feedbackSessions.forEach((fs: FeedbackSession) => {
+                this.feedbackSessions.set(fs.feedbackSessionName, fs);
+              });
             }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
@@ -234,42 +241,15 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     }
   }
 
-  // private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
-  //   return {
-  //     isTabExpanded: log.feedbackSessionLogEntries.length === 0,
-  //     feedbackSessionName: log.feedbackSessionData.feedbackSessionName,
-  //     logColumnsData: [
-  //       { header: 'Time', sortBy: SortBy.LOG_DATE },
-  //       { header: 'Name', sortBy: SortBy.GIVER_NAME },
-  //       { header: 'Activity', sortBy: SortBy.LOG_TYPE },
-  //       { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
-  //       { header: 'Section', sortBy: SortBy.SECTION_NAME },
-  //       { header: 'Team', sortBy: SortBy.TEAM_NAME },
-  //     ],
-  //     logRowsData: log.feedbackSessionLogEntries
-  //       .map((entry: FeedbackSessionLogEntry) => {
-  //         return [
-  //           {
-  //             value: this.timezoneService.formatToString(
-  //                 entry.timestamp, log.feedbackSessionData.timeZone,
-  //                 this.LOGS_DATE_TIME_FORMAT),
-  //             style: 'font-family:monospace;',
-  //           },
-  //           { value: entry.studentData.name },
-  //           {
-  //             value: this.logTypeToActivityDisplay(entry.feedbackSessionLogType.toString()),
-  //           },
-  //           { value: entry.studentData.email },
-  //           { value: entry.studentData.sectionName },
-  //           { value: entry.studentData.teamName },
-  //         ];
-  //       }),
-  //   };
-  // }
-
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
     const fsName = log.feedbackSessionData.feedbackSessionName;
-    const publishedTime = this.feedbackSessions.get(fsName)!!.resultVisibleFromTimestamp || 0;
+    const fs = this.feedbackSessions.get(fsName);
+    let publishedTime = 0;
+
+    if (fs && fs.resultVisibleFromTimestamp) {
+      publishedTime = fs.resultVisibleFromTimestamp;
+    }
+
     const publishedDate: Date = new Date(publishedTime);
     const notViewedSince = publishedDate.getTime();
 
@@ -279,35 +259,50 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           publishedTime, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT),
       logColumnsData: [
         { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
-        { header: 'Activity', sortBy: SortBy.LOG_TYPE },
         { header: 'Name', sortBy: SortBy.GIVER_NAME },
         { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
         { header: 'Section', sortBy: SortBy.SECTION_NAME },
         { header: 'Team', sortBy: SortBy.TEAM_NAME },
       ],
       logRowsData: this.students
-          .filter(student => student.email !== '')
+          .filter((student: Student) => {
+            if (student.email === '') {
+              return false;
+            }
+
+            if (this.formModel.studentEmail !== '' && student.email !== this.formModel.studentEmail) {
+              return false;
+            }
+
+            if (student.email in this.studentToLog) {
+              if (this.formModel.logActivityType === 'inactive') {
+                return false;
+              }
+            } else if (this.formModel.logActivityType === 'active') {
+              return false;
+            }
+
+            return true;
+          })
           .map((student: Student) => {
             let status: string;
             let dataStyle: string = 'font-family:monospace; white-space:pre;';
-            if (student.email in this.studentToLog) {
+            const statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
+            if (this.formModel.logActivityType === 'active') {
               const entry: FeedbackSessionLogEntry = this.studentToLog[student.email];
               const timestamp: string = this.timezoneService.formatToString(
                   entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `Viewed last at   ${timestamp}`;
+              status = `${statusPrefix} at ${timestamp}`;
             } else {
               const timestamp: string = this.timezoneService.formatToString(
                   notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `Not viewed since ${timestamp}`;
+              status = `Not ${statusPrefix.toLowerCase()} since ${timestamp}`;
               dataStyle += 'color:red;';
             }
             return [
               {
                 value: status,
                 style: dataStyle,
-              },
-              {
-                value: this.formModel.logType,// this.logTypeToActivityDisplay(this.formModel.logType),
               },
               { value: student.name },
               { value: student.email },
@@ -319,16 +314,37 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     };
   }
 
-  // private logTypeToActivityDisplay(logType: string): string {
-  //   switch (logType.toUpperCase()) {
-  //     case 'ACCESS':
-  //       return 'Viewed the submission page';
-  //     case 'SUBMISSION':
-  //       return 'Submitted responses';
-  //     case 'VIEW_RESULT':
-  //       return 'Viewed the session results';
-  //     default:
-  //       return 'Unknown activity';
-  //   }
-  // }
+  private logTypeToActivityDisplay(logType: string): string {
+    switch (logType.toUpperCase()) {
+      case 'ACCESS':
+        return 'Viewed the submission page';
+      case 'SUBMISSION':
+        return 'Submitted responses';
+      case 'VIEW RESULT':
+        return 'Viewed the session results';
+      case 'ACCESS-SUBMISSION':
+        return 'Viewed the submission page or submitted responses';
+      default:
+        return 'Unknown activity';
+    }
+  }
+
+  triggerDefaultLogActivityTypeChange(logType: string): void {
+    if (logType === 'view result') {
+      this.formModel.logActivityType = 'inactive';
+    } else {
+      this.formModel.logActivityType = 'active';
+    }
+  }
+
+  /**
+   * Triggers the change of the model for the form.
+   */
+  triggerModelChange(field: string, data: any): void {
+    this.formModel = {
+      ...this.formModel,
+      [field]: data,
+    };
+  }
+
 }

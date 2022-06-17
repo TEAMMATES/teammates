@@ -10,7 +10,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
-  feedbackSessions={[Function Array]}
+  feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
@@ -69,7 +69,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
-  feedbackSessions={[Function Array]}
+  feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading="false"
@@ -566,6 +566,40 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             </select>
           </div>
         </div>
+        <div
+          class="row mt-md-1 ml-md-3"
+        >
+          <div
+            class="col-12 form-check"
+            style="margin-top: 30px;"
+          >
+            <label
+              class="form-check-label"
+            >
+              <input
+                class="form-check-input ng-untouched ng-pristine ng-valid"
+                id="show-active-logs"
+                name="showActiveLogs"
+                type="radio"
+                value="active"
+              />
+               Show active logs 
+            </label>
+            <label
+              class="form-check-label"
+              style="margin-left: 40px;"
+            >
+              <input
+                class="form-check-input ng-untouched ng-pristine ng-valid"
+                id="show-inactive-logs"
+                name="showInactiveLogs"
+                type="radio"
+                value="inactive"
+              />
+               Show inactive logs 
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   </div><div
@@ -600,7 +634,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
-  feedbackSessions={[Function Array]}
+  feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
@@ -659,7 +693,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
-  feedbackSessions={[Function Array]}
+  feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading="false"
@@ -1151,6 +1185,40 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             </select>
           </div>
         </div>
+        <div
+          class="row mt-md-1 ml-md-3"
+        >
+          <div
+            class="col-12 form-check"
+            style="margin-top: 30px;"
+          >
+            <label
+              class="form-check-label"
+            >
+              <input
+                class="form-check-input ng-untouched ng-pristine ng-valid"
+                id="show-active-logs"
+                name="showActiveLogs"
+                type="radio"
+                value="active"
+              />
+               Show active logs 
+            </label>
+            <label
+              class="form-check-label"
+              style="margin-left: 40px;"
+            >
+              <input
+                class="form-check-input ng-untouched ng-pristine ng-valid"
+                id="show-inactive-logs"
+                name="showInactiveLogs"
+                type="radio"
+                value="inactive"
+              />
+               Show inactive logs 
+            </label>
+          </div>
+        </div>
       </div>
     </div>
   </div><div
@@ -1195,7 +1263,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                         <span
                           container="body"
                         >
-                          Time
+                          Status
                         </span>
                         <span
                           class="fa-stack"
@@ -1221,22 +1289,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                           />
                           <i
                             class="fas fa-sort-up"
-                          />
-                        </span>
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                        <span
-                          container="body"
-                        >
-                          Activity
-                        </span>
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
                           />
                         </span>
                       </th>
