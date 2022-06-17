@@ -39,7 +39,7 @@ export class ContributionQuestionEditAnswerFormComponent
 
   get contributionQuestionPoints(): number[] {
     const points: number[] = [];
-    for (let i: number = 200; i >= 0; i -= 10) {
+    for (let i: number = 200; i >= 0; i -= 5) {
       points.push(i);
     }
     return points;

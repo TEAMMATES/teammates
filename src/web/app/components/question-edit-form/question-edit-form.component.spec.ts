@@ -11,9 +11,11 @@ import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { FeedbackPathPanelModule } from '../feedback-path-panel/feedback-path-panel.module';
 import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import {
+  QuestionEditBriefDescriptionFormModule,
+} from '../question-edit-brief-description-form/question-edit-brief-description-form.module';
+import {
   QuestionEditDetailsFormModule,
 } from '../question-types/question-edit-details-form/question-edit-details-form.module';
-import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
 import { VisibilityPanelModule } from '../visibility-panel/visibility-panel.module';
@@ -36,7 +38,7 @@ describe('QuestionEditFormComponent', () => {
         FormsModule,
         TeammatesCommonModule,
         AjaxLoadingModule,
-        RichTextEditorModule,
+        QuestionEditBriefDescriptionFormModule,
         QuestionEditDetailsFormModule,
         NgbModule,
         FeedbackPathPanelModule,
