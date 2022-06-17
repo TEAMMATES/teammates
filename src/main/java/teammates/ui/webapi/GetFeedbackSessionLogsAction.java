@@ -64,7 +64,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         ArrayList<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
         if (fslTypes != null) {
             // Multiple log types are separated by a hyphen e.g access-submission
-            for (String fslType: fslTypes.split("-")) {
+            for (String fslType : fslTypes.split("-")) {
                 FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
 
                 if (convertedFslType == null) {
@@ -109,7 +109,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
             String logType = logEntry.getFeedbackSessionLogType();
             FeedbackSessionLogType convertedLogType = FeedbackSessionLogType.valueOfLabel(logType);
-            if (convertedLogType == null || (fslTypes != null && !convertedFslTypes.contains(convertedLogType))) {
+            if (convertedLogType == null || fslTypes != null && !convertedFslTypes.contains(convertedLogType)) {
                 // If the feedback session log type retrieved from the log is invalid
                 // or not the type being queried, ignore the log
                 return false;
