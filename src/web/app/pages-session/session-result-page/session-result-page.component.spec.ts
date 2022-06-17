@@ -617,7 +617,7 @@ describe('SessionResultPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  fit('should snap with feedback session with questions when previewing results', () => {
+  it('should snap with feedback session with questions when previewing results', () => {
     component.intent = Intent.STUDENT_RESULT;
     component.regKey = '';
     component.previewAsPerson = 'alice@fan.tmt';

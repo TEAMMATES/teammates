@@ -4,8 +4,8 @@
 <div class="bg-light" *ngIf="previewAsPerson">
   <div class="col-12 text-center text-break">
     <h5>You are previewing session results as
-      <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
-      <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
+      <span *ngIf="intent === Intent.STUDENT_RESULT">student</span>
+      <span *ngIf="intent === Intent.INSTRUCTOR_RESULT">instructor</span>
       {{ personName }} ({{ previewAsPerson }})
       <button type="button" class="btn btn-link no-shadow" *ngIf="!isPreviewHintExpanded" (click)="isPreviewHintExpanded = true">[More]</button>
       <button type="button" class="btn btn-link no-shadow" *ngIf="isPreviewHintExpanded" (click)="isPreviewHintExpanded = false">[Less]</button>

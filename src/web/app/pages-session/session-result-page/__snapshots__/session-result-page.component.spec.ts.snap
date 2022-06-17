@@ -1486,6 +1486,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
     >
       <h5>
         You are previewing session results as 
+        <span>
+          student
+        </span>
          Alice (alice@fan.tmt) 
         <button
           class="btn btn-link no-shadow"
