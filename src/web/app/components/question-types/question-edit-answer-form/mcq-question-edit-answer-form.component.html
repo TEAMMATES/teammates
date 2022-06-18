@@ -9,11 +9,13 @@
         </label>
       </div>
     </div>
-    <div *ngIf="questionDetails.questionDropdownEnabled">
-      <select class="form-control margin-bottom-8px">
+    <div *ngIf="questionDetails.questionDropdownEnabled" >
+      {{updateParentCss(true)}}
+      <select class="form-control margin-bottom-8px" (change)="updateSelectedMcqDropdownOption($event)">
+        <option disabled selected value> -- select an option -- </option>
         <option *ngFor="let num of questionDetails.mcqChoices; let i = index;"
                 [value]="questionDetails.mcqChoices[i] | safeHtml"
-                [selected]="isMcqOptionSelected[i]" (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">{{ questionDetails.mcqChoices[i] }}</option>
+                [selected]="isMcqOptionSelected[i]" [disabled]="isDisabled">{{ questionDetails.mcqChoices[i] }}</option>
       </select>
     </div>
     <div id="other-option" class="radio" *ngIf="questionDetails.otherEnabled">
