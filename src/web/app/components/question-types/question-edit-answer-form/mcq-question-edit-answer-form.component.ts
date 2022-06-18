@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 
 import {
   FeedbackMcqQuestionDetails,
@@ -36,7 +36,7 @@ export class McqQuestionEditAnswerFormComponent
     super(DEFAULT_MCQ_QUESTION_DETAILS(), DEFAULT_MCQ_RESPONSE_DETAILS());
   }
 
-  updateParentCss(refresh : boolean){
+  updateParentCss(refresh : boolean): void {
     this.cssRefresh.emit(refresh);
   }
 
@@ -89,10 +89,9 @@ export class McqQuestionEditAnswerFormComponent
   /**
    *
    */
-  updateSelectedMcqDropdownOption($event: Event): void{
-    let answer: string;
+  updateSelectedMcqDropdownOption($event: Event): void {
     // @ts-ignore
-    answer = this.questionDetails.mcqChoices[$event.target["selectedIndex"]-1];
+    const answer = this.questionDetails.mcqChoices[$event.target.selectedIndex - 1];
     this.triggerResponseDetailsChangeBatch({
       answer,
       isOther: false,
