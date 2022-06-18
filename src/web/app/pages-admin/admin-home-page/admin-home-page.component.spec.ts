@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
@@ -33,6 +34,7 @@ describe('AdminHomePageComponent', () => {
         HttpClientTestingModule,
         LoadingSpinnerModule,
         AjaxLoadingModule,
+        RouterTestingModule,
       ],
       providers: [
         AccountService,

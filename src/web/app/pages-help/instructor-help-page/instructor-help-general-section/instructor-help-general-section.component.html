@@ -1,8 +1,14 @@
 <div>
-  <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">General</h2>
+  <div class="section-header d-flex align-items-center">
+    <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">General</h2>
+    <div class="ml-2 mb-1" (click)="changeBrowserUrl(Sections.general)">
+      <div class="fas fa-anchor"></div>
+    </div>
+  </div>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.FREE_FOR_USE)"
                             [id]="GeneralSectionQuestions.FREE_FOR_USE"
+                            [section]="Sections.general"
                             headerText="Is TEAMMATES free? How long is it going to stay free?"
                             [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.FREE_FOR_USE]">
     <p>
@@ -13,6 +19,7 @@
   <!-- Question -->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.DATA_PRIVACY)"
                             [id]="GeneralSectionQuestions.DATA_PRIVACY"
+                            [section]="Sections.general"
                             headerText="Is data from my courses in TEAMMATES used for research? Are they shared with third parties?"
                             [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.DATA_PRIVACY]">
     <p>
@@ -22,6 +29,7 @@
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.DST_ADJUSTMENT)"
                             [id]="GeneralSectionQuestions.DST_ADJUSTMENT"
+                            [section]="Sections.general"
                             headerText="Does TEAMMATES cater for daylight saving time (DST) adjustments?"
                             [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.DST_ADJUSTMENT]">
     <p>
