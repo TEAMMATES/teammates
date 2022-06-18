@@ -15,8 +15,16 @@
     </div>
   </div>
   <br>
+  <br>
   <div class="col-sm-6">
     <div *ngIf="!isGeneratedOptionsEnabled">
+      <div class="form-check">
+        <label class="bold-label">
+          <input id="make-question-dropdown" class="form-check-input" type="checkbox" [ngModel]="model.questionDropdownEnabled"
+                 (ngModelChange)="triggerQuestionDropdownEnabled($event)" [disabled]="!isEditable">
+          Show question as drop-down
+        </label>
+      </div>
       <div id="options-section" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div class="row margin-top-22px" *ngFor="let num of model.mcqChoices; let i = index;
         trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y">
@@ -75,10 +83,5 @@
             [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
       <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option | generatedChoice }}</option>
     </select>
-    <label class="bold-label margin-top-135px">
-            <input id="make-question-dropdown" class="form-check-input" type="checkbox" [ngModel]="model.questionDropdownEnabled"
-                   (ngModelChange)="triggerQuestionDropdownEnabled($event)" [disabled]="!isEditable">
-            Show question as drop-down
-    </label>
   </div>
 </div>

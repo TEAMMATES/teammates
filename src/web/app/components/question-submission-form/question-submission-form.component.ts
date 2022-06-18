@@ -35,6 +35,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
+  isMCQDropDownEnabled = false;
+
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 
@@ -256,6 +258,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   saveFeedbackResponses(): void {
     this.responsesSave.emit(this.model);
+  }
+
+  /**
+   * Triggers adding a col-12 if MCQ Dropdown is enabled
+   * @param add
+   */
+  refreshCssForDropdownMCQ(add: boolean) {
+    this.isMCQDropDownEnabled = add;
   }
 
 }
