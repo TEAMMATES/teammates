@@ -47,7 +47,7 @@ export class VisibilityPanelComponent {
     } as FeedbackTextQuestionDetails,
 
     giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
     customNumberOfEntitiesToGiveFeedbackTo: 1,

@@ -7,6 +7,9 @@ import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
 import {
+  InstructorHelpGeneralSectionComponent,
+} from './instructor-help-general-section/instructor-help-general-section.component';
+import {
   InstructorHelpQuestionsSectionComponent,
 } from './instructor-help-questions-section/instructor-help-questions-section.component';
 import {
@@ -44,6 +47,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   @ViewChild('coursesHelpSection') coursesHelpSection?: InstructorHelpCoursesSectionComponent;
   @ViewChild('sessionsHelpSection') sessionsHelpSection?: InstructorHelpSessionsSectionComponent;
   @ViewChild('questionsHelpSection') questionsHelpSection?: InstructorHelpQuestionsSectionComponent;
+  @ViewChild('generalHelpSection') generalHelpSection?: InstructorHelpGeneralSectionComponent;
 
   constructor(private route: ActivatedRoute,
               private pageScrollService: PageScrollService,
@@ -76,6 +80,8 @@ export class InstructorHelpPageComponent implements AfterViewInit {
       this.sessionsHelpSection.expand(this.questionIdToExpand);
     } else if (this.section === Sections.questions && this.questionsHelpSection) {
       this.questionsHelpSection.expand(this.questionIdToExpand);
+    } else if (this.section === Sections.general && this.generalHelpSection) {
+      this.generalHelpSection.expand(this.questionIdToExpand);
     }
   }
 

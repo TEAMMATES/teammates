@@ -35,8 +35,8 @@ import { CommentToCommentRowModelPipe } from '../../components/comment-box/comme
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { QuestionStatistics } from '../../components/question-types/question-statistics/question-statistics';
 import {
-  StudentListInfoTableRowModel,
-} from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+  ReminderResponseModel,
+} from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
@@ -558,10 +558,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   /**
    * Handles the sending of reminders to students.
    */
-  sendReminderToStudents(studentsToRemindData: StudentListInfoTableRowModel[]): void {
+  sendReminderToStudents(reminderResponse: ReminderResponseModel): void {
     this.feedbackSessionsService
       .remindFeedbackSessionSubmissionForRespondents(this.session.courseId, this.session.feedbackSessionName, {
-        usersToRemind: studentsToRemindData.map((m: StudentListInfoTableRowModel) => m.email),
+        usersToRemind: reminderResponse.respondentsToSend.map((m) => m.email),
+        isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
       }).subscribe(() => {
         this.statusMessageService.showSuccessToast(
           'Reminder e-mails have been sent out to those students and instructors. '

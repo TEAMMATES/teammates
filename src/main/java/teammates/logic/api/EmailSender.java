@@ -26,7 +26,7 @@ public class EmailSender {
     private final EmailSenderService service;
 
     EmailSender() {
-        if (Config.isDevServer()) {
+        if (Config.IS_DEV_SERVER) {
             service = new EmptyEmailService();
         } else {
             if (Config.isUsingSendgrid()) {

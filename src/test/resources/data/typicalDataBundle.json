@@ -1122,7 +1122,7 @@
       },
       "questionNumber": 2,
       "giverType": "STUDENTS",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -1227,7 +1227,7 @@
       },
       "questionNumber": 1,
       "giverType": "TEAMS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 2,
       "showResponsesTo": [
         "RECEIVER"
@@ -1269,7 +1269,7 @@
       },
       "questionNumber": 3,
       "giverType": "INSTRUCTORS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 2,
       "showResponsesTo": [
         "RECEIVER"
@@ -1290,7 +1290,7 @@
       },
       "questionNumber": 1,
       "giverType": "TEAMS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 2,
       "showResponsesTo": [
         "RECEIVER"
@@ -1374,7 +1374,7 @@
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 4,
       "showResponsesTo": [
         "RECEIVER"
@@ -1395,7 +1395,7 @@
       },
       "questionNumber": 1,
       "giverType": "INSTRUCTORS",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 4,
       "showResponsesTo": [
         "RECEIVER"
@@ -1416,7 +1416,7 @@
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 4,
       "showResponsesTo": [
         "RECEIVER"
@@ -1437,7 +1437,7 @@
       },
       "questionNumber": 1,
       "giverType": "INSTRUCTORS",
-      "recipientType": "TEAMS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "RECEIVER"
@@ -1475,7 +1475,7 @@
       },
       "questionNumber": 1,
       "giverType": "SELF",
-      "recipientType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 10,
       "showResponsesTo": [],
       "showGiverNameTo": [],

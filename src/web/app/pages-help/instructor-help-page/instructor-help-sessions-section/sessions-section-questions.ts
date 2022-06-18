@@ -18,9 +18,9 @@ export enum SessionsSectionQuestions {
   SESSION_PREVIEW = 'session-preview',
 
   /**
-   * What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?
+   * Can I submit responses on behalf of a student?
    */
-  SESSION_CANNOT_SUBMIT = 'session-cannot-submit',
+  SUBMIT_FOR_STUDENT = 'submit-for-student',
 
   /**
    * How do I view the results of my session?
@@ -31,11 +31,6 @@ export enum SessionsSectionQuestions {
    * How do I create a comment on a response?
    */
   SESSION_ADD_COMMENTS = 'session-add-comments',
-
-  /**
-   * How do I search for a feedback session question, response or comment on a response?
-   */
-  SESSION_SEARCH = 'session-search',
 
   /**
    * How do I view sessions I have deleted?
@@ -71,4 +66,56 @@ export enum SessionsSectionQuestions {
    * How do I restore/delete all sessions from Recycle Bin?
    */
   RESTORE_DEL_ALL = 'restore-del-all',
+
+  /**
+   * How do I let students know about a session?
+   */
+  LET_STUDENT_KNOW_SESSION = 'let-student-know-session',
+
+  /**
+   * What should I do if students say they didn't receive the link to submit responses, as they were supposed to?
+   */
+  STUDENT_DID_NOT_RECEIVE_SUBMISSION_LINK = 'student-did-not-receive-submission-link',
+
+  /**
+   * How do I extend the deadline of a session?
+   */
+  EXTEND_SESSION_DEADLINE = 'extend-session-deadline',
+
+  /**
+   * Can I set a question as 'compulsory'?
+   */
+  SET_QUESTION_COMPULSORY = 'set-question-compulsory',
+
+  /**
+   * Can I change the visibility settings of questions after the session has started?
+   */
+  CHANGE_VISIBILITY_AFTER_SESSION_START = 'change-visibility-after-session-start',
+
+  /**
+   * Can students edit responses they submitted earlier?
+   */
+  STUDENT_EDIT_RESPONSE = 'student-edit-response',
+
+  /**
+   * Can I see when a student tried to access the submission page?
+   */
+  STUDENT_ACCESS_SUBMISSION_PAGE = 'student-access-submission-page',
+
+  /**
+   * Am I able to moderate responses submitted by students?
+   */
+  MODERATE_RESPONSE = 'moderate-response',
+
+  /**
+   * When do students get to see the responses collected by a session?
+   */
+  STUDENT_SEE_RESPONSE = 'student-see-response',
+
+  /**
+   * What should I do if students say they didn't receive the link to view results,
+   * even after I published the session responses?
+   */
+  STUDENT_DID_NOT_RECEIVE_RESULT_LINK = 'student-did-not-receive-session-link',
+
 }

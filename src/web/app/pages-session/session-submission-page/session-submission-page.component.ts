@@ -136,6 +136,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.route.data.pipe(
         tap((data: any) => {
           this.intent = data.intent;
+          this.entityType = data.intent === Intent.INSTRUCTOR_SUBMISSION ? 'instructor' : this.entityType;
         }),
         switchMap(() => this.route.queryParams),
     ).subscribe((queryParams: any) => {
@@ -166,7 +167,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             if (resp.isAllowedAccess) {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
-
                 this.navigationService.navigateByURLWithParamEncoding(
                     this.router, `/web/${this.entityType}/sessions/submission`,
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
@@ -174,7 +174,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 // Valid, unused registration key; load information based on the key
                 this.loadCourseInfo();
                 this.loadPersonName();
-                this.loadFeedbackSession();
+                this.loadFeedbackSession(false, auth);
               }
             } else if (resp.isValid) {
               // At this point, registration key must already be used, otherwise access would be granted
@@ -187,13 +187,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     cannot remember which Google account you used before, please email us at
                     ${environment.supportEmail} for help.`);
               } else {
-                // There is no logged in user for a valid, used registration key, redirect to login page
-                // eslint-disable-next-line no-lonely-if
-                if (this.entityType === 'student') {
-                  window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-                } else if (this.entityType === 'instructor') {
-                  window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
-                }
+                this.loadFeedbackSession(true, auth);
               }
             } else {
               // The registration key is invalid
@@ -209,7 +203,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           // This will also cover moderation/preview cases
           this.loadCourseInfo();
           this.loadPersonName();
-          this.loadFeedbackSession();
+          this.loadFeedbackSession(false, auth);
         } else {
           this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
               'You are not authorized to view this page.');
@@ -345,7 +339,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   /**
    * Loads the feedback session information.
    */
-  loadFeedbackSession(): void {
+  loadFeedbackSession(loginRequired: boolean, auth: AuthInfo): void {
     this.isFeedbackSessionLoading = true;
     const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     this.feedbackSessionsService.getFeedbackSession({
@@ -415,12 +409,29 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-              'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
-          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+              'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
+              {
+                onClosed: () => this.navigationService.navigateByURL(this.router,
+                    this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
+              },
+              { backdrop: 'static' });
         } else if (resp.status === 403) {
-          this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
-              resp.error.message);
-          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+          if (loginRequired && !auth.user) {
+            // There is no logged in user for a valid, used registration key, redirect to login page
+            if (this.entityType === 'student') {
+              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            } else if (this.entityType === 'instructor') {
+              window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+            }
+          } else {
+            this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
+                resp.error.message,
+                {
+                  onClosed: () => this.navigationService.navigateByURL(this.router,
+                      this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
+                },
+                { backdrop: 'static' });
+          }
         } else {
           this.navigationService.navigateWithErrorMessage(
               this.router, `/web/${this.entityType}/home`, resp.error.message);
@@ -541,8 +552,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   getQuestionSubmissionFormMode(model: QuestionSubmissionFormModel): QuestionSubmissionFormMode {
     const isNumberOfEntitiesToGiveFeedbackToSettingLimited: boolean =
         (model.recipientType === FeedbackParticipantType.STUDENTS
+            || model.recipientType === FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
             || model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION
             || model.recipientType === FeedbackParticipantType.TEAMS
+            || model.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF
             || model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION
             || model.recipientType === FeedbackParticipantType.INSTRUCTORS)
         && model.numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM
