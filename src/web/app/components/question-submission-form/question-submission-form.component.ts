@@ -261,10 +261,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   /**
-   * Triggers adding a col-12 if MCQ Dropdown is enabled
-   * @param add
+   * Triggers adding a col-12 if MCQ Dropdown is enabled   *
    */
-  refreshCssForDropdownMCQ(add: boolean) {
+  refreshCssForDropdownMCQ(add: boolean): void {
     this.isMCQDropDownEnabled = add;
   }
 
