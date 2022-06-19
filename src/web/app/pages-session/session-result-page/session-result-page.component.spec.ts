@@ -690,7 +690,7 @@ describe('SessionResultPageComponent', () => {
             recipientTeam: 'None',
             recipientSection: '-',
             responseDetails: {
-              answer: "Yes",
+              answer: 'Yes',
               questionType: 'TEXT',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
