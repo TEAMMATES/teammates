@@ -1,9 +1,9 @@
 <div class="card bg-light mt-4" *ngFor="let question of questions">
   <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card-body">
     <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
-    <div *ngIf="!question.hasResponseButNotVisibleForPreview, else nonViewableForPreview">
+    <div id="all-responses" *ngIf="!question.hasResponseButNotVisibleForPreview, else nonViewableForPreview">
       <div id="other-responses" *ngIf="canUserSeeResponses(question), else nonViewableResponse">
-        <div *ngIf="question.hasCommentNotVisibleForPreview" class="alert alert-warning my-3" role="alert">
+        <div id="non-visible-comment-alert" *ngIf="question.hasCommentNotVisibleForPreview" class="alert alert-warning my-3" role="alert">
           <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted from this preview because they are not visible to instructors, as per their visibility settings.
         </div>
         <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
@@ -36,7 +36,7 @@
       </div>
     </div>
     <ng-template #nonViewableForPreview>
-      <div class="alert alert-warning other-response" role="alert">
+      <div id="non-visible-response-alert" class="alert alert-warning other-response" role="alert">
         <i class="fas fa-eye-slash"></i> Responses received for this question are omitted from this preview because some (or all) parts of them are not visible to instructors, as per their visibility settings.
       </div>
     </ng-template>

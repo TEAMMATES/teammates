@@ -103,6 +103,16 @@ public class FeedbackResultsPage extends AppPage {
         }
     }
 
+    public void verifyQuestionHasResponsesNotVisibleForPreview(int questionNum) {
+        verifyQuestionDoesNotShowResponses(questionNum);
+        verifyNonVisibleResponseAlertPresent(questionNum);
+    }
+
+    public void verifyQuestionHasCommentsNotVisibleForPreview(int questionNum, List<String> commentsNotVisible) {
+        verifyQuestionDoesNotShowComments(questionNum, commentsNotVisible);
+        verifyNonVisibleCommentAlertPresent(questionNum);
+    }
+
     public void verifyNumScaleStatistics(int questionNum, String[] expectedStats) {
         verifyTableRowValues(getNumScaleStatistics(questionNum), expectedStats);
     }
@@ -140,6 +150,47 @@ public class FeedbackResultsPage extends AppPage {
         }
         if (!commentEditor.isEmpty()) {
             assertEquals(commentEditor, getCommentEditor(commentField));
+        }
+    }
+
+    private void verifyQuestionDoesNotShowResponses(int questionNum) {
+        WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
+        try {
+            questionResponsesSection.findElement(By.id("all-responses"));
+            fail("Question " + questionNum + " should not display any actual responses when previewing results.");
+        } catch (NoSuchElementException e) {
+            // success
+        }
+    }
+
+    private void verifyQuestionDoesNotShowComments(int questionNum, List<String> commentsNotVisible) {
+        List<WebElement> commentsOfQuestion = getCommentFields(questionNum);
+        for (String commentString : commentsNotVisible) {
+            for (WebElement comment : commentsOfQuestion) {
+                if (comment.findElement(By.id("comment-text")).getText().equals(commentString)) {
+                    fail("Comment \"" + commentString + "\" should not be present in question " + questionNum);
+                }
+            }
+        }
+    }
+
+    private void verifyNonVisibleResponseAlertPresent(int questionNum) {
+        WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
+        try {
+            questionResponsesSection.findElement(By.id("non-visible-response-alert"));
+        } catch (NoSuchElementException e) {
+            fail("Question " + questionNum
+                    + " should display an alert message for hidden responses when previewing results.");
+        }
+    }
+
+    private void verifyNonVisibleCommentAlertPresent(int questionNum) {
+        WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
+        try {
+            questionResponsesSection.findElement(By.id("non-visible-comment-alert"));
+        } catch (NoSuchElementException e) {
+            fail("Question " + questionNum
+                    + " should display an alert message for hidden comments when previewing results.");
         }
     }
 

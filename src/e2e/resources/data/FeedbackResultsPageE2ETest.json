@@ -301,15 +301,12 @@
       "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "INSTRUCTORS"
+        "OWN_TEAM_MEMBERS"
       ],
       "showGiverNameTo": [
-        "INSTRUCTORS",
         "OWN_TEAM_MEMBERS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS"
       ]
     },
     "qn6": {
@@ -345,8 +342,7 @@
       "showRecipientNameTo": [
         "RECEIVER",
         "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
+        "STUDENTS"
       ]
     },
     "qn7": {
@@ -425,7 +421,6 @@
         "STUDENTS"
       ],
       "showGiverNameTo": [
-        "INSTRUCTORS",
         "STUDENTS"
       ],
       "showRecipientNameTo": [
@@ -1158,10 +1153,12 @@
       "receiverSection": "None",
       "feedbackResponseId": "2%Unregistered@gmail.tmt%FRes.alice.b@gmail.tmt",
       "showCommentTo": [
-        "STUDENTS"
+        "STUDENTS",
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
-        "STUDENTS"
+        "STUDENTS",
+        "INSTRUCTORS"
       ],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -1178,10 +1175,12 @@
       "receiverSection": "None",
       "feedbackResponseId": "2%Unregistered@gmail.tmt%FRes.alice.b@gmail.tmt",
       "showCommentTo": [
-        "STUDENTS"
+        "STUDENTS",
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
-        "STUDENTS"
+        "STUDENTS",
+        "INSTRUCTORS"
       ],
       "commentGiverType": "INSTRUCTORS",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -1215,8 +1214,12 @@
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "3%FRes.alice.b@gmail.tmt%FRes.benny.c@gmail.tmt",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
+      "showCommentTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
       "commentGiverType": "STUDENTS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
@@ -1231,8 +1234,12 @@
       "giverSection": "None",
       "receiverSection": "None",
       "feedbackResponseId": "4%FRes.danny.e@gmail.tmt%%GENERAL%",
-      "showCommentTo": [],
-      "showGiverNameTo": [],
+      "showCommentTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
       "commentGiverType": "STUDENTS",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
