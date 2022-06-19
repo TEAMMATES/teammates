@@ -149,7 +149,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
       studentEmail: 'doejohn@email.com',
       logType: 'session access',
       feedbackSessionName: '',
-      logActivityType: 'active',
+      showActions: false,
+      showInactions: false,
     };
     component.students = [testStudent];
     component.isLoading = false;
@@ -237,7 +238,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
       studentEmail: testStudent.email,
       logType: 'submission',
       feedbackSessionName: '',
-      logActivityType: 'active',
+      showActions: true,
+      showInactions: false,
     };
     component.course = testCourse1;
     component.students = [testStudent];
@@ -265,7 +267,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(component.searchResults.length).toEqual(2);
 
     for (let i: number = 0; i < 2; i += 1) {
-      expect(component.searchResults[i].isTabExpanded).toBeFalsy();
+      expect(component.searchResults[i].isTabExpanded).toBeTruthy();
       expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
       // Testing that the LogType is converted correctly.
       expect(component.searchResults[i].logRowsData[0][0].value).toContain('Submitted responses');

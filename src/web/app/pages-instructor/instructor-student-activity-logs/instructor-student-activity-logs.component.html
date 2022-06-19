@@ -85,12 +85,12 @@
       <div class="row mt-md-1 ml-md-3">
         <div class="col-12 form-check" style="margin-top: 30px;">
           <label class="form-check-label">
-            <input id="show-active-logs" class="form-check-input" type="radio" name="showActiveLogs" [ngModel]="formModel.logActivityType" value="active" (ngModelChange)="triggerModelChange('logActivityType', $event)">
-            Show active logs
+            <input id="show-actions" class="form-check-input" type="checkbox" name="showActions" [checked]="formModel.showActions" (click)="triggerModelChange('showActions', $event.target.checked)">
+            Show actions
           </label>
           <label class="form-check-label" style="margin-left: 40px;">
-            <input id="show-inactive-logs" class="form-check-input" type="radio" name="showInactiveLogs" [ngModel]="formModel.logActivityType" value="inactive" (ngModelChange)="triggerModelChange('logActivityType', $event)">
-            Show inactive logs
+            <input id="show-inactions" class="form-check-input" type="checkbox" name="showInactions" [checked]="formModel.showInactions" (click)="triggerModelChange('showInactions', $event.target.checked)">
+            Show inactions
           </label>
         </div>
       </div>

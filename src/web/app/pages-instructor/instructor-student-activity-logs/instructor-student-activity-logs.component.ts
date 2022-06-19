@@ -33,7 +33,8 @@ interface SearchLogsFormModel {
   logType: string;
   feedbackSessionName: string;
   studentEmail: string;
-  logActivityType: string;
+  showActions: boolean;
+  showInactions: boolean;
 }
 
 interface LogType {
@@ -82,7 +83,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logType: '',
     studentEmail: '',
     feedbackSessionName: '',
-    logActivityType: 'active',
+    showActions: false,
+    showInactions: false,
   };
   course: Course = {
     courseId: '',
@@ -175,7 +177,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       if (this.formModel.feedbackSessionName === '') {
         logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
           log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-            this.studentToLog[entry.studentData.email] = entry;
+            this.studentToLog[this.getStudentKey(log, entry.studentData.email)] = entry;
           });
           this.searchResults.push(this.toFeedbackSessionLogModel(log));
         });
@@ -185,7 +187,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
         if (targetFeedbackSessionLog) {
           targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-            this.studentToLog[entry.studentData.email] = entry;
+            this.studentToLog[this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email)] = entry;
           });
           this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
         }
@@ -274,11 +276,17 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               return false;
             }
 
-            if (student.email in this.studentToLog) {
-              if (this.formModel.logActivityType === 'inactive') {
+            if (this.formModel.showInactions && this.formModel.showActions) {
+              return true;
+            }
+
+            const studentKey = this.getStudentKey(log, student.email);
+
+            if (studentKey in this.studentToLog) {
+              if (this.formModel.showInactions) {
                 return false;
               }
-            } else if (this.formModel.logActivityType === 'active') {
+            } else if (this.formModel.showActions) {
               return false;
             }
 
@@ -288,8 +296,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             let status: string;
             let dataStyle: string = 'font-family:monospace; white-space:pre;';
             const statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
-            if (this.formModel.logActivityType === 'active') {
-              const entry: FeedbackSessionLogEntry = this.studentToLog[student.email];
+            const studentKey = this.getStudentKey(log, student.email);
+
+            if (studentKey in this.studentToLog) {
+              const entry: FeedbackSessionLogEntry = this.studentToLog[studentKey];
               const timestamp: string = this.timezoneService.formatToString(
                   entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
               status = `${statusPrefix} at ${timestamp}`;
@@ -310,7 +320,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               { value: student.teamName },
             ];
           }),
-      isTabExpanded: log.feedbackSessionLogEntries.length === 0,
+      isTabExpanded: (log.feedbackSessionLogEntries.length !== 0 && this.formModel.showActions)
+          || (log.feedbackSessionLogEntries.length === 0 && this.formModel.showInactions),
     };
   }
 
@@ -329,11 +340,17 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     }
   }
 
+  private getStudentKey(log: FeedbackSessionLog, studentEmail: string): string {
+    return `${log.feedbackSessionData.feedbackSessionName}-${studentEmail}`;
+  }
+
   triggerDefaultLogActivityTypeChange(logType: string): void {
     if (logType === 'view result') {
-      this.formModel.logActivityType = 'inactive';
+      this.formModel.showInactions = true;
+      this.formModel.showActions = false;
     } else {
-      this.formModel.logActivityType = 'active';
+      this.formModel.showInactions = false;
+      this.formModel.showActions = true;
     }
   }
 

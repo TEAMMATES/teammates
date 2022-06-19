@@ -577,26 +577,24 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               class="form-check-label"
             >
               <input
-                class="form-check-input ng-untouched ng-pristine ng-valid"
-                id="show-active-logs"
-                name="showActiveLogs"
-                type="radio"
-                value="active"
+                class="form-check-input"
+                id="show-actions"
+                name="showActions"
+                type="checkbox"
               />
-               Show active logs 
+               Show actions 
             </label>
             <label
               class="form-check-label"
               style="margin-left: 40px;"
             >
               <input
-                class="form-check-input ng-untouched ng-pristine ng-valid"
-                id="show-inactive-logs"
-                name="showInactiveLogs"
-                type="radio"
-                value="inactive"
+                class="form-check-input"
+                id="show-inactions"
+                name="showInactions"
+                type="checkbox"
               />
-               Show inactive logs 
+               Show inactions 
             </label>
           </div>
         </div>
@@ -1196,26 +1194,24 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               class="form-check-label"
             >
               <input
-                class="form-check-input ng-untouched ng-pristine ng-valid"
-                id="show-active-logs"
-                name="showActiveLogs"
-                type="radio"
-                value="active"
+                class="form-check-input"
+                id="show-actions"
+                name="showActions"
+                type="checkbox"
               />
-               Show active logs 
+               Show actions 
             </label>
             <label
               class="form-check-label"
               style="margin-left: 40px;"
             >
               <input
-                class="form-check-input ng-untouched ng-pristine ng-valid"
-                id="show-inactive-logs"
-                name="showInactiveLogs"
-                type="radio"
-                value="inactive"
+                class="form-check-input"
+                id="show-inactions"
+                name="showInactions"
+                type="checkbox"
               />
-               Show inactive logs 
+               Show inactions 
             </label>
           </div>
         </div>
