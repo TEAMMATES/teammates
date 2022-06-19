@@ -92,9 +92,33 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
             }
         }
 
-        ______TS("typical: student accesses results of his/her course");
+        ______TS("typical: instructor preview session results as student");
 
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+                Const.ParamsNames.PREVIEWAS, studentAttributes.getEmail(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        output = (SessionResultsData) r.getOutput();
+        expectedResults = SessionResultsData.initForStudent(
+                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+                        accessibleFeedbackSession.getCourseId(),
+                        studentAttributes.getEmail(),
+                        false, null, true),
+                studentAttributes);
+
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        ______TS("typical: student accesses results of his/her course");
+
+        studentAttributes = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(studentAttributes.getGoogleId());
 
         submissionParams = new String[] {
@@ -193,8 +217,11 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     private boolean isQuestionOutputEqual(SessionResultsData.QuestionOutput self,
                                           SessionResultsData.QuestionOutput other) {
-        if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(self.getFeedbackQuestion()))
-                || !self.getQuestionStatistics().equals(other.getQuestionStatistics())) {
+        // TODO: why not directly check JsonUtils.toJson(self).equals(JsonUtils.toJson(other.getFeedbackQuestion()) ?
+        if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(other.getFeedbackQuestion()))
+                || !self.getQuestionStatistics().equals(other.getQuestionStatistics())
+                || self.getHasResponseButNotVisibleForPreview() != other.getHasResponseButNotVisibleForPreview()
+                || self.getHasCommentNotVisibleForPreview() != other.getHasCommentNotVisibleForPreview()) {
             return false;
         }
         List<SessionResultsData.ResponseOutput> thisResponses;
