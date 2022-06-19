@@ -1499,7 +1499,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 4
+                  </span>
                 </button>
               </div>
             </div>
@@ -1663,7 +1665,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 5
+                  </span>
                 </button>
               </div>
             </div>
@@ -1841,7 +1845,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 6
+                  </span>
                 </button>
               </div>
             </div>
@@ -2246,7 +2252,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 7
+                  </span>
                 </button>
               </div>
             </div>
@@ -2514,7 +2522,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 8
+                  </span>
                 </button>
               </div>
             </div>
@@ -2740,7 +2750,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 9
+                  </span>
                 </button>
               </div>
             </div>
@@ -2920,7 +2932,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 10
+                  </span>
                 </button>
               </div>
             </div>
@@ -3848,7 +3862,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 4
+                  </span>
                 </button>
               </div>
             </div>
@@ -4013,7 +4029,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 5
+                  </span>
                 </button>
               </div>
             </div>
@@ -4192,7 +4210,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 6
+                  </span>
                 </button>
               </div>
             </div>
@@ -4598,7 +4618,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 7
+                  </span>
                 </button>
               </div>
             </div>
@@ -4875,7 +4897,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 8
+                  </span>
                 </button>
               </div>
             </div>
@@ -5102,7 +5126,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 9
+                  </span>
                 </button>
               </div>
             </div>
@@ -5283,7 +5309,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 10
+                  </span>
                 </button>
               </div>
             </div>
