@@ -618,7 +618,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 </a>
               </span>
             </tm-question-text-with-info>
-            <div>
+            <div
+              id="all-responses"
+            >
               <div
                 class="other-response"
               >
@@ -721,7 +723,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 </a>
               </span>
             </tm-question-text-with-info>
-            <div>
+            <div
+              id="all-responses"
+            >
               <div
                 class="other-response"
               >
@@ -871,7 +875,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 </a>
               </span>
             </tm-question-text-with-info>
-            <div>
+            <div
+              id="all-responses"
+            >
               <div
                 class="other-response"
               >
@@ -1175,7 +1181,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 </span>
               </span>
             </tm-question-text-with-info>
-            <div>
+            <div
+              id="all-responses"
+            >
               <div
                 class="other-response"
               >
@@ -1364,7 +1372,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 </span>
               </span>
             </tm-question-text-with-info>
-            <div>
+            <div
+              id="all-responses"
+            >
               <div
                 class="other-response"
               >
@@ -1612,6 +1622,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             </tm-question-text-with-info>
             <div
               class="alert alert-warning other-response"
+              id="non-visible-response-alert"
               role="alert"
             >
               <i
@@ -1657,7 +1668,9 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 </a>
               </span>
             </tm-question-text-with-info>
-            <div>
+            <div
+              id="all-responses"
+            >
               <div
                 class="other-response"
               >
@@ -1817,12 +1830,15 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
                 </span>
               </span>
             </tm-question-text-with-info>
-            <div>
+            <div
+              id="all-responses"
+            >
               <div
                 id="other-responses"
               >
                 <div
                   class="alert alert-warning my-3"
+                  id="non-visible-comment-alert"
                   role="alert"
                 >
                   <i
