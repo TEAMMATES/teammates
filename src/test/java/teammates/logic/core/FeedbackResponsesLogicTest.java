@@ -1128,6 +1128,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         // Test result bundle for student1
         StudentAttributes student = responseBundle.students.get("student1InCourse1");
+
+        ______TS("student himself/herself is viewing results");
+
         SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), student.getEmail(),
                 false, null, false);
@@ -1185,6 +1188,54 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // no entry in comment visibility table
         Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
         assertEquals(0, commentGiverVisibilityTable.size());
+
+        // preview invisibility info should be empty because this is NOT previewing results
+        assertEquals(0, bundle.getQuestionsNotVisibleForPreviewMap().size());
+        assertEquals(0, bundle.getQuestionsWithCommentNotVisibleForPreview().size());
+
+        ______TS("instructor is previewing results as student");
+
+        bundle = frLogic.getSessionResultsForUser(
+                session.getFeedbackSessionName(), session.getCourseId(), student.getEmail(),
+                false, null, true);
+
+        // instructors can see responses (when previewing results as the student): qr4r2-3
+        totalResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionResponseMap().entrySet()) {
+            totalResponse += entry.getValue().size();
+        }
+        totalMissingResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionMissingResponseMap().entrySet()) {
+            totalMissingResponse += entry.getValue().size();
+        }
+        assertEquals(2, totalResponse);
+        // student should not see missing responses
+        assertEquals(0, totalMissingResponse);
+        // only q4 and q6 are visible to instructors previewing the results
+        // but q6 has no viewable response for the student himself/herself
+        assertEquals(1, bundle.getQuestionsMap().size());
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        assertEquals(1, bundle.getQuestionMissingResponseMap().size());
+
+        // Test the generated response visibilityTable for userNames.
+        responseGiverVisibilityTable = bundle.getResponseGiverVisibilityTable();
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertEquals(totalResponse, responseGiverVisibilityTable.size());
+
+        responseRecipientVisibilityTable = bundle.getResponseRecipientVisibilityTable();
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertEquals(totalResponse, responseRecipientVisibilityTable.size());
+
+        // no entry in comment visibility table
+        assertEquals(0, bundle.getCommentGiverVisibilityTable().size());
+
+        // q1-3, q5, q7-8 have responses viewable for the student but not instructors
+        assertEquals(6, bundle.getQuestionsNotVisibleForPreviewMap().size());
+        assertEquals(0, bundle.getQuestionsWithCommentNotVisibleForPreview().size());
     }
 
     @Test
@@ -1235,6 +1286,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // no entry in comment visibility table
         Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
         assertEquals(0, commentGiverVisibilityTable.size());
+
+        // preview invisibility info should be empty because this is NOT previewing results
+        assertEquals(0, bundle.getQuestionsNotVisibleForPreviewMap().size());
+        assertEquals(0, bundle.getQuestionsWithCommentNotVisibleForPreview().size());
     }
 
     @Test
