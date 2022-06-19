@@ -155,6 +155,7 @@ export class SessionResultCsvService {
         responseAnswers = this.getMissingResponseAnswers(question.feedbackQuestion);
       } else {
         responseAnswers = this.getResponseAnswers(response, question.feedbackQuestion);
+      
       }
 
       // Pad responseAnswers so that responseAnswers and questionSpecificHeaders

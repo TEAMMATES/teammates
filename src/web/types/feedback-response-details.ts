@@ -51,3 +51,13 @@ export const RUBRIC_ANSWER_NOT_CHOSEN: number = -1;
  * Special value to indicate whether a value is present or not.
  */
 export const NO_VALUE: number = ApiConst.NO_VALUE;
+
+/**
+ * Special answer of a numerical range question response to indicate the start response is not submitted.
+ */
+export const NUMERICAL_RANGE_START_NOT_SUBMITTED: number = ApiConst.NUMERICAL_RANGE_START_NOT_SUBMITTED;
+
+/**
+ * Special answer of a numerical scale question response to indicate the end response is not submitted.
+ */
+export const NUMERICAL_RANGE_END_NOT_SUBMITTED: number = ApiConst.NUMERICAL_RANGE_END_NOT_SUBMITTED;

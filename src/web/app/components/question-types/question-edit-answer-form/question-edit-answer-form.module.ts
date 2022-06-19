@@ -17,6 +17,7 @@ import { RankOptionsQuestionEditAnswerFormComponent } from './rank-options-quest
 import { RankRecipientsQuestionEditAnswerFormComponent } from './rank-recipients-question-edit-answer-form.component';
 import { RubricQuestionEditAnswerFormComponent } from './rubric-question-edit-answer-form.component';
 import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer-form.component';
+import { NumRangeQuestionEditAnswerFormComponent } from './num-range-question-edit-answer-form.component';
 
 /**
  * Module for all different types of question edit answer forms.
@@ -34,6 +35,7 @@ import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer
     RubricQuestionEditAnswerFormComponent,
     ConstsumOptionsQuestionEditAnswerFormComponent,
     ConstsumRecipientsQuestionEditAnswerFormComponent,
+    NumRangeQuestionEditAnswerFormComponent,
   ],
   exports: [
     ContributionQuestionEditAnswerFormComponent,
@@ -47,6 +49,7 @@ import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer
     RubricQuestionEditAnswerFormComponent,
     ConstsumOptionsQuestionEditAnswerFormComponent,
     ConstsumRecipientsQuestionEditAnswerFormComponent,
+    NumRangeQuestionEditAnswerFormComponent,
   ],
   imports: [
     CommonModule,

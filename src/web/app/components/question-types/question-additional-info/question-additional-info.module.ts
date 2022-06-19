@@ -13,6 +13,7 @@ import { RankOptionsQuestionAdditionalInfoComponent } from './rank-options-quest
 import { RankRecipientsQuestionAdditionalInfoComponent } from './rank-recipients-question-additional-info.component';
 import { RubricQuestionAdditionalInfoComponent } from './rubric-question-additional-info.component';
 import { TextQuestionAdditionalInfoComponent } from './text-question-additional-info.component';
+import { NumRangeQuestionAdditionalInfoComponent } from './num-range-question-additional-info.component';
 
 /**
  * Module for all additional info components for all different question types.
@@ -29,6 +30,7 @@ import { TextQuestionAdditionalInfoComponent } from './text-question-additional-
     RankRecipientsQuestionAdditionalInfoComponent,
     ConstsumOptionsQuestionAdditionalInfoComponent,
     ConstsumRecipientsQuestionAdditionalInfoComponent,
+    NumRangeQuestionAdditionalInfoComponent
   ],
   exports: [
     ContributionQuestionAdditionalInfoComponent,
@@ -41,6 +43,7 @@ import { TextQuestionAdditionalInfoComponent } from './text-question-additional-
     RankRecipientsQuestionAdditionalInfoComponent,
     ConstsumOptionsQuestionAdditionalInfoComponent,
     ConstsumRecipientsQuestionAdditionalInfoComponent,
+    NumRangeQuestionAdditionalInfoComponent
   ],
   imports: [
     CommonModule,

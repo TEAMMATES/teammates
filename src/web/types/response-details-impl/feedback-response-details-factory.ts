@@ -2,7 +2,7 @@ import {
   FeedbackConstantSumResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
-  FeedbackMsqResponseDetails, FeedbackNumericalScaleResponseDetails,
+  FeedbackMsqResponseDetails, FeedbackNumericalRangeResponseDetails, FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionDetails,
   FeedbackQuestionType, FeedbackRankOptionsResponseDetails, FeedbackRankRecipientsResponseDetails,
   FeedbackResponseDetails, FeedbackRubricResponseDetails, FeedbackTextResponseDetails,
@@ -12,6 +12,7 @@ import { FeedbackConstantSumResponseDetailsImpl } from './feedback-constsum-resp
 import { FeedbackContributionResponseDetailsImpl } from './feedback-contribution-response-details.impl';
 import { FeedbackMcqResponseDetailsImpl } from './feedback-mcq-response-details.impl';
 import { FeedbackMsqResponseDetailsImpl } from './feedback-msq-response-details.impl';
+import { FeedbackNumericalRangeResponseDetailsImpl } from './feedback-num-range-response-details.impl';
 import { FeedbackNumericalScaleResponseDetailsImpl } from './feedback-num-scale-response-details.impl';
 import { FeedbackRankOptionsResponseDetailsImpl } from './feedback-rank-options-response-details.impl';
 import { FeedbackRankRecipientsResponseDetailsImpl } from './feedback-rank-recipients-response-details.impl';
@@ -48,6 +49,8 @@ export class FeedbackResponseDetailsFactory {
         return new FeedbackRubricResponseDetailsImpl(details as FeedbackRubricResponseDetails);
       case FeedbackQuestionType.TEXT:
         return new FeedbackTextResponseDetailsImpl(details as FeedbackTextResponseDetails);
+        case FeedbackQuestionType.NUMRANGE:
+          return new FeedbackNumericalRangeResponseDetailsImpl(details as FeedbackNumericalRangeResponseDetails)
       default:
         throw new Error(`Unknown question type: ${details.questionType}`);
     }

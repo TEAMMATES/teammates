@@ -8,3 +8,4 @@
 <tm-rank-recipients-question-statistics *ngIf="question.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rank-recipients-question-statistics>
 <tm-msq-question-statistics *ngIf="question.questionType === FeedbackQuestionType.MSQ" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-msq-question-statistics>
 <tm-mcq-question-statistics *ngIf="question.questionType === FeedbackQuestionType.MCQ" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-mcq-question-statistics>
+<tm-num-range-question-statistics *ngIf="question.questionType === FeedbackQuestionType.NUMRANGE" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-num-range-question-statistics>

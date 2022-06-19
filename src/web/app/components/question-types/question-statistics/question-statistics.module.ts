@@ -20,6 +20,7 @@ import { RankOptionsQuestionStatisticsComponent } from './rank-options-question-
 import { RankRecipientsQuestionStatisticsComponent } from './rank-recipients-question-statistics.component';
 import { RubricQuestionStatisticsComponent } from './rubric-question-statistics.component';
 import { TextQuestionStatisticsComponent } from './text-question-statistics.component';
+import { NumRangeQuestionStatisticsComponent } from './num-range-question-statistics.component';
 
 /**
  * Module for all different types of question statistics.
@@ -36,6 +37,7 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     RankRecipientsQuestionStatisticsComponent,
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
+    NumRangeQuestionStatisticsComponent
   ],
   exports: [
     TextQuestionStatisticsComponent,
@@ -48,6 +50,7 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
     ContributionQuestionStatisticsComponent,
+    NumRangeQuestionStatisticsComponent
   ],
   imports: [
     CommonModule,

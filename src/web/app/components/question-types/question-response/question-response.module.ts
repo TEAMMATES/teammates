@@ -10,6 +10,7 @@ import { RankOptionsQuestionResponseComponent } from './rank-options-question-re
 import { RankRecipientsQuestionResponseComponent } from './rank-recipients-question-response.component';
 import { RubricQuestionResponseComponent } from './rubric-question-response.component';
 import { TextQuestionResponseComponent } from './text-question-response.component';
+import { NumRangeQuestionResponseComponent } from './num-range-question-response.component';
 
 /**
  * Module for all different types of question responses.
@@ -25,6 +26,7 @@ import { TextQuestionResponseComponent } from './text-question-response.componen
     ConstsumQuestionResponseComponent,
     RankOptionsQuestionResponseComponent,
     RankRecipientsQuestionResponseComponent,
+    NumRangeQuestionResponseComponent
   ],
   exports: [
     ContributionQuestionResponseComponent,
@@ -36,6 +38,7 @@ import { TextQuestionResponseComponent } from './text-question-response.componen
     ConstsumQuestionResponseComponent,
     RankOptionsQuestionResponseComponent,
     RankRecipientsQuestionResponseComponent,
+    NumRangeQuestionResponseComponent
   ],
   imports: [
     CommonModule,

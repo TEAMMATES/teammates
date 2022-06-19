@@ -4,25 +4,7 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.questions.*;
 import teammates.common.util.JsonUtils;
 
 /**
@@ -48,7 +30,9 @@ public enum QuestionTypeStructures {
     DEFAULT_RUBRIC_QUESTION_DETAILS(new FeedbackRubricQuestionDetails("")),
     DEFAULT_RUBRIC_RESPONSE_DETAILS(new FeedbackRubricResponseDetails()),
     DEFAULT_TEXT_QUESTION_DETAILS(new FeedbackTextQuestionDetails("")),
-    DEFAULT_TEXT_RESPONSE_DETAILS(new FeedbackTextResponseDetails());
+    DEFAULT_TEXT_RESPONSE_DETAILS(new FeedbackTextResponseDetails()),
+    DEFAULT_NUMRANGE_QUESTION_DETAILS(new FeedbackNumericalRangeQuestionDetails("")),
+    DEFAULT_NUMRANGE_RESPONSE_DETAILS(new FeedbackNumericalRangeResponseDetails());
     // CHECKSTYLE.ON:JavadocVariable
 
     @JsonValue

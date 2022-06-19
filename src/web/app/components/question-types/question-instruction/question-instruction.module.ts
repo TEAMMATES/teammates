@@ -7,6 +7,7 @@ import { NumScaleQuestionInstructionComponent } from './num-scale-question-instr
 import { RankOptionsQuestionInstructionComponent } from './rank-options-question-instruction.component';
 import { RankRecipientsQuestionInstructionComponent } from './rank-recipients-question-instruction.component';
 import { TextQuestionInstructionComponent } from './text-question-instruction.component';
+import { NumRangeQuestionInstructionComponent } from './num-range-question-instruction.component';
 
 /**
  * Module for all different types of question instructions.
@@ -20,6 +21,7 @@ import { TextQuestionInstructionComponent } from './text-question-instruction.co
     RankRecipientsQuestionInstructionComponent,
     ConstsumOptionsQuestionInstructionComponent,
     ConstsumRecipientsQuestionInstructionComponent,
+    NumRangeQuestionInstructionComponent,
   ],
   exports: [
     ContributionQuestionInstructionComponent,
@@ -29,6 +31,7 @@ import { TextQuestionInstructionComponent } from './text-question-instruction.co
     RankRecipientsQuestionInstructionComponent,
     ConstsumOptionsQuestionInstructionComponent,
     ConstsumRecipientsQuestionInstructionComponent,
+    NumRangeQuestionInstructionComponent,
   ],
   imports: [
     CommonModule,

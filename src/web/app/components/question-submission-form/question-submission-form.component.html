@@ -36,7 +36,8 @@
     <tm-constsum-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="model.questionDetails"></tm-constsum-options-question-instruction>
     <tm-constsum-recipients-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS"
                                                  [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
-
+    <tm-num-range-question-instruction *ngIf="model.questionType === FeedbackQuestionType.NUMRANGE"></tm-num-range-question-instruction>
+    <tm-num-range-question-constraint *ngIf="model.questionType === FeedbackQuestionType.NUMRANGE"></tm-num-range-question-constraint>
     <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF" class="margin-top-30px margin-bottom-0px">
       <span class="ngb-tooltip-class font-bold" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
     </p>
@@ -116,7 +117,12 @@
                                                            [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                            (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                            [isDisabled]="isFormsDisabled"></tm-constsum-recipients-question-edit-answer-form>
-          </div>
+            <tm-num-range-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.NUMRANGE" [questionDetails]="model.questionDetails"
+                                                    [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                    (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                    [isDisabled]="isFormsDisabled"
+            ></tm-num-range-question-edit-answer-form>
+            </div>
 
           <div id="comment-section" *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
             <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">

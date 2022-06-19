@@ -98,6 +98,7 @@ export class FeedbackSessionActionsService {
           saveAs(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {
+          console.error(resp)
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });

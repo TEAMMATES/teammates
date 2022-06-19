@@ -1,0 +1,25 @@
+<div class="form-row text-left">
+    <div class="col-md-2 col-xs-5">
+      <label for="startInput" class="form-label">Start</label>
+      <input id="startInput" type="number" class="form-control" min="{{ questionDetails.minScale }}" max="{{ questionDetails.maxScale }}" step="{{ questionDetails.step }}" tmDisableWheel
+             [ngModel]="responseDetails.start === NUMERICAL_RANGE_START_NOT_SUBMITTED ? '' : responseDetails.start" (ngModelChange)="triggerResponseDetailsChange('start', $event)" [disabled]="isDisabled">
+    </div>
+    <div class="col-md-2 col-xs-5">
+      <label for="endInput" class="form-label">End</label>
+      <input id="endInput" type="number" class="form-control" min="{{ questionDetails.minScale }}" max="{{ questionDetails.maxScale }}" step="{{ questionDetails.step }}" tmDisableWheel
+      [ngModel]="responseDetails.end === NUMERICAL_RANGE_END_NOT_SUBMITTED ? '' : responseDetails.end" (ngModelChange)="triggerResponseDetailsChange('end', $event)" [disabled]="isDisabled">
+    </div>
+    <div id="possible-values" class="col-md-9 col-xs-6 text-secondary p-1">
+      Possible values: {{ possibleValues }}
+    </div>
+  </div>
+  <div class="row mt-1">
+    <div class="col-12">
+      <p *ngIf="!isValidPossibleValue(responseDetails.start) && responseDetails.start !== NUMERICAL_RANGE_START_NOT_SUBMITTED" class="text-danger">The start scale entered is not a possible value.</p>
+      <p *ngIf="!isValidPossibleValue(responseDetails.end) && responseDetails.end !== NUMERICAL_RANGE_END_NOT_SUBMITTED" class="text-danger">The end scale entered is not a possible value.</p>
+      <p *ngIf="responseDetails.start > responseDetails.end && responseDetails.start !== NUMERICAL_RANGE_START_NOT_SUBMITTED && responseDetails.end !== NUMERICAL_RANGE_END_NOT_SUBMITTED" class="text-danger">The start value cannot be larger than the end value.</p>
+      <p *ngIf="responseDetails.start === NUMERICAL_RANGE_END_NOT_SUBMITTED || responseDetails.end === NUMERICAL_RANGE_END_NOT_SUBMITTED" class="text-info">Please enter a scale number.</p>
+    </div>
+  </div>
+  <br>
+  

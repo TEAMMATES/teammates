@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-sm-4">
+      <span class="ngb-tooltip-class" ngbTooltip="Minimum acceptable response value">Minimum value:</span>
+      <input id="min-value" type="number" class="form-control" [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1">
+    </div>
+    <div class="col-sm-4">
+      <span class="ngb-tooltip-class" ngbTooltip="Value to be increased/decreased each step">Increment:</span>
+      <input id="increment-value" type="number" class="form-control" [ngModel]="model.step" (ngModelChange)="triggerModelChange('step', $event)" [disabled]="!isEditable"
+             step="any" min="0">
+    </div>
+    <div class="col-sm-4">
+      <span class="ngb-tooltip-class" ngbTooltip="Maximum acceptable response value">Maximum value:</span>
+      <input id="max-value" type="number" class="form-control" [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1" min="{{ Math.ceil(model.minScale + model.step) }}">
+    </div>
+  </div>
+  <br>
+  <div *ngIf="model.step > 0">
+    Based on the above settings, acceptable responses are: {{ possibleValues }}
+  </div>
+  <div class="text-danger" *ngIf="model.step <= 0">
+    The step size must be a positive number!
+  </div>
+  

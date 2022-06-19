@@ -19,6 +19,7 @@ import {
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
   ResponseOutput,
+  FeedbackNumericalRangeResponseDetails,
 } from '../types/api-output';
 import { FeedbackResponsesRequest, Intent } from '../types/api-request';
 import {
@@ -26,6 +27,7 @@ import {
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
   DEFAULT_MSQ_RESPONSE_DETAILS,
+  DEFAULT_NUMRANGE_RESPONSE_DETAILS,
   DEFAULT_NUMSCALE_RESPONSE_DETAILS,
   DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
   DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
@@ -34,6 +36,8 @@ import {
 } from '../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
+  NUMERICAL_RANGE_END_NOT_SUBMITTED,
+  NUMERICAL_RANGE_START_NOT_SUBMITTED,
   NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED, RUBRIC_ANSWER_NOT_CHOSEN,
@@ -82,6 +86,8 @@ export class FeedbackResponsesService {
         return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+      case FeedbackQuestionType.NUMRANGE:
+        return DEFAULT_NUMRANGE_RESPONSE_DETAILS();
       default:
         throw new Error(`Unknown question type ${questionType}`);
     }
@@ -117,6 +123,13 @@ export class FeedbackResponsesService {
         const numScaleDetails: FeedbackNumericalScaleResponseDetails = details as FeedbackNumericalScaleResponseDetails;
         return numScaleDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED
             || numScaleDetails.answer == null;
+      }
+      case FeedbackQuestionType.NUMRANGE: {
+        const numRangeDetails: FeedbackNumericalRangeResponseDetails = details as FeedbackNumericalRangeResponseDetails;
+        return (numRangeDetails.start === NUMERICAL_RANGE_START_NOT_SUBMITTED
+            || numRangeDetails.start == null)
+            && (numRangeDetails.end === NUMERICAL_RANGE_END_NOT_SUBMITTED
+            || numRangeDetails.end == null);
       }
       case FeedbackQuestionType.MCQ: {
         const mcqDetails: FeedbackMcqResponseDetails = details as FeedbackMcqResponseDetails;

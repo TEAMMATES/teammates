@@ -19,6 +19,7 @@ import {
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MSQ_QUESTION_DETAILS,
+  DEFAULT_NUMRANGE_QUESTION_DETAILS,
   DEFAULT_NUMSCALE_QUESTION_DETAILS,
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
   DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
@@ -84,6 +85,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.MCQ:
       case FeedbackQuestionType.MSQ:
       case FeedbackQuestionType.NUMSCALE:
+      case FeedbackQuestionType.NUMRANGE:
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
@@ -144,6 +146,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.MCQ:
       case FeedbackQuestionType.MSQ:
       case FeedbackQuestionType.NUMSCALE:
+      case FeedbackQuestionType.NUMRANGE:
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
@@ -200,6 +203,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.MCQ:
       case FeedbackQuestionType.MSQ:
       case FeedbackQuestionType.NUMSCALE:
+      case FeedbackQuestionType.NUMRANGE:
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RANK_RECIPIENTS:
       case FeedbackQuestionType.RUBRIC:
@@ -303,6 +307,8 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         return true;
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+        return true;
+      case FeedbackQuestionType.NUMRANGE:
         return true;
       default:
         throw new Error(`Unsupported question type: ${type}`);
@@ -516,6 +522,24 @@ export class FeedbackQuestionsService {
 
           questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           questionDetails: DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS(),
+          giverType: FeedbackParticipantType.STUDENTS,
+          recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+
+          numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+
+          showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+          showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
+          showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+        };
+
+      case FeedbackQuestionType.NUMRANGE:
+
+        return {
+          questionBrief: '',
+          questionDescription: '',
+
+          questionType: FeedbackQuestionType.NUMRANGE,
+          questionDetails: DEFAULT_NUMRANGE_QUESTION_DETAILS(),
           giverType: FeedbackParticipantType.STUDENTS,
           recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
 

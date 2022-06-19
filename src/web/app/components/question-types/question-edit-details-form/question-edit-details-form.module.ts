@@ -23,6 +23,7 @@ import { RankRecipientsQuestionEditDetailsFormComponent } from './rank-recipient
 import { RubricQuestionEditDetailsFormComponent } from './rubric-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
+import { NumRangeQuestionEditDetailsFormComponent } from './num-range-question-edit-details-form.component';
 
 /**
  * Module for all different types of question edit details forms.
@@ -44,6 +45,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     ConstsumOptionsQuestionEditDetailsFormComponent,
     ConstsumOptionsFieldComponent,
     ConstsumRecipientsQuestionEditDetailsFormComponent,
+    NumRangeQuestionEditDetailsFormComponent,
   ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
@@ -60,6 +62,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     RubricQuestionEditDetailsFormComponent,
     ConstsumOptionsQuestionEditDetailsFormComponent,
     ConstsumRecipientsQuestionEditDetailsFormComponent,
+    NumRangeQuestionEditDetailsFormComponent
   ],
   imports: [
     CommonModule,

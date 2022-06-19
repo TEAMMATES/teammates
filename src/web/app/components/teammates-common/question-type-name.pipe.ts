@@ -34,6 +34,8 @@ export class QuestionTypeNamePipe implements PipeTransform {
         return 'Distribute points (among options) question';
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return 'Distribute points (among recipients) question';
+      case FeedbackQuestionType.NUMRANGE:
+        return 'Numerical-range question';
       default:
         return 'Unknown';
     }

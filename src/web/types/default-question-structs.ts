@@ -8,6 +8,8 @@ import {
   FeedbackMcqResponseDetails,
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
+  FeedbackNumericalRangeQuestionDetails,
+  FeedbackNumericalRangeResponseDetails,
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackRankOptionsQuestionDetails,
@@ -171,3 +173,23 @@ export const DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS: () => FeedbackRankRecipie
     (): FeedbackRankRecipientsResponseDetails => {
       return JSON.parse(QuestionTypeStructures.DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS);
     };
+
+
+// Updated
+
+/**
+ * Structure for default numerical range question details.
+ */
+export const DEFAULT_NUMRANGE_QUESTION_DETAILS: () => FeedbackNumericalRangeQuestionDetails =
+    (): FeedbackNumericalRangeQuestionDetails => {
+      return JSON.parse(QuestionTypeStructures.DEFAULT_NUMRANGE_QUESTION_DETAILS);
+    };
+
+/**
+ * Structure for default numerical range question response details.
+ */
+export const DEFAULT_NUMRANGE_RESPONSE_DETAILS: () => FeedbackNumericalRangeResponseDetails =
+    (): FeedbackNumericalRangeResponseDetails => {
+      return JSON.parse(QuestionTypeStructures.DEFAULT_NUMRANGE_RESPONSE_DETAILS);
+    };
+

@@ -6,6 +6,7 @@ import { MsqQuestionConstraintComponent } from './msq-question-constraint.compon
 import { NumScaleQuestionConstraintComponent } from './num-scale-question-constraint.component';
 import { RankRecipientsQuestionConstraintComponent } from './rank-recipients-question-constraint.component';
 import { TextQuestionConstraintComponent } from './text-question-constraint.component';
+import { NumRangeQuestionConstraintComponent } from './num-range-question-constraint.component';
 
 /**
  * Module for all different types of question constraints.
@@ -18,6 +19,7 @@ import { TextQuestionConstraintComponent } from './text-question-constraint.comp
     MsqQuestionConstraintComponent,
     RankRecipientsQuestionConstraintComponent,
     ConstsumRecipientsQuestionConstraintComponent,
+    NumRangeQuestionConstraintComponent,
   ],
   exports: [
     ContributionQuestionConstraintComponent,
@@ -26,6 +28,7 @@ import { TextQuestionConstraintComponent } from './text-question-constraint.comp
     MsqQuestionConstraintComponent,
     RankRecipientsQuestionConstraintComponent,
     ConstsumRecipientsQuestionConstraintComponent,
+    NumRangeQuestionConstraintComponent
   ],
   imports: [
     CommonModule,
