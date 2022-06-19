@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { Sections } from '../sections';
 import { CoursesSectionQuestions } from './courses-section-questions';
 
 /**
@@ -15,8 +16,9 @@ import { CoursesSectionQuestions } from './courses-section-questions';
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
-  // enum
+  // enums
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;
 

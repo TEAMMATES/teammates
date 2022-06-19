@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
 import { MasqueradeModeService } from './masquerade-mode.service';
 import { StatusMessageService } from './status-message.service';
 
@@ -14,7 +15,11 @@ import { StatusMessageService } from './status-message.service';
 export class NavigationService {
 
   constructor(private statusMessageService: StatusMessageService,
-              private masqueradeModeService: MasqueradeModeService) {}
+              private masqueradeModeService: MasqueradeModeService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private location: Location,
+  ) {}
 
   encodeParams(params: Record<string, string>): string {
     if (Object.values(params).length === 0) {
@@ -22,6 +27,18 @@ export class NavigationService {
     }
     return `?${Object.keys(params).map(((key: string): string => `${key}=${encodeURIComponent(params[key])}`))
       .join('&')}`;
+  }
+
+  /**
+   * Appends queryParams at the end of the current URL.
+   */
+  changeBrowserUrl(queryParams: Params): void {
+    const newUrl = this.router.createUrlTree(
+        [],
+        { relativeTo: this.activatedRoute, queryParams },
+    ).toString();
+
+    this.location.go(newUrl);
   }
 
   navigateByURL(router: Router, urlWithoutParams: string, params: Record<string, string> = {},

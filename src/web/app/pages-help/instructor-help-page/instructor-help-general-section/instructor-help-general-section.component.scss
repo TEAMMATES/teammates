@@ -5,3 +5,30 @@
 .instr-help-qn-last {
   padding-bottom: 5px;
 }
+
+.section-header {
+  .fa-anchor {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .fa-anchor {
+      display: block;
+      cursor: pointer;
+    }
+  }
+
+  @media (min-width: 768px) {
+    &:hover {
+      .fa-anchor {
+        display: block;
+        opacity: 30%;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 100%;
+        }
+      }
+    }
+  }
+}
