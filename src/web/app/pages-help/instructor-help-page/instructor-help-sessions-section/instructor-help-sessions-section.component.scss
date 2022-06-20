@@ -76,7 +76,7 @@ button {
   counter-reset: elementcounter;
   padding-left: 0;
 
-  li:before {
+  li::before {
     content: "Alternative " counter(elementcounter) ": ";
     counter-increment: elementcounter;
   }
