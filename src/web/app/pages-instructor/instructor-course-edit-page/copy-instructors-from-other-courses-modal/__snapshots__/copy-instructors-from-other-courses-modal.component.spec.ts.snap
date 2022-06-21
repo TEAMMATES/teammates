@@ -311,6 +311,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                         <div>
                           <input
                             class="form-control no-shadow ng-untouched ng-pristine ng-valid"
+                            id="enabled-checkbox"
                             type="checkbox"
                           />
                         </div>
@@ -333,6 +334,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                         <div>
                           <input
                             class="form-control no-shadow ng-untouched ng-pristine ng-valid"
+                            id="enabled-checkbox"
                             type="checkbox"
                           />
                         </div>

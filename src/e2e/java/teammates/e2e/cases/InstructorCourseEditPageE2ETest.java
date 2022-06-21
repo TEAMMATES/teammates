@@ -82,8 +82,8 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         editPage.copyInstructors(instructorsToCopy);
 
-        editPage.verifyStatusMessage("The selected instructor(s) have been added successfully. " +
-                "An email containing how to 'join' this course will be sent to them in a few minutes.");
+        editPage.verifyStatusMessage("The selected instructor(s) have been added successfully. "
+                + "An email containing how to 'join' this course will be sent to them in a few minutes.");
         for (InstructorAttributes i : instructorsToCopy) {
             newInstructor = InstructorAttributes
                     .builder(course.getId(), i.getEmail())

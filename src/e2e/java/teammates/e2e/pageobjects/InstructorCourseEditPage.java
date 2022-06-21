@@ -248,7 +248,7 @@ public class InstructorCourseEditPage extends AppPage {
         for (WebElement card : cards) {
             WebElement cardHeader = card.findElement(By.className("card-header"));
             String cardHeaderText = cardHeader.getText();
-            String courseId = cardHeaderText.substring(1, cardHeaderText.indexOf("]"));
+            String courseId = cardHeaderText.substring(1, cardHeaderText.indexOf(']'));
             if (courseInstructorEmailsMap.containsKey(courseId)) {
                 click(cardHeader);
                 WebElement cardBody = waitForElementPresence(By.className("card-body"));
