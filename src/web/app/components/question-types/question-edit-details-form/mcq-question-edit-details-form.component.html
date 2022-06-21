@@ -1,6 +1,15 @@
 <div class="row">
   <br>
   <div class="col-sm-12">
+    <div class="form-check">
+      <label class="bold-label">
+        <input id="make-question-dropdown" class="form-check-input" type="checkbox" [ngModel]="model.questionDropdownEnabled"
+               (ngModelChange)="triggerQuestionDropdownEnabled($event)" [disabled]="!isEditable">
+        Show question as drop-down
+      </label>
+    </div>
+  </div>
+  <div class="col-sm-12">
     <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
       <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
              container="body">
@@ -15,16 +24,8 @@
     </div>
   </div>
   <br>
-  <br>
   <div class="col-sm-6">
     <div *ngIf="!isGeneratedOptionsEnabled">
-      <div class="form-check">
-        <label class="bold-label">
-          <input id="make-question-dropdown" class="form-check-input" type="checkbox" [ngModel]="model.questionDropdownEnabled"
-                 (ngModelChange)="triggerQuestionDropdownEnabled($event)" [disabled]="!isEditable">
-          Show question as drop-down
-        </label>
-      </div>
       <div id="options-section" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div class="row margin-top-22px" *ngFor="let num of model.mcqChoices; let i = index;
         trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y">
@@ -38,7 +39,8 @@
                           [index]="i"
                           [isEditable]="isEditable"
                           [numberOfMcqChoices]="model.mcqChoices.length"
-                          [text]="model.mcqChoices[i]"></tm-mcq-field>
+                          [text]="model.mcqChoices[i]"
+                          [isQuestionDropdownEnabled]="this.model.questionDropdownEnabled"></tm-mcq-field>
           </div>
           <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
             <tm-weight-field [isEditable]="isEditable"

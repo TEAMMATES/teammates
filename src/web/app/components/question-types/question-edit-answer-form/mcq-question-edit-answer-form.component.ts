@@ -30,7 +30,11 @@ export class McqQuestionEditAnswerFormComponent
   @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
   isMcqOptionSelected: boolean[] = [];
-  @Output() cssRefresh = new EventEmitter<boolean>();
+
+  isOtherTicked: boolean = false;
+
+  @Output()
+  cssRefresh = new EventEmitter<boolean>();
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS(), DEFAULT_MCQ_RESPONSE_DETAILS());
@@ -54,6 +58,8 @@ export class McqQuestionEditAnswerFormComponent
    * Updates the other option radio box when clicked.
    */
   updateIsOtherOption(): void {
+    this.isOtherTicked = !this.isOtherTicked;
+    this.isMcqOptionSelected = Array(this.questionDetails.mcqChoices.length).fill(false);
     const fieldsToUpdate: any = {};
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
     if (fieldsToUpdate.isOther) {
