@@ -25,6 +25,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
     <button
       aria-label="Close"
       class="close"
+      id="btn-close-modal"
       type="button"
     >
       <span
@@ -74,12 +75,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-primary"
+          class="card-header cursor-pointer text-white bg-info"
         >
           <strong
             class="text-break"
           >
-            [FAN0002]: Test Course 1
+            [FAN0002] (Archived): Test Course 1
           </strong>
           <div
             class="card-header-btn-toolbar"
@@ -132,6 +133,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
     </button>
     <button
       class="btn btn-light"
+      id="btn-cancel-copy-instructor"
       type="button"
     >
       Cancel
@@ -165,6 +167,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     <button
       aria-label="Close"
       class="close"
+      id="btn-close-modal"
       type="button"
     >
       <span
@@ -214,12 +217,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-primary"
+          class="card-header cursor-pointer text-white bg-info"
         >
           <strong
             class="text-break"
           >
-            [FAN0002]: Test Course 1
+            [FAN0002] (Archived): Test Course 1
           </strong>
           <div
             class="card-header-btn-toolbar"
@@ -246,7 +249,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                   id="copy-instructor-table"
                 >
                   <thead
-                    class="text-white bg-primary"
+                    class="text-white bg-info"
                   >
                     <tr>
                       <th>
@@ -377,6 +380,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     </button>
     <button
       class="btn btn-light"
+      id="btn-cancel-copy-instructor"
       type="button"
     >
       Cancel
@@ -410,6 +414,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     <button
       aria-label="Close"
       class="close"
+      id="btn-close-modal"
       type="button"
     >
       <span
@@ -459,12 +464,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-primary"
+          class="card-header cursor-pointer text-white bg-info"
         >
           <strong
             class="text-break"
           >
-            [FAN0002]: Test Course 1
+            [FAN0002] (Archived): Test Course 1
           </strong>
           <div
             class="card-header-btn-toolbar"
@@ -514,6 +519,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     </button>
     <button
       class="btn btn-light"
+      id="btn-cancel-copy-instructor"
       type="button"
     >
       Cancel
@@ -547,6 +553,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
     <button
       aria-label="Close"
       class="close"
+      id="btn-close-modal"
       type="button"
     >
       <span
@@ -596,12 +603,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-primary"
+          class="card-header cursor-pointer text-white bg-info"
         >
           <strong
             class="text-break"
           >
-            [FAN0002]: Test Course 1
+            [FAN0002] (Archived): Test Course 1
           </strong>
           <div
             class="card-header-btn-toolbar"
@@ -624,12 +631,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-info"
+          class="card-header cursor-pointer text-white bg-primary"
         >
           <strong
             class="text-break"
           >
-            [FAN0001] (Archived): Test Course 2
+            [FAN0001]: Test Course 2
           </strong>
           <div
             class="card-header-btn-toolbar"
@@ -660,6 +667,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
     </button>
     <button
       class="btn btn-light"
+      id="btn-cancel-copy-instructor"
       type="button"
     >
       Cancel
@@ -693,6 +701,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
     <button
       aria-label="Close"
       class="close"
+      id="btn-close-modal"
       type="button"
     >
       <span
@@ -718,6 +727,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
     </button>
     <button
       class="btn btn-light"
+      id="btn-cancel-copy-instructor"
       type="button"
     >
       Cancel

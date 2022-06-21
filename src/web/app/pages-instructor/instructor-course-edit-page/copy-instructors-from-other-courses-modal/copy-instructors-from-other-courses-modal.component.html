@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">Copy Instructors</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()" [disabled]="isCopyingSelectedInstructors">
+  <button id="btn-close-modal" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()" [disabled]="isCopyingSelectedInstructors">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -24,7 +24,7 @@
       </div>
 
       <div *ngIf="course.isTabExpanded">
-        <tm-loading-retry [shouldShowRetry]="course.hasLoadingFailed" [message]="'Failed to load instructors'" (retryEvent)="loadInstructors(course)">
+        <tm-loading-retry [shouldShowRetry]="course.hasLoadingFailed" [retryButtonDisabled]="isCopyingSelectedInstructors" [message]="'Failed to load instructors'" (retryEvent)="loadInstructors(course)">
           <div *tmIsLoading="!course.hasInstructorsLoaded">
             <div *ngIf="!course.hasLoadingFailed" class="card-body">
               <ng-container *ngIf="course.hasInstructorsLoaded">
@@ -84,7 +84,7 @@
                   </tbody>
                 </table>
               </ng-container>
-              <button (click)="loadInstructors(course)" class="btn btn-secondary float-right mt-2 mb-3">
+              <button class="btn btn-secondary float-right mt-2 mb-3" (click)="loadInstructors(course)" [disabled]="isCopyingSelectedInstructors">
                 <i class="fas fa-redo" aria-hidden="true"></i>
                 &nbsp;Reload
               </button>
@@ -99,5 +99,5 @@
   <button id="btn-confirm-copy-instructor" type="button" class="btn btn-primary" (click)="copySelectedInstructors()" [disabled]="!isAnyInstructorCandidatesSelected || isCopyingSelectedInstructors">
     <tm-ajax-loading *ngIf="isCopyingSelectedInstructors"></tm-ajax-loading>Copy
   </button>
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()" [disabled]="isCopyingSelectedInstructors">Cancel</button>
+  <button id="btn-cancel-copy-instructor" type="button" class="btn btn-light" (click)="activeModal.dismiss()" [disabled]="isCopyingSelectedInstructors">Cancel</button>
 </div>

@@ -97,7 +97,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     courseId: 'FAN0002',
     courseName: 'Test Course 1',
     creationTimestamp: 1658797215, // Tuesday, 26 July 2022 09:00:15 GMT+08:00
-    isArchived: false,
+    isArchived: true,
     instructorCandidates: [],
     instructorCandidatesSortBy: SortBy.NONE,
     instructorCandidatesSortOrder: SortOrder.ASC,
@@ -110,7 +110,20 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     courseId: 'FAN0001',
     courseName: 'Test Course 2',
     creationTimestamp: 1645539742, // Tuesday, 22 February 2022 22:22:22 GMT+08:00
-    isArchived: true,
+    isArchived: false,
+    instructorCandidates: [],
+    instructorCandidatesSortBy: SortBy.NONE,
+    instructorCandidatesSortOrder: SortOrder.ASC,
+    hasInstructorsLoaded: false,
+    isTabExpanded: false,
+    hasLoadingFailed: false,
+  };
+
+  const testCourseTab3: CourseTabModel = {
+    courseId: 'CS2103T',
+    courseName: 'XXX Software Engineering',
+    creationTimestamp: 1655826680, // Tuesday, 21 June 2022 15:51:20 GMT+08:00
+    isArchived: false,
     instructorCandidates: [],
     instructorCandidatesSortBy: SortBy.NONE,
     instructorCandidatesSortOrder: SortOrder.ASC,
@@ -215,8 +228,8 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   });
 
   it('should not allow copying when no instructors are selected', () => {
-    testCourseTab1.instructorCandidates = [testInstructorCandidate3, testInstructorCandidate4];
     testCourseTab2.instructorCandidates = [testInstructorCandidate1, testInstructorCandidate2];
+    testCourseTab1.instructorCandidates = [testInstructorCandidate3, testInstructorCandidate4];
     component.courses = [testCourseTab2, testCourseTab1];
     fixture.detectChanges();
 
@@ -232,22 +245,71 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     testInstructorCandidate1.isSelected = true;
     testInstructorCandidate3.isSelected = true;
     testInstructorCandidate4.isSelected = true;
-    testCourseTab1.instructorCandidates = [testInstructorCandidate3, testInstructorCandidate4];
     testCourseTab2.instructorCandidates = [testInstructorCandidate1, testInstructorCandidate2];
+    testCourseTab1.instructorCandidates = [testInstructorCandidate3, testInstructorCandidate4];
     component.courses = [testCourseTab2, testCourseTab1];
     fixture.detectChanges();
 
     const instructors: Instructor[] = [testInstructor1, testInstructor3, testInstructor4];
-
+    const buttonConfirmCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
     jest.spyOn(component.copyClickedEvent, 'emit');
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
-
     expect(component.isAnyInstructorCandidatesSelected).toBeTruthy();
-    expect(button.disabled).toBeFalsy();
+    expect(buttonConfirmCopy.disabled).toBeFalsy();
 
-    button.click();
+    buttonConfirmCopy.click();
     expect(component.copyClickedEvent.emit).toHaveBeenCalledTimes(1);
     expect(component.copyClickedEvent.emit).toHaveBeenCalledWith(instructors);
+  });
+
+  it('should disable buttons when copying instructors', () => {
+    testInstructorCandidate1.isSelected = true;
+    testCourseTab2.instructorCandidates = [testInstructorCandidate1];
+    component.courses = [testCourseTab2];
+    fixture.detectChanges();
+
+    const buttonConfirmCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
+    const buttonCancelCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-cancel-copy-instructor');
+    const buttonCloseModal: any = fixture.debugElement.nativeElement.querySelector('#btn-close-modal');
+
+    buttonConfirmCopy.click();
+    fixture.detectChanges();
+
+    expect(buttonConfirmCopy.disabled).toBeTruthy();
+    expect(buttonCancelCopy.disabled).toBeTruthy();
+    expect(buttonCloseModal.disabled).toBeTruthy();
+  });
+
+  it('should sort courses by their IDs', () => {
+    component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-id');
+    button.click();
+    expect(component.courses[0].courseId).toEqual('CS2103T');
+    expect(component.courses[1].courseId).toEqual('FAN0001');
+    expect(component.courses[2].courseId).toEqual('FAN0002');
+  });
+
+  it('should sort courses by their names', () => {
+    component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-name');
+    button.click();
+    expect(component.courses[0].courseId).toEqual('FAN0002');
+    expect(component.courses[1].courseId).toEqual('FAN0001');
+    expect(component.courses[2].courseId).toEqual('CS2103T');
+  });
+
+  it('should sort courses by their creation dates', () => {
+    component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-creation-date');
+    button.click();
+    expect(component.courses[0].courseId).toEqual('FAN0002');
+    expect(component.courses[1].courseId).toEqual('CS2103T');
+    expect(component.courses[2].courseId).toEqual('FAN0001');
   });
 });
