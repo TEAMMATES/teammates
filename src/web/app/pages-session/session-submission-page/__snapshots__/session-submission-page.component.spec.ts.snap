@@ -882,64 +882,66 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-mcq-question-edit-answer-form>
                       <tr>
                         <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                          <div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                >
+                                  choice 1
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                >
+                                  choice 2
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 3
-                              </span>
-                            </label>
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                >
+                                  choice 3
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </td>
                       </tr>
@@ -1121,7 +1123,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-text-question-edit-answer-form>
                       <div
@@ -1366,7 +1368,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
                       <tr>
@@ -1607,7 +1609,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
@@ -1791,7 +1793,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-constsum-recipients-question-edit-answer-form>
                       <div>
@@ -1949,7 +1951,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-contribution-question-edit-answer-form>
                       <div
@@ -2352,7 +2354,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
                       <table
@@ -2655,7 +2657,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
@@ -2881,7 +2883,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-recipients-question-edit-answer-form>
                       <div
@@ -3221,67 +3223,69 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-mcq-question-edit-answer-form>
                       <tr>
                         <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                          <div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                >
+                                  choice 1
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                >
+                                  choice 2
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 3
-                              </span>
-                            </label>
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                >
+                                  choice 3
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </td>
                       </tr>
@@ -3465,7 +3469,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-text-question-edit-answer-form>
                       <div
@@ -3710,7 +3714,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
                       <tr>
@@ -3957,7 +3961,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
@@ -4142,7 +4146,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-constsum-recipients-question-edit-answer-form>
                       <div>
@@ -4301,7 +4305,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-contribution-question-edit-answer-form>
                       <div
@@ -4705,7 +4709,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
                       <table
@@ -5017,7 +5021,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
@@ -5244,7 +5248,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-recipients-question-edit-answer-form>
                       <div
