@@ -42,6 +42,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
         editPage.verifyAddInstructorNotAllowed();
+        editPage.verifyCopyInstructorsNotAllowed();
 
         ______TS("verify loaded data");
         // re-log in as instructor with edit privilege
@@ -95,6 +96,11 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
             editPage.verifyInstructorDetails(newInstructor);
             verifyPresentInDatabase(newInstructor);
         }
+
+        ______TS("cannot copy instructors whose email already exists");
+        instructorToCopy1 = testData.instructors.get("ICEdit.tutor.CS2106");
+
+        editPage.verifyCopyInstructorWithExistingEmailNotAllowed(instructorToCopy1);
 
         ______TS("resend invite");
         editPage.resendInstructorInvite(newInstructor);

@@ -196,6 +196,11 @@ public class InstructorCourseEditPage extends AppPage {
         clickAddNewInstructorButton();
         clickSaveInstructorButton(getNumInstructors());
         verifyStatusMessage("You are not authorized to access this resource.");
+        clickCancelInstructorButton(getNumInstructors());
+    }
+
+    public void verifyCopyInstructorsNotAllowed() {
+        verifyUnclickable(copyInstructorsButton);
     }
 
     public void verifyNumInstructorsEquals(int expectedNum) {
@@ -264,6 +269,14 @@ public class InstructorCourseEditPage extends AppPage {
         }
         click(browser.driver.findElement(By.id("btn-confirm-copy-instructor")));
         waitUntilAnimationFinish();
+    }
+
+    public void verifyCopyInstructorWithExistingEmailNotAllowed(InstructorAttributes newInstructor) {
+        copyInstructors(List.of(newInstructor));
+        verifyStatusMessage("An instructor with email address " + newInstructor.getEmail()
+                + " already exists in the course and/or you have selected more than one instructor "
+                + "with this email address.");
+        click(browser.driver.findElement(By.id("btn-cancel-copy-instructor")));
     }
 
     public void resendInstructorInvite(InstructorAttributes instructor) {
