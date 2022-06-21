@@ -73,7 +73,7 @@
                           <input disabled type="checkbox" class="form-control no-shadow">
                         </div>
                         <div *ngIf="instructorCandidate.instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM">
-                          <input [disabled]="isCopyingSelectedInstructors" type="checkbox" class="form-control no-shadow" [(ngModel)]="instructorCandidate.isSelected">
+                          <input id="enabled-checkbox" [disabled]="isCopyingSelectedInstructors" type="checkbox" class="form-control no-shadow" [(ngModel)]="instructorCandidate.isSelected">
                         </div>
                       </td>
                       <td>{{ instructorCandidate.instructor.name }}</td>

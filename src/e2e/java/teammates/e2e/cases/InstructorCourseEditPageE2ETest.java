@@ -1,5 +1,7 @@
 package teammates.e2e.cases;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -70,6 +72,29 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 + " in a few minutes.\"");
         editPage.verifyInstructorDetails(newInstructor);
         verifyPresentInDatabase(newInstructor);
+
+        ______TS("copy instructors from other courses");
+        InstructorAttributes instructorToCopy1 = testData.instructors.get("ICEdit.coowner.CS2103T");
+        InstructorAttributes instructorToCopy2 = testData.instructors.get("ICEdit.observer.CS2103T");
+        InstructorAttributes instructorToCopy3 = testData.instructors.get("ICEdit.manager.CS2105");
+        List<InstructorAttributes> instructorsToCopy = List.of(instructorToCopy1, instructorToCopy2, instructorToCopy3);
+
+        editPage.copyInstructors(instructorsToCopy);
+
+        editPage.verifyStatusMessage("The selected instructor(s) have been added successfully. " +
+                "An email containing how to 'join' this course will be sent to them in a few minutes.");
+        for (InstructorAttributes i : instructorsToCopy) {
+            newInstructor = InstructorAttributes
+                    .builder(course.getId(), i.getEmail())
+                    .withName(i.getName())
+                    .withIsDisplayedToStudents(i.isDisplayedToStudents())
+                    .withDisplayedName(i.getDisplayedName())
+                    .withRole(i.getRole())
+                    .build();
+
+            editPage.verifyInstructorDetails(newInstructor);
+            verifyPresentInDatabase(newInstructor);
+        }
 
         ______TS("resend invite");
         editPage.resendInstructorInvite(newInstructor);
