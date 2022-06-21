@@ -79,7 +79,7 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
     class="card-body text-center"
   >
     <button
-      class="btn btn-success margin-left-right-1em"
+      class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
@@ -87,12 +87,12 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
        Add New Instructor 
     </button>
     <button
-      class="btn btn-info margin-left-right-1em"
+      class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
       tabindex="6"
       type="button"
     >
-      Copy Instructors 
+      Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -177,7 +177,7 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
     class="card-body text-center"
   >
     <button
-      class="btn btn-success margin-left-right-1em"
+      class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
@@ -185,12 +185,12 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
        Add New Instructor 
     </button>
     <button
-      class="btn btn-info margin-left-right-1em"
+      class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
       tabindex="6"
       type="button"
     >
-      Copy Instructors 
+      Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -275,7 +275,7 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
     class="card-body text-center"
   >
     <button
-      class="btn btn-success margin-left-right-1em"
+      class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
@@ -283,12 +283,12 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
        Add New Instructor 
     </button>
     <button
-      class="btn btn-info margin-left-right-1em"
+      class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
       tabindex="6"
       type="button"
     >
-      Copy Instructors 
+      Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -531,7 +531,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
     class="card-body text-center"
   >
     <button
-      class="btn btn-success margin-left-right-1em"
+      class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
@@ -539,12 +539,12 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
        Add New Instructor 
     </button>
     <button
-      class="btn btn-info margin-left-right-1em"
+      class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
       tabindex="6"
       type="button"
     >
-      Copy Instructors 
+      Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
