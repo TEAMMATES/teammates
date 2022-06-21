@@ -1,7 +1,7 @@
 {
   "accounts": {
     "ICEdit.coowner": {
-      "googleId": "tm.e2e.ICEdit.coowner.CS2104",
+      "googleId": "tm.e2e.ICEdit.coowner",
       "name": "Teammates Test",
       "email": "ICEdit.coowner@gmail.tmt",
       "readNotifications": {}
@@ -30,7 +30,6 @@
     },
     "ICEdit.CS2105": {
       "createdAt": "2014-04-02T12:00:00Z",
-      "deletedAt": "2014-04-12T12:00:00Z",
       "id": "tm.e2e.ICEdit.CS2105",
       "name": "Introduction to Computer Networks",
       "institute": "TEAMMATES Test Institute 1",
@@ -42,13 +41,21 @@
       "name": "Introduction to Operating Systems",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
+    },
+    "ICEdit.CS2107": {
+      "createdAt": "2014-04-10T12:00:00Z",
+      "deletedAt": "2014-04-12T12:00:00Z",
+      "id": "tm.e2e.ICEdit.CS2107",
+      "name": "Introduction to Information Security",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "ICEdit.coowner.CS2104": {
-      "googleId": "tm.e2e.ICEdit.coowner.CS2104",
+      "googleId": "tm.e2e.ICEdit.coowner",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "name": "Teammates Test",
+      "name": "CS2104 Co-owner",
       "email": "ICEdit.coowner.CS2104@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -71,7 +78,7 @@
     "ICEdit.manager.CS2104": {
       "googleId": "tm.e2e.ICEdit.manager.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "name": "Teammates Manager",
+      "name": "CS2104 Manager",
       "email": "ICEdit.manager.CS2104@gmail.tmt",
       "role": "Manager",
       "isDisplayedToStudents": true,
@@ -94,7 +101,7 @@
     "ICEdit.observer.CS2104": {
       "googleId": "tm.e2e.ICEdit.observer.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "name": "Teammates Observer",
+      "name": "CS2104 Observer",
       "email": "ICEdit.observer.CS2104@gmail.tmt",
       "role": "Observer",
       "isDisplayedToStudents": true,
@@ -117,7 +124,7 @@
     "ICEdit.tutor.CS2104": {
       "googleId": "tm.e2e.ICEdit.tutor.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "name": "Teammates Tutor",
+      "name": "CS2104 Tutor",
       "email": "ICEdit.tutor.CS2104@gmail.tmt",
       "role": "Tutor",
       "isDisplayedToStudents": false,
@@ -140,7 +147,7 @@
     "ICEdit.helper.CS2104": {
       "googleId": "tm.e2e.ICEdit.helper.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "name": "Teammates Helper",
+      "name": "CS2104 Helper",
       "email": "ICEdit.helper.CS2104@gmail.tmt",
       "role": "Custom",
       "isDisplayedToStudents": true,
@@ -161,9 +168,9 @@
       }
     },
     "ICEdit.coowner.CS2103T": {
-      "googleId": "tm.e2e.ICEdit.coowner.CS2103T",
+      "googleId": "tm.e2e.ICEdit.coowner",
       "courseId": "tm.e2e.ICEdit.CS2103T",
-      "name": "Teammates Test CS2103T",
+      "name": "CS2103T Co-owner",
       "email": "ICEdit.coowner.CS2103T@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -186,10 +193,10 @@
     "ICEdit.observer.CS2103T": {
       "googleId": "tm.e2e.ICEdit.observer.CS2103T",
       "courseId": "tm.e2e.ICEdit.CS2103T",
-      "name": "Teammates Observer",
+      "name": "CS2103T Observer",
       "email": "ICEdit.observer.CS2103T@gmail.tmt",
       "role": "Observer",
-      "isDisplayedToStudents": true,
+      "isDisplayedToStudents": false,
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
@@ -209,7 +216,7 @@
     "ICEdit.helper.CS2103T": {
       "googleId": "tm.e2e.ICEdit.helper.CS2103T",
       "courseId": "tm.e2e.ICEdit.CS2103T",
-      "name": "Teammates Helper",
+      "name": "CS2103T Helper",
       "email": "ICEdit.helper.CS2103T@gmail.tmt",
       "role": "Custom",
       "isDisplayedToStudents": true,
@@ -230,13 +237,14 @@
       }
     },
     "ICEdit.coowner.CS2105": {
-      "googleId": "tm.e2e.ICEdit.coowner.CS2105",
+      "googleId": "tm.e2e.ICEdit.coowner",
       "courseId": "tm.e2e.ICEdit.CS2105",
-      "name": "Teammates Test",
+      "name": "CS2105 Co-owner",
       "email": "ICEdit.coowner.CS2105@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
+      "isArchived": true,
       "privileges": {
         "courseLevel": {
           "canViewStudentInSections": true,
@@ -255,7 +263,7 @@
     "ICEdit.manager.CS2105": {
       "googleId": "tm.e2e.ICEdit.manager.CS2105",
       "courseId": "tm.e2e.ICEdit.CS2105",
-      "name": "Teammates Manager",
+      "name": "CS2105 Manager",
       "email": "ICEdit.manager.CS2105@gmail.tmt",
       "role": "Manager",
       "isDisplayedToStudents": true,
@@ -276,9 +284,9 @@
       }
     },
     "ICEdit.coowner.CS2106": {
-      "googleId": "tm.e2e.ICEdit.coowner.CS2106",
+      "googleId": "tm.e2e.ICEdit.coowner",
       "courseId": "tm.e2e.ICEdit.CS2106",
-      "name": "Teammates Test",
+      "name": "CS2106 Co-owner",
       "email": "ICEdit.coowner.CS2106@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -301,10 +309,10 @@
     "ICEdit.tutor.CS2106": {
       "googleId": "tm.e2e.ICEdit.tutor.CS2106",
       "courseId": "tm.e2e.ICEdit.CS2106",
-      "name": "Teammates Tutor",
-      "email": "ICEdit.tutor.CS2106@gmail.tmt",
+      "name": "Teammates Test",
+      "email": "ICEdit.test@gmail.tmt",
       "role": "Tutor",
-      "isDisplayedToStudents": false,
+      "isDisplayedToStudents": true,
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
@@ -321,22 +329,22 @@
         "sessionLevel": {}
       }
     },
-    "ICEdit.helper.CS2106": {
-      "googleId": "tm.e2e.ICEdit.helper.CS2106",
-      "courseId": "tm.e2e.ICEdit.CS2106",
-      "name": "Teammates Helper",
-      "email": "ICEdit.helper.CS2106@gmail.tmt",
-      "role": "Custom",
+    "ICEdit.coowner.CS2107": {
+      "googleId": "tm.e2e.ICEdit.coowner",
+      "courseId": "tm.e2e.ICEdit.CS2107",
+      "name": "CS2107 Co-owner",
+      "email": "ICEdit.coowner.CS2107@gmail.tmt",
+      "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
       "privileges": {
         "courseLevel": {
-          "canViewStudentInSections": false,
-          "canSubmitSessionInSections": false,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": false,
-          "canModifySession": false,
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
           "canModifyStudent": true,
           "canModifyInstructor": true
         },
