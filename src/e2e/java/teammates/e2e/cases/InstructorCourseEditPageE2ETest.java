@@ -21,11 +21,11 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
 
         course = testData.courses.get("ICEdit.CS2104");
-        instructors[0] = testData.instructors.get("ICEdit.helper");
-        instructors[1] = testData.instructors.get("ICEdit.manager");
-        instructors[2] = testData.instructors.get("ICEdit.observer");
-        instructors[3] = testData.instructors.get("ICEdit.coowner");
-        instructors[4] = testData.instructors.get("ICEdit.tutor");
+        instructors[0] = testData.instructors.get("ICEdit.helper.CS2104");
+        instructors[1] = testData.instructors.get("ICEdit.manager.CS2104");
+        instructors[2] = testData.instructors.get("ICEdit.observer.CS2104");
+        instructors[3] = testData.instructors.get("ICEdit.coowner.CS2104");
+        instructors[4] = testData.instructors.get("ICEdit.tutor.CS2104");
     }
 
     @Test

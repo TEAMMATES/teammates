@@ -1,32 +1,55 @@
 {
   "accounts": {
     "ICEdit.coowner": {
-      "googleId": "tm.e2e.ICEdit.coowner",
+      "googleId": "tm.e2e.ICEdit.coowner.CS2104",
       "name": "Teammates Test",
       "email": "ICEdit.coowner@gmail.tmt",
       "readNotifications": {}
     },
      "ICEdit.observer": {
-      "googleId": "tm.e2e.ICEdit.observer",
-      "name": "Teammates Instructor",
-      "email": "ICEdit.observer@gmail.tmt",
-      "readNotifications": {}
-    }
+       "googleId": "tm.e2e.ICEdit.observer.CS2104",
+       "name": "Teammates Instructor",
+       "email": "ICEdit.observer@gmail.tmt",
+       "readNotifications": {}
+     }
   },
   "courses": {
     "ICEdit.CS2104": {
+      "createdAt": "2010-04-02T12:00:00Z",
       "id": "tm.e2e.ICEdit.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
+    },
+    "ICEdit.CS2103T": {
+      "createdAt": "2017-04-21T12:00:00Z",
+      "id": "tm.e2e.ICEdit.CS2103T",
+      "name": "Software Engineering",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
+    },
+    "ICEdit.CS2105": {
+      "createdAt": "2014-04-02T12:00:00Z",
+      "deletedAt": "2014-04-12T12:00:00Z",
+      "id": "tm.e2e.ICEdit.CS2105",
+      "name": "Introduction to Computer Networks",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
+    },
+    "ICEdit.CS2106": {
+      "createdAt": "2012-04-02T12:00:00Z",
+      "id": "tm.e2e.ICEdit.CS2106",
+      "name": "Introduction to Operating Systems",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
-    "ICEdit.coowner": {
-      "googleId": "tm.e2e.ICEdit.coowner",
+    "ICEdit.coowner.CS2104": {
+      "googleId": "tm.e2e.ICEdit.coowner.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Test",
-      "email": "ICEdit.coowner@gmail.tmt",
+      "email": "ICEdit.coowner.CS2104@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -45,11 +68,11 @@
         "sessionLevel": {}
       }
     },
-    "ICEdit.manager": {
-      "googleId": "tm.e2e.ICEdit.manager",
+    "ICEdit.manager.CS2104": {
+      "googleId": "tm.e2e.ICEdit.manager.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Manager",
-      "email": "ICEdit.manager@gmail.tmt",
+      "email": "ICEdit.manager.CS2104@gmail.tmt",
       "role": "Manager",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -68,11 +91,11 @@
         "sessionLevel": {}
       }
     },
-    "ICEdit.observer": {
-      "googleId": "tm.e2e.ICEdit.observer",
+    "ICEdit.observer.CS2104": {
+      "googleId": "tm.e2e.ICEdit.observer.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Observer",
-      "email": "ICEdit.observer@gmail.tmt",
+      "email": "ICEdit.observer.CS2104@gmail.tmt",
       "role": "Observer",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -91,11 +114,11 @@
         "sessionLevel": {}
       }
     },
-    "ICEdit.tutor": {
-      "googleId": "tm.e2e.ICEdit.tutor",
+    "ICEdit.tutor.CS2104": {
+      "googleId": "tm.e2e.ICEdit.tutor.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Tutor",
-      "email": "ICEdit.tutor@gmail.tmt",
+      "email": "ICEdit.tutor.CS2104@gmail.tmt",
       "role": "Tutor",
       "isDisplayedToStudents": false,
       "displayedName": "Instructor",
@@ -114,11 +137,195 @@
         "sessionLevel": {}
       }
     },
-    "ICEdit.helper": {
-      "googleId": "tm.e2e.ICEdit.helper",
+    "ICEdit.helper.CS2104": {
+      "googleId": "tm.e2e.ICEdit.helper.CS2104",
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Helper",
-      "email": "ICEdit.helper@gmail.tmt",
+      "email": "ICEdit.helper.CS2104@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": false,
+          "canSubmitSessionInSections": false,
+          "canModifySessionCommentsInSections": false,
+          "canModifyCourse": false,
+          "canViewSessionInSections": false,
+          "canModifySession": false,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICEdit.coowner.CS2103T": {
+      "googleId": "tm.e2e.ICEdit.coowner.CS2103T",
+      "courseId": "tm.e2e.ICEdit.CS2103T",
+      "name": "Teammates Test CS2103T",
+      "email": "ICEdit.coowner.CS2103T@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICEdit.observer.CS2103T": {
+      "googleId": "tm.e2e.ICEdit.observer.CS2103T",
+      "courseId": "tm.e2e.ICEdit.CS2103T",
+      "name": "Teammates Observer",
+      "email": "ICEdit.observer.CS2103T@gmail.tmt",
+      "role": "Observer",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": false,
+          "canModifySessionCommentsInSections": false,
+          "canModifyCourse": false,
+          "canViewSessionInSections": true,
+          "canModifySession": false,
+          "canModifyStudent": false,
+          "canModifyInstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICEdit.helper.CS2103T": {
+      "googleId": "tm.e2e.ICEdit.helper.CS2103T",
+      "courseId": "tm.e2e.ICEdit.CS2103T",
+      "name": "Teammates Helper",
+      "email": "ICEdit.helper.CS2103T@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": false,
+          "canSubmitSessionInSections": false,
+          "canModifySessionCommentsInSections": false,
+          "canModifyCourse": false,
+          "canViewSessionInSections": false,
+          "canModifySession": false,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICEdit.coowner.CS2105": {
+      "googleId": "tm.e2e.ICEdit.coowner.CS2105",
+      "courseId": "tm.e2e.ICEdit.CS2105",
+      "name": "Teammates Test",
+      "email": "ICEdit.coowner.CS2105@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICEdit.manager.CS2105": {
+      "googleId": "tm.e2e.ICEdit.manager.CS2105",
+      "courseId": "tm.e2e.ICEdit.CS2105",
+      "name": "Teammates Manager",
+      "email": "ICEdit.manager.CS2105@gmail.tmt",
+      "role": "Manager",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": false,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICEdit.coowner.CS2106": {
+      "googleId": "tm.e2e.ICEdit.coowner.CS2106",
+      "courseId": "tm.e2e.ICEdit.CS2106",
+      "name": "Teammates Test",
+      "email": "ICEdit.coowner.CS2106@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICEdit.tutor.CS2106": {
+      "googleId": "tm.e2e.ICEdit.tutor.CS2106",
+      "courseId": "tm.e2e.ICEdit.CS2106",
+      "name": "Teammates Tutor",
+      "email": "ICEdit.tutor.CS2106@gmail.tmt",
+      "role": "Tutor",
+      "isDisplayedToStudents": false,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": false,
+          "canModifyCourse": false,
+          "canViewSessionInSections": true,
+          "canModifySession": false,
+          "canModifyStudent": false,
+          "canModifyInstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICEdit.helper.CS2106": {
+      "googleId": "tm.e2e.ICEdit.helper.CS2106",
+      "courseId": "tm.e2e.ICEdit.CS2106",
+      "name": "Teammates Helper",
+      "email": "ICEdit.helper.CS2106@gmail.tmt",
       "role": "Custom",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -171,7 +378,7 @@
     "session1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "creatorEmail": "ICEdit.coowner@gmail.tmt",
+      "creatorEmail": "ICEdit.coowner.CS2104@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
