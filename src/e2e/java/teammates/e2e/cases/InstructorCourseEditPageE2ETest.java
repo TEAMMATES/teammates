@@ -110,12 +110,12 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         instructors[0].getPrivileges().updatePrivilege("Section 1", "First feedback session",
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
 
-        editPage.editInstructor(1, instructors[0]);
-        editPage.toggleCustomCourseLevelPrivilege(1, Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        editPage.toggleCustomCourseLevelPrivilege(1, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
-        editPage.toggleCustomSectionLevelPrivilege(1, 1, "Section 2",
+        editPage.editInstructor(2, instructors[0]);
+        editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        editPage.toggleCustomSectionLevelPrivilege(2, 1, "Section 2",
                 Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-        editPage.toggleCustomSessionLevelPrivilege(1, 2, "Section 1", "First feedback session",
+        editPage.toggleCustomSessionLevelPrivilege(2, 2, "Section 1", "First feedback session",
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         editPage.verifyStatusMessage("The instructor " + instructors[0].getName() + " has been updated.");
         editPage.verifyInstructorDetails(instructors[0]);
@@ -127,7 +127,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("delete instructor");
         editPage.deleteInstructor(newInstructor);
         editPage.verifyStatusMessage("Instructor is successfully deleted.");
-        editPage.verifyNumInstructorsEquals(5);
+        editPage.verifyNumInstructorsEquals(8);
         verifyAbsentInDatabase(newInstructor);
 
         ______TS("edit course");
