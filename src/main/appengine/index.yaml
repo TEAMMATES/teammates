@@ -95,11 +95,11 @@ indexes:
     name: endTime
 - kind: FeedbackSessionLogEntry
   properties:
-    - direction: asc
-      name: courseId
-    - direction: asc
-      name: timestamp
-    - direction: asc
-      name: studentEmail
-    - direction: asc
-      name: feedbackSessionName
+  - direction: asc
+    name: courseId
+  - direction: asc
+    name: timestamp
+  - direction: asc
+    name: studentEmail
+  - direction: asc
+    name: feedbackSessionName

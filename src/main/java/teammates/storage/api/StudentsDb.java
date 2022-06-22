@@ -302,8 +302,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
                     && this.<String>hasSameValue(student.getComments(), newAttributes.getComments())
                     && this.<String>hasSameValue(student.getGoogleId(), newAttributes.getGoogleId())
                     && this.<String>hasSameValue(student.getTeamName(), newAttributes.getTeam())
-                    && this.<String>hasSameValue(student.getSectionName(), newAttributes.getSection())
-                    && this.hasSameValue(student.getLastLogTimestamp(), newAttributes.getLastLogTimestamp());
+                    && this.<String>hasSameValue(student.getSectionName(), newAttributes.getSection());
             if (hasSameAttributes) {
                 log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, CourseStudent.class.getSimpleName(), updateOptions));
                 return newAttributes;
@@ -314,7 +313,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             student.setGoogleId(newAttributes.getGoogleId());
             student.setTeamName(newAttributes.getTeam());
             student.setSectionName(newAttributes.getSection());
-            student.setLastLogTimestamp(newAttributes.getLastLogTimestamp());
 
             saveEntity(student);
 
