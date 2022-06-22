@@ -146,6 +146,9 @@
                           ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" placement="left" container="body">
                     Archive
                   </button>
+                  <a class="btn btn-primary btn-sm dropdown-item clickable"
+                     tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: course.course.courseId}"> View Logs
+                  </a>
                   <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
                           ngbTooltip="Delete the course and its corresponding students and sessions" placement="left" container="body">
                     Delete

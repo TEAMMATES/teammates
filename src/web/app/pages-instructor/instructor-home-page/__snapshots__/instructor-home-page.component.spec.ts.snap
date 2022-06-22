@@ -493,6 +493,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/student-activity-logs?courseid=CS1231"
+                    tmrouterlink="/web/instructor/courses/student-activity-logs"
+                  >
+                     View Logs 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
                     id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
@@ -1001,6 +1008,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
+                    tmrouterlink="/web/instructor/courses/student-activity-logs"
+                  >
+                     View Logs 
                   </a>
                 </div>
               </span>
@@ -1691,6 +1705,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
+                    tmrouterlink="/web/instructor/courses/student-activity-logs"
+                  >
+                     View Logs 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
                     id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
@@ -1933,6 +1954,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                     tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
+                    tmrouterlink="/web/instructor/courses/student-activity-logs"
+                  >
+                     View Logs 
                   </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
@@ -2202,6 +2230,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                     tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/student-activity-logs?courseid=CS1231"
+                    tmrouterlink="/web/instructor/courses/student-activity-logs"
+                  >
+                     View Logs 
                   </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
