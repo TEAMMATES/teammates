@@ -467,7 +467,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       if (course.institute === inst) courseFromSameInstitute += 1;
     });
     courseFromAllInstitute = this.allCoursesList.length;
-    
     if (courseFromAllInstitute === 1) {
     this.statusMessageService.showWarningToast(
       'If you delete this course, you would lose your access to system as an instructor');
