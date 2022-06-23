@@ -266,8 +266,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             FeedbackContributionResponseDetails details = (FeedbackContributionResponseDetails) response;
             boolean validAnswer = false;
 
-            // Valid answers: 0, 5, 10, 15, .... 190, 195, 200
-            boolean isValidRange = details.getAnswer() >= 0 && details.getAnswer() <= 200;
+            // Valid answers: 0, 5, 10, 15, .... 190, 195
+            boolean isValidRange = details.getAnswer() >= 0 && details.getAnswer() <= 195;
             boolean isMultipleOf5 = details.getAnswer() % 5 == 0;
 
             if (isValidRange && isMultipleOf5) {
