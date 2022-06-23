@@ -455,6 +455,27 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return Promise.resolve();
     }
+
+    let courseFromSameInstitute: number = 0;
+    let courseFromAllInstitute: number = 0;
+    let inst: string = '';
+
+    this.allCoursesList.forEach((course: Course) => {
+      if (course.courseId === courseId) inst = course.institute;
+    });
+    this.allCoursesList.forEach((course: Course) => {
+      if (course.institute === inst) courseFromSameInstitute += 1;
+    });
+    courseFromAllInstitute = this.allCoursesList.length;
+    
+    if (courseFromAllInstitute === 1) {
+    this.statusMessageService.showWarningToast(
+      'If you delete this course, you would lose your access to system as an instructor');
+    } else if (courseFromSameInstitute === 1) {
+      this.statusMessageService.showWarningToast(
+        `If you delete this course, you would lose your status as an instructor in ${inst}`);
+    }
+
     const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
