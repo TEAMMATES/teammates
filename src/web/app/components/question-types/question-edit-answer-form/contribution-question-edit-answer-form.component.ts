@@ -39,6 +39,9 @@ export class ContributionQuestionEditAnswerFormComponent
 
   get contributionQuestionPoints(): number[] {
     const points: number[] = [];
+
+    // Show 'Equal Share' at the top
+    points.push(100)
     for (let i: number = 200; i >= 0; i -= 5) {
       points.push(i);
     }
