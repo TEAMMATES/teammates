@@ -6,19 +6,11 @@ import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import {
-  Course,
-  FeedbackSession,
-  FeedbackSessionLog,
-  FeedbackSessionLogType,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
-  Student,
-} from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
+import TestCourses from '../../test-resources/courses';
+import TestFeedbackSessionLogs from '../../test-resources/feedback-session-logs';
+import TestStudents from '../../test-resources/students';
 import { InstructorAuditLogsPageComponent } from './instructor-audit-logs-page.component';
 import { InstructorAuditLogsPageModule } from './instructor-audit-logs-page.module';
 
@@ -38,108 +30,6 @@ describe('InstructorAuditLogsPageComponent', () => {
     { header: 'Section', sortBy: SortBy.SECTION_NAME },
     { header: 'Team', sortBy: SortBy.TEAM_NAME },
   ];
-  const testCourse1: Course = {
-    courseId: 'CS9999',
-    courseName: 'CS9999',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const testCourse2: Course = {
-    courseId: 'MA1234',
-    courseName: 'MA1234',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const testCourse3: Course = {
-    courseId: 'EE1111',
-    courseName: 'EE1111',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: false,
-      canModifySession: false,
-      canModifyStudent: false,
-      canModifyInstructor: false,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const emptyStudent: Student = {
-    courseId: '', email: '', name: '', sectionName: '', teamName: '',
-  };
-  const testStudent: Student = {
-    email: 'doejohn@email.com',
-    courseId: 'CS9999',
-    name: 'Doe John',
-    teamName: 'team 1',
-    sectionName: 'section 1',
-  };
-  const testFeedbackSession: FeedbackSession = {
-    feedbackSessionName: 'Feedback Session 1',
-    courseId: 'CS9999',
-    timeZone: 'Asia/Singapore',
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 1549095330000,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
-  };
-  const testLogs1: FeedbackSessionLog = {
-    feedbackSessionData: testFeedbackSession,
-    feedbackSessionLogEntries: [
-      {
-        studentData: testStudent,
-        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
-        timestamp: 0,
-      },
-    ],
-  };
-  const testLogs2: FeedbackSessionLog = {
-    feedbackSessionData: testFeedbackSession,
-    feedbackSessionLogEntries: [
-      {
-        studentData: testStudent,
-        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
-        timestamp: 0,
-      },
-    ],
-  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -172,17 +62,17 @@ describe('InstructorAuditLogsPageComponent', () => {
   });
 
   it('should snap when searching for details in search form', () => {
-    component.courses = [testCourse1, testCourse2];
+    component.courses = [TestCourses.cs9999, TestCourses.ma1234];
     component.formModel = {
       logsDateFrom: { year: 1997, month: 9, day: 11 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
-      courseId: 'CS9999',
-      studentEmail: 'doejohn@email.com',
+      courseId: TestCourses.cs9999.courseName,
+      studentEmail: TestStudents.johnDoe.email,
     };
     component.courseToStudents = {
-      CS9999: [testStudent],
+      CS9999: [TestStudents.johnDoe],
       MA1234: [],
     };
     component.isLoading = false;
@@ -225,7 +115,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor')
         .mockReturnValue(of({
           courses: [
-            testCourse1, testCourse2, testCourse3,
+            TestCourses.cs9999, TestCourses.ma1234, TestCourses.ee1111,
           ],
         }));
 
@@ -234,9 +124,9 @@ describe('InstructorAuditLogsPageComponent', () => {
     expect(component.isLoading).toBeFalsy();
     expect(courseSpy).toBeCalledWith('active');
     expect(component.courses.length).toEqual(2);
-    expect(component.courses).toContainEqual(testCourse1);
-    expect(component.courses).toContainEqual(testCourse2);
-    expect(component.courses).not.toContainEqual(testCourse3);
+    expect(component.courses).toContainEqual(TestCourses.cs9999);
+    expect(component.courses).toContainEqual(TestCourses.ma1234);
+    expect(component.courses).not.toContainEqual(TestCourses.ee1111);
 
     // courseToStudents not loaded on init
     expect(component.courseToStudents).toMatchObject({});
@@ -246,40 +136,46 @@ describe('InstructorAuditLogsPageComponent', () => {
     const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
         .mockReturnValue(of({
           students: [
-            testStudent,
+            TestStudents.johnDoe,
           ],
         }));
 
-    component.formModel.courseId = testCourse1.courseId;
+    component.formModel.courseId = TestCourses.cs9999.courseId;
     component.loadStudents();
 
-    expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
-    expect(component.courseToStudents[testCourse1.courseId][1]).toEqual(testStudent);
-    expect(studentSpy).toHaveBeenNthCalledWith(1, { courseId: testCourse1.courseId });
+    expect(component.courseToStudents[TestCourses.cs9999.courseId][0]).toEqual(TestStudents.emptyStudent);
+    expect(component.courseToStudents[TestCourses.cs9999.courseId][1]).toEqual(TestStudents.johnDoe);
+    expect(studentSpy).toHaveBeenNthCalledWith(1, { courseId: TestCourses.cs9999.courseId });
   });
 
   it('should load students from cache if present', () => {
     const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
         .mockReturnValue(of({
           students: [
-            testStudent,
+            TestStudents.johnDoe,
           ],
         }));
 
-    component.formModel.courseId = testCourse1.courseId;
-    component.courseToStudents[testCourse1.courseId] = [emptyStudent];
+    component.formModel.courseId = TestCourses.cs9999.courseId;
+    component.courseToStudents[TestCourses.cs9999.courseId] = [TestStudents.emptyStudent];
     component.loadStudents();
 
-    expect(component.courseToStudents[testCourse1.courseId].length).toEqual(1);
-    expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
+    expect(component.courseToStudents[TestCourses.cs9999.courseId].length).toEqual(1);
+    expect(component.courseToStudents[TestCourses.cs9999.courseId][0]).toEqual(TestStudents.emptyStudent);
     expect(studentSpy).not.toHaveBeenCalled();
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchFeedbackSessionLog')
-        .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
+        .mockReturnValue(of(
+            {
+              feedbackSessionLogs: [
+                    TestFeedbackSessionLogs.testLogs1,
+                    TestFeedbackSessionLogs.testLogs2,
+              ],
+            }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime');
-    const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
+    const tzOffset: number = timezoneService.getTzOffsets()[TestCourses.cs9999.timeZone];
 
     component.isLoading = false;
     component.isSearching = false;
@@ -288,11 +184,11 @@ describe('InstructorAuditLogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      courseId: testCourse1.courseId,
-      studentEmail: testStudent.email,
+      courseId: TestCourses.cs9999.courseId,
+      studentEmail: TestStudents.johnDoe.email,
     };
-    component.courses = [testCourse1];
-    component.courseToStudents = { CS9999: [testStudent] };
+    component.courses = [TestCourses.cs9999];
+    component.courseToStudents = { CS9999: [TestStudents.johnDoe] };
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#search-button').click();
@@ -301,15 +197,15 @@ describe('InstructorAuditLogsPageComponent', () => {
     expect(timeSpy).toHaveBeenCalledWith(
       component.formModel.logsDateFrom,
       component.formModel.logsTimeFrom,
-      testCourse1.timeZone,
+      TestCourses.cs9999.timeZone,
       true,
     );
     expect(logSpy).toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledWith({
-      courseId: testCourse1.courseId,
+      courseId: TestCourses.cs9999.courseId,
       searchFrom: (new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
       searchUntil: (new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
-      studentEmail: testStudent.email,
+      studentEmail: TestStudents.johnDoe.email,
     });
 
     expect(component.searchResults.length).toEqual(2);
