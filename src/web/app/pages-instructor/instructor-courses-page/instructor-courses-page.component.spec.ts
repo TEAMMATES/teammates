@@ -10,7 +10,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
+import { CourseArchive, Courses, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -20,6 +20,7 @@ import { TeammatesRouterModule } from '../../components/teammates-router/teammat
 import TestCourseModels from '../../test-resources/course-models';
 import TestCourses from '../../test-resources/courses';
 import { date1, date2, date3, date4, date5, date6 } from '../../test-resources/dates';
+import TestStudents from '../../test-resources/students';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
@@ -119,78 +120,14 @@ describe('InstructorCoursesPageComponent', () => {
 
   const students: Students = {
     students: [
-      {
-        email: 'alice.b.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Alice Betsy',
-        comments: "This student's name is Alice Betsy",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Tutorial Group 1',
-      },
-      {
-        email: 'benny.c.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Benny Charles',
-        comments: "This student's name is Benny Charles",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Tutorial Group 1',
-      },
-      {
-        email: 'charlie.d.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Charlie Davis',
-        comments: "This student's name is Charlie Davis",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 2',
-        sectionName: 'Tutorial Group 2',
-      },
-      {
-        email: 'danny.e.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Danny Engrid',
-        comments: "This student's name is Danny Engrid",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Tutorial Group 1',
-      },
-      {
-        email: 'emma.f.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Emma Farrell',
-        comments: "This student's name is Emma Farrell",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 1',
-        sectionName: 'Tutorial Group 1',
-      },
-      {
-        email: 'francis.g.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Francis Gabriel',
-        comments: "This student's name is Francis Gabriel",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 2',
-        sectionName: 'Tutorial Group 2',
-      },
-      {
-        email: 'gene.h.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Gene Hudson',
-        comments: "This student's name is Gene Hudson",
-        joinState: JoinState.JOINED,
-        teamName: 'Team 2',
-        sectionName: 'Tutorial Group 2',
-      },
-      {
-        email: 'hugh.i.tmms@gmail.tmt',
-        courseId: 'test.exa-demo',
-        name: 'Hugh Ivanov',
-        comments: "This student's name is Hugh Ivanov",
-        joinState: JoinState.NOT_JOINED,
-        teamName: 'Team 3',
-        sectionName: 'Tutorial Group 2',
-      },
+      TestStudents.alice,
+      TestStudents.benny,
+      TestStudents.charlie,
+      TestStudents.danny,
+      TestStudents.emma,
+      TestStudents.francis,
+      TestStudents.gene,
+      TestStudents.hugh,
     ],
   };
 
