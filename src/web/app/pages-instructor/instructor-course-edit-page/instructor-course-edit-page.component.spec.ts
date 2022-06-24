@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
+import { InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -15,6 +15,8 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+import TestCourses from '../../test-resources/courses';
+import TestInstructors from '../../test-resources/instructors';
 import {
   CustomPrivilegeSettingPanelComponent,
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
@@ -24,8 +26,6 @@ import {
   InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
-import TestCourses from '../../test-resources/courses';
-import TestInstructors from '../../test-resources/instructors';
 
 const emptyInstructorPanel: InstructorEditPanel = {
   googleId: '',
@@ -317,18 +317,11 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap with some instructor details', () => {
-    const instructor: Instructor = {
-      name: 'Instructor A',
-      email: 'instructora@example.com',
-      courseId: component.courseId,
-      joinState: JoinState.JOINED,
-    };
-
     component.instructorDetailPanels = [
       {
-        originalInstructor: instructor,
-        originalPanel: component.getInstructorEditPanelModel(instructor),
-        editPanel: component.getInstructorEditPanelModel(instructor),
+        originalInstructor: TestInstructors.harryPotter,
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.harryPotter),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.harryPotter),
       },
     ];
 
