@@ -29,7 +29,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface CourseModel {
+export interface CourseModel {
   course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;

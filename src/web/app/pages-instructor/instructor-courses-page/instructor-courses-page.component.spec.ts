@@ -10,13 +10,16 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
+import { CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+import TestCourseModels from '../../test-resources/course-models';
+import TestCourses from '../../test-resources/courses';
+import { date1, date2, date3, date4, date5, date6 } from '../../test-resources/dates';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
@@ -27,13 +30,6 @@ describe('InstructorCoursesPageComponent', () => {
   let studentService: StudentService;
   let timezoneService: TimezoneService;
   let simpleModalService: SimpleModalService;
-
-  const date1: Date = new Date('2018-11-05T08:15:30');
-  const date2: Date = new Date('2019-02-02T08:15:30');
-  const date3: Date = new Date('2002-11-05T08:15:30');
-  const date4: Date = new Date('2003-11-05T08:15:30');
-  const date5: Date = new Date('2002-12-05T08:15:30');
-  const date6: Date = new Date('2003-12-05T08:15:30');
 
   const activeCoursesSnap: any[] = [
     {
@@ -119,70 +115,6 @@ describe('InstructorCoursesPageComponent', () => {
       students: 2,
       unregistered: 2,
     },
-  };
-
-  const courseCS1231: Course = {
-    courseId: 'CS1231',
-    courseName: 'Discrete Structures',
-    creationTimestamp: date1.getTime(),
-    deletionTimestamp: 0,
-    timeZone: 'UTC',
-    institute: 'Test Institute',
-  };
-
-  const courseCS3281: Course = {
-    courseId: 'CS3281',
-    courseName: 'Thematic Systems Project I',
-    creationTimestamp: date3.getTime(),
-    deletionTimestamp: date4.getTime(),
-    timeZone: 'UTC',
-    institute: 'Test Institute',
-  };
-
-  const courseCS3282: Course = {
-    courseId: 'CS3282',
-    courseName: 'Thematic Systems Project II',
-    creationTimestamp: date5.getTime(),
-    deletionTimestamp: date6.getTime(),
-    timeZone: 'UTC',
-    institute: 'Test Institute',
-  };
-
-  const courseST4234: Course = {
-    courseId: 'ST4234',
-    courseName: 'Bayesian Statistics',
-    creationTimestamp: date2.getTime(),
-    deletionTimestamp: 0,
-    timeZone: 'UTC',
-    institute: 'Test Institute',
-  };
-
-  const courseModelCS1231: any = {
-    course: courseCS1231,
-    canModifyCourse: true,
-    canModifyStudent: true,
-    isLoadingCourseStats: false,
-  };
-
-  const courseModelCS3281: any = {
-    course: courseCS3281,
-    canModifyCourse: true,
-    canModifyStudent: true,
-    isLoadingCourseStats: false,
-  };
-
-  const courseModelCS3282: any = {
-    course: courseCS3282,
-    canModifyCourse: true,
-    canModifyStudent: false,
-    isLoadingCourseStats: false,
-  };
-
-  const courseModelST4234: any = {
-    course: courseST4234,
-    canModifyCourse: false,
-    canModifyStudent: true,
-    isLoadingCourseStats: false,
   };
 
   const students: Students = {
@@ -302,13 +234,13 @@ describe('InstructorCoursesPageComponent', () => {
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor').mockImplementation(
       (courseStatus: string): Observable<Courses> => {
         if (courseStatus === 'active') {
-          return of({ courses: [courseCS1231] });
+          return of({ courses: [TestCourses.cs1231] });
         }
         if (courseStatus === 'archived') {
-          return of({ courses: [courseCS3281, courseCS3282] });
+          return of({ courses: [TestCourses.cs3281, TestCourses.cs3282] });
         }
         // softDeleted
-        return of({ courses: [courseST4234] });
+        return of({ courses: [TestCourses.st4234] });
       });
 
     component.loadInstructorCourses();
@@ -334,7 +266,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should get the course statistics', () => {
-    component.activeCourses = [courseModelCS1231];
+    component.activeCourses = [TestCourseModels.cs1231CourseModel];
     const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     component.getCourseStats(0);
 
@@ -352,7 +284,7 @@ describe('InstructorCoursesPageComponent', () => {
       courseId: 'CS1231',
       isArchived: true,
     };
-    component.activeCourses = [courseModelCS1231];
+    component.activeCourses = [TestCourseModels.cs1231CourseModel];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'changeArchiveStatus')
         .mockReturnValue(of(courseArchiveCS1231));
     component.changeArchiveStatus('CS1231', true);
@@ -370,7 +302,7 @@ describe('InstructorCoursesPageComponent', () => {
       courseId: 'CS1231',
       isArchived: false,
     };
-    component.archivedCourses = [courseModelCS1231];
+    component.archivedCourses = [TestCourseModels.cs1231CourseModel];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'changeArchiveStatus')
         .mockReturnValue(of(courseArchiveCS1231));
     component.changeArchiveStatus('CS1231', false);
@@ -384,8 +316,8 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should soft delete a course', async () => {
-    component.activeCourses = [courseModelCS1231];
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
+    component.activeCourses = [TestCourseModels.cs1231CourseModel];
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(TestCourses.cs1231));
     jest.spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef());
 
@@ -399,7 +331,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should permanently delete a course', async () => {
-    component.archivedCourses = [courseModelCS1231];
+    component.archivedCourses = [TestCourseModels.cs1231CourseModel];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'deleteCourse')
         .mockReturnValue(of({ message: 'Message' }));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(
@@ -415,7 +347,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should show add course form and disable button when clicking on add new course', () => {
-    component.activeCourses = [courseModelCS3282];
+    component.activeCourses = [TestCourseModels.cs3282CourseModel];
     component.isLoading = false;
     fixture.detectChanges();
 
@@ -429,7 +361,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should disable enroll button when instructor cannot modify student', () => {
-    component.activeCourses = [courseModelCS3282];
+    component.activeCourses = [TestCourseModels.cs3282CourseModel];
     component.isLoading = false;
     fixture.detectChanges();
 
@@ -439,7 +371,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should disable delete button when instructor cannot modify active course', () => {
-    component.activeCourses = [courseModelST4234];
+    component.activeCourses = [TestCourseModels.st4234CourseModel];
     component.isLoading = false;
     fixture.detectChanges();
 
@@ -449,7 +381,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should disable delete button when instructor cannot modify archived course', () => {
-    component.archivedCourses = [courseModelST4234];
+    component.archivedCourses = [TestCourseModels.st4234CourseModel];
     component.isLoading = false;
     component.isArchivedCourseExpanded = true;
     fixture.detectChanges();
@@ -460,7 +392,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should disable restore and permanently delete buttons when instructor cannot modify deleted course', () => {
-    component.softDeletedCourses = [courseModelST4234];
+    component.softDeletedCourses = [TestCourseModels.st4234CourseModel];
     component.isLoading = false;
     component.isRecycleBinExpanded = true;
     fixture.detectChanges();
@@ -475,7 +407,12 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should sort courses by their IDs', () => {
-    component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
+    component.activeCourses = [
+      TestCourseModels.cs3282CourseModel,
+      TestCourseModels.st4234CourseModel,
+      TestCourseModels.cs1231CourseModel,
+      TestCourseModels.cs3281CourseModel,
+    ];
     component.isLoading = false;
     fixture.detectChanges();
 
@@ -488,7 +425,12 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should sort courses by their names', () => {
-    component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
+    component.activeCourses = [
+      TestCourseModels.cs3282CourseModel,
+      TestCourseModels.st4234CourseModel,
+      TestCourseModels.cs1231CourseModel,
+      TestCourseModels.cs3281CourseModel,
+    ];
     component.isLoading = false;
     fixture.detectChanges();
 
@@ -501,7 +443,12 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should sort courses by their creation dates', () => {
-    component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
+    component.activeCourses = [
+      TestCourseModels.cs3282CourseModel,
+      TestCourseModels.st4234CourseModel,
+      TestCourseModels.cs1231CourseModel,
+      TestCourseModels.cs3281CourseModel,
+    ];
     component.isLoading = false;
     fixture.detectChanges();
 

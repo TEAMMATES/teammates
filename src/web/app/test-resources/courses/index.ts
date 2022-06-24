@@ -1,4 +1,5 @@
 import { Course } from '../../../types/api-output';
+import { date1, date2, date3, date4, date5, date6 } from '../dates';
 
 const cs9999: Course = {
   courseId: 'CS9999',
@@ -66,6 +67,51 @@ const cs101: Course = {
   deletionTimestamp: 0,
 };
 
-const TestCourses = { cs9999, ma1234, ee1111, cs101 };
+const cs1231: Course = {
+  courseId: 'CS1231',
+  courseName: 'Discrete Structures',
+  creationTimestamp: date1.getTime(),
+  deletionTimestamp: 0,
+  timeZone: 'UTC',
+  institute: 'Test Institute',
+};
+
+const cs3281: Course = {
+  courseId: 'CS3281',
+  courseName: 'Thematic Systems Project I',
+  creationTimestamp: date3.getTime(),
+  deletionTimestamp: date4.getTime(),
+  timeZone: 'UTC',
+  institute: 'Test Institute',
+};
+
+const cs3282: Course = {
+  courseId: 'CS3282',
+  courseName: 'Thematic Systems Project II',
+  creationTimestamp: date5.getTime(),
+  deletionTimestamp: date6.getTime(),
+  timeZone: 'UTC',
+  institute: 'Test Institute',
+};
+
+const st4234: Course = {
+  courseId: 'ST4234',
+  courseName: 'Bayesian Statistics',
+  creationTimestamp: date2.getTime(),
+  deletionTimestamp: 0,
+  timeZone: 'UTC',
+  institute: 'Test Institute',
+};
+
+const TestCourses = {
+  cs9999,
+  ma1234,
+  ee1111,
+  cs101,
+  cs1231,
+  cs3281,
+  cs3282,
+  st4234,
+};
 
 export default TestCourses;
