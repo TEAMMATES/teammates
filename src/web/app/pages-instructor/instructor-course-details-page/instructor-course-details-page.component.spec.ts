@@ -8,41 +8,15 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
+import { Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import TestCourses from '../../test-resources/courses';
+import TestInstructors from '../../test-resources/instructors';
+import TestStudents from '../../test-resources/students';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
-
-const course: Course = {
-  courseId: 'CS101',
-  courseName: 'Introduction to CS',
-  timeZone: '',
-  institute: 'Test Institute',
-  creationTimestamp: 0,
-  deletionTimestamp: 0,
-};
-
-const testStudent: Student = {
-  name: 'Jamie',
-  email: 'jamie@gmail.com',
-  joinState: JoinState.NOT_JOINED,
-  teamName: 'Team 1',
-  sectionName: 'Tutorial Group 1',
-  courseId: 'CS101',
-};
-
-const testInstructor: Instructor = {
-  courseId: course.courseId,
-  joinState: JoinState.JOINED,
-  googleId: 'Hock',
-  name: 'Hock',
-  email: 'hock@gmail.com',
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-  displayedToStudentsAs: 'Hock',
-  isDisplayedToStudents: false,
-};
 
 describe('InstructorCourseDetailsPageComponent', () => {
   let component: InstructorCourseDetailsPageComponent;
@@ -87,22 +61,12 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfTeams: 0,
       numOfStudents: 0,
     };
-    const coOwner: Instructor = {
-      courseId: course.courseId,
-      joinState: JoinState.JOINED,
-      googleId: 'Hodor',
-      name: 'Hodor',
-      email: 'hodor@gmail.com',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-      displayedToStudentsAs: 'Hodor',
-      isDisplayedToStudents: true,
-    };
     const courseDetails: any = {
-      course,
+      course: TestCourses.cs101,
       stats,
     };
     component.courseDetails = courseDetails;
-    component.instructors = [coOwner];
+    component.instructors = [TestInstructors.hodor];
     component.isLoadingCsv = false;
     component.isStudentsLoading = false;
 
@@ -117,7 +81,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfStudents: 1,
     };
     const coOwner: Instructor = {
-      courseId: course.courseId,
+      courseId: TestCourses.cs101.courseId,
       joinState: JoinState.JOINED,
       googleId: 'Bran',
       name: 'Bran',
@@ -127,11 +91,11 @@ describe('InstructorCourseDetailsPageComponent', () => {
       isDisplayedToStudents: false,
     };
     const courseDetails: any = {
-      course,
+      course: TestCourses.cs101,
       stats,
     };
     const studentListRowModel: StudentListRowModel = {
-      student: testStudent,
+      student: TestStudents.jamie,
       isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
     };
@@ -157,17 +121,17 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfStudents: 1,
     };
     const courseDetails: any = {
-      course,
+      course: TestCourses.cs101,
       stats,
     };
     const studentListRowModel: StudentListRowModel = {
-      student: testStudent,
+      student: TestStudents.jamie,
       isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
     };
     component.students = [studentListRowModel];
     component.courseDetails = courseDetails;
-    component.instructors = [testInstructor];
+    component.instructors = [TestInstructors.hock];
     component.isLoadingCsv = false;
     component.isStudentsLoading = false;
     fixture.detectChanges();
@@ -191,7 +155,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfStudents: 350,
     };
     const courseDetails: any = {
-      course,
+      course: TestCourses.cs101,
       stats,
     };
     component.courseDetails = courseDetails;
@@ -205,7 +169,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
           expect(args).toEqual('All the students have been removed from the course');
         });
 
-    component.deleteAllStudentsFromCourse(course.courseId);
+    component.deleteAllStudentsFromCourse(TestCourses.cs101.courseId);
 
     // given a limit of 100 students per call and 350 students,
     // there should be four calls in total
@@ -219,7 +183,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfStudents: 1,
     };
     const courseDetails: any = {
-      course,
+      course: TestCourses.cs101,
       stats,
     };
     component.courseDetails = courseDetails;
@@ -235,7 +199,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       expect(args).toEqual('This is the error message.');
     });
 
-    component.deleteAllStudentsFromCourse(course.courseId);
+    component.deleteAllStudentsFromCourse(TestCourses.cs101.courseId);
 
     expect(spy).toBeCalled();
   });

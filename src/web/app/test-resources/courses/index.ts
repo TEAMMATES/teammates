@@ -57,6 +57,15 @@ const ee1111: Course = {
   },
 };
 
-const TestCourses = { cs9999, ma1234, ee1111 };
+const cs101: Course = {
+  courseId: 'CS101',
+  courseName: 'Introduction to CS',
+  timeZone: '',
+  institute: 'Test Institute',
+  creationTimestamp: 0,
+  deletionTimestamp: 0,
+};
+
+const TestCourses = { cs9999, ma1234, ee1111, cs101 };
 
 export default TestCourses;

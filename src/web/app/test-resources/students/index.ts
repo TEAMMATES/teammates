@@ -1,4 +1,4 @@
-import { Student } from '../../../types/api-output';
+import { JoinState, Student } from '../../../types/api-output';
 
 const emptyStudent: Student = {
   courseId: '',
@@ -16,6 +16,15 @@ const johnDoe: Student = {
   sectionName: 'section 1',
 };
 
-const TestStudents = { emptyStudent, johnDoe };
+const jamie: Student = {
+  name: 'Jamie',
+  email: 'jamie@gmail.com',
+  joinState: JoinState.NOT_JOINED,
+  teamName: 'Team 1',
+  sectionName: 'Tutorial Group 1',
+  courseId: 'CS101',
+};
+
+const TestStudents = { emptyStudent, johnDoe, jamie };
 
 export default TestStudents;
