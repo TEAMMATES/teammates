@@ -23,6 +23,13 @@ const hodor: Instructor = {
   isDisplayedToStudents: true,
 };
 
-const TestInstructors = { hock, hodor };
+const jane: Instructor = {
+  courseId: TestCourses.cs101.courseId,
+  joinState: JoinState.NOT_JOINED,
+  name: 'Jane',
+  email: 'jane@gmail.com',
+};
+
+const TestInstructors = { hock, hodor, jane };
 
 export default TestInstructors;

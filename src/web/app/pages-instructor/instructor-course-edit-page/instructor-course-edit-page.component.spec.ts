@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
+import { Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -24,36 +24,8 @@ import {
   InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
-
-const testCourse: Course = {
-  courseId: 'exampleId',
-  courseName: 'Example Course',
-  institute: 'Test Institute',
-  timeZone: 'UTC (UTC)',
-  creationTimestamp: 0,
-  deletionTimestamp: 1000,
-};
-
-const testInstructor1: Instructor = {
-  courseId: 'exampleId',
-  email: 'instructor1@gmail.com',
-  joinState: JoinState.JOINED,
-  name: 'Instructor 1',
-};
-
-const testInstructor2: Instructor = {
-  courseId: 'exampleId',
-  email: 'instructor2@gmail.com',
-  joinState: JoinState.NOT_JOINED,
-  name: 'Instructor 2',
-};
-
-const testInstructor3: Instructor = {
-  courseId: 'exampleId',
-  email: 'instructor3@gmail.com',
-  joinState: JoinState.NOT_JOINED,
-  name: 'Instructor 3',
-};
+import TestCourses from '../../test-resources/courses';
+import TestInstructors from '../../test-resources/instructors';
 
 const emptyInstructorPanel: InstructorEditPanel = {
   googleId: '',
@@ -127,20 +99,20 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct course details for given API output', () => {
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(TestCourses.cs101));
 
     component.loadCourseInfo();
 
-    expect(component.course.courseId).toBe('exampleId');
-    expect(component.course.courseName).toBe('Example Course');
-    expect(component.course.timeZone).toBe('UTC (UTC)');
-    expect(component.course.creationTimestamp).toBe(0);
-    expect(component.course.deletionTimestamp).toBe(1000);
+    expect(component.course.courseId).toBe(TestCourses.cs101.courseId);
+    expect(component.course.courseName).toBe(TestCourses.cs101.courseName);
+    expect(component.course.timeZone).toBe(TestCourses.cs101.timeZone);
+    expect(component.course.creationTimestamp).toBe(TestCourses.cs101.creationTimestamp);
+    expect(component.course.deletionTimestamp).toBe(TestCourses.cs101.deletionTimestamp);
     expect(component.hasCourseLoadingFailed).toBeFalsy();
   });
 
   it('should not change course details if CANCEL is requested', () => {
-    component.course = testCourse;
+    component.course = TestCourses.cs101;
     component.isCourseLoading = false;
     component.originalCourse = { ...component.course };
     fixture.detectChanges();
@@ -153,11 +125,11 @@ describe('InstructorCourseEditPageComponent', () => {
     button.click();
 
     expect(component.isEditingCourse).toBeFalsy();
-    expect(component.course.courseName).toBe('Example Course');
+    expect(component.course.courseName).toBe('Introduction to CS');
   });
 
   it('should update course details if SAVE is requested', () => {
-    component.course = testCourse;
+    component.course = TestCourses.cs101;
     component.isCourseLoading = false;
     fixture.detectChanges();
 
@@ -166,13 +138,13 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     jest.spyOn(courseService, 'updateCourse').mockReturnValue(of({
-      courseId: 'exampleId',
+      courseId: TestCourses.cs101.courseId,
       courseName: 'Example Course Changed',
       isCourseDeleted: false,
-      timeZone: 'UTC (UTC)',
-      institute: 'Test institute',
-      creationTimestamp: 0,
-      deletionTimestamp: 1000,
+      timeZone: TestCourses.cs101.timeZone,
+      institute: TestCourses.cs101.institute,
+      creationTimestamp: TestCourses.cs101.creationTimestamp,
+      deletionTimestamp: TestCourses.cs101.deletionTimestamp,
     }));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
@@ -184,33 +156,33 @@ describe('InstructorCourseEditPageComponent', () => {
 
   it('should load correct instructors details for given API output', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({
-      instructors: [testInstructor1, testInstructor2],
+      instructors: [TestInstructors.hock, TestInstructors.hodor],
     }));
 
     component.loadCourseInstructors();
 
-    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor1);
-    expect(component.instructorDetailPanels[1].originalInstructor).toEqual(testInstructor2);
+    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(TestInstructors.hock);
+    expect(component.instructorDetailPanels[1].originalInstructor).toEqual(TestInstructors.hodor);
     expect(component.isInstructorsLoading).toBeFalsy();
   });
 
   it('should not add instructor if CANCEL is requested', () => {
-    component.course = testCourse;
+    component.course = TestCourses.cs101;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: { ...testInstructor1 },
-        originalPanel: component.getInstructorEditPanelModel(testInstructor1),
-        editPanel: component.getInstructorEditPanelModel(testInstructor1),
+        originalInstructor: { ...TestInstructors.hock },
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.hock),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.hock),
       },
       {
-        originalInstructor: { ...testInstructor2 },
-        originalPanel: component.getInstructorEditPanelModel(testInstructor2),
-        editPanel: component.getInstructorEditPanelModel(testInstructor2),
+        originalInstructor: { ...TestInstructors.hodor },
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.hodor),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.hodor),
       },
     ];
     component.isAddingNewInstructor = true;
-    component.newInstructorPanel = component.getInstructorEditPanelModel(testInstructor3);
+    component.newInstructorPanel = component.getInstructorEditPanelModel(TestInstructors.jane);
     component.newInstructorPanel.isEditing = true;
     fixture.detectChanges();
 
@@ -230,23 +202,23 @@ describe('InstructorCourseEditPageComponent', () => {
         name: params.requestBody.name,
       }));
 
-    component.course = testCourse;
-    component.courseId = testCourse.courseId;
+    component.course = TestCourses.cs101;
+    component.courseId = TestCourses.cs101.courseId;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: { ...testInstructor1 },
-        originalPanel: component.getInstructorEditPanelModel(testInstructor1),
-        editPanel: component.getInstructorEditPanelModel(testInstructor1),
+        originalInstructor: { ...TestInstructors.hock },
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.hock),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.hock),
       },
       {
-        originalInstructor: { ...testInstructor2 },
-        originalPanel: component.getInstructorEditPanelModel(testInstructor2),
-        editPanel: component.getInstructorEditPanelModel(testInstructor2),
+        originalInstructor: { ...TestInstructors.hodor },
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.hodor),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.hodor),
       },
     ];
     component.isAddingNewInstructor = true;
-    component.newInstructorPanel = component.getInstructorEditPanelModel(testInstructor3);
+    component.newInstructorPanel = component.getInstructorEditPanelModel(TestInstructors.jane);
     component.newInstructorPanel.isEditing = true;
     fixture.detectChanges();
 
@@ -257,25 +229,25 @@ describe('InstructorCourseEditPageComponent', () => {
     expect(component.isAddingNewInstructor).toBeFalsy();
     expect(component.isSavingNewInstructor).toBeFalsy();
     expect(component.instructorDetailPanels.length).toBe(3);
-    expect(component.instructorDetailPanels[2].originalInstructor).toEqual(testInstructor3);
+    expect(component.instructorDetailPanels[2].originalInstructor).toEqual(TestInstructors.jane);
     expect(component.newInstructorPanel).toEqual(emptyInstructorPanel);
   });
 
   it('should re-order if instructor is deleted', () => {
     jest.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({}));
 
-    component.course = testCourse;
+    component.course = TestCourses.cs101;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: { ...testInstructor1 },
-        originalPanel: component.getInstructorEditPanelModel(testInstructor1),
-        editPanel: component.getInstructorEditPanelModel(testInstructor1),
+        originalInstructor: { ...TestInstructors.hock },
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.hock),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.hock),
       },
       {
-        originalInstructor: { ...testInstructor2 },
-        originalPanel: component.getInstructorEditPanelModel(testInstructor2),
-        editPanel: component.getInstructorEditPanelModel(testInstructor2),
+        originalInstructor: { ...TestInstructors.hodor },
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.hodor),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.hodor),
       },
     ];
 
@@ -288,7 +260,7 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     expect(component.instructorDetailPanels.length).toBe(1);
-    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
+    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(TestInstructors.hodor);
   });
 
   it('should re-send reminder email for new instructors', () => {
@@ -297,18 +269,18 @@ describe('InstructorCourseEditPageComponent', () => {
     }));
     jest.spyOn(courseService, 'remindInstructorForJoin').mockImplementation(mockReminderFunction);
 
-    component.course = testCourse;
+    component.course = TestCourses.cs101;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
-        originalInstructor: { ...testInstructor1 },
-        originalPanel: component.getInstructorEditPanelModel(testInstructor1),
-        editPanel: component.getInstructorEditPanelModel(testInstructor1),
+        originalInstructor: { ...TestInstructors.hock },
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.hock),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.hock),
       },
       {
-        originalInstructor: { ...testInstructor2 },
-        originalPanel: component.getInstructorEditPanelModel(testInstructor2),
-        editPanel: component.getInstructorEditPanelModel(testInstructor2),
+        originalInstructor: { ...TestInstructors.jane },
+        originalPanel: component.getInstructorEditPanelModel(TestInstructors.jane),
+        editPanel: component.getInstructorEditPanelModel(TestInstructors.jane),
       },
     ];
     fixture.detectChanges();
@@ -321,7 +293,7 @@ describe('InstructorCourseEditPageComponent', () => {
     button = document.getElementsByClassName('modal-btn-ok').item(0);
     button.click();
 
-    expect(mockReminderFunction).toBeCalledWith(testCourse.courseId, testInstructor2.email);
+    expect(mockReminderFunction).toBeCalledWith(TestCourses.cs101.courseId, TestInstructors.jane.email);
   });
 
   it('should snap with default fields', () => {
@@ -329,7 +301,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap with course details', () => {
-    component.course = testCourse;
+    component.course = TestCourses.cs101;
 
     fixture.detectChanges();
 
