@@ -467,32 +467,51 @@ export class InstructorCoursesPageComponent implements OnInit {
       if (course.institute === inst) courseFromSameInstitute += 1;
     });
     courseFromAllInstitute = this.allCoursesList.length;
-    if (courseFromAllInstitute === 1) {
-    this.statusMessageService.showWarningToast(
-      'If you delete this course, you would lose your access to system as an instructor');
-    } else if (courseFromSameInstitute === 1) {
-      this.statusMessageService.showWarningToast(
-        `If you delete this course, you would lose your status as an instructor in ${inst}`);
-    }
 
     const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
-        This operation will delete all students and sessions in these courses.
-        All instructors of these courses will not be able to access them hereafter as well.`;
+    This operation will delete all students and sessions in these courses.
+    All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
+    `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
-    return modalRef.result.then(() => {
+
+    modalRef.result.then(() => {
+      if (courseFromAllInstitute === 1 || courseFromSameInstitute === 1) {
+      let modalContentCnf: string = '';
+      if (courseFromAllInstitute === 1) {
+        modalContentCnf = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
+        This operation will remove your access to system as an instructor`;
+      } else if (courseFromSameInstitute === 1) {
+        modalContentCnf = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
+        This operation will remove your access to ${inst} as an instructor`;
+      }
+
+      const modalRefCnf: NgbModalRef = this.simpleModalService.openConfirmationModal(
+      `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContentCnf);
+      modalRefCnf.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
         this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
         this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
         this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    }).catch(() => {});
-  }
-
+        });
+      }).catch(() => {});
+    } else {
+      modalRef.result.then(() => {
+      this.courseService.deleteCourse(courseId).subscribe(() => {
+        this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
+        this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
+        this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+        });
+      }).catch(() => {});
+    }
+  }).catch(() => {});
+  return Promise.resolve();
+}
   /**
    * Restores a soft-deleted course from Recycle Bin.
    */
