@@ -13,7 +13,7 @@ export class ContributionPointDescriptionPipe implements PipeTransform {
    */
   transform(point: number): string {
     if (point > 100) {
-      return `${point - 100}% more than an equal share`; // Do more
+      return `Equal share + ${point - 100}%`; // Do more
     }
 
     if (point === 100) {
@@ -21,7 +21,7 @@ export class ContributionPointDescriptionPipe implements PipeTransform {
     }
 
     if (point > 0) {
-      return `${100 - point}% less than an equal share`; // Do less
+      return `Equal share - ${100 - point}%`; // Do less
     }
 
     if (point === 0) {
