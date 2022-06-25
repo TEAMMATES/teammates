@@ -20,10 +20,9 @@ import teammates.test.BaseTestCase;
  */
 public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     static final List<Integer> VALID_CONTRIBUTION_RESPONSE_ANSWERS =
-            new ArrayList<>(Arrays.asList(0, 10, 15, 50, 100, 105, 150, 190, 195));
+            new ArrayList<>(Arrays.asList(0, 10, 15, 50, 100, 150, 190, 195, 200));
     static final List<Integer> INVALID_CONTRIBUTION_RESPONSE_ANSWERS =
-            new ArrayList<>(Arrays.asList(-983, -1, 1, 4, 19, 51, 101, 196, 200, 1000));
-
+            new ArrayList<>(Arrays.asList(-983, -1, 1, 4, 19, 51, 101, 199, 201, 1000));
     @Test
     public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
