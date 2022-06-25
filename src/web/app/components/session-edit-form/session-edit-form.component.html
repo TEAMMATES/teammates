@@ -182,8 +182,15 @@
             </div>
             <div class="row">
               <a class="pl-3 pt-2"
+                *ngIf="formMode !== SessionEditFormMode.ADD"
                 tmRouterLink="/web/instructor/sessions/individual-extension"
                 [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName }">
+                Individual Deadline Extensions
+                <i class="fas fa-edit"></i>
+              </a>
+              <a class="pl-3 pt-2 disabled-link"
+                 *ngIf="formMode === SessionEditFormMode.ADD"
+                 ngbTooltip="You must save the new session before setting individual deadline extensions">
                 Individual Deadline Extensions
                 <i class="fas fa-edit"></i>
               </a>
