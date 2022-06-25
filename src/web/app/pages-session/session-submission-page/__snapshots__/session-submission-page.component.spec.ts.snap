@@ -1980,239 +1980,233 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               class="color-positive"
                               value="2: 195"
                             >
-                              95% more than an equal share
+                              Equal share + 95%
                             </option>
                             <option
                               class="color-positive"
                               value="3: 190"
                             >
-                              90% more than an equal share
+                              Equal share + 90%
                             </option>
                             <option
                               class="color-positive"
                               value="4: 185"
                             >
-                              85% more than an equal share
+                              Equal share + 85%
                             </option>
                             <option
                               class="color-positive"
                               value="5: 180"
                             >
-                              80% more than an equal share
+                              Equal share + 80%
                             </option>
                             <option
                               class="color-positive"
                               value="6: 175"
                             >
-                              75% more than an equal share
+                              Equal share + 75%
                             </option>
                             <option
                               class="color-positive"
                               value="7: 170"
                             >
-                              70% more than an equal share
+                              Equal share + 70%
                             </option>
                             <option
                               class="color-positive"
                               value="8: 165"
                             >
-                              65% more than an equal share
+                              Equal share + 65%
                             </option>
                             <option
                               class="color-positive"
                               value="9: 160"
                             >
-                              60% more than an equal share
+                              Equal share + 60%
                             </option>
                             <option
                               class="color-positive"
                               value="10: 155"
                             >
-                              55% more than an equal share
+                              Equal share + 55%
                             </option>
                             <option
                               class="color-positive"
                               value="11: 150"
                             >
-                              50% more than an equal share
+                              Equal share + 50%
                             </option>
                             <option
                               class="color-positive"
                               value="12: 145"
                             >
-                              45% more than an equal share
+                              Equal share + 45%
                             </option>
                             <option
                               class="color-positive"
                               value="13: 140"
                             >
-                              40% more than an equal share
+                              Equal share + 40%
                             </option>
                             <option
                               class="color-positive"
                               value="14: 135"
                             >
-                              35% more than an equal share
+                              Equal share + 35%
                             </option>
                             <option
                               class="color-positive"
                               value="15: 130"
                             >
-                              30% more than an equal share
+                              Equal share + 30%
                             </option>
                             <option
                               class="color-positive"
                               value="16: 125"
                             >
-                              25% more than an equal share
+                              Equal share + 25%
                             </option>
                             <option
                               class="color-positive"
                               value="17: 120"
                             >
-                              20% more than an equal share
+                              Equal share + 20%
                             </option>
                             <option
                               class="color-positive"
                               value="18: 115"
                             >
-                              15% more than an equal share
+                              Equal share + 15%
                             </option>
                             <option
                               class="color-positive"
                               value="19: 110"
                             >
-                              10% more than an equal share
+                              Equal share + 10%
                             </option>
                             <option
                               class="color-positive"
                               value="20: 105"
                             >
-                              5% more than an equal share
-                            </option>
-                            <option
-                              class="color-neutral"
-                              value="21: 100"
-                            >
-                              Equal share
+                              Equal share + 5%
                             </option>
                             <option
                               class="color-negative"
-                              value="22: 95"
+                              value="21: 95"
                             >
-                              5% less than an equal share
+                              Equal share - 5%
                             </option>
                             <option
                               class="color-negative"
-                              value="23: 90"
+                              value="22: 90"
                             >
-                              10% less than an equal share
+                              Equal share - 10%
                             </option>
                             <option
                               class="color-negative"
-                              value="24: 85"
+                              value="23: 85"
                             >
-                              15% less than an equal share
+                              Equal share - 15%
                             </option>
                             <option
                               class="color-negative"
-                              value="25: 80"
+                              value="24: 80"
                             >
-                              20% less than an equal share
+                              Equal share - 20%
                             </option>
                             <option
                               class="color-negative"
-                              value="26: 75"
+                              value="25: 75"
                             >
-                              25% less than an equal share
+                              Equal share - 25%
                             </option>
                             <option
                               class="color-negative"
-                              value="27: 70"
+                              value="26: 70"
                             >
-                              30% less than an equal share
+                              Equal share - 30%
                             </option>
                             <option
                               class="color-negative"
-                              value="28: 65"
+                              value="27: 65"
                             >
-                              35% less than an equal share
+                              Equal share - 35%
                             </option>
                             <option
                               class="color-negative"
-                              value="29: 60"
+                              value="28: 60"
                             >
-                              40% less than an equal share
+                              Equal share - 40%
                             </option>
                             <option
                               class="color-negative"
-                              value="30: 55"
+                              value="29: 55"
                             >
-                              45% less than an equal share
+                              Equal share - 45%
                             </option>
                             <option
                               class="color-negative"
-                              value="31: 50"
+                              value="30: 50"
                             >
-                              50% less than an equal share
+                              Equal share - 50%
                             </option>
                             <option
                               class="color-negative"
-                              value="32: 45"
+                              value="31: 45"
                             >
-                              55% less than an equal share
+                              Equal share - 55%
                             </option>
                             <option
                               class="color-negative"
-                              value="33: 40"
+                              value="32: 40"
                             >
-                              60% less than an equal share
+                              Equal share - 60%
                             </option>
                             <option
                               class="color-negative"
-                              value="34: 35"
+                              value="33: 35"
                             >
-                              65% less than an equal share
+                              Equal share - 65%
                             </option>
                             <option
                               class="color-negative"
-                              value="35: 30"
+                              value="34: 30"
                             >
-                              70% less than an equal share
+                              Equal share - 70%
                             </option>
                             <option
                               class="color-negative"
-                              value="36: 25"
+                              value="35: 25"
                             >
-                              75% less than an equal share
+                              Equal share - 75%
                             </option>
                             <option
                               class="color-negative"
-                              value="37: 20"
+                              value="36: 20"
                             >
-                              80% less than an equal share
+                              Equal share - 80%
                             </option>
                             <option
                               class="color-negative"
-                              value="38: 15"
+                              value="37: 15"
                             >
-                              85% less than an equal share
+                              Equal share - 85%
                             </option>
                             <option
                               class="color-negative"
-                              value="39: 10"
+                              value="38: 10"
                             >
-                              90% less than an equal share
+                              Equal share - 90%
                             </option>
                             <option
                               class="color-negative"
-                              value="40: 5"
+                              value="39: 5"
                             >
-                              95% less than an equal share
+                              Equal share - 95%
                             </option>
                             <option
                               class="color-negative"
-                              value="41: 0"
+                              value="40: 0"
                             >
                               0%
                             </option>
@@ -4346,239 +4340,233 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               class="color-positive"
                               value="2: 195"
                             >
-                              95% more than an equal share
+                              Equal share + 95%
                             </option>
                             <option
                               class="color-positive"
                               value="3: 190"
                             >
-                              90% more than an equal share
+                              Equal share + 90%
                             </option>
                             <option
                               class="color-positive"
                               value="4: 185"
                             >
-                              85% more than an equal share
+                              Equal share + 85%
                             </option>
                             <option
                               class="color-positive"
                               value="5: 180"
                             >
-                              80% more than an equal share
+                              Equal share + 80%
                             </option>
                             <option
                               class="color-positive"
                               value="6: 175"
                             >
-                              75% more than an equal share
+                              Equal share + 75%
                             </option>
                             <option
                               class="color-positive"
                               value="7: 170"
                             >
-                              70% more than an equal share
+                              Equal share + 70%
                             </option>
                             <option
                               class="color-positive"
                               value="8: 165"
                             >
-                              65% more than an equal share
+                              Equal share + 65%
                             </option>
                             <option
                               class="color-positive"
                               value="9: 160"
                             >
-                              60% more than an equal share
+                              Equal share + 60%
                             </option>
                             <option
                               class="color-positive"
                               value="10: 155"
                             >
-                              55% more than an equal share
+                              Equal share + 55%
                             </option>
                             <option
                               class="color-positive"
                               value="11: 150"
                             >
-                              50% more than an equal share
+                              Equal share + 50%
                             </option>
                             <option
                               class="color-positive"
                               value="12: 145"
                             >
-                              45% more than an equal share
+                              Equal share + 45%
                             </option>
                             <option
                               class="color-positive"
                               value="13: 140"
                             >
-                              40% more than an equal share
+                              Equal share + 40%
                             </option>
                             <option
                               class="color-positive"
                               value="14: 135"
                             >
-                              35% more than an equal share
+                              Equal share + 35%
                             </option>
                             <option
                               class="color-positive"
                               value="15: 130"
                             >
-                              30% more than an equal share
+                              Equal share + 30%
                             </option>
                             <option
                               class="color-positive"
                               value="16: 125"
                             >
-                              25% more than an equal share
+                              Equal share + 25%
                             </option>
                             <option
                               class="color-positive"
                               value="17: 120"
                             >
-                              20% more than an equal share
+                              Equal share + 20%
                             </option>
                             <option
                               class="color-positive"
                               value="18: 115"
                             >
-                              15% more than an equal share
+                              Equal share + 15%
                             </option>
                             <option
                               class="color-positive"
                               value="19: 110"
                             >
-                              10% more than an equal share
+                              Equal share + 10%
                             </option>
                             <option
                               class="color-positive"
                               value="20: 105"
                             >
-                              5% more than an equal share
-                            </option>
-                            <option
-                              class="color-neutral"
-                              value="21: 100"
-                            >
-                              Equal share
+                              Equal share + 5%
                             </option>
                             <option
                               class="color-negative"
-                              value="22: 95"
+                              value="21: 95"
                             >
-                              5% less than an equal share
+                              Equal share - 5%
                             </option>
                             <option
                               class="color-negative"
-                              value="23: 90"
+                              value="22: 90"
                             >
-                              10% less than an equal share
+                              Equal share - 10%
                             </option>
                             <option
                               class="color-negative"
-                              value="24: 85"
+                              value="23: 85"
                             >
-                              15% less than an equal share
+                              Equal share - 15%
                             </option>
                             <option
                               class="color-negative"
-                              value="25: 80"
+                              value="24: 80"
                             >
-                              20% less than an equal share
+                              Equal share - 20%
                             </option>
                             <option
                               class="color-negative"
-                              value="26: 75"
+                              value="25: 75"
                             >
-                              25% less than an equal share
+                              Equal share - 25%
                             </option>
                             <option
                               class="color-negative"
-                              value="27: 70"
+                              value="26: 70"
                             >
-                              30% less than an equal share
+                              Equal share - 30%
                             </option>
                             <option
                               class="color-negative"
-                              value="28: 65"
+                              value="27: 65"
                             >
-                              35% less than an equal share
+                              Equal share - 35%
                             </option>
                             <option
                               class="color-negative"
-                              value="29: 60"
+                              value="28: 60"
                             >
-                              40% less than an equal share
+                              Equal share - 40%
                             </option>
                             <option
                               class="color-negative"
-                              value="30: 55"
+                              value="29: 55"
                             >
-                              45% less than an equal share
+                              Equal share - 45%
                             </option>
                             <option
                               class="color-negative"
-                              value="31: 50"
+                              value="30: 50"
                             >
-                              50% less than an equal share
+                              Equal share - 50%
                             </option>
                             <option
                               class="color-negative"
-                              value="32: 45"
+                              value="31: 45"
                             >
-                              55% less than an equal share
+                              Equal share - 55%
                             </option>
                             <option
                               class="color-negative"
-                              value="33: 40"
+                              value="32: 40"
                             >
-                              60% less than an equal share
+                              Equal share - 60%
                             </option>
                             <option
                               class="color-negative"
-                              value="34: 35"
+                              value="33: 35"
                             >
-                              65% less than an equal share
+                              Equal share - 65%
                             </option>
                             <option
                               class="color-negative"
-                              value="35: 30"
+                              value="34: 30"
                             >
-                              70% less than an equal share
+                              Equal share - 70%
                             </option>
                             <option
                               class="color-negative"
-                              value="36: 25"
+                              value="35: 25"
                             >
-                              75% less than an equal share
+                              Equal share - 75%
                             </option>
                             <option
                               class="color-negative"
-                              value="37: 20"
+                              value="36: 20"
                             >
-                              80% less than an equal share
+                              Equal share - 80%
                             </option>
                             <option
                               class="color-negative"
-                              value="38: 15"
+                              value="37: 15"
                             >
-                              85% less than an equal share
+                              Equal share - 85%
                             </option>
                             <option
                               class="color-negative"
-                              value="39: 10"
+                              value="38: 10"
                             >
-                              90% less than an equal share
+                              Equal share - 90%
                             </option>
                             <option
                               class="color-negative"
-                              value="40: 5"
+                              value="39: 5"
                             >
-                              95% less than an equal share
+                              Equal share - 95%
                             </option>
                             <option
                               class="color-negative"
-                              value="41: 0"
+                              value="40: 0"
                             >
                               0%
                             </option>
