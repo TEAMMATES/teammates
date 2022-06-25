@@ -45,7 +45,7 @@ export class ContributionQuestionEditAnswerFormComponent
     for (let i: number = 195; i >= 0; i -= 5) {
       // Do not add 'Equal Share' as we added it at the top
       if (i === 100) {
-        continue
+        continue;
       }
 
       points.push(i);
