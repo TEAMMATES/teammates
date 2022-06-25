@@ -476,42 +476,36 @@ export class InstructorCoursesPageComponent implements OnInit {
     `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
 
-    modalRef.result.then(() => {
-      if (courseFromAllInstitute === 1 || courseFromSameInstitute === 1) {
-      let modalContentCnf: string = '';
-      if (courseFromAllInstitute === 1) {
-        modalContentCnf = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
-        This operation will remove your access to system as an instructor`;
-      } else if (courseFromSameInstitute === 1) {
-        modalContentCnf = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
-        This operation will remove your access to ${inst} as an instructor`;
-      }
+    let modalContentCnf: string = '';
 
-      const modalRefCnf: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContentCnf);
-      modalRefCnf.result.then(() => {
-      this.courseService.deleteCourse(courseId).subscribe(() => {
-        this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
-        this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
-        this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        });
-      }).catch(() => {});
-    } else {
-      modalRef.result.then(() => {
-      this.courseService.deleteCourse(courseId).subscribe(() => {
-        this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
-        this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
-        this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        });
-      }).catch(() => {});
-    }
-  }).catch(() => {});
-  return Promise.resolve();
+    return modalRef.result.then(() => {
+      if (courseFromAllInstitute === 1) {
+        modalContentCnf = `This is your last course on TEAMMATES for which you have instructor access. 
+        Deleting this course will remove your instructor access to TEAMMATES.<br>
+        Are you sure you want to delete the course <strong>${courseId}</strong>?`;
+      } else if (courseFromSameInstitute === 1) {
+        modalContentCnf = `If you delete all courses of institute <strong>${inst}</strong>, 
+        you will lose instructor access to TEAMMATES under the institution <strong>${inst}</strong>. 
+        To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
+        Are you sure you want to delete the course <strong>${courseId}</strong> in institution 
+        <strong>${inst}</strong>?`;
+      }
+      if (courseFromAllInstitute === 1 || courseFromSameInstitute === 1) {
+        return this.simpleModalService.openConfirmationModal(
+      'This action will cause you to lose access to TEAMMATES!', SimpleModalType.DANGER, modalContentCnf).result;
+      }
+      return Promise.resolve();
+  }).then(() => {
+    this.courseService.deleteCourse(courseId).subscribe(() => {
+      this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
+      this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
+      this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+      });
+    }).catch(() => {});
 }
+
   /**
    * Restores a soft-deleted course from Recycle Bin.
    */
@@ -538,11 +532,25 @@ export class InstructorCoursesPageComponent implements OnInit {
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
+    const lastCourseRemaining: boolean = this.allCoursesList.length === this.softDeletedCourses.length;
+
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+    'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+
     modalRef.result.then(() => {
+      if (lastCourseRemaining) {
+        const modalContentCnf: string =
+        `These are your last courses registered on TEAMMATES for which you have instructor access. 
+          Deleting these courses will remove your instructor access to TEAMMATES.<br>
+          Are you sure you want to permanently delete these courses?`;
+
+        return this.simpleModalService.openConfirmationModal(
+          'This action will cause you to lose access to TEAMMATES!', SimpleModalType.DANGER, modalContentCnf).result;
+      }
+      return Promise.resolve();
+    }).then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
-      this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
+        this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
         deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
       });
 
@@ -555,7 +563,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-
     }).catch(() => {});
   }
 
