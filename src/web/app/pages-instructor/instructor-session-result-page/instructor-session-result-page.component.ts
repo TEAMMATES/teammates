@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
@@ -150,7 +150,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private simpleModalService: SimpleModalService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               private navigationService: NavigationService,
-              private router: Router,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
               commentToCommentRowModel: CommentToCommentRowModelPipe,
@@ -574,7 +573,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   }
 
   navigateToIndividualSessionResultPage(): void {
-    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/result',
+    this.navigationService.navigateByURL('/web/instructor/sessions/result',
         { courseid: this.courseId, fsname: this.fsName });
   }
 
