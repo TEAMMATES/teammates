@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -141,8 +141,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   hasCourseLoadingFailed: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
-  constructor(router: Router,
-              statusMessageService: StatusMessageService,
+  constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
@@ -156,7 +155,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
-    super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
+    super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModalService,
         simpleModalService, progressBarService, feedbackSessionActionsService, studentService);
   }
@@ -193,7 +192,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             this.isCopyOtherSessionLoading = false;
           }))
           .subscribe((createdFeedbackSession: FeedbackSession) => {
-            this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit',
+            this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
                 'The feedback session has been copied. Please modify settings/questions as necessary.',
                 { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
           }, (resp: ErrorMessageOutput) => {
@@ -348,7 +347,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             `The session is created but the template questions cannot be created: ${resp.error.message}`);
       }, () => {
         this.navigationService.navigateByURLWithParamEncoding(
-            this.router,
             '/web/instructor/sessions/edit',
             { courseid: feedbackSession.courseId, fsname: feedbackSession.feedbackSessionName })
             .then(() => {
