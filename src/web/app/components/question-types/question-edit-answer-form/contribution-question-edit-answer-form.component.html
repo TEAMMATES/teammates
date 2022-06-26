@@ -9,7 +9,7 @@
       <option *ngFor="let point of contributionQuestionPoints" [ngValue]="point"
               [ngClass]="{'color-positive': point > 100,
                 'color-negative': point < 100,
-                'color-neutral': point === 100}">{{ point | contributionPointDescription }}</option>
+                'color-neutral font-weight-bold': point === 100}">{{ point | contributionPointDescription }}</option>
       <option *ngIf="questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE" class="color-black">Not Sure</option>
     </select>
   </div>
