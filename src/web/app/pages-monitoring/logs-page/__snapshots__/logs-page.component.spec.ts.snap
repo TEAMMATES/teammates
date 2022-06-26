@@ -20,6 +20,7 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   isAdmin="undefined"
   isFiltersExpanded="false"
   isLoading={[Function Boolean]}
+  isLoadingLater="false"
   isSearching="false"
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"
@@ -87,6 +88,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
   isAdmin="undefined"
   isFiltersExpanded="false"
   isLoading="false"
+  isLoadingLater="false"
   isSearching={[Function Boolean]}
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"
@@ -452,21 +454,10 @@ exports[`LogsPageComponent should snap when searching for details in search form
         </div>
       </div>
     </tm-loading-spinner>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
+    <div
+      class="center mb-4"
+    >
+    </div>
   </div>
 </tm-logs-page>
 `;
@@ -491,6 +482,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   isAdmin="undefined"
   isFiltersExpanded="false"
   isLoading={[Function Boolean]}
+  isLoadingLater="false"
   isSearching="false"
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"

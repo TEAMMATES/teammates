@@ -101,6 +101,7 @@ export class LogsPageComponent implements OnInit {
   histogramResult: LogsHistogramDataModel[] = [];
   isLoading: boolean = false;
   isSearching: boolean = false;
+  isLoadingLater: boolean = false;
   hasResult: boolean = false;
   isTableView: boolean = true;
   isFiltersExpanded: boolean = false;
@@ -410,6 +411,7 @@ export class LogsPageComponent implements OnInit {
 
   loadLaterLogs(): void {
     this.isSearching = true;
+    this.isLoadingLater = true;
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.latestLogTimestampRetrieved;
     this.queryParams.endTime = this.searchEndTime;
@@ -449,6 +451,7 @@ export class LogsPageComponent implements OnInit {
     this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => {
         this.isSearching = false;
+        this.isLoadingLater = false;
       }))
       .subscribe((generalLogs: GeneralLogs) => {
         this.hasNextPage = generalLogs.hasNextPage;
