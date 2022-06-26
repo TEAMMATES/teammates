@@ -44,29 +44,26 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     private static final Logger log = Logger.getLogger();
 
-    private boolean isZeroSum;
+    private Boolean isZeroSum;
     private boolean isNotSureAllowed;
 
     public FeedbackContributionQuestionDetails() {
-        this(null, false);
+        super(FeedbackQuestionType.CONTRIB, null);
+        // isZeroSum is not set by default to differentiate between old and new contribution questions,
+        // i.e., old questions do not have the isZeroSum field while new questions do.
+        isNotSureAllowed = false;
     }
 
-    public FeedbackContributionQuestionDetails(String questionText, boolean isOldQuestion) {
+    public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        if (isOldQuestion) {
-            // The default values below are used to deal with old sessions when isZeroSum did not exist back then
-            isZeroSum = false;
-            isNotSureAllowed = true;
-        } else {
-            isZeroSum = true;
-            isNotSureAllowed = false;
-        }
+        isZeroSum = true;
+        isNotSureAllowed = false;
     }
 
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
-        return newContribDetails.isZeroSum != this.isZeroSum
+        return newContribDetails.isZeroSum != null && !newContribDetails.isZeroSum.equals(this.isZeroSum)
                 || newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
     }
 
@@ -266,7 +263,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
 
-        if (isZeroSum && isNotSureAllowed) {
+        if (isZeroSum != null && isZeroSum && isNotSureAllowed) {
             errors.add(CONTRIB_ERROR_INVALID_OPTION);
         }
 

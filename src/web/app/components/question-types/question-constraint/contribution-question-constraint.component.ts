@@ -3,7 +3,7 @@ import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
 } from '../../../../types/api-output';
-import { DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 import {
   FeedbackResponseRecipientSubmissionFormModel,
@@ -22,7 +22,7 @@ export class ContributionQuestionConstraintComponent
     extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {
 
   constructor() {
-    super(DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS());
+    super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
   /**

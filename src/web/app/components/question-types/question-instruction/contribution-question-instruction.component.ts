@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
-import { DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Instruction of contribution question.
@@ -13,7 +13,7 @@ import { DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/def
 export class ContributionQuestionInstructionComponent {
 
   @Input()
-  questionDetails: FeedbackContributionQuestionDetails = DEFAULT_OLD_CONTRIBUTION_QUESTION_DETAILS();
+  questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
 
   @Input()
   numOfRecipients: number = 0;
