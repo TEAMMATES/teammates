@@ -1086,7 +1086,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   >
                     <a
                       class="pl-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session"
+                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session&preselectnonsubmitters=false"
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 
@@ -3484,7 +3484,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   >
                     <a
                       class="pl-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=&fsname="
+                      href="/web/instructor/sessions/individual-extension?courseid=&fsname=&preselectnonsubmitters=false"
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 
