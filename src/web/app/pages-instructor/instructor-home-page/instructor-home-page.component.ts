@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -78,8 +77,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
 
-  constructor(router: Router,
-              statusMessageService: StatusMessageService,
+  constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
@@ -91,7 +89,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               progressBarService: ProgressBarService,
               feedbackSessionActionsService: FeedbackSessionActionsService,
               private courseService: CourseService) {
-    super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
+    super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModal, simpleModalService,
         progressBarService, feedbackSessionActionsService, studentService);
   }

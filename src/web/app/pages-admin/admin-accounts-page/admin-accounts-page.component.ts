@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
@@ -34,7 +34,6 @@ export class AdminAccountsPageComponent implements OnInit {
   isLoadingInstructorCourses: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
               private instructorService: InstructorService,
               private studentService: StudentService,
               private navigationService: NavigationService,
@@ -96,7 +95,7 @@ export class AdminAccountsPageComponent implements OnInit {
   deleteAccount(): void {
     const id: string = this.accountInfo.googleId;
     this.accountService.deleteAccount(id).subscribe(() => {
-      this.navigationService.navigateWithSuccessMessage(this.router, '/web/admin/search',
+      this.navigationService.navigateWithSuccessMessage('/web/admin/search',
           `Account "${id}" is successfully deleted.`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);

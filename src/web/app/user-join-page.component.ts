@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -35,7 +35,6 @@ export class UserJoinPageComponent implements OnInit {
   private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
               private accountService: AccountService,
               private courseService: CourseService,
               private navigationService: NavigationService,
@@ -75,7 +74,7 @@ export class UserJoinPageComponent implements OnInit {
             if (this.hasJoined) {
               // The regkey has been used; simply redirect the user to their home page,
               // regardless of whether the regkey matches or not.
-              this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
+              this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
             } else {
               this.isLoading = false;
             }
@@ -98,7 +97,7 @@ export class UserJoinPageComponent implements OnInit {
    */
   joinCourse(): void {
     this.courseService.joinCourse(this.key, this.entityType).subscribe(() => {
-      this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
+      this.navigationService.navigateByURL(`/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
       const errorMessage = resp.error.message;
 
@@ -126,7 +125,7 @@ export class UserJoinPageComponent implements OnInit {
       }))
       .subscribe(
         () => {
-          this.navigationService.navigateByURL(this.router, '/web/instructor');
+          this.navigationService.navigateByURL('/web/instructor');
         },
         (resp: ErrorMessageOutput) => {
           if (resp.status === 404) {

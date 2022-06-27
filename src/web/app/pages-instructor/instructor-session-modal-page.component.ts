@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -45,8 +44,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
   isSendReminderLoading: boolean = false;
 
-  protected constructor(router: Router,
-                        instructorService: InstructorService,
+  protected constructor(instructorService: InstructorService,
                         statusMessageService: StatusMessageService,
                         navigationService: NavigationService,
                         feedbackSessionsService: FeedbackSessionsService,
@@ -57,7 +55,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         progressBarService: ProgressBarService,
                         feedbackSessionActionsService: FeedbackSessionActionsService,
                         protected studentService: StudentService) {
-    super(router, instructorService, statusMessageService, navigationService,
+    super(instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
         ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService);
   }
