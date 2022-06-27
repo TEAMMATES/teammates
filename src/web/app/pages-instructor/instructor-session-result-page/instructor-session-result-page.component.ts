@@ -51,6 +51,7 @@ export interface SectionTabModel {
   questions: QuestionOutput[];
 
   hasPopulated: boolean;
+  errorMessage?: string;
   isTabExpanded: boolean;
 }
 
@@ -377,19 +378,28 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       intent: Intent.FULL_DETAIL,
       groupBySection: sectionName,
     })
-    .subscribe((resp: SessionResults) => {
-      this.sectionsModel[sectionName].questions = resp.questions;
-      this.sectionsModel[sectionName].hasPopulated = true;
+    .subscribe(
+      {
+        next: (resp: SessionResults) => {
+          this.sectionsModel[sectionName].questions = resp.questions;
 
-      // sort questions by question number
-      resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-        a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-      resp.questions.forEach((question: QuestionOutput) => {
-        this.preprocessComments(question.allResponses);
-      });
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+          // sort questions by question number
+          resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+            a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+          resp.questions.forEach((question: QuestionOutput) => {
+            this.preprocessComments(question.allResponses);
+          });
+        },
+        complete: () => {
+          this.sectionsModel[sectionName].hasPopulated = true;
+          this.sectionsModel[sectionName].errorMessage = '';
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.sectionsModel[sectionName].errorMessage = resp.error.message;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      },
+    );
   }
 
   /**
