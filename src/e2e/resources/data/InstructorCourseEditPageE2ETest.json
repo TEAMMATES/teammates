@@ -6,12 +6,12 @@
       "email": "ICEdit.coowner@gmail.tmt",
       "readNotifications": {}
     },
-     "ICEdit.observer": {
-       "googleId": "tm.e2e.ICEdit.observer.CS2104",
-       "name": "Teammates Instructor",
-       "email": "ICEdit.observer@gmail.tmt",
-       "readNotifications": {}
-     }
+    "ICEdit.observer": {
+      "googleId": "tm.e2e.ICEdit.observer.CS2104",
+      "name": "Teammates Instructor",
+      "email": "ICEdit.observer@gmail.tmt",
+      "readNotifications": {}
+    }
   },
   "courses": {
     "ICEdit.CS2104": {
