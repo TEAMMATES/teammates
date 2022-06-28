@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
@@ -173,7 +173,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isSavingNewInstructor: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
               private navigationService: NavigationService,
               private timezoneService: TimezoneService,
               private studentService: StudentService,
@@ -261,7 +260,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   deleteCourse(): void {
     this.courseService.binCourse(this.courseId).subscribe((course: Course) => {
-      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses',
+      this.navigationService.navigateWithSuccessMessage('/web/instructor/courses',
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -474,7 +473,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       }).subscribe(() => {
         if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
           this.navigationService.navigateWithSuccessMessage(
-                  this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
+                  '/web/instructor/courses', 'Instructor is successfully deleted.');
         } else {
           this.instructorDetailPanels.splice(index, 1);
           this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
