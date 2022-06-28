@@ -99,7 +99,29 @@ indexes:
     name: courseId
   - direction: asc
     name: timestamp
+- kind: FeedbackSessionLogEntry
+  properties:
+  - direction: asc
+    name: courseId
+  - direction: asc
+    name: feedbackSessionName
+  - direction: asc
+    name: timestamp
+- kind: FeedbackSessionLogEntry
+  properties:
+  - direction: asc
+    name: courseId
+  - direction: asc
+    name: studentEmail
+  - direction: asc
+    name: timestamp
+- kind: FeedbackSessionLogEntry
+  properties:
+  - direction: asc
+    name: courseId
   - direction: asc
     name: studentEmail
   - direction: asc
     name: feedbackSessionName
+  - direction: asc
+    name: timestamp
