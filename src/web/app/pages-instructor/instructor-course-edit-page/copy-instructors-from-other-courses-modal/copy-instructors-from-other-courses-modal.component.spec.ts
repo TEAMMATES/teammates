@@ -96,7 +96,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   const testCourseTab1: CourseTabModel = {
     courseId: 'FAN0002',
     courseName: 'Test Course 1',
-    creationTimestamp: 1658797215, // Tuesday, 26 July 2022 09:00:15 GMT+08:00
+    creationTimestamp: new Date('2022-07-26T01:00:15Z').getTime(),
     isArchived: true,
     instructorCandidates: [],
     instructorCandidatesSortBy: SortBy.NONE,
@@ -109,7 +109,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   const testCourseTab2: CourseTabModel = {
     courseId: 'FAN0001',
     courseName: 'Test Course 2',
-    creationTimestamp: 1645539742, // Tuesday, 22 February 2022 22:22:22 GMT+08:00
+    creationTimestamp: new Date('2022-02-22T22:22:22Z').getTime(),
     isArchived: false,
     instructorCandidates: [],
     instructorCandidatesSortBy: SortBy.NONE,
@@ -122,7 +122,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   const testCourseTab3: CourseTabModel = {
     courseId: 'CS2103T',
     courseName: 'XXX Software Engineering',
-    creationTimestamp: 1655826680, // Tuesday, 21 June 2022 15:51:20 GMT+08:00
+    creationTimestamp: new Date('2022-06-21T07:51:20Z').getTime(),
     isArchived: false,
     instructorCandidates: [],
     instructorCandidatesSortBy: SortBy.NONE,
