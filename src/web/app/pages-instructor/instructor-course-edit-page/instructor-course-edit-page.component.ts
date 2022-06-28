@@ -702,9 +702,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     forkJoin([
       this.courseService.getAllCoursesAsInstructor('active'),
       this.courseService.getAllCoursesAsInstructor('archived'),
-    ]).subscribe((values: any[]) => {
-      const activeCourses: Courses = values[0] as Courses;
-      const archivedCourses: Courses = values[1] as Courses;
+    ]).subscribe((values: Courses[]) => {
+      const activeCourses: Courses = values[0];
+      const archivedCourses: Courses = values[1];
 
       activeCourses.courses.forEach((course: Course) => {
         if (course.courseId !== this.courseId && course.institute === this.course.institute) {
