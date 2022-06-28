@@ -9,7 +9,7 @@
     <ng-template #extendDeadlineBtn>
       <button type="button" class="btn btn-secondary btn-sm button"
               [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
-        Individual Deadline Extensions
+        Extend Deadline for All
       </button>
     </ng-template>
     <button id="btn-remind-all" class="btn btn-secondary btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();"
