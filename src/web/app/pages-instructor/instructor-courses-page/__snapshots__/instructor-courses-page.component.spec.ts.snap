@@ -546,13 +546,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Archive 
                       </button>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/student-activity-logs"
-                      >
-                         View Logs 
-                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -655,13 +648,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Archive 
                       </button>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/student-activity-logs?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/student-activity-logs"
-                      >
-                         View Logs 
-                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item disabled"
                         id="btn-soft-delete-disabled-1"
@@ -1284,13 +1270,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Archive 
                       </button>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/student-activity-logs"
-                      >
-                         View Logs 
-                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1393,13 +1372,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Archive 
                       </button>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/student-activity-logs?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/student-activity-logs"
-                      >
-                         View Logs 
-                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item disabled"
                         id="btn-soft-delete-disabled-1"
@@ -1831,13 +1803,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Archive 
                       </button>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
-                        tmrouterlink="/web/instructor/courses/student-activity-logs"
-                      >
-                         View Logs 
-                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1957,13 +1922,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Archive 
                       </button>
-                      <a
-                        class="btn btn-primary btn-sm dropdown-item clickable"
-                        href="/web/instructor/courses/student-activity-logs?courseid=CS3282"
-                        tmrouterlink="/web/instructor/courses/student-activity-logs"
-                      >
-                         View Logs 
-                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item disabled"
                         id="btn-soft-delete-disabled-1"
