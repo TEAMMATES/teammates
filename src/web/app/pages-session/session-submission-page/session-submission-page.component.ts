@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -112,7 +112,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
               private statusMessageService: StatusMessageService,
               private timezoneService: TimezoneService,
               private feedbackQuestionsService: FeedbackQuestionsService,
@@ -168,7 +167,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
                 this.navigationService.navigateByURLWithParamEncoding(
-                    this.router, `/web/${this.entityType}/sessions/submission`,
+                    `/web/${this.entityType}/sessions/submission`,
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
@@ -180,7 +179,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               // At this point, registration key must already be used, otherwise access would be granted
               if (this.loggedInUser) {
                 // Registration key belongs to another user who is not the logged in user
-                this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+                this.navigationService.navigateWithErrorMessage('/web/front',
                     `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
                     is not linked to this TEAMMATES account. If you used a different Google account to
                     join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
@@ -191,11 +190,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               }
             } else {
               // The registration key is invalid
-              this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+              this.navigationService.navigateWithErrorMessage('/web/front',
                   'You are not authorized to view this page.');
             }
           }, () => {
-            this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+            this.navigationService.navigateWithErrorMessage('/web/front',
                 'You are not authorized to view this page.');
           });
         } else if (this.loggedInUser) {
@@ -205,11 +204,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.loadPersonName();
           this.loadFeedbackSession(false, auth);
         } else {
-          this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+          this.navigationService.navigateWithErrorMessage('/web/front',
               'You are not authorized to view this page.');
         }
       }, () => {
-        this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+        this.navigationService.navigateWithErrorMessage('/web/front',
             'You are not authorized to view this page.');
       });
     });
@@ -333,7 +332,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Redirects to join course link for unregistered student/instructor.
    */
   joinCourseForUnregisteredEntity(): void {
-    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: this.entityType, key: this.regKey });
+    this.navigationService.navigateByURL('/web/join', { entitytype: this.entityType, key: this.regKey });
   }
 
   /**
@@ -411,7 +410,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
               'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
               {
-                onClosed: () => this.navigationService.navigateByURL(this.router,
+                onClosed: () => this.navigationService.navigateByURL(
                     this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
               },
               { backdrop: 'static' });
@@ -427,14 +426,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
                 resp.error.message,
                 {
-                  onClosed: () => this.navigationService.navigateByURL(this.router,
+                  onClosed: () => this.navigationService.navigateByURL(
                       this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
                 },
                 { backdrop: 'static' });
           }
         } else {
           this.navigationService.navigateWithErrorMessage(
-              this.router, `/web/${this.entityType}/home`, resp.error.message);
+              `/web/${this.entityType}/home`, resp.error.message);
         }
       });
   }

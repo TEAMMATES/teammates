@@ -23,7 +23,6 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -88,7 +87,6 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -153,7 +151,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -296,7 +293,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -821,7 +817,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1508,7 +1503,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1760,7 +1754,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -2036,7 +2029,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
