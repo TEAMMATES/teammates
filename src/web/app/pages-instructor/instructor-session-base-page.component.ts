@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
@@ -36,8 +35,7 @@ export abstract class InstructorSessionBasePageComponent {
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
-  protected constructor(protected router: Router,
-                        protected instructorService: InstructorService,
+  protected constructor(protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
                         protected feedbackSessionsService: FeedbackSessionsService,
@@ -190,7 +188,7 @@ export abstract class InstructorSessionBasePageComponent {
   copySingleSession(copySessionRequest: Observable<FeedbackSession>): void {
     copySessionRequest.subscribe((createdSession: FeedbackSession) => {
       if (Object.keys(this.failedToCopySessions).length === 0) {
-        this.navigationService.navigateWithSuccessMessage(this.router,
+        this.navigationService.navigateWithSuccessMessage(
             '/web/instructor/sessions/edit',
             'The feedback session has been copied. Please modify settings/questions as necessary.',
             { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
@@ -220,7 +218,6 @@ export abstract class InstructorSessionBasePageComponent {
    */
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
     this.navigationService.navigateByURLWithParamEncoding(
-        this.router,
         '/web/instructor/sessions/submission',
         { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
