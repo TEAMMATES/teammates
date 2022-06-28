@@ -30,7 +30,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -178,7 +177,6 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -323,7 +321,6 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -468,7 +465,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1025,7 +1021,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1447,7 +1442,6 @@ exports[`SessionResultPageComponent should snap with session details and results
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1541,7 +1535,6 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1686,7 +1679,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1832,7 +1824,6 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
