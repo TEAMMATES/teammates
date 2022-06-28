@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
@@ -21,6 +22,7 @@ describe('InstructorSessionNoResponsePanelComponent', () => {
         PanelChevronModule,
         LoadingSpinnerModule,
         TeammatesRouterModule,
+        RouterTestingModule,
       ],
     })
     .compileComponents();
