@@ -7,17 +7,25 @@
       </div>
     </div>
     <div *ngIf="sectionInfo.value.isTabExpanded" @collapseAnim>
-      <div *tmIsLoading="!sectionInfo.value.hasPopulated" class="card-body">
-        <tm-grq-rgq-view-responses [responses]="sectionInfo.value.questions || []" [sectionOfView]="sectionInfo.key" [section]="section" [sectionType]="sectionType"
-                                   [indicateMissingResponses]="indicateMissingResponses"
-                                   [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGrq]="true" [session]="session"
-                                   [isExpandAll]="isExpandAll" [instructorCommentTableModel]="instructorCommentTableModel"
-                                   (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
-                                   (updateCommentEvent)="triggerUpdateCommentEvent($event)"
-                                   (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
-                                   (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                                   style="margin-bottom: 20px;"></tm-grq-rgq-view-responses>
-      </div>
+      <div *tmIsLoading="!sectionInfo.value.hasPopulated && !sectionInfo.value.errorMessage"></div>
+      <tm-loading-retry
+              class="m-3"
+              [shouldShowRetry]="!!sectionInfo.value.errorMessage"
+              [message]="sectionInfo.value.errorMessage"
+              (retryEvent)="loadSection.emit(sectionInfo.key)"
+      >
+        <div *ngIf="sectionInfo.value.hasPopulated" class="card-body">
+          <tm-grq-rgq-view-responses [responses]="sectionInfo.value.questions || []" [sectionOfView]="sectionInfo.key" [section]="section" [sectionType]="sectionType"
+                                     [indicateMissingResponses]="indicateMissingResponses"
+                                     [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGrq]="true" [session]="session"
+                                     [isExpandAll]="isExpandAll" [instructorCommentTableModel]="instructorCommentTableModel"
+                                     (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
+                                     (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                                     (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                                     (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+                                     style="margin-bottom: 20px;"></tm-grq-rgq-view-responses>
+        </div>
+      </tm-loading-retry>
     </div>
   </div>
 </div>
