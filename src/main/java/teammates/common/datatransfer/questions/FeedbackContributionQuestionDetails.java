@@ -44,13 +44,21 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     private static final Logger log = Logger.getLogger();
 
-    private Boolean isZeroSum;
+    private boolean isZeroSum;
     private boolean isNotSureAllowed;
 
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB, null);
-        // isZeroSum is not set by default to differentiate between old and new contribution questions,
-        // i.e., old questions do not have the isZeroSum field while new questions do.
+        /*
+            Contribution question details was changed to include isZeroSum field in
+            https://github.com/TEAMMATES/teammates/pull/11827.
+            isZeroSum field has to be set to false for old contribution questions.
+            This constructor is used to deserialize question details string into FeedbackContributionQuestionDetails
+            object.
+            We set the default value of isZeroSum to false here so that the default value if isZeroSum is not present
+            will be false.
+        */
+        isZeroSum = false;
         isNotSureAllowed = false;
     }
 
@@ -63,7 +71,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
-        return newContribDetails.isZeroSum != null && !newContribDetails.isZeroSum.equals(this.isZeroSum)
+        return newContribDetails.isZeroSum != this.isZeroSum
                 || newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
     }
 
@@ -263,7 +271,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
 
-        if (isZeroSum != null && isZeroSum && isNotSureAllowed) {
+        if (isZeroSum && isNotSureAllowed) {
             errors.add(CONTRIB_ERROR_INVALID_OPTION);
         }
 

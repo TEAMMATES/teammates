@@ -46,31 +46,39 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testShouldChangesRequireResponseDeletion_sameIsZeroSum_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails("");
-        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails("");
+        FeedbackContributionQuestionDetails feedbackContributionQuestionDetails =
+                new FeedbackContributionQuestionDetails();
+        feedbackContributionQuestionDetails.setZeroSum(true);
+        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
         newDetails.setZeroSum(true);
         assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_differentZeroSum_shouldReturnTrue() {
-        FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails("");
-        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails("");
+        FeedbackContributionQuestionDetails feedbackContributionQuestionDetails =
+                new FeedbackContributionQuestionDetails();
+        feedbackContributionQuestionDetails.setZeroSum(true);
+        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
         newDetails.setZeroSum(false);
         assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_sameIsNotSureAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails("");
-        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails("");
+        FeedbackContributionQuestionDetails feedbackContributionQuestionDetails =
+                new FeedbackContributionQuestionDetails();
+        feedbackContributionQuestionDetails.setNotSureAllowed(false);
+        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
         newDetails.setNotSureAllowed(false);
         assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_differentIsNotSureAllowed_shouldReturnTrue() {
-        FeedbackQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails("");
+        FeedbackContributionQuestionDetails feedbackContributionQuestionDetails =
+                new FeedbackContributionQuestionDetails();
+        feedbackContributionQuestionDetails.setNotSureAllowed(false);
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails("");
         newDetails.setNotSureAllowed(true);
         assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
@@ -79,13 +87,11 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails() {
         FeedbackContributionQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
-        List<String> expectedQuestionValidationResults = new ArrayList<>();
 
         ______TS("failure: isZeroSum true and isNotSureAllowed true");
         feedbackContributionQuestionDetails.setZeroSum(true);
         feedbackContributionQuestionDetails.setNotSureAllowed(true);
-        expectedQuestionValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION);
-        assertEquals(expectedQuestionValidationResults,
+        assertEquals(List.of(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION),
                 feedbackContributionQuestionDetails.validateQuestionDetails());
 
         ______TS("success: isZeroSum true and isNotSureAllowed false");

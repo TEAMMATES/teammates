@@ -393,10 +393,10 @@ public class FeedbackSubmitPage extends AppPage {
     public void verifyContributionQuestion(int qnNumber, FeedbackContributionQuestionDetails questionDetails) {
         try {
             selectDropdownOptionByText(getContributionDropdowns(qnNumber).get(0), "Not Sure");
-            assertFalse(questionDetails.isZeroSum());
             assertTrue(questionDetails.isNotSureAllowed());
+            assertFalse(questionDetails.isZeroSum());
         } catch (NoSuchElementException e) {
-            assertTrue(questionDetails.isZeroSum() || !questionDetails.isNotSureAllowed());
+            assertFalse(questionDetails.isNotSureAllowed());
         }
     }
 

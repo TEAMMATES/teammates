@@ -53,18 +53,16 @@ export class ContributionQuestionConstraintComponent
   }
 
   /**
-   * Get answers for the recipients.
+   * Gets all answers for the recipients.
    */
   get allAnswers(): number[] {
-    return this.recipientSubmissionForms.map(
-        (form: FeedbackResponseRecipientSubmissionFormModel) => {
-          const details: FeedbackContributionResponseDetails =
-              form.responseDetails as FeedbackContributionResponseDetails;
-          if (details.answer === CONTRIBUTION_POINT_NOT_SUBMITTED) {
-            return 0;
-          }
-          return details.answer;
-        });
+    return this.recipientSubmissionForms.map((form: FeedbackResponseRecipientSubmissionFormModel) => {
+      const details: FeedbackContributionResponseDetails = form.responseDetails as FeedbackContributionResponseDetails;
+      if (details.answer === CONTRIBUTION_POINT_NOT_SUBMITTED) {
+        return 0;
+      }
+      return details.answer;
+    });
   }
 
   /**
@@ -100,7 +98,22 @@ export class ContributionQuestionConstraintComponent
         || (this.isAllFormsAnswered && this.isAllContributionsDistributed);
   }
 
-  toFloor(num: number): number {
-    return Math.floor(num);
+  get currentTotalString(): String {
+    if (this.totalAnsweredContributions === 0) {
+      return '0%';
+    }
+    if (this.totalAnsweredContributions / 100 < 1) {
+      return `1 x Equal Share - ${100 - this.totalAnsweredContributions % 100}%`;
+    }
+    if (this.totalAnsweredContributions % 100 === 0) {
+      return `${Math.floor(this.totalAnsweredContributions / 100)} x Equal Share`;
+    }
+    return `${Math.floor(this.totalAnsweredContributions / 100)} x Equal Share +  
+        ${this.totalAnsweredContributions % 100}%`;
   }
+
+  get expectedTotalString(): String {
+    return `${this.totalRequiredContributions / 100} x Equal Share`;
+  }
+
 }
