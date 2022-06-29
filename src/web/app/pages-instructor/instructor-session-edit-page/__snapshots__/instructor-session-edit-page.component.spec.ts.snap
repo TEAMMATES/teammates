@@ -37,7 +37,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -123,7 +122,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -209,7 +207,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -298,7 +295,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -384,7 +380,6 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -470,7 +465,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -2880,7 +2874,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
