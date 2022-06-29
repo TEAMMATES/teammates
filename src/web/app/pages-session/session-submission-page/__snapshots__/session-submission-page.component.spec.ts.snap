@@ -1971,7 +1971,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               value="0: -999"
                             />
                             <option
-                              class="color-neutral font-weight-bold"
+                              class="color-positive font-weight-bold"
                               value="1: 100"
                             >
                               Equal share
@@ -4337,7 +4337,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               value="0: -999"
                             />
                             <option
-                              class="color-neutral font-weight-bold"
+                              class="color-positive font-weight-bold"
                               value="1: 100"
                             >
                               Equal share
