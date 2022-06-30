@@ -16,7 +16,7 @@
         <input id="weights-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
                [disabled]="!isEditable"
                (ngModelChange)="triggerWeightsColumn($event)">
-        <b>Options are weighted</b>
+        <b class="margin-left-2px">Options are weighted</b>
       </label>
     </div>
     <div *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled"
