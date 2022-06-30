@@ -1156,4 +1156,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       window.scrollTo({ top: y, behavior: 'smooth' });
     }, 0);
   }
+
+  scrollToTopOfPage(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

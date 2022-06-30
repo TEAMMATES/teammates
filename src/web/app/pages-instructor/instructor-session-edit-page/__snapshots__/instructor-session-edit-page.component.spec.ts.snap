@@ -2662,6 +2662,14 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           </div>
         </tm-question-edit-form>
       </div>
+      <a
+        class="d-block text-right cursor-pointer"
+      >
+         Back to Top 
+        <i
+          class="fas fa-arrow-up"
+        />
+      </a>
     </div>
     <div />
     <br />
@@ -3554,6 +3562,14 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
     </tm-session-edit-form>
   </tm-loading-retry><tm-loading-retry>
     <div>
+      <a
+        class="d-block text-right cursor-pointer"
+      >
+         Back to Top 
+        <i
+          class="fas fa-arrow-up"
+        />
+      </a>
     </div>
     <div />
     <br />
