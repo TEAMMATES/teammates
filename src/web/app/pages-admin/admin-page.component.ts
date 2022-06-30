@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -58,7 +57,7 @@ export class AdminPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private router: Router, private authService: AuthService, private navigationService: NavigationService) {}
+  constructor(private authService: AuthService, private navigationService: NavigationService) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
@@ -71,7 +70,7 @@ export class AdminPageComponent implements OnInit {
         this.isMaintainer = res.user.isMaintainer;
         if (!this.isAdmin) {
           // User is not a valid admin; redirect to home page.
-          this.navigationService.navigateWithErrorMessage(this.router, '/web',
+          this.navigationService.navigateWithErrorMessage('/web',
               'You are not authorized to view the page.');
         }
       } else {
@@ -79,7 +78,7 @@ export class AdminPageComponent implements OnInit {
       }
       this.isFetchingAuthDetails = false;
     }, () => {
-      this.navigationService.navigateWithErrorMessage(this.router, '/web',
+      this.navigationService.navigateWithErrorMessage('/web',
           'You are not authorized to view the page.');
     });
   }
