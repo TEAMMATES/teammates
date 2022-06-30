@@ -45,6 +45,7 @@ export abstract class InstructorSessionResultView {
   @Input() isExpandAll: boolean = false;
 
   @Output() toggleAndLoadTab: EventEmitter<string> = new EventEmitter<string>();
+  @Output() loadTab: EventEmitter<string> = new EventEmitter<string>();
 
   @Output() instructorCommentTableModelChange: EventEmitter<Record<string, CommentTableModel>> = new EventEmitter();
   @Output() saveNewCommentEvent: EventEmitter<string> = new EventEmitter();
