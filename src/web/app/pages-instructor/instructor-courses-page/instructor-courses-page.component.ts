@@ -481,18 +481,20 @@ export class InstructorCoursesPageComponent implements OnInit {
     return modalRef.result.then(() => {
       if (courseFromAllInstitute === 1) {
         modalContentCnf = `This is your last course on TEAMMATES for which you have instructor access. 
-        Deleting this course will remove your instructor access to TEAMMATES.<br>
+        Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
         Are you sure you want to delete the course <strong>${courseId}</strong>?`;
       } else if (courseFromSameInstitute === 1) {
         modalContentCnf = `If you delete all courses of institute <strong>${inst}</strong>, 
-        you will lose instructor access to TEAMMATES under the institution <strong>${inst}</strong>. 
+        you will <mark><strong>lose instructor access</strong></mark> 
+        to TEAMMATES under the institution <strong>${inst}</strong>. 
         To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
         Are you sure you want to delete the course <strong>${courseId}</strong> in institution 
         <strong>${inst}</strong>?`;
       }
       if (courseFromAllInstitute === 1 || courseFromSameInstitute === 1) {
         return this.simpleModalService.openConfirmationModal(
-      'This action will cause you to lose access to TEAMMATES!', SimpleModalType.DANGER, modalContentCnf).result;
+      'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+      SimpleModalType.DANGER, modalContentCnf).result;
       }
       return Promise.resolve();
   }).then(() => {
@@ -541,11 +543,12 @@ export class InstructorCoursesPageComponent implements OnInit {
       if (lastCourseRemaining) {
         const modalContentCnf: string =
         `These are your last courses registered on TEAMMATES for which you have instructor access. 
-          Deleting these courses will remove your instructor access to TEAMMATES.<br>
+          Deleting these courses will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
           Are you sure you want to permanently delete these courses?`;
 
         return this.simpleModalService.openConfirmationModal(
-          'This action will cause you to lose access to TEAMMATES!', SimpleModalType.DANGER, modalContentCnf).result;
+          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+          SimpleModalType.DANGER, modalContentCnf).result;
       }
       return Promise.resolve();
     }).then(() => {
