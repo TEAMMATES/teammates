@@ -3,7 +3,6 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -17,6 +16,7 @@ import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionRecipientAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -1023,7 +1023,7 @@ public class Logic {
      *
      * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
      */
-    public Map<String, String> getRecipientsOfQuestion(
+    public List<FeedbackQuestionRecipientAttributes> getRecipientsOfQuestion(
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver) {
         assert question != null;

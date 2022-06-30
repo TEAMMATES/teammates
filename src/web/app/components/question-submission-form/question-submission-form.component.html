@@ -58,7 +58,7 @@
                       [disabled]="isFormsDisabled">
                 <option value=""></option>
                 <ng-container *ngFor="let recipient of model.recipientList">
-                  <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ recipient.recipientName }}</option>
+                  <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLable(recipient) }}</option>
                 </ng-container>
               </select>
               <div class="col-auto text-left">

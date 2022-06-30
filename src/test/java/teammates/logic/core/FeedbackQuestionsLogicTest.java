@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,6 +15,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionRecipientAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -89,7 +91,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         StudentAttributes studentGiver;
         InstructorAttributes instructorGiver;
         CourseRoster courseRoster;
-        Map<String, String> recipients;
+        List<FeedbackQuestionRecipientAttributes> recipients;
+        Map<String, String> recipientsMap;
 
         ______TS("response to students, total 5");
 
@@ -149,13 +152,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
         assertEquals(recipients.size(), 1);
-        assertTrue(recipients.containsKey(studentGiver.getTeam()));
-        assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
+        assertTrue(recipientsMap.containsKey(studentGiver.getTeam()));
+        assertEquals(recipientsMap.get(studentGiver.getTeam()), studentGiver.getTeam());
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
         assertEquals(recipients.size(), 1);
-        assertTrue(recipients.containsKey(studentGiver.getTeam()));
-        assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
+        assertTrue(recipientsMap.containsKey(studentGiver.getTeam()));
+        assertEquals(recipientsMap.get(studentGiver.getTeam()), studentGiver.getTeam());
 
         ______TS("response to other teams from instructor");
         question = getQuestionFromDatabase("team.instructor.feedback");
@@ -189,10 +194,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
-        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
+        assertEquals(recipientsMap.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
         assertEquals(recipients.size(), 1);
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
-        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
+        assertEquals(recipientsMap.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
         assertEquals(recipients.size(), 1);
 
         ______TS("to self");
@@ -203,10 +210,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
-        assertEquals(recipients.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
+        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
+        assertEquals(recipientsMap.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
-        assertEquals(recipients.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
+        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
+        assertEquals(recipientsMap.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
     }
 

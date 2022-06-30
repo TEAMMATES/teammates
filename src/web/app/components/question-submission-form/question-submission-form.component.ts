@@ -12,6 +12,7 @@ import { VisibilityControl } from '../../../types/visibility-control';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import {
+  FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
@@ -60,6 +61,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
     this.allowedToHaveParticipantComment =
         this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
+    this.recipientLabelType = this.getSelectionLabelType(model.recipientType);
   }
 
   @Output()
@@ -95,6 +97,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
     showRecipientNameTo: [],
     showResponsesTo: [],
   };
+
+  recipientLabelType : FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
@@ -254,4 +258,34 @@ export class QuestionSubmissionFormComponent implements OnInit {
     this.responsesSave.emit(this.model);
   }
 
+  /**
+   * Returns the respective {@code FeedbackRecipientLabelType}
+   */
+  getSelectionLabelType(recipientType: FeedbackParticipantType): FeedbackRecipientLabelType {
+    switch (recipientType) {
+      case FeedbackParticipantType.STUDENTS:
+      case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
+        return FeedbackRecipientLabelType.INCLUDE_SECTION;
+      case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
+        return FeedbackRecipientLabelType.INCLUDE_TEAM;
+      default:
+        return FeedbackRecipientLabelType.INCLUDE_NAME;
+    }
+  }
+
+  /**
+   * Returns the Selection Option label as per the recipientType.
+   */
+  getSelectionOptionLable(recipient: FeedbackResponseRecipient): string {
+    switch (this.recipientLabelType) {
+      case FeedbackRecipientLabelType.INCLUDE_SECTION:
+        return `${recipient.recipientSection} | ${recipient.recipientTeam} | ${recipient.recipientName}`;
+      case FeedbackRecipientLabelType.INCLUDE_TEAM:
+        return `${recipient.recipientTeam} | ${recipient.recipientName}`;
+      case FeedbackRecipientLabelType.INCLUDE_NAME:
+        return recipient.recipientName;
+      default:
+        return 'Unkonwn';
+    }
+  }
 }

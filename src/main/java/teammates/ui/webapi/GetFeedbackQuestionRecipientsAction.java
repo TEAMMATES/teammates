@@ -1,8 +1,9 @@
 package teammates.ui.webapi;
 
-import java.util.Map;
+import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionRecipientAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -57,8 +58,7 @@ class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmissionAction 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
 
-        Map<String, String> recipient;
-
+        List<FeedbackQuestionRecipientAttributes> recipient;
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(question.getCourseId());
