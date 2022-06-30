@@ -122,7 +122,45 @@
     </tm-loading-retry>
     <button id="paste" [hidden]="true" (click)="showPasteModalBox()"></button> <!-- Acts as a medium to send the modal box into the JS file -->
 
-    <div class="more-info" #moreInfo [hidden]="showEnrollResults">
+    <div id="results-panel" *ngIf="coursePresent && showEnrollResults">
+      <h1 class="text-break">Enrollment Results for {{ courseId }}</h1>
+      <div *ngFor="let enrollResultPanel of enrollResultPanelList">
+        <div class="card enroll-results-panel" *ngIf="enrollResultPanel.studentList.length > 0">
+          <div class="card-header" [ngClass]="{'bg-success': enrollResultPanel.status === EnrollStatus.NEW,
+           'bg-warning': enrollResultPanel.status === EnrollStatus.MODIFIED,
+           'bg-secondary': enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED,
+           'bg-danger': enrollResultPanel.status === EnrollStatus.ERROR,
+           'bg-default': enrollResultPanel.status === EnrollStatus.UNMODIFIED}" [style.color]="enrollResultPanel.status ===
+           EnrollStatus.NEW || enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED ? 'white' : 'black' ">
+            {{ enrollResultPanel.messageForEnrollmentStatus }}
+          </div>
+          <table class="table table-striped table-bordered table-responsive-lg">
+            <thead>
+              <tr>
+                <th>Section</th>
+                <th>Team</th>
+                <th>Student Name</th>
+                <th>E-mail address</th>
+                <th>Comments</th>
+                <th *ngIf="enrollResultPanel.status === EnrollStatus.ERROR">Errors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of enrollResultPanel.studentList">
+                <td>{{ student.sectionName }}</td>
+                <td>{{ student.teamName }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.comments }}</td>
+                <td *ngIf="enrollResultPanel.status === EnrollStatus.ERROR">{{ unsuccessfulEnrolls[student.email] }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="more-info" #moreInfo>
       <h2> More info </h2>
       <hr>
       <ul>
@@ -247,41 +285,3 @@
     </div>
   </div>
 </tm-loading-retry>
-<hr>
-<div id="results-panel" *ngIf="coursePresent && showEnrollResults">
-  <h1 class="text-break">Enrollment Results for {{ courseId }}</h1>
-  <div *ngFor="let enrollResultPanel of enrollResultPanelList">
-    <div class="card enroll-results-panel" *ngIf="enrollResultPanel.studentList.length > 0">
-      <div class="card-header" [ngClass]="{'bg-success': enrollResultPanel.status === EnrollStatus.NEW,
-       'bg-warning': enrollResultPanel.status === EnrollStatus.MODIFIED,
-       'bg-secondary': enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED,
-       'bg-danger': enrollResultPanel.status === EnrollStatus.ERROR,
-       'bg-default': enrollResultPanel.status === EnrollStatus.UNMODIFIED}" [style.color]="enrollResultPanel.status ===
-       EnrollStatus.NEW || enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED ? 'white' : 'black' ">
-        {{ enrollResultPanel.messageForEnrollmentStatus }}
-      </div>
-      <table class="table table-striped table-bordered table-responsive-lg">
-        <thead>
-          <tr>
-            <th>Section</th>
-            <th>Team</th>
-            <th>Student Name</th>
-            <th>E-mail address</th>
-            <th>Comments</th>
-            <th *ngIf="enrollResultPanel.status === EnrollStatus.ERROR">Errors</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of enrollResultPanel.studentList">
-            <td>{{ student.sectionName }}</td>
-            <td>{{ student.teamName }}</td>
-            <td>{{ student.name }}</td>
-            <td>{{ student.email }}</td>
-            <td>{{ student.comments }}</td>
-            <td *ngIf="enrollResultPanel.status === EnrollStatus.ERROR">{{ unsuccessfulEnrolls[student.email] }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
