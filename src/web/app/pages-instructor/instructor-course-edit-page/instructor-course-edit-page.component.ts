@@ -805,7 +805,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   /**
    * Verifies that no two selected instructors have the same email addresses and any selected instructor's
-   * email addresses already exists in the course.
+   * email addresses already exists in the course. Shows an error toast and returns false if the verification fails.
    */
   verifyInstructorsToCopy(instructors: Instructor[]): Observable<boolean> {
     return forkJoin([
@@ -814,23 +814,20 @@ export class InstructorCourseEditPageComponent implements OnInit {
         intent: Intent.FULL_DETAIL,
       }),
     ]).pipe(
-      map((values: [Instructors]) => this.hasNoRepeatedEmail(instructors.concat(values[0].instructors))),
+      map((values: [Instructors]) => {
+        const allInstructorsAfterCopy: Instructor[] = instructors.concat(values[0].instructors);
+        const emailSet: Set<string> = new Set();
+        for (const instructor of allInstructorsAfterCopy) {
+          if (emailSet.has(instructor.email)) {
+            this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} 
+            already exists in the course and/or you have selected more than one instructor with this email address.`);
+            return false;
+          }
+          emailSet.add(instructor.email);
+        }
+        return true;
+      }),
     );
   }
 
-  /**
-   * Checks if the specified array contains two instructors with the same email address.
-   */
-  hasNoRepeatedEmail(instructors: Instructor[]): boolean {
-    const emailSet: Set<string> = new Set();
-    for (const instructor of instructors) {
-      if (emailSet.has(instructor.email)) {
-        this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} 
-        already exists in the course and/or you have selected more than one instructor with this email address.`);
-        return false;
-      }
-      emailSet.add(instructor.email);
-    }
-    return true;
-  }
 }
