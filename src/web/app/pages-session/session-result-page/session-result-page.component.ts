@@ -29,6 +29,11 @@ import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-a
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
+export interface QuestionOutputModel {
+  questionOutput: QuestionOutput;
+  isLoading: boolean;
+}
+
 /**
  * Feedback session result page.
  */
@@ -60,7 +65,7 @@ export class SessionResultPageComponent implements OnInit {
     studentDeadlines: {},
     instructorDeadlines: {},
   };
-  questions: QuestionOutput[] = [];
+  questions: QuestionOutputModel[] = [];
   courseName: string = '';
   courseInstitute: string = '';
   formattedSessionOpeningTime: string = '';
@@ -261,9 +266,20 @@ export class SessionResultPageComponent implements OnInit {
             this.isFeedbackSessionResultsLoading = false;
           }))
           .subscribe((sessionResults: SessionResults) => {
-            this.questions = sessionResults.questions.sort(
-                (a: QuestionOutput, b: QuestionOutput) =>
-                    a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+            // this.questions = sessionResults.questions.sort(
+            //     (a: QuestionOutput, b: QuestionOutput) =>
+            //         a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+            var i = 0;
+            for (const question of sessionResults.questions) {
+              this.questions[i] = {
+                questionOutput: question,
+                isLoading: false,
+              };
+              i = i + 1;
+            }
+            this.questions.sort(
+              (a: QuestionOutputModel, b: QuestionOutputModel) =>
+                  a.questionOutput.feedbackQuestion.questionNumber - b.questionOutput.feedbackQuestion.questionNumber);
           }, (resp: ErrorMessageOutput) => {
             this.handleError(resp);
           });

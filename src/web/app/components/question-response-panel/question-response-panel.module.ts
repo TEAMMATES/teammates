@@ -8,6 +8,7 @@ import {
 import { QuestionTextWithInfoModule } from '../question-text-with-info/question-text-with-info.module';
 
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
+import { InViewportModule } from 'ng-in-viewport';
 
 /**
  * Question Response Panel module.
@@ -18,6 +19,7 @@ import { QuestionResponsePanelComponent } from './question-response-panel.compon
     QuestionTextWithInfoModule,
     SingleStatisticsModule,
     StudentViewResponsesModule,
+    InViewportModule,
   ],
   declarations: [
     QuestionResponsePanelComponent,

@@ -4,11 +4,11 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  QuestionOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
+import { QuestionOutputModel } from '../../pages-session/session-result-page/session-result-page.component';
 
 /**
  * Displaying the question response panel.
@@ -25,7 +25,7 @@ export class QuestionResponsePanelComponent {
   ];
 
   @Input()
-  questions: QuestionOutput[] = [];
+  questions: QuestionOutputModel[] = [];
 
   @Input()
   session: FeedbackSession = {
@@ -50,8 +50,8 @@ export class QuestionResponsePanelComponent {
   @Input()
   intent: Intent = Intent.STUDENT_RESULT;
 
-  canUserSeeResponses(question: QuestionOutput): boolean {
-    const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
+  canUserSeeResponses(question: QuestionOutputModel): boolean {
+    const showResponsesTo: FeedbackVisibilityType[] = question.questionOutput.feedbackQuestion.showResponsesTo;
 
     if (this.intent === Intent.STUDENT_RESULT) {
       return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
@@ -64,4 +64,8 @@ export class QuestionResponsePanelComponent {
     return false;
   }
 
+  setLoading(questionOutputModel: QuestionOutputModel): void {
+      questionOutputModel.isLoading = true;
+      console.log("test");
+  }
 }
