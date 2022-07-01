@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { environment } from '../environments/environment';
+// import { environment } from '../environments/environment';
 import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
@@ -32,7 +32,7 @@ export class UserJoinPageComponent implements OnInit {
   key: string = '';
   userId: string = '';
 
-  private backendUrl: string = environment.backendUrl;
+  // private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
               private accountService: AccountService,
@@ -58,11 +58,22 @@ export class UserJoinPageComponent implements OnInit {
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         if (!auth.user) {
           this.isLoading = false;
+          // if (environment.production) {
           if (this.entityType === 'student') {
-            window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            // somehow the nextUrl query param in nextUrl query param disappears after redirection
+            this.navigationService.navigateByURL('/web/login',
+                { nextUrl: auth.studentLoginUrl!.split('nextUrl=')[1] });
           } else if (this.entityType === 'instructor') {
-            window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+            this.navigationService.navigateByURL('/web/login',
+                { nextUrl: auth.instructorLoginUrl!.split('nextUrl=')[1] });
           }
+          // } else {
+          //   if (this.entityType === 'student') {
+          //     window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+          //   } else if (this.entityType === 'instructor') {
+          //     window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+          //   }
+          // }
           return;
         }
         this.userId = auth.user.id;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
@@ -68,7 +69,10 @@ class GetAuthInfoAction extends Action {
     }
 
     String createLoginUrl(String frontendUrl, String nextUrl) {
-        return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
+//        if (Config.isDevServerLoginEnabled()) {
+//            return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
+//        }
+        return Const.WebPageURIs.LOGIN_PAGE + "?nextUrl=" + frontendUrl + nextUrl;
     }
 
 }

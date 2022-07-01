@@ -82,7 +82,7 @@ export class SessionResultPageComponent implements OnInit {
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
-  private backendUrl: string = environment.backendUrl;
+  // private backendUrl: string = environment.backendUrl;
 
   constructor(private feedbackSessionsService: FeedbackSessionsService,
               private route: ActivatedRoute,
@@ -146,11 +146,22 @@ export class SessionResultPageComponent implements OnInit {
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
                 // eslint-disable-next-line no-lonely-if
+                // if (environment.production) {
                 if (this.entityType === 'student') {
-                  window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                  // somehow the nextUrl query param in nextUrl query param disappears after redirection
+                  this.navigationService.navigateByURL('/web/login',
+                      { nextUrl: auth.studentLoginUrl!.split('nextUrl=')[1] });
                 } else if (this.entityType === 'instructor') {
-                  window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+                  this.navigationService.navigateByURL('/web/login',
+                      { nextUrl: auth.instructorLoginUrl!.split('nextUrl=')[1] });
                 }
+                // } else {
+                //   if (this.entityType === 'student') {
+                //     window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                //   } else if (this.entityType === 'instructor') {
+                //     window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+                //   }
+                // }
               }
             } else {
               // The registration key is invalid

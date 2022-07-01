@@ -8,6 +8,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -74,7 +75,7 @@ export class PageComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
               private ngbModal: NgbModal, location: Location,
-              private statusMessageService: StatusMessageService) {
+              private statusMessageService: StatusMessageService, private afAuth: AngularFireAuth) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -150,6 +151,12 @@ export class PageComponent {
    */
   getUrl(): string {
     return this.router.url;
+  }
+
+  logout(): void {
+    // if (environment.production) {
+      this.afAuth.signOut();
+    // }
   }
 }
 

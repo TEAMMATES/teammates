@@ -262,6 +262,7 @@ public final class Const {
         private static final String MAINTAINER_PAGE = URI_PREFIX + "/" + EntityType.MAINTAINER;
         private static final String FRONT_PAGE = URI_PREFIX + "/front";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
+        public static final String LOGIN_PAGE = URI_PREFIX + "/login";
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_ACCOUNTS_PAGE = ADMIN_PAGE + "/accounts";

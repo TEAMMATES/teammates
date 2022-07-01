@@ -55,7 +55,8 @@ export class AdminPageComponent implements OnInit {
   ];
   isFetchingAuthDetails: boolean = false;
 
-  private backendUrl: string = environment.backendUrl;
+  // private backendUrl: string = environment.backendUrl;
+  private frontendUrl: string = environment.frontendUrl;
 
   constructor(private authService: AuthService, private navigationService: NavigationService) {}
 
@@ -74,7 +75,11 @@ export class AdminPageComponent implements OnInit {
               'You are not authorized to view the page.');
         }
       } else {
-        window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
+        // if (environment.production) {
+          window.location.href = `${this.frontendUrl}${res.adminLoginUrl}`;
+        // } else {
+        //   window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
+        // }
       }
       this.isFetchingAuthDetails = false;
     }, () => {

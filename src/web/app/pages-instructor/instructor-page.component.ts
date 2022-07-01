@@ -51,7 +51,8 @@ export class InstructorPageComponent implements OnInit {
   isFetchingAuthDetails: boolean = false;
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.INSTRUCTOR;
 
-  private backendUrl: string = environment.backendUrl;
+  // private backendUrl: string = environment.backendUrl;
+  private frontendUrl: string = environment.frontendUrl;
 
   constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
@@ -69,7 +70,11 @@ export class InstructorPageComponent implements OnInit {
           this.isAdmin = res.user.isAdmin;
           this.isMaintainer = res.user.isMaintainer;
         } else {
-          window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
+          // if (environment.production) {
+            window.location.href = `${this.frontendUrl}${res.instructorLoginUrl}`;
+          // } else {
+          //   window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
+          // }
         }
         this.isFetchingAuthDetails = false;
       }, () => {

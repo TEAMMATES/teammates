@@ -109,7 +109,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
-  private backendUrl: string = environment.backendUrl;
+  // private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -417,11 +417,22 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         } else if (resp.status === 403) {
           if (loginRequired && !auth.user) {
             // There is no logged in user for a valid, used registration key, redirect to login page
-            if (this.entityType === 'student') {
-              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-            } else if (this.entityType === 'instructor') {
-              window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
-            }
+            // if (environment.production) {
+              if (this.entityType === 'student') {
+                // somehow the nextUrl query param in nextUrl query param disappears after redirection
+                this.navigationService.navigateByURL('/web/login',
+                    { nextUrl: auth.studentLoginUrl!.split('nextUrl=')[1] });
+              } else if (this.entityType === 'instructor') {
+                this.navigationService.navigateByURL('/web/login',
+                    { nextUrl: auth.instructorLoginUrl!.split('nextUrl=')[1] });
+              }
+            // } else {
+            //   if (this.entityType === 'student') {
+            //     window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            //   } else if (this.entityType === 'instructor') {
+            //     window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+            //   }
+            // }
           } else {
             this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
                 resp.error.message,

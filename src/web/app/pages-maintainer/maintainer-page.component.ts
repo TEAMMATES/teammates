@@ -35,7 +35,8 @@ export class MaintainerPageComponent implements OnInit {
   ];
   isFetchingAuthDetails: boolean = false;
 
-  private backendUrl: string = environment.backendUrl;
+  // private backendUrl: string = environment.backendUrl;
+  private frontendUrl: string = environment.frontendUrl;
 
   constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
@@ -53,7 +54,11 @@ export class MaintainerPageComponent implements OnInit {
           this.isAdmin = res.user.isAdmin;
           this.isMaintainer = res.user.isMaintainer;
         } else {
-          window.location.href = `${this.backendUrl}${res.maintainerLoginUrl}`;
+          // if (environment.production) {
+            window.location.href = `${this.frontendUrl}${res.maintainerLoginUrl}`;
+          // } else {
+          //   window.location.href = `${this.backendUrl}${res.maintainerLoginUrl}`;
+          // }
         }
         this.isFetchingAuthDetails = false;
       }, () => {

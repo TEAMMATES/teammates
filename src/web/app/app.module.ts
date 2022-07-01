@@ -1,11 +1,14 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Provider } from '@angular/core';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgbDatepickerModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { firebase, FirebaseUIModule } from 'firebaseui-angular';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { environment } from '../environments/environment';
 import { Intent } from '../types/api-request';
@@ -46,6 +49,11 @@ let routes: Routes = [
         path: 'join',
         component: PublicPageComponent,
         loadChildren: () => import('./user-join-page.module').then((m: any) => m.UserJoinPageModule),
+      },
+      {
+        path: 'login',
+        component: PublicPageComponent,
+        loadChildren: () => import('./login-page.module').then((m: any) => m.LoginPageModule),
       },
       {
         path: 'sessions',
@@ -131,6 +139,19 @@ if (environment.maintenance) {
   ];
 }
 
+const firebaseUiAuthConfig: firebaseui.auth.Config = {
+  signInOptions: [
+    {
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      scopes: ['https://www.googleapis.com/auth/userinfo.email'],
+    },
+    {
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+    },
+  ],
+};
+
 /**
  * Root module.
  */
@@ -168,6 +189,9 @@ if (environment.maintenance) {
     FormsModule,
     NgbDatepickerModule,
     SessionEditFormModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
   ],
   providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],

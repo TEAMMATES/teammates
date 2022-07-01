@@ -33,78 +33,95 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        StringBuffer buf = req.getRequestURL();
-        if (req.getQueryString() != null) {
-            buf.append('?').append(req.getQueryString());
-        }
-        AuthorizationCodeResponseUrl responseUrl =
-                new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
-        if (responseUrl.getError() != null) {
-            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, responseUrl.getError());
+//        StringBuffer buf = req.getRequestURL();
+//        if (req.getQueryString() != null) {
+//            buf.append('?').append(req.getQueryString());
+//        }
+//        AuthorizationCodeResponseUrl responseUrl =
+//                new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
+//        if (responseUrl.getError() != null) {
+//            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, responseUrl.getError());
+//            return;
+//        }
+//        String code = responseUrl.getCode();
+//        String state = responseUrl.getState();
+//        if (code == null || state == null) {
+//            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing authorization code");
+//            return;
+//        }
+//
+//        String nextUrl = "/";
+//        try {
+//            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
+//            if (authState.getNextUrl() != null) {
+//                nextUrl = authState.getNextUrl();
+//            }
+//            String sessionId = authState.getSessionId();
+//            if (!sessionId.equals(req.getSession().getId())) {
+//                // Invalid session ID
+//                log.warning(String.format("Different session ID: expected %s, got %s",
+//                        sessionId, req.getSession().getId()));
+//                logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
+//                return;
+//            }
+//        } catch (JsonParseException | InvalidParametersException e) {
+//            log.warning("Failed to parse state object", e);
+//            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
+//            return;
+//        }
+//
+//        String redirectUri = getRedirectUri(req);
+//        TokenResponse token = getAuthorizationFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
+//        String googleId = null;
+//        try {
+//            String userInfoResponse = HttpRequest.executeGetRequest(
+//                    new URI("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token="
+//                            + token.getAccessToken()));
+//
+//            Map<String, Object> parsedResponse =
+//                    JsonUtils.fromJson(userInfoResponse, new TypeToken<Map<String, Object>>(){}.getType());
+//            if (parsedResponse.containsKey("email")) {
+//                String email = String.valueOf(parsedResponse.get("email"));
+//                googleId = email.replaceFirst("@gmail\\.com$", "");
+//            }
+//        } catch (URISyntaxException | IOException | JsonSyntaxException e) {
+//            // if any of the operation fail, googleId is kept at null
+//            log.warning("Failed to get Google ID", e);
+//        }
+//
+//        Cookie cookie;
+//        if (googleId == null) {
+//            // invalid google ID
+//            req.getSession().invalidate();
+//
+//            cookie = getLoginInvalidationCookie();
+//        } else {
+//            UserInfoCookie uic = new UserInfoCookie(googleId);
+//            cookie = getLoginCookie(uic);
+//        }
+//
+//        log.info("Going to redirect to: " + nextUrl);
+//
+//        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Login successful");
+//
+//        resp.addCookie(cookie);
+//        resp.sendRedirect(nextUrl);
+
+        String email = req.getParameter("email");
+        if (email == null) {
             return;
         }
-        String code = responseUrl.getCode();
-        String state = responseUrl.getState();
-        if (code == null || state == null) {
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing authorization code");
-            return;
-        }
 
-        String nextUrl = "/";
-        try {
-            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
-            if (authState.getNextUrl() != null) {
-                nextUrl = authState.getNextUrl();
-            }
-            String sessionId = authState.getSessionId();
-            if (!sessionId.equals(req.getSession().getId())) {
-                // Invalid session ID
-                log.warning(String.format("Different session ID: expected %s, got %s",
-                        sessionId, req.getSession().getId()));
-                logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
-                return;
-            }
-        } catch (JsonParseException | InvalidParametersException e) {
-            log.warning("Failed to parse state object", e);
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
-            return;
-        }
-
-        String redirectUri = getRedirectUri(req);
-        TokenResponse token = getAuthorizationFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
-        String googleId = null;
-        try {
-            String userInfoResponse = HttpRequest.executeGetRequest(
-                    new URI("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token="
-                            + token.getAccessToken()));
-
-            Map<String, Object> parsedResponse =
-                    JsonUtils.fromJson(userInfoResponse, new TypeToken<Map<String, Object>>(){}.getType());
-            if (parsedResponse.containsKey("email")) {
-                String email = String.valueOf(parsedResponse.get("email"));
-                googleId = email.replaceFirst("@gmail\\.com$", "");
-            }
-        } catch (URISyntaxException | IOException | JsonSyntaxException e) {
-            // if any of the operation fail, googleId is kept at null
-            log.warning("Failed to get Google ID", e);
-        }
-
-        Cookie cookie;
-        if (googleId == null) {
-            // invalid google ID
-            req.getSession().invalidate();
-
-            cookie = getLoginInvalidationCookie();
-        } else {
-            UserInfoCookie uic = new UserInfoCookie(googleId);
-            cookie = getLoginCookie(uic);
-        }
-
-        log.info("Going to redirect to: " + nextUrl);
-
-        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Login successful");
-
+        UserInfoCookie uic = new UserInfoCookie(email.replaceFirst("@gmail\\.com$", ""));
+        Cookie cookie = getLoginCookie(uic);
         resp.addCookie(cookie);
+
+        String nextUrl = req.getParameter("nextUrl");
+        if (nextUrl == null) {
+            nextUrl = "/";
+        }
+        // Prevent HTTP response splitting
+        nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
         resp.sendRedirect(nextUrl);
     }
 
