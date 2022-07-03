@@ -162,9 +162,9 @@
 
     <div class="col-12 constraint-margins">
       <tm-contribution-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"
-                                                  [recipientSubmissionForms]="model.recipientSubmissionForms"
-                                                  [questionDetails]="model.questionDetails"
-                                                  (isValidEvent)="updateValidity($event)"
+                                           [recipientSubmissionForms]="model.recipientSubmissionForms"
+                                           [questionDetails]="model.questionDetails"
+                                           (isValidEvent)="updateValidity($event)"
       ></tm-contribution-question-constraint>
       <tm-rank-recipients-question-constraint *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS"
                                               [recipientSubmissionForms]="model.recipientSubmissionForms"

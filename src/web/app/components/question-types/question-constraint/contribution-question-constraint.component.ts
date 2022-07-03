@@ -25,9 +25,6 @@ export class ContributionQuestionConstraintComponent
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
-  /**
-   * Checks if all forms are answered.
-   */
   get isAllFormsAnswered(): boolean {
     return this.recipientSubmissionForms.every((form: FeedbackResponseRecipientSubmissionFormModel) => {
       const details: FeedbackContributionResponseDetails = form.responseDetails as FeedbackContributionResponseDetails;
