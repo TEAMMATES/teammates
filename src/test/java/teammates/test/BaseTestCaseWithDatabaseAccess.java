@@ -270,8 +270,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     protected abstract NotificationAttributes getNotification(NotificationAttributes notification);
 
-    protected abstract void syncFeedbackSessionLogEntries();
-
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
         boolean isOperationSuccess = doRemoveAndRestoreDataBundle(testData);

@@ -336,7 +336,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
                 deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor());
     }
 
-    @Override
+    /**
+     * Sync feedback session logs from GCloud Logging Service.
+     */
     protected void syncFeedbackSessionLogEntries() {
         BACKDOOR.syncFeedbackSessionLogEntries();
     }
