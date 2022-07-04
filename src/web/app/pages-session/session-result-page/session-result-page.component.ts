@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
+import { FeedbackQuestionsService } from 'src/web/services/feedback-questions.service';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -16,12 +17,14 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
   Course,
+  FeedbackQuestion,
+  FeedbackQuestions,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
-  QuestionOutput, RegkeyValidity,
+  RegkeyValidity,
+  ResponseOutput,
   ResponseVisibleSetting,
-  SessionResults,
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
@@ -29,14 +32,20 @@ import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-a
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-export interface QuestionOutputModel {
-  questionOutput: QuestionOutput;
-  isLoading: boolean;
-}
-
 /**
  * Feedback session result page.
  */
+export interface FeedbackQuestionModel {
+  feedbackQuestion: FeedbackQuestion;
+  questionStatistics: string;
+  allResponses: ResponseOutput[];
+  responsesToSelf: ResponseOutput[];
+  responsesFromSelf: ResponseOutput[];
+  otherResponses: ResponseOutput[][];
+  isLoading: boolean;
+  isLoaded: boolean;
+}
+
 @Component({
   selector: 'tm-session-result-page',
   templateUrl: './session-result-page.component.html',
@@ -65,7 +74,7 @@ export class SessionResultPageComponent implements OnInit {
     studentDeadlines: {},
     instructorDeadlines: {},
   };
-  questions: QuestionOutputModel[] = [];
+  questions: FeedbackQuestionModel[] = [];
   courseName: string = '';
   courseInstitute: string = '';
   formattedSessionOpeningTime: string = '';
@@ -89,7 +98,8 @@ export class SessionResultPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private feedbackSessionsService: FeedbackSessionsService,
+  constructor(private feedbackQuestionsService: FeedbackQuestionsService,
+              private feedbackSessionsService: FeedbackSessionsService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
               private navigationService: NavigationService,
@@ -256,30 +266,32 @@ export class SessionResultPageComponent implements OnInit {
           .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
       this.formattedSessionClosingTime = this.timezoneService
           .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
-      this.feedbackSessionsService.getFeedbackSessionResults({
+      this.feedbackQuestionsService.getFeedbackQuestions({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
-        intent: this.intent,
-        key: this.regKey,
-      })
-          .pipe(finalize(() => {
-            this.isFeedbackSessionResultsLoading = false;
-          }))
-          .subscribe((sessionResults: SessionResults) => {
-            // this.questions = sessionResults.questions.sort(
-            //     (a: QuestionOutput, b: QuestionOutput) =>
-            //         a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-            var i = 0;
-            for (const question of sessionResults.questions) {
-              this.questions[i] = {
-                questionOutput: question,
+        intent: Intent.FULL_DETAIL,
+      }).pipe(finalize(() => {
+          this.isFeedbackSessionResultsLoading = false;
+        }))
+        .subscribe((feedbackQuestions: FeedbackQuestions) => {
+            feedbackQuestions.questions.sort(
+                (a: FeedbackQuestion, b: FeedbackQuestion) =>
+                    a.questionNumber - b.questionNumber);
+            for (const question of feedbackQuestions.questions) {
+              this.questions.push({
+                feedbackQuestion: question,
+                questionStatistics: '',
+                allResponses: [],
+                responsesToSelf: [],
+                responsesFromSelf: [],
+                otherResponses: [],
                 isLoading: false,
-              };
-              i = i + 1;
+                isLoaded: false,
+              });
             }
-            this.questions.sort(
-              (a: QuestionOutputModel, b: QuestionOutputModel) =>
-                  a.questionOutput.feedbackQuestion.questionNumber - b.questionOutput.feedbackQuestion.questionNumber);
+            // this.questions.sort(
+            //   (a: FeedbackQuestionModel, b: FeedbackQuestionModel) =>
+            //       a.questionOutput.feedbackQuestion.questionNumber - b.questionOutput.feedbackQuestion.questionNumber);
           }, (resp: ErrorMessageOutput) => {
             this.handleError(resp);
           });

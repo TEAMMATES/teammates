@@ -9,6 +9,7 @@ import { QuestionTextWithInfoModule } from '../question-text-with-info/question-
 
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
 import { InViewportModule } from 'ng-in-viewport';
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 /**
  * Question Response Panel module.
@@ -20,6 +21,7 @@ import { InViewportModule } from 'ng-in-viewport';
     SingleStatisticsModule,
     StudentViewResponsesModule,
     InViewportModule,
+    LoadingSpinnerModule,
   ],
   declarations: [
     QuestionResponsePanelComponent,
