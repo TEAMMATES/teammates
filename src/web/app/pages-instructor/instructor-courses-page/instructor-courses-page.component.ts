@@ -456,57 +456,47 @@ export class InstructorCoursesPageComponent implements OnInit {
       return Promise.resolve();
     }
 
-    let courseFromSameInstitute: number = 0;
-    let courseFromAllInstitute: number = 0;
-    let inst: string = '';
-
-    this.allCoursesList.forEach((course: Course) => {
-      if (course.courseId === courseId) inst = course.institute;
-    });
-    this.allCoursesList.forEach((course: Course) => {
-      if (course.institute === inst) courseFromSameInstitute += 1;
-    });
-    courseFromAllInstitute = this.allCoursesList.length;
+    const institute: string = this.allCoursesList.find(
+      (course: Course) => course.courseId === courseId)?.institute ?? '';
+    const numTotalCourses: number = this.allCoursesList.length;
+    const numCoursesFromSameInstitute: number = this.allCoursesList.filter(
+      (course: Course) => course.institute === institute).length;
 
     const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
-    This operation will delete all students and sessions in these courses.
-    All instructors of these courses will not be able to access them hereafter as well.`;
+      This operation will delete all students and sessions in these courses.
+      All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-    `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
+      `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
 
-    let modalContentCnf: string = '';
-
     return modalRef.result.then(() => {
-      if (courseFromAllInstitute === 1) {
-        modalContentCnf = `This is your last course on TEAMMATES for which you have instructor access. 
-        Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
-        Are you sure you want to delete the course <strong>${courseId}</strong>?`;
-      } else if (courseFromSameInstitute === 1) {
-        modalContentCnf = `If you delete all courses of institute <strong>${inst}</strong>, 
-        you will <mark><strong>lose instructor access</strong></mark> 
-        to TEAMMATES under the institution <strong>${inst}</strong>. 
-        To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
-        Are you sure you want to delete the course <strong>${courseId}</strong> in institution 
-        <strong>${inst}</strong>?`;
-      }
-      if (courseFromAllInstitute === 1 || courseFromSameInstitute === 1) {
+     if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
+        const finalConfModalContent = numTotalCourses === 1
+          ? `This is your last course on TEAMMATES for which you have instructor access. 
+            Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
+            Are you sure you want to delete the course <strong>${courseId}</strong>?`
+          : `If you delete all courses of institute <strong>${institute}</strong>, 
+            you will <mark><strong>lose instructor access</strong></mark> 
+            to TEAMMATES under the institution <strong>${institute}</strong>. 
+            To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
+            Are you sure you want to delete the course <strong>${courseId}</strong> in institution
+            <strong>${institute}</strong>?`;
         return this.simpleModalService.openConfirmationModal(
-      'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
-      SimpleModalType.DANGER, modalContentCnf).result;
+          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+          SimpleModalType.DANGER, finalConfModalContent).result;
       }
       return Promise.resolve();
-  }).then(() => {
-    this.courseService.deleteCourse(courseId).subscribe(() => {
-      this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
-      this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
-      this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    }).then(() => {
+      this.courseService.deleteCourse(courseId).subscribe(() => {
+        this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
+        this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
+        this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }).catch(() => {});
-}
+  }
 
   /**
    * Restores a soft-deleted course from Recycle Bin.
@@ -537,12 +527,12 @@ export class InstructorCoursesPageComponent implements OnInit {
     const lastCourseRemaining: boolean = this.allCoursesList.length === this.softDeletedCourses.length;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-    'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+      'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
 
     modalRef.result.then(() => {
       if (lastCourseRemaining) {
         const modalContentCnf: string =
-        `These are your last courses registered on TEAMMATES for which you have instructor access. 
+          `These are your last courses registered on TEAMMATES for which you have instructor access. 
           Deleting these courses will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
           Are you sure you want to permanently delete these courses?`;
 
