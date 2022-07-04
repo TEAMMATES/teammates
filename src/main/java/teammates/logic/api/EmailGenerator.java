@@ -48,7 +48,7 @@ public final class EmailGenerator {
     private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
     private static final String FEEDBACK_ACTION_VIEW = "view";
     private static final String HTML_NO_ACTION_REQUIRED =
-            "<p>No action is required if you have already submitted.</p>" + System.lineSeparator();
+            "<p><mark>No action is required if you have already submitted.</mark></p>" + System.lineSeparator();
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
