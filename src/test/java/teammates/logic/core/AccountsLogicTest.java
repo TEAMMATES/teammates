@@ -129,7 +129,6 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withSectionName("sectionName")
                 .withTeamName("teamName")
                 .withComment("")
-                .withLastLogTimestamp(Instant.ofEpochMilli(0))
                 .build();
         studentsLogic.createStudent(studentData);
         studentData = studentsLogic.getStudentForEmail(courseId,
@@ -218,7 +217,6 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withSectionName("sectionName")
                 .withTeamName("teamName")
                 .withComment("")
-                .withLastLogTimestamp(Instant.ofEpochMilli(0))
                 .build();
         studentsLogic.createStudent(studentData);
         studentData = studentsLogic.getStudentForEmail(courseId,

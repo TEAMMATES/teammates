@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.exception.InvalidParametersException;
@@ -19,7 +20,7 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
     @Override
     public ActionResult execute() {
-        HashMap<String, HashMap<String, Long>> studentLatestLogs = new HashMap<>();
+        Map<String, Map<String, Long>> studentLatestLogs = new HashMap<>();
         List<FeedbackSessionLogEntryAttributes> validLogEntries = new ArrayList<>();
         List<FeedbackSessionLogEntryAttributes> allLogEntries =
                 logsProcessor.getFeedbackSessionLogs(null, null, lastLogTimestamp.toEpochMilli(), Long.MAX_VALUE, null);
@@ -28,18 +29,14 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
             String studentEmail = logEntry.getStudentEmail();
             String logType = logEntry.getFeedbackSessionLogType();
             Long logTimestamp = logEntry.getTimestamp();
-            HashMap<String, Long> studentLog = new HashMap<>();
+            Map<String, Long> studentLog = studentLatestLogs.getOrDefault(studentEmail, new HashMap<>());
             boolean isValid = true;
 
-            if (studentLatestLogs.containsKey(studentEmail)) {
-                studentLog = studentLatestLogs.get(studentEmail);
+            if (studentLog.containsKey(logType)) {
+                Long lastStudentLogTimestamp = studentLog.get(logType);
 
-                if (studentLog.containsKey(logType)) {
-                    Long lastLogTimestamp = studentLog.get(logType);
-
-                    if (Math.abs(lastLogTimestamp - logTimestamp) < 2 * 1000) {
-                        isValid = false;
-                    }
+                if (Math.abs(lastStudentLogTimestamp - logTimestamp) < 2 * 1000) {
+                    isValid = false;
                 }
             }
 
@@ -51,16 +48,10 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
             }
         }
 
-
         lastLogTimestamp = Instant.now();
 
         try {
-            List<FeedbackSessionLogEntryAttributes> createdEntries = logic.createFeedbackSessionLogs(validLogEntries);
-            System.out.println("______________________________________________________");
-            for (FeedbackSessionLogEntryAttributes entry : createdEntries) {
-                System.out.println(entry.toString());
-            }
-            System.out.println("______________________________________________________");
+            logic.createFeedbackSessionLogs(validLogEntries);
         } catch (InvalidParametersException e) {
             log.severe("Unexpected error", e);
         }

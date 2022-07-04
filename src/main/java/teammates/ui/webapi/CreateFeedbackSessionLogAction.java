@@ -1,13 +1,7 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
-
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 

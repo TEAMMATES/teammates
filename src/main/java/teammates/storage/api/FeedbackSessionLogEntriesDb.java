@@ -2,13 +2,12 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
-
 import com.googlecode.objectify.cmd.Query;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.FeedbackSessionLogEntry;

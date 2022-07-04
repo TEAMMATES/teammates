@@ -162,7 +162,6 @@ public class StudentsLogicTest extends BaseLogicTest {
         student4InCourse1.setEmail(student4InCourse1.getEmail() + "y");
         student4InCourse1.setSection("Section 2");
         student4InCourse1.setTeam("Team 1.2"); // move to a different team
-        student4InCourse1.setLastLogTimestamp(Instant.ofEpochMilli(0));
 
         StudentAttributes updatedStudent = studentsLogic.updateStudentCascade(
                 StudentAttributes.updateOptionsBuilder(student4InCourse1.getCourse(), originalEmail)
@@ -172,7 +171,6 @@ public class StudentsLogicTest extends BaseLogicTest {
                         .withNewEmail(student4InCourse1.getEmail())
                         .withSectionName(student4InCourse1.getSection())
                         .withTeamName(student4InCourse1.getTeam())
-                        .withLastLogTimestamp(student4InCourse1.getLastLogTimestamp())
                         .build()
         );
         StudentAttributes actualStudent =
