@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 
@@ -12,6 +13,7 @@ import com.googlecode.objectify.annotation.Translate;
  * Represents a log entry of a feedback session.
  */
 @Entity
+@Index
 public class FeedbackSessionLogEntry extends BaseEntity {
 
     @Id

@@ -101,18 +101,18 @@ indexes:
     name: timestamp
 - kind: FeedbackSessionLogEntry
   properties:
-  - direction: asc
-    name: courseId
-  - direction: asc
-    name: feedbackSessionName
-  - direction: asc
-    name: timestamp
+    - direction: asc
+      name: courseId
+    - direction: asc
+      name: studentEmail
+    - direction: asc
+      name: timestamp
 - kind: FeedbackSessionLogEntry
   properties:
   - direction: asc
     name: courseId
   - direction: asc
-    name: studentEmail
+    name: feedbackSessionName
   - direction: asc
     name: timestamp
 - kind: FeedbackSessionLogEntry

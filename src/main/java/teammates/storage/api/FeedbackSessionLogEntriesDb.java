@@ -40,28 +40,17 @@ public final class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessio
         Query<FeedbackSessionLogEntry> query = load()
                 .filter("timestamp >=", startTime)
                 .filter("timestamp <=", endTime)
-                .filter("courseId =", courseId);
-
-        FeedbackSessionLogEntry entry = load().list().get(0);
-
-        if (entry.getTimestamp() >= startTime && entry.getTimestamp() <= endTime && entry.getCourseId().equals(courseId)) {
-            System.out.println("There is a match");
-        }
+                .filter("courseId", courseId);
 
         if (email != null) {
-            query = query.filter("studentEmail =", email);
-        } else {
-            System.out.println("Email is null");
+            query = query.filter("studentEmail", email);
         }
 
         if (fsName != null) {
-            query = query.filter("feedbackSessionName =", fsName);
-        } else {
-            System.out.println("FsName is null");
+            query = query.filter("feedbackSessionName", fsName);
         }
 
         List<FeedbackSessionLogEntry> entries = query.list();
-        System.out.println("The number of matched entries is: " + entries.size());
 
         return makeAttributes(entries);
     }
