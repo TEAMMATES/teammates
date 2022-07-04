@@ -337,6 +337,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Override
+    protected void syncFeedbackSessionLogEntries() {
+        BACKDOOR.syncFeedbackSessionLogEntries();
+    }
+
+    @Override
     protected boolean doRemoveAndRestoreDataBundle(DataBundle testData) {
         try {
             BACKDOOR.removeAndRestoreDataBundle(testData);

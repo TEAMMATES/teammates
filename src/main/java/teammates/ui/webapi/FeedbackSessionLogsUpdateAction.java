@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,14 +17,15 @@ import teammates.common.util.Logger;
 public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
-    private static Instant lastLogTimestamp = Instant.now();
 
     @Override
     public ActionResult execute() {
+        Instant currentTime = Instant.now();
         Map<String, Map<String, Long>> studentLatestLogs = new HashMap<>();
         List<FeedbackSessionLogEntryAttributes> validLogEntries = new ArrayList<>();
         List<FeedbackSessionLogEntryAttributes> allLogEntries =
-                logsProcessor.getFeedbackSessionLogs(null, null, lastLogTimestamp.toEpochMilli(), Long.MAX_VALUE, null);
+                logsProcessor.getFeedbackSessionLogs(null, null,
+                        currentTime.minus(15, ChronoUnit.MINUTES).toEpochMilli(), currentTime.toEpochMilli(), null);
 
         for (FeedbackSessionLogEntryAttributes logEntry : allLogEntries) {
             String studentEmail = logEntry.getStudentEmail();
@@ -47,8 +49,6 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
                 studentLatestLogs.put(studentEmail, studentLog);
             }
         }
-
-        lastLogTimestamp = Instant.now();
 
         try {
             logic.createFeedbackSessionLogs(validLogEntries);
