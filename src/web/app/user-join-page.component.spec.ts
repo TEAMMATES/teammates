@@ -178,7 +178,7 @@ describe('UserJoinPageComponent', () => {
     expect(courseSpy).toHaveBeenCalledTimes(1);
     expect(courseSpy).toHaveBeenLastCalledWith(...params);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), `/web/${params[1]}`);
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/${params[1]}`);
   });
 
   it('should redirect user to home page if user is logged in and join URL has been used', () => {
@@ -202,7 +202,7 @@ describe('UserJoinPageComponent', () => {
     expect(component.hasJoined).toBeTruthy();
     expect(component.userId).toEqual('user');
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/home');
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/home');
   });
 
   it('should stop loading and show error message if 404 is returned', () => {
@@ -311,7 +311,7 @@ describe('UserJoinPageComponent creating account', () => {
     expect(accountSpy).toHaveBeenCalledTimes(1);
     expect(accountSpy).toHaveBeenLastCalledWith('key', 'UTC');
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor');
+    expect(navSpy).toHaveBeenLastCalledWith('/web/instructor');
   });
 
   it('should redirect user to home page if user is logged in and URL has been used', () => {
@@ -335,7 +335,7 @@ describe('UserJoinPageComponent creating account', () => {
     expect(component.hasJoined).toBeTruthy();
     expect(component.userId).toEqual('user');
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor/home');
+    expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/home');
   });
 
   it('should stop loading and show error message if 404 is returned when creating new account', () => {

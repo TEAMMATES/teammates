@@ -77,31 +77,31 @@
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleQuestionTab($event)" (downloadQuestionResult)="downloadQuestionResultHandler($event)"></tm-instructor-session-result-question-view>
+        (toggleAndLoadTab)="toggleQuestionTab($event)" (loadTab)="loadQuestionTab($event)" (downloadQuestionResult)="downloadQuestionResultHandler($event)"></tm-instructor-session-result-question-view>
     <tm-instructor-session-result-grq-view *ngIf="viewType === InstructorSessionResultViewType.GRQ" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleSectionTab($event)"></tm-instructor-session-result-grq-view>
+        (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-grq-view>
     <tm-instructor-session-result-rgq-view *ngIf="viewType === InstructorSessionResultViewType.RGQ" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleSectionTab($event)"></tm-instructor-session-result-rgq-view>
+        (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rgq-view>
     <tm-instructor-session-result-gqr-view *ngIf="viewType === InstructorSessionResultViewType.GQR" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleSectionTab($event)"></tm-instructor-session-result-gqr-view>
+        (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-gqr-view>
     <tm-instructor-session-result-rqg-view *ngIf="viewType === InstructorSessionResultViewType.RQG" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleSectionTab($event)"></tm-instructor-session-result-rqg-view>
+        (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rqg-view>
   </div>
 </tm-loading-retry>
 
