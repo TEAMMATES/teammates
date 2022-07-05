@@ -52,6 +52,8 @@ public final class Templates {
                 FileHelper.readResourceFile("instructorEmailFragment-registrationKeyReset.html");
         public static final String USER_FEEDBACK_SESSION =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSession.html");
+        public static final String USER_FEEDBACK_SESSION_OPENING = 
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionOpening.html");
         public static final String USER_FEEDBACK_SESSION_PUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionPublished.html");
         public static final String FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION =
