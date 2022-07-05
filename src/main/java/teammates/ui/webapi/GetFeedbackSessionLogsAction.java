@@ -61,10 +61,10 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
         String fslTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
-        ArrayList<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
+        List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
         if (fslTypes != null) {
             // Multiple log types are separated by a hyphen e.g access-submission
-            for (String fslType : fslTypes.split("-")) {
+            for (String fslType : fslTypes.split(",")) {
                 FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
 
                 if (convertedFslType == null) {

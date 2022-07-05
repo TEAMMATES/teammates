@@ -1,5 +1,5 @@
 <h1>Student Activity Logs For {{course.courseName}}</h1>
-<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results for a given course. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -43,7 +43,7 @@
         <div class="col-12">
           <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
             <option *ngFor="let student of students" [value]="student.email">
-              {{student.name}} {{student.email ? '&lt;' + student.email + '&gt;' : ''}}
+              {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
             </option>
           </select>
         </div>

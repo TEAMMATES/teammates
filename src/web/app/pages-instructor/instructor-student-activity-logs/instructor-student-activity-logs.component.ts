@@ -68,7 +68,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   LOG_TYPES: LogType[] = [
     { label: 'session access', value: 'access' },
     { label: 'session submission', value: 'submission' },
-    { label: 'session access and submission', value: 'access-submission' },
+    { label: 'session access and submission', value: 'access,submission' },
     { label: 'view session results', value: 'view result' },
   ];
 
