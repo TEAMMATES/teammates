@@ -307,7 +307,7 @@
     </ol>
   </tm-instructor-help-panel>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START)"
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START)"
                             [id]="SessionsSectionQuestions.CHANGE_VISIBILITY_AFTER_SESSION_START"
                             [section]="Sections.sessions"
                             headerText="Can I change the visibility settings of questions after the session has started?"
@@ -319,6 +319,30 @@
       Reason: The current visibility setting of each question is shown to the respondent at the point of response submission i.e., responses are submitted based on the promise of a certain visibility.
       Changing the visibility later would be like 'breaking a promise' you made earlier.
     </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.DIFFERENT_TEAM_STRUCTURE)"
+                            [id]="SessionsSectionQuestions.DIFFERENT_TEAM_STRUCTURE"
+                            [section]="Sections.sessions"
+                            headerText="Can I use a different team structure for different sessions in the same course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.DIFFERENT_TEAM_STRUCTURE]">
+    <p>
+      Currently it is not possible.
+    </p>
+    <p>
+      If you change the team structure midway, the new team structure will apply to all current/past sessions as well, and will cause any 'incompatible' responses (e.g., responses submitted in relation to a team that no longer exists) to be deleted automatically.
+    </p>
+    <p>
+      Workarounds (neither is optimal, unfortunately):
+    </p>
+    <ol class="different-team-ol">
+      <li>
+        Create a different course for each team structure you want to support.
+      </li>
+      <li>
+        Keep changing the team structure as necessary but download the existing responses before changing it -- this works only if it is not important for students to be able to view responses to past sessions.
+      </li>
+    </ol>
   </tm-instructor-help-panel>
 
   <!-- Section -->

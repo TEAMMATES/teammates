@@ -751,7 +751,7 @@ describe('SessionSubmissionPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/sessions/submission',
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/submission',
         { courseid: 'CS3281', fsname: 'Feedback Session Name' });
   });
 
@@ -768,7 +768,7 @@ describe('SessionSubmissionPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/front',
+    expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         `You are trying to access TEAMMATES using the Google account user-id, which
                     is not linked to this TEAMMATES account. If you used a different Google account to
                     join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
@@ -789,7 +789,7 @@ describe('SessionSubmissionPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/front',
+    expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         'You are not authorized to view this page.');
   });
 
@@ -813,7 +813,7 @@ describe('SessionSubmissionPageComponent', () => {
     const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
     component.joinCourseForUnregisteredEntity();
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/join',
+    expect(navSpy).toHaveBeenLastCalledWith('/web/join',
         { entitytype: 'student', key: testQueryParams.key });
   });
 
