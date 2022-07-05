@@ -10,8 +10,7 @@
   </h5>
 </div>
 <div class="card col-lg-10 mt-4">
-  <form id="instructor-student-edit-form" class="form form-horizontal"
-        (ngSubmit)="onSubmit()" [formGroup]="form">
+  <form id="account-request-form" (ngSubmit)="onSubmit()" [formGroup]="form">
     <div class="form-group">
       <div class="field-title">
         <label class="required">Your full name</label>
@@ -20,12 +19,10 @@
         </div>
       </div>
       <input
-        class="form-control"
         id="name"
+        class="form-control"
         formControlName="name">
-      <div
-        *ngIf="name!.errors && (name!.dirty || name!.touched)"
-        class="invalid-field">
+      <div *ngIf="name!.errors && (name!.dirty || name!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
         <span [hidden]="!name!.errors!.required">
           {{ emptyFieldMessage }}
@@ -43,12 +40,10 @@
         </div>
       </div>
       <input
-        class="form-control"
         id="institute"
+        class="form-control"
         formControlName="institute">
-      <div
-        *ngIf="institute!.errors && (institute!.dirty || institute!.touched)"
-        class="invalid-field">
+      <div *ngIf="institute!.errors && (institute!.dirty || institute!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
         <span [hidden]="!institute!.errors!.required">
           {{ emptyFieldMessage }}
@@ -66,12 +61,10 @@
         </div>
       </div>
       <input
-        class="form-control"
         id="country"
+        class="form-control"
         formControlName="country">
-      <div
-        *ngIf="country!.errors && (country!.dirty || country!.touched)"
-        class="invalid-field">
+      <div *ngIf="country!.errors && (country!.dirty || country!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
         <span [hidden]="!country!.errors!.required">
           {{ emptyFieldMessage }}
@@ -90,12 +83,10 @@
         </div>
       </div>
       <input
-        class="form-control"
         id="email"
+        class="form-control"
         formControlName="email">
-      <div
-        *ngIf="email!.errors && (email!.dirty || email!.touched)"
-        class="invalid-field">
+      <div *ngIf="email!.errors && (email!.dirty || email!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
         <span [hidden]="!email!.errors!.required">
           {{ emptyFieldMessage }}
@@ -113,8 +104,8 @@
         <label>URL of your home page (if any)</label>
       </div>
       <input
-        class="form-control"
         id="url"
+        class="form-control"
         formControlName="url">
     </div>
     <div class="form-group">
@@ -122,18 +113,15 @@
         <label>Any other comments/queries</label>
       </div>
       <textarea
+        id="comments"
         class="form-control"
         rows="6"
-        id="comments"
         formControlName="comments">
       </textarea>
     </div>
     <br>
     <div class="text-center">
-      <button class="btn btn-success"
-              id="btn-submit"
-              type="submit"
-              [disabled]="!form.valid || isFormSaving">
+      <button id="btn-submit" class="btn btn-success" type="submit" [disabled]="!form.valid || isFormSaving">
         Submit
       </button>
     </div>

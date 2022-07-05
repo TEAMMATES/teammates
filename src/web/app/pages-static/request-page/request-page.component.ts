@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { FormValidator } from 'src/web/types/form-validator';
 import { NavigationService } from '../../../services/navigation.service';
@@ -18,45 +17,21 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './request-page.component.html',
   styleUrls: ['./request-page.component.scss'],
 })
-export class RequestPageComponent implements OnInit, OnDestroy {
+export class RequestPageComponent implements OnInit {
 
   FormValidator: typeof FormValidator = FormValidator; // enum
 
   readonly emptyFieldMessage : string = 'This field should not be empty';
 
-  courseId: string = 'ABCDE';
-  studentEmail: string = '';
-
-  isTeamnameFieldChanged: boolean = false;
-  isEmailFieldChanged: boolean = false;
   isFormSaving: boolean = false;
 
   form!: FormGroup;
-  teamFieldSubscription?: Subscription;
-  emailFieldSubscription?: Subscription;
 
   constructor(private statusMessageService: StatusMessageService,
               private studentService: StudentService,
               private navigationService: NavigationService) { }
 
   ngOnInit(): void {
-    this.initForm();
-  }
-
-  ngOnDestroy(): void {
-    if (this.emailFieldSubscription) {
-      (this.emailFieldSubscription as Subscription).unsubscribe();
-    }
-    if (this.teamFieldSubscription) {
-      (this.teamFieldSubscription as Subscription).unsubscribe();
-    }
-  }
-
-  /**
-   * Initializes the student details edit form with the fields fetched from the backend.
-   * Subscriptions are set up to listen to changes in the 'teamname' fields and 'newstudentemail' fields.
-   */
-  private initForm(): void {
     this.form = new FormGroup({
       name: new FormControl('',
         [Validators.required, Validators.maxLength(FormValidator.PERSON_NAME_MAX_LENGTH)]),
@@ -69,17 +44,6 @@ export class RequestPageComponent implements OnInit, OnDestroy {
       url: new FormControl(''),
       comments: new FormControl(''),
     });
-    this.teamFieldSubscription =
-      (this.form.get('teamname') as AbstractControl).valueChanges
-        .subscribe(() => {
-          this.isTeamnameFieldChanged = true;
-        });
-
-    this.emailFieldSubscription =
-      (this.form.get('newstudentemail') as AbstractControl).valueChanges
-        .subscribe(() => {
-          this.isEmailFieldChanged = true;
-        });
   }
 
   /**
@@ -105,7 +69,7 @@ export class RequestPageComponent implements OnInit, OnDestroy {
     this.isFormSaving = true;
 
     this.studentService.updateStudent({
-      courseId: this.courseId,
+      courseId: '',
       studentEmail: '',
       requestBody: reqBody,
     })
@@ -114,7 +78,7 @@ export class RequestPageComponent implements OnInit, OnDestroy {
       }))
       .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details',
-          resp.message, { courseid: this.courseId });
+          resp.message, { courseid: '' });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
