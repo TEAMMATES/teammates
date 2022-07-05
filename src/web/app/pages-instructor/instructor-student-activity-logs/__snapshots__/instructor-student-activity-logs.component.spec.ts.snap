@@ -27,7 +27,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   <h1>
     Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
@@ -86,7 +86,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   <h1>
     Student Activity Logs For CS9999
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
@@ -143,7 +143,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
                  session submission 
               </option>
               <option
-                value="access-submission"
+                value="access,submission"
               >
                  session access and submission 
               </option>
@@ -649,7 +649,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   <h1>
     Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
@@ -708,7 +708,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   <h1>
     Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
@@ -765,7 +765,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                  session submission 
               </option>
               <option
-                value="access-submission"
+                value="access,submission"
               >
                  session access and submission 
               </option>
