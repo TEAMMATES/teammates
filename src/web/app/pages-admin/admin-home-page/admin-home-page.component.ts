@@ -109,9 +109,12 @@ export class AdminHomePageComponent {
 
     this.isAddingInstructors = true;
     this.accountService.createAccountRequest({
-      instructorEmail: instructor.email,
       instructorName: instructor.name,
-      instructorInstitution: instructor.institution,
+      instructorInstitute: instructor.institution,
+      instructorCountry: 'testCountry', // TODO: update
+      instructorEmail: instructor.email,
+      instructorHomePageUrl: '',
+      otherComments: '',
     })
         .pipe(finalize(() => {
           this.isAddingInstructors = false;

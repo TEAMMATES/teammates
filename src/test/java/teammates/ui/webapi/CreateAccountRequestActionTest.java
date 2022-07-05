@@ -129,7 +129,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         AccountCreateRequest req = new AccountCreateRequest();
 
         req.setInstructorName(name);
-        req.setInstructorInstitution(institution);
+        req.setInstructorInstitute(institution);
         req.setInstructorEmail(email);
 
         return req;

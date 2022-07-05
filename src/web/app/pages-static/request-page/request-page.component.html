@@ -30,6 +30,9 @@
         <span [hidden]="!name!.errors!.maxlength">
           {{ displayExceedMaxLengthMessage('Name', FormValidator.PERSON_NAME_MAX_LENGTH) }}
         </span>
+        <span [hidden]="!name!.errors!.invalidFields">
+          {{ name!.errors!.invalidFields }}
+        </span>
       </div>
     </div>
     <div class="form-group">
@@ -125,6 +128,7 @@
         Submit
       </button>
     </div>
+    <div *ngIf="form.errors">{{ form.errors.invalidFields }}</div>
     <br>
   </form>
 </div>

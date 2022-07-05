@@ -11,7 +11,17 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Creates a new account request.
  */
-class CreateAccountRequestAction extends AdminOnlyAction {
+class CreateAccountRequestAction extends Action {
+
+    @Override
+    AuthType getMinAuthLevel() {
+        return AuthType.PUBLIC;
+    }
+
+    @Override
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        // TODO: check based on intent
+    }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
@@ -19,7 +29,7 @@ class CreateAccountRequestAction extends AdminOnlyAction {
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
-        String instructorInstitution = createRequest.getInstructorInstitution().trim();
+        String instructorInstitution = createRequest.getInstructorInstitute().trim();
 
         AccountRequestAttributes accountRequestToCreate = AccountRequestAttributes
                 .builder(instructorEmail, instructorInstitution, instructorName)

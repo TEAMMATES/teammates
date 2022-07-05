@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { FormValidator } from 'src/web/types/form-validator';
+import { AccountService } from '../../../services/account.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentService } from '../../../services/student.service';
-import { MessageOutput } from '../../../types/api-output';
-import { StudentUpdateRequest } from '../../../types/api-request';
+import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -28,7 +27,7 @@ export class RequestPageComponent implements OnInit {
   form!: FormGroup;
 
   constructor(private statusMessageService: StatusMessageService,
-              private studentService: StudentService,
+              private accountService: AccountService,
               private navigationService: NavigationService) { }
 
   ngOnInit(): void {
@@ -57,31 +56,45 @@ export class RequestPageComponent implements OnInit {
    * Submits the account request form.
    */
   onSubmit(): void {
-    const reqBody: StudentUpdateRequest = {
-      name: this.form.value.name,
-      email: this.form.value.newstudentemail,
-      team: this.form.value.teamname,
-      section: this.form.value.sectionname,
-      comments: this.form.value.comments,
-      isSessionSummarySendEmail: false,
-    };
-
     this.isFormSaving = true;
 
-    this.studentService.updateStudent({
-      courseId: '',
-      studentEmail: '',
-      requestBody: reqBody,
+    this.accountService.createAccountRequest({
+      instructorName: this.name!.value,
+      instructorInstitute: this.institute!.value,
+      instructorCountry: this.country!.value,
+      instructorEmail: this.email!.value,
+      instructorHomePageUrl: this.url!.value,
+      otherComments: this.comments!.value,
     })
       .pipe(finalize(() => {
         this.isFormSaving = false;
       }))
-      .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details',
-          resp.message, { courseid: '' });
+      .subscribe((resp: JoinLink) => { // TODO: change to MessageOutput and resp.message
+        this.navigationService.navigateWithSuccessMessage('/web/front/home', resp.joinLink);
       }, (resp: ErrorMessageOutput) => {
+        this.form.setErrors({
+          invalidFields : resp.error.message,
+        });
+        this.name!.setErrors({
+          invalidFields : resp.error.message,
+        })
         this.statusMessageService.showErrorToast(resp.error.message);
       });
+
+    // this.studentService.updateStudent({
+    //   courseId: '',
+    //   studentEmail: '',
+    //   requestBody: reqBody,
+    // })
+    //   .pipe(finalize(() => {
+    //     this.isFormSaving = false;
+    //   }))
+    //   .subscribe((resp: MessageOutput) => {
+    //     this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details',
+    //       resp.message, { courseid: '' });
+    //   }, (resp: ErrorMessageOutput) => {
+    //     this.statusMessageService.showErrorToast(resp.error.message);
+    //   });
   }
 
   get name() {
