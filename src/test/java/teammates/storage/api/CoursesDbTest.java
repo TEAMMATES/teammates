@@ -75,7 +75,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 ipe.getMessage());
 
         String longCourseInstitute = StringHelperExtension.generateStringOfLength(
-                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+                FieldValidator.INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH + 1);
         CourseAttributes invalidInstituteCourse = CourseAttributes
                 .builder("CDbT.tCC.newCourse")
                 .withName("Basic computing")

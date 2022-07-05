@@ -1,0 +1,34 @@
+.card {
+  background-color: #EAEFF5;
+  padding: 16px 32px;
+}
+
+.field-title {
+  margin-bottom: 8px;
+}
+
+label {
+  font-weight: bold;
+  font-size: 12pt;
+  margin-bottom: 0;
+}
+
+.required:after {
+  content:" *";
+  color: #d93025;
+}
+
+.hint {
+  font-size: 11pt;
+  margin-top: 4px;
+}
+
+.form-group {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.invalid-field {
+  padding-top: 8px;
+  color: #d93025;
+}

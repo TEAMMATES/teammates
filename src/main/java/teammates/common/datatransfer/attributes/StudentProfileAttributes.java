@@ -166,7 +166,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         if (!StringHelper.isEmpty(institute)) {
-            addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(institute), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteWithCountryName(institute), errors);
         }
 
         if (!StringHelper.isEmpty(nationality)) {

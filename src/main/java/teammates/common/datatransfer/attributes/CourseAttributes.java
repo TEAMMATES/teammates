@@ -124,7 +124,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForCourseName(getName()), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteWithCountryName(getInstitute()), errors);
 
         return errors;
     }

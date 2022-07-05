@@ -48,6 +48,12 @@ public final class FieldValidator {
     public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
 
+    public static final String COUNTRY_NAME_FIELD_NAME = "country name";
+    public static final int COUNTRY_NAME_MAX_LENGTH = 64;
+
+    public static final String INSTITUTE_WITH_COUNTRY_NAME_FIELD_NAME = "institute with country name";
+    public static final int INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH = INSTITUTE_NAME_MAX_LENGTH + COUNTRY_NAME_MAX_LENGTH;
+
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
@@ -460,14 +466,34 @@ public final class FieldValidator {
 
     /**
      * Checks if {@code instituteName} is a non-null non-empty string no longer than the specified length
-     * {@code INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * {@code INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
      * @return An explanation of why the {@code instituteName} is not acceptable.
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
     public static String getInvalidityInfoForInstituteName(String instituteName) {
-        return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
-                                             instituteName);
+        return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, instituteName);
     }
+
+    /**
+     * Checks if {@code countryName} is a non-null non-empty string no longer than the specified length
+     * {@code INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code countryName} is not acceptable.
+     *         Returns an empty string if the {@code countryName} is acceptable.
+     */
+    public static String getInvalidityInfoForCountryName(String countryName) {
+        return getValidityInfoForAllowedName(COUNTRY_NAME_FIELD_NAME, COUNTRY_NAME_MAX_LENGTH, countryName);
+    }
+
+    /**
+     * Checks if {@code instituteWithCountryName} is a non-null non-empty string no longer than the specified length
+     * {@code INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code instituteWithCountryName} is not acceptable.
+     *         Returns an empty string if the {@code instituteWithCountryName} is acceptable.
+     */
+    public static String getInvalidityInfoForInstituteWithCountryName(String instituteWithCountryName) {
+        return getValidityInfoForAllowedName(INSTITUTE_WITH_COUNTRY_NAME_FIELD_NAME, INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH,
+                                             instituteWithCountryName);
+    } // TODO: update 5 usages: decide whether use combined or institute
 
     /**
      * Checks if {@code personName} is a non-null non-empty string no longer than the specified length

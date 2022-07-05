@@ -357,8 +357,8 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(
                     FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, profile.getInstitute(),
-                    FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                    FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
+                    FieldValidator.INSTITUTE_WITH_COUNTRY_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
+                    FieldValidator.INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH));
         expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, profile.getNationality()));
 
         return expectedErrorMessages;
@@ -368,7 +368,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String googleId = StringHelperExtension.generateStringOfLength(46);
         String shortName = "%%";
         String email = "invalid@email@com";
-        String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        String institute = StringHelperExtension.generateStringOfLength(FieldValidator.INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
         StudentProfileAttributes.Gender gender = StudentProfileAttributes.Gender.MALE;
         String moreInfo = "Ooops no validation for this one...";

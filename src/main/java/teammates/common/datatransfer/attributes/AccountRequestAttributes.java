@@ -90,7 +90,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteWithCountryName(getInstitute()), errors);
 
         return errors;
     }
