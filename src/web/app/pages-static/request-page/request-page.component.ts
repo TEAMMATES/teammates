@@ -70,7 +70,7 @@ export class RequestPageComponent implements OnInit {
       otherComments: this.comments!.value,
     })
       .pipe(finalize(() => {
-        // this.isFormSaving = false;
+        this.isFormSaving = false;
       }))
       .subscribe((resp: JoinLink) => { // TODO: change to MessageOutput and resp.message
         this.navigationService.navigateWithSuccessMessage('/web/front/home', resp.joinLink);

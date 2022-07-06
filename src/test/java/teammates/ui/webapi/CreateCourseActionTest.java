@@ -31,7 +31,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         ______TS("Not enough parameters");
 
         String[] submissionParams = {
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "TEAMMATES Test Institute 1",
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, "TEAMMATES Test Institute 1",
         };
 
         CourseCreateRequest courseCreateRequest = new CourseCreateRequest();
@@ -101,14 +101,14 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         verifyHttpParameterFailureAcl();
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "Unknown Institute",
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, "Unknown Institute",
         };
         verifyCannotAccess(submissionParams);
 
         ______TS("Can access with correct institute param");
 
         submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "TEAMMATES Test Institute 1",
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, "TEAMMATES Test Institute 1",
         };
         verifyCanAccess(submissionParams);
 

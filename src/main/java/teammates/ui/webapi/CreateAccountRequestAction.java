@@ -45,15 +45,18 @@ class CreateAccountRequestAction extends Action {
             // only schedule for search indexing if account request created successfully
             taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitute, instructorCountry);
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpRequestBodyException(ipe);
+            throw new InvalidHttpRequestBodyException(ipe); // invalid parameters are caught here
         } catch (EntityAlreadyExistsException eaee) {
+            throw new InvalidOperationException("Account request already exists.", eaee);
+
             // Use existing account request
-            accountRequestAttributes = logic.getAccountRequest(instructorEmail, instructorInstitute, instructorCountry);
+//            accountRequestAttributes = logic.getAccountRequest(instructorEmail, instructorInstitute, instructorCountry);
         }
 
         assert accountRequestAttributes != null;
 
         if (accountRequestAttributes.getRegisteredAt() != null) {
+            // shouldn't be executed
             throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
         }
 

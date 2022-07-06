@@ -36,7 +36,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         String[] params = {
                 // Const.ParamsNames.INSTRUCTOR_EMAIL,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, accountRequest.getInstitute(),
         };
 
         verifyHttpParameterFailure(params);
@@ -52,7 +52,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, "not-found@gmail.tmt",
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "not-found-institute",
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, "not-found-institute",
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
@@ -63,7 +63,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, unregisteredAccountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, unregisteredAccountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, unregisteredAccountRequest.getInstitute(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
@@ -73,7 +73,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, accountRequest.getInstitute(),
         };
 
         ResetAccountRequestAction a = getAction(params);

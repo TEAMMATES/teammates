@@ -20,15 +20,17 @@ class AccountRequestSearchDocument extends SearchDocument<AccountRequestAttribut
         AccountRequestAttributes accountRequest = attribute;
         String email = accountRequest.getEmail();
         String institute = accountRequest.getInstitute();
+        String country = accountRequest.getCountry();
 
         String[] searchableTexts = {
-                accountRequest.getName(), email, institute,
+                accountRequest.getName(), email, institute, country
         };
 
-        fields.put("id", email + '%' + institute);
+        fields.put("id", email + '%' + institute); // TODO: how is this used? don't need to use generateId()?
         fields.put("_text_", String.join(" ", searchableTexts));
-        fields.put("email", email);
+        fields.put("email", email); // used to get account request later
         fields.put("institute", institute);
+        fields.put("country", country);
 
         return fields;
     }

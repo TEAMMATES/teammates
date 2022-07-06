@@ -37,7 +37,8 @@ public class AccountRequestSearchManager extends SearchManager<AccountRequestAtt
         String email = (String) document.getFirstValue("email");
         String institute = (String) document.getFirstValue("institute");
         String country = (String) document.getFirstValue("country");
-        // old account requests do not have "country" field
+        // old account requests do not have "country" field (after migration)?
+        // TODO: remove if country won't be null
         if (country == null) {
             country = "";
         }

@@ -111,7 +111,7 @@ export class AdminHomePageComponent {
     this.accountService.createAccountRequest({
       instructorName: instructor.name,
       instructorInstitute: instructor.institution,
-      instructorCountry: 'testCountry', // TODO: update
+      instructorCountry: 'Singapore', // TODO: update, country name cannot be empty now
       instructorEmail: instructor.email,
       instructorHomePageUrl: '',
       otherComments: '',
