@@ -66,11 +66,12 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     /**
      * Gets an account request by email and institute.
      */
-    public AccountRequestAttributes getAccountRequest(String email, String institute) {
+    public AccountRequestAttributes getAccountRequest(String email, String institute, String country) {
         assert email != null;
         assert institute != null;
+        assert country != null;
 
-        return makeAttributesOrNull(getAccountRequestEntity(AccountRequest.generateId(email, institute)));
+        return makeAttributesOrNull(getAccountRequestEntity(AccountRequest.generateId(email, institute, country)));
     }
 
     /**
@@ -84,7 +85,8 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
             throws InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
-        AccountRequestAttributes accountRequest = getAccountRequest(updateOptions.getEmail(), updateOptions.getInstitute());
+        AccountRequestAttributes accountRequest = getAccountRequest(updateOptions.getEmail(), updateOptions.getInstitute(),
+                updateOptions.getCountry());
         if (accountRequest == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
@@ -130,12 +132,12 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     /**
      * Deletes an accountRequest.
      */
-    public void deleteAccountRequest(String email, String institute) {
+    public void deleteAccountRequest(String email, String institute, String country) {
         assert email != null;
         assert institute != null;
 
-        deleteDocumentByAccountRequestId(AccountRequest.generateId(email, institute));
-        deleteEntity(Key.create(AccountRequest.class, AccountRequest.generateId(email, institute)));
+        deleteDocumentByAccountRequestId(AccountRequest.generateId(email, institute, country));
+        deleteEntity(Key.create(AccountRequest.class, AccountRequest.generateId(email, institute, country)));
     }
 
     /**
@@ -153,7 +155,8 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     @Override
     boolean hasExistingEntities(AccountRequestAttributes entityToCreate) {
         Key<AccountRequest> keyToFind = Key.create(AccountRequest.class,
-                AccountRequest.generateId(entityToCreate.getEmail(), entityToCreate.getInstitute()));
+                AccountRequest.generateId(entityToCreate.getEmail(), entityToCreate.getInstitute(),
+                        entityToCreate.getCountry()));
         return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 

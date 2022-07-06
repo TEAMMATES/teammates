@@ -188,7 +188,8 @@ public final class DataBundleLogic {
         Map<String, AccountRequestAttributes> accountRequests = dataBundle.accountRequests;
         for (AccountRequestAttributes accountRequest : accountRequests.values()) {
             AccountRequestAttributes accountRequestInDb =
-                    accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+                    accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute(),
+                            accountRequest.getCountry());
             accountRequestsDb.putDocument(accountRequestInDb);
         }
     }
@@ -386,7 +387,8 @@ public final class DataBundleLogic {
             profilesDb.deleteStudentProfile(profile.getGoogleId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
-            accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+            accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute(),
+                    accountRequest.getCountry());
         });
         dataBundle.notifications.values().forEach(notification -> {
             nfDb.deleteNotification(notification.getNotificationId());

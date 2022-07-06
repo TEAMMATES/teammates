@@ -8,6 +8,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Translate;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.StringHelper;
 
 /**
@@ -22,30 +23,55 @@ public class AccountRequest extends BaseEntity {
 
     private String registrationKey;
 
-    private String email;
-
     private String name;
 
     private String institute;
 
-    @Translate(InstantTranslatorFactory.class)
-    private Instant registeredAt;
+    private String country; // for old AR, this field should be set to "" (empty string)
+
+    private String email;
+
+    private String homePageUrl; // for old AR, this field can be set to ""
+
+    private String otherComments; // for old AR, this field can be set to ""
+
+    AccountRequestStatus status; // for old AR, this field should be set to APPROVED if registeredAt == null
+                                 // else, it should be set to REGISTERED
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
+
+    @Translate(InstantTranslatorFactory.class)
+    private Instant approvedAt; // for old AR, this field should be set to = createdAt
+
+    @Translate(InstantTranslatorFactory.class)
+    private Instant rejectedAt; // for old AR, this field should be set to null
+
+    @Translate(InstantTranslatorFactory.class)
+    private Instant registeredAt;
 
     @SuppressWarnings("unused")
     private AccountRequest() {
         // required by Objectify
     }
 
-    public AccountRequest(String email, String name, String institute) {
-        this.setEmail(email);
+    /**
+     * Constructs a new account request. The status is initialized to {@code SUBMITTED}.
+     */
+    public AccountRequest(String name, String institute, String country, String email,
+                          String homePageUrl, String otherComments) {
         this.setName(name);
         this.setInstitute(institute);
-        this.setId(generateId(email, institute));
+        this.setCountry(country);
+        this.setEmail(email);
+        this.setHomePageUrl(homePageUrl);
+        this.setOtherComments(otherComments);
+        this.setId(generateId(email, institute, country));
         this.setRegistrationKey(generateRegistrationKey());
+        this.setStatus(AccountRequestStatus.SUBMITTED);
         this.setCreatedAt(Instant.now());
+        this.setApprovedAt(null);
+        this.setRejectedAt(null);
         this.setRegisteredAt(null);
     }
 
@@ -73,14 +99,6 @@ public class AccountRequest extends BaseEntity {
         this.name = name.trim();
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email.trim();
-    }
-
     public String getInstitute() {
         return institute;
     }
@@ -89,12 +107,44 @@ public class AccountRequest extends BaseEntity {
         this.institute = institute.trim();
     }
 
-    public Instant getRegisteredAt() {
-        return registeredAt;
+    public String getCountry() {
+        return country;
     }
 
-    public void setRegisteredAt(Instant registeredAt) {
-        this.registeredAt = registeredAt;
+    public void setCountry(String country) {
+        this.country = country.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email.trim();
+    }
+
+    public String getHomePageUrl() {
+        return homePageUrl;
+    }
+
+    public void setHomePageUrl(String homePageUrl) {
+        this.homePageUrl = homePageUrl.trim();
+    }
+
+    public String getOtherComments() {
+        return otherComments;
+    }
+
+    public void setOtherComments(String otherComments) {
+        this.otherComments = otherComments.trim();
+    }
+
+    public AccountRequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AccountRequestStatus status) {
+        this.status = status;
     }
 
     public Instant getCreatedAt() {
@@ -105,12 +155,45 @@ public class AccountRequest extends BaseEntity {
         this.createdAt = createdAt;
     }
 
+    public Instant getApprovedAt() {
+        return approvedAt;
+    }
+
+    public void setApprovedAt(Instant approvedAt) {
+        this.approvedAt = approvedAt;
+    }
+
+    public Instant getRejectedAt() {
+        return rejectedAt;
+    }
+
+    public void setRejectedAt(Instant rejectedAt) {
+        this.rejectedAt = rejectedAt;
+    }
+
+    public Instant getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(Instant registeredAt) {
+        this.registeredAt = registeredAt;
+    }
+
+    private static String generateInstituteWithCountry(String institute, String country) {
+        return institute + ", " + country;
+    }
+
     /**
      * Generates an unique ID for the account request.
      */
-    public static String generateId(String email, String institute) {
-        // Format: email%institute e.g., adam@gmail.com%TEAMMATES_TEST_INSTITUTE
-        return email + '%' + institute;
+    public static String generateId(String email, String institute, String country) {
+        // Format: `email%institute, country` e.g., `adam@u.nus.edu%National University of Singapore, Singapore`
+        if (country.isEmpty()) { // iff an account request has empty country, it was an old account request
+            return email + '%' + institute;
+        }
+        return email + '%' + generateInstituteWithCountry(institute, country); // must be in this format to be consistent with old ARs
+        // to reduce chance of error as much as possible. this still requires old AR institute to be strictly in the format of `institute, country`
+        // for example, if we use `email%institute%country`, a new "NUS%Singapore" will be treated as different from old "NUS, Singapore", which is wrong
     }
 
     /**

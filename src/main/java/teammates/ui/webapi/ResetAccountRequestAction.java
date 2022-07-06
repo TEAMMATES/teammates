@@ -21,12 +21,13 @@ class ResetAccountRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException {
         String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        String country = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_COUNTRY); // TODO: update frontend
 
-        AccountRequestAttributes accountRequest = logic.getAccountRequest(instructorEmail, institute);
+        AccountRequestAttributes accountRequest = logic.getAccountRequest(instructorEmail, institute, country);
 
         if (accountRequest == null) {
             throw new EntityNotFoundException("Account request for instructor with email: " + instructorEmail
-                    + " and institute: " + institute + " does not exist.");
+                    + " and institute: " + institute + " does not exist."); // TODO: update message
         }
 
         if (accountRequest.getRegisteredAt() == null) {
@@ -35,7 +36,7 @@ class ResetAccountRequestAction extends AdminOnlyAction {
 
         try {
             accountRequest = logic.updateAccountRequest(AccountRequestAttributes
-                .updateOptionsBuilder(instructorEmail, institute)
+                .updateOptionsBuilder(instructorEmail, institute, country)
                 .withRegisteredAt(null)
                 .build());
         } catch (InvalidParametersException | EntityDoesNotExistException e) {

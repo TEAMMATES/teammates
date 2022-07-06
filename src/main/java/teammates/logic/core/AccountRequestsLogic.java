@@ -56,21 +56,21 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes the account request associated with the email address and institute.
+     * Deletes the account request associated with the email address, institute, and country.
      *
      * <p>Fails silently if the account request doesn't exist.</p>
      */
-    public void deleteAccountRequest(String email, String institute) {
-        accountRequestsDb.deleteAccountRequest(email, institute);
+    public void deleteAccountRequest(String email, String institute, String country) {
+        accountRequestsDb.deleteAccountRequest(email, institute, country);
     }
 
     /**
-     * Gets an account request by email address and institute.
+     * Gets an account request by email address, institute, and country.
      *
      * @return the account request
      */
-    public AccountRequestAttributes getAccountRequest(String email, String institute) {
-        return accountRequestsDb.getAccountRequest(email, institute);
+    public AccountRequestAttributes getAccountRequest(String email, String institute, String country) {
+        return accountRequestsDb.getAccountRequest(email, institute, country);
     }
 
     /**

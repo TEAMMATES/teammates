@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -16,32 +17,49 @@ import teammates.storage.entity.AccountRequest;
  */
 public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
-    private String email;
     private String name;
     private String institute;
-    private Instant registeredAt;
+    private String country;
+    private String email;
+    private String homePageUrl;
+    private String otherComments;
+    private AccountRequestStatus status;
     private Instant createdAt;
+    private Instant approvedAt;
+    private Instant rejectedAt;
+    private Instant registeredAt;
     private transient String registrationKey;
 
-    private AccountRequestAttributes(String email, String institute, String name) {
-        this.email = email;
-        this.institute = institute;
+    private AccountRequestAttributes(String name, String institute, String country, String email,
+                                     String homePageUrl, String otherComments) {
         this.name = name;
+        this.institute = institute;
+        this.country = country;
+        this.email = email;
+        this.homePageUrl = homePageUrl;
+        this.otherComments = otherComments;
+        this.status = AccountRequestStatus.SUBMITTED;
         this.registrationKey = null;
-        this.registeredAt = null;
         this.createdAt = null;
+        this.approvedAt = null;
+        this.rejectedAt = null;
+        this.registeredAt = null;
     }
 
     /**
      * Gets the {@link AccountRequestAttributes} instance of the given {@link AccountRequest}.
      */
     public static AccountRequestAttributes valueOf(AccountRequest accountRequest) {
-        AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getEmail(),
-                accountRequest.getInstitute(), accountRequest.getName());
+        AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getName(),
+                accountRequest.getInstitute(), accountRequest.getCountry(), accountRequest.getEmail(),
+                accountRequest.getHomePageUrl(), accountRequest.getOtherComments());
 
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
-        accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
+        accountRequestAttributes.status = accountRequest.getStatus();
         accountRequestAttributes.createdAt = accountRequest.getCreatedAt();
+        accountRequestAttributes.approvedAt = accountRequest.getApprovedAt();
+        accountRequestAttributes.rejectedAt = accountRequest.getRejectedAt();
+        accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
 
         return accountRequestAttributes;
     }
@@ -49,8 +67,9 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     /**
      * Returns a builder for {@link AccountRequestAttributes}.
      */
-    public static Builder builder(String email, String institute, String name) {
-        return new Builder(email, institute, name);
+    public static Builder builder(String name, String institute, String country, String email,
+                                  String homePageUrl, String otherComments) {
+        return new Builder(name, institute, country, email, homePageUrl, otherComments);
     }
 
     public String getRegistrationKey() {
@@ -61,20 +80,44 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getInstitute() {
         return institute;
     }
 
-    public Instant getRegisteredAt() {
-        return registeredAt;
+    public String getCountry() {
+        return country;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getHomePageUrl() {
+        return homePageUrl;
+    }
+
+    public String getOtherComments() {
+        return otherComments;
+    }
+
+    public AccountRequestStatus getStatus() {
+        return status;
     }
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public Instant getApprovedAt() {
+        return approvedAt;
+    }
+
+    public Instant getRejectedAt() {
+        return rejectedAt;
+    }
+
+    public Instant getRegisteredAt() {
+        return registeredAt;
     }
 
     public String getRegistrationUrl() {
@@ -98,7 +141,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public AccountRequest toEntity() {
-        AccountRequest accountRequest = new AccountRequest(getEmail(), getName(), getInstitute());
+        AccountRequest accountRequest = new AccountRequest(getName(), getInstitute(), getCountry(), getEmail(),
+                getHomePageUrl(), getOtherComments());
 
         if (this.getRegistrationKey() != null) {
             accountRequest.setRegistrationKey(this.getRegistrationKey());
@@ -108,6 +152,12 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             accountRequest.setCreatedAt(this.getCreatedAt());
         }
 
+        if (this.getStatus() != AccountRequestStatus.SUBMITTED) {
+            accountRequest.setStatus(this.getStatus());
+        }
+
+        accountRequest.setApprovedAt(this.getApprovedAt());
+        accountRequest.setRejectedAt(this.getRejectedAt());
         accountRequest.setRegisteredAt(this.getRegisteredAt());
 
         return accountRequest;
@@ -115,13 +165,13 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public String toString() {
-        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: "
-                + getEmail() + " name: " + getName() + " institute: " + getInstitute();
+        return "[" + AccountRequestAttributes.class.getSimpleName() + " email: " + getEmail()
+                + " institute: " + getInstitute() + " country: " + getCountry();
     }
 
     @Override
     public int hashCode() {
-        return (this.email + this.name + this.institute).hashCode();
+        return (this.email + this.institute + this.country).hashCode();
     }
 
     @Override
@@ -131,10 +181,10 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         } else if (this == other) {
             return true;
         } else if (this.getClass() == other.getClass()) {
-            AccountRequestAttributes otherAccountRequest = (AccountRequestAttributes) other;
-            return Objects.equals(this.email, otherAccountRequest.email)
-                    && Objects.equals(this.institute, otherAccountRequest.institute)
-                    && Objects.equals(this.name, otherAccountRequest.name);
+            AccountRequestAttributes otherAccountRequestAttributes = (AccountRequestAttributes) other;
+            return Objects.equals(this.email, otherAccountRequestAttributes.email)
+                    && Objects.equals(this.institute, otherAccountRequestAttributes.institute)
+                    && Objects.equals(this.country, otherAccountRequestAttributes.country);
         } else {
             return false;
         }
@@ -142,9 +192,12 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public void sanitizeForSaving() {
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.name = SanitizationHelper.sanitizeName(name);
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
+        this.country = SanitizationHelper.sanitizeTitle(country);
         this.email = SanitizationHelper.sanitizeEmail(email);
+        this.homePageUrl = SanitizationHelper.sanitizeTextField(homePageUrl);
+        this.otherComments = SanitizationHelper.sanitizeTextField(otherComments);
     }
 
     /**
@@ -157,8 +210,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     /**
      * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for an account request.
      */
-    public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute) {
-        return new UpdateOptions.Builder(email, institute);
+    public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute, String country) {
+        return new UpdateOptions.Builder(email, institute, country);
     }
 
     /**
@@ -167,11 +220,13 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public static class Builder extends BasicBuilder<AccountRequestAttributes, Builder> {
         private final AccountRequestAttributes accountRequestAttributes;
 
-        private Builder(String email, String institute, String name) {
-            super(new UpdateOptions(email, institute));
+        private Builder(String name, String institute, String country, String email,
+                        String homePageUrl, String otherComments) {
+            super(new UpdateOptions(email, institute, country));
             thisBuilder = this;
 
-            accountRequestAttributes = new AccountRequestAttributes(email, institute, name);
+            accountRequestAttributes = new AccountRequestAttributes(name, institute, country, email,
+                    homePageUrl, otherComments);
         }
 
         @Override
@@ -188,15 +243,18 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public static class UpdateOptions {
         private String email;
         private String institute;
+        private String country;
 
         private UpdateOption<Instant> registeredAtOption = UpdateOption.empty();
 
-        private UpdateOptions(String email, String institute) {
+        private UpdateOptions(String email, String institute, String country) {
             assert email != null;
             assert institute != null;
+            assert country != null;
 
             this.email = email;
             this.institute = institute;
+            this.country = country;
         }
 
         public String getEmail() {
@@ -207,11 +265,16 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             return institute;
         }
 
+        public String getCountry() {
+            return country;
+        }
+
         @Override
         public String toString() {
             return "AccountRequestAttributes.UpdateOptions ["
                     + ", email = " + email
                     + ", institute = " + institute
+                    + ", country = " + country
                     + ", registeredAt = " + registeredAtOption
                     + "]";
         }
@@ -220,8 +283,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
          * Builder class to build {@link UpdateOptions}.
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
-            private Builder(String email, String institute) {
-                super(new UpdateOptions(email, institute));
+            private Builder(String email, String institute, String country) {
+                super(new UpdateOptions(email, institute, country));
                 thisBuilder = this;
             }
 

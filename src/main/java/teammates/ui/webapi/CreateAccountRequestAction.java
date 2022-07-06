@@ -29,22 +29,26 @@ class CreateAccountRequestAction extends Action {
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorInstitute = createRequest.getInstructorInstitute().trim();
+        String instructorCountry = createRequest.getInstructorCountry().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
+        String instructorHomePageUrl = createRequest.getInstructorHomePageUrl().trim();
+        String otherComments = createRequest.getOtherComments().trim();
 
         AccountRequestAttributes accountRequestToCreate = AccountRequestAttributes
-                .builder(instructorEmail, instructorInstitute, instructorName)
+                .builder(instructorName, instructorInstitute, instructorCountry, instructorEmail,
+                        instructorHomePageUrl, otherComments)
                 .build();
         AccountRequestAttributes accountRequestAttributes;
 
         try {
             accountRequestAttributes = logic.createAccountRequest(accountRequestToCreate);
             // only schedule for search indexing if account request created successfully
-            taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitute);
+            taskQueuer.scheduleAccountRequestForSearchIndexing(instructorEmail, instructorInstitute, instructorCountry);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityAlreadyExistsException eaee) {
             // Use existing account request
-            accountRequestAttributes = logic.getAccountRequest(instructorEmail, instructorInstitute);
+            accountRequestAttributes = logic.getAccountRequest(instructorEmail, instructorInstitute, instructorCountry);
         }
 
         assert accountRequestAttributes != null;
