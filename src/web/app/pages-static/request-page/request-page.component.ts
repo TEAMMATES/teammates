@@ -4,7 +4,6 @@ import { finalize } from 'rxjs/operators';
 import { FormValidator } from 'src/web/types/form-validator';
 import { AccountService } from '../../../services/account.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -26,8 +25,7 @@ export class RequestPageComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private statusMessageService: StatusMessageService,
-              private accountService: AccountService,
+  constructor(private accountService: AccountService,
               private navigationService: NavigationService) { }
 
   ngOnInit(): void {
@@ -72,13 +70,30 @@ export class RequestPageComponent implements OnInit {
       .subscribe((resp: JoinLink) => { // TODO: change to MessageOutput and resp.message
         this.navigationService.navigateWithSuccessMessage('/web/front/home', resp.joinLink);
       }, (resp: ErrorMessageOutput) => {
-        this.form.setErrors({
-          invalidFields : resp.error.message,
-        });
-        this.name!.setErrors({
-          invalidFields : resp.error.message,
-        })
-        this.statusMessageService.showErrorToast(resp.error.message);
+        // this.form.setErrors({
+        //   invalidFields : resp.error.message,
+        // });
+        const errors = JSON.parse(resp.error.message);
+        if (errors.name) {
+          this.name!.setErrors({
+            invalidField : errors.name,
+          })
+        }
+        if (errors.institute) {
+          this.institute!.setErrors({
+            invalidField : errors.institute,
+          })
+        }
+        if (errors.country) {
+          this.country!.setErrors({
+            invalidField : errors.country,
+          })
+        }
+        if (errors.email) {
+          this.email!.setErrors({
+            invalidField : errors.email,
+          })
+        }
       });
 
     // this.studentService.updateStudent({
