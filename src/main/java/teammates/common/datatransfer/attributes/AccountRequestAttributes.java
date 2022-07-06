@@ -88,9 +88,10 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteWithCountryName(getInstitute()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCountryName(getCountry()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
 
         return errors;
     }

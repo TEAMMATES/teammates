@@ -137,7 +137,8 @@
         Submit
       </button>
     </div>
-    <div *ngIf="form.errors">{{ form.errors.invalidFields }}</div>
+<!--    <div *ngIf="form.errors">{{ form.errors.invalidFields }}</div>-->
+    <div *ngIf="backendErrorMessage" class="alert alert-warning mt-4" >{{ backendErrorMessage }}</div>
     <br>
   </form>
 </div>
