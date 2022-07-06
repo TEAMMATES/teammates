@@ -93,6 +93,11 @@ export enum SessionsSectionQuestions {
   CHANGE_VISIBILITY_AFTER_SESSION_START = 'change-visibility-after-session-start',
 
   /**
+   * Can I use a different team structure for different sessions in the same course?
+   */
+  DIFFERENT_TEAM_STRUCTURE = 'different-team-structure',
+
+  /**
    * Can students edit responses they submitted earlier?
    */
   STUDENT_EDIT_RESPONSE = 'student-edit-response',
