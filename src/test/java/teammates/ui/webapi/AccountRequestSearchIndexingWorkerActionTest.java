@@ -44,7 +44,7 @@ public class AccountRequestSearchIndexingWorkerActionTest
 
         String[] submissionParams = new String[] {
                 ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                ParamsNames.INSTRUCTOR_INSTITUTE, accountRequest.getInstitute(),
+                ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, accountRequest.getInstitute(),
         };
 
         AccountRequestSearchIndexingWorkerAction action = getAction(submissionParams);

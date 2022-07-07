@@ -12,14 +12,13 @@ class GetAccountRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         String email = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE);
-        String country = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_COUNTRY); // TODO: update frontend
+        String instituteWithCountry = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY); // TODO: check frontend
 
-        AccountRequestAttributes accountRequestInfo = logic.getAccountRequest(email, institute, country);
+        AccountRequestAttributes accountRequestInfo = logic.getAccountRequest(email, instituteWithCountry);
 
         if (accountRequestInfo == null) {
             throw new EntityNotFoundException("Account request for email: "
-                    + email + " and institute: " + institute + " not found."); // TODO: update message
+                    + email + " and institute: " + instituteWithCountry + " not found."); // TODO: update message
         }
 
         AccountRequestData output = new AccountRequestData(accountRequestInfo);

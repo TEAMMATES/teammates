@@ -63,15 +63,18 @@ class CreateAccountAction extends Action {
             throw new InvalidOperationException("The registration key " + registrationKey + " has already been used.");
         }
 
-        String instructorEmail = accountRequestAttributes.getEmail();
         String instructorName = accountRequestAttributes.getName();
-        String instructorInstitute = accountRequestAttributes.getInstitute();
-        String instructorCountry = accountRequestAttributes.getCountry();
+        // instituteWithCountry is the "final institute" of the instructor when creating an account
+        // later on (after the account request is used to create the account),
+        // every occurrence of "institute" actually refers to the instituteWithCountry in the account request
+        // but NOT the institute field, which was submitted by the instructor in the account request form
+        String instructorInstituteWithCountry = accountRequestAttributes.getInstituteWithCountry();
+        String instructorEmail = accountRequestAttributes.getEmail();
 
         String courseId;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName, instructorInstitute, timezone);
+            courseId = importDemoData(instructorEmail, instructorName, instructorInstituteWithCountry, timezone);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
@@ -95,7 +98,7 @@ class CreateAccountAction extends Action {
 
         try {
             logic.updateAccountRequest(AccountRequestAttributes
-                    .updateOptionsBuilder(instructorEmail, instructorInstitute, instructorCountry)
+                    .updateOptionsBuilder(instructorEmail, instructorInstituteWithCountry)
                     .withRegisteredAt(Instant.now())
                     .build());
         } catch (EntityDoesNotExistException | InvalidParametersException e) {

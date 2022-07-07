@@ -14,10 +14,9 @@ public class AccountRequestSearchIndexingWorkerAction extends AdminOnlyAction {
     @Override
     public ActionResult execute() {
         String email = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_INSTITUTE);
-        String country = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_COUNTRY); // TODO: update frontend
+        String instituteWithCountry = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY); // TODO: check frontend
 
-        AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute, country);
+        AccountRequestAttributes accountRequest = logic.getAccountRequest(email, instituteWithCountry);
 
         try {
             logic.putAccountRequestDocument(accountRequest);

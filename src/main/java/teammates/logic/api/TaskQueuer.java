@@ -218,18 +218,15 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedules for the search indexing of the account request identified by {@code email}, {@code institute},
-     * and {@code country}.
+     * Schedules for the search indexing of the account request identified by {@code email}, {@code instituteWithCountry}.
      *
      * @param email the email associated with the account request
-     * @param institute the institute associated with the account request
-     * @param country the country associated with the account request
+     * @param instituteWithCountry the institute associated with the account request
      */
-    public void scheduleAccountRequestForSearchIndexing(String email, String institute, String country) {
+    public void scheduleAccountRequestForSearchIndexing(String email, String instituteWithCountry) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, email);
-        paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTE, institute);
-        paramMap.put(ParamsNames.INSTRUCTOR_COUNTRY, country);
+        paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, instituteWithCountry);
 
         addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL,
                 paramMap, null);

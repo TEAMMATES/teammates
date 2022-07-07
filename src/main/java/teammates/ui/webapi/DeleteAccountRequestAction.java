@@ -11,16 +11,15 @@ class DeleteAccountRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidOperationException {
         String email = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE);
-        String country = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_COUNTRY); // TODO: update frontend
+        String instituteWithCountry = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY); // TODO: check frontend
 
-        AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute, country);
+        AccountRequestAttributes accountRequest = logic.getAccountRequest(email, instituteWithCountry);
         if (accountRequest != null && accountRequest.getRegisteredAt() != null) {
             // instructor is registered
             throw new InvalidOperationException("Account request of a registered instructor cannot be deleted.");
         }
 
-        logic.deleteAccountRequest(email, institute, country);
+        logic.deleteAccountRequest(email, instituteWithCountry);
         return new JsonResult("Account request successfully deleted.");
     }
 

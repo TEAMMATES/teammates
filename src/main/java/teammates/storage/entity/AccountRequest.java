@@ -25,9 +25,11 @@ public class AccountRequest extends BaseEntity {
 
     private String name;
 
-    private String institute;
+    private String institute; // for old AR, this field can be set to "" (empty string)
 
-    private String country; // for old AR, this field should be set to "" (empty string)
+    private String country; // for old AR, this field can be set to "" (empty string)
+
+    private String instituteWithCountry; // for old AR, this field should be set to = institute
 
     private String email;
 
@@ -58,15 +60,16 @@ public class AccountRequest extends BaseEntity {
     /**
      * Constructs a new account request. The status is initialized to {@code SUBMITTED}.
      */
-    public AccountRequest(String name, String institute, String country, String email,
+    public AccountRequest(String name, String institute, String country, String instituteWithCountry, String email,
                           String homePageUrl, String otherComments) {
         this.setName(name);
         this.setInstitute(institute);
         this.setCountry(country);
+        this.setInstituteWithCountry(instituteWithCountry);
         this.setEmail(email);
         this.setHomePageUrl(homePageUrl);
         this.setOtherComments(otherComments);
-        this.setId(generateId(email, institute, country));
+        this.setId(generateId(email, instituteWithCountry));
         this.setRegistrationKey(generateRegistrationKey());
         this.setStatus(AccountRequestStatus.SUBMITTED);
         this.setCreatedAt(Instant.now());
@@ -113,6 +116,14 @@ public class AccountRequest extends BaseEntity {
 
     public void setCountry(String country) {
         this.country = country.trim();
+    }
+
+    public String getInstituteWithCountry() {
+        return instituteWithCountry;
+    }
+
+    public void setInstituteWithCountry(String instituteWithCountry) {
+        this.instituteWithCountry = instituteWithCountry.trim();
     }
 
     public String getEmail() {
@@ -179,21 +190,12 @@ public class AccountRequest extends BaseEntity {
         this.registeredAt = registeredAt;
     }
 
-    private static String generateInstituteWithCountry(String institute, String country) {
-        return institute + ", " + country;
-    }
-
     /**
      * Generates an unique ID for the account request.
      */
-    public static String generateId(String email, String institute, String country) {
-        // Format: `email%institute, country` e.g., `adam@u.nus.edu%National University of Singapore, Singapore`
-        if (country.isEmpty()) { // iff an account request has empty country, it was an old account request
-            return email + '%' + institute;
-        }
-        return email + '%' + generateInstituteWithCountry(institute, country); // must be in this format to be consistent with old ARs
-        // to reduce chance of error as much as possible. this still requires old AR institute to be strictly in the format of `institute, country`
-        // for example, if we use `email%institute%country`, a new "NUS%Singapore" will be treated as different from old "NUS, Singapore", which is wrong
+    public static String generateId(String email, String instituteWithCountry) {
+        // Format: `email%instituteWithCountry` e.g., `adam@u.nus.edu%National University of Singapore, Singapore`
+        return email + '%' + instituteWithCountry;
     }
 
     /**

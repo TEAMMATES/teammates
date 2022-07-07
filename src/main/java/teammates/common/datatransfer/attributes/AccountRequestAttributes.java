@@ -20,6 +20,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private String name;
     private String institute;
     private String country;
+    private String instituteWithCountry;
     private String email;
     private String homePageUrl;
     private String otherComments;
@@ -30,11 +31,20 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private Instant registeredAt;
     private transient String registrationKey;
 
-    private AccountRequestAttributes(String name, String institute, String country, String email,
-                                     String homePageUrl, String otherComments) {
+    private AccountRequestAttributes(String name, String institute, String country, String instituteWithCountry,
+                                     String email, String homePageUrl, String otherComments) {
+//        assert name != null;
+//        assert institute != null;
+//        assert country != null;
+//        assert instituteWithCountry != null;
+//        assert email != null;
+//        assert homePageUrl != null;
+//        assert otherComments != null;
+
         this.name = name;
         this.institute = institute;
         this.country = country;
+        this.instituteWithCountry = instituteWithCountry;
         this.email = email;
         this.homePageUrl = homePageUrl;
         this.otherComments = otherComments;
@@ -46,13 +56,17 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         this.registeredAt = null;
     }
 
+    private static String generateInstituteWithCountry(String institute, String country) {
+        return institute + ", " + country;
+    }
+
     /**
      * Gets the {@link AccountRequestAttributes} instance of the given {@link AccountRequest}.
      */
     public static AccountRequestAttributes valueOf(AccountRequest accountRequest) {
         AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getName(),
-                accountRequest.getInstitute(), accountRequest.getCountry(), accountRequest.getEmail(),
-                accountRequest.getHomePageUrl(), accountRequest.getOtherComments());
+                accountRequest.getInstitute(), accountRequest.getCountry(), accountRequest.getInstituteWithCountry(),
+                accountRequest.getEmail(), accountRequest.getHomePageUrl(), accountRequest.getOtherComments());
 
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
         accountRequestAttributes.status = accountRequest.getStatus();
@@ -86,6 +100,10 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     public String getCountry() {
         return country;
+    }
+
+    public String getInstituteWithCountry() {
+        return instituteWithCountry;
     }
 
     public String getEmail() {
@@ -141,8 +159,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public AccountRequest toEntity() {
-        AccountRequest accountRequest = new AccountRequest(getName(), getInstitute(), getCountry(), getEmail(),
-                getHomePageUrl(), getOtherComments());
+        AccountRequest accountRequest = new AccountRequest(getName(), getInstitute(), getCountry(),
+                getInstituteWithCountry(), getEmail(), getHomePageUrl(), getOtherComments());
 
         if (this.getRegistrationKey() != null) {
             accountRequest.setRegistrationKey(this.getRegistrationKey());
@@ -204,14 +222,18 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        updateOptions.registeredAtOption.ifPresent(s -> registeredAt = s);
+        updateOptions.nameOption.ifPresent(n -> name = n);
+        updateOptions.statusOption.ifPresent(s -> status = s);
+        updateOptions.approvedAtOption.ifPresent(a -> approvedAt = a);
+        updateOptions.rejectedAtOption.ifPresent(r -> rejectedAt = r);
+        updateOptions.registeredAtOption.ifPresent(r -> registeredAt = r);
     }
 
     /**
      * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for an account request.
      */
-    public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute, String country) {
-        return new UpdateOptions.Builder(email, institute, country);
+    public static UpdateOptions.Builder updateOptionsBuilder(String email, String instituteWithCountry) {
+        return new UpdateOptions.Builder(email, instituteWithCountry);
     }
 
     /**
@@ -222,11 +244,11 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         private Builder(String name, String institute, String country, String email,
                         String homePageUrl, String otherComments) {
-            super(new UpdateOptions(email, institute, country));
+            super(new UpdateOptions(email, generateInstituteWithCountry(institute, country)));
             thisBuilder = this;
 
-            accountRequestAttributes = new AccountRequestAttributes(name, institute, country, email,
-                    homePageUrl, otherComments);
+            accountRequestAttributes = new AccountRequestAttributes(name, institute, country,
+                    generateInstituteWithCountry(institute, country), email, homePageUrl, otherComments);
         }
 
         @Override
@@ -242,39 +264,39 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      */
     public static class UpdateOptions {
         private String email;
-        private String institute;
-        private String country;
+        private String instituteWithCountry;
 
+        private UpdateOption<String> nameOption = UpdateOption.empty();
+        private UpdateOption<AccountRequestStatus> statusOption = UpdateOption.empty();
+        private UpdateOption<Instant> approvedAtOption = UpdateOption.empty();
+        private UpdateOption<Instant> rejectedAtOption = UpdateOption.empty();
         private UpdateOption<Instant> registeredAtOption = UpdateOption.empty();
 
-        private UpdateOptions(String email, String institute, String country) {
+        private UpdateOptions(String email, String instituteWithCountry) {
             assert email != null;
-            assert institute != null;
-            assert country != null;
+            assert instituteWithCountry != null;
 
             this.email = email;
-            this.institute = institute;
-            this.country = country;
+            this.instituteWithCountry = instituteWithCountry;
         }
 
         public String getEmail() {
             return email;
         }
 
-        public String getInstitute() {
-            return institute;
-        }
-
-        public String getCountry() {
-            return country;
+        public String getInstituteWithCountry() {
+            return instituteWithCountry;
         }
 
         @Override
         public String toString() {
             return "AccountRequestAttributes.UpdateOptions ["
                     + ", email = " + email
-                    + ", institute = " + institute
-                    + ", country = " + country
+                    + ", institute&&country = " + instituteWithCountry
+                    + ", name = " + nameOption
+                    + ", status = " + statusOption
+                    + ", approvedAt = " + approvedAtOption
+                    + ", rejectedAt = " + rejectedAtOption
                     + ", registeredAt = " + registeredAtOption
                     + "]";
         }
@@ -283,8 +305,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
          * Builder class to build {@link UpdateOptions}.
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
-            private Builder(String email, String institute, String country) {
-                super(new UpdateOptions(email, institute, country));
+            private Builder(String email, String instituteWithCountry) {
+                super(new UpdateOptions(email, instituteWithCountry));
                 thisBuilder = this;
             }
 
@@ -292,9 +314,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             public UpdateOptions build() {
                 return updateOptions;
             }
-
         }
-
     }
 
     /**
@@ -310,6 +330,26 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
+        }
+
+        public B withName(String name) {
+            updateOptions.nameOption = UpdateOption.of(name);
+            return thisBuilder;
+        }
+
+        public B withStatus(AccountRequestStatus status) {
+            updateOptions.statusOption = UpdateOption.of(status);
+            return thisBuilder;
+        }
+
+        public B withApprovedAt(Instant approvedAt) {
+            updateOptions.approvedAtOption = UpdateOption.of(approvedAt);
+            return thisBuilder;
+        }
+
+        public B withRejectedAt(Instant rejectedAt) {
+            updateOptions.rejectedAtOption = UpdateOption.of(rejectedAt);
+            return thisBuilder;
         }
 
         public B withRegisteredAt(Instant registeredAt) {

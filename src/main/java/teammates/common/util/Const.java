@@ -111,8 +111,9 @@ public final class Const {
         public static final String COURSE_STATUS = "coursestatus";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
-        public static final String INSTRUCTOR_INSTITUTE = "instructorinstitution";
+        public static final String INSTRUCTOR_INSTITUTE = "instructorinstitute";
         public static final String INSTRUCTOR_COUNTRY = "instructorcountry";
+        public static final String INSTRUCTOR_INSTITUTE_WITH_COUNTRY = "instructorinstitutewithcountry";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
         public static final String IS_INSTRUCTOR = "isinstructor";
 

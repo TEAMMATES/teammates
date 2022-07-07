@@ -35,14 +35,8 @@ public class AccountRequestSearchManager extends SearchManager<AccountRequestAtt
     @Override
     AccountRequestAttributes getAttributeFromDocument(SolrDocument document) {
         String email = (String) document.getFirstValue("email");
-        String institute = (String) document.getFirstValue("institute");
-        String country = (String) document.getFirstValue("country");
-        // old account requests do not have "country" field (after migration)?
-        // TODO: remove if country won't be null
-        if (country == null) {
-            country = "";
-        }
-        return accountRequestsDb.getAccountRequest(email, institute, country);
+        String instituteWithCountry = (String) document.getFirstValue("institute");
+        return accountRequestsDb.getAccountRequest(email, instituteWithCountry);
     }
 
     @Override

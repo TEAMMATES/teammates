@@ -1548,12 +1548,11 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
-    public void deleteAccountRequest(String email, String institute, String country) {
+    public void deleteAccountRequest(String email, String instituteWithCountry) {
         assert email != null;
-        assert institute != null;
-        assert country != null;
+        assert instituteWithCountry != null;
 
-        accountRequestsLogic.deleteAccountRequest(email, institute, country);
+        accountRequestsLogic.deleteAccountRequest(email, instituteWithCountry);
     }
 
     /**
@@ -1571,19 +1570,18 @@ public class Logic {
     }
 
     /**
-     * Gets an account request by email address and institute.
+     * Gets an account request by email address and instituteWithCountry.
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      *
      * @return the account request
      */
-    public AccountRequestAttributes getAccountRequest(String email, String institute, String country) {
+    public AccountRequestAttributes getAccountRequest(String email, String instituteWithCountry) {
         assert email != null;
-        assert institute != null;
-        assert country != null;
+        assert instituteWithCountry != null;
 
-        return accountRequestsLogic.getAccountRequest(email, institute, country);
+        return accountRequestsLogic.getAccountRequest(email, instituteWithCountry);
     }
 
     /**
