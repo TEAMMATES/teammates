@@ -543,7 +543,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       return Promise.resolve();
     }).then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
-        this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
+      this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
         deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
       });
 
