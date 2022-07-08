@@ -36,7 +36,7 @@
           <a class="dropdown-item" tmRouterLink="/web/admin" *ngIf="isAdmin" (click)="closeModal()">To admin pages</a>
           <a class="dropdown-item" tmRouterLink="/web/maintainer" *ngIf="isMaintainer" (click)="closeModal()">To maintainer pages</a>
           <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin || isMaintainer"></div>
-          <a class="dropdown-item" id="logout-btn" [href]="logoutUrl" (click)="logout()">Log Out</a>
+          <a class="dropdown-item" id="logout-btn" style="cursor:pointer" (click)="logout()">Log Out</a>
         </div>
       </li>
     </ul>

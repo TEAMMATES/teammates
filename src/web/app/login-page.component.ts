@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute } from '@angular/router';
-import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
 import { environment } from '../environments/environment';
+import firebase from 'firebase/compat/app';
+import * as firebaseui from 'firebaseui';
 
 /**
  * Login page component.
@@ -14,30 +14,45 @@ import { environment } from '../environments/environment';
 })
 export class LoginPageComponent implements OnInit {
 
-  private nextUrl = '';
-  private backendUrl: string = environment.backendUrl;
+  private ui: firebaseui.auth.AuthUI = new firebaseui.auth.AuthUI(firebase.auth());
 
-  constructor(private route: ActivatedRoute, private afAuth: AngularFireAuth) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+
+    let nextUrl: string = `${environment.frontendUrl}/web/front/home`;
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.nextUrl = queryParams.nextUrl;
+      nextUrl = queryParams.nextUrl;
     });
-    this.afAuth.authState.subscribe(d => console.log(d));
-  }
 
-  successCallback(data: FirebaseUISignInSuccessWithAuthResult): void {
-    console.log('successCallback', data);
-    window.location.href = `${this.backendUrl}/oauth2callback?email=${data.authResult.user!.email}`
-        + `&nextUrl=${this.nextUrl}`;
-  }
+    const uiConfig: firebaseui.auth.Config = {
+      signInOptions: [
+        {
+          provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          scopes: ['https://www.googleapis.com/auth/userinfo.email'],
+        },
+        {
+          provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+        },
+      ],
+      callbacks: {
+        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+          console.log('successCallback', authResult, redirectUrl);
+          window.location.href = `${environment.backendUrl}/oauth2callback?email=${authResult.user.email}`
+              + `&nextUrl=${nextUrl}`;
+          return false;
+        },
+        signInFailure: function(error) {
+          console.warn('errorCallback', error);
+        },
+        uiShown: function() {
+          console.log('UI shown');
+        }
+      },
+    };
 
-  errorCallback(data: FirebaseUISignInFailure): void {
-    console.warn('errorCallback', data);
-  }
-
-  uiShownCallback(): void {
-    console.log('UI shown');
+    this.ui.start('#firebaseui-auth-container', uiConfig);
   }
 
 }
