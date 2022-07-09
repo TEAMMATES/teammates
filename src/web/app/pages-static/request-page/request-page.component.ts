@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ReCaptcha2Component } from 'ngx-captcha';
 import { finalize } from 'rxjs/operators';
 import { FormValidator } from 'src/web/types/form-validator';
+import { environment } from '../../../environments/environment';
 import { AccountService } from '../../../services/account.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -19,14 +21,16 @@ import { ErrorMessageOutput } from '../../error-message-output';
 export class RequestPageComponent implements OnInit {
 
   FormValidator: typeof FormValidator = FormValidator; // enum
-
-  readonly emptyFieldMessage : string = 'This field should not be empty';
+  form!: FormGroup;
 
   backendErrorMessage : string = '';
+  readonly emptyFieldMessage : string = 'This field should not be empty';
+
+  readonly recaptchaSiteKey: string = environment.captchaSiteKey;
 
   isFormSaving: boolean = false;
 
-  form!: FormGroup;
+  @ViewChild('recaptchaElem') recaptchaElem!: ReCaptcha2Component;
 
   constructor(private statusMessageService: StatusMessageService,
               private accountService: AccountService,
@@ -43,8 +47,23 @@ export class RequestPageComponent implements OnInit {
       email: new FormControl('',
         [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH), Validators.email]),
       url: new FormControl(''),
+      'account-type': new FormControl('instructor',
+        [Validators.required, this.fieldExpectedValueValidator('instructor')]),
       comments: new FormControl(''),
+      recaptcha: new FormControl(''),
     });
+  }
+
+  /**
+   * Returns a validator function to check if the form control field has the expected value.
+   */
+  fieldExpectedValueValidator(expected: string) {
+    return function (control: AbstractControl) : ValidationErrors | null {
+      if (control.value !== expected) {
+        return { notExpected: true };
+      }
+      return null;
+    }
   }
 
   /**
@@ -58,6 +77,23 @@ export class RequestPageComponent implements OnInit {
    * Submits the account request form.
    */
   onSubmit(): void {
+    this.form.markAllAsTouched();
+
+    // set recaptcha validation errors only on submit
+    console.log(this.recaptchaElem.getResponse());
+    console.log(this.recaptcha!.value);
+    if (this.recaptchaSiteKey !== '' && this.recaptchaElem.getResponse() === '') {
+      this.recaptcha!.setErrors({
+        unchecked: true,
+      });
+    }
+
+    if (!this.form.valid) {
+      console.log('invalid form');
+      this.statusMessageService.showErrorToast('Ensure the form is valid before submission.');
+      return;
+    }
+
     this.isFormSaving = true;
     this.backendErrorMessage = '';
 
@@ -75,13 +111,13 @@ export class RequestPageComponent implements OnInit {
       .subscribe((resp: JoinLink) => { // TODO: change to MessageOutput and resp.message
         this.navigationService.navigateWithSuccessMessage('/web/front/home', resp.joinLink);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+
 
         this.backendErrorMessage = resp.error.message;
 
-        // this.form.setErrors({
-        //   invalidFields : resp.error.message,
-        // });
+        this.form.setErrors({
+          invalidFields : resp.error.message,
+        });
         // const errors = JSON.parse(resp.error.message);
         // if (errors.name) {
         //   this.name!.setErrors({
@@ -141,7 +177,15 @@ export class RequestPageComponent implements OnInit {
     return this.form.get('url');
   }
 
+  get accountType() {
+    return this.form.get('account-type');
+  }
+
   get comments() {
     return this.form.get('comments');
+  }
+
+  get recaptcha() {
+    return this.form.get('recaptcha');
   }
 }

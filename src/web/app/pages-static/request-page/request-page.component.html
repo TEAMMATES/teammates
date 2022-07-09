@@ -122,6 +122,28 @@
     </div>
     <div class="form-group">
       <div class="field-title">
+        <label>I'm requesting for,</label>
+      </div>
+      <div class="radio-div">
+        <input id="instructor-account-type" type="radio" class="radio-input" name="account-type" value="instructor" formControlName="account-type">
+        <label class="radio-label" for="instructor-account-type">an instructor account</label>
+      </div>
+      <div class="radio-div">
+        <input id="student-account-type" type="radio" class="radio-input" name="account-type" value="student" formControlName="account-type">
+        <label class="radio-label" for="student-account-type">a student account</label>
+      </div>
+      <div *ngIf="accountType!.errors" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!accountType!.errors!.required">
+          {{ emptyFieldMessage }}
+        </span>
+        <span [hidden]="!accountType!.errors!.notExpected">
+          {{ 'This form is for instructors to submit only. As a student, you do not need a TEAMMATES account to use TEAMMATES.' }}
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="field-title">
         <label>Any other comments/queries</label>
       </div>
       <textarea
@@ -131,9 +153,23 @@
         formControlName="comments">
       </textarea>
     </div>
+    <div *ngIf="recaptchaSiteKey !== ''" class="form-group recaptcha">
+      <ngx-recaptcha2 #recaptchaElem
+                      [siteKey]="recaptchaSiteKey"
+                      [useGlobalDomain]="false"
+                      [hl]="'en'"
+                      formControlName="recaptcha">
+      </ngx-recaptcha2>
+      <div *ngIf="recaptcha!.errors" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!recaptcha!.errors!.unchecked">
+          {{ 'Please check the box' }}
+      </span>
+      </div>
+    </div>
     <br>
     <div class="text-center">
-      <button id="btn-submit" class="btn btn-success" type="submit" [disabled]="!form.valid || isFormSaving">
+      <button id="btn-submit" class="btn btn-success" type="submit" [disabled]="isFormSaving || accountType!.errors">
         Submit
       </button>
     </div>

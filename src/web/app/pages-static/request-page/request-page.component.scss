@@ -28,6 +28,22 @@ label {
   margin-bottom: 30px;
 }
 
+.radio-div {
+  padding: 6px 0;
+}
+
+.radio-input {
+  vertical-align: middle;
+  height: 16px;
+  width: 16px;
+}
+
+.radio-label {
+  margin-left: 12px;
+  font-weight: normal;
+  font-size: 12pt;
+}
+
 .invalid-field {
   padding-top: 8px;
   color: #d93025;
