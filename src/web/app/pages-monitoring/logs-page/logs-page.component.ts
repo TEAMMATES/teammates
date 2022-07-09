@@ -419,9 +419,9 @@ export class LogsPageComponent implements OnInit {
   extendStartTime(): void {
     this.isSearching = true;
     this.queryParams.order = DESCENDING_ORDER;
-    this.queryParams.startTime = this.searchStartTime;
-    this.searchStartTime -= TEN_MINUTES_IN_MILLISECONDS;
     this.queryParams.endTime = this.searchStartTime;
+    this.searchStartTime -= TEN_MINUTES_IN_MILLISECONDS;
+    this.queryParams.startTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
 
