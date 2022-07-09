@@ -135,7 +135,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
             class="input-group"
           >
             <div
-              class="col-md-6 input-group"
+              class="col-md-7 input-group"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -153,7 +153,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </button>
             </div>
             <div
-              class="col-md-3"
+              class="col-md-5"
               id="logs-from-timepicker"
             >
               <ngb-timepicker
@@ -211,7 +211,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
             class="input-group"
           >
             <div
-              class="col-md-6 input-group"
+              class="col-md-7 input-group"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -229,7 +229,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </button>
             </div>
             <div
-              class="col-md-3"
+              class="col-md-5"
               id="logs-to-timepicker"
             >
               <ngb-timepicker
