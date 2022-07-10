@@ -270,15 +270,15 @@ public final class FeedbackQuestionsLogic {
      * @param instructorGiver can be null for student giver
      * @param studentGiver can be null for instructor giver
      * @param courseRoster if provided, the function can be completed without touching database
-     * @return a list of {@code FeedbackQuestionRecipientAttributes}
+     * @return a Map of {@code FeedbackQuestionRecipientAttributes} as the value and identifier as the key.
      */
-    public List<FeedbackQuestionRecipientAttributes> getRecipientsOfQuestion(
+    public Map<String, FeedbackQuestionRecipientAttributes> getRecipientsOfQuestion(
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver,
             @Nullable CourseRoster courseRoster) {
         assert instructorGiver != null || studentGiver != null;
 
-        ArrayList<FeedbackQuestionRecipientAttributes> recipients = new ArrayList<>();
+        Map<String, FeedbackQuestionRecipientAttributes> recipients = new HashMap();
 
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
@@ -302,11 +302,11 @@ public final class FeedbackQuestionsLogic {
         switch (recipientType) {
         case SELF:
             if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
-                recipients.add(FeedbackQuestionRecipientAttributes
-                        .valueOf(giverTeam, giverTeam));
+                recipients.put(giverTeam,
+                        FeedbackQuestionRecipientAttributes.valueOf(giverTeam, giverTeam));
             } else {
-                recipients.add(FeedbackQuestionRecipientAttributes
-                        .valueOf(USER_NAME_FOR_SELF, giverEmail));
+                recipients.put(giverEmail,
+                        FeedbackQuestionRecipientAttributes.valueOf(USER_NAME_FOR_SELF, giverEmail));
             }
             break;
         case STUDENTS:
@@ -341,7 +341,7 @@ public final class FeedbackQuestionsLogic {
                 if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
                     continue;
                 }
-                recipients.add(FeedbackQuestionRecipientAttributes
+                recipients.put(student.getEmail(), FeedbackQuestionRecipientAttributes
                         .valueOf(student.getName(), student.getEmail(), student.getSection(), student.getTeam()));
             }
             break;
@@ -359,7 +359,8 @@ public final class FeedbackQuestionsLogic {
                 }
                 // Ensure instructor does not evaluate himself
                 if (!giverEmail.equals(instr.getEmail())) {
-                    recipients.add(FeedbackQuestionRecipientAttributes.valueOf(instr.getName(), instr.getEmail()));
+                    recipients.put(instr.getEmail(),
+                            FeedbackQuestionRecipientAttributes.valueOf(instr.getName(), instr.getEmail()));
                 }
             }
             break;
@@ -400,11 +401,12 @@ public final class FeedbackQuestionsLogic {
                     continue;
                 }
                 // recipientEmail doubles as team name in this case.
-                recipients.add(FeedbackQuestionRecipientAttributes.valueOf(team.getKey(), team.getKey()));
+                recipients.put(team.getKey(),
+                        FeedbackQuestionRecipientAttributes.valueOf(team.getKey(), team.getKey()));
             }
             break;
         case OWN_TEAM:
-            recipients.add(FeedbackQuestionRecipientAttributes.valueOf(giverTeam, giverTeam));
+            recipients.put(giverTeam, FeedbackQuestionRecipientAttributes.valueOf(giverTeam, giverTeam));
             break;
         case OWN_TEAM_MEMBERS:
             List<StudentAttributes> students;
@@ -415,9 +417,8 @@ public final class FeedbackQuestionsLogic {
             }
             for (StudentAttributes student : students) {
                 if (!student.getEmail().equals(giverEmail)) {
-                    recipients.add(FeedbackQuestionRecipientAttributes
-                            .valueOf(student.getName(), student.getEmail(),
-                                    student.getSection(), student.getTeam()));
+                    recipients.put(student.getEmail(), FeedbackQuestionRecipientAttributes
+                            .valueOf(student.getName(), student.getEmail(), student.getSection(), student.getTeam()));
                 }
             }
             break;
@@ -430,12 +431,12 @@ public final class FeedbackQuestionsLogic {
             }
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
-                recipients.add(FeedbackQuestionRecipientAttributes
+                recipients.put(student.getEmail(), FeedbackQuestionRecipientAttributes
                         .valueOf(student.getName(), student.getEmail(), student.getSection(), student.getTeam()));
             }
             break;
         case NONE:
-            recipients.add(FeedbackQuestionRecipientAttributes
+            recipients.put(Const.GENERAL_QUESTION, FeedbackQuestionRecipientAttributes
                     .valueOf(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
             break;
         default:
@@ -463,9 +464,7 @@ public final class FeedbackQuestionsLogic {
                 completeGiverRecipientMap
                         .computeIfAbsent(possibleGiver, key -> new HashSet<>())
                         .addAll(getRecipientsOfQuestion(
-                                relatedQuestion, null, studentGiver, courseRoster)
-                                .stream().map(FeedbackQuestionRecipientAttributes::getIdentifier)
-                                .collect(Collectors.toList()));
+                                relatedQuestion, null, studentGiver, courseRoster).keySet());
                 break;
             case TEAMS:
                 StudentAttributes oneTeamMember =
@@ -473,9 +472,7 @@ public final class FeedbackQuestionsLogic {
                 completeGiverRecipientMap
                         .computeIfAbsent(possibleGiver, key -> new HashSet<>())
                         .addAll(getRecipientsOfQuestion(
-                                relatedQuestion, null, oneTeamMember, courseRoster)
-                                .stream().map(FeedbackQuestionRecipientAttributes::getIdentifier)
-                                .collect(Collectors.toList()));
+                                relatedQuestion, null, oneTeamMember, courseRoster).keySet());
                 break;
             case INSTRUCTORS:
             case SELF:
@@ -483,9 +480,7 @@ public final class FeedbackQuestionsLogic {
                 completeGiverRecipientMap
                         .computeIfAbsent(possibleGiver, key -> new HashSet<>())
                         .addAll(getRecipientsOfQuestion(
-                                relatedQuestion, instructorGiver, null, courseRoster)
-                                .stream().map(FeedbackQuestionRecipientAttributes::getIdentifier)
-                                .collect(Collectors.toList()));
+                                relatedQuestion, instructorGiver, null, courseRoster).keySet());
                 break;
             default:
                 log.severe("Invalid giver type specified");

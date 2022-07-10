@@ -1,8 +1,9 @@
 package teammates.ui.output;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionRecipientAttributes;
 
@@ -12,10 +13,15 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionRecipientAttribu
 public class FeedbackQuestionRecipientsData extends ApiOutput {
     private List<FeedbackQuestionRecipientData> recipients;
 
-    public FeedbackQuestionRecipientsData(List<FeedbackQuestionRecipientAttributes> recipients) {
-        this.recipients = recipients.stream().map(FeedbackQuestionRecipientData::new)
-                .sorted(Comparator.comparing(FeedbackQuestionRecipientData::getName))
-                .collect(Collectors.toList());
+    public FeedbackQuestionRecipientsData(Map<String, FeedbackQuestionRecipientAttributes> recipients) {
+        this.recipients = new ArrayList<>();
+
+        recipients.forEach((identifier, attributes) -> {
+            this.recipients.add(new FeedbackQuestionRecipientData(attributes));
+        });
+
+        // sort by name
+        this.recipients.sort(Comparator.comparing(FeedbackQuestionRecipientData::getName));
     }
 
     public List<FeedbackQuestionRecipientData> getRecipients() {

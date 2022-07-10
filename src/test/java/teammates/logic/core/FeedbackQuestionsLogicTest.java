@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -91,8 +90,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         StudentAttributes studentGiver;
         InstructorAttributes instructorGiver;
         CourseRoster courseRoster;
-        List<FeedbackQuestionRecipientAttributes> recipients;
-        Map<String, String> recipientsMap;
+        Map<String, FeedbackQuestionRecipientAttributes> recipients;
 
         ______TS("response to students, total 5");
 
@@ -152,15 +150,13 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
-        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
         assertEquals(recipients.size(), 1);
-        assertTrue(recipientsMap.containsKey(studentGiver.getTeam()));
-        assertEquals(recipientsMap.get(studentGiver.getTeam()), studentGiver.getTeam());
+        assertTrue(recipients.containsKey(studentGiver.getTeam()));
+        assertEquals(recipients.get(studentGiver.getTeam()).getName(), studentGiver.getTeam());
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
-        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
         assertEquals(recipients.size(), 1);
-        assertTrue(recipientsMap.containsKey(studentGiver.getTeam()));
-        assertEquals(recipientsMap.get(studentGiver.getTeam()), studentGiver.getTeam());
+        assertTrue(recipients.containsKey(studentGiver.getTeam()));
+        assertEquals(recipients.get(studentGiver.getTeam()).getName(), studentGiver.getTeam());
 
         ______TS("response to other teams from instructor");
         question = getQuestionFromDatabase("team.instructor.feedback");
@@ -194,12 +190,10 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
-        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
-        assertEquals(recipientsMap.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        assertEquals(recipients.get(Const.GENERAL_QUESTION).getName(), Const.GENERAL_QUESTION);
         assertEquals(recipients.size(), 1);
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
-        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
-        assertEquals(recipientsMap.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        assertEquals(recipients.get(Const.GENERAL_QUESTION).getName(), Const.GENERAL_QUESTION);
         assertEquals(recipients.size(), 1);
 
         ______TS("to self");
@@ -210,12 +204,10 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
-        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
-        assertEquals(recipientsMap.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
+        assertEquals(recipients.get(studentGiver.getEmail()).getName(), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
-        recipientsMap = recipients.stream().collect(Collectors.toMap(r -> r.getIdentifier(), r -> r.getName()));
-        assertEquals(recipientsMap.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
+        assertEquals(recipients.get(studentGiver.getEmail()).getName(), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
     }
 

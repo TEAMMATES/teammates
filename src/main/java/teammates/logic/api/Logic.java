@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -1023,7 +1024,7 @@ public class Logic {
      *
      * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
      */
-    public List<FeedbackQuestionRecipientAttributes> getRecipientsOfQuestion(
+    public Map<String, FeedbackQuestionRecipientAttributes> getRecipientsOfQuestion(
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver) {
         assert question != null;

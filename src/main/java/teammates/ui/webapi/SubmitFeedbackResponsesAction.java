@@ -2,10 +2,8 @@ package teammates.ui.webapi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -94,7 +92,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         }
 
         List<FeedbackResponseAttributes> existingResponses;
-        List<FeedbackQuestionRecipientAttributes> recipientsOfTheQuestion;
+        Map<String, FeedbackQuestionRecipientAttributes> recipientsOfTheQuestion;
 
         String giverIdentifier;
         String giverSection;
@@ -130,10 +128,8 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
         log.info(JsonUtils.toCompactJson(submitRequest));
 
-        Set<String> recipientIdentifiers = recipientsOfTheQuestion.stream().map(r -> r.getIdentifier())
-                .collect(Collectors.toCollection(HashSet::new));
         for (String recipient : submitRequest.getRecipients()) {
-            if (!recipientIdentifiers.contains(recipient)) {
+            if (!recipientsOfTheQuestion.containsKey(recipient)) {
                 throw new InvalidOperationException(
                         "The recipient " + recipient + " is not a valid recipient of the question");
             }
