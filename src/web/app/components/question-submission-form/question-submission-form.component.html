@@ -37,9 +37,17 @@
     <tm-constsum-recipients-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS"
                                                  [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
 
-    <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF" class="margin-top-30px margin-bottom-0px">
-      <span class="ngb-tooltip-class font-bold" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
-    </p>
+    <div class="form-row margin-top-30px margin-bottom-0px">
+      <div class="col-2">
+        <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF" >
+          <span class="ngb-tooltip-class font-bold" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
+        </p>
+      </div>
+      <div class="form-check" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
+          <input type="checkbox" id="showSectionTeam" name="showSectionTeam" value="sectionTeam" (change)="toggleSectionTeam($event)">
+          <label class="form-check-label ml-1" for="showSectionTeam">Show Section/Team</label>
+        </div>
+    </div>
 
     <div class="alert alert-primary" role="alert" *ngIf="model.giverType === FeedbackParticipantType.TEAMS">
       Please note that you are submitting this response on behalf of your team.

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -27,7 +27,7 @@ import {
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
 })
-export class QuestionSubmissionFormComponent implements OnInit {
+export class QuestionSubmissionFormComponent implements DoCheck {
 
   // enum
   QuestionSubmissionFormMode: typeof QuestionSubmissionFormMode = QuestionSubmissionFormMode;
@@ -98,7 +98,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
     showResponsesTo: [],
   };
 
-  recipientLabelType : FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
+  recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
+  isRecipientListSorted: boolean = false;
+  isSectionTeamShown: boolean = false;
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
@@ -113,18 +115,41 @@ export class QuestionSubmissionFormComponent implements OnInit {
             this.model.giverType, this.model.recipientType);
   }
 
-  ngOnInit(): void {
-    this.sortRecipientsByName();
+  ngDoCheck(): void {
+    if (!(this.isRecipientListSorted) && this.model.isLoaded) {
+      this.isRecipientListSorted = true;
+      this.sortRecipientsByName();
+    }
   }
 
   /**
-   * Sorts recipients of feedback by their name.
+   * Compares FeedbackResponseRecipients' names using localeCompare.
    */
-  private sortRecipientsByName(): void {
-    this.model.recipientList.sort((firstRecipient: FeedbackResponseRecipient,
-      secondRecipient: FeedbackResponseRecipient) =>
-      firstRecipient.recipientName.localeCompare(secondRecipient.recipientName));
+  private compareByName(firstRecipient: FeedbackResponseRecipient,
+     secondRecipient: FeedbackResponseRecipient): number {
+    return firstRecipient.recipientName.localeCompare(secondRecipient.recipientName);
+  }
 
+  /**
+   * Compares FeedbackResponseRecipients' sections using localeCompare.
+   */
+  private compareBySection(firstRecipient: FeedbackResponseRecipient,
+     secondRecipient: FeedbackResponseRecipient): number {
+    return firstRecipient!.recipientSection!.localeCompare(secondRecipient.recipientSection!);
+  }
+
+  /**
+   * Compares FeedbackResponseRecipients' teams using localeCompare.
+   */
+  private compareByTeam(firstRecipient: FeedbackResponseRecipient,
+     secondRecipient: FeedbackResponseRecipient): number {
+    return firstRecipient.recipientTeam!.localeCompare(secondRecipient.recipientTeam!);
+  }
+
+  /**
+   * Updates the recipientSubmissionForms to correspond to the recipientList.
+   */
+  private updateSubmissionFormIndexes(): void {
     const indexes: Map<String, number> = new Map();
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
       indexes.set(recipient.recipientIdentifier, index);
@@ -137,6 +162,30 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
       return firstRecipientIndex - secondRecipientIndex;
     });
+  }
+
+  /**
+   * Sorts recipients of feedback by their name.
+   */
+  public sortRecipientsByName(): void {
+    this.model.recipientList.sort(this.compareByName);
+    this.updateSubmissionFormIndexes();
+  }
+
+  /**
+   * Sorts recipients of feedback by their section and then by their team.
+   */
+  private sortRecipientsBySectionTeam(): void {
+    if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
+      this.model.recipientList.sort((firstRecipient, secondRecipient) => {
+        return this.compareBySection(firstRecipient, secondRecipient)
+         || this.compareByTeam(firstRecipient, secondRecipient);
+        });
+
+    } else if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_TEAM) {
+      this.model.recipientList.sort(this.compareByTeam);
+    }
+    this.updateSubmissionFormIndexes();
   }
 
   /**
@@ -277,6 +326,10 @@ export class QuestionSubmissionFormComponent implements OnInit {
    * Returns the Selection Option label as per the recipientType.
    */
   getSelectionOptionLable(recipient: FeedbackResponseRecipient): string {
+    if (!this.isSectionTeamShown) {
+      return recipient.recipientName;
+    }
+
     switch (this.recipientLabelType) {
       case FeedbackRecipientLabelType.INCLUDE_SECTION:
         return `${recipient.recipientSection} | ${recipient.recipientTeam} | ${recipient.recipientName}`;
@@ -286,6 +339,20 @@ export class QuestionSubmissionFormComponent implements OnInit {
         return recipient.recipientName;
       default:
         return 'Unkonwn';
+    }
+  }
+
+  /**
+   * Toggles to either show recipients' section and team or only the name.
+   */
+  toggleSectionTeam(event: Event): void {
+    const checkbox : HTMLInputElement = event.target as HTMLInputElement;
+    if (checkbox.checked) {
+      this.isSectionTeamShown = true;
+      this.sortRecipientsBySectionTeam();
+    } else {
+      this.isSectionTeamShown = false;
+      this.sortRecipientsByName();
     }
   }
 }
