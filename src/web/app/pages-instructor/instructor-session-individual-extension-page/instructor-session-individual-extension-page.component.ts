@@ -10,7 +10,13 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { Course, FeedbackSession, Instructors, Students } from '../../../types/api-output';
+import {
+  Course,
+  FeedbackSession,
+  FeedbackSessionSubmittedGiverSet,
+  Instructors,
+  Students,
+} from '../../../types/api-output';
 import {
   FeedbackSessionBasicRequest,
   FeedbackSessionUpdateRequest,
@@ -56,6 +62,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseId: string = '';
   courseName: string = '';
   feedbackSessionName: string = '';
+  isPreSelectingNonSubmitters: boolean = false;
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
@@ -84,6 +91,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.isPreSelectingNonSubmitters = queryParams.preselectnonsubmitters === 'true';
       this.loadFeedbackSessionAndIndividuals();
     });
   }
@@ -150,6 +158,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         (studentModels: StudentExtensionTableColumnModel[]) => {
           this.studentsOfCourse = studentModels;
           this.initialSortOfStudents();
+          if (this.isPreSelectingNonSubmitters) {
+            this.selectNonSubmitterStudents();
+          }
         },
         (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -181,6 +192,22 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.TEAM_NAME));
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SECTION_NAME));
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SESSION_END_DATE));
+  }
+
+  private selectNonSubmitterStudents(): void {
+    this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+    }).subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+      this.studentsOfCourse
+        .filter((studentColumnModel: StudentExtensionTableColumnModel) =>
+          !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(studentColumnModel.email))
+        .forEach((studentColumnModel: StudentExtensionTableColumnModel) => {
+          studentColumnModel.isSelected = true;
+        });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
