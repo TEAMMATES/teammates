@@ -249,10 +249,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getCourse(course.getId());
     }
 
-    CourseAttributes getArchivedCourse(String instructorId, String courseId) {
-        return BACKDOOR.getArchivedCourse(instructorId, courseId);
-    }
-
     FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
         return BACKDOOR.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
     }

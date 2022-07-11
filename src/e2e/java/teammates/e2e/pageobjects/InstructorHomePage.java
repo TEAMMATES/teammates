@@ -108,13 +108,6 @@ public class InstructorHomePage extends AppPage {
         waitUntilAnimationFinish();
     }
 
-    public void archiveCourse(int courseTabIndex) {
-        WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-course")));
-        clickAndConfirm(courseTab.findElement(By.id("btn-archive-course")));
-        waitUntilAnimationFinish();
-    }
-
     public void deleteCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.id("btn-course")));

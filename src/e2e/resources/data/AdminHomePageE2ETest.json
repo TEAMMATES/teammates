@@ -30,7 +30,6 @@
       "courseId": "tm.e2e.AHome.course1",
       "name": "Teammates Instr1",
       "email": "AHome.instr1@gmail.tmt",
-      "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",

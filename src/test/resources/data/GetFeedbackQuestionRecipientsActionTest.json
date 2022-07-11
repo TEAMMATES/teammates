@@ -1316,27 +1316,6 @@
         "RECEIVER"
       ]
     },
-    "qn1InSessionInArchivedCourse": {
-      "feedbackSessionName": "session without student questions",
-      "courseId": "idOfArchivedCourse",
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to students"
-      },
-      "questionNumber": 1,
-      "giverType": "INSTRUCTORS",
-      "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 4,
-      "showResponsesTo": [
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER"
-      ]
-    },
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",

@@ -576,7 +576,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(0, questions.size());
 
         // test that questions in other courses are unaffected
-        assertNotNull(getQuestionFromDatabase("qn1InSessionInArchivedCourse"));
         assertNotNull(getQuestionFromDatabase("qn1InSession4InCourse1"));
     }
 
@@ -909,7 +908,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
 
         ______TS("Valid session without questions for instructor should return false");
-        fsa = fsLogic.getFeedbackSession("session without instructor questions", "idOfArchivedCourse");
+        fsa = fsLogic.getFeedbackSession("session without instructor questions", "idOfNoQuestionsCourse");
         assertFalse(fqLogic.hasFeedbackQuestionsForInstructors(fsa, false));
 
         ______TS("Invalid session should not have questions");
@@ -981,7 +980,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(fqLogic.hasFeedbackQuestionsForStudents(fsa));
 
         ______TS("Valid session without questions for students should return false");
-        fsa = fsLogic.getFeedbackSession("session without student questions", "idOfArchivedCourse");
+        fsa = fsLogic.getFeedbackSession("session without student questions", "idOfNoQuestionsCourse");
         assertFalse(fqLogic.hasFeedbackQuestionsForStudents(fsa));
 
         ______TS("Invalid session should not have questions");

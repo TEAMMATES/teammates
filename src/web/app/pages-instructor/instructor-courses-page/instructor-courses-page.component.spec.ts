@@ -10,7 +10,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
+import { Course, Courses, JoinState, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -57,29 +57,6 @@ describe('InstructorCoursesPageComponent', () => {
       },
       canModifyCourse: false,
       canModifyStudent: false,
-    },
-  ];
-
-  const archivedCoursesSnap: any[] = [
-    {
-      course: {
-        courseId: 'CS2104',
-        courseName: 'Can modify archived',
-        timeZone: 'UTC',
-        creationTimestamp: date3.getTime(),
-        deletionTimestamp: 0,
-      },
-      canModifyCourse: true,
-    },
-    {
-      course: {
-        courseId: 'CS2106',
-        courseName: 'Cannot modify archived',
-        timeZone: 'UTC',
-        creationTimestamp: date3.getTime(),
-        deletionTimestamp: 0,
-      },
-      canModifyCourse: false,
     },
   ];
 
@@ -304,9 +281,6 @@ describe('InstructorCoursesPageComponent', () => {
         if (courseStatus === 'active') {
           return of({ courses: [courseCS1231] });
         }
-        if (courseStatus === 'archived') {
-          return of({ courses: [courseCS3281, courseCS3282] });
-        }
         // softDeleted
         return of({ courses: [courseST4234] });
       });
@@ -321,12 +295,6 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.activeCourses.length).toEqual(1);
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
     expect(component.activeCourses[0].course.courseName).toEqual('Discrete Structures');
-
-    expect(component.archivedCourses.length).toEqual(2);
-    expect(component.archivedCourses[0].course.courseId).toEqual('CS3282');
-    expect(component.archivedCourses[0].course.courseName).toEqual('Thematic Systems Project II');
-    expect(component.archivedCourses[1].course.courseId).toEqual('CS3281');
-    expect(component.archivedCourses[1].course.courseName).toEqual('Thematic Systems Project I');
 
     expect(component.softDeletedCourses.length).toEqual(1);
     expect(component.softDeletedCourses[0].course.courseId).toEqual('ST4234');
@@ -347,42 +315,6 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.courseStats.CS1231.unregistered).toEqual(1);
   });
 
-  it('should archive an active course', () => {
-    const courseArchiveCS1231: CourseArchive = {
-      courseId: 'CS1231',
-      isArchived: true,
-    };
-    component.activeCourses = [courseModelCS1231];
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'changeArchiveStatus')
-        .mockReturnValue(of(courseArchiveCS1231));
-    component.changeArchiveStatus('CS1231', true);
-
-    expect(courseSpy).toHaveBeenCalledTimes(1);
-    expect(courseSpy).toHaveBeenLastCalledWith('CS1231', { archiveStatus: true });
-
-    expect(component.activeCourses.length).toEqual(0);
-    expect(component.archivedCourses.length).toEqual(1);
-    expect(component.archivedCourses[0].course.courseId).toEqual('CS1231');
-  });
-
-  it('should unarchive an archived course', () => {
-    const courseArchiveCS1231: CourseArchive = {
-      courseId: 'CS1231',
-      isArchived: false,
-    };
-    component.archivedCourses = [courseModelCS1231];
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'changeArchiveStatus')
-        .mockReturnValue(of(courseArchiveCS1231));
-    component.changeArchiveStatus('CS1231', false);
-
-    expect(courseSpy).toHaveBeenCalledTimes(1);
-    expect(courseSpy).toHaveBeenNthCalledWith(1, 'CS1231', { archiveStatus: false });
-
-    expect(component.archivedCourses.length).toEqual(0);
-    expect(component.activeCourses.length).toEqual(1);
-    expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
-  });
-
   it('should soft delete a course', async () => {
     component.activeCourses = [courseModelCS1231];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
@@ -399,7 +331,6 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should permanently delete a course', async () => {
-    component.archivedCourses = [courseModelCS1231];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'deleteCourse')
         .mockReturnValue(of({ message: 'Message' }));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(
@@ -444,17 +375,6 @@ describe('InstructorCoursesPageComponent', () => {
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-soft-delete-disabled-0');
-    expect(button.textContent).toEqual(' Delete ');
-    expect(button.className).toContain('disabled');
-  });
-
-  it('should disable delete button when instructor cannot modify archived course', () => {
-    component.archivedCourses = [courseModelST4234];
-    component.isLoading = false;
-    component.isArchivedCourseExpanded = true;
-    fixture.detectChanges();
-
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-soft-delete-archived-disabled-0');
     expect(button.textContent).toEqual(' Delete ');
     expect(button.className).toContain('disabled');
   });
@@ -519,7 +439,6 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should snap with all courses in course stats', () => {
     component.activeCourses = activeCoursesSnap;
-    component.archivedCourses = archivedCoursesSnap;
     component.softDeletedCourses = deletedCoursesSnap;
     component.courseStats = courseStatsSnap;
     component.isLoading = false;
@@ -529,7 +448,6 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should snap when it is undeletable and unrestorable', () => {
     component.activeCourses = activeCoursesSnap;
-    component.archivedCourses = archivedCoursesSnap;
     component.softDeletedCourses = deletedCoursesSnap;
     component.courseStats = courseStatsSnap;
     component.canDeleteAll = false;
@@ -563,13 +481,6 @@ describe('InstructorCoursesPageComponent', () => {
       Turkey: 3 * 60,
     };
     jest.spyOn(timezoneService, 'getTzOffsets').mockReturnValue(timezones);
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap when archived courses are expanded', () => {
-    component.archivedCourses = archivedCoursesSnap;
-    component.isArchivedCourseExpanded = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

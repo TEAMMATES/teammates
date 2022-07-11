@@ -720,9 +720,9 @@
       "studentDeadlines": {},
       "instructorDeadlines": {}
     },
-    "archiveCourse.session1": {
+    "sessionWithoutStudentQuestions": {
       "feedbackSessionName": "session without student questions",
-      "courseId": "idOfArchivedCourse",
+      "courseId": "idOfNoQuestionsCourse",
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-01-20T23:00:00Z",
@@ -1078,27 +1078,6 @@
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 4,
-      "showResponsesTo": [
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER"
-      ]
-    },
-    "qn1InSessionInArchivedCourse": {
-      "feedbackSessionName": "session without student questions",
-      "courseId": "idOfArchivedCourse",
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to students"
-      },
-      "questionNumber": 1,
-      "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numberOfEntitiesToGiveFeedbackTo": 4,
       "showResponsesTo": [

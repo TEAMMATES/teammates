@@ -26,7 +26,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     private String googleId;
     private String role;
     private String displayedName;
-    private boolean isArchived;
     private boolean isDisplayedToStudents;
     private InstructorPrivileges privileges;
     private transient String key;
@@ -39,7 +38,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         this.displayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
-        this.isArchived = false;
         this.isDisplayedToStudents = true;
         this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
@@ -70,7 +68,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         if (instructor.getDisplayedName() != null) {
             instructorAttributes.displayedName = instructor.getDisplayedName();
         }
-        instructorAttributes.isArchived = instructor.getIsArchived();
         instructorAttributes.isDisplayedToStudents = instructor.isDisplayedToStudents();
 
         if (instructor.getInstructorPrivilegesAsText() == null) {
@@ -101,7 +98,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         instructorAttributes.key = key;
         instructorAttributes.role = role;
         instructorAttributes.displayedName = displayedName;
-        instructorAttributes.isArchived = isArchived;
         instructorAttributes.isDisplayedToStudents = isDisplayedToStudents;
         instructorAttributes.privileges = privileges;
         instructorAttributes.createdAt = createdAt;
@@ -128,14 +124,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public void setKey(String key) {
         this.key = key;
-    }
-
-    public boolean isArchived() {
-        return isArchived;
-    }
-
-    public void setArchived(boolean archived) {
-        isArchived = archived;
     }
 
     public InstructorPrivileges getPrivileges() {
@@ -183,7 +171,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     @Override
     public Instructor toEntity() {
-        return new Instructor(googleId, courseId, isArchived, name, email, role,
+        return new Instructor(googleId, courseId, name, email, role,
                               isDisplayedToStudents, displayedName, getInstructorPrivilegesAsText());
     }
 
@@ -376,7 +364,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     private void updateBasic(UpdateOptions updateOptions) {
         updateOptions.nameOption.ifPresent(s -> name = s);
-        updateOptions.isArchivedOption.ifPresent(s -> isArchived = s);
         updateOptions.roleOption.ifPresent(s -> role = s);
         updateOptions.isDisplayedToStudentsOption.ifPresent(s -> isDisplayedToStudents = s);
         updateOptions.instructorPrivilegesOption.ifPresent(s -> privileges = s);
@@ -561,7 +548,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     private static class UpdateOptions {
 
         UpdateOption<String> nameOption = UpdateOption.empty();
-        UpdateOption<Boolean> isArchivedOption = UpdateOption.empty();
         UpdateOption<String> roleOption = UpdateOption.empty();
         UpdateOption<Boolean> isDisplayedToStudentsOption = UpdateOption.empty();
         UpdateOption<String> displayedNameOption = UpdateOption.empty();
@@ -571,7 +557,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         public String toString() {
             return "InstructorAttributes.UpdateOptions ["
                     + "name = " + nameOption
-                    + ", isAchieved = " + isArchivedOption
                     + ", roleOption = " + roleOption
                     + ", isDisplayedToStudents = " + isDisplayedToStudentsOption
                     + ", displayedName = " + displayedNameOption
@@ -625,11 +610,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         public B withIsDisplayedToStudents(boolean isDisplayedToStudents) {
             updateOptions.isDisplayedToStudentsOption = UpdateOption.of(isDisplayedToStudents);
-            return thisBuilder;
-        }
-
-        public B withIsArchived(boolean isAchieved) {
-            updateOptions.isArchivedOption = UpdateOption.of(isAchieved);
             return thisBuilder;
         }
 

@@ -64,10 +64,6 @@ public class InstructorCoursesPage extends AppPage {
         return browser.driver.findElement(By.id("active-courses-table"));
     }
 
-    private WebElement getArchivedCoursesTable() {
-        return browser.driver.findElement(By.id("archived-courses-table"));
-    }
-
     private WebElement getDeletedCoursesTable() {
         return browser.driver.findElement(By.id("deleted-courses-table"));
     }
@@ -85,16 +81,6 @@ public class InstructorCoursesPage extends AppPage {
                 TimeHelper.formatInstant(course.getCreatedAt(), course.getTimeZone(), "d MMM yyyy"),
                 numSections, numTeams, numStudents, numUnregistered };
         verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
-    }
-
-    public void verifyArchivedCoursesDetails(CourseAttributes[] courses) {
-        showArchiveTable();
-        this.waitUntilAnimationFinish();
-        String[][] courseDetails = getCourseDetails(courses);
-        for (int i = 0; i < courses.length; i++) {
-            // use verifyTableRowValues as archive courses are not sorted
-            verifyTableRowValues(getArchivedTableRow(courses[i].getId()), courseDetails[i]);
-        }
     }
 
     public void verifyDeletedCoursesDetails(CourseAttributes[] courses) {
@@ -124,10 +110,6 @@ public class InstructorCoursesPage extends AppPage {
         assertEquals(expectedNum, getCourseCount());
     }
 
-    public void verifyNumArchivedCourses(int expectedNum) {
-        assertEquals(expectedNum, getArchivedCourseCount());
-    }
-
     public void verifyNumDeletedCourses(int expectedNum) {
         assertEquals(expectedNum, getDeletedCourseCount());
     }
@@ -152,14 +134,6 @@ public class InstructorCoursesPage extends AppPage {
         }
     }
 
-    public void archiveCourse(String courseId) {
-        WebElement otherActionButton = getOtherActionsButton(courseId);
-        click(otherActionButton);
-        click(getArchiveButton(courseId));
-
-        waitUntilAnimationFinish();
-    }
-
     public void copyCourse(String courseId, CourseAttributes newCourse) {
         WebElement otherActionButton = getOtherActionsButton(courseId);
         click(otherActionButton);
@@ -182,29 +156,9 @@ public class InstructorCoursesPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
-    public void unarchiveCourse(String courseId) {
-        WebElement unarchiveButton = getUnarchiveButton(courseId);
-        click(unarchiveButton);
-
-        waitUntilAnimationFinish();
-    }
-
-    public void moveArchivedCourseToRecycleBin(String courseId) {
-        WebElement moveArchivedToRecycleBinButton = getMoveArchivedToRecycleBinButton(courseId);
-        clickAndConfirm(moveArchivedToRecycleBinButton);
-
-        waitUntilAnimationFinish();
-    }
-
     public void showDeleteTable() {
         if (!isElementVisible(By.id("deleted-course-id-0"))) {
             click(By.id("deleted-table-heading"));
-        }
-    }
-
-    public void showArchiveTable() {
-        if (!isElementVisible(By.id("archived-course-id-0"))) {
-            click(By.id("archived-table-heading"));
         }
     }
 
@@ -247,11 +201,6 @@ public class InstructorCoursesPage extends AppPage {
     private WebElement getActiveTableRow(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getActiveCoursesTable().findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
-    }
-
-    private WebElement getArchivedTableRow(String courseId) {
-        int courseRowNumber = getRowNumberOfArchivedCourse(courseId);
-        return getArchivedCoursesTable().findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
     }
 
     private WebElement getDeletedTableRow(String courseId) {
@@ -316,11 +265,6 @@ public class InstructorCoursesPage extends AppPage {
         return getOtherActionsButtonInRow(courseRowNumber);
     }
 
-    private WebElement getArchiveButton(String courseId) {
-        int courseRowNumber = getRowNumberOfCourse(courseId);
-        return getArchiveButtonInRow(courseRowNumber);
-    }
-
     private WebElement getCopyButton(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getCopyButtonInRow(courseRowNumber);
@@ -329,16 +273,6 @@ public class InstructorCoursesPage extends AppPage {
     private WebElement getMoveToRecycleBinButton(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getMoveToRecycleBinButtonInRow(courseRowNumber);
-    }
-
-    private WebElement getUnarchiveButton(String courseId) {
-        int courseRowNumber = getRowNumberOfArchivedCourse(courseId);
-        return getUnarchiveButtonInRow(courseRowNumber);
-    }
-
-    private WebElement getMoveArchivedToRecycleBinButton(String courseId) {
-        int courseRowNumber = getRowNumberOfArchivedCourse(courseId);
-        return getMoveArchivedToRecycleBinButtonInRow(courseRowNumber);
     }
 
     private WebElement getRestoreButton(String courseId) {
@@ -361,14 +295,6 @@ public class InstructorCoursesPage extends AppPage {
         }
     }
 
-    private int getArchivedCourseCount() {
-        try {
-            return getArchivedCoursesTable().findElements(By.cssSelector("tbody tr")).size();
-        } catch (NoSuchElementException e) {
-            return 0;
-        }
-    }
-
     private int getDeletedCourseCount() {
         try {
             return getDeletedCoursesTable().findElements(By.cssSelector("tbody tr")).size();
@@ -380,15 +306,6 @@ public class InstructorCoursesPage extends AppPage {
     private int getRowNumberOfCourse(String courseId) {
         for (int i = 0; i < getCourseCount(); i++) {
             if (getCourseIdCell(i).getText().equals(courseId)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private int getRowNumberOfArchivedCourse(String courseId) {
-        for (int i = 0; i < getArchivedCourseCount(); i++) {
-            if (getArchivedCourseIdCell(i).getText().equals(courseId)) {
                 return i;
             }
         }
@@ -408,10 +325,6 @@ public class InstructorCoursesPage extends AppPage {
         return browser.driver.findElement(By.id("course-id-" + rowId));
     }
 
-    private WebElement getArchivedCourseIdCell(int rowId) {
-        return browser.driver.findElement(By.id("archived-course-id-" + rowId));
-    }
-
     private WebElement getDeletedCourseIdCell(int rowId) {
         return browser.driver.findElement(By.id("deleted-course-id-" + rowId));
     }
@@ -426,11 +339,6 @@ public class InstructorCoursesPage extends AppPage {
         return browser.driver.findElement(otherActionsButton);
     }
 
-    private WebElement getArchiveButtonInRow(int rowId) {
-        By archiveButton = By.id("btn-archive-" + rowId);
-        return browser.driver.findElement(archiveButton);
-    }
-
     private WebElement getCopyButtonInRow(int rowId) {
         By copyButton = By.id("btn-copy-" + rowId);
         return browser.driver.findElement(copyButton);
@@ -438,16 +346,6 @@ public class InstructorCoursesPage extends AppPage {
 
     private WebElement getMoveToRecycleBinButtonInRow(int rowId) {
         By moveToRecycleBinButton = By.id("btn-soft-delete-" + rowId);
-        return browser.driver.findElement(moveToRecycleBinButton);
-    }
-
-    private WebElement getUnarchiveButtonInRow(int rowId) {
-        By archiveButton = By.id("btn-unarchive-" + rowId);
-        return browser.driver.findElement(archiveButton);
-    }
-
-    private WebElement getMoveArchivedToRecycleBinButtonInRow(int rowId) {
-        By moveToRecycleBinButton = By.id("btn-soft-delete-archived-" + rowId);
         return browser.driver.findElement(moveToRecycleBinButton);
     }
 

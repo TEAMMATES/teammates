@@ -353,13 +353,6 @@ public class Logic {
         return instructorsLogic.getInstructorsForGoogleId(googleId);
     }
 
-    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
-
-        assert googleId != null;
-
-        return instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
-    }
-
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -521,24 +514,6 @@ public class Logic {
         assert updateOptions != null;
 
         return coursesLogic.updateCourseCascade(updateOptions);
-    }
-
-    /**
-     * Changes the archive status of a course for an instructor.
-     *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @param courseId The course of which the archive status is to be changed
-     * @param archiveStatus The archive status to be set
-     */
-    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        assert googleId != null;
-        assert courseId != null;
-
-        instructorsLogic.setArchiveStatusOfInstructor(googleId, courseId, archiveStatus);
     }
 
     /**
@@ -1010,7 +985,7 @@ public class Logic {
     /**
      * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
      * <br>
-     * Omits sessions if the corresponding courses are archived or in Recycle Bin
+     * Omits sessions if the corresponding courses are in Recycle Bin
      */
     public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructors(
             List<InstructorAttributes> instructorList) {

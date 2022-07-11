@@ -142,10 +142,6 @@
                           ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse">
                     Copy
                   </button>
-                  <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"
-                          ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" placement="left" container="body">
-                    Archive
-                  </button>
                   <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
                           ngbTooltip="Delete the course and its corresponding students and sessions" placement="left" container="body">
                     Delete
@@ -174,74 +170,6 @@
     </div>
   </div>
 </tm-loading-retry>
-
-<div class="course-section" *ngIf="archivedCourses.length">
-  <h3 class="text-muted">
-    <span class="fa fa-file-archive"></span> Archived courses
-  </h3>
-  <div class="card top-padded">
-    <div id="archived-table-heading" class="card-header bg-info text-white cursor-pointer" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
-      <b>Archive</b>
-      <div class="card-header-btn-toolbar">
-        <tm-panel-chevron [isExpanded]="isArchivedCourseExpanded"></tm-panel-chevron>
-      </div>
-    </div>
-    <div class="card-body archive-body table-responsive" *ngIf="isArchivedCourseExpanded" @collapseAnim>
-      <table id="archived-courses-table" class="table table-striped table-bordered archive-table">
-        <thead>
-          <tr class="background-color-medium-gray text-color-gray">
-            <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_ID)">
-              Course ID
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_ID && archivedTableSortOrder === SortOrder.DESC"></i>
-                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_ID && archivedTableSortOrder === SortOrder.ASC"></i>
-              </span>
-            </th>
-            <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_NAME)">
-              Course Name
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_NAME && archivedTableSortOrder === SortOrder.DESC"></i>
-                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_NAME && archivedTableSortOrder === SortOrder.ASC"></i>
-              </span>
-            </th>
-            <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_CREATION_DATE)">
-              Creation Date
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_CREATION_DATE && archivedTableSortOrder === SortOrder.DESC"></i>
-                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_CREATION_DATE && archivedTableSortOrder === SortOrder.ASC"></i>
-              </span>
-            </th>
-            <th class="text-center">Action(s)</th>
-          </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let course of archivedCourses; let i = index">
-          <td id="archived-course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
-          <td class="text-break">{{course.course.courseName}}</td>
-          <td>
-            <span container="body" class="ngb-tooltip-class" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
-          </td>
-          <td class="text-center actions-cell">
-            <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, false)">
-              Unarchive
-            </button>
-            <button id="btn-soft-delete-archived-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
-                ngbTooltip="Delete the course and its corresponding students and sessions">
-              Delete
-            </button>
-            <button id="btn-soft-delete-archived-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
-              Delete
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
 
 <div class="row course-section margin-top-30px" *ngIf="softDeletedCourses.length">
   <div class="col-12">

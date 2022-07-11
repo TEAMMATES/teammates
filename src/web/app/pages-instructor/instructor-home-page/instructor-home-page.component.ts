@@ -15,7 +15,6 @@ import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
-  CourseArchive,
   Courses,
   FeedbackSession,
   FeedbackSessions,
@@ -113,31 +112,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       return !courseTabModel.isTabExpanded;
     }
     return courseTabModel.isTabExpanded;
-  }
-
-  /**
-   * Archives the entire course from the instructor
-   */
-  archiveCourse(courseId: string): void {
-    const modalContent: string =
-        'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
-
-    const modalRef: NgbModalRef =
-        this.simpleModalService.openConfirmationModal(
-            `Archive course <strong>${courseId}</strong>?`, SimpleModalType.INFO, modalContent);
-    modalRef.result.then(() => {
-      this.courseService.changeArchiveStatus(courseId, {
-        archiveStatus: true,
-      }).subscribe((courseArchive: CourseArchive) => {
-        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-          return model.course.courseId !== courseId;
-        });
-        this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
-            You can retrieve it from the Courses page.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    }, () => {});
   }
 
   /**

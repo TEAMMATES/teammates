@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, CourseArchive, Courses, HasResponses, JoinStatus, MessageOutput, Student } from '../types/api-output';
-import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
+import { Course, Courses, HasResponses, JoinStatus, MessageOutput, Student } from '../types/api-output';
+import { CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -147,14 +147,6 @@ export class CourseService {
   deleteCourse(courseid: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = { courseid };
     return this.httpRequestService.delete(ResourceEndpoints.COURSE, paramMap);
-  }
-
-  /**
-   * Changes the archive status of a course by calling API.
-   */
-  changeArchiveStatus(courseid: string, request: CourseArchiveRequest): Observable<CourseArchive> {
-    const paramMap: Record<string, string> = { courseid };
-    return this.httpRequestService.put(ResourceEndpoints.COURSE_ARCHIVE, paramMap, request);
   }
 
   /**

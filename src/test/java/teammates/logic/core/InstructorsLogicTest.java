@@ -644,23 +644,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteInstructorsForGoogleIdCascade_archivedInstructor_shouldDeleteAlso() throws Exception {
-        InstructorAttributes instructor5 = dataBundle.instructors.get("instructor5");
-
-        assertNotNull(instructor5.getGoogleId());
-        instructorsLogic.setArchiveStatusOfInstructor(instructor5.getGoogleId(), instructor5.getCourseId(), true);
-
-        // this is an archived instructor
-        assertTrue(
-                instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived());
-
-        instructorsLogic.deleteInstructorsForGoogleIdCascade(instructor5.getGoogleId());
-
-        // the instructor should be deleted also
-        assertNull(instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()));
-    }
-
-    @Test
     public void testDeleteInstructorsForGoogleIdCascade() throws Exception {
 
         ______TS("typical case: delete non-existent googleId");
@@ -774,7 +757,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
         ______TS("The course has 1 registered instructor with modifying instructor privilege");
-        courseId = "idOfArchivedCourse";
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         assertFalse(instructorToUpdate.getPrivileges().isAllowedForPrivilege(

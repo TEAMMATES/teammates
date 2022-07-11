@@ -1,5 +1,5 @@
 <div class="alert alert-warning" role="alert" *ngIf="!isCoursesLoading && courseCandidates.length === 0 && !hasCourseLoadingFailed">
-  You have not created any courses yet, or you have no active courses. Go <a tmRouterLink="/web/instructor/courses">here</a> to create or unarchive a course.
+  You have not created any courses yet. Go <a tmRouterLink="/web/instructor/courses">here</a> to create a course.
 </div>
 
 <div>
@@ -47,8 +47,8 @@
   <div class="row">
     <div class="col-12 text-muted">
       <p>
-        Note: The table above doesn't contain sessions from archived courses and courses in recycle bin.
-        To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first.
+        Note: The table above doesn't contain sessions from courses in recycle bin.
+        To view sessions from a course in recycle bin, restore the course first.
       </p>
     </div>
   </div>
