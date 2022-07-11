@@ -63,7 +63,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         String fslTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
         if (fslTypes != null) {
-            // Multiple log types are separated by a hyphen e.g access-submission
+            // Multiple log types are separated by a comma e.g access,submission
             for (String fslType : fslTypes.split(",")) {
                 FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
 

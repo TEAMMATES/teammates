@@ -54,10 +54,10 @@ interface FeedbackSessionLogModel {
 }
 
 /**
- * Component for instructor logs
+ * Component for student activity and inactivity logs
  */
 @Component({
-  selector: 'tm-instructor-audit-logs-page',
+  selector: 'tm-instructor-student-activity-logs',
   templateUrl: './instructor-student-activity-logs.component.html',
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   styleUrls: ['./instructor-student-activity-logs.component.scss'],

@@ -17,7 +17,7 @@ const routes: Routes = [
 ];
 
 /**
- * Module for instructor audit logs page
+ * Module for student activity logs page
  */
 @NgModule({
   declarations: [InstructorStudentActivityLogsComponent],

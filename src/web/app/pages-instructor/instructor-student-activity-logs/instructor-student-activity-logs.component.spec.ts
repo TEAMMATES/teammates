@@ -25,7 +25,6 @@ import { InstructorStudentActivityLogsModule } from './instructor-student-activi
 describe('InstructorStudentActivityLogsComponent', () => {
   let component: InstructorStudentActivityLogsComponent;
   let fixture: ComponentFixture<InstructorStudentActivityLogsComponent>;
-  // let courseService: CourseService;
   let studentService: StudentService;
   let logService: LogService;
   let timezoneService: TimezoneService;
