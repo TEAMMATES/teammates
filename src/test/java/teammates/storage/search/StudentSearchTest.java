@@ -35,7 +35,6 @@ public class StudentSearchTest extends BaseSearchTest {
         StudentAttributes stu1InCourse3 = dataBundle.students.get("student1InCourse3");
         StudentAttributes stu1InUnregCourse = dataBundle.students.get("student1InUnregisteredCourse");
         StudentAttributes stu2InUnregCourse = dataBundle.students.get("student2InUnregisteredCourse");
-        StudentAttributes stu1InArchCourse = dataBundle.students.get("student1InArchivedCourse");
 
         ______TS("success: search for students in whole system; query string does not match any student");
 
@@ -48,9 +47,9 @@ public class StudentSearchTest extends BaseSearchTest {
 
         studentList = studentsDb.searchStudentsInWholeSystem("student1");
 
-        assertEquals(5, studentList.size());
+        assertEquals(4, studentList.size());
         AssertHelper.assertSameContentIgnoreOrder(
-                     Arrays.asList(stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
+                     Arrays.asList(stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InUnregCourse),
                      studentList);
 
         ______TS("success: search for students in whole system; query string should be case-insensitive");
@@ -100,14 +99,13 @@ public class StudentSearchTest extends BaseSearchTest {
         StudentAttributes stu1InCourse2 = dataBundle.students.get("student1InCourse2");
         StudentAttributes stu1InCourse3 = dataBundle.students.get("student1InCourse3");
         StudentAttributes stu1InUnregCourse = dataBundle.students.get("student1InUnregisteredCourse");
-        StudentAttributes stu1InArchCourse = dataBundle.students.get("student1InArchivedCourse");
 
         List<StudentAttributes> studentList = studentsDb.searchStudentsInWholeSystem("student1");
 
         // there is search result before deletion
-        assertEquals(5, studentList.size());
+        assertEquals(4, studentList.size());
         AssertHelper.assertSameContentIgnoreOrder(
-                Arrays.asList(stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
+                Arrays.asList(stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InUnregCourse),
                 studentList);
 
         // delete a student
@@ -118,7 +116,7 @@ public class StudentSearchTest extends BaseSearchTest {
 
         assertEquals(4, studentList.size());
         AssertHelper.assertSameContentIgnoreOrder(
-                Arrays.asList(stu1InCourse2, stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
+                Arrays.asList(stu1InCourse2, stu1InCourse3, stu1InUnregCourse),
                 studentList);
 
         // delete all students in course 2
@@ -129,9 +127,9 @@ public class StudentSearchTest extends BaseSearchTest {
         // the search result will change
         studentList = studentsDb.searchStudentsInWholeSystem("student1");
 
-        assertEquals(3, studentList.size());
+        assertEquals(2, studentList.size());
         AssertHelper.assertSameContentIgnoreOrder(
-                Arrays.asList(stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
+                Arrays.asList(stu1InCourse3, stu1InUnregCourse),
                 studentList);
     }
 

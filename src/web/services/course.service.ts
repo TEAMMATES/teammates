@@ -95,15 +95,9 @@ export class CourseService {
       entitytype: 'instructor',
       user: googleId,
     };
-    const archivedCoursesParamMap: Record<string, string> = {
-      coursestatus: 'archived',
-      entitytype: 'instructor',
-      user: googleId,
-    };
 
     return forkJoin([
       this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap),
-      this.httpRequestService.get(ResourceEndpoints.COURSES, archivedCoursesParamMap),
     ]).pipe(
         map((vals: Courses[]) => {
           return {

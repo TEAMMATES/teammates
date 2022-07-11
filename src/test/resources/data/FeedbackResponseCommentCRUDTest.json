@@ -115,7 +115,6 @@
       "courseId": "idOfCourse1",
       "name": "Helper Course1",
       "email": "helper@course1.tmt",
-      "isArchived": false,
       "role": "Custom",
       "isDisplayedToStudents": false,
       "displayedName": "Helper",

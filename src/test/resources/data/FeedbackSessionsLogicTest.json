@@ -66,12 +66,6 @@
       "email": "iwosc@yahoo.tmt",
       "readNotifications": {}
     },
-    "instructorOfArchivedCourse": {
-      "googleId": "idOfInstructorOfArchivedCourse",
-      "name": "InstructorOfArchiveCourse name",
-      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
-      "readNotifications": {}
-    },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
@@ -82,12 +76,6 @@
       "googleId": "student2InCourse1",
       "name": "Student in two courses",
       "email": "student2InCourse1@gmail.tmt",
-      "readNotifications": {}
-    },
-    "student1InArchivedCourse": {
-      "googleId": "student1InArchivedCourse",
-      "name": "Student in Archived Course",
-      "email": "student1InCourse1@gmail.tmt",
       "readNotifications": {}
     }
   },
@@ -123,12 +111,6 @@
       "id": "idOfSampleCourse-demo",
       "name": "Sample Course",
       "institute": "TEAMMATES Test Institute 7",
-      "timeZone": "UTC"
-    },
-    "archivedCourse": {
-      "id": "idOfArchivedCourse",
-      "name": "Archived Course",
-      "institute": "TEAMMATES Test Institute 5",
       "timeZone": "UTC"
     },
     "unregisteredCourse": {
@@ -190,7 +172,6 @@
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor3 Course1",
       "email": "instructor3@course1.tmt",
-      "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -351,7 +332,6 @@
       "courseId": "idOfCourseNoEvals",
       "name": "Instructor4 name",
       "email": "instructor4@courseNoEvals.tmt",
-      "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -398,30 +378,6 @@
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor With Only One Sample Course",
       "email": "iwosc@yahoo.tmt",
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
-    "instructorOfArchivedCourse": {
-      "googleId": "idOfInstructorOfArchivedCourse",
-      "courseId": "idOfArchivedCourse",
-      "name": "InstructorOfArchiveCourse name",
-      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
-      "isArchived": true,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -562,15 +518,6 @@
       "comments": "",
       "team": "Team 2",
       "section": "Section 2"
-    },
-    "student1InArchivedCourse": {
-      "googleId": "student1InArchivedCourse",
-      "email": "student1InArchivedCourse@gmail.tmt",
-      "course": "idOfArchivedCourse",
-      "name": "student1 In Course1",
-      "comments": "",
-      "team": "Team 2.1",
-      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -1343,19 +1290,6 @@
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from instr to Team 2.1"
-      }
-    },
-    "response1ForNVSQ1": {
-      "feedbackSessionName": "session without student questions",
-      "courseId": "idOfArchivedCourse",
-      "feedbackQuestionId": "1",
-      "giver": "instructorOfArchiveCourse@archiveCourse.tmt",
-      "recipient": "student1InArchivedCourse@gmail.tmt",
-      "giverSection": "None",
-      "recipientSection": "Section 1",
-      "responseDetails": {
-        "questionType": "TEXT",
-        "answer": "Response from instructor to student"
       }
     }
   },
