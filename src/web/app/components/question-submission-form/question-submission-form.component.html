@@ -24,10 +24,10 @@
       </ul>
     </div>
 
-    <tm-contribution-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-instruction>
+    <tm-contribution-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"
+                                          [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-contribution-question-instruction>
     <tm-text-question-instruction *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-instruction>
     <tm-num-scale-question-instruction *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-instruction>
-    <tm-contribution-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-constraint>
     <tm-text-question-constraint *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-constraint>
     <tm-num-scale-question-constraint *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-constraint>
     <tm-rank-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="model.questionDetails"></tm-rank-options-question-instruction>
@@ -66,7 +66,7 @@
                       [disabled]="isFormsDisabled">
                 <option value=""></option>
                 <ng-container *ngFor="let recipient of model.recipientList">
-                  <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLable(recipient) }}</option>
+                  <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
                 </ng-container>
               </select>
               <div class="col-auto text-left">
@@ -169,6 +169,11 @@
     </div>
 
     <div class="col-12 constraint-margins">
+      <tm-contribution-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"
+                                           [recipientSubmissionForms]="model.recipientSubmissionForms"
+                                           [questionDetails]="model.questionDetails"
+                                           (isValidEvent)="updateValidity($event)"
+      ></tm-contribution-question-constraint>
       <tm-rank-recipients-question-constraint *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS"
                                               [recipientSubmissionForms]="model.recipientSubmissionForms"
                                               [questionDetails]="model.questionDetails"
