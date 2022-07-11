@@ -44,21 +44,35 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     private static final Logger log = Logger.getLogger();
 
+    private boolean isZeroSum;
     private boolean isNotSureAllowed;
 
     public FeedbackContributionQuestionDetails() {
-        this(null);
+        super(FeedbackQuestionType.CONTRIB, null);
+        /*
+            Contribution question details was changed to include isZeroSum field in
+            https://github.com/TEAMMATES/teammates/pull/11827.
+            isZeroSum field has to be set to false for old contribution questions.
+            This constructor is used to deserialize question details string into FeedbackContributionQuestionDetails
+            object.
+            We set the default value of isZeroSum to false here so that the default value if isZeroSum is not present
+            will be false.
+        */
+        isZeroSum = false;
+        isNotSureAllowed = false;
     }
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        isNotSureAllowed = true;
+        isZeroSum = true;
+        isNotSureAllowed = false;
     }
 
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
-        return newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
+        return newContribDetails.isZeroSum != this.isZeroSum
+                || newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
     }
 
     @Override
@@ -255,13 +269,28 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public List<String> validateQuestionDetails() {
-        return new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+
+        if (isZeroSum && isNotSureAllowed) {
+            errors.add(CONTRIB_ERROR_INVALID_OPTION);
+        }
+
+        return errors;
     }
 
     @Override
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
 
+        // Nothing to validate if there are no responses
+        boolean isAllNotSubmitted = responses
+                .stream()
+                .allMatch(r -> ((FeedbackContributionResponseDetails) r).getAnswer() == Const.POINTS_NOT_SUBMITTED);
+        if (isAllNotSubmitted) {
+            return errors;
+        }
+
+        int actualTotal = 0;
         for (FeedbackResponseDetails response : responses) {
             FeedbackContributionResponseDetails details = (FeedbackContributionResponseDetails) response;
             boolean validAnswer = false;
@@ -269,18 +298,28 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             // Valid answers: 0, 5, 10, 15, .... 190, 195, 200
             boolean isValidRange = details.getAnswer() >= 0 && details.getAnswer() <= 200;
             boolean isMultipleOf5 = details.getAnswer() % 5 == 0;
-
             if (isValidRange && isMultipleOf5) {
                 validAnswer = true;
             }
-            if (details.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed
-                    || details.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+
+            boolean isValidNotSure = details.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed;
+            boolean isValidNotSubmitted = details.getAnswer() == Const.POINTS_NOT_SUBMITTED && !isZeroSum;
+            if (isValidNotSure || isValidNotSubmitted) {
                 validAnswer = true;
             }
+
             if (!validAnswer) {
                 errors.add(CONTRIB_ERROR_INVALID_OPTION);
             }
+
+            actualTotal += details.getAnswer();
         }
+
+        int expectedTotal = numRecipients * 100;
+        if (actualTotal != expectedTotal && isZeroSum) {
+            errors.add(CONTRIB_ERROR_INVALID_OPTION);
+        }
+
         return errors;
     }
 
@@ -334,8 +373,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return false;
     }
 
+    public boolean isZeroSum() {
+        return isZeroSum;
+    }
+
     public boolean isNotSureAllowed() {
         return isNotSureAllowed;
+    }
+
+    public void setZeroSum(boolean zeroSum) {
+        isZeroSum = zeroSum;
     }
 
     public void setNotSureAllowed(boolean notSureAllowed) {
