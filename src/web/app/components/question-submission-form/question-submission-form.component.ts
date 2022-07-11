@@ -72,7 +72,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   model: QuestionSubmissionFormModel = {
     isLoading: false,
-    isLoaded: true,
+    isLoaded: false,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -325,7 +325,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   /**
    * Returns the Selection Option label as per the recipientType.
    */
-  getSelectionOptionLable(recipient: FeedbackResponseRecipient): string {
+  getSelectionOptionLabel(recipient: FeedbackResponseRecipient): string {
     if (!this.isSectionTeamShown) {
       return recipient.recipientName;
     }
