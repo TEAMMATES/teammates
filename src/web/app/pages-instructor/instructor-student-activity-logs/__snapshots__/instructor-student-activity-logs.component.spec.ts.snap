@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`InstructorStudentActivityLogsComponent should snap when page is still loading 1`] = `
-<tm-instructor-audit-logs-page
+<tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
@@ -56,11 +56,11 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
     <div>
     </div>
   </div>
-</tm-instructor-audit-logs-page>
+</tm-instructor-student-activity-logs>
 `;
 
 exports[`InstructorStudentActivityLogsComponent should snap when searching for details in search form 1`] = `
-<tm-instructor-audit-logs-page
+<tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
@@ -619,11 +619,11 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
       </div>
     </tm-loading-spinner>
   </div>
-</tm-instructor-audit-logs-page>
+</tm-instructor-student-activity-logs>
 `;
 
 exports[`InstructorStudentActivityLogsComponent should snap with default fields 1`] = `
-<tm-instructor-audit-logs-page
+<tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
@@ -678,11 +678,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
     <div>
     </div>
   </div>
-</tm-instructor-audit-logs-page>
+</tm-instructor-student-activity-logs>
 `;
 
 exports[`InstructorStudentActivityLogsComponent should snap with results of a search 1`] = `
-<tm-instructor-audit-logs-page
+<tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
@@ -1413,5 +1413,5 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
       </div>
     </div>
   </div>
-</tm-instructor-audit-logs-page>
+</tm-instructor-student-activity-logs>
 `;
