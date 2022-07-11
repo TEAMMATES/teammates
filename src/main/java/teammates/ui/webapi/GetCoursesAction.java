@@ -59,7 +59,7 @@ class GetCoursesAction extends Action {
         List<InstructorAttributes> instructors;
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
-            instructors = logic.getInstructorsForGoogleId(userInfo.id, true);
+            instructors = logic.getInstructorsForGoogleId(userInfo.id);
             courses = getCourse(instructors);
             break;
         case Const.CourseStatus.SOFT_DELETED:
