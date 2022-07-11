@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +72,9 @@ public class InstructorCourseEditPage extends AppPage {
 
     @FindBy(id = "btn-add-instructor")
     private WebElement addInstructorButton;
+
+    @FindBy(id = "btn-copy-instructor")
+    private WebElement copyInstructorsButton;
 
     public InstructorCourseEditPage(Browser browser) {
         super(browser);
@@ -191,6 +196,11 @@ public class InstructorCourseEditPage extends AppPage {
         clickAddNewInstructorButton();
         clickSaveInstructorButton(getNumInstructors());
         verifyStatusMessage("You are not authorized to access this resource.");
+        clickCancelInstructorButton(getNumInstructors());
+    }
+
+    public void verifyCopyInstructorsNotAllowed() {
+        verifyUnclickable(copyInstructorsButton);
     }
 
     public void verifyNumInstructorsEquals(int expectedNum) {
@@ -222,6 +232,51 @@ public class InstructorCourseEditPage extends AppPage {
         }
         selectRoleForInstructor(instructorIndex, getRoleIndex(newInstructor.getRole()));
         clickSaveInstructorButton(instructorIndex);
+    }
+
+    public void copyInstructors(List<InstructorAttributes> newInstructors) {
+        Map<String, List<String>> courseInstructorEmailsMap = new HashMap<>();
+        for (InstructorAttributes instructor : newInstructors) {
+            courseInstructorEmailsMap.putIfAbsent(instructor.getCourseId(), new ArrayList<>());
+            courseInstructorEmailsMap.get(instructor.getCourseId()).add(instructor.getEmail());
+        }
+
+        clickCopyInstructorsButton();
+        WebElement copyInstructorModal = waitForElementPresence(By.id("copy-instructor-modal"));
+
+        List<WebElement> cards = copyInstructorModal.findElements(By.className("card"));
+        for (WebElement card : cards) {
+            WebElement cardHeader = card.findElement(By.className("card-header"));
+            String cardHeaderText = cardHeader.getText();
+            String courseId = cardHeaderText.substring(1, cardHeaderText.indexOf(']'));
+            if (courseInstructorEmailsMap.containsKey(courseId)) {
+                click(cardHeader);
+                WebElement cardBody = waitForElementPresence(By.className("card-body"));
+                // reload instructors
+                WebElement reloadBtn = cardBody.findElement(By.tagName("button"));
+                click(reloadBtn);
+                WebElement table = waitForElementPresence(By.id("copy-instructor-table"));
+                List<WebElement> rows = table.findElements(By.cssSelector("tbody tr"));
+                for (WebElement row : rows) {
+                    List<WebElement> cells = row.findElements(By.tagName("td"));
+                    if (courseInstructorEmailsMap.get(courseId).contains(cells.get(2).getText())) {
+                        markOptionAsSelected(cells.get(0).findElement(By.id("enabled-checkbox")));
+                    }
+                }
+                // collapse tab
+                click(cardHeader);
+            }
+        }
+        click(browser.driver.findElement(By.id("btn-confirm-copy-instructor")));
+        waitUntilAnimationFinish();
+    }
+
+    public void verifyCopyInstructorWithExistingEmailNotAllowed(InstructorAttributes newInstructor) {
+        copyInstructors(List.of(newInstructor));
+        verifyStatusMessage("An instructor with email address " + newInstructor.getEmail()
+                + " already exists in the course and/or you have selected more than one instructor "
+                + "with this email address.");
+        click(browser.driver.findElement(By.id("btn-cancel-copy-instructor")));
     }
 
     public void resendInstructorInvite(InstructorAttributes instructor) {
@@ -310,6 +365,10 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickAddNewInstructorButton() {
         click(addInstructorButton);
+    }
+
+    private void clickCopyInstructorsButton() {
+        click(copyInstructorsButton);
     }
 
     private void clickEditInstructorButton(int instrNum) {
