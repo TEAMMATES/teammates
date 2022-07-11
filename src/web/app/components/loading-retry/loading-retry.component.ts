@@ -14,6 +14,8 @@ export class LoadingRetryComponent {
 
   @Input() shouldShowRetry: boolean = false;
 
+  @Input() retryButtonDisabled: boolean = false;
+
   @Output() retryEvent: EventEmitter<any> = new EventEmitter<any>();
 
 }

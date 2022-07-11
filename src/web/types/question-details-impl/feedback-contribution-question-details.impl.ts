@@ -18,12 +18,14 @@ import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-de
 export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
     implements FeedbackContributionQuestionDetails {
 
-  isNotSureAllowed: boolean = true;
+  isZeroSum: boolean = true;
+  isNotSureAllowed: boolean = false;
   questionText: string = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONTRIB;
 
   constructor(apiOutput: FeedbackContributionQuestionDetails) {
     super();
+    this.isZeroSum = apiOutput.isZeroSum;
     this.isNotSureAllowed = apiOutput.isNotSureAllowed;
     this.questionText = apiOutput.questionText;
   }

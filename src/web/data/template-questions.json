@@ -9,6 +9,7 @@
 
             "questionType": "CONTRIB",
             "questionDetails": {
+                "isZeroSum": true,
                 "isNotSureAllowed": false
             },
 
