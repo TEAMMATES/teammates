@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import {
   ConstsumOptionsQuestionEditDetailsFormComponent,
@@ -67,6 +68,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     FormsModule,
     NgbTooltipModule,
     TeammatesCommonModule,
+    TeammatesRouterModule,
   ],
 })
 export class QuestionEditDetailsFormModule { }
