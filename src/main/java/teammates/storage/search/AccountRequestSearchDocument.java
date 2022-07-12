@@ -19,16 +19,16 @@ class AccountRequestSearchDocument extends SearchDocument<AccountRequestAttribut
         Map<String, Object> fields = new HashMap<>();
         AccountRequestAttributes accountRequest = attribute;
         String email = accountRequest.getEmail();
-        String instituteWithCountry = accountRequest.getInstitute();
+        String institute = accountRequest.getInstitute();
 
         String[] searchableTexts = {
-                accountRequest.getName(), email, instituteWithCountry
+                accountRequest.getName(), email, institute,
         };
 
-        fields.put("id", email + '%' + instituteWithCountry); // TODO: how is this used? don't need to use generateId()?
+        fields.put("id", email + '%' + institute); // TODO: how is this used? don't need to use generateId()?
         fields.put("_text_", String.join(" ", searchableTexts));
         fields.put("email", email); // used to get account request later
-        fields.put("institute", instituteWithCountry);
+        fields.put("institute", institute);
 
         return fields;
     }

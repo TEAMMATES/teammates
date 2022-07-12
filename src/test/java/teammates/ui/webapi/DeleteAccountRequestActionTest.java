@@ -35,18 +35,18 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, registeredAccountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, registeredAccountRequest.getPureInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, registeredAccountRequest.getInstitute(),
         };
 
         InvalidOperationException ex = verifyInvalidOperation(submissionParams);
         assertEquals("Account request of a registered instructor cannot be deleted.", ex.getMessage());
-        assertNotNull(logic.getAccountRequest(registeredAccountRequest.getEmail(), registeredAccountRequest.getPureInstitute()));
+        assertNotNull(logic.getAccountRequest(registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute()));
 
         ______TS("Typical case, delete an existing account request");
 
         submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, unregisteredAccountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, unregisteredAccountRequest.getPureInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, unregisteredAccountRequest.getInstitute(),
         };
 
         DeleteAccountRequestAction action = getAction(submissionParams);
@@ -56,7 +56,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         assertEquals("Account request successfully deleted.", msg.getMessage());
         assertNull(logic.getAccountRequest(unregisteredAccountRequest.getEmail(),
-                unregisteredAccountRequest.getPureInstitute()));
+                unregisteredAccountRequest.getInstitute()));
 
         ______TS("Typical case, delete non-existing account request");
 

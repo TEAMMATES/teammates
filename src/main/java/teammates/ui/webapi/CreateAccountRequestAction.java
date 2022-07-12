@@ -51,7 +51,7 @@ class CreateAccountRequestAction extends Action {
             throw new InvalidOperationException("Account request already exists.", eaee);
 
             // Use existing account request
-//            accountRequestAttributes = logic.getAccountRequest(instructorEmail, instructorInstitute, instructorCountry);
+//            accountRequestAttributes = logic.getAccountRequest(instructorEmail, instructorInstitute);
         }
 
         assert accountRequestAttributes != null;

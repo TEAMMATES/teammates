@@ -97,9 +97,9 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                         req.getInstitute(),
-                        FieldValidator.INSTITUTE_WITH_COUNTRY_NAME_FIELD_NAME,
+                        FieldValidator.INSTITUTE_NAME_FIELD_NAME,
                         FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
-                        FieldValidator.INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH));
+                        FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
         expectedErrorMessages.add(
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
                         req.getNationality()));

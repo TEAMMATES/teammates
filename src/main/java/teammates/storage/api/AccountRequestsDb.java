@@ -64,13 +64,13 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     }
 
     /**
-     * Gets an account request by email and instituteWithCountry.
+     * Gets an account request by email and institute.
      */
-    public AccountRequestAttributes getAccountRequest(String email, String instituteWithCountry) {
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
         assert email != null;
-        assert instituteWithCountry != null;
+        assert institute != null;
 
-        return makeAttributesOrNull(getAccountRequestEntity(AccountRequest.generateId(email, instituteWithCountry)));
+        return makeAttributesOrNull(getAccountRequestEntity(AccountRequest.generateId(email, institute)));
     }
 
     /**
@@ -84,8 +84,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
             throws InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
-        AccountRequestAttributes accountRequest = getAccountRequest(updateOptions.getEmail(),
-                updateOptions.getInstitute());
+        AccountRequestAttributes accountRequest = getAccountRequest(updateOptions.getEmail(), updateOptions.getInstitute());
         if (accountRequest == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
@@ -131,12 +130,12 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     /**
      * Deletes an accountRequest.
      */
-    public void deleteAccountRequest(String email, String instituteWithCountry) {
+    public void deleteAccountRequest(String email, String institute) {
         assert email != null;
-        assert instituteWithCountry != null;
+        assert institute != null;
 
-        deleteDocumentByAccountRequestId(AccountRequest.generateId(email, instituteWithCountry));
-        deleteEntity(Key.create(AccountRequest.class, AccountRequest.generateId(email, instituteWithCountry)));
+        deleteDocumentByAccountRequestId(AccountRequest.generateId(email, institute));
+        deleteEntity(Key.create(AccountRequest.class, AccountRequest.generateId(email, institute)));
     }
 
     /**

@@ -159,7 +159,7 @@ public class AccountRequest extends BaseEntity {
      * Generates an unique ID for the account request.
      */
     public static String generateId(String email, String institute) {
-        // Format: `email%institute` e.g., `adam@u.nus.edu%National University of Singapore, Singapore`
+        // Format: email%institute e.g., adam@u.nus.edu%National University of Singapore, Singapore
         return email + '%' + institute;
     }
 

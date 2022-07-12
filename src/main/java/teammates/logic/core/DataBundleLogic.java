@@ -187,8 +187,8 @@ public final class DataBundleLogic {
 
         Map<String, AccountRequestAttributes> accountRequests = dataBundle.accountRequests;
         for (AccountRequestAttributes accountRequest : accountRequests.values()) {
-            AccountRequestAttributes accountRequestInDb = accountRequestsDb.getAccountRequest(accountRequest.getEmail(),
-                    accountRequest.getInstitute());
+            AccountRequestAttributes accountRequestInDb =
+                    accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
             accountRequestsDb.putDocument(accountRequestInDb);
         }
     }

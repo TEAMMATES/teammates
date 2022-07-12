@@ -45,14 +45,14 @@ public final class FieldValidator {
     public static final String SECTION_NAME_FIELD_NAME = "section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
 
+    public static final String PURE_INSTITUTE_NAME_FIELD_NAME = "pure institute name";
+    public static final int PURE_INSTITUTE_NAME_MAX_LENGTH = 64;
+
+    public static final String PURE_COUNTRY_NAME_FIELD_NAME = "pure country name";
+    public static final int PURE_COUNTRY_NAME_MAX_LENGTH = 64;
+
     public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
-    public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
-
-    public static final String COUNTRY_NAME_FIELD_NAME = "country name";
-    public static final int COUNTRY_NAME_MAX_LENGTH = 64;
-
-    public static final String INSTITUTE_WITH_COUNTRY_NAME_FIELD_NAME = "institute with country name";
-    public static final int INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH = INSTITUTE_NAME_MAX_LENGTH + COUNTRY_NAME_MAX_LENGTH;
+    public static final int INSTITUTE_NAME_MAX_LENGTH = PURE_INSTITUTE_NAME_MAX_LENGTH + PURE_COUNTRY_NAME_MAX_LENGTH;
 
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";
@@ -465,6 +465,27 @@ public final class FieldValidator {
     }
 
     /**
+     * Checks if {@code pureInstituteName} is a non-null non-empty string no longer than the specified length
+     * {@code PURE_INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code pureInstituteName} is not acceptable.
+     *         Returns an empty string if the {@code pureInstituteName} is acceptable.
+     */
+    public static String getInvalidityInfoForPureInstituteName(String pureInstituteName) {
+        return getValidityInfoForAllowedName(PURE_INSTITUTE_NAME_FIELD_NAME, PURE_INSTITUTE_NAME_MAX_LENGTH,
+                pureInstituteName);
+    }
+
+    /**
+     * Checks if {@code pureCountryName} is a non-null non-empty string no longer than the specified length
+     * {@code PURE_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code pureCountryName} is not acceptable.
+     *         Returns an empty string if the {@code pureCountryName} is acceptable.
+     */
+    public static String getInvalidityInfoForPureCountryName(String pureCountryName) {
+        return getValidityInfoForAllowedName(PURE_COUNTRY_NAME_FIELD_NAME, PURE_COUNTRY_NAME_MAX_LENGTH, pureCountryName);
+    }
+
+    /**
      * Checks if {@code instituteName} is a non-null non-empty string no longer than the specified length
      * {@code INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
      * @return An explanation of why the {@code instituteName} is not acceptable.
@@ -472,27 +493,6 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForInstituteName(String instituteName) {
         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, instituteName);
-    }
-
-    /**
-     * Checks if {@code countryName} is a non-null non-empty string no longer than the specified length
-     * {@code INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @return An explanation of why the {@code countryName} is not acceptable.
-     *         Returns an empty string if the {@code countryName} is acceptable.
-     */
-    public static String getInvalidityInfoForCountryName(String countryName) {
-        return getValidityInfoForAllowedName(COUNTRY_NAME_FIELD_NAME, COUNTRY_NAME_MAX_LENGTH, countryName);
-    }
-
-    /**
-     * Checks if {@code instituteWithCountryName} is a non-null non-empty string no longer than the specified length
-     * {@code INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @return An explanation of why the {@code instituteWithCountryName} is not acceptable.
-     *         Returns an empty string if the {@code instituteWithCountryName} is acceptable.
-     */
-    public static String getInvalidityInfoForInstituteWithCountryName(String instituteWithCountryName) {
-        return getValidityInfoForAllowedName(INSTITUTE_WITH_COUNTRY_NAME_FIELD_NAME, INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH,
-                                             instituteWithCountryName);
     } // TODO: update 5 usages: decide whether use combined or institute
 
     /**

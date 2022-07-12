@@ -141,7 +141,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
 
     @Override
     protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
-        return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getPureInstitute());
+        return logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
     }
 
     @Override

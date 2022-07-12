@@ -35,8 +35,8 @@ public class AccountRequestSearchManager extends SearchManager<AccountRequestAtt
     @Override
     AccountRequestAttributes getAttributeFromDocument(SolrDocument document) {
         String email = (String) document.getFirstValue("email");
-        String instituteWithCountry = (String) document.getFirstValue("institute");
-        return accountRequestsDb.getAccountRequest(email, instituteWithCountry);
+        String institute = (String) document.getFirstValue("institute");
+        return accountRequestsDb.getAccountRequest(email, institute);
     }
 
     @Override

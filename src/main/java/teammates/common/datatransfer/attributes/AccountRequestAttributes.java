@@ -146,8 +146,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         List<String> errors = new ArrayList<>();
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getPureInstitute()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCountryName(getPureCountry()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPureInstituteName(getPureInstitute()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPureCountryName(getPureCountry()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
 
         return errors;
@@ -178,13 +178,13 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public String toString() {
-        return "[" + AccountRequestAttributes.class.getSimpleName() + " email: " + getEmail()
-                + " institute: " + getInstitute();
+        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: "
+                + getEmail() + " name: " + getName() + " institute: " + getInstitute();
     }
 
     @Override
     public int hashCode() {
-        return (this.email + this.institute).hashCode();
+        return (this.email + this.name + this.institute).hashCode();
     }
 
     @Override
@@ -196,7 +196,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         } else if (this.getClass() == other.getClass()) {
             AccountRequestAttributes otherAccountRequestAttributes = (AccountRequestAttributes) other;
             return Objects.equals(this.email, otherAccountRequestAttributes.email)
-                    && Objects.equals(this.institute, otherAccountRequestAttributes.institute);
+                    && Objects.equals(this.institute, otherAccountRequestAttributes.institute)
+                    && Objects.equals(this.name, otherAccountRequestAttributes.name);
         } else {
             return false;
         }

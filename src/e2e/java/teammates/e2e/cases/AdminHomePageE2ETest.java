@@ -52,7 +52,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         ______TS("Failure case: Instructor is already registered");
         AccountRequestAttributes registeredAccountRequest = testData.accountRequests.get("AHome.instructor1OfCourse1");
         homePage.queueInstructorForAdding(registeredAccountRequest.getName(),
-                registeredAccountRequest.getEmail(), registeredAccountRequest.getPureInstitute());
+                registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute());
 
         homePage.addAllInstructors();
 
@@ -69,7 +69,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
                 "Instructor \"" + registeredAccountRequest.getName() + "\" has been successfully created"));
 
         assertNull(BACKDOOR.getAccountRequest(
-                registeredAccountRequest.getEmail(), registeredAccountRequest.getPureInstitute()).getRegisteredAt());
+                registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute()).getRegisteredAt());
     }
 
 }

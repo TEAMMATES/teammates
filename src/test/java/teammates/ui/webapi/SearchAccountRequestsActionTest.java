@@ -71,7 +71,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getPureInstitute() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getInstitute() };
         SearchAccountRequestsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         AccountRequestsData response = (AccountRequestsData) result.getOutput();
