@@ -1474,7 +1474,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   regKey=""
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
