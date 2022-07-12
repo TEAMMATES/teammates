@@ -694,7 +694,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifyContributionQuestionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
+        assertEquals(questionDetails.isZeroSum(), getZeroSumCheckbox(questionNum).isSelected());
         assertEquals(questionDetails.isNotSureAllowed(), getAllowNotSureContributionCheckbox(questionNum).isSelected());
+        if (questionDetails.isZeroSum()) {
+            assertFalse(questionDetails.isNotSureAllowed());
+        }
     }
 
     public void addContributionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
@@ -1478,11 +1482,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
+    private WebElement getZeroSumCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("zero-sum-checkbox"));
+    }
+
     private WebElement getAllowNotSureContributionCheckbox(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("not-sure-checkbox"));
     }
 
     private void inputContributionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
+        if (questionDetails.isZeroSum()) {
+            markOptionAsSelected(getZeroSumCheckbox(questionNum));
+        } else {
+            markOptionAsUnselected(getZeroSumCheckbox(questionNum));
+        }
         if (questionDetails.isNotSureAllowed()) {
             markOptionAsSelected(getAllowNotSureContributionCheckbox(questionNum));
         } else {

@@ -1,6 +1,17 @@
 <div id="no-response-panel" class="card-header bg-secondary text-white cursor-pointer" (click)="toggleTab()">
   Participants who have not responded to any question
   <div class="card-header-btn-toolbar">
+    <a *ngIf="session.submissionStatus === FeedbackSessionSubmissionStatus.OPEN; else extendDeadlineBtn"
+        tmRouterLink="/web/instructor/sessions/individual-extension"
+        [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, preselectnonsubmitters: true }">
+      <ng-container *ngTemplateOutlet="extendDeadlineBtn"></ng-container>
+    </a>
+    <ng-template #extendDeadlineBtn>
+      <button type="button" class="btn btn-secondary btn-sm button"
+              [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
+        Extend Deadline for All
+      </button>
+    </ng-template>
     <button id="btn-remind-all" class="btn btn-secondary btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();"
         [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
       Remind All

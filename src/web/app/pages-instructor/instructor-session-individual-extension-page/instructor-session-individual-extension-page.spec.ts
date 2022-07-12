@@ -15,6 +15,7 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
+  FeedbackSessionSubmittedGiverSet,
   Instructor,
   Instructors,
   JoinState,
@@ -107,6 +108,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     instructors: [testInstructor1, testInstructor2],
   };
 
+  const testFeedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet = {
+    giverIdentifiers: [testStudent2.email],
+  };
+
   const testTimeString = '5 Apr 2000 2:00:00';
 
   let component: InstructorSessionIndividualExtensionPageComponent;
@@ -133,6 +138,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
               queryParams: of({
                 courseid: testCourse.courseId,
                 feedbackSessionName: testFeedbackSession.feedbackSessionName,
+                preselectnonsubmitters: 'false',
               }),
             },
           },
@@ -458,5 +464,50 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(extendButton.disabled).toBeFalsy();
     expect(deleteButton.textContent).toEqual('Delete');
     expect(deleteButton.disabled).toBeFalsy();
+  });
+
+  it('should not automatically select students that have not submitted yet if preselectnonsubmitters is false', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
+      .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+
+    expect(component.isPreSelectingNonSubmitters).toBeFalsy();
+    expect(studentOneCheckBox.checked).toBeFalsy();
+    expect(studentTwoCheckBox.checked).toBeFalsy();
+    expect(studentThreeCheckBox.checked).toBeFalsy();
+  });
+
+  it('should automatically select students that have not submitted yet if preselectnonsubmitters is true', () => {
+    const activatedRoute = TestBed.inject(ActivatedRoute);
+    activatedRoute.queryParams = of({
+      courseid: testCourse.courseId,
+      feedbackSessionName: testFeedbackSession.feedbackSessionName,
+      preselectnonsubmitters: 'true',
+    });
+
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
+      .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+
+    expect(component.isPreSelectingNonSubmitters).toBeTruthy();
+    expect(studentOneCheckBox.checked).toBeTruthy();
+    expect(studentTwoCheckBox.checked).toBeFalsy();
+    expect(studentThreeCheckBox.checked).toBeTruthy();
   });
 });
