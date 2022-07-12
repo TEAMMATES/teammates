@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -43,7 +43,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   emailFieldSubscription?: Subscription;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
               private statusMessageService: StatusMessageService,
               private studentService: StudentService,
               private navigationService: NavigationService,
@@ -204,7 +203,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         this.isFormSaving = false;
       }))
       .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details',
+        this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details',
             resp.message, { courseid: this.courseId });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);

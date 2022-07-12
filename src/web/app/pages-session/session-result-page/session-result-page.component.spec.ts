@@ -728,7 +728,7 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/sessions/result',
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/result',
         { courseid: 'CS3281', fsname: 'Peer Feedback' });
   });
 
@@ -832,7 +832,7 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/front',
+    expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         `You are trying to access TEAMMATES using the Google account user-id, which
                     is not linked to this TEAMMATES account. If you used a different Google account to
                     join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
@@ -853,7 +853,7 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/front',
+    expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         'You are not authorized to view this page.');
   });
 
@@ -867,7 +867,7 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/front',
+    expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         'You are not authorized to view this page.');
   });
 
@@ -883,6 +883,6 @@ describe('SessionResultPageComponent', () => {
     btn.click();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/join', { entitytype: 'student', key: 'reg-key' });
+    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entitytype: 'student', key: 'reg-key' });
   });
 });

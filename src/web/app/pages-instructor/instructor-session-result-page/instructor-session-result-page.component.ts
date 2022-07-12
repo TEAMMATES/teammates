@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
@@ -52,6 +52,7 @@ export interface SectionTabModel {
   questions: QuestionOutput[];
 
   hasPopulated: boolean;
+  errorMessage?: string;
   isTabExpanded: boolean;
 }
 
@@ -63,6 +64,7 @@ export interface QuestionTabModel {
   responses: ResponseOutput[];
   statistics: string; // TODO will define types later
   hasPopulated: boolean;
+  errorMessage?: string;
   isTabExpanded: boolean;
 }
 
@@ -154,7 +156,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private simpleModalService: SimpleModalService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               private navigationService: NavigationService,
-              private router: Router,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
               commentToCommentRowModel: CommentToCommentRowModelPipe,
@@ -380,9 +381,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               this.questionsModel[questionId].responses.push(response));
           missingRespMap.forEach((response: ResponseOutput) =>
               this.questionsModel[questionId].responses.push(response));
+          this.questionsModel[questionId].errorMessage = '';
           this.questionsModel[questionId].hasPopulated = true;
         },
         error: (resp: ErrorMessageOutput) => {
+          this.questionsModel[questionId].errorMessage = resp.error.message;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       },
@@ -413,19 +416,28 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       intent: Intent.FULL_DETAIL,
       groupBySection: sectionName,
     })
-    .subscribe((resp: SessionResults) => {
-      this.sectionsModel[sectionName].questions = resp.questions;
-      this.sectionsModel[sectionName].hasPopulated = true;
+    .subscribe(
+      {
+        next: (resp: SessionResults) => {
+          this.sectionsModel[sectionName].questions = resp.questions;
 
-      // sort questions by question number
-      resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-        a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-      resp.questions.forEach((question: QuestionOutput) => {
-        this.preprocessComments(question.allResponses);
-      });
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+          // sort questions by question number
+          resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+            a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+          resp.questions.forEach((question: QuestionOutput) => {
+            this.preprocessComments(question.allResponses);
+          });
+        },
+        complete: () => {
+          this.sectionsModel[sectionName].hasPopulated = true;
+          this.sectionsModel[sectionName].errorMessage = '';
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.sectionsModel[sectionName].errorMessage = resp.error.message;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      },
+    );
   }
 
   /**
@@ -613,7 +625,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   }
 
   navigateToIndividualSessionResultPage(): void {
-    this.navigationService.navigateByURL(this.router, '/web/instructor/sessions/result',
+    this.navigationService.navigateByURL('/web/instructor/sessions/result',
         { courseid: this.courseId, fsname: this.fsName });
   }
 

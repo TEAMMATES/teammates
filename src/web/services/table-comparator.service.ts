@@ -130,6 +130,7 @@ export class TableComparatorService {
       case SortBy.SESSION_NAME:
       case SortBy.GIVER_TEAM:
       case SortBy.RECIPIENT_TEAM:
+      case SortBy.INSTRUCTOR_DISPLAYED_TEXT:
         return this.compareNaturally(strA, strB, order);
       case SortBy.CONSTSUM_OPTIONS_OPTION:
       case SortBy.CONTRIBUTION_RECIPIENT:
