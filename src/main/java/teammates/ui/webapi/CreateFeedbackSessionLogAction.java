@@ -24,7 +24,6 @@ class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     public JsonResult execute() {
-
         String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
         if (convertedFslType == null) {

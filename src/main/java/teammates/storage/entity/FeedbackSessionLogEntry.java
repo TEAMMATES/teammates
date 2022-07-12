@@ -6,7 +6,6 @@ import java.util.UUID;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 
 /**
@@ -31,9 +30,6 @@ public class FeedbackSessionLogEntry extends BaseEntity {
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
-
-    @Translate(InstantTranslatorFactory.class)
-    private Instant updatedAt;
 
     @SuppressWarnings("unused")
     private FeedbackSessionLogEntry() {
@@ -101,22 +97,6 @@ public class FeedbackSessionLogEntry extends BaseEntity {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    /**
-     * Updates the updatedAt timestamp when saving.
-     */
-    @OnSave
-    public void updateLastUpdateTimestamp() {
-        setUpdatedAt(Instant.now());
     }
 
 }

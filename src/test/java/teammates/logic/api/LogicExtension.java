@@ -6,7 +6,6 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 
 /**
  * Holds additional methods for {@link Logic} used only in tests.
@@ -35,11 +34,4 @@ public class LogicExtension extends Logic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
         return feedbackResponsesLogic.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
-
-    @Override
-    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
-                                                                             long startTime, long endTime, String fsName) {
-        return feedbackSessionLogEntriesLogic.getAllFeedbackSessionLogs();
-    }
-
 }

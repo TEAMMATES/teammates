@@ -30,7 +30,7 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
         for (FeedbackSessionLogEntryAttributes logEntry : allLogEntries) {
             String studentEmail = logEntry.getStudentEmail();
             String logType = logEntry.getFeedbackSessionLogType();
-            Long logTimestamp = logEntry.getTimestamp();
+            long logTimestamp = logEntry.getTimestamp();
             Map<String, Long> studentLog = studentLatestLogs.getOrDefault(studentEmail, new HashMap<>());
             boolean isValid = true;
 

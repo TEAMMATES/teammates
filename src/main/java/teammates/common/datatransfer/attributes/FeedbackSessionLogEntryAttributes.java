@@ -24,7 +24,6 @@ public final class FeedbackSessionLogEntryAttributes extends EntityAttributes<Fe
     private final String feedbackSessionLogType;
     private final long timestamp;
     private transient Instant createdAt;
-    private transient Instant updatedAt;
 
     private FeedbackSessionLogEntryAttributes(FeedbackSessionLogEntry fslEntry) {
         this.feedbackSessionLogEntryId = fslEntry.getFeedbackSessionLogEntryId();
@@ -33,19 +32,18 @@ public final class FeedbackSessionLogEntryAttributes extends EntityAttributes<Fe
         this.feedbackSessionLogType = fslEntry.getFeedbackSessionLogType();
         this.timestamp = fslEntry.getTimestamp();
         this.createdAt = fslEntry.getCreatedAt();
-        this.updatedAt = fslEntry.getUpdatedAt();
         this.courseId = fslEntry.getCourseId();
     }
 
-    public FeedbackSessionLogEntryAttributes(String studentEmail, String courseId, String feedbackSessionName,
-                                             String fslType, long timestamp) {
+    public FeedbackSessionLogEntryAttributes(
+            String studentEmail, String courseId, String feedbackSessionName,
+            String fslType, long timestamp) {
         this.feedbackSessionLogEntryId = UUID.randomUUID().toString();
         this.studentEmail = studentEmail;
         this.feedbackSessionName = feedbackSessionName;
         this.feedbackSessionLogType = fslType;
         this.timestamp = timestamp;
         this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
-        this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.courseId = courseId;
     }
 
@@ -82,10 +80,6 @@ public final class FeedbackSessionLogEntryAttributes extends EntityAttributes<Fe
 
     public Instant getCreatedAt() {
         return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
     }
 
     @Override

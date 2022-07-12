@@ -213,7 +213,7 @@ public class LocalLoggingService implements LogService {
     public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
                                                                           long startTime, long endTime, String fsName) {
         if (courseId == null) {
-            ArrayList<FeedbackSessionLogEntryAttributes> logEntries = new ArrayList<>();
+            List<FeedbackSessionLogEntryAttributes> logEntries = new ArrayList<>();
 
             for (Map.Entry<String, List<FeedbackSessionLogEntryAttributes>> entry
                     : FEEDBACK_SESSION_LOG_ENTRIES.entrySet()) {

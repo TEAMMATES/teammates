@@ -870,7 +870,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Sync feedback session logs from GCloud Logging Service.
+     * Sync feedback session logs.
      */
     public void syncFeedbackSessionLogEntries() {
         executeGetRequest(Const.CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_UPDATE, new HashMap<>());

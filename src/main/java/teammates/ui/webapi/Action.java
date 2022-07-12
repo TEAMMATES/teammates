@@ -86,10 +86,6 @@ public abstract class Action {
         this.logsProcessor = logsProcessor;
     }
 
-    public void setLogic(Logic logic) {
-        this.logic = logic;
-    }
-
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */

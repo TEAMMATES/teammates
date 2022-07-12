@@ -27,23 +27,16 @@ public final class FeedbackSessionLogEntriesLogic {
     /**
      * Gets the feedback session logs as filtered by the given parameters.
      */
-    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
-                                                                long startTime, long endTime, String fsName) {
+    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(
+            String courseId, String email, long startTime, long endTime, String fsName) {
         return fslEntriesDb.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 
     /**
-     * Creates feed back session logs.
+     * Creates feedback session logs.
      */
     public List<FeedbackSessionLogEntryAttributes> createFeedbackSessionLogs(
             List<FeedbackSessionLogEntryAttributes> entries) throws InvalidParametersException {
         return fslEntriesDb.createFeedbackSessionLogs(entries);
-    }
-
-    /**
-     * Gets all feedback session logs.
-     */
-    public List<FeedbackSessionLogEntryAttributes> getAllFeedbackSessionLogs() {
-        return fslEntriesDb.getAllFeedbackSessionLogs();
     }
 }

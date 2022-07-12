@@ -55,15 +55,6 @@ public final class FeedbackSessionLogEntriesDb extends EntitiesDb<FeedbackSessio
     }
 
     /**
-     * Gets all feedback session logs.
-     */
-    public List<FeedbackSessionLogEntryAttributes> getAllFeedbackSessionLogs() {
-        List<FeedbackSessionLogEntry> entries = load().list();
-
-        return makeAttributes(entries);
-    }
-
-    /**
      * Creates feedback session logs.
      */
     public List<FeedbackSessionLogEntryAttributes> createFeedbackSessionLogs(

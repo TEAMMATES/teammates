@@ -129,7 +129,6 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
         GetFeedbackSessionLogsAction action = getAction(paramsSuccessful1);
 
-        action.setLogic(logic);
         actionOutput = getJsonResult(action);
 
         // The filtering by the logs processor cannot be tested directly, assume that it filters correctly

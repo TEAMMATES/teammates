@@ -119,8 +119,8 @@ public class Logic {
         return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
     }
 
-    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
-                                                                          long startTime, long endTime, String fsName) {
+    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(
+            String courseId, String email, long startTime, long endTime, String fsName) {
         return feedbackSessionLogEntriesLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 
