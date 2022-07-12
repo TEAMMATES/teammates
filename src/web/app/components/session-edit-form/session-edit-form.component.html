@@ -184,7 +184,7 @@
               <a class="pl-3 pt-2"
                 *ngIf="formMode !== SessionEditFormMode.ADD"
                 tmRouterLink="/web/instructor/sessions/individual-extension"
-                [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName }">
+                [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName, preselectnonsubmitters: false }">
                 Individual Deadline Extensions
                 <i class="fas fa-edit"></i>
               </a>

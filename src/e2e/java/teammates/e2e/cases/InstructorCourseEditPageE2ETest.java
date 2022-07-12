@@ -1,5 +1,7 @@
 package teammates.e2e.cases;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -21,11 +23,11 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
 
         course = testData.courses.get("ICEdit.CS2104");
-        instructors[0] = testData.instructors.get("ICEdit.helper");
-        instructors[1] = testData.instructors.get("ICEdit.manager");
-        instructors[2] = testData.instructors.get("ICEdit.observer");
-        instructors[3] = testData.instructors.get("ICEdit.coowner");
-        instructors[4] = testData.instructors.get("ICEdit.tutor");
+        instructors[0] = testData.instructors.get("ICEdit.helper.CS2104");
+        instructors[1] = testData.instructors.get("ICEdit.manager.CS2104");
+        instructors[2] = testData.instructors.get("ICEdit.observer.CS2104");
+        instructors[3] = testData.instructors.get("ICEdit.coowner.CS2104");
+        instructors[4] = testData.instructors.get("ICEdit.tutor.CS2104");
     }
 
     @Test
@@ -40,6 +42,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
         editPage.verifyAddInstructorNotAllowed();
+        editPage.verifyCopyInstructorsNotAllowed();
 
         ______TS("verify loaded data");
         // re-log in as instructor with edit privilege
@@ -71,6 +74,34 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.verifyInstructorDetails(newInstructor);
         verifyPresentInDatabase(newInstructor);
 
+        ______TS("copy instructors from other courses");
+        InstructorAttributes instructorToCopy1 = testData.instructors.get("ICEdit.coowner.CS2103T");
+        InstructorAttributes instructorToCopy2 = testData.instructors.get("ICEdit.observer.CS2103T");
+        InstructorAttributes instructorToCopy3 = testData.instructors.get("ICEdit.manager.CS2105");
+        List<InstructorAttributes> instructorsToCopy = List.of(instructorToCopy1, instructorToCopy2, instructorToCopy3);
+
+        editPage.copyInstructors(instructorsToCopy);
+
+        editPage.verifyStatusMessage("The selected instructor(s) have been added successfully. "
+                + "An email containing how to 'join' this course will be sent to them in a few minutes.");
+        for (InstructorAttributes i : instructorsToCopy) {
+            newInstructor = InstructorAttributes
+                    .builder(course.getId(), i.getEmail())
+                    .withName(i.getName())
+                    .withIsDisplayedToStudents(i.isDisplayedToStudents())
+                    .withDisplayedName(i.getDisplayedName())
+                    .withRole(i.getRole())
+                    .build();
+
+            editPage.verifyInstructorDetails(newInstructor);
+            verifyPresentInDatabase(newInstructor);
+        }
+
+        ______TS("cannot copy instructors whose email already exists");
+        instructorToCopy1 = testData.instructors.get("ICEdit.tutor.CS2106");
+
+        editPage.verifyCopyInstructorWithExistingEmailNotAllowed(instructorToCopy1);
+
         ______TS("resend invite");
         editPage.resendInstructorInvite(newInstructor);
         editPage.verifyStatusMessage("An email has been sent to " + newInstructor.getEmail());
@@ -85,12 +116,12 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         instructors[0].getPrivileges().updatePrivilege("Section 1", "First feedback session",
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
 
-        editPage.editInstructor(1, instructors[0]);
-        editPage.toggleCustomCourseLevelPrivilege(1, Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        editPage.toggleCustomCourseLevelPrivilege(1, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
-        editPage.toggleCustomSectionLevelPrivilege(1, 1, "Section 2",
+        editPage.editInstructor(2, instructors[0]);
+        editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        editPage.toggleCustomSectionLevelPrivilege(2, 1, "Section 2",
                 Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-        editPage.toggleCustomSessionLevelPrivilege(1, 2, "Section 1", "First feedback session",
+        editPage.toggleCustomSessionLevelPrivilege(2, 2, "Section 1", "First feedback session",
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         editPage.verifyStatusMessage("The instructor " + instructors[0].getName() + " has been updated.");
         editPage.verifyInstructorDetails(instructors[0]);
@@ -102,7 +133,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("delete instructor");
         editPage.deleteInstructor(newInstructor);
         editPage.verifyStatusMessage("Instructor is successfully deleted.");
-        editPage.verifyNumInstructorsEquals(5);
+        editPage.verifyNumInstructorsEquals(8);
         verifyAbsentInDatabase(newInstructor);
 
         ______TS("edit course");

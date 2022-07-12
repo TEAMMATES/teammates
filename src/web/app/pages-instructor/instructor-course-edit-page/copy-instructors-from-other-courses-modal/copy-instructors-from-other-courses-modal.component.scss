@@ -1,0 +1,23 @@
+.sortable-header {
+  cursor: pointer;
+}
+
+#copy-instructor-modal {
+  table-layout: auto;
+  margin-bottom: 10px;
+  width: 70vw;
+}
+
+.modal-footer {
+  justify-content: right;
+  background-color: white;
+}
+
+.form-control {
+  height: calc(.5em + 1.5vh);
+  width: calc(.5em + 1.5vw);
+}
+
+.no-shadow {
+  box-shadow: none;
+}

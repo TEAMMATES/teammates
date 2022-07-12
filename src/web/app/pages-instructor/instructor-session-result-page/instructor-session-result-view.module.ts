@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgbCollapseModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import {
@@ -60,6 +61,7 @@ import { InstructorSessionResultRqgViewComponent } from './instructor-session-re
     LoadingSpinnerModule,
     PanelChevronModule,
     TeammatesRouterModule,
+    LoadingRetryModule,
   ],
   providers: [
     CommentToCommentRowModelPipe,

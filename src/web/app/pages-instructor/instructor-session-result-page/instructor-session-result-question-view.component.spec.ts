@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import {
@@ -26,6 +27,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
         NgbModule,
         LoadingSpinnerModule,
         PanelChevronModule,
+        LoadingRetryModule,
       ],
     })
     .compileComponents();

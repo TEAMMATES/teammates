@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { concatMap, finalize, map } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -16,6 +16,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
   Course,
+  Courses,
   FeedbackSession,
   FeedbackSessions,
   Instructor,
@@ -38,6 +39,7 @@ import {
   DEFAULT_PRIVILEGE_TUTOR,
 } from '../../../types/default-instructor-privilege';
 import { FormValidator } from '../../../types/form-validator';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -45,6 +47,12 @@ import {
   CoursesSectionQuestions,
 } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
+import {
+  CourseTabModel,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
+import {
+  CopyInstructorsFromOtherCoursesModalComponent,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
 import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission,
@@ -124,6 +132,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   instructorDetailPanels: InstructorEditPanelDetail[] = [];
 
   isAddingNewInstructor: boolean = false;
+  isCopyingInstructor: boolean = false;
   newInstructorPanel: InstructorEditPanel = {
     googleId: '',
     courseId: '',
@@ -682,4 +691,143 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
+
+  /**
+   * Copies instructors from existing courses.
+   */
+  copyInstructors(): void {
+    this.isCopyingInstructor = true;
+    const courseTabModels: CourseTabModel[] = [];
+
+    forkJoin([
+      this.courseService.getAllCoursesAsInstructor('active'),
+      this.courseService.getAllCoursesAsInstructor('archived'),
+    ]).subscribe((values: Courses[]) => {
+      const activeCourses: Courses = values[0];
+      const archivedCourses: Courses = values[1];
+
+      activeCourses.courses.forEach((course: Course) => {
+        if (course.courseId !== this.courseId && course.institute === this.course.institute) {
+          const model: CourseTabModel = {
+            courseId: course.courseId,
+            courseName: course.courseName,
+            creationTimestamp: course.creationTimestamp,
+            isArchived: false,
+            instructorCandidates: [],
+            instructorCandidatesSortBy: SortBy.NONE,
+            instructorCandidatesSortOrder: SortOrder.ASC,
+            hasInstructorsLoaded: false,
+            isTabExpanded: false,
+            hasLoadingFailed: false,
+          };
+          courseTabModels.push(model);
+        }
+      });
+      archivedCourses.courses.forEach((course: Course) => {
+        if (course.courseId !== this.courseId && course.institute === this.course.institute) {
+          const model: CourseTabModel = {
+            courseId: course.courseId,
+            courseName: course.courseName,
+            creationTimestamp: course.creationTimestamp,
+            isArchived: true,
+            instructorCandidates: [],
+            instructorCandidatesSortBy: SortBy.NONE,
+            instructorCandidatesSortOrder: SortOrder.ASC,
+            hasInstructorsLoaded: false,
+            isTabExpanded: false,
+            hasLoadingFailed: false,
+          };
+          courseTabModels.push(model);
+        }
+      });
+    }, (err: ErrorMessageOutput) => {
+      this.isCopyingInstructor = false;
+      this.statusMessageService.showErrorToast(err.error.message);
+    }, () => {
+      const modalRef: NgbModalRef = this.ngbModal.open(CopyInstructorsFromOtherCoursesModalComponent);
+      modalRef.componentInstance.courses = courseTabModels;
+
+      modalRef.dismissed.subscribe(() => { this.isCopyingInstructor = false; });
+
+      modalRef.componentInstance.copyClickedEvent.subscribe((instructors: Instructor[]) => {
+        this.verifyInstructorsToCopy(instructors).subscribe((hasCheckPassed: boolean) => {
+          if (!hasCheckPassed) {
+            modalRef.componentInstance.isCopyingSelectedInstructors = false;
+            return;
+          }
+
+          this.addNewInstructors(instructors, modalRef);
+        });
+      });
+    });
+  }
+
+  /**
+   * Adds new instructors.
+   */
+  addNewInstructors(instructors: Instructor[], modalRef: NgbModalRef): void {
+    of(...instructors).pipe(
+      concatMap((instructor: Instructor) => {
+        return this.instructorService.createInstructor({
+          courseId: this.courseId,
+          requestBody: {
+            name: instructor.name,
+            email: instructor.email,
+            role: instructor.role!,
+            displayName: instructor.displayedToStudentsAs,
+            isDisplayedToStudent: instructor.isDisplayedToStudents!,
+          },
+        });
+      }),
+      // always close the modal after it enters the last step no matter adding succeeds or fails
+      finalize(() => {
+        this.isCopyingInstructor = false;
+        modalRef.componentInstance.isCopyingSelectedInstructors = false;
+        modalRef.close();
+      }),
+    ).subscribe((newInstructor: Instructor) => {
+      const newDetailPanels: InstructorEditPanelDetail = {
+        originalInstructor: { ...newInstructor },
+        originalPanel: this.getInstructorEditPanelModel(newInstructor),
+        editPanel: this.getInstructorEditPanelModel(newInstructor),
+      };
+      newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+      newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
+
+      this.instructorDetailPanels.push(newDetailPanels);
+    }, (err: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(err.error.message);
+    }, () => {
+      this.statusMessageService.showSuccessToast(`The selected instructor(s) have been added successfully.
+      An email containing how to 'join' this course will be sent to them in a few minutes.`);
+    });
+  }
+
+  /**
+   * Verifies that no two selected instructors have the same email addresses and any selected instructor's
+   * email addresses already exists in the course. Shows an error toast and returns false if the verification fails.
+   */
+  verifyInstructorsToCopy(instructors: Instructor[]): Observable<boolean> {
+    return forkJoin([
+      this.instructorService.loadInstructors({
+        courseId: this.courseId,
+        intent: Intent.FULL_DETAIL,
+      }),
+    ]).pipe(
+      map((values: [Instructors]) => {
+        const allInstructorsAfterCopy: Instructor[] = instructors.concat(values[0].instructors);
+        const emailSet: Set<string> = new Set();
+        for (const instructor of allInstructorsAfterCopy) {
+          if (emailSet.has(instructor.email)) {
+            this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} 
+            already exists in the course and/or you have selected more than one instructor with this email address.`);
+            return false;
+          }
+          emailSet.add(instructor.email);
+        }
+        return true;
+      }),
+    );
+  }
+
 }

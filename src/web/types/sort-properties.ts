@@ -38,6 +38,11 @@ export enum SortBy {
     INSTRUCTOR_PERMISSION_ROLE,
 
     /**
+     * The instructor text displayed to students.
+     */
+    INSTRUCTOR_DISPLAYED_TEXT,
+
+    /**
      * Institution.
      */
     INSTITUTION,
