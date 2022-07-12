@@ -43,7 +43,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         assertEquals(accountRequest.getEmail(), createdAccountRequest.getEmail());
         assertEquals(accountRequest.getName(), createdAccountRequest.getName());
-        assertEquals(accountRequest.getInstitute(), createdAccountRequest.getInstitute());
+        assertEquals(accountRequest.getPureInstitute(), createdAccountRequest.getPureInstitute());
         assertNotNull(createdAccountRequest.getRegistrationKey());
         assertNotNull(createdAccountRequest.getCreatedAt());
 
@@ -118,13 +118,13 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         verifyPresentInDatabase(a);
 
-        accountRequestsLogic.deleteAccountRequest(a.getEmail(), a.getInstitute());
+        accountRequestsLogic.deleteAccountRequest(a.getEmail(), a.getPureInstitute());
 
         verifyAbsentInDatabase(a);
 
         ______TS("silent deletion of same account request");
 
-        accountRequestsLogic.deleteAccountRequest(a.getEmail(), a.getInstitute());
+        accountRequestsLogic.deleteAccountRequest(a.getEmail(), a.getPureInstitute());
 
         ______TS("failure null parameter");
 
@@ -160,7 +160,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         ______TS("typical success case");
 
         AccountRequestAttributes accountRequestAttributes =
-                accountRequestsLogic.getAccountRequest(a.getEmail(), a.getInstitute());
+                accountRequestsLogic.getAccountRequest(a.getEmail(), a.getPureInstitute());
         assertEquals(a, accountRequestAttributes);
 
         ______TS("account request not found");

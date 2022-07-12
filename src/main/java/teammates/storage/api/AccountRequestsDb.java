@@ -85,7 +85,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
         assert updateOptions != null;
 
         AccountRequestAttributes accountRequest = getAccountRequest(updateOptions.getEmail(),
-                updateOptions.getInstituteWithCountry());
+                updateOptions.getInstitute());
         if (accountRequest == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
@@ -154,7 +154,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     @Override
     boolean hasExistingEntities(AccountRequestAttributes entityToCreate) {
         Key<AccountRequest> keyToFind = Key.create(AccountRequest.class,
-                AccountRequest.generateId(entityToCreate.getEmail(), entityToCreate.getInstituteWithCountry()));
+                AccountRequest.generateId(entityToCreate.getEmail(), entityToCreate.getInstitute()));
         return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 

@@ -20,7 +20,7 @@ public class AccountRequestData extends ApiOutput {
     public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
         this.name = accountRequestInfo.getName();
         this.email = accountRequestInfo.getEmail();
-        this.institute = accountRequestInfo.getInstitute();
+        this.institute = accountRequestInfo.getPureInstitute();
         this.registrationKey = accountRequestInfo.getRegistrationKey();
         this.createdAt = accountRequestInfo.getCreatedAt().toEpochMilli();
         if (accountRequestInfo.getRegisteredAt() == null) {

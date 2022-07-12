@@ -81,7 +81,7 @@ public class AccountRequestSearchTest extends BaseSearchTest {
 
         ______TS("success: search for account requests; deleted account requests no longer searchable");
 
-        accountRequestsDb.deleteAccountRequest(ins1InCourse1.getEmail(), ins1InCourse1.getInstitute());
+        accountRequestsDb.deleteAccountRequest(ins1InCourse1.getEmail(), ins1InCourse1.getPureInstitute());
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
         verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
@@ -94,7 +94,7 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         ______TS("success: search for account requests; deleting account request without deleting document:"
                 + "document deleted during search, account request unsearchable");
 
-        accountRequestsDb.deleteAccountRequest(ins2InCourse1.getEmail(), ins2InCourse1.getInstitute());
+        accountRequestsDb.deleteAccountRequest(ins2InCourse1.getEmail(), ins2InCourse1.getPureInstitute());
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 2\"");
         verifySearchResults(results, ins2InCourse2, ins2InCourse3, unregisteredInstructor2);
     }
@@ -113,14 +113,14 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         verifySearchResults(results, ins1InCourse2, ins2InCourse2);
 
         // delete an account request
-        accountRequestsDb.deleteAccountRequest(ins1InCourse2.getEmail(), ins1InCourse2.getInstitute());
+        accountRequestsDb.deleteAccountRequest(ins1InCourse2.getEmail(), ins1InCourse2.getPureInstitute());
 
         // the search result will change
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"of Course 2\"");
         verifySearchResults(results, ins2InCourse2);
 
         // delete all account requests
-        accountRequestsDb.deleteAccountRequest(ins2InCourse2.getEmail(), ins2InCourse2.getInstitute());
+        accountRequestsDb.deleteAccountRequest(ins2InCourse2.getEmail(), ins2InCourse2.getPureInstitute());
 
         // there should be no search result
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"of Course 2\"");

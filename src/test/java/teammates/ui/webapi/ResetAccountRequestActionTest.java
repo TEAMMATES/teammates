@@ -36,7 +36,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         String[] params = {
                 // Const.ParamsNames.INSTRUCTOR_EMAIL,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, accountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, accountRequest.getPureInstitute(),
         };
 
         verifyHttpParameterFailure(params);
@@ -63,7 +63,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, unregisteredAccountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, unregisteredAccountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, unregisteredAccountRequest.getPureInstitute(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
@@ -73,18 +73,18 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, accountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, accountRequest.getPureInstitute(),
         };
 
         ResetAccountRequestAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        accountRequest = logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        accountRequest = logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getPureInstitute());
         JoinLinkData response = (JoinLinkData) r.getOutput();
         assertEquals(accountRequest.getRegistrationUrl(), response.getJoinLink());
 
         AccountRequestAttributes updatedAccountRequest =
-                logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+                logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getPureInstitute());
         assertNull(updatedAccountRequest.getRegisteredAt());
 
         verifyNumberOfEmailsSent(1);

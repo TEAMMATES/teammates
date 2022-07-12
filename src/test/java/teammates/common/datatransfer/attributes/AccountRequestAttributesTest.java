@@ -23,7 +23,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         assertNotNull(accountRequestAttributes.getRegistrationKey());
         assertEquals("Valid Name", accountRequestAttributes.getName());
         assertEquals("valid@test.com", accountRequestAttributes.getEmail());
-        assertEquals("Valid Institute", accountRequestAttributes.getInstitute());
+        assertEquals("Valid Institute", accountRequestAttributes.getPureInstitute());
         assertNull(accountRequestAttributes.getRegisteredAt());
     }
 
@@ -51,7 +51,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
         assertEquals(Const.TIME_REPRESENTS_NOW, accountRequestAttributes.getRegisteredAt());
         assertEquals(validEmail, accountRequestAttributes.getEmail());
-        assertEquals(validInstitute, accountRequestAttributes.getInstitute());
+        assertEquals(validInstitute, accountRequestAttributes.getPureInstitute());
         assertEquals(validName, accountRequestAttributes.getName());
     }
 
@@ -61,7 +61,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
                 AccountRequestAttributes.builder("valid@test.com", "valid institute", "valid name").build();
 
         assertEquals("valid@test.com", accountRequestAttributes.getEmail());
-        assertEquals("valid institute", accountRequestAttributes.getInstitute());
+        assertEquals("valid institute", accountRequestAttributes.getPureInstitute());
         assertEquals("valid name", accountRequestAttributes.getName());
         assertNull(accountRequestAttributes.getRegistrationKey());
         assertNull(accountRequestAttributes.getRegisteredAt());

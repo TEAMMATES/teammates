@@ -317,7 +317,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
-        return BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        return BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getPureInstitute());
     }
 
     NotificationAttributes getNotification(String notificationId) {

@@ -257,7 +257,7 @@ public class AdminSearchPage extends AppPage {
 
     public WebElement getAccountRequestRow(AccountRequestAttributes accountRequest) {
         String email = accountRequest.getEmail();
-        String institute = accountRequest.getInstitute();
+        String institute = accountRequest.getPureInstitute();
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-account-request tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
@@ -422,7 +422,7 @@ public class AdminSearchPage extends AppPage {
 
         assertEquals(accountRequest.getName(), actualName);
         assertEquals(accountRequest.getEmail(), actualEmail);
-        assertEquals(accountRequest.getInstitute(), actualInstitute);
+        assertEquals(accountRequest.getPureInstitute(), actualInstitute);
         assertFalse(actualCreatedAt.isBlank());
         if (accountRequest.getRegisteredAt() == null) {
             assertEquals("Not Registered Yet", actualRegisteredAt);

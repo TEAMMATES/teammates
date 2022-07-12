@@ -25,11 +25,7 @@ public class AccountRequest extends BaseEntity {
 
     private String name;
 
-    private String institute; // for old AR, this field can be set to "" (empty string)
-
-    private String country; // for old AR, this field can be set to "" (empty string)
-
-    private String instituteWithCountry; // for old AR, this field should be set to = institute
+    private String institute;
 
     private String email;
 
@@ -44,10 +40,7 @@ public class AccountRequest extends BaseEntity {
     private Instant createdAt;
 
     @Translate(InstantTranslatorFactory.class)
-    private Instant approvedAt; // for old AR, this field should be set to = createdAt
-
-    @Translate(InstantTranslatorFactory.class)
-    private Instant rejectedAt; // for old AR, this field should be set to null
+    private Instant lastProcessedAt; // for old AR, this field should be set to = createdAt
 
     @Translate(InstantTranslatorFactory.class)
     private Instant registeredAt;
@@ -60,21 +53,17 @@ public class AccountRequest extends BaseEntity {
     /**
      * Constructs a new account request. The status is initialized to {@code SUBMITTED}.
      */
-    public AccountRequest(String name, String institute, String country, String instituteWithCountry, String email,
-                          String homePageUrl, String otherComments) {
+    public AccountRequest(String name, String institute, String email, String homePageUrl, String otherComments) {
         this.setName(name);
         this.setInstitute(institute);
-        this.setCountry(country);
-        this.setInstituteWithCountry(instituteWithCountry);
         this.setEmail(email);
         this.setHomePageUrl(homePageUrl);
         this.setOtherComments(otherComments);
-        this.setId(generateId(email, instituteWithCountry));
+        this.setId(generateId(email, institute));
         this.setRegistrationKey(generateRegistrationKey());
         this.setStatus(AccountRequestStatus.SUBMITTED);
         this.setCreatedAt(Instant.now());
-        this.setApprovedAt(null);
-        this.setRejectedAt(null);
+        this.setLastProcessedAt(null);
         this.setRegisteredAt(null);
     }
 
@@ -108,22 +97,6 @@ public class AccountRequest extends BaseEntity {
 
     public void setInstitute(String institute) {
         this.institute = institute.trim();
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country.trim();
-    }
-
-    public String getInstituteWithCountry() {
-        return instituteWithCountry;
-    }
-
-    public void setInstituteWithCountry(String instituteWithCountry) {
-        this.instituteWithCountry = instituteWithCountry.trim();
     }
 
     public String getEmail() {
@@ -166,20 +139,12 @@ public class AccountRequest extends BaseEntity {
         this.createdAt = createdAt;
     }
 
-    public Instant getApprovedAt() {
-        return approvedAt;
+    public Instant getLastProcessedAt() {
+        return lastProcessedAt;
     }
 
-    public void setApprovedAt(Instant approvedAt) {
-        this.approvedAt = approvedAt;
-    }
-
-    public Instant getRejectedAt() {
-        return rejectedAt;
-    }
-
-    public void setRejectedAt(Instant rejectedAt) {
-        this.rejectedAt = rejectedAt;
+    public void setLastProcessedAt(Instant lastProcessedAt) {
+        this.lastProcessedAt = lastProcessedAt;
     }
 
     public Instant getRegisteredAt() {
@@ -193,9 +158,9 @@ public class AccountRequest extends BaseEntity {
     /**
      * Generates an unique ID for the account request.
      */
-    public static String generateId(String email, String instituteWithCountry) {
-        // Format: `email%instituteWithCountry` e.g., `adam@u.nus.edu%National University of Singapore, Singapore`
-        return email + '%' + instituteWithCountry;
+    public static String generateId(String email, String institute) {
+        // Format: `email%institute` e.g., `adam@u.nus.edu%National University of Singapore, Singapore`
+        return email + '%' + institute;
     }
 
     /**

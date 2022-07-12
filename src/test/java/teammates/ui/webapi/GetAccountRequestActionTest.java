@@ -48,7 +48,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
 
         String[] params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, accountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE_WITH_COUNTRY, accountRequest.getPureInstitute(),
         };
 
         GetAccountRequestAction a = getAction(params);
@@ -59,7 +59,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
         assertEquals(response.getName(), accountRequest.getName());
         assertEquals(response.getEmail(), accountRequest.getEmail());
         assertEquals(response.getRegistrationKey(), accountRequest.getRegistrationKey());
-        assertEquals(response.getInstitute(), accountRequest.getInstitute());
+        assertEquals(response.getInstitute(), accountRequest.getPureInstitute());
         assertNull(accountRequest.getRegisteredAt());
     }
 

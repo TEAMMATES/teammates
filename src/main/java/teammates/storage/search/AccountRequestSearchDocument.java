@@ -19,7 +19,7 @@ class AccountRequestSearchDocument extends SearchDocument<AccountRequestAttribut
         Map<String, Object> fields = new HashMap<>();
         AccountRequestAttributes accountRequest = attribute;
         String email = accountRequest.getEmail();
-        String instituteWithCountry = accountRequest.getInstituteWithCountry();
+        String instituteWithCountry = accountRequest.getInstitute();
 
         String[] searchableTexts = {
                 accountRequest.getName(), email, instituteWithCountry

@@ -68,7 +68,7 @@ class CreateAccountAction extends Action {
         // later on (after the account request is used to create the account),
         // every occurrence of "institute" actually refers to the instituteWithCountry in the account request
         // but NOT the institute field, which was submitted by the instructor in the account request form
-        String instructorInstituteWithCountry = accountRequestAttributes.getInstituteWithCountry();
+        String instructorInstituteWithCountry = accountRequestAttributes.getInstitute();
         String instructorEmail = accountRequestAttributes.getEmail();
 
         String courseId;

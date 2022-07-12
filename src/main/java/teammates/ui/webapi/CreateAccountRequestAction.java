@@ -44,7 +44,7 @@ class CreateAccountRequestAction extends Action {
             accountRequestAttributes = logic.createAccountRequest(accountRequestToCreate);
             // only schedule for search indexing if account request created successfully
             taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequestAttributes.getEmail(),
-                    accountRequestAttributes.getInstituteWithCountry());
+                    accountRequestAttributes.getInstitute());
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe); // invalid parameters are caught here
         } catch (EntityAlreadyExistsException eaee) {

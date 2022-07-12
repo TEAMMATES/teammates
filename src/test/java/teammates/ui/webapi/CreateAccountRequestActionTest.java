@@ -61,7 +61,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         assertEquals(name, accountRequestAttributes.getName());
         assertEquals(email, accountRequestAttributes.getEmail());
-        assertEquals(institute, accountRequestAttributes.getInstitute());
+        assertEquals(institute, accountRequestAttributes.getPureInstitute());
         assertNotNull(accountRequestAttributes.getRegistrationKey());
 
         String joinLink = accountRequestAttributes.getRegistrationUrl();
@@ -98,7 +98,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         accountRequestAttributes = typicalBundle.accountRequests.get("instructor1OfCourse1");
 
         req = buildCreateRequest(accountRequestAttributes.getName(),
-                accountRequestAttributes.getInstitute(), accountRequestAttributes.getEmail());
+                accountRequestAttributes.getPureInstitute(), accountRequestAttributes.getEmail());
 
         InvalidOperationException ioe = verifyInvalidOperation(req);
         assertEquals("Cannot create account request as instructor has already registered.", ioe.getMessage());
