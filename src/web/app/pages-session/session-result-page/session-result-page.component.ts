@@ -125,8 +125,9 @@ export class SessionResultPageComponent implements OnInit {
         }
         // prevent having both key and previewas parameters in URL
         if (this.regKey && isPreview) {
-          this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+          this.navigationService.navigateWithErrorMessage('/web/front',
             'You are not authorized to view this page.');
+          return;
         }
         if (this.regKey) {
           this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
