@@ -5,7 +5,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.ui.output.JoinLinkData;
-import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.AccountRequestCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -25,7 +25,7 @@ class CreateAccountRequestAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
+        AccountRequestCreateRequest createRequest = getAndValidateRequestBody(AccountRequestCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorInstitute = createRequest.getInstructorInstitute().trim();

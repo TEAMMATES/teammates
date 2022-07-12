@@ -7,7 +7,12 @@ import { environment } from '../../../environments/environment';
 import { AccountService } from '../../../services/account.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { JoinLink } from '../../../types/api-output';
+import { AccountRequestCreateResponse } from '../../../types/api-output';
+import {
+  AccountRequestCreateIntent,
+  AccountRequestCreateRequest,
+  AccountRequestType,
+} from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -80,9 +85,10 @@ export class RequestPageComponent implements OnInit {
     this.form.markAllAsTouched();
 
     // set recaptcha validation errors only on submit
-    console.log(this.recaptchaElem.getResponse());
+    const recaptchaResponse: string = this.recaptchaElem.getResponse();
+    console.log(recaptchaResponse);
     console.log(this.recaptcha!.value);
-    if (this.recaptchaSiteKey !== '' && this.recaptchaElem.getResponse() === '') {
+    if (this.recaptchaSiteKey !== '' && recaptchaResponse === '') {
       this.recaptcha!.setErrors({
         unchecked: true,
       });
@@ -97,22 +103,30 @@ export class RequestPageComponent implements OnInit {
     this.isFormSaving = true;
     this.backendErrorMessage = '';
 
-    this.accountService.createAccountRequest({
+    const accReqType: AccountRequestType = this.accountType!.value === 'instructor'
+      ? AccountRequestType.INSTRUCTOR_ACCOUNT
+      : AccountRequestType.STUDENT_ACCOUNT;
+    const reqBody: AccountRequestCreateRequest = {
       instructorName: this.name!.value,
       instructorInstitute: this.institute!.value,
       instructorCountry: this.country!.value,
       instructorEmail: this.email!.value,
       instructorHomePageUrl: this.url!.value,
       otherComments: this.comments!.value,
+    };
+
+    this.accountService.createAccountRequest({
+      intent: AccountRequestCreateIntent.PUBLIC_CREATE,
+      accountRequestType: accReqType,
+      recaptchaResponse: recaptchaResponse,
+      requestBody: reqBody,
     })
       .pipe(finalize(() => {
         this.isFormSaving = false;
       }))
-      .subscribe((resp: JoinLink) => { // TODO: change to MessageOutput and resp.message
-        this.navigationService.navigateWithSuccessMessage('/web/front/home', resp.joinLink);
+      .subscribe((resp: AccountRequestCreateResponse) => {
+        this.navigationService.navigateWithSuccessMessage('/web/front/home', resp.message);
       }, (resp: ErrorMessageOutput) => {
-
-
         this.backendErrorMessage = resp.error.message;
 
         this.form.setErrors({

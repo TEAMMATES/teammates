@@ -1,14 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
-import { finalize } from 'rxjs/operators';
 import { FormValidator } from 'src/web/types/form-validator';
 import { environment } from '../../../../environments/environment';
-import { AccountService } from '../../../../services/account.service';
-import { NavigationService } from '../../../../services/navigation.service';
-import { StatusMessageService } from '../../../../services/status-message.service';
-import { JoinLink } from '../../../../types/api-output';
-import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
  * Account request page.
@@ -39,9 +33,9 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
 
   @ViewChild('recaptchaElem') recaptchaElem!: ReCaptcha2Component;
 
-  constructor(private statusMessageService: StatusMessageService,
-              private accountService: AccountService,
-              private navigationService: NavigationService) { }
+  // constructor(private statusMessageService: StatusMessageService,
+  //             private accountService: AccountService,
+  //             private navigationService: NavigationService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -82,90 +76,6 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
 
   editAccountRequest(): void {
     this.isEditing = !this.isEditing;
-  }
-
-  /**
-   * Submits the account request form.
-   */
-  onSubmit(): void {
-    this.form.markAllAsTouched();
-
-    // set recaptcha validation errors only on submit
-    console.log(this.recaptchaElem.getResponse());
-    console.log(this.recaptcha!.value);
-    if (this.recaptchaSiteKey !== '' && this.recaptchaElem.getResponse() === '') {
-      this.recaptcha!.setErrors({
-        unchecked: true,
-      });
-    }
-
-    if (!this.form.valid) {
-      console.log('invalid form');
-      this.statusMessageService.showErrorToast('Ensure the form is valid before submission.');
-      return;
-    }
-
-    this.isFormSaving = true;
-    this.backendErrorMessage = '';
-
-    this.accountService.createAccountRequest({
-      instructorName: this.name!.value,
-      instructorInstitute: this.institute!.value,
-      instructorCountry: this.country!.value,
-      instructorEmail: this.email!.value,
-      instructorHomePageUrl: this.url!.value,
-      otherComments: this.comments!.value,
-    })
-      .pipe(finalize(() => {
-        this.isFormSaving = false;
-      }))
-      .subscribe((resp: JoinLink) => { // TODO: change to MessageOutput and resp.message
-        this.navigationService.navigateWithSuccessMessage('/web/front/home', resp.joinLink);
-      }, (resp: ErrorMessageOutput) => {
-
-
-        this.backendErrorMessage = resp.error.message;
-
-        this.form.setErrors({
-          invalidFields : resp.error.message,
-        });
-        // const errors = JSON.parse(resp.error.message);
-        // if (errors.name) {
-        //   this.name!.setErrors({
-        //     invalidField : errors.name,
-        //   })
-        // }
-        // if (errors.institute) {
-        //   this.institute!.setErrors({
-        //     invalidField : errors.institute,
-        //   })
-        // }
-        // if (errors.country) {
-        //   this.country!.setErrors({
-        //     invalidField : errors.country,
-        //   })
-        // }
-        // if (errors.email) {
-        //   this.email!.setErrors({
-        //     invalidField : errors.email,
-        //   })
-        // }
-      });
-
-    // this.studentService.updateStudent({
-    //   courseId: '',
-    //   studentEmail: '',
-    //   requestBody: reqBody,
-    // })
-    //   .pipe(finalize(() => {
-    //     this.isFormSaving = false;
-    //   }))
-    //   .subscribe((resp: MessageOutput) => {
-    //     this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details',
-    //       resp.message, { courseid: '' });
-    //   }, (resp: ErrorMessageOutput) => {
-    //     this.statusMessageService.showErrorToast(resp.error.message);
-    //   });
   }
 
   get name() {

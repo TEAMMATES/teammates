@@ -7,7 +7,18 @@ import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Account, Accounts, Courses, JoinLink } from '../../../types/api-output';
+import {
+  Account,
+  AccountRequestCreateResponse,
+  Accounts,
+  Courses,
+  JoinLink,
+} from '../../../types/api-output';
+import {
+  AccountRequestCreateIntent,
+  AccountRequestCreateRequest,
+  AccountRequestType,
+} from '../../../types/api-request';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
@@ -108,18 +119,24 @@ export class AdminHomePageComponent {
     instructor.status = 'ADDING';
 
     this.isAddingInstructors = true;
-    this.accountService.createAccountRequest({
+    const reqBody: AccountRequestCreateRequest = {
       instructorName: instructor.name,
-      instructorInstitute: instructor.institution,
-      instructorCountry: 'Singapore', // TODO: update, country name cannot be empty now
+      instructorInstitute: instructor.institution, // final institute
+      instructorCountry: '',
       instructorEmail: instructor.email,
       instructorHomePageUrl: '',
       otherComments: '',
+    };
+    this.accountService.createAccountRequest({
+      intent: AccountRequestCreateIntent.ADMIN_CREATE,
+      accountRequestType: AccountRequestType.INSTRUCTOR_ACCOUNT,
+      recaptchaResponse: '',
+      requestBody: reqBody,
     })
         .pipe(finalize(() => {
           this.isAddingInstructors = false;
         }))
-        .subscribe((resp: JoinLink) => {
+        .subscribe((resp: AccountRequestCreateResponse) => {
           instructor.status = 'SUCCESS';
           instructor.statusCode = 200;
           instructor.joinLink = resp.joinLink;
