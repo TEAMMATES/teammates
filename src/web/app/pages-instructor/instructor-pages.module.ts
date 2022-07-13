@@ -143,16 +143,6 @@ const routes: Routes = [
     },
   },
   {
-    path: 'logs',
-    loadChildren: () => import('./instructor-audit-logs-page/instructor-audit-logs-page.module')
-        .then((m: any) => m.InstructorAuditLogsPageModule),
-  },
-  {
-    path: 'track-result-view',
-    loadChildren: () => import('./instructor-track-view-page/instructor-track-view-page.module')
-        .then((m: any) => m.InstructorTrackViewPageModule),
-  },
-  {
     path: 'notifications',
     loadChildren: () => import('./instructor-notifications-page/instructor-notifications-page.module')
         .then((m: any) => m.InstructorNotificationsPageModule),

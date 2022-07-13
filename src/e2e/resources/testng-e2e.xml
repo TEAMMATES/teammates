@@ -26,7 +26,6 @@
             <class name="teammates.e2e.cases.FeedbackRubricQuestionE2ETest" />
             <class name="teammates.e2e.cases.FeedbackSubmitPageE2ETest" />
             <class name="teammates.e2e.cases.FeedbackTextQuestionE2ETest" />
-            <class name="teammates.e2e.cases.InstructorAuditLogsPageE2ETest" />
             <class name="teammates.e2e.cases.InstructorCourseDetailsPageE2ETest" />
             <class name="teammates.e2e.cases.InstructorCourseEditPageE2ETest" />
             <class name="teammates.e2e.cases.InstructorCourseEnrollPageE2ETest" />
