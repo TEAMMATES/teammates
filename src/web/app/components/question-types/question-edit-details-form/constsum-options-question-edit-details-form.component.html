@@ -59,7 +59,7 @@
                    (ngModelChange)="updateHasMinPoint($event)" [disabled]="!isEditable">
                    <input id="min-point" type="number" class="form-control" min="1" step="1"
                    [ngModel]="model.hasMinPoint ? model.minPoint : ''" (ngModelChange)="triggerModelChange('minPoint', $event)" [disabled]="!isEditable || !model.hasMinPoint">
-            <b class="ngb-tooltip-class" ngbTooltip="The minimum allocation of the points to an option, e.g if you specify 5 points here, the user must input a value larger or equal to 5 for each option.">min</b>
+            <b class="ngb-tooltip-class" ngbTooltip="The minimum allocation of the points to an option, e.g if you specify 5 points here, the user must input a value larger or equal to 5 for each option.">min per option</b>
           </label>
         </div>
         <div class="col-auto w-25">
@@ -69,7 +69,7 @@
                    (ngModelChange)="updateHasMaxPoint($event)"  [disabled]="!isEditable">
                    <input id="max-point" type="number" class="form-control" min="1" step="1"
                    [ngModel]="model.hasMaxPoint ? model.maxPoint : ''" (ngModelChange)="triggerModelChange('maxPoint', $event)" [disabled]="!isEditable || !model.hasMaxPoint">
-            <b class="ngb-tooltip-class" ngbTooltip="The maximum allocation of the points to an option, e.g if you specify 30 points here, the user must input a value smaller or equal to 30 for each option.">max</b>
+            <b class="ngb-tooltip-class" ngbTooltip="The maximum allocation of the points to an option, e.g if you specify 30 points here, the user must input a value smaller or equal to 30 for each option.">max per option</b>
           </label>
         </div>
       </div>
