@@ -39,7 +39,8 @@ import teammates.logic.core.StudentsLogic;
 public final class EmailGenerator {
     // status-related strings
     private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions,"
-                + " in case you have not submitted yet or wish to update your submission";
+                + " in case you have not submitted yet or wish to update your submission. "
+                + "<mark>No action is required if you have already submitted</mark>";
     private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
     private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon";
     private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
@@ -699,7 +700,7 @@ public final class EmailGenerator {
             EmailType type, String feedbackAction) {
         StringBuilder studentAdditionalContactBuilder = new StringBuilder();
         StringBuilder instructorAdditionalContactBuilder = new StringBuilder();
-        if (type == EmailType.FEEDBACK_CLOSING || type == EmailType.FEEDBACK_SESSION_REMINDER) {
+        if (type == EmailType.FEEDBACK_CLOSING) {
             studentAdditionalContactBuilder.append(HTML_NO_ACTION_REQUIRED);
             instructorAdditionalContactBuilder.append(HTML_NO_ACTION_REQUIRED);
         }
