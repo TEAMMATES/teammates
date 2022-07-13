@@ -92,4 +92,20 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
     return this.responseDetails.answers.reduce((isNegative: boolean, curr: number) => isNegative || (curr < 0), false);
   }
 
+  /**
+   * Checks if any of the points are below the minPoint.
+   */
+  get isAnyPointBelowMinimum(): boolean {
+    return this.responseDetails.answers.reduce((isBelowMinimum: boolean, curr: number) =>
+      isBelowMinimum || (curr < this.questionDetails.minPoint), false);
+  }
+
+  /**
+   * Checks if any of the points are below the minPoint.
+   */
+  get isAnyPointAboveMaximum(): boolean {
+    return this.responseDetails.answers.reduce((isAboveMaximum: boolean, curr: number) =>
+      isAboveMaximum || (curr > this.questionDetails.maxPoint), false);
+  }
+
 }

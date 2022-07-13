@@ -98,4 +98,28 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     });
   }
 
+  /**
+   * Updates hasMaxPoint and resets the maxPoint if when hasMaxPoint is set to false.
+   */
+  updateHasMaxPoint(event: boolean): void {
+    if (event) {
+      this.triggerModelChange('hasMaxPoint', event);
+    } else {
+      const totalNumberOfPoints : number = this.model.pointsPerOption
+        ? this.model.points * this.model.constSumOptions.length
+        : this.model.points;
+      this.triggerModelChangeBatch({ maxPoint: totalNumberOfPoints, hasMaxPoint: event });
+    }
+  }
+
+  /**
+   * Updates hasMinPoint and resets the minPoint if hasMinPoint is set to false.
+   */
+  updateHasMinPoint(event: boolean): void {
+    if (event) {
+      this.triggerModelChange('hasMinPoint', event);
+    } else {
+      this.triggerModelChangeBatch({ minPoint: 0, hasMinPoint: event });
+    }
+  }
 }

@@ -23,6 +23,10 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
   points: number = 100;
   questionText: string = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM_OPTIONS;
+  hasMinPoint: boolean = false;
+  hasMaxPoint: boolean = false;
+  minPoint: number = 0;
+  maxPoint: number = 100;
 
   constructor(apiOutput: FeedbackConstantSumQuestionDetails) {
     super();
@@ -32,6 +36,10 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
     this.distributePointsFor = apiOutput.distributePointsFor;
     this.points = apiOutput.points;
     this.questionText = apiOutput.questionText;
+    this.hasMaxPoint = apiOutput.hasMaxPoint;
+    this.hasMinPoint = apiOutput.hasMinPoint;
+    this.minPoint = apiOutput.minPoint;
+    this.maxPoint = apiOutput.maxPoint;
   }
 
   getQuestionCsvHeaders(): string[] {
