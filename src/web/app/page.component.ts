@@ -18,7 +18,7 @@ import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
 import { Toast } from './components/toast/toast';
-import { getAuth, signOut } from 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -75,7 +75,7 @@ export class PageComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
               private ngbModal: NgbModal, location: Location,
-              private statusMessageService: StatusMessageService) {
+              private statusMessageService: StatusMessageService, private afAuth: AngularFireAuth) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -155,9 +155,7 @@ export class PageComponent {
 
   logout(): void {
     // if (environment.production) {
-      const auth = getAuth();
-      signOut(auth).then(() => {
-        console.log('logged out')
+      this.afAuth.signOut().then(() => {
         window.location.href = this.logoutUrl;
       });
     // } else {

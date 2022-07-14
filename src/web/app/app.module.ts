@@ -1,5 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Provider } from '@angular/core';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,7 +29,6 @@ import { MaintainerPageComponent } from './pages-maintainer/maintainer-page.comp
 import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
-import firebase from 'firebase/compat/app';
 
 const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
 const customUrlSerializerProvider: Provider = {
@@ -137,8 +138,6 @@ if (environment.maintenance) {
   ];
 }
 
-firebase.initializeApp(environment.firebaseConfig);
-
 /**
  * Root module.
  */
@@ -176,6 +175,8 @@ firebase.initializeApp(environment.firebaseConfig);
     FormsModule,
     NgbDatepickerModule,
     SessionEditFormModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
   ],
   providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],
