@@ -43,7 +43,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE + "?courseid=tm.e2e.IStudentActivityLogs.CS2104");
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE
+                + "?courseid=tm.e2e.IStudentActivityLogs.CS2104");
         InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
