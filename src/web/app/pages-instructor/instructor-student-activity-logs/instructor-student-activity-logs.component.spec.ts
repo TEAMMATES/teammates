@@ -29,6 +29,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   let logService: LogService;
   let timezoneService: TimezoneService;
 
+  const LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   const resultColumns: ColumnData[] = [
     { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
     { header: 'Name', sortBy: SortBy.GIVER_NAME },
@@ -261,11 +262,14 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
     expect(component.searchResults.length).toEqual(2);
 
+    const timestamp: string = timezoneService.formatToString(
+        0, testFeedbackSession.timeZone, LOGS_DATE_TIME_FORMAT);
+
     for (let i: number = 0; i < 2; i += 1) {
       expect(component.searchResults[i].isTabExpanded).toBeTruthy();
       expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
       // Testing that the LogType is converted correctly.
-      expect(component.searchResults[i].logRowsData[0][0].value).toContain('Submitted responses');
+      expect(component.searchResults[i].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
     }
   });
 });

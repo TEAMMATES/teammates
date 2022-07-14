@@ -112,7 +112,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
           >
             <label
               class="font-weight-bold"
-              for="course-id-dropdown"
+              for="activity-type-dropdown"
             >
               Activity Type
             </label>
@@ -122,7 +122,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
           >
             <select
               class="form-control col-12 ng-untouched ng-pristine ng-valid"
-              id="course-id-dropdown"
+              id="activity-type-dropdown"
             >
               <option
                 disabled=""
@@ -734,7 +734,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
           >
             <label
               class="font-weight-bold"
-              for="course-id-dropdown"
+              for="activity-type-dropdown"
             >
               Activity Type
             </label>
@@ -744,7 +744,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
           >
             <select
               class="form-control col-12 ng-untouched ng-pristine ng-valid"
-              id="course-id-dropdown"
+              id="activity-type-dropdown"
             >
               <option
                 disabled=""
