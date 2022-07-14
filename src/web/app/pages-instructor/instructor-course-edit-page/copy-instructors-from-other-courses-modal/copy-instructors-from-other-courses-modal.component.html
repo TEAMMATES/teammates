@@ -15,9 +15,8 @@
   </div>
   <div *ngFor="let course of courses">
     <div class="card">
-      <div class="card-header cursor-pointer text-white" [ngClass]="{'bg-primary': !course.isArchived, 'bg-info': course.isArchived}" (click)="toggleCard(course)">
-        <strong class="text-break" *ngIf="!course.isArchived">[{{course.courseId}}]: {{course.courseName}}</strong>
-        <strong class="text-break" *ngIf="course.isArchived">[{{course.courseId}}] (Archived): {{course.courseName}}</strong>
+      <div class="card-header cursor-pointer text-white" ngClass="bg-primary" (click)="toggleCard(course)">
+        <strong class="text-break">[{{course.courseId}}]: {{course.courseName}}</strong>
         <div class="card-header-btn-toolbar">
           <tm-panel-chevron [isExpanded]="course.isTabExpanded"></tm-panel-chevron>
         </div>
@@ -29,7 +28,7 @@
             <div *ngIf="!course.hasLoadingFailed" class="card-body">
               <ng-container *ngIf="course.hasInstructorsLoaded">
                 <table id="copy-instructor-table" class="table table-bordered table-responsive-lg">
-                  <thead class="text-white" [ngClass]="{'bg-primary': !course.isArchived, 'bg-info': course.isArchived}">
+                  <thead class="text-white" ngClass="bg-primary">
                     <tr>
                       <th>#</th>
                       <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_NAME)">
