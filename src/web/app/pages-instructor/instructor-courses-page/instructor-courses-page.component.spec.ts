@@ -287,10 +287,9 @@ describe('InstructorCoursesPageComponent', () => {
 
     component.loadInstructorCourses();
 
-    expect(courseSpy).toHaveBeenCalledTimes(3);
+    expect(courseSpy).toHaveBeenCalledTimes(2);
     expect(courseSpy).toHaveBeenNthCalledWith(1, 'active');
-    expect(courseSpy).toHaveBeenNthCalledWith(2, 'archived');
-    expect(courseSpy).toHaveBeenNthCalledWith(3, 'softDeleted');
+    expect(courseSpy).toHaveBeenNthCalledWith(2, 'softDeleted');
 
     expect(component.activeCourses.length).toEqual(1);
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
