@@ -39,7 +39,6 @@ public class AccountRequestCreateResponseData extends ApiOutput {
         private String invalidEmailMessage = "";
         private String invalidHomePageUrlMessage = "";
         private String invalidCommentsMessage = "";
-        private String otherErrorMessage = "";
 
         public AccountRequestCreateErrorResults() {}
 
@@ -91,13 +90,6 @@ public class AccountRequestCreateResponseData extends ApiOutput {
             this.invalidCommentsMessage = invalidCommentsMessage;
         }
 
-        public String getOtherErrorMessage() {
-            return otherErrorMessage;
-        }
-
-        public void setOtherErrorMessage(String otherErrorMessage) {
-            this.otherErrorMessage = otherErrorMessage;
-        }
     }
 
 }

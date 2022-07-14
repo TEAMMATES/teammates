@@ -149,15 +149,10 @@ export class AdminHomePageComponent {
             instructor.message = resp.error.message;
           } else {
             // resp is AccountRequestCreateErrorResultsWrapper
-            if (resp.error.otherErrorMessage) {
-              // otherErrorMessage has precedence to be displayed
-              instructor.message = resp.error.otherErrorMessage;
-            } else {
-              instructor.message = [resp.error.invalidNameMessage,
-                resp.error.invalidEmailMessage, resp.error.invalidInstituteMessage]
-                .filter(Boolean)
-                .join(' ');
-            }
+            instructor.message = [resp.error.invalidNameMessage, resp.error.invalidEmailMessage,
+              resp.error.invalidInstituteMessage]
+              .filter(Boolean)
+              .join(' ');
           }
           this.activeRequests -= 1;
         });

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
-import { finalize } from 'rxjs/operators';
 import { FormValidator } from 'src/web/types/form-validator';
 import { environment } from '../../../environments/environment';
 import { AccountService } from '../../../services/account.service';
@@ -28,7 +27,14 @@ export class RequestPageComponent implements OnInit {
   form!: FormGroup;
 
   backendOtherErrorMessage : string = '';
+  readonly supportEmail : string = environment.supportEmail;
   readonly emptyFieldMessage : string = 'This field should not be empty';
+  readonly invalidFieldsMessage : string = 'Oops, some information is in incorrect format. Please fix them and submit again.';
+  readonly beforeSubmissionMessage : string = `The request is manually processed and you should receive an email from us
+  within 24 hours after successfully submitting this form. If you don't get a response within 24 hours 
+  (remember to check your spam box too), please contact us at ${this.supportEmail} for follow up.`;
+  readonly successMessage : string = 'Your submission is successful and the request will be processed within 24 hours.';
+  readonly failureMessage : string = 'Submission fails. See details at the bottom of the form.';
 
   readonly recaptchaSiteKey: string = environment.captchaSiteKey;
 
@@ -147,26 +153,18 @@ export class RequestPageComponent implements OnInit {
       captchaResponse: captchaResponse,
       requestBody: reqBody,
     })
-      .pipe(finalize(() => {
-        this.isFormSaving = false;
-      }))
       .subscribe(() => {
-        this.navigationService.navigateWithSuccessMessage('/web/front/home',
-          `Your submission is successful and the request will be processed within 24 hours. 
-          If you don't get a response from us within 24 hours (remember to check your spam box too),
-          please contact us at teammates@comp.nus.edu.sg for follow up.`);
-        // TODO: change to use environment support email and put this in the form as well, put contact in the form
+        this.navigationService.navigateWithSuccessMessage('/web/front/home', this.successMessage);
       }, (resp: ErrorMessageOutput | AccountRequestCreateErrorResultsWrapper) => {
+        this.isFormSaving = false;
+        this.statusMessageService.showWarningToast(this.failureMessage);
+
         this.recaptchaElem.resetCaptcha();
 
         if ('message' in resp.error) {
           this.backendOtherErrorMessage = resp.error.message;
         } else {
-          this.backendOtherErrorMessage = resp.error.otherErrorMessage;
-
-          // this.form.setErrors({
-          //   invalidFields : resp.error.otherErrorMessage,
-          // });
+          this.backendOtherErrorMessage = this.invalidFieldsMessage;
 
           if (resp.error.invalidNameMessage) {
             this.name!.setErrors({

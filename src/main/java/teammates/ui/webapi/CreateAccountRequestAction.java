@@ -60,7 +60,7 @@ class CreateAccountRequestAction extends Action {
         if (!intent.equals(AccountRequestCreateIntent.ADMIN_CREATE)) {
             String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
             if (userCaptchaResponse == null || !recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
-                throw new InvalidHttpParameterException("Please check the \"I'm not a robot\" box.");
+                throw new InvalidHttpParameterException("Please check the \"I'm not a robot\" box before submission.");
             }
         }
 
@@ -154,7 +154,7 @@ class CreateAccountRequestAction extends Action {
             AccountRequestAttributes accountRequest = logic.getAccountRequest(instructorEmail, instructorInstitute);
             return "An account request already exists with status " + accountRequest.getStatus() + ".";
         case PUBLIC_CREATE:
-            return "Oops, an account request already exists."
+            return "Oops, your submission is unsuccessful because an account request already exists."
                     + " Please check if you have entered your personal information correctly."
                     + " If you think this shouldn't happen, contact us at the email address given above.";
         default:
@@ -207,10 +207,6 @@ class CreateAccountRequestAction extends Action {
                         AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME));
                 errorResults.setInvalidCommentsMessage(i);
             }
-        }
-        // to show a friendly hint message to users
-        if (intent.equals(AccountRequestCreateIntent.PUBLIC_CREATE)) {
-            errorResults.setOtherErrorMessage("Oops, some information has incorrect format.");
         }
         return false;
     }
