@@ -115,7 +115,6 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(InstructorStudentActivityLogsComponent);
-    // courseService = TestBed.inject(CourseService);
     studentService = TestBed.inject(StudentService);
     logService = TestBed.inject(LogService);
     timezoneService = TestBed.inject(TimezoneService);
@@ -172,14 +171,12 @@ describe('InstructorStudentActivityLogsComponent', () => {
           { value: 'team 1' },
         ]],
         isTabExpanded: true,
-        publishedDate: '',
       },
       {
         feedbackSessionName: 'Feedback session 2',
         logColumnsData: resultColumns,
         logRowsData: [],
         isTabExpanded: true,
-        publishedDate: '',
       },
     ];
     component.isLoading = false;

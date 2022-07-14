@@ -46,7 +46,6 @@ interface LogType {
  * Model for displaying of feedback session logs
  */
 interface FeedbackSessionLogModel {
-  publishedDate: string;
   feedbackSessionName: string;
   logColumnsData: ColumnData[];
   logRowsData: SortableTableCellData[][];
@@ -257,8 +256,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
     return {
       feedbackSessionName: fsName,
-      publishedDate: this.timezoneService.formatToString(
-          publishedTime, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT),
       logColumnsData: [
         { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
         { header: 'Name', sortBy: SortBy.GIVER_NAME },
@@ -333,7 +330,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         return 'Submitted responses';
       case 'VIEW RESULT':
         return 'Viewed the session results';
-      case 'ACCESS-SUBMISSION':
+      case 'ACCESS,SUBMISSION':
         return 'Viewed the submission page or submitted responses';
       default:
         return 'Unknown activity';
