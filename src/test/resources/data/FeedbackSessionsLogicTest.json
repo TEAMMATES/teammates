@@ -66,6 +66,12 @@
       "email": "iwosc@yahoo.tmt",
       "readNotifications": {}
     },
+    "instructorOfNoQuestionsCourse": {
+      "googleId": "idOfInstructorOfNoQuestionsCourse",
+      "name": "InstructorOfNoQuestionsCourse name",
+      "email": "instructorOfNoQuestionsCourse@noQuestionsCourse.tmt",
+      "readNotifications": {}
+    },
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
@@ -76,6 +82,12 @@
       "googleId": "student2InCourse1",
       "name": "Student in two courses",
       "email": "student2InCourse1@gmail.tmt",
+      "readNotifications": {}
+    },
+    "student1InNoQuestionsCourse": {
+      "googleId": "student1InNoQuestionsCourse",
+      "name": "Student in No Questions Course",
+      "email": "student1InCourse1@gmail.tmt",
       "readNotifications": {}
     }
   },
@@ -117,6 +129,12 @@
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
       "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "UTC"
+    },
+    "noQuestionsCourse": {
+      "id": "idOfNoQuestionsCourse",
+      "name": "No Questions Course",
+      "institute": "TEAMMATES Test Institute 5",
       "timeZone": "UTC"
     }
   },
@@ -396,6 +414,29 @@
         "sessionLevel": {}
       }
     },
+    "instructorOfNoQuestionsCourse": {
+      "googleId": "idOfInstructorOfNoQuestionsCourse",
+      "courseId": "idOfNoQuestionsCourse",
+      "name": "InstructorOfNoQuestionsCourse name",
+      "email": "instructorOfNoQuestionsCourse@noQuestionsCourse.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
     "instructorNotYetJoinCourse": {
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor Not Yet Joined Course",
@@ -518,6 +559,15 @@
       "comments": "",
       "team": "Team 2",
       "section": "Section 2"
+    },
+    "student1InNoQuestionsCourse": {
+      "googleId": "student1InNoQuestionsCourse",
+      "email": "student1InNoQuestionsCourse@gmail.tmt",
+      "course": "idOfNoQuestionsCourse",
+      "name": "student1 In Course1",
+      "comments": "",
+      "team": "Team 2.1",
+      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -1068,6 +1118,27 @@
       "showResponsesTo": [],
       "showGiverNameTo": [],
       "showRecipientNameTo": []
+    },
+    "qn1InSessionInNoQuestionsCourse": {
+      "feedbackSessionName": "session without student questions",
+      "courseId": "idOfNoQuestionsCourse",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to students"
+      },
+      "questionNumber": 1,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {
@@ -1290,6 +1361,19 @@
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from instr to Team 2.1"
+      }
+    },
+    "response1ForNVSQ1": {
+      "feedbackSessionName": "session without student questions",
+      "courseId": "idOfNoQuestionsCourse",
+      "feedbackQuestionId": "1",
+      "giver": "instructorOfNoQuestionsCourse@noQuestionsCourse.tmt",
+      "recipient": "student1InNoQuestionsCourse@gmail.tmt",
+      "giverSection": "None",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from instructor to student"
       }
     }
   },
