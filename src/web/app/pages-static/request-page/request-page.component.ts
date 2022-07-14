@@ -12,7 +12,7 @@ import {
   AccountRequestCreateRequest,
   AccountRequestType,
 } from '../../../types/api-request';
-import { ErrorMessageOutput } from '../../error-message-output';
+import { AccountRequestCreateErrorResultsWrapper } from '../../error-message-output';
 
 /**
  * Account request page.
@@ -27,7 +27,7 @@ export class RequestPageComponent implements OnInit {
   FormValidator: typeof FormValidator = FormValidator; // enum
   form!: FormGroup;
 
-  backendErrorMessage : string = '';
+  backendOtherErrorMessage : string = '';
   readonly emptyFieldMessage : string = 'This field should not be empty';
 
   readonly recaptchaSiteKey: string = environment.captchaSiteKey;
@@ -43,17 +43,19 @@ export class RequestPageComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('',
-        [Validators.required, Validators.maxLength(FormValidator.PERSON_NAME_MAX_LENGTH)]),
+        [this.nonEmptyValidator(), this.maxLengthValidator(FormValidator.PERSON_NAME_MAX_LENGTH)]),
       institute: new FormControl('',
-        [Validators.required, Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH)]),
+        [this.nonEmptyValidator(), this.maxLengthValidator(FormValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH)]),
       country: new FormControl('',
-        [Validators.required, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
+        [this.nonEmptyValidator(), this.maxLengthValidator(FormValidator.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH)]),
       email: new FormControl('',
-        [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH), Validators.email]),
-      url: new FormControl(''),
+        [this.nonEmptyValidator(), this.maxLengthValidator(FormValidator.EMAIL_MAX_LENGTH)]),
+      url: new FormControl('',
+        [this.maxLengthValidator(FormValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH)]),
       'account-type': new FormControl('instructor',
         [Validators.required, this.fieldExpectedValueValidator('instructor')]),
-      comments: new FormControl(''),
+      comments: new FormControl('',
+        [this.maxLengthValidator(FormValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH)]),
       recaptcha: new FormControl(''),
     });
   }
@@ -63,8 +65,33 @@ export class RequestPageComponent implements OnInit {
    */
   fieldExpectedValueValidator(expected: string) {
     return function (control: AbstractControl) : ValidationErrors | null {
-      if (control.value !== expected) {
+      if ((control.value as string) !== expected) {
         return { notExpected: true };
+      }
+      return null;
+    }
+  }
+
+  /**
+   * Returns a validator function to check if the control's value has exceeded the max length
+   * after leading/trailing spaces are trimmed.
+   */
+  maxLengthValidator(maxLength: number) {
+    return function (control: AbstractControl) : ValidationErrors | null {
+      if ((control.value as string).trim().length > maxLength) {
+        return { maxLength: true };
+      }
+      return null;
+    }
+  }
+
+  /**
+   * Returns a validator function to check if the control's value is empty after leading/trailing spaces are trimmed.
+   */
+  nonEmptyValidator() {
+    return function (control: AbstractControl) : ValidationErrors | null {
+      if (!(control.value as string).trim()) {
+        return { empty: true };
       }
       return null;
     }
@@ -95,12 +122,12 @@ export class RequestPageComponent implements OnInit {
 
     if (!this.form.valid) {
       console.log('invalid form');
-      this.statusMessageService.showErrorToast('Ensure the form is valid before submission.');
+      this.statusMessageService.showWarningToast('Ensure the form is valid before submission.');
       return;
     }
 
     this.isFormSaving = true;
-    this.backendErrorMessage = '';
+    this.backendOtherErrorMessage = '';
 
     const accReqType: AccountRequestType = this.accountType!.value === 'instructor'
       ? AccountRequestType.INSTRUCTOR_ACCOUNT
@@ -129,52 +156,46 @@ export class RequestPageComponent implements OnInit {
           If you don't get a response from us within 24 hours (remember to check your spam box too),
           please contact us at teammates@comp.nus.edu.sg for follow up.`);
         // TODO: change to use environment support email and put this in the form as well, put contact in the form
-      }, (resp: ErrorMessageOutput) => {
-        this.backendErrorMessage = resp.error.message;
-
-        this.form.setErrors({
-          invalidFields : resp.error.message,
-        });
-
+      }, (resp: AccountRequestCreateErrorResultsWrapper) => {
         this.recaptchaElem.resetCaptcha();
 
-        // const errors = JSON.parse(resp.error.message);
-        // if (errors.name) {
-        //   this.name!.setErrors({
-        //     invalidField : errors.name,
-        //   })
-        // }
-        // if (errors.institute) {
-        //   this.institute!.setErrors({
-        //     invalidField : errors.institute,
-        //   })
-        // }
-        // if (errors.country) {
-        //   this.country!.setErrors({
-        //     invalidField : errors.country,
-        //   })
-        // }
-        // if (errors.email) {
-        //   this.email!.setErrors({
-        //     invalidField : errors.email,
-        //   })
-        // }
-      });
+        this.backendOtherErrorMessage = resp.error.otherErrorMessage;
 
-    // this.studentService.updateStudent({
-    //   courseId: '',
-    //   studentEmail: '',
-    //   requestBody: reqBody,
-    // })
-    //   .pipe(finalize(() => {
-    //     this.isFormSaving = false;
-    //   }))
-    //   .subscribe((resp: MessageOutput) => {
-    //     this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details',
-    //       resp.message, { courseid: '' });
-    //   }, (resp: ErrorMessageOutput) => {
-    //     this.statusMessageService.showErrorToast(resp.error.message);
-    //   });
+        // this.form.setErrors({
+        //   invalidFields : resp.otherErrorMessage,
+        // });
+
+        if (resp.error.invalidNameMessage) {
+          this.name!.setErrors({
+            invalidField : resp.error.invalidNameMessage,
+          });
+        }
+        if (resp.error.invalidInstituteMessage) {
+          this.institute!.setErrors({
+            invalidField : resp.error.invalidInstituteMessage,
+          });
+        }
+        if (resp.error.invalidCountryMessage) {
+          this.country!.setErrors({
+            invalidField : resp.error.invalidCountryMessage,
+          });
+        }
+        if (resp.error.invalidEmailMessage) {
+          this.email!.setErrors({
+            invalidField : resp.error.invalidEmailMessage,
+          });
+        }
+        if (resp.error.invalidHomePageUrlMessage) {
+          this.url!.setErrors({
+            invalidField : resp.error.invalidHomePageUrlMessage,
+          });
+        }
+        if (resp.error.invalidCommentsMessage) {
+          this.comments!.setErrors({
+            invalidField : resp.error.invalidCommentsMessage,
+          });
+        }
+      });
   }
 
   get name() {

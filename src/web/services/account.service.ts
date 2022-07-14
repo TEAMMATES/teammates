@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Account, Accounts, JoinLink, MessageOutput } from '../types/api-output';
+import { Account, AccountRequestCreateResponse, Accounts, JoinLink, MessageOutput } from '../types/api-output';
 import { AccountRequestCreateIntent, AccountRequestCreateRequest, AccountRequestType } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -34,7 +34,7 @@ export class AccountService {
     accountRequestType: AccountRequestType,
     captchaResponse: string,
     requestBody: AccountRequestCreateRequest,
-  }): Observable<MessageOutput> {
+  }): Observable<AccountRequestCreateResponse> {
     const paramsMap: Record<string, string> = {
       intent: queryParams.intent,
       accountrequesttype: queryParams.accountRequestType,

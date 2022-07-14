@@ -47,6 +47,12 @@ public class JsonResult extends ActionResult {
         this.cookies = new ArrayList<>();
     }
 
+    public JsonResult(ApiOutput output, int statusCode) {
+        super(statusCode);
+        this.output = output;
+        this.cookies = new ArrayList<>();
+    }
+
     ApiOutput getOutput() {
         return output;
     }

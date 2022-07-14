@@ -141,21 +141,32 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
                 .toAbsoluteString();
     }
 
+    public static String generatePrefix(String prefix) {
+        return prefix.concat(": ");
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPersonName(getName()), errors,
+                generatePrefix(FieldValidator.PERSON_NAME_FIELD_NAME));
         if (getPureInstitute() != null || getPureCountry() != null) {
             // if either one is non-null, both should be non-null
             // if both are valid, institute should be valid as well
-            addNonEmptyError(FieldValidator.getInvalidityInfoForPureInstituteName(getPureInstitute()), errors);
-            addNonEmptyError(FieldValidator.getInvalidityInfoForPureCountryName(getPureCountry()), errors);
-        } // TODO: reconsider validation logic here
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(getHomePageUrl()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForAccountRequestComments(getOtherComments()), errors);
+            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPureInstituteName(getPureInstitute()), errors,
+                    generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME));
+            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPureCountryName(getPureCountry()), errors,
+                    generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME));
+        }
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors,
+                generatePrefix(FieldValidator.INSTITUTE_NAME_FIELD_NAME));
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors,
+                generatePrefix(FieldValidator.EMAIL_FIELD_NAME));
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(getHomePageUrl()), errors,
+                generatePrefix(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME));
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestComments(getOtherComments()), errors,
+                generatePrefix(FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME));
 
         return errors;
     }

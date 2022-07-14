@@ -20,7 +20,7 @@ import {
   AccountRequestType,
 } from '../../../types/api-request';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { ErrorMessageOutput } from '../../error-message-output';
+import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 
 /**
@@ -141,10 +141,18 @@ export class AdminHomePageComponent {
           instructor.statusCode = 200;
           instructor.joinLink = resp.joinLink;
           this.activeRequests -= 1;
-        }, (resp: ErrorMessageOutput) => {
+        }, (resp: AccountRequestCreateErrorResultsWrapper) => {
           instructor.status = 'FAIL';
           instructor.statusCode = resp.status;
-          instructor.message = resp.error.message;
+          console.log('Status ------------------------------' + resp.status);
+          if (resp.error.otherErrorMessage) {
+            instructor.message = resp.error.otherErrorMessage;
+          } else {
+            instructor.message =
+              [resp.error.invalidNameMessage, resp.error.invalidEmailMessage, resp.error.invalidInstituteMessage]
+                .filter(Boolean)
+                .join(' ');
+          }
           this.activeRequests -= 1;
         });
   }
