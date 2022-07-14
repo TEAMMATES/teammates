@@ -35,7 +35,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
-        student = testData.students.get("alice.tmms@IStudentActivityLogs.CS2104");
+        student = testData.students.get("alice.tmms@ISActLogs.CS2104");
         feedbackQuestion = testData.feedbackQuestions.get("qn1");
         feedbackSession = testData.feedbackSessions.get("openSession");
     }
@@ -44,9 +44,9 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE
-                + "?courseid=tm.e2e.IStudentActivityLogs.CS2104");
-        InstructorStudentActivityLogsPage auditLogsPage
-                = loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
+                + "?courseid=tm.e2e.ISActLogs.CS2104");
+        InstructorStudentActivityLogsPage auditLogsPage =
+                loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
         String currentLogsFromDate = auditLogsPage.getLogsFromDate();
@@ -71,7 +71,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
                 FeedbackSubmitPage.class, student.getGoogleId());
 
-        StudentAttributes receiver = testData.students.get("benny.tmms@IStudentActivityLogs.CS2104");
+        StudentAttributes receiver = testData.students.get("benny.tmms@ISActLogs.CS2104");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails("Response");
