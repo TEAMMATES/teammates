@@ -159,6 +159,8 @@ public final class Const {
 
         public static final String ENTITY_TYPE = "entitytype";
 
+        public static final String ACCOUNT_REQUEST_TYPE = "accountrequesttype";
+
         public static final String INTENT = "intent";
 
         public static final String TIMEZONE = "timezone";

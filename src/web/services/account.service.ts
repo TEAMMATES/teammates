@@ -32,13 +32,13 @@ export class AccountService {
   createAccountRequest(queryParams: {
     intent: AccountRequestCreateIntent,
     accountRequestType: AccountRequestType,
-    recaptchaResponse: string,
+    captchaResponse: string,
     requestBody: AccountRequestCreateRequest,
   }): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
       intent: queryParams.intent,
-      accountRequestType: queryParams.accountRequestType,
-      recaptchaResponse: queryParams.recaptchaResponse,
+      accountrequesttype: queryParams.accountRequestType,
+      captcharesponse: queryParams.captchaResponse,
     };
     return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, queryParams.requestBody);
   }

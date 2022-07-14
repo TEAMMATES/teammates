@@ -6,11 +6,13 @@ import javax.annotation.Nullable;
  * The API output format for account request create request.
  */
 public class AccountRequestCreateResponseData extends ApiOutput {
-    private final String message;
+    private String message;
     @Nullable
     private String joinLink;
 
-    public AccountRequestCreateResponseData(String message) {
+    public AccountRequestCreateResponseData() {}
+
+    public void setMessage(String message) {
         this.message = message;
     }
 

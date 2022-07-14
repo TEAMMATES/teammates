@@ -39,8 +39,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         this.email = email;
         this.homePageUrl = homePageUrl;
         this.otherComments = otherComments;
-        this.status = AccountRequestStatus.SUBMITTED;
         this.registrationKey = null;
+        this.status = AccountRequestStatus.SUBMITTED;
         this.createdAt = null;
         this.lastProcessedAt = null;
         this.registeredAt = null;
@@ -146,9 +146,16 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         List<String> errors = new ArrayList<>();
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPureInstituteName(getPureInstitute()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPureCountryName(getPureCountry()), errors);
+        if (getPureInstitute() != null || getPureCountry() != null) {
+            // if either one is non-null, both should be non-null
+            // if both are valid, institute should be valid as well
+            addNonEmptyError(FieldValidator.getInvalidityInfoForPureInstituteName(getPureInstitute()), errors);
+            addNonEmptyError(FieldValidator.getInvalidityInfoForPureCountryName(getPureCountry()), errors);
+        } // TODO: reconsider validation logic here
+        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(getHomePageUrl()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForAccountRequestComments(getOtherComments()), errors);
 
         return errors;
     }
@@ -166,10 +173,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             accountRequest.setCreatedAt(this.getCreatedAt());
         }
 
-        if (this.getStatus() != AccountRequestStatus.SUBMITTED) {
-            accountRequest.setStatus(this.getStatus());
-        }
-
+        accountRequest.setStatus(this.getStatus());
         accountRequest.setLastProcessedAt(this.getLastProcessedAt());
         accountRequest.setRegisteredAt(this.getRegisteredAt());
 

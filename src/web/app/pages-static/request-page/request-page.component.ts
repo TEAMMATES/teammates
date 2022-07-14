@@ -7,7 +7,6 @@ import { environment } from '../../../environments/environment';
 import { AccountService } from '../../../services/account.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountRequestCreateResponse } from '../../../types/api-output';
 import {
   AccountRequestCreateIntent,
   AccountRequestCreateRequest,
@@ -85,10 +84,10 @@ export class RequestPageComponent implements OnInit {
     this.form.markAllAsTouched();
 
     // set recaptcha validation errors only on submit
-    const recaptchaResponse: string = this.recaptchaElem.getResponse();
-    console.log(recaptchaResponse);
+    const captchaResponse: string = this.recaptchaElem.getResponse();
+    console.log(captchaResponse);
     console.log(this.recaptcha!.value);
-    if (this.recaptchaSiteKey !== '' && recaptchaResponse === '') {
+    if (this.recaptchaSiteKey !== '' && captchaResponse === '') {
       this.recaptcha!.setErrors({
         unchecked: true,
       });
@@ -118,20 +117,27 @@ export class RequestPageComponent implements OnInit {
     this.accountService.createAccountRequest({
       intent: AccountRequestCreateIntent.PUBLIC_CREATE,
       accountRequestType: accReqType,
-      recaptchaResponse: recaptchaResponse,
+      captchaResponse: captchaResponse,
       requestBody: reqBody,
     })
       .pipe(finalize(() => {
         this.isFormSaving = false;
       }))
-      .subscribe((resp: AccountRequestCreateResponse) => {
-        this.navigationService.navigateWithSuccessMessage('/web/front/home', resp.message);
+      .subscribe(() => {
+        this.navigationService.navigateWithSuccessMessage('/web/front/home',
+          `Your submission is successful and the request will be processed within 24 hours. 
+          If you don't get a response from us within 24 hours (remember to check your spam box too),
+          please contact us at teammates@comp.nus.edu.sg for follow up.`);
+        // TODO: change to use environment support email and put this in the form as well, put contact in the form
       }, (resp: ErrorMessageOutput) => {
         this.backendErrorMessage = resp.error.message;
 
         this.form.setErrors({
           invalidFields : resp.error.message,
         });
+
+        this.recaptchaElem.resetCaptcha();
+
         // const errors = JSON.parse(resp.error.message);
         // if (errors.name) {
         //   this.name!.setErrors({

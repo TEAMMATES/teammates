@@ -130,7 +130,7 @@ export class AdminHomePageComponent {
     this.accountService.createAccountRequest({
       intent: AccountRequestCreateIntent.ADMIN_CREATE,
       accountRequestType: AccountRequestType.INSTRUCTOR_ACCOUNT,
-      recaptchaResponse: '',
+      captchaResponse: '',
       requestBody: reqBody,
     })
         .pipe(finalize(() => {

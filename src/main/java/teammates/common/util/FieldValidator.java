@@ -54,6 +54,12 @@ public final class FieldValidator {
     public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = PURE_INSTITUTE_NAME_MAX_LENGTH + PURE_COUNTRY_NAME_MAX_LENGTH;
 
+    public static final String ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME = "url";
+    public static final int ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH = 500;
+
+    public static final String ACCOUNT_REQUEST_COMMENTS_FIELD_NAME = "comments";
+    public static final int ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH = 1000;
+
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
@@ -503,6 +509,28 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
+    }
+
+    /**
+     * Checks if {@code url} is a non-null string no longer than the specified length
+     * {@code ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH}.
+     * @return An explanation of why the {@code url} is not acceptable.
+     *         Returns an empty string if the {@code url} is acceptable.
+     */
+    public static String getInvalidityInfoForAccountRequestHomePageUrl(String url) {
+        return getValidityInfoForSizeCappedPossiblyEmptyString(ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME,
+                ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH, url);
+    }
+
+    /**
+     * Checks if {@code comments} is a non-null string no longer than the specified length
+     * {@code ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH}.
+     * @return An explanation of why the {@code comments} is not acceptable.
+     *         Returns an empty string if the {@code comments} is acceptable.
+     */
+    public static String getInvalidityInfoForAccountRequestComments(String comments) {
+        return getValidityInfoForSizeCappedPossiblyEmptyString(ACCOUNT_REQUEST_COMMENTS_FIELD_NAME,
+                ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH, comments);
     }
 
     /**
