@@ -76,8 +76,8 @@ public final class AccountRequestsLogic {
                     .withLastProcessedAt(accountRequestAttributes.getCreatedAt())
                     .build());
         } catch (EntityDoesNotExistException ednee) {
-            log.severe("The new account request has been created and is being approved instantly, but "
-                    + "the newly created account request disappeared before it could be approved.", ednee);
+            log.severe("Encountered exception when creating account request: "
+                    + "The newly created account request disappeared before it could be approved.", ednee);
             throw ednee;
         }
         return accountRequestAttributes;

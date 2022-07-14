@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.AccountRequestCreateResponseData;
 import teammates.ui.request.AccountRequestCreateIntent;
@@ -22,6 +23,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Creates a new account request.
  */
 class CreateAccountRequestAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -57,15 +60,13 @@ class CreateAccountRequestAction extends Action {
         if (!intent.equals(AccountRequestCreateIntent.ADMIN_CREATE)) {
             String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
             if (userCaptchaResponse == null || !recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
-                return generateErrorJsonResult(errorResults, "Please check the \"I'm not a robot\" box.",
-                        HttpStatus.SC_BAD_REQUEST);
+                throw new InvalidHttpParameterException("Please check the \"I'm not a robot\" box.");
             }
         }
 
         String type = getRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_TYPE);
         if (type == null || AccountRequestType.valueOf(type) != AccountRequestType.INSTRUCTOR_ACCOUNT) {
-            return generateErrorJsonResult(errorResults, "Only instructor accounts can be created.",
-                    HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Only instructor accounts can be created.");
         }
 
         AccountRequestCreateRequest createRequest = getAndValidateRequestBody(AccountRequestCreateRequest.class);
@@ -88,6 +89,8 @@ class CreateAccountRequestAction extends Action {
                         .builder(instructorName, instructorInstitute, instructorEmail, instructorHomePageUrl, otherComments)
                         .build();
                 if (!validateAccountRequestAndPopulateErrorResults(intent, accountRequestToCreate, errorResults)) {
+                    log.warning("Account request fails to be created: invalid request.",
+                            new InvalidHttpRequestBodyException("Account request fails to be created: invalid request."));
                     return new JsonResult(errorResults, HttpStatus.SC_BAD_REQUEST);
                 }
 
@@ -111,6 +114,8 @@ class CreateAccountRequestAction extends Action {
                                 instructorHomePageUrl, otherComments)
                         .build();
                 if (!validateAccountRequestAndPopulateErrorResults(intent, accountRequestToCreate, errorResults)) {
+                    log.warning("Account request fails to be created: invalid request.",
+                            new InvalidHttpRequestBodyException("Account request fails to be created: invalid request."));
                     return new JsonResult(errorResults, HttpStatus.SC_BAD_REQUEST);
                 }
 
@@ -123,16 +128,20 @@ class CreateAccountRequestAction extends Action {
                 break;
 
             default:
-                return generateErrorJsonResult(errorResults, "Unknown intent " + intent, HttpStatus.SC_BAD_REQUEST);
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
             }
         } catch (EntityAlreadyExistsException eaee) {
-            return generateErrorJsonResult(errorResults, generateExistingAccountRequestErrorMessage(
-                    intent, instructorEmail, instructorInstitute), HttpStatus.SC_CONFLICT);
+            throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
+                    intent, instructorEmail, instructorInstitute), eaee);
         } catch (InvalidParametersException ipe) {
-            // account request has been validated before
-            return generateErrorJsonResult(errorResults, ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            // account request has been validated before so this exception should not happen
+            log.severe("Encountered exception when creating account request: " + ipe.getMessage(), ipe);
+            return new JsonResult("The server encountered an error when processing your request.",
+                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityDoesNotExistException ednee) {
-            return generateErrorJsonResult(errorResults, ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            // error has been logged in method createAndApproveAccountRequest()
+            return new JsonResult("The server encountered an error when processing your request.",
+                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         return new JsonResult(output);
@@ -149,7 +158,7 @@ class CreateAccountRequestAction extends Action {
                     + " Please check if you have entered your personal information correctly."
                     + " If you think this shouldn't happen, contact us at the email address given above.";
         default:
-            return "";
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
     }
 
@@ -199,17 +208,11 @@ class CreateAccountRequestAction extends Action {
                 errorResults.setInvalidCommentsMessage(i);
             }
         }
+        // to show a friendly hint message to users
         if (intent.equals(AccountRequestCreateIntent.PUBLIC_CREATE)) {
             errorResults.setOtherErrorMessage("Oops, some information has incorrect format.");
         }
         return false;
-    }
-
-    private JsonResult generateErrorJsonResult(
-            AccountRequestCreateResponseData.AccountRequestCreateErrorResults errorResults,
-            String errorMessage, int statusCode) {
-        errorResults.setOtherErrorMessage(errorMessage);
-        return new JsonResult(errorResults, statusCode);
     }
 
 }

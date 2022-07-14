@@ -12,7 +12,7 @@ import {
   AccountRequestCreateRequest,
   AccountRequestType,
 } from '../../../types/api-request';
-import { AccountRequestCreateErrorResultsWrapper } from '../../error-message-output';
+import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Account request page.
@@ -156,44 +156,48 @@ export class RequestPageComponent implements OnInit {
           If you don't get a response from us within 24 hours (remember to check your spam box too),
           please contact us at teammates@comp.nus.edu.sg for follow up.`);
         // TODO: change to use environment support email and put this in the form as well, put contact in the form
-      }, (resp: AccountRequestCreateErrorResultsWrapper) => {
+      }, (resp: ErrorMessageOutput | AccountRequestCreateErrorResultsWrapper) => {
         this.recaptchaElem.resetCaptcha();
 
-        this.backendOtherErrorMessage = resp.error.otherErrorMessage;
+        if ('message' in resp.error) {
+          this.backendOtherErrorMessage = resp.error.message;
+        } else {
+          this.backendOtherErrorMessage = resp.error.otherErrorMessage;
 
-        // this.form.setErrors({
-        //   invalidFields : resp.otherErrorMessage,
-        // });
+          // this.form.setErrors({
+          //   invalidFields : resp.error.otherErrorMessage,
+          // });
 
-        if (resp.error.invalidNameMessage) {
-          this.name!.setErrors({
-            invalidField : resp.error.invalidNameMessage,
-          });
-        }
-        if (resp.error.invalidInstituteMessage) {
-          this.institute!.setErrors({
-            invalidField : resp.error.invalidInstituteMessage,
-          });
-        }
-        if (resp.error.invalidCountryMessage) {
-          this.country!.setErrors({
-            invalidField : resp.error.invalidCountryMessage,
-          });
-        }
-        if (resp.error.invalidEmailMessage) {
-          this.email!.setErrors({
-            invalidField : resp.error.invalidEmailMessage,
-          });
-        }
-        if (resp.error.invalidHomePageUrlMessage) {
-          this.url!.setErrors({
-            invalidField : resp.error.invalidHomePageUrlMessage,
-          });
-        }
-        if (resp.error.invalidCommentsMessage) {
-          this.comments!.setErrors({
-            invalidField : resp.error.invalidCommentsMessage,
-          });
+          if (resp.error.invalidNameMessage) {
+            this.name!.setErrors({
+              invalidField : resp.error.invalidNameMessage,
+            });
+          }
+          if (resp.error.invalidInstituteMessage) {
+            this.institute!.setErrors({
+              invalidField : resp.error.invalidInstituteMessage,
+            });
+          }
+          if (resp.error.invalidCountryMessage) {
+            this.country!.setErrors({
+              invalidField : resp.error.invalidCountryMessage,
+            });
+          }
+          if (resp.error.invalidEmailMessage) {
+            this.email!.setErrors({
+              invalidField : resp.error.invalidEmailMessage,
+            });
+          }
+          if (resp.error.invalidHomePageUrlMessage) {
+            this.url!.setErrors({
+              invalidField : resp.error.invalidHomePageUrlMessage,
+            });
+          }
+          if (resp.error.invalidCommentsMessage) {
+            this.comments!.setErrors({
+              invalidField : resp.error.invalidCommentsMessage,
+            });
+          }
         }
       });
   }

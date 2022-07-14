@@ -141,17 +141,23 @@ export class AdminHomePageComponent {
           instructor.statusCode = 200;
           instructor.joinLink = resp.joinLink;
           this.activeRequests -= 1;
-        }, (resp: AccountRequestCreateErrorResultsWrapper) => {
+        }, (resp: ErrorMessageOutput | AccountRequestCreateErrorResultsWrapper) => {
           instructor.status = 'FAIL';
           instructor.statusCode = resp.status;
-          console.log('Status ------------------------------' + resp.status);
-          if (resp.error.otherErrorMessage) {
-            instructor.message = resp.error.otherErrorMessage;
+          if ('message' in resp.error) {
+            // resp is ErrorMessageOutput
+            instructor.message = resp.error.message;
           } else {
-            instructor.message =
-              [resp.error.invalidNameMessage, resp.error.invalidEmailMessage, resp.error.invalidInstituteMessage]
+            // resp is AccountRequestCreateErrorResultsWrapper
+            if (resp.error.otherErrorMessage) {
+              // otherErrorMessage has precedence to be displayed
+              instructor.message = resp.error.otherErrorMessage;
+            } else {
+              instructor.message = [resp.error.invalidNameMessage,
+                resp.error.invalidEmailMessage, resp.error.invalidInstituteMessage]
                 .filter(Boolean)
                 .join(' ');
+            }
           }
           this.activeRequests -= 1;
         });
