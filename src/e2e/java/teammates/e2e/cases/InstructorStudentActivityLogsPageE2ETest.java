@@ -16,7 +16,7 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
-import teammates.e2e.pageobjects.InstructorAuditLogsPage;
+import teammates.e2e.pageobjects.InstructorStudentActivityLogsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE}.
@@ -45,7 +45,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE
                 + "?courseid=tm.e2e.IStudentActivityLogs.CS2104");
-        InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
+        InstructorStudentActivityLogsPage auditLogsPage
+                = loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
         String currentLogsFromDate = auditLogsPage.getLogsFromDate();
@@ -83,8 +84,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentSubmissionPage.clickSubmitQuestionButton(1);
 
         logout();
-        auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
-        auditLogsPage.setCourseId(course.getId());
+        auditLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
+        auditLogsPage.setActivityType("session access and submission");
         auditLogsPage.waitForPageToLoad();
         auditLogsPage.startSearching();
 

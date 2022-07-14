@@ -7,10 +7,10 @@
     <div class="row form-group">
       <div class="col-4">
         <div class="col-12">
-          <label for="course-id-dropdown" class="font-weight-bold">Activity Type</label>
+          <label for="activity-type-dropdown" class="font-weight-bold">Activity Type</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
+          <select id="activity-type-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
             <option value="" disabled selected hidden>Select Activity Type</option>
             <option *ngFor="let logType of LOG_TYPES" [value]="logType.value">
               {{logType.label}}
