@@ -1602,6 +1602,15 @@ public class Logic {
     }
 
     /**
+     * Gets all account requests pending processing.
+     *
+     * @return the list of all account requests pending processing or an empty list if not found.
+     */
+    public List<AccountRequestAttributes> getAccountRequestsPendingProcessing() {
+        return accountRequestsLogic.getAccountRequestsPendingProcessing();
+    }
+
+    /**
      * This is used by admin to search account requests in the whole system.
      *
      * @return A list of {@link AccountRequestAttributes} or {@code null} if no match found.

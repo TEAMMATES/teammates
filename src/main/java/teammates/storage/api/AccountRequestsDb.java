@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -74,6 +75,13 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     }
 
     /**
+     * Gets all account requests with status {@code AccountRequestStatus.SUBMITTED}.
+     */
+    public List<AccountRequestAttributes> getAccountRequestsWithStatusSubmitted() {
+        return makeAttributes(getAccountRequestEntitiesWithStatusSubmitted());
+    }
+
+    /**
      * Updates an account request.
      *
      * @return the updated account request
@@ -125,6 +133,12 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
 
     private AccountRequest getAccountRequestEntity(String id) {
         return load().id(id).now();
+    }
+
+    private List<AccountRequest> getAccountRequestEntitiesWithStatusSubmitted() {
+        return load()
+                .filter("status", AccountRequestStatus.SUBMITTED)
+                .list();
     }
 
     /**

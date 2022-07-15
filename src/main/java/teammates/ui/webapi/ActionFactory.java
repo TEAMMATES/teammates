@@ -45,10 +45,6 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNT_RESET, PUT, ResetAccountAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNTS, GET, GetAccountsAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
@@ -70,6 +66,15 @@ public final class ActionFactory {
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
+
+        // ACCOUNT REQUEST APIs
+        map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
+
+        // ACCOUNT REQUESTS APIs
+        map(ResourceURIs.ACCOUNT_REQUESTS, GET, GetAccountRequestsAction.class);
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);

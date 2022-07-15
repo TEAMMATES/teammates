@@ -102,6 +102,15 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Gets all account requests pending processing.
+     *
+     * @return the list of all account requests pending processing or an empty list if not found.
+     */
+    public List<AccountRequestAttributes> getAccountRequestsPendingProcessing() {
+        return accountRequestsDb.getAccountRequestsWithStatusSubmitted();
+    }
+
+    /**
      * Gets an account request by unique constraint {@code registrationKey}.
      *
      * @return the account request
