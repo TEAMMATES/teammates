@@ -4,6 +4,7 @@ import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, AccountRequests } from '../../../types/api-output';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { removeAnim } from '../../components/teammates-common/remove-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   ProcessAccountRequestPanelStatus,
@@ -22,7 +23,7 @@ export interface AccountRequestTab {
   selector: 'tm-admin-requests-page',
   templateUrl: './admin-requests-page.component.html',
   styleUrls: ['./admin-requests-page.component.scss'],
-  animations: [collapseAnim],
+  animations: [collapseAnim, removeAnim],
 })
 export class AdminRequestsPageComponent implements OnInit {
 

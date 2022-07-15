@@ -4,7 +4,7 @@
                     (retryEvent)="loadAccountRequestsPendingProcessing()">
     <div *tmIsLoading="isLoadingAccountRequestsPendingProcessing">
       <div *ngIf="accountRequestPendingProcessingTabs.length > 0">
-        <div *ngFor="let accountRequestPendingProcessingTab of accountRequestPendingProcessingTabs; let i = index" @collapseAnim>
+        <div *ngFor="let accountRequestPendingProcessingTab of accountRequestPendingProcessingTabs; let i = index" @removeAnim>
           <div class="card">
             <div class="card-header bg-primary text-white cursor-pointer"
                  (click)="toggleCard(accountRequestPendingProcessingTab)">
