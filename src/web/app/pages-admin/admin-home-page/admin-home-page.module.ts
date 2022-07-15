@@ -6,9 +6,6 @@ import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.mo
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { AdminHomePageComponent } from './admin-home-page.component';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
-import {
-  ProcessAccountRequestPanelComponent,
-} from './process-account-request-panel/process-account-request-panel.component';
 
 const routes: Routes = [
   {
@@ -24,7 +21,6 @@ const routes: Routes = [
   declarations: [
     AdminHomePageComponent,
     NewInstructorDataRowComponent,
-    ProcessAccountRequestPanelComponent,
   ],
   exports: [
     AdminHomePageComponent,
