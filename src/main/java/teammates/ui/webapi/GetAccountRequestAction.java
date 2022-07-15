@@ -12,7 +12,7 @@ class GetAccountRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         String email = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE);
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
         AccountRequestAttributes accountRequestInfo = logic.getAccountRequest(email, institute);
 

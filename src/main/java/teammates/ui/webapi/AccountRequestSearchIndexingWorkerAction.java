@@ -14,7 +14,7 @@ public class AccountRequestSearchIndexingWorkerAction extends AdminOnlyAction {
     @Override
     public ActionResult execute() {
         String email = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_INSTITUTE);
+        String institute = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_INSTITUTION);
 
         AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
 

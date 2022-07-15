@@ -29,7 +29,7 @@ class CreateCourseAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE);
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
         List<InstructorAttributes> existingInstructors = logic.getInstructorsForGoogleId(userInfo.getId());
         boolean canCreateCourse = existingInstructors
@@ -57,7 +57,7 @@ class CreateCourseAction extends Action {
 
         String newCourseId = courseCreateRequest.getCourseId();
         String newCourseName = courseCreateRequest.getCourseName();
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE);
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
         CourseAttributes courseAttributes =
                 CourseAttributes.builder(newCourseId)
