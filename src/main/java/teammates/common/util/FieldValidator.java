@@ -494,13 +494,13 @@ public final class FieldValidator {
 
     /**
      * Checks if {@code instituteName} is a non-null non-empty string no longer than the specified length
-     * {@code INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * {@code INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
      * @return An explanation of why the {@code instituteName} is not acceptable.
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
     public static String getInvalidityInfoForInstituteName(String instituteName) {
         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, instituteName);
-    } // TODO: update 5 usages: decide whether use combined or institute
+    }
 
     /**
      * Checks if {@code personName} is a non-null non-empty string no longer than the specified length
