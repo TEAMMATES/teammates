@@ -37,7 +37,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
 
         String[] nonExistParams = {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, "non-existent@email",
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "non existent institute",
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, "non existent institute",
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(nonExistParams);
@@ -48,7 +48,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
 
         String[] params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, accountRequest.getInstitute(),
         };
 
         GetAccountRequestAction a = getAction(params);

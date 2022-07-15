@@ -1,14 +1,198 @@
 <h1 class="color-orange">
   Request for an Account
 </h1>
-<div *ngIf="accountRequestFormUrl">
-  <p>
-    Cannot see the request form below? <a [href]="accountRequestFormUrl" target="_blank" rel="noopener noreferrer">Click here.</a>
-  </p>
-  <iframe [src]="accountRequestFormUrl" width="760px" height="880px" frameborder="0" marginheight="0" marginwidth="0">
-    Loading...
-  </iframe>
+<div class="card col-lg-10 mt-4">
+  <h3>
+    Request for an account using this form if you want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students
+  </h3>
+  <h5>
+    This form is for <b>instructors only</b>. Students do not need TEAMMATES accounts to use TEAMMATES.
+  </h5>
+  <br>
+  <h5>
+    Please contact us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> if you encounter any problems with this form.
+  </h5>
 </div>
-<div *ngIf="!accountRequestFormUrl">
-  The URL for the account request form is not set.
+<div class="card col-lg-10 mt-4">
+  <form id="account-request-form" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div class="form-group">
+      <div class="field-title">
+        <label class="required">Your full name</label>
+        <div class="hint">
+          This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.)
+        </div>
+      </div>
+      <input
+        id="name"
+        class="form-control"
+        formControlName="name">
+      <div *ngIf="name!.errors && (name!.dirty || name!.touched)" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!name!.errors!.empty">
+          {{ emptyFieldMessage }}
+        </span>
+        <span [hidden]="!name!.errors!.maxLength">
+          {{ displayExceedMaxLengthMessage('Name', FormValidator.PERSON_NAME_MAX_LENGTH) }}
+        </span>
+        <span [hidden]="!name!.errors!.invalidField">
+          {{ name!.errors!.invalidField }}
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="field-title">
+        <label class="required">University/school/institute</label>
+        <div class="hint">
+          Please give full name of the university
+        </div>
+      </div>
+      <input
+        id="institute"
+        class="form-control"
+        formControlName="institute">
+      <div *ngIf="institute!.errors && (institute!.dirty || institute!.touched)" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!institute!.errors!.empty">
+          {{ emptyFieldMessage }}
+        </span>
+        <span [hidden]="!institute!.errors!.maxLength">
+          {{ displayExceedMaxLengthMessage('University/school/institute', FormValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH) }}
+        </span>
+        <span [hidden]="!institute!.errors!.invalidField">
+          {{ institute!.errors!.invalidField }}
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="field-title">
+        <label class="required">Country</label>
+        <div class="hint">
+          Your university/institute is based in which country?
+        </div>
+      </div>
+      <input
+        id="country"
+        class="form-control"
+        formControlName="country">
+      <div *ngIf="country!.errors && (country!.dirty || country!.touched)" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!country!.errors!.empty">
+          {{ emptyFieldMessage }}
+        </span>
+        <span [hidden]="!country!.errors!.maxLength">
+          {{ displayExceedMaxLengthMessage('Country name', FormValidator.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH) }}
+        </span>
+        <span [hidden]="!country!.errors!.invalidField">
+          {{ country!.errors!.invalidField }}
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="field-title">
+        <label class="required">"Official" email address</label>
+        <div class="hint">
+          Please use the email address <b>given to you by your school/university</b> (not your Gmail/Hotmail address).
+          Note that this email address will be visible to the students you enroll in TEAMMATES.
+        </div>
+      </div>
+      <input
+        id="email"
+        class="form-control"
+        formControlName="email">
+      <div *ngIf="email!.errors && (email!.dirty || email!.touched)" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!email!.errors!.empty">
+          {{ emptyFieldMessage }}
+        </span>
+        <span [hidden]="!email!.errors!.maxLength">
+          {{ displayExceedMaxLengthMessage('Email address', FormValidator.EMAIL_MAX_LENGTH) }}
+        </span>
+        <span [hidden]="!email!.errors!.invalidField">
+          {{ email!.errors!.invalidField }}
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="field-title">
+        <label>URL of your home page (if any)</label>
+      </div>
+      <input
+        id="url"
+        class="form-control"
+        formControlName="url">
+      <div *ngIf="url!.errors && (url!.dirty || url!.touched)" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!url!.errors!.maxLength">
+          {{ displayExceedMaxLengthMessage('URL', FormValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH) }}
+        </span>
+        <span [hidden]="!url!.errors!.invalidField">
+          {{ url!.errors!.invalidField }}
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="field-title">
+        <label>I'm requesting for,</label>
+      </div>
+      <div class="radio-div">
+        <input id="instructor-account-type" type="radio" class="radio-input" name="account-type" value="instructor" formControlName="account-type">
+        <label class="radio-label" for="instructor-account-type">an instructor account</label>
+      </div>
+      <div class="radio-div">
+        <input id="student-account-type" type="radio" class="radio-input" name="account-type" value="student" formControlName="account-type">
+        <label class="radio-label" for="student-account-type">a student account</label>
+      </div>
+      <div *ngIf="accountType!.errors" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!accountType!.errors!.required">
+          {{ emptyFieldMessage }}
+        </span>
+        <span [hidden]="!accountType!.errors!.notExpected">
+          {{ 'This form is for instructors to submit only. As a student, you do not need a TEAMMATES account to use TEAMMATES.'
+        + ' After your instructor sets up the system for your course, TEAMMATES will send you access details.' }}
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="field-title">
+        <label>Any other comments/queries</label>
+      </div>
+      <textarea
+        id="comments"
+        class="form-control"
+        rows="6"
+        formControlName="comments">
+      </textarea>
+      <div *ngIf="comments!.errors && (comments!.dirty || comments!.touched)" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!comments!.errors!.maxLength">
+          {{ displayExceedMaxLengthMessage('Comments/queries', FormValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH) }}
+        </span>
+        <span [hidden]="!comments!.errors!.invalidField">
+          {{ comments!.errors!.invalidField }}
+        </span>
+      </div>
+    </div>
+    <div *ngIf="recaptchaSiteKey !== ''" class="form-group recaptcha">
+      <ngx-recaptcha2 #recaptchaElem
+                      [siteKey]="recaptchaSiteKey"
+                      [useGlobalDomain]="false"
+                      [hl]="'en'"
+                      formControlName="recaptcha">
+      </ngx-recaptcha2>
+      <div *ngIf="recaptcha!.errors" class="invalid-field">
+        <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
+        <span [hidden]="!recaptcha!.errors!.unchecked">
+          {{ 'Please check the box' }}
+      </span>
+      </div>
+    </div>
+    <div class="alert alert-primary mb-5" >{{ beforeSubmissionMessage }}</div>
+    <div *ngIf="backendOtherErrorMessage" class="alert alert-warning mb-3" >{{ backendOtherErrorMessage }}</div>
+    <div class="text-center">
+      <button id="btn-submit" class="btn btn-success mb-4" type="submit" [disabled]="isFormSaving || accountType!.errors">
+        Submit
+      </button>
+    </div>
+  </form>
 </div>

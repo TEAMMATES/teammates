@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Account, Accounts, JoinLink, MessageOutput } from '../types/api-output';
-import { AccountCreateRequest } from '../types/api-request';
+import { Account, AccountRequestCreateResponse, Accounts, JoinLink, MessageOutput } from '../types/api-output';
+import { AccountRequestCreateIntent, AccountRequestCreateRequest, AccountRequestType } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -29,8 +29,18 @@ export class AccountService {
   /**
    * Creates an account request by calling API.
    */
-  createAccountRequest(request: AccountCreateRequest): Observable<JoinLink> {
-    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, {}, request);
+  createAccountRequest(queryParams: {
+    intent: AccountRequestCreateIntent,
+    accountRequestType: AccountRequestType,
+    captchaResponse: string,
+    requestBody: AccountRequestCreateRequest,
+  }): Observable<AccountRequestCreateResponse> {
+    const paramsMap: Record<string, string> = {
+      intent: queryParams.intent,
+      accountrequesttype: queryParams.accountRequestType,
+      captcharesponse: queryParams.captchaResponse,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, queryParams.requestBody);
   }
 
   /**

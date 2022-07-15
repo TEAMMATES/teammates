@@ -226,7 +226,7 @@ public class TaskQueuer {
     public void scheduleAccountRequestForSearchIndexing(String email, String institute) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, email);
-        paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        paramMap.put(ParamsNames.INSTRUCTOR_INSTITUTE, institute);
 
         addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL,
                 paramMap, null);

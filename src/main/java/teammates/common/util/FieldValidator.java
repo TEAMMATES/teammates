@@ -45,8 +45,21 @@ public final class FieldValidator {
     public static final String SECTION_NAME_FIELD_NAME = "section name";
     public static final int SECTION_NAME_MAX_LENGTH = 60;
 
+    public static final String ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME = "university/school/institute name";
+    public static final int ACCOUNT_REQUEST_NAME_MAX_LENGTH = 60;
+
+    public static final String ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME = "country name";
+    public static final int ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH = 60;
+
     public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
-    public static final int INSTITUTE_NAME_MAX_LENGTH = 64;
+    public static final int INSTITUTE_NAME_MAX_LENGTH =
+            ACCOUNT_REQUEST_NAME_MAX_LENGTH + ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH + 8;
+
+    public static final String ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME = "url";
+    public static final int ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH = 500;
+
+    public static final String ACCOUNT_REQUEST_COMMENTS_FIELD_NAME = "comment/query";
+    public static final int ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH = 1000;
 
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";
@@ -459,15 +472,35 @@ public final class FieldValidator {
     }
 
     /**
+     * Checks if {@code pureInstituteName} is a non-null non-empty string no longer than the specified length
+     * {@code PURE_INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code pureInstituteName} is not acceptable.
+     *         Returns an empty string if the {@code pureInstituteName} is acceptable.
+     */
+    public static String getInvalidityInfoForPureInstituteName(String pureInstituteName) {
+        return getValidityInfoForAllowedName(ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME, ACCOUNT_REQUEST_NAME_MAX_LENGTH,
+                pureInstituteName);
+    }
+
+    /**
+     * Checks if {@code pureCountryName} is a non-null non-empty string no longer than the specified length
+     * {@code PURE_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code pureCountryName} is not acceptable.
+     *         Returns an empty string if the {@code pureCountryName} is acceptable.
+     */
+    public static String getInvalidityInfoForPureCountryName(String pureCountryName) {
+        return getValidityInfoForAllowedName(ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME, ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH, pureCountryName);
+    }
+
+    /**
      * Checks if {@code instituteName} is a non-null non-empty string no longer than the specified length
-     * {@code INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * {@code INSTITUTE_WITH_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
      * @return An explanation of why the {@code instituteName} is not acceptable.
      *         Returns an empty string if the {@code instituteName} is acceptable.
      */
     public static String getInvalidityInfoForInstituteName(String instituteName) {
-        return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
-                                             instituteName);
-    }
+        return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, instituteName);
+    } // TODO: update 5 usages: decide whether use combined or institute
 
     /**
      * Checks if {@code personName} is a non-null non-empty string no longer than the specified length
@@ -477,6 +510,28 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForPersonName(String personName) {
         return getValidityInfoForAllowedName(PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, personName);
+    }
+
+    /**
+     * Checks if {@code url} is a non-null string no longer than the specified length
+     * {@code ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH}.
+     * @return An explanation of why the {@code url} is not acceptable.
+     *         Returns an empty string if the {@code url} is acceptable.
+     */
+    public static String getInvalidityInfoForAccountRequestHomePageUrl(String url) {
+        return getValidityInfoForSizeCappedPossiblyEmptyString(ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME,
+                ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH, url);
+    }
+
+    /**
+     * Checks if {@code comments} is a non-null string no longer than the specified length
+     * {@code ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH}.
+     * @return An explanation of why the {@code comments} is not acceptable.
+     *         Returns an empty string if the {@code comments} is acceptable.
+     */
+    public static String getInvalidityInfoForAccountRequestComments(String comments) {
+        return getValidityInfoForSizeCappedPossiblyEmptyString(ACCOUNT_REQUEST_COMMENTS_FIELD_NAME,
+                ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH, comments);
     }
 
     /**

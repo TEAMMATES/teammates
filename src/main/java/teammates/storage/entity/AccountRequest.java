@@ -8,6 +8,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Translate;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.StringHelper;
 
 /**
@@ -22,30 +23,47 @@ public class AccountRequest extends BaseEntity {
 
     private String registrationKey;
 
-    private String email;
-
     private String name;
 
     private String institute;
 
-    @Translate(InstantTranslatorFactory.class)
-    private Instant registeredAt;
+    private String email;
+
+    private String homePageUrl; // for old AR, this field can be set to ""
+
+    private String otherComments; // for old AR, this field can be set to ""
+
+    AccountRequestStatus status; // for old AR, this field should be set to APPROVED if registeredAt == null
+                                 // else, it should be set to REGISTERED
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
+
+    @Translate(InstantTranslatorFactory.class)
+    private Instant lastProcessedAt; // for old AR, this field should be set to = createdAt
+
+    @Translate(InstantTranslatorFactory.class)
+    private Instant registeredAt;
 
     @SuppressWarnings("unused")
     private AccountRequest() {
         // required by Objectify
     }
 
-    public AccountRequest(String email, String name, String institute) {
-        this.setEmail(email);
+    /**
+     * Constructs a new account request. The status is initialized to {@code SUBMITTED}.
+     */
+    public AccountRequest(String name, String institute, String email, String homePageUrl, String otherComments) {
         this.setName(name);
         this.setInstitute(institute);
+        this.setEmail(email);
+        this.setHomePageUrl(homePageUrl);
+        this.setOtherComments(otherComments);
         this.setId(generateId(email, institute));
         this.setRegistrationKey(generateRegistrationKey());
+        this.setStatus(AccountRequestStatus.SUBMITTED);
         this.setCreatedAt(Instant.now());
+        this.setLastProcessedAt(null);
         this.setRegisteredAt(null);
     }
 
@@ -73,14 +91,6 @@ public class AccountRequest extends BaseEntity {
         this.name = name.trim();
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email.trim();
-    }
-
     public String getInstitute() {
         return institute;
     }
@@ -89,12 +99,36 @@ public class AccountRequest extends BaseEntity {
         this.institute = institute.trim();
     }
 
-    public Instant getRegisteredAt() {
-        return registeredAt;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRegisteredAt(Instant registeredAt) {
-        this.registeredAt = registeredAt;
+    public void setEmail(String email) {
+        this.email = email.trim();
+    }
+
+    public String getHomePageUrl() {
+        return homePageUrl;
+    }
+
+    public void setHomePageUrl(String homePageUrl) {
+        this.homePageUrl = homePageUrl.trim();
+    }
+
+    public String getOtherComments() {
+        return otherComments;
+    }
+
+    public void setOtherComments(String otherComments) {
+        this.otherComments = otherComments.trim();
+    }
+
+    public AccountRequestStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AccountRequestStatus status) {
+        this.status = status;
     }
 
     public Instant getCreatedAt() {
@@ -105,11 +139,27 @@ public class AccountRequest extends BaseEntity {
         this.createdAt = createdAt;
     }
 
+    public Instant getLastProcessedAt() {
+        return lastProcessedAt;
+    }
+
+    public void setLastProcessedAt(Instant lastProcessedAt) {
+        this.lastProcessedAt = lastProcessedAt;
+    }
+
+    public Instant getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(Instant registeredAt) {
+        this.registeredAt = registeredAt;
+    }
+
     /**
      * Generates an unique ID for the account request.
      */
     public static String generateId(String email, String institute) {
-        // Format: email%institute e.g., adam@gmail.com%TEAMMATES_TEST_INSTITUTE
+        // Format: email%institute e.g., adam@u.nus.edu%National University of Singapore, Singapore
         return email + '%' + institute;
     }
 

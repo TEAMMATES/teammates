@@ -35,7 +35,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, registeredAccountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, registeredAccountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, registeredAccountRequest.getInstitute(),
         };
 
         InvalidOperationException ex = verifyInvalidOperation(submissionParams);
@@ -46,7 +46,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, unregisteredAccountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, unregisteredAccountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTE, unregisteredAccountRequest.getInstitute(),
         };
 
         DeleteAccountRequestAction action = getAction(submissionParams);

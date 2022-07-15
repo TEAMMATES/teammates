@@ -78,6 +78,20 @@ public final class StringHelper {
     }
 
     /**
+     * Removes the first occurrence of substring {@code subString} in the {@code inputString}.
+     * Returns the original {@code inputString} if {@code subString} is not found.
+     *  E.g., inputString = "person name: John", substring = "person name: ", returns "John"
+     */
+    public static String removeFirstOccurrenceOfSubstring(String inputString, String subString) {
+        int index = inputString.indexOf(subString);
+        if (index == -1) {
+            return inputString;
+        } else {
+            return inputString.substring(0, index) + inputString.substring(index + subString.length());
+        }
+    }
+
+    /**
      * Generates the HMAC SHA-1 signature for a supplied string.
      *
      * @param data The string to be signed

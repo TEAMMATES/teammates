@@ -3,17 +3,21 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.List;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Logger;
 import teammates.storage.api.AccountRequestsDb;
 
 /**
  * Handles the logic related to account requests.
  */
 public final class AccountRequestsLogic {
+
+    private static final Logger log = Logger.getLogger();
 
     private static final AccountRequestsLogic instance = new AccountRequestsLogic();
 
@@ -53,6 +57,30 @@ public final class AccountRequestsLogic {
     public AccountRequestAttributes createAccountRequest(AccountRequestAttributes accountRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountRequestsDb.createEntity(accountRequest);
+    }
+
+    /**
+     * Creates an account request and approves it instantly.
+     *
+     * @return the created account request
+     * @throws InvalidParametersException if the account request is not valid
+     * @throws EntityAlreadyExistsException if the account request to create already exists
+     */
+    public AccountRequestAttributes createAndApproveAccountRequest(AccountRequestAttributes accountRequest)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        AccountRequestAttributes accountRequestAttributes = accountRequestsDb.createEntity(accountRequest);
+        try {
+            accountRequestAttributes = accountRequestsDb.updateAccountRequest(AccountRequestAttributes
+                    .updateOptionsBuilder(accountRequestAttributes.getEmail(), accountRequestAttributes.getInstitute())
+                    .withStatus(AccountRequestStatus.APPROVED)
+                    .withLastProcessedAt(accountRequestAttributes.getCreatedAt())
+                    .build());
+        } catch (EntityDoesNotExistException ednee) {
+            log.severe("Encountered exception when creating account request: "
+                    + "The newly created account request disappeared before it could be approved.", ednee);
+            throw ednee;
+        }
+        return accountRequestAttributes;
     }
 
     /**

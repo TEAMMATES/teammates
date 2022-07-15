@@ -65,12 +65,12 @@ class CreateAccountAction extends Action {
 
         String instructorEmail = accountRequestAttributes.getEmail();
         String instructorName = accountRequestAttributes.getName();
-        String instructorInstitution = accountRequestAttributes.getInstitute();
+        String instructorInstitute = accountRequestAttributes.getInstitute();
 
         String courseId;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
+            courseId = importDemoData(instructorEmail, instructorName, instructorInstitute, timezone);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
@@ -94,7 +94,7 @@ class CreateAccountAction extends Action {
 
         try {
             logic.updateAccountRequest(AccountRequestAttributes
-                    .updateOptionsBuilder(instructorEmail, instructorInstitution)
+                    .updateOptionsBuilder(instructorEmail, instructorInstitute)
                     .withRegisteredAt(Instant.now())
                     .build());
         } catch (EntityDoesNotExistException | InvalidParametersException e) {

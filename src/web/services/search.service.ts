@@ -466,7 +466,7 @@ export interface AdminSearchResult {
 export interface AccountRequestSearchResult {
   name: string;
   email: string;
-  institute: string;
+  institute: string; // TODO: use institute with country here
   createdAtText: string;
   registeredAtText: string | null;
   registrationLink: string;

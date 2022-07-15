@@ -20,7 +20,7 @@ class ResetAccountRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidOperationException {
         String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE);
 
         AccountRequestAttributes accountRequest = logic.getAccountRequest(instructorEmail, institute);
 

@@ -11,7 +11,7 @@ class DeleteAccountRequestAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws InvalidOperationException {
         String email = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTE);
 
         AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
         if (accountRequest != null && accountRequest.getRegisteredAt() != null) {

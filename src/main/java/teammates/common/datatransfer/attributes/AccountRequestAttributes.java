@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -16,41 +17,73 @@ import teammates.storage.entity.AccountRequest;
  */
 public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
-    private String email;
     private String name;
+    private String pureInstitute;
+    private String pureCountry;
     private String institute;
-    private Instant registeredAt;
+    private String email;
+    private String homePageUrl;
+    private String otherComments;
+    private AccountRequestStatus status;
     private Instant createdAt;
+    private Instant lastProcessedAt;
+    private Instant registeredAt;
     private transient String registrationKey;
 
-    private AccountRequestAttributes(String email, String institute, String name) {
-        this.email = email;
-        this.institute = institute;
+    private AccountRequestAttributes(String name, String pureInstitute, String pureCountry, String institute,
+                                     String email, String homePageUrl, String otherComments) {
         this.name = name;
+        this.pureInstitute = pureInstitute;
+        this.pureCountry = pureCountry;
+        this.institute = institute;
+        this.email = email;
+        this.homePageUrl = homePageUrl;
+        this.otherComments = otherComments;
         this.registrationKey = null;
-        this.registeredAt = null;
+        this.status = AccountRequestStatus.SUBMITTED;
         this.createdAt = null;
+        this.lastProcessedAt = null;
+        this.registeredAt = null;
+    }
+
+    /**
+     * Generates the {@code institute} field by combining {@code pureInstitute} and {@code pureCountry}.
+     */
+    private static String generateInstitute(String pureInstitute, String pureCountry) {
+        return pureInstitute + ", " + pureCountry;
     }
 
     /**
      * Gets the {@link AccountRequestAttributes} instance of the given {@link AccountRequest}.
+     * As an AccountRequest only stores institute, pureInstitute and pureCountry are set to null.
      */
     public static AccountRequestAttributes valueOf(AccountRequest accountRequest) {
-        AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getEmail(),
-                accountRequest.getInstitute(), accountRequest.getName());
+        AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getName(),
+                null, null, accountRequest.getInstitute(),
+                accountRequest.getEmail(), accountRequest.getHomePageUrl(), accountRequest.getOtherComments());
 
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
-        accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
+        accountRequestAttributes.status = accountRequest.getStatus();
         accountRequestAttributes.createdAt = accountRequest.getCreatedAt();
+        accountRequestAttributes.lastProcessedAt = accountRequest.getLastProcessedAt();
+        accountRequestAttributes.registeredAt = accountRequest.getRegisteredAt();
 
         return accountRequestAttributes;
     }
 
     /**
-     * Returns a builder for {@link AccountRequestAttributes}.
+     * Returns a builder for {@link AccountRequestAttributes}. {@code pureInstitute} and {@code pureCountry} are specified.
      */
-    public static Builder builder(String email, String institute, String name) {
-        return new Builder(email, institute, name);
+    public static Builder builder(String name, String pureInstitute, String pureCountry, String email,
+                                  String homePageUrl, String otherComments) {
+        return new Builder(name, pureInstitute, pureCountry, email, homePageUrl, otherComments);
+    }
+
+    /**
+     * Returns a builder for {@link AccountRequestAttributes}. {@code institute} is specified.
+     */
+    public static Builder builder(String name, String institute, String email, String homePageUrl, String otherComments) {
+        return new Builder(name, institute, email, homePageUrl, otherComments);
     }
 
     public String getRegistrationKey() {
@@ -61,20 +94,44 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         return name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPureInstitute() {
+        return pureInstitute;
+    }
+
+    public String getPureCountry() {
+        return pureCountry;
     }
 
     public String getInstitute() {
         return institute;
     }
 
-    public Instant getRegisteredAt() {
-        return registeredAt;
+    public String getEmail() {
+        return email;
+    }
+
+    public String getHomePageUrl() {
+        return homePageUrl;
+    }
+
+    public String getOtherComments() {
+        return otherComments;
+    }
+
+    public AccountRequestStatus getStatus() {
+        return status;
     }
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public Instant getLastProcessedAt() {
+        return lastProcessedAt;
+    }
+
+    public Instant getRegisteredAt() {
+        return registeredAt;
     }
 
     public String getRegistrationUrl() {
@@ -84,20 +141,40 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
                 .toAbsoluteString();
     }
 
+    public static String generatePrefix(String prefix) {
+        return prefix.concat(": ");
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPersonName(getName()), errors,
+                generatePrefix(FieldValidator.PERSON_NAME_FIELD_NAME));
+        if (getPureInstitute() != null || getPureCountry() != null) {
+            // if either one is non-null, both should be non-null
+            // if both are valid, institute should be valid as well
+            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPureInstituteName(getPureInstitute()), errors,
+                    generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME));
+            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPureCountryName(getPureCountry()), errors,
+                    generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME));
+        }
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors,
+                generatePrefix(FieldValidator.INSTITUTE_NAME_FIELD_NAME));
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors,
+                generatePrefix(FieldValidator.EMAIL_FIELD_NAME));
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(getHomePageUrl()), errors,
+                generatePrefix(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME));
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestComments(getOtherComments()), errors,
+                generatePrefix(FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME));
 
         return errors;
     }
 
     @Override
     public AccountRequest toEntity() {
-        AccountRequest accountRequest = new AccountRequest(getEmail(), getName(), getInstitute());
+        AccountRequest accountRequest = new AccountRequest(getName(), getInstitute(), getEmail(),
+                getHomePageUrl(), getOtherComments());
 
         if (this.getRegistrationKey() != null) {
             accountRequest.setRegistrationKey(this.getRegistrationKey());
@@ -107,6 +184,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             accountRequest.setCreatedAt(this.getCreatedAt());
         }
 
+        accountRequest.setStatus(this.getStatus());
+        accountRequest.setLastProcessedAt(this.getLastProcessedAt());
         accountRequest.setRegisteredAt(this.getRegisteredAt());
 
         return accountRequest;
@@ -130,10 +209,10 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         } else if (this == other) {
             return true;
         } else if (this.getClass() == other.getClass()) {
-            AccountRequestAttributes otherAccountRequest = (AccountRequestAttributes) other;
-            return Objects.equals(this.email, otherAccountRequest.email)
-                    && Objects.equals(this.institute, otherAccountRequest.institute)
-                    && Objects.equals(this.name, otherAccountRequest.name);
+            AccountRequestAttributes otherAccountRequestAttributes = (AccountRequestAttributes) other;
+            return Objects.equals(this.email, otherAccountRequestAttributes.email)
+                    && Objects.equals(this.institute, otherAccountRequestAttributes.institute)
+                    && Objects.equals(this.name, otherAccountRequestAttributes.name);
         } else {
             return false;
         }
@@ -141,16 +220,24 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public void sanitizeForSaving() {
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.name = SanitizationHelper.sanitizeName(name);
+        // pureInstitute and pureCountry won't be saved for now, but they are still sanitized
+        this.pureInstitute = SanitizationHelper.sanitizeTitle(pureInstitute);
+        this.pureCountry = SanitizationHelper.sanitizeTitle(pureCountry);
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.email = SanitizationHelper.sanitizeEmail(email);
+        this.homePageUrl = SanitizationHelper.sanitizeTextField(homePageUrl);
+        this.otherComments = SanitizationHelper.sanitizeTextField(otherComments);
     }
 
     /**
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        updateOptions.registeredAtOption.ifPresent(s -> registeredAt = s);
+        updateOptions.nameOption.ifPresent(n -> name = n);
+        updateOptions.statusOption.ifPresent(s -> status = s);
+        updateOptions.lastProcessedAtOption.ifPresent(a -> lastProcessedAt = a);
+        updateOptions.registeredAtOption.ifPresent(r -> registeredAt = r);
     }
 
     /**
@@ -166,11 +253,21 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public static class Builder extends BasicBuilder<AccountRequestAttributes, Builder> {
         private final AccountRequestAttributes accountRequestAttributes;
 
-        private Builder(String email, String institute, String name) {
+        private Builder(String name, String pureInstitute, String pureCountry, String email,
+                        String homePageUrl, String otherComments) {
+            super(new UpdateOptions(email, generateInstitute(pureInstitute, pureCountry)));
+            thisBuilder = this;
+
+            accountRequestAttributes = new AccountRequestAttributes(name, pureInstitute, pureCountry,
+                    generateInstitute(pureInstitute, pureCountry), email, homePageUrl, otherComments);
+        }
+
+        private Builder(String name, String institute, String email, String homePageUrl, String otherComments) {
             super(new UpdateOptions(email, institute));
             thisBuilder = this;
 
-            accountRequestAttributes = new AccountRequestAttributes(email, institute, name);
+            accountRequestAttributes = new AccountRequestAttributes(name, null, null,
+                    institute, email, homePageUrl, otherComments);
         }
 
         @Override
@@ -188,6 +285,9 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         private String email;
         private String institute;
 
+        private UpdateOption<String> nameOption = UpdateOption.empty();
+        private UpdateOption<AccountRequestStatus> statusOption = UpdateOption.empty();
+        private UpdateOption<Instant> lastProcessedAtOption = UpdateOption.empty();
         private UpdateOption<Instant> registeredAtOption = UpdateOption.empty();
 
         private UpdateOptions(String email, String institute) {
@@ -211,6 +311,9 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             return "AccountRequestAttributes.UpdateOptions ["
                     + ", email = " + email
                     + ", institute = " + institute
+                    + ", name = " + nameOption
+                    + ", status = " + statusOption
+                    + ", lastProcessedAt = " + lastProcessedAtOption
                     + ", registeredAt = " + registeredAtOption
                     + "]";
         }
@@ -228,9 +331,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             public UpdateOptions build() {
                 return updateOptions;
             }
-
         }
-
     }
 
     /**
@@ -246,6 +347,21 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
+        }
+
+        public B withName(String name) {
+            updateOptions.nameOption = UpdateOption.of(name);
+            return thisBuilder;
+        }
+
+        public B withStatus(AccountRequestStatus status) {
+            updateOptions.statusOption = UpdateOption.of(status);
+            return thisBuilder;
+        }
+
+        public B withLastProcessedAt(Instant lastProcessedAt) {
+            updateOptions.lastProcessedAtOption = UpdateOption.of(lastProcessedAt);
+            return thisBuilder;
         }
 
         public B withRegisteredAt(Instant registeredAt) {

@@ -56,6 +56,21 @@ public abstract class EntityAttributes<E extends BaseEntity> {
     }
 
     /**
+     * If {@code error} is a non-empty string, prefixes it with {@code prefix} and adds the result to {@code errors}.
+     *
+     * @param error An error message, possibly empty.
+     * @param errors A List of errors, to add {@code error} to.
+     * @param prefix A prefix to be added in front of the {@code error}.
+     */
+    void addNonEmptyErrorWithPrefix(String error, List<String> errors, String prefix) {
+        if (error.isEmpty()) {
+            return;
+        }
+
+        errors.add(prefix.concat(error));
+    }
+
+    /**
      * Helper class to determine whether a field should be updated or not.
      *
      * <p>The class behaves like {@link java.util.Optional} but allows null value.

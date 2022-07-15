@@ -1,0 +1,61 @@
+<div class="card text-center">
+  <div class="form-group row align-items-top">
+    <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Name:</label>
+    <div class="col-md-9 text-md-left">
+      <div *ngIf="!isEditing">{{ exampleName }}</div>
+      <input *ngIf="isEditing" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row align-items-top">
+    <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Institute:</label>
+    <div class="col-md-9 text-md-left">
+      <div *ngIf="!isEditing">{{ exampleInstitute }}</div>
+      <input *ngIf="isEditing" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row align-items-top">
+    <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Email:</label>
+    <div class="col-md-9 text-md-left">
+      <div *ngIf="!isEditing">{{ exampleEmail }}</div>
+      <input *ngIf="isEditing" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row align-items-top">
+    <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Home page URL:</label>
+    <div class="col-md-9 text-md-left">
+      <div>
+        <a href="{{ exampleHomePageURL }}" target="_blank" rel="noopener noreferrer">{{ exampleHomePageURL }}</a>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row align-items-top">
+    <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Other comments:</label>
+    <div class="col-md-9 text-md-left show-new-line">
+      <div>{{ exampleOtherComments }}</div>
+    </div>
+  </div>
+  <div *ngIf="!isEditing" class="col-md-6 mx-auto">
+    <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="editAccountRequest()">Edit</button>
+    <button type="button" class="btn btn-success button-width mx-2 my-1">Approve</button>
+    <button type="button" class="btn btn-warning button-width mx-2 my-1">Reject</button>
+  </div>
+  <div *ngIf="isEditing" class="col-md-6 mx-auto">
+    <button type="button" class="btn btn-primary button-width mx-2 my-1">Save</button>
+    <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="editAccountRequest()">Cancel</button>
+  </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<form [formGroup]="form">
+    <textarea
+      id="comments"
+      class="form-control"
+      rows="6"
+      formControlName="comments">
+      </textarea>
+  <button id="btn-submit" class="btn btn-success" type="submit" [disabled]="isFormSaving"
+          (click)="exampleOtherComments=comments!.value">
+    Submit
+  </button>
+</form>

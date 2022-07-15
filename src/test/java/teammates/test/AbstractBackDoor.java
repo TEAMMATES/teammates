@@ -761,7 +761,7 @@ public abstract class AbstractBackDoor {
     public AccountRequestAttributes getAccountRequest(String email, String institute) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTE, institute);
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
@@ -781,7 +781,7 @@ public abstract class AbstractBackDoor {
     public String getRegKeyForAccountRequest(String email, String institute) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTE, institute);
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
@@ -797,7 +797,7 @@ public abstract class AbstractBackDoor {
     public void deleteAccountRequest(String email, String institute) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
-        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTE, institute);
         executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
     }
 

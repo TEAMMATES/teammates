@@ -106,7 +106,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   private initEditForm(): void {
     this.editForm = new FormGroup({
       studentname: new FormControl(this.student.name,
-          [Validators.required, Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)]),
+          [Validators.required, Validators.maxLength(FormValidator.PERSON_NAME_MAX_LENGTH)]),
       sectionname: new FormControl(this.student.sectionName,
           [Validators.required, Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH)]),
       teamname: new FormControl(this.student.teamName,

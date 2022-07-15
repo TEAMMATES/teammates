@@ -7,7 +7,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.ui.output.JoinLinkData;
-import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.AccountRequestCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -53,7 +53,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String emailWithSpaces = "   " + email + "   ";
         String instituteWithSpaces = "   " + institute + "   ";
 
-        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces, emailWithSpaces);
+        AccountRequestCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces, emailWithSpaces);
         CreateAccountRequestAction a = getAction(req);
         JsonResult r = getJsonResult(a);
 
@@ -125,11 +125,11 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         verifyOnlyAdminCanAccess();
     }
 
-    private AccountCreateRequest buildCreateRequest(String name, String institution, String email) {
-        AccountCreateRequest req = new AccountCreateRequest();
+    private AccountRequestCreateRequest buildCreateRequest(String name, String institution, String email) {
+        AccountRequestCreateRequest req = new AccountRequestCreateRequest();
 
         req.setInstructorName(name);
-        req.setInstructorInstitution(institution);
+        req.setInstructorInstitute(institution);
         req.setInstructorEmail(email);
 
         return req;
