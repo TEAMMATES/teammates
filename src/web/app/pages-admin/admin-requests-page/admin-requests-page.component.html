@@ -1,1 +1,36 @@
-<tm-process-account-request-panel></tm-process-account-request-panel>
+<div class="mt-3 mb-5">
+  <tm-loading-retry [shouldShowRetry]="hasAccountRequestsPendingProcessingLoadingFailed"
+                    [message]="'Failed to load account requests pending processing'"
+                    (retryEvent)="loadAccountRequestsPendingProcessing()">
+    <div *tmIsLoading="isLoadingAccountRequestsPendingProcessing">
+      <div *ngIf="accountRequestPendingProcessingTabs.length > 0">
+        <div *ngFor="let accountRequestPendingProcessingTab of accountRequestPendingProcessingTabs; let i = index" @collapseAnim>
+          <div class="card">
+            <div class="card-header bg-primary text-white cursor-pointer"
+                 (click)="toggleCard(accountRequestPendingProcessingTab)">
+              <strong class="text-break">{{ accountRequestPendingProcessingTab.accountRequest.name }}</strong>
+              <div class="card-header-btn-toolbar">
+                <tm-panel-chevron [isExpanded]="accountRequestPendingProcessingTab.isTabExpanded"></tm-panel-chevron>
+              </div>
+            </div>
+            <div *ngIf="accountRequestPendingProcessingTab.isTabExpanded" @collapseAnim>
+              <tm-process-account-request-panel
+                [accountRequest]="accountRequestPendingProcessingTab.accountRequest"
+                [panelStatus]="accountRequestPendingProcessingTab.panelStatus"
+                (editAccountRequestEvent)="editAccountRequest(accountRequestPendingProcessingTab)"
+                (cancelEditAccountRequestEvent)="cancelEditAccountRequest(accountRequestPendingProcessingTab)"
+                (saveAccountRequestEvent)="saveAccountRequest(accountRequestPendingProcessingTab)"
+                (approveAccountRequestEvent)="approveAccountRequest(accountRequestPendingProcessingTab)"
+                (rejectAccountRequestEvent)="rejectAccountRequest(accountRequestPendingProcessingTab)"
+                (deleteAccountRequestEvent)="deleteAccountRequest(accountRequestPendingProcessingTab, i)"
+                (resetAccountRequestEvent)="resetAccountRequest(accountRequestPendingProcessingTab)">
+              </tm-process-account-request-panel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</div>
+
+<button class="btn btn-info">See account requests processed recently</button>

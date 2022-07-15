@@ -6,7 +6,7 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { AdminRequestsPageComponent } from './admin-requests-page.component';
 
-describe('AdminSessionsPageComponent', () => {
+describe('AdminRequestsPageComponent', () => {
   let component: AdminRequestsPageComponent;
   let fixture: ComponentFixture<AdminRequestsPageComponent>;
 

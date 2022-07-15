@@ -1,61 +1,63 @@
-<div class="card text-center">
+<div class="panel-padding text-center">
+  <div class="form-group row align-items-top">
+    <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Submitted at:</label>
+    <div class="col-md-9 text-md-left show-new-line">
+      <div>{{ accountRequest!.createdAt | formatDateDetail: timezone }}</div>
+    </div>
+  </div>
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Name:</label>
     <div class="col-md-9 text-md-left">
-      <div *ngIf="!isEditing">{{ exampleName }}</div>
-      <input *ngIf="isEditing" class="form-control">
+      <div *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.name }}</div>
+      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedInstructorName">
     </div>
   </div>
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Institute:</label>
     <div class="col-md-9 text-md-left">
-      <div *ngIf="!isEditing">{{ exampleInstitute }}</div>
-      <input *ngIf="isEditing" class="form-control">
+      <div *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.institute }}</div>
+      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedInstructorInstitute">
     </div>
   </div>
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Email:</label>
     <div class="col-md-9 text-md-left">
-      <div *ngIf="!isEditing">{{ exampleEmail }}</div>
-      <input *ngIf="isEditing" class="form-control">
+      <a *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING" href="mailto:{{ accountRequest!.email }}">{{ accountRequest!.email }}</a>
+      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedInstructorEmail">
     </div>
   </div>
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Home page URL:</label>
     <div class="col-md-9 text-md-left">
       <div>
-        <a href="{{ exampleHomePageURL }}" target="_blank" rel="noopener noreferrer">{{ exampleHomePageURL }}</a>
+        <a href="{{ accountRequest!.homePageUrl }}" target="_blank" rel="noopener noreferrer">{{ accountRequest!.homePageUrl }}</a>
       </div>
     </div>
   </div>
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Other comments:</label>
     <div class="col-md-9 text-md-left show-new-line">
-      <div>{{ exampleComments }}</div>
+      <div>{{ accountRequest!.comments }}</div>
     </div>
   </div>
-  <div *ngIf="!isEditing" class="col-md-6 mx-auto">
+  <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.SUBMITTED" class="mx-auto">
     <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="editAccountRequest()">Edit</button>
-    <button type="button" class="btn btn-success button-width mx-2 my-1">Approve</button>
-    <button type="button" class="btn btn-warning button-width mx-2 my-1">Reject</button>
+    <button type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()">Approve</button>
+    <button type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()">Reject</button>
+    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()">Delete</button>
   </div>
-  <div *ngIf="isEditing" class="col-md-6 mx-auto">
-    <button type="button" class="btn btn-primary button-width mx-2 my-1">Save</button>
-    <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="editAccountRequest()">Cancel</button>
+  <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="mx-auto">
+    <button type="button" class="btn btn-primary button-width mx-2 my-1" (click)="saveAccountRequest()">Save</button>
+    <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="cancelEditAccountRequest()">Cancel</button>
+  </div>
+  <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.APPROVED" class="mx-auto">
+    <button type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()">Reject</button>
+    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()">Delete</button>
+  </div>
+  <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.REJECTED" class="mx-auto">
+    <button type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()">Approve</button>
+    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="resetAccountRequest()">Reset</button>
+    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()">Delete</button>
   </div>
 </div>
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-<form [formGroup]="form">
-    <textarea
-      id="comments"
-      class="form-control"
-      rows="6"
-      formControlName="comments">
-      </textarea>
-  <button id="btn-submit" class="btn btn-success" type="submit" [disabled]="isFormSaving"
-          (click)="exampleComments=comments!.value">
-    Submit
-  </button>
-</form>
+<!--TODO: add Status-->
