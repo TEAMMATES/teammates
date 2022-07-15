@@ -7,7 +7,6 @@ import { AccountService } from '../../../services/account.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
-  AccountRequestCreateIntent,
   AccountRequestCreateRequest,
   AccountRequestType,
 } from '../../../types/api-request';
@@ -147,8 +146,7 @@ export class RequestPageComponent implements OnInit {
       otherComments: this.comments!.value,
     };
 
-    this.accountService.createAccountRequest({
-      intent: AccountRequestCreateIntent.PUBLIC_CREATE,
+    this.accountService.createAccountRequestAsPublic({
       accountRequestType: accReqType,
       captchaResponse: captchaResponse,
       requestBody: reqBody,

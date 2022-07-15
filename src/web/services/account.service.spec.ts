@@ -78,7 +78,7 @@ describe('AccountService', () => {
       instructorHomePageUrl: '',
       otherComments: '',
     };
-    service.createAccountRequest(testRequest);
+    service.createAccountRequestAsAdmin(testRequest);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, {}, testRequest);
   });
 

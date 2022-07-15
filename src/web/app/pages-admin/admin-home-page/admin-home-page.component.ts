@@ -14,11 +14,6 @@ import {
   Courses,
   JoinLink,
 } from '../../../types/api-output';
-import {
-  AccountRequestCreateIntent,
-  AccountRequestCreateRequest,
-  AccountRequestType,
-} from '../../../types/api-request';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
@@ -119,19 +114,14 @@ export class AdminHomePageComponent {
     instructor.status = 'ADDING';
 
     this.isAddingInstructors = true;
-    const reqBody: AccountRequestCreateRequest = {
+
+    this.accountService.createAccountRequestAsAdmin({
       instructorName: instructor.name,
       instructorInstitute: instructor.institution, // final institute
       instructorCountry: '',
       instructorEmail: instructor.email,
       instructorHomePageUrl: '',
       otherComments: '',
-    };
-    this.accountService.createAccountRequest({
-      intent: AccountRequestCreateIntent.ADMIN_CREATE,
-      accountRequestType: AccountRequestType.INSTRUCTOR_ACCOUNT,
-      captchaResponse: '',
-      requestBody: reqBody,
     })
         .pipe(finalize(() => {
           this.isAddingInstructors = false;

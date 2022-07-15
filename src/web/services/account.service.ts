@@ -1,8 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Account, AccountRequestCreateResponse, Accounts, JoinLink, MessageOutput } from '../types/api-output';
-import { AccountRequestCreateIntent, AccountRequestCreateRequest, AccountRequestType } from '../types/api-request';
+import {
+  Account,
+  AccountRequestCreateResponse,
+  AccountRequests,
+  Accounts,
+  JoinLink,
+  MessageOutput,
+} from '../types/api-output';
+import {
+  AccountRequestCreateIntent,
+  AccountRequestCreateRequest,
+  AccountRequestsGetIntent,
+  AccountRequestType,
+} from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -29,14 +41,25 @@ export class AccountService {
   /**
    * Creates an account request by calling API.
    */
-  createAccountRequest(queryParams: {
-    intent: AccountRequestCreateIntent,
+  createAccountRequestAsAdmin(requestBody: AccountRequestCreateRequest): Observable<AccountRequestCreateResponse> {
+    const paramsMap: Record<string, string> = {
+      intent: AccountRequestCreateIntent.ADMIN_CREATE,
+      accountrequesttype: AccountRequestType.INSTRUCTOR_ACCOUNT,
+      captcharesponse: '',
+    };
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, requestBody);
+  }
+
+  /**
+   * Creates an account request by calling API.
+   */
+  createAccountRequestAsPublic(queryParams: {
     accountRequestType: AccountRequestType,
     captchaResponse: string,
     requestBody: AccountRequestCreateRequest,
   }): Observable<AccountRequestCreateResponse> {
     const paramsMap: Record<string, string> = {
-      intent: queryParams.intent,
+      intent: AccountRequestCreateIntent.PUBLIC_CREATE,
       accountrequesttype: queryParams.accountRequestType,
       captcharesponse: queryParams.captchaResponse,
     };
@@ -115,6 +138,16 @@ export class AccountService {
       useremail: email,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
+  }
+
+  /**
+   * Gets all account requests pending processing by calling API.
+   */
+  getAccountRequestsPendingProcessing(): Observable<AccountRequests> {
+    const paramMap: Record<string, string> = {
+      intent: AccountRequestsGetIntent.PENDING_PROCESSING,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);
   }
 
 }
