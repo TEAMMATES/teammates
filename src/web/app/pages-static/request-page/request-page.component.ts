@@ -143,7 +143,7 @@ export class RequestPageComponent implements OnInit {
       instructorCountry: this.country!.value,
       instructorEmail: this.email!.value,
       instructorHomePageUrl: this.url!.value,
-      otherComments: this.comments!.value,
+      comments: this.comments!.value,
     };
 
     this.accountService.createAccountRequestAsPublic({

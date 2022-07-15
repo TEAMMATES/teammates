@@ -31,7 +31,7 @@ public class AccountRequest extends BaseEntity {
 
     private String homePageUrl; // for old AR, this field can be set to ""
 
-    private String otherComments; // for old AR, this field can be set to ""
+    private String comments; // for old AR, this field can be set to ""
 
     AccountRequestStatus status; // for old AR, this field should be set to APPROVED if registeredAt == null
                                  // else, it should be set to REGISTERED
@@ -53,12 +53,12 @@ public class AccountRequest extends BaseEntity {
     /**
      * Constructs a new account request. The status is initialized to {@code SUBMITTED}.
      */
-    public AccountRequest(String name, String institute, String email, String homePageUrl, String otherComments) {
+    public AccountRequest(String name, String institute, String email, String homePageUrl, String comments) {
         this.setName(name);
         this.setInstitute(institute);
         this.setEmail(email);
         this.setHomePageUrl(homePageUrl);
-        this.setOtherComments(otherComments);
+        this.setComments(comments);
         this.setId(generateId(email, institute));
         this.setRegistrationKey(generateRegistrationKey());
         this.setStatus(AccountRequestStatus.SUBMITTED);
@@ -115,12 +115,12 @@ public class AccountRequest extends BaseEntity {
         this.homePageUrl = homePageUrl.trim();
     }
 
-    public String getOtherComments() {
-        return otherComments;
+    public String getComments() {
+        return comments;
     }
 
-    public void setOtherComments(String otherComments) {
-        this.otherComments = otherComments.trim();
+    public void setComments(String comments) {
+        this.comments = comments.trim();
     }
 
     public AccountRequestStatus getStatus() {

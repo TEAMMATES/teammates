@@ -76,7 +76,7 @@ describe('AccountService', () => {
       instructorCountry: 'testCountry',
       instructorEmail: 'testEmail',
       instructorHomePageUrl: '',
-      otherComments: '',
+      comments: '',
     };
     service.createAccountRequestAsAdmin(testRequest);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, {}, testRequest);

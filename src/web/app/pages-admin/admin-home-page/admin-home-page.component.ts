@@ -121,7 +121,7 @@ export class AdminHomePageComponent {
       instructorCountry: '',
       instructorEmail: instructor.email,
       instructorHomePageUrl: '',
-      otherComments: '',
+      comments: '',
     })
         .pipe(finalize(() => {
           this.isAddingInstructors = false;

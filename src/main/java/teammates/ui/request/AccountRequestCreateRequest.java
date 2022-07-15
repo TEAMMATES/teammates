@@ -7,7 +7,7 @@ public class AccountRequestCreateRequest extends AccountRequestBasicRequest {
 
     private String instructorCountry;
     private String instructorHomePageUrl;
-    private String otherComments;
+    private String comments;
 
     public String getInstructorCountry() {
         return this.instructorCountry;
@@ -17,8 +17,8 @@ public class AccountRequestCreateRequest extends AccountRequestBasicRequest {
         return this.instructorHomePageUrl;
     }
 
-    public String getOtherComments() {
-        return this.otherComments;
+    public String getComments() {
+        return this.comments;
     }
 
     public void setInstructorCountry(String country) {
@@ -29,8 +29,8 @@ public class AccountRequestCreateRequest extends AccountRequestBasicRequest {
         this.instructorHomePageUrl = homePageUrl;
     }
 
-    public void setOtherComments(String otherComments) {
-        this.otherComments = otherComments;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @Override
@@ -39,6 +39,6 @@ public class AccountRequestCreateRequest extends AccountRequestBasicRequest {
 
         assertTrue(this.instructorCountry != null, "country cannot be null");
         assertTrue(this.instructorHomePageUrl != null, "home page url cannot be null");
-        assertTrue(this.otherComments != null, "other comments cannot be null");
+        assertTrue(this.comments != null, "comments cannot be null");
     }
 }

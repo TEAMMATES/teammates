@@ -76,7 +76,7 @@ class CreateAccountRequestAction extends Action {
         String instructorCountry = createRequest.getInstructorCountry().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
         String instructorHomePageUrl = createRequest.getInstructorHomePageUrl().trim();
-        String otherComments = createRequest.getOtherComments().trim();
+        String comments = createRequest.getComments().trim();
 
         AccountRequestAttributes accountRequestToCreate;
         AccountRequestAttributes accountRequestAttributes;
@@ -86,7 +86,7 @@ class CreateAccountRequestAction extends Action {
             switch (intent) {
             case ADMIN_CREATE:
                 accountRequestToCreate = AccountRequestAttributes
-                        .builder(instructorName, instructorInstitute, instructorEmail, instructorHomePageUrl, otherComments)
+                        .builder(instructorName, instructorInstitute, instructorEmail, instructorHomePageUrl, comments)
                         .build();
                 if (!validateAccountRequestAndPopulateErrorResults(intent, accountRequestToCreate, errorResults)) {
                     log.warning("Account request fails to be created: invalid request.",
@@ -111,7 +111,7 @@ class CreateAccountRequestAction extends Action {
             case PUBLIC_CREATE:
                 accountRequestToCreate = AccountRequestAttributes
                         .builder(instructorName, instructorInstitute, instructorCountry, instructorEmail,
-                                instructorHomePageUrl, otherComments)
+                                instructorHomePageUrl, comments)
                         .build();
                 if (!validateAccountRequestAndPopulateErrorResults(intent, accountRequestToCreate, errorResults)) {
                     log.warning("Account request fails to be created: invalid request.",

@@ -28,7 +28,7 @@ public class AccountRequestData extends ApiOutput {
         this.institute = accountRequestInfo.getInstitute();
         this.email = accountRequestInfo.getEmail();
         this.homePageUrl = accountRequestInfo.getHomePageUrl();
-        this.comments = accountRequestInfo.getOtherComments();
+        this.comments = accountRequestInfo.getComments();
         this.registrationKey = accountRequestInfo.getRegistrationKey();
         this.status = accountRequestInfo.getStatus();
         this.createdAt = accountRequestInfo.getCreatedAt().toEpochMilli();

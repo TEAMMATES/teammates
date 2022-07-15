@@ -23,7 +23,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private String institute;
     private String email;
     private String homePageUrl;
-    private String otherComments;
+    private String comments;
     private AccountRequestStatus status;
     private Instant createdAt;
     private Instant lastProcessedAt;
@@ -31,14 +31,14 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private transient String registrationKey;
 
     private AccountRequestAttributes(String name, String pureInstitute, String pureCountry, String institute,
-                                     String email, String homePageUrl, String otherComments) {
+                                     String email, String homePageUrl, String comments) {
         this.name = name;
         this.pureInstitute = pureInstitute;
         this.pureCountry = pureCountry;
         this.institute = institute;
         this.email = email;
         this.homePageUrl = homePageUrl;
-        this.otherComments = otherComments;
+        this.comments = comments;
         this.registrationKey = null;
         this.status = AccountRequestStatus.SUBMITTED;
         this.createdAt = null;
@@ -60,7 +60,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     public static AccountRequestAttributes valueOf(AccountRequest accountRequest) {
         AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getName(),
                 null, null, accountRequest.getInstitute(),
-                accountRequest.getEmail(), accountRequest.getHomePageUrl(), accountRequest.getOtherComments());
+                accountRequest.getEmail(), accountRequest.getHomePageUrl(), accountRequest.getComments());
 
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
         accountRequestAttributes.status = accountRequest.getStatus();
@@ -75,15 +75,15 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      * Returns a builder for {@link AccountRequestAttributes}. {@code pureInstitute} and {@code pureCountry} are specified.
      */
     public static Builder builder(String name, String pureInstitute, String pureCountry, String email,
-                                  String homePageUrl, String otherComments) {
-        return new Builder(name, pureInstitute, pureCountry, email, homePageUrl, otherComments);
+                                  String homePageUrl, String comments) {
+        return new Builder(name, pureInstitute, pureCountry, email, homePageUrl, comments);
     }
 
     /**
      * Returns a builder for {@link AccountRequestAttributes}. {@code institute} is specified.
      */
-    public static Builder builder(String name, String institute, String email, String homePageUrl, String otherComments) {
-        return new Builder(name, institute, email, homePageUrl, otherComments);
+    public static Builder builder(String name, String institute, String email, String homePageUrl, String comments) {
+        return new Builder(name, institute, email, homePageUrl, comments);
     }
 
     public String getRegistrationKey() {
@@ -114,8 +114,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         return homePageUrl;
     }
 
-    public String getOtherComments() {
-        return otherComments;
+    public String getComments() {
+        return comments;
     }
 
     public AccountRequestStatus getStatus() {
@@ -165,7 +165,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
                 generatePrefix(FieldValidator.EMAIL_FIELD_NAME));
         addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(getHomePageUrl()), errors,
                 generatePrefix(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME));
-        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestComments(getOtherComments()), errors,
+        addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestComments(getComments()), errors,
                 generatePrefix(FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME));
 
         return errors;
@@ -174,7 +174,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     @Override
     public AccountRequest toEntity() {
         AccountRequest accountRequest = new AccountRequest(getName(), getInstitute(), getEmail(),
-                getHomePageUrl(), getOtherComments());
+                getHomePageUrl(), getComments());
 
         if (this.getRegistrationKey() != null) {
             accountRequest.setRegistrationKey(this.getRegistrationKey());
@@ -227,7 +227,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.homePageUrl = SanitizationHelper.sanitizeTextField(homePageUrl);
-        this.otherComments = SanitizationHelper.sanitizeTextField(otherComments);
+        this.comments = SanitizationHelper.sanitizeTextField(comments);
     }
 
     /**
@@ -254,20 +254,20 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         private final AccountRequestAttributes accountRequestAttributes;
 
         private Builder(String name, String pureInstitute, String pureCountry, String email,
-                        String homePageUrl, String otherComments) {
+                        String homePageUrl, String comments) {
             super(new UpdateOptions(email, generateInstitute(pureInstitute, pureCountry)));
             thisBuilder = this;
 
             accountRequestAttributes = new AccountRequestAttributes(name, pureInstitute, pureCountry,
-                    generateInstitute(pureInstitute, pureCountry), email, homePageUrl, otherComments);
+                    generateInstitute(pureInstitute, pureCountry), email, homePageUrl, comments);
         }
 
-        private Builder(String name, String institute, String email, String homePageUrl, String otherComments) {
+        private Builder(String name, String institute, String email, String homePageUrl, String comments) {
             super(new UpdateOptions(email, institute));
             thisBuilder = this;
 
             accountRequestAttributes = new AccountRequestAttributes(name, null, null,
-                    institute, email, homePageUrl, otherComments);
+                    institute, email, homePageUrl, comments);
         }
 
         @Override

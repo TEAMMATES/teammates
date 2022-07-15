@@ -31,7 +31,7 @@
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Other comments:</label>
     <div class="col-md-9 text-md-left show-new-line">
-      <div>{{ exampleOtherComments }}</div>
+      <div>{{ exampleComments }}</div>
     </div>
   </div>
   <div *ngIf="!isEditing" class="col-md-6 mx-auto">
@@ -55,7 +55,7 @@
       formControlName="comments">
       </textarea>
   <button id="btn-submit" class="btn btn-success" type="submit" [disabled]="isFormSaving"
-          (click)="exampleOtherComments=comments!.value">
+          (click)="exampleComments=comments!.value">
     Submit
   </button>
 </form>
