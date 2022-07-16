@@ -33,7 +33,7 @@ export class RecipientTypeNamePipe implements PipeTransform {
         if (giverType === FeedbackParticipantType.INSTRUCTORS) {
           return 'Instructor';
         }
-        if (giverType == FeedbackParticipantType.TEAMS) {
+        if (giverType === FeedbackParticipantType.TEAMS) {
           return 'Student';
         }
         return 'Unknown';
