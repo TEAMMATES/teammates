@@ -37,7 +37,7 @@ export class RequestPageComponent implements OnInit {
 
   readonly recaptchaSiteKey: string = environment.captchaSiteKey;
 
-  isFormSaving: boolean = false;
+  isSubmitting: boolean = false;
 
   @ViewChild('recaptchaElem') recaptchaElem!: ReCaptcha2Component;
 
@@ -131,7 +131,7 @@ export class RequestPageComponent implements OnInit {
       return;
     }
 
-    this.isFormSaving = true;
+    this.isSubmitting = true;
     this.backendOtherErrorMessage = '';
 
     const accReqType: AccountRequestType = this.accountType!.value === 'instructor'
@@ -154,7 +154,7 @@ export class RequestPageComponent implements OnInit {
       .subscribe(() => {
         this.navigationService.navigateWithSuccessMessage('/web/front/home', this.successMessage);
       }, (resp: ErrorMessageOutput | AccountRequestCreateErrorResultsWrapper) => {
-        this.isFormSaving = false;
+        this.isSubmitting = false;
         this.statusMessageService.showWarningToast(this.failureMessage);
 
         this.recaptchaElem.resetCaptcha();

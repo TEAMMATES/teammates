@@ -190,8 +190,8 @@
     <div class="alert alert-primary mb-5" >{{ beforeSubmissionMessage }}</div>
     <div *ngIf="backendOtherErrorMessage" class="alert alert-warning mb-3" >{{ backendOtherErrorMessage }}</div>
     <div class="text-center">
-      <button id="btn-submit" class="btn btn-success mb-4" type="submit" [disabled]="isFormSaving || accountType!.errors">
-        Submit
+      <button id="btn-submit" class="btn btn-success mb-4" type="submit" [disabled]="isSubmitting || accountType!.errors">
+        <tm-ajax-loading *ngIf="isSubmitting"></tm-ajax-loading>Submit
       </button>
     </div>
   </form>
