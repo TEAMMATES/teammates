@@ -1549,14 +1549,16 @@ public class Logic {
      * * All parameters are non-null.
      *
      * @return the updated account request
-     * @throws InvalidParametersException if the account request is not valid
+     * @throws InvalidParametersException if the new account request is not valid
      * @throws EntityDoesNotExistException if the account request to update does not exist
+     * @throws EntityAlreadyExistsException if the account request cannot be updated because of an existing account request
      */
-    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions,
+                                                         boolean isForceUpdate)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         assert updateOptions != null;
 
-        return accountRequestsLogic.updateAccountRequest(updateOptions);
+        return accountRequestsLogic.updateAccountRequest(updateOptions, isForceUpdate);
     }
 
     /**

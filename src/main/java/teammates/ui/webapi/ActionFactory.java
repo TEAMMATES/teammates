@@ -68,8 +68,9 @@ public final class ActionFactory {
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
 
         // ACCOUNT REQUEST APIs
-        map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST, PUT, UpdateAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
 

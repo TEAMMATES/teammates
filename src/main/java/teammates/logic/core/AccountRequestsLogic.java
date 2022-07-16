@@ -39,12 +39,14 @@ public final class AccountRequestsLogic {
      * Updates an account request.
      *
      * @return the updated account request
-     * @throws InvalidParametersException if the account request is not valid
+     * @throws InvalidParametersException if the new account request is not valid
      * @throws EntityDoesNotExistException if the account request to update does not exist
+     * @throws EntityAlreadyExistsException if the account request cannot be updated because of an existing account request
      */
-    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return accountRequestsDb.updateAccountRequest(updateOptions);
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions,
+                                                         boolean isForceUpdate)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        return accountRequestsDb.updateAccountRequest(updateOptions, isForceUpdate);
     }
 
     /**
@@ -74,7 +76,7 @@ public final class AccountRequestsLogic {
                     .updateOptionsBuilder(accountRequestAttributes.getEmail(), accountRequestAttributes.getInstitute())
                     .withStatus(AccountRequestStatus.APPROVED)
                     .withLastProcessedAt(accountRequestAttributes.getCreatedAt())
-                    .build());
+                    .build(), false);
         } catch (EntityDoesNotExistException ednee) {
             log.severe("Encountered exception when creating account request: "
                     + "The newly created account request disappeared before it could be approved.", ednee);

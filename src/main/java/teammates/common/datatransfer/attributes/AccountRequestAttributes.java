@@ -238,6 +238,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      */
     public void update(UpdateOptions updateOptions) {
         updateOptions.nameOption.ifPresent(n -> name = n);
+        updateOptions.instituteOption.ifPresent(n -> institute = n);
+        updateOptions.emailOption.ifPresent(n -> email = n);
         updateOptions.statusOption.ifPresent(s -> status = s);
         updateOptions.lastProcessedAtOption.ifPresent(a -> lastProcessedAt = a);
         updateOptions.registeredAtOption.ifPresent(r -> registeredAt = r);
@@ -289,6 +291,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         private String institute;
 
         private UpdateOption<String> nameOption = UpdateOption.empty();
+        private UpdateOption<String> instituteOption = UpdateOption.empty();
+        private UpdateOption<String> emailOption = UpdateOption.empty();
         private UpdateOption<AccountRequestStatus> statusOption = UpdateOption.empty();
         private UpdateOption<Instant> lastProcessedAtOption = UpdateOption.empty();
         private UpdateOption<Instant> registeredAtOption = UpdateOption.empty();
@@ -315,6 +319,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
                     + ", email = " + email
                     + ", institute = " + institute
                     + ", name = " + nameOption
+                    + ", new institute = " + instituteOption
+                    + ", new email = " + emailOption
                     + ", status = " + statusOption
                     + ", lastProcessedAt = " + lastProcessedAtOption
                     + ", registeredAt = " + registeredAtOption
@@ -354,6 +360,16 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         public B withName(String name) {
             updateOptions.nameOption = UpdateOption.of(name);
+            return thisBuilder;
+        }
+
+        public B withInstitute(String institute) {
+            updateOptions.instituteOption = UpdateOption.of(institute);
+            return thisBuilder;
+        }
+
+        public B withEmail(String email) {
+            updateOptions.emailOption = UpdateOption.of(email);
             return thisBuilder;
         }
 

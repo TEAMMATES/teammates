@@ -13,6 +13,7 @@ import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -71,7 +72,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
         assert email != null;
         assert institute != null;
 
-        return makeAttributesOrNull(getAccountRequestEntity(AccountRequest.generateId(email, institute)));
+        return makeAttributesOrNull(getAccountRequestEntity(email, institute));
     }
 
     /**
@@ -84,29 +85,68 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     /**
      * Updates an account request.
      *
+     * <p>If the email or institute of the account request is changed, the account request is re-created.
+     * During re-creation, if an account request with the new email and new institute already exists, checks the status of
+     * the existing account request. If and only if its status is REJECTED and {@code isForceUpdate} equals {@code true},
+     * deletes that account request and update the current account request normally.
+     *
      * @return the updated account request
-     * @throws InvalidParametersException if the account request is not valid
-     * @throws EntityDoesNotExistException if the account request cannot be found
+     * @throws InvalidParametersException if the new account request is not valid
+     * @throws EntityDoesNotExistException if the account request to update cannot be found
+     * @throws EntityAlreadyExistsException if the account request cannot be updated by re-creation because
+     *                                      the above-mentioned condition is not met
      */
-    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions,
+                                                         boolean isForceUpdate)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         assert updateOptions != null;
 
-        AccountRequestAttributes accountRequest = getAccountRequest(updateOptions.getEmail(), updateOptions.getInstitute());
+        AccountRequest accountRequest = getAccountRequestEntity(updateOptions.getEmail(), updateOptions.getInstitute());
         if (accountRequest == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
 
-        accountRequest.update(updateOptions);
-        accountRequest.sanitizeForSaving();
+        AccountRequestAttributes newAccountRequestAttributes = makeAttributes(accountRequest);
+        newAccountRequestAttributes.update(updateOptions);
 
-        if (!accountRequest.isValid()) {
-            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
+        newAccountRequestAttributes.sanitizeForSaving();
+        if (!newAccountRequestAttributes.isValid()) {
+            throw new InvalidParametersException(newAccountRequestAttributes.getInvalidityInfo());
         }
 
-        saveEntity(accountRequest.toEntity());
+        boolean isEmailOrInstituteChanged = !accountRequest.getEmail().equals(newAccountRequestAttributes.getEmail())
+                || !accountRequest.getInstitute().equals(newAccountRequestAttributes.getInstitute());
 
-        return accountRequest;
+        if (isEmailOrInstituteChanged) {
+            // check existing account request
+            AccountRequest existingAccountRequest = getAccountRequestEntity(newAccountRequestAttributes.getEmail(),
+                    newAccountRequestAttributes.getInstitute());
+            if (existingAccountRequest != null && existingAccountRequest.getStatus().equals(AccountRequestStatus.REJECTED)
+                    && isForceUpdate) {
+                // force update by deleting the existing account request
+                deleteAccountRequest(newAccountRequestAttributes.getEmail(), newAccountRequestAttributes.getInstitute());
+            }
+
+            // create the updated account request
+            newAccountRequestAttributes = createEntity(newAccountRequestAttributes);
+            // delete the old account request
+            deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        } else {
+            // update only if change
+            boolean hasSameAttributes = hasSameValue(accountRequest.getName(), newAccountRequestAttributes.getName())
+                    && hasSameValue(accountRequest.getHomePageUrl(), newAccountRequestAttributes.getHomePageUrl())
+                    && hasSameValue(accountRequest.getComments(), newAccountRequestAttributes.getComments())
+                    && hasSameValue(accountRequest.getStatus(), newAccountRequestAttributes.getStatus())
+                    && hasSameValue(accountRequest.getRegisteredAt(), newAccountRequestAttributes.getRegisteredAt());
+            if (hasSameAttributes) {
+                log.info(String.format(
+                        OPTIMIZED_SAVING_POLICY_APPLIED, AccountRequest.class.getSimpleName(), updateOptions));
+            } else {
+                saveEntity(newAccountRequestAttributes.toEntity());
+            }
+        }
+
+        return newAccountRequestAttributes;
     }
 
     /**
@@ -133,6 +173,10 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
 
     private AccountRequest getAccountRequestEntity(String id) {
         return load().id(id).now();
+    }
+
+    private AccountRequest getAccountRequestEntity(String email, String institute) {
+        return getAccountRequestEntity(AccountRequest.generateId(email, institute));
     }
 
     private List<AccountRequest> getAccountRequestEntitiesWithStatusSubmitted() {
