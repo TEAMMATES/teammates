@@ -1,4 +1,5 @@
 <div class="panel-padding text-center">
+  <div *ngIf="errorMessage" class="alert border-danger text-left show-new-line" >{{ errorMessage }}</div>
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Status:</label>
     <div class="col-md-9 text-md-left show-new-line">
@@ -20,21 +21,21 @@
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Name:</label>
     <div class="col-md-9 text-md-left">
       <div *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.name }}</div>
-      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedInstructorName">
+      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedName">
     </div>
   </div>
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Institute:</label>
     <div class="col-md-9 text-md-left">
       <div *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.institute }}</div>
-      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedInstructorInstitute">
+      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedInstitute">
     </div>
   </div>
   <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Email:</label>
     <div class="col-md-9 text-md-left">
       <a *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING" href="mailto:{{ accountRequest!.email }}">{{ accountRequest!.email }}</a>
-      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedInstructorEmail">
+      <input *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [(ngModel)]="editedEmail">
     </div>
   </div>
   <div class="form-group row align-items-top">

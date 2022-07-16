@@ -9,6 +9,12 @@ export enum ProcessAccountRequestPanelStatus {
   REJECTED,
 }
 
+export interface EditedAccountRequestInfoModel {
+  editedName: string;
+  editedInstitute: string;
+  editedEmail: string;
+}
+
 /**
  * Panel to display an account request being processed.
  */
@@ -19,8 +25,6 @@ export enum ProcessAccountRequestPanelStatus {
 })
 export class ProcessAccountRequestPanelComponent implements OnInit {
 
-  backendErrorMessage : string = '';
-
   @Input()
   accountRequest!: AccountRequest;
 
@@ -30,6 +34,9 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
   @Input()
   isSavingChanges: boolean = false;
 
+  @Input()
+  errorMessage: string = '';
+
   @Output()
   editAccountRequestEvent: EventEmitter<void> = new EventEmitter();
 
@@ -37,7 +44,7 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
   cancelEditAccountRequestEvent: EventEmitter<void> = new EventEmitter();
 
   @Output()
-  saveAccountRequestEvent: EventEmitter<void> = new EventEmitter(); // TODO: determine event type
+  saveAccountRequestEvent: EventEmitter<EditedAccountRequestInfoModel> = new EventEmitter();
 
   @Output()
   approveAccountRequestEvent: EventEmitter<void> = new EventEmitter();
@@ -55,9 +62,9 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
   ProcessAccountRequestPanelStatus: typeof ProcessAccountRequestPanelStatus = ProcessAccountRequestPanelStatus;
   AccountRequestStatus: typeof AccountRequestStatus = AccountRequestStatus;
 
-  editedInstructorName!: string;
-  editedInstructorInstitute!: string;
-  editedInstructorEmail!: string;
+  editedName!: string;
+  editedInstitute!: string;
+  editedEmail!: string;
 
   timezone: string = '';
 
@@ -70,9 +77,9 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
 
   editAccountRequest(): void {
     this.editAccountRequestEvent.emit();
-    this.editedInstructorName = this.accountRequest!.name;
-    this.editedInstructorInstitute = this.accountRequest!.institute;
-    this.editedInstructorEmail = this.accountRequest!.email;
+    this.editedName = this.accountRequest!.name;
+    this.editedInstitute = this.accountRequest!.institute;
+    this.editedEmail = this.accountRequest!.email;
   }
 
   cancelEditAccountRequest(): void {
@@ -80,7 +87,12 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
   }
 
   saveAccountRequest(): void {
-    this.saveAccountRequestEvent.emit();
+    const editedInfo: EditedAccountRequestInfoModel = {
+      editedName: this.editedName,
+      editedInstitute: this.editedInstitute,
+      editedEmail: this.editedEmail,
+    };
+    this.saveAccountRequestEvent.emit(editedInfo);
   }
 
   approveAccountRequest(): void {

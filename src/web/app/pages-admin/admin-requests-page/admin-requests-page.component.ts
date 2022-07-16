@@ -3,10 +3,12 @@ import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, AccountRequests, MessageOutput } from '../../../types/api-output';
+import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { removeAnim } from '../../components/teammates-common/remove-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
+  EditedAccountRequestInfoModel,
   ProcessAccountRequestPanelStatus,
 } from './process-account-request-panel/process-account-request-panel.component';
 
@@ -15,6 +17,7 @@ export interface AccountRequestTab {
   isTabExpanded: boolean;
   panelStatus: ProcessAccountRequestPanelStatus;
   isSavingChanges: boolean;
+  errorMessage: string;
 }
 
 /**
@@ -58,12 +61,11 @@ export class AdminRequestsPageComponent implements OnInit {
             isTabExpanded: true,
             panelStatus: ProcessAccountRequestPanelStatus.SUBMITTED,
             isSavingChanges: false,
+            errorMessage: '',
           };
           this.accountRequestPendingProcessingTabs.push(accountRequestTab);
         });
         // TODO: sort courses
-
-        // console.log(resp.accountRequests);
       }, (resp: ErrorMessageOutput) => {
         this.accountRequestPendingProcessingTabs = [];
         this.hasAccountRequestsPendingProcessingLoadingFailed = true;
@@ -88,12 +90,30 @@ export class AdminRequestsPageComponent implements OnInit {
   /**
    * Updates the account request in the tab.
    */
-  saveAccountRequest(accountRequestTab: AccountRequestTab): void { // TODO: add parameter of edited info
+  saveAccountRequest(accountRequestTab: AccountRequestTab, editedInfo: EditedAccountRequestInfoModel): void {
     accountRequestTab.isSavingChanges = true;
-    setTimeout(() => {
-      accountRequestTab.isSavingChanges = false;
-      accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
-    }, 2000);
+    const accountRequest: AccountRequest = accountRequestTab.accountRequest;
+    const updateRequest: AccountRequestUpdateRequest = {
+      instructorName: editedInfo.editedName,
+      instructorEmail: editedInfo.editedEmail,
+      instructorInstitute: editedInfo.editedInstitute,
+    };
+    this.accountService.updateAccountRequest(accountRequest.email, accountRequest.institute, updateRequest, false)
+      .pipe(
+        finalize(() => {
+          accountRequestTab.isSavingChanges = false;
+      }))
+      .subscribe((resp: AccountRequest) => {
+        accountRequest.name = resp.name;
+        accountRequest.institute = resp.institute;
+        accountRequest.email = resp.email;
+        accountRequestTab.errorMessage = '';
+        this.statusMessageService.showSuccessToast('Account request successfully updated.');
+        accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
+      }, (resp: ErrorMessageOutput) => {
+        accountRequestTab.errorMessage = resp.error.message;
+        this.statusMessageService.showErrorToast('Failed to update account request.');
+      });
   }
 
   /**
@@ -118,11 +138,13 @@ export class AdminRequestsPageComponent implements OnInit {
     const accountRequest: AccountRequest = accountRequestTab.accountRequest;
     this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
       .subscribe((resp: MessageOutput) => {
-        this.statusMessageService.showSuccessToast(resp.message);
+        accountRequestTab.errorMessage = '';
+        this.statusMessageService.showSuccessToast(resp.message); // TODO: there's no need to return the message
         this.accountRequestPendingProcessingTabs.splice(index, 1);
       }, (resp: ErrorMessageOutput) => {
         accountRequestTab.isSavingChanges = false;
-        this.statusMessageService.showErrorToast(resp.error.message);
+        accountRequestTab.errorMessage = resp.error.message;
+        this.statusMessageService.showErrorToast('Failed to delete account request.');
       });
   }
 

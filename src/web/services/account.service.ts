@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
 import {
-  Account,
+  Account, AccountRequest,
   AccountRequestCreateResponse,
   AccountRequests,
   Accounts,
@@ -13,7 +13,7 @@ import {
   AccountRequestCreateIntent,
   AccountRequestCreateRequest,
   AccountRequestsGetIntent,
-  AccountRequestType,
+  AccountRequestType, AccountRequestUpdateRequest,
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -64,6 +64,19 @@ export class AccountService {
       captcharesponse: queryParams.captchaResponse,
     };
     return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, queryParams.requestBody);
+  }
+
+  /**
+   * Updates an account request by calling API.
+   */
+  updateAccountRequest(email: string, institute: string, request: AccountRequestUpdateRequest,
+                       isForceUpdate: boolean): Observable<AccountRequest> {
+    const paramsMap: Record<string, string> = {
+      instructoremail: email,
+      instructorinstitution: institute,
+      isforceupdate: String(isForceUpdate),
+    };
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, request);
   }
 
   /**
