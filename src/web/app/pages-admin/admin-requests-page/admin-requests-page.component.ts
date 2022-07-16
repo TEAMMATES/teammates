@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountRequest, AccountRequests } from '../../../types/api-output';
+import { AccountRequest, AccountRequests, MessageOutput } from '../../../types/api-output';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { removeAnim } from '../../components/teammates-common/remove-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -14,6 +14,7 @@ export interface AccountRequestTab {
   accountRequest: AccountRequest;
   isTabExpanded: boolean;
   panelStatus: ProcessAccountRequestPanelStatus;
+  isSavingChanges: boolean;
 }
 
 /**
@@ -57,6 +58,7 @@ export class AdminRequestsPageComponent implements OnInit {
             accountRequest: accountRequest,
             isTabExpanded: true,
             panelStatus: ProcessAccountRequestPanelStatus.SUBMITTED,
+            isSavingChanges: false,
           };
           this.accountRequestPendingProcessingTabs.push(accountRequestTab);
         });
@@ -67,7 +69,7 @@ export class AdminRequestsPageComponent implements OnInit {
         this.accountRequestPendingProcessingTabs = [];
         this.hasAccountRequestsPendingProcessingLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
-      });}, 1000);
+      });}, 1000); // TODO: remove delay
 
   }
 
@@ -110,8 +112,17 @@ export class AdminRequestsPageComponent implements OnInit {
    * Deletes the account request in the tab.
    */
   deleteAccountRequest(accountRequestTab: AccountRequestTab, index: number): void {
-    accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED; // doesn't matter, the tab should be removed
-    this.accountRequestPendingProcessingTabs.splice(index, 1);
+    accountRequestTab.isSavingChanges = true;
+    const accountRequest: AccountRequest = accountRequestTab.accountRequest;
+    setTimeout(() => {this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
+      .subscribe((resp: MessageOutput) => {
+        this.statusMessageService.showSuccessToast(resp.message);
+        this.accountRequestPendingProcessingTabs.splice(index, 1);
+      }, (resp: ErrorMessageOutput) => {
+        accountRequestTab.isSavingChanges = false;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });}, 1000); // TODO: remove delay
+
   }
 
   /**

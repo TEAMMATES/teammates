@@ -17,6 +17,7 @@
               <tm-process-account-request-panel
                 [accountRequest]="accountRequestPendingProcessingTab.accountRequest"
                 [panelStatus]="accountRequestPendingProcessingTab.panelStatus"
+                [isSavingChanges]="accountRequestPendingProcessingTab.isSavingChanges"
                 (editAccountRequestEvent)="editAccountRequest(accountRequestPendingProcessingTab)"
                 (cancelEditAccountRequestEvent)="cancelEditAccountRequest(accountRequestPendingProcessingTab)"
                 (saveAccountRequestEvent)="saveAccountRequest(accountRequestPendingProcessingTab)"
@@ -34,3 +35,4 @@
 </div>
 
 <button class="btn btn-info">See account requests processed recently</button>
+<!--TODO: add no account request pending processing message-->

@@ -7,7 +7,6 @@ export enum ProcessAccountRequestPanelStatus {
   EDITING,
   APPROVED,
   REJECTED,
-  SAVING,
 }
 
 /**
@@ -22,14 +21,14 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
 
   backendErrorMessage : string = '';
 
-  isFormSaving: boolean = false;
-
-
   @Input()
   accountRequest!: AccountRequest;
 
   @Input()
   panelStatus: ProcessAccountRequestPanelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
+
+  @Input()
+  isSavingChanges: boolean = false;
 
   @Output()
   editAccountRequestEvent: EventEmitter<void> = new EventEmitter();
@@ -80,7 +79,6 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
   }
 
   saveAccountRequest(): void {
-    this.panelStatus = ProcessAccountRequestPanelStatus.SAVING;
     this.saveAccountRequestEvent.emit();
   }
 

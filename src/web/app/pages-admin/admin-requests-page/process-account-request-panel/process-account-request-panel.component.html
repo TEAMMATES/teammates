@@ -41,23 +41,23 @@
     </div>
   </div>
   <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.SUBMITTED" class="mx-auto">
-    <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="editAccountRequest()">Edit</button>
-    <button type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()">Approve</button>
-    <button type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()">Reject</button>
-    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()">Delete</button>
+    <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="editAccountRequest()" [disabled]="isSavingChanges">Edit</button>
+    <button type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()" [disabled]="isSavingChanges">Approve</button>
+    <button type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()" [disabled]="isSavingChanges">Reject</button>
+    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
   </div>
   <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="mx-auto">
-    <button type="button" class="btn btn-primary button-width mx-2 my-1" (click)="saveAccountRequest()">Save</button>
-    <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="cancelEditAccountRequest()">Cancel</button>
+    <button type="button" class="btn btn-primary button-width mx-2 my-1" (click)="saveAccountRequest()" [disabled]="isSavingChanges">Save</button>
+    <button type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="cancelEditAccountRequest()" [disabled]="isSavingChanges">Cancel</button>
   </div>
   <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.APPROVED" class="mx-auto">
-    <button type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()">Reject</button>
-    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()">Delete</button>
+    <button type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()" [disabled]="isSavingChanges">Reject</button>
+    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
   </div>
   <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.REJECTED" class="mx-auto">
-    <button type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()">Approve</button>
-    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="resetAccountRequest()">Reset</button>
-    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()">Delete</button>
+    <button type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()" [disabled]="isSavingChanges">Approve</button>
+    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="resetAccountRequest()" [disabled]="isSavingChanges">Reset</button>
+    <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
   </div>
 </div>
 <!--TODO: add Status-->
