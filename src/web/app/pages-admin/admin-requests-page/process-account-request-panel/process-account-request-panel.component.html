@@ -1,5 +1,16 @@
 <div class="panel-padding text-center">
   <div class="form-group row align-items-top">
+    <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Status:</label>
+    <div class="col-md-9 text-md-left show-new-line">
+      <div class="font-weight-bold" [ngClass]="{
+        'color-submitted': accountRequest!.status === AccountRequestStatus.SUBMITTED,
+        'color-approved': accountRequest!.status === AccountRequestStatus.APPROVED,
+        'color-rejected': accountRequest!.status === AccountRequestStatus.REJECTED,
+        'color-registered': accountRequest!.status === AccountRequestStatus.REGISTERED
+      }">{{ accountRequest!.status }}</div>
+    </div>
+  </div>
+  <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Submitted at:</label>
     <div class="col-md-9 text-md-left show-new-line">
       <div>{{ accountRequest!.createdAt | formatDateDetail: timezone }}</div>
@@ -60,4 +71,3 @@
     <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
   </div>
 </div>
-<!--TODO: add Status-->

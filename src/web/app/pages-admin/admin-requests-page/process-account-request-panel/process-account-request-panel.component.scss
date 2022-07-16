@@ -2,44 +2,9 @@
   padding: 16px 32px;
 }
 
-.field-title {
-  margin-bottom: 8px;
-}
-
 label {
   font-weight: bold;
   text-align: center;
-}
-
-.required:after {
-  content:" *";
-  color: #d93025;
-}
-
-.hint {
-  font-size: 11pt;
-  margin-top: 4px;
-}
-
-.radio-div {
-  padding: 6px 0;
-}
-
-.radio-input {
-  vertical-align: middle;
-  height: 16px;
-  width: 16px;
-}
-
-.radio-label {
-  margin-left: 12px;
-  font-weight: normal;
-  font-size: 12pt;
-}
-
-.invalid-field {
-  padding-top: 8px;
-  color: #d93025;
 }
 
 .show-new-line {
@@ -48,4 +13,20 @@ label {
 
 .button-width {
   width: 100px;
+}
+
+.color-submitted {
+  color: #0000ff;
+}
+
+.color-approved {
+  color: #00b050;
+}
+
+.color-rejected {
+  color: #ff0000;
+}
+
+.color-registered {
+  color: #9900ff;
 }

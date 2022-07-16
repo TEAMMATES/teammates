@@ -52,7 +52,6 @@ export class AdminRequestsPageComponent implements OnInit {
         this.isLoadingAccountRequestsPendingProcessing = false;
       }))
       .subscribe((resp: AccountRequests) => {
-        // this.hasAccountRequestsPendingProcessingLoadingFailed = true;
         resp.accountRequests.forEach((accountRequest: AccountRequest) => {
           const accountRequestTab: AccountRequestTab = {
             accountRequest: accountRequest,
@@ -91,7 +90,11 @@ export class AdminRequestsPageComponent implements OnInit {
    * Updates the account request in the tab.
    */
   saveAccountRequest(accountRequestTab: AccountRequestTab): void { // TODO: add parameter of edited info
-    accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
+    accountRequestTab.isSavingChanges = true;
+    setTimeout(() => {
+      accountRequestTab.isSavingChanges = false;
+      accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
+    }, 2000);
   }
 
   /**
@@ -122,7 +125,6 @@ export class AdminRequestsPageComponent implements OnInit {
         accountRequestTab.isSavingChanges = false;
         this.statusMessageService.showErrorToast(resp.error.message);
       });}, 1000); // TODO: remove delay
-
   }
 
   /**

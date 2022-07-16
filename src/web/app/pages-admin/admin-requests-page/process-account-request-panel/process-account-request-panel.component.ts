@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TimezoneService } from '../../../../services/timezone.service';
-import { AccountRequest } from '../../../../types/api-output';
+import { AccountRequest, AccountRequestStatus } from '../../../../types/api-output';
 
 export enum ProcessAccountRequestPanelStatus {
   SUBMITTED,
@@ -51,8 +51,9 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
   @Output()
   resetAccountRequestEvent: EventEmitter<void> = new EventEmitter();
 
-  // enum
+  // enums
   ProcessAccountRequestPanelStatus: typeof ProcessAccountRequestPanelStatus = ProcessAccountRequestPanelStatus;
+  AccountRequestStatus: typeof AccountRequestStatus = AccountRequestStatus;
 
   editedInstructorName!: string;
   editedInstructorInstitute!: string;

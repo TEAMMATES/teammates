@@ -3,7 +3,7 @@
                     [message]="'Failed to load account requests pending processing'"
                     (retryEvent)="loadAccountRequestsPendingProcessing()">
     <div *tmIsLoading="isLoadingAccountRequestsPendingProcessing">
-      <div *ngIf="accountRequestPendingProcessingTabs.length > 0">
+      <ng-container *ngIf="accountRequestPendingProcessingTabs.length > 0, else noAccountRequestsPendingProcessingTemplate">
         <div *ngFor="let accountRequestPendingProcessingTab of accountRequestPendingProcessingTabs; let i = index" @removeAnim>
           <div class="card">
             <div class="card-header bg-primary text-white cursor-pointer"
@@ -29,10 +29,15 @@
             </div>
           </div>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-template #noAccountRequestsPendingProcessingTemplate>
+        <div class="text-center pt-5">
+          <h5>There are no account requests pending processing.</h5>
+        </div>
+      </ng-template>
     </div>
   </tm-loading-retry>
 </div>
 
-<button class="btn btn-info">See account requests processed recently</button>
-<!--TODO: add no account request pending processing message-->
+<button class="btn btn-info">Show account requests processed recently</button>
