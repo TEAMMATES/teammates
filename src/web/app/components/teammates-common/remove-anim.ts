@@ -5,7 +5,7 @@ import { animate, AnimationTriggerMetadata, style, transition, trigger } from '@
  */
 export const removeAnim: AnimationTriggerMetadata = trigger('removeAnim', [
   transition(':leave', [
-    style({ height: '*', opacity: 1 }),
+    style({ height: '*', opacity: 1, overflow: 'hidden' }),
     animate('300ms ease-in-out', style({ height: 0, opacity: 0 })),
   ]),
 ]);
