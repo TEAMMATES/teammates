@@ -489,7 +489,8 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code pureCountryName} is acceptable.
      */
     public static String getInvalidityInfoForPureCountryName(String pureCountryName) {
-        return getValidityInfoForAllowedName(ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME, ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH, pureCountryName);
+        return getValidityInfoForAllowedName(ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME,
+                ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH, pureCountryName);
     }
 
     /**

@@ -33,8 +33,8 @@ public class AccountRequest extends BaseEntity {
 
     private String comments; // for old AR, this field can be set to ""
 
-    AccountRequestStatus status; // for old AR, this field should be set to APPROVED if registeredAt == null
-                                 // else, it should be set to REGISTERED
+    private AccountRequestStatus status; // for old AR, this field should be set to APPROVED if registeredAt == null
+    // else, it should be set to REGISTERED
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;

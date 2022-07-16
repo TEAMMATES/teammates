@@ -141,6 +141,9 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
                 .toAbsoluteString();
     }
 
+    /**
+     * Generates a prefix by concatenating {@code prefix} with ": ".
+     */
     public static String generatePrefix(String prefix) {
         return prefix.concat(": ");
     }

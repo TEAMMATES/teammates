@@ -47,14 +47,14 @@ export class AdminRequestsPageComponent implements OnInit {
     this.hasAccountRequestsPendingProcessingLoadingFailed = false;
     this.isLoadingAccountRequestsPendingProcessing = true;
 
-    setTimeout(() => {this.accountService.getAccountRequestsPendingProcessing()
+    this.accountService.getAccountRequestsPendingProcessing()
       .pipe(finalize(() => {
         this.isLoadingAccountRequestsPendingProcessing = false;
       }))
       .subscribe((resp: AccountRequests) => {
-        resp.accountRequests.forEach((accountRequest: AccountRequest) => {
+        resp.accountRequests.forEach((ar: AccountRequest) => {
           const accountRequestTab: AccountRequestTab = {
-            accountRequest: accountRequest,
+            accountRequest: ar,
             isTabExpanded: true,
             panelStatus: ProcessAccountRequestPanelStatus.SUBMITTED,
             isSavingChanges: false,
@@ -68,8 +68,7 @@ export class AdminRequestsPageComponent implements OnInit {
         this.accountRequestPendingProcessingTabs = [];
         this.hasAccountRequestsPendingProcessingLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
-      });}, 1000); // TODO: remove delay
-
+      });
   }
 
   /**
@@ -117,14 +116,14 @@ export class AdminRequestsPageComponent implements OnInit {
   deleteAccountRequest(accountRequestTab: AccountRequestTab, index: number): void {
     accountRequestTab.isSavingChanges = true;
     const accountRequest: AccountRequest = accountRequestTab.accountRequest;
-    setTimeout(() => {this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
+    this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
       .subscribe((resp: MessageOutput) => {
         this.statusMessageService.showSuccessToast(resp.message);
         this.accountRequestPendingProcessingTabs.splice(index, 1);
       }, (resp: ErrorMessageOutput) => {
         accountRequestTab.isSavingChanges = false;
         this.statusMessageService.showErrorToast(resp.error.message);
-      });}, 1000); // TODO: remove delay
+      });
   }
 
   /**

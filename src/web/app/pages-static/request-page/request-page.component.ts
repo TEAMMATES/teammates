@@ -28,7 +28,8 @@ export class RequestPageComponent implements OnInit {
   backendOtherErrorMessage : string = '';
   readonly supportEmail : string = environment.supportEmail;
   readonly emptyFieldMessage : string = 'This field should not be empty';
-  readonly invalidFieldsMessage : string = 'Oops, some information is in incorrect format. Please fix them and submit again.';
+  readonly invalidFieldsMessage : string = `Oops, some information is in incorrect format. 
+  Please fix them and submit again.`;
   readonly beforeSubmissionMessage : string = `The request is manually processed and you should receive an email from us
   within 24 hours after successfully submitting this form. If you don't get a response within 24 hours 
   (remember to check your spam box too), please contact us at ${this.supportEmail} for follow up.`;
@@ -74,7 +75,7 @@ export class RequestPageComponent implements OnInit {
         return { notExpected: true };
       }
       return null;
-    }
+    };
   }
 
   /**
@@ -87,7 +88,7 @@ export class RequestPageComponent implements OnInit {
         return { maxLength: true };
       }
       return null;
-    }
+    };
   }
 
   /**
@@ -99,7 +100,7 @@ export class RequestPageComponent implements OnInit {
         return { empty: true };
       }
       return null;
-    }
+    };
   }
 
   /**
@@ -116,17 +117,14 @@ export class RequestPageComponent implements OnInit {
     this.form.markAllAsTouched();
 
     // set recaptcha validation errors only on submit
-    const captchaResponse: string = this.recaptchaElem.getResponse();
-    console.log(captchaResponse);
-    console.log(this.recaptcha!.value);
-    if (this.recaptchaSiteKey !== '' && captchaResponse === '') {
+    const recaptchaResponse: string = this.recaptchaElem.getResponse();
+    if (this.recaptchaSiteKey !== '' && recaptchaResponse === '') {
       this.recaptcha!.setErrors({
         unchecked: true,
       });
     }
 
     if (!this.form.valid) {
-      console.log('invalid form');
       this.statusMessageService.showWarningToast('Ensure the form is valid before submission.');
       return;
     }
@@ -148,7 +146,7 @@ export class RequestPageComponent implements OnInit {
 
     this.accountService.createAccountRequestAsPublic({
       accountRequestType: accReqType,
-      captchaResponse: captchaResponse,
+      captchaResponse: recaptchaResponse,
       requestBody: reqBody,
     })
       .subscribe(() => {
@@ -166,67 +164,67 @@ export class RequestPageComponent implements OnInit {
 
           if (resp.error.invalidNameMessage) {
             this.name!.setErrors({
-              invalidField : resp.error.invalidNameMessage,
+              invalidField: resp.error.invalidNameMessage,
             });
           }
           if (resp.error.invalidInstituteMessage) {
             this.institute!.setErrors({
-              invalidField : resp.error.invalidInstituteMessage,
+              invalidField: resp.error.invalidInstituteMessage,
             });
           }
           if (resp.error.invalidCountryMessage) {
             this.country!.setErrors({
-              invalidField : resp.error.invalidCountryMessage,
+              invalidField: resp.error.invalidCountryMessage,
             });
           }
           if (resp.error.invalidEmailMessage) {
             this.email!.setErrors({
-              invalidField : resp.error.invalidEmailMessage,
+              invalidField: resp.error.invalidEmailMessage,
             });
           }
           if (resp.error.invalidHomePageUrlMessage) {
             this.url!.setErrors({
-              invalidField : resp.error.invalidHomePageUrlMessage,
+              invalidField: resp.error.invalidHomePageUrlMessage,
             });
           }
           if (resp.error.invalidCommentsMessage) {
             this.comments!.setErrors({
-              invalidField : resp.error.invalidCommentsMessage,
+              invalidField: resp.error.invalidCommentsMessage,
             });
           }
         }
       });
   }
 
-  get name() {
+  get name(): AbstractControl | null {
     return this.form.get('name');
   }
 
-  get institute() {
+  get institute(): AbstractControl | null {
     return this.form.get('institute');
   }
 
-  get country() {
+  get country(): AbstractControl | null {
     return this.form.get('country');
   }
 
-  get email() {
+  get email(): AbstractControl | null {
     return this.form.get('email');
   }
 
-  get url() {
+  get url(): AbstractControl | null {
     return this.form.get('url');
   }
 
-  get accountType() {
+  get accountType(): AbstractControl | null {
     return this.form.get('account-type');
   }
 
-  get comments() {
+  get comments(): AbstractControl | null {
     return this.form.get('comments');
   }
 
-  get recaptcha() {
+  get recaptcha(): AbstractControl | null {
     return this.form.get('recaptcha');
   }
 }

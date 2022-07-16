@@ -11,8 +11,6 @@ public class AccountRequestCreateResponseData extends ApiOutput {
     @Nullable
     private String joinLink;
 
-    public AccountRequestCreateResponseData() {}
-
     public void setMessage(String message) {
         this.message = message;
     }
@@ -39,8 +37,6 @@ public class AccountRequestCreateResponseData extends ApiOutput {
         private String invalidEmailMessage = "";
         private String invalidHomePageUrlMessage = "";
         private String invalidCommentsMessage = "";
-
-        public AccountRequestCreateErrorResults() {}
 
         public String getInvalidNameMessage() {
             return invalidNameMessage;

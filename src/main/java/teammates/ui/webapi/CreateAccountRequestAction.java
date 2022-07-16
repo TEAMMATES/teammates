@@ -51,9 +51,6 @@ class CreateAccountRequestAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        AccountRequestCreateResponseData.AccountRequestCreateErrorResults errorResults =
-                new AccountRequestCreateResponseData.AccountRequestCreateErrorResults();
-
         AccountRequestCreateIntent intent =
                 AccountRequestCreateIntent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
@@ -81,6 +78,9 @@ class CreateAccountRequestAction extends Action {
         AccountRequestAttributes accountRequestToCreate;
         AccountRequestAttributes accountRequestAttributes;
         AccountRequestCreateResponseData output = new AccountRequestCreateResponseData();
+
+        AccountRequestCreateResponseData.AccountRequestCreateErrorResults errorResults =
+                new AccountRequestCreateResponseData.AccountRequestCreateErrorResults();
 
         try {
             switch (intent) {
@@ -171,41 +171,42 @@ class CreateAccountRequestAction extends Action {
         }
 
         for (String i : invalidityInfo) {
+            String ii;
             if (i.startsWith(
                     AccountRequestAttributes.generatePrefix(FieldValidator.PERSON_NAME_FIELD_NAME))) {
-                i = StringHelper.removeFirstOccurrenceOfSubstring(i,
+                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
                         AccountRequestAttributes.generatePrefix(FieldValidator.PERSON_NAME_FIELD_NAME));
-                errorResults.setInvalidNameMessage(i);
+                errorResults.setInvalidNameMessage(ii);
             } else if (i.startsWith(
                     AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME))) {
-                i = StringHelper.removeFirstOccurrenceOfSubstring(i,
+                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
                         AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME));
-                errorResults.setInvalidInstituteMessage(i);
+                errorResults.setInvalidInstituteMessage(ii);
             } else if (i.startsWith(
                     AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME))) {
-                i = StringHelper.removeFirstOccurrenceOfSubstring(i,
+                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
                         AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME));
-                errorResults.setInvalidCountryMessage(i);
+                errorResults.setInvalidCountryMessage(ii);
             } else if (intent.equals(AccountRequestCreateIntent.ADMIN_CREATE) && i.startsWith(
                     AccountRequestAttributes.generatePrefix(FieldValidator.INSTITUTE_NAME_FIELD_NAME))) {
-                i = StringHelper.removeFirstOccurrenceOfSubstring(i,
+                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
                         AccountRequestAttributes.generatePrefix(FieldValidator.INSTITUTE_NAME_FIELD_NAME));
-                errorResults.setInvalidInstituteMessage(i);
+                errorResults.setInvalidInstituteMessage(ii);
             } else if (i.startsWith(
                     AccountRequestAttributes.generatePrefix(FieldValidator.EMAIL_FIELD_NAME))) {
-                i = StringHelper.removeFirstOccurrenceOfSubstring(i,
+                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
                         AccountRequestAttributes.generatePrefix(FieldValidator.EMAIL_FIELD_NAME));
-                errorResults.setInvalidEmailMessage(i);
+                errorResults.setInvalidEmailMessage(ii);
             } else if (i.startsWith(
                     AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME))) {
-                i = StringHelper.removeFirstOccurrenceOfSubstring(i,
+                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
                         AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME));
-                errorResults.setInvalidHomePageUrlMessage(i);
+                errorResults.setInvalidHomePageUrlMessage(ii);
             } else if (i.startsWith(
                     AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME))) {
-                i = StringHelper.removeFirstOccurrenceOfSubstring(i,
+                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
                         AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME));
-                errorResults.setInvalidCommentsMessage(i);
+                errorResults.setInvalidCommentsMessage(ii);
             }
         }
         return false;

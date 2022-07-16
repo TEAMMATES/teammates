@@ -13,9 +13,9 @@ label {
   margin-bottom: 0;
 }
 
-.required:after {
-  content:" *";
-  color: #d93025;
+.required::after {
+  content: " *";
+  color: #D93025;
 }
 
 .hint {
@@ -46,5 +46,5 @@ label {
 
 .invalid-field {
   padding-top: 8px;
-  color: #d93025;
+  color: #D93025;
 }
