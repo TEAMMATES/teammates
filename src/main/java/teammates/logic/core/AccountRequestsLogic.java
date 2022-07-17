@@ -66,7 +66,7 @@ public final class AccountRequestsLogic {
         } catch (EntityDoesNotExistException ednee) {
             log.severe("Encountered exception when creating account request: "
                     + "The newly created account request disappeared before it could be approved.", ednee);
-            throw ednee; // TODO: change to throw assertion error
+            throw ednee;
         }
         return accountRequestAttributes;
     }
