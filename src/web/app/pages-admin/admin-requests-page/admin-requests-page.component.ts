@@ -100,7 +100,7 @@ export class AdminRequestsPageComponent implements OnInit {
       instructorEmail: editedInfo.editedEmail,
       instructorInstitute: editedInfo.editedInstitute,
     };
-    this.accountService.updateAccountRequest(accountRequest.email, accountRequest.institute, updateRequest, false)
+    this.accountService.updateAccountRequest(accountRequest.email, accountRequest.institute, updateRequest)
       .pipe(
         finalize(() => {
           accountRequestTab.isSavingChanges = false;

@@ -1553,12 +1553,11 @@ public class Logic {
      * @throws EntityDoesNotExistException if the account request to update does not exist
      * @throws EntityAlreadyExistsException if the account request cannot be updated because of an existing account request
      */
-    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions,
-                                                         boolean isForceUpdate)
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         assert updateOptions != null;
 
-        return accountRequestsLogic.updateAccountRequest(updateOptions, isForceUpdate);
+        return accountRequestsLogic.updateAccountRequest(updateOptions);
     }
 
     /**

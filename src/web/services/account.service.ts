@@ -68,12 +68,11 @@ export class AccountService {
   /**
    * Updates an account request by calling API.
    */
-  updateAccountRequest(email: string, institute: string, request: AccountRequestUpdateRequest,
-                       isForceUpdate: boolean): Observable<AccountRequest> {
+  updateAccountRequest(email: string, institute: string,
+                       request: AccountRequestUpdateRequest): Observable<AccountRequest> {
     const paramsMap: Record<string, string> = {
       instructoremail: email,
       instructorinstitution: institute,
-      isforceupdate: String(isForceUpdate),
     };
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, request);
   }

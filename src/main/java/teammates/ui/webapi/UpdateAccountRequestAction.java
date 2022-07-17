@@ -30,8 +30,6 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
             throw new InvalidOperationException("Only account requests with status SUBMITTED can be edited.");
         }
 
-        boolean isForceUpdate = Boolean.parseBoolean(getNonNullRequestParamValue(Const.ParamsNames.IS_FORCE_UPDATE));
-
         AccountRequestUpdateRequest updateRequest = getAndValidateRequestBody(AccountRequestUpdateRequest.class);
         UpdateOptions newAccountRequest = AccountRequestAttributes.updateOptionsBuilder(email, institute)
                 .withName(updateRequest.getInstructorName())
@@ -40,7 +38,7 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
                 .build();
 
         try {
-            AccountRequestAttributes updatedAccountRequest = logic.updateAccountRequest(newAccountRequest, isForceUpdate);
+            AccountRequestAttributes updatedAccountRequest = logic.updateAccountRequest(newAccountRequest);
             taskQueuer.scheduleAccountRequestForSearchIndexing(updatedAccountRequest.getEmail(),
                     updatedAccountRequest.getInstitute()); // TODO: do not delete old document?
 
@@ -68,10 +66,8 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
             break;
         case APPROVED:
         case REGISTERED:
-            sb.append("You can search for that account request to see more information.");
-            break;
         case REJECTED:
-            sb.append("You can choose to force update this account request, which will delete that rejected request.");
+            sb.append("You can search for that account request to see more information.");
             break;
         }
         return sb.toString();

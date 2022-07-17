@@ -38,7 +38,7 @@ class ResetAccountRequestAction extends AdminOnlyAction {
             accountRequest = logic.updateAccountRequest(AccountRequestAttributes
                 .updateOptionsBuilder(email, institute)
                 .withRegisteredAt(null)
-                .build(), false);
+                .build());
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             // InvalidParametersException should not be thrown as validity of params verified when fetching entity.
             // EntityDoesNoExistException shuold not be thrown as existence of entity has just been validated.

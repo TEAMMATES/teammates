@@ -85,19 +85,15 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     /**
      * Updates an account request.
      *
-     * <p>If the email or institute of the account request is changed, the account request is re-created.
-     * During re-creation, if an account request with the new email and new institute already exists, checks the status of
-     * the existing account request. If and only if its status is REJECTED and {@code isForceUpdate} equals {@code true},
-     * deletes that account request and update the current account request normally.
+     * <p>If the email or institute of the account request is changed, it will be re-created.
      *
      * @return the updated account request
      * @throws InvalidParametersException if the new account request is not valid
      * @throws EntityDoesNotExistException if the account request to update cannot be found
      * @throws EntityAlreadyExistsException if the account request cannot be updated by re-creation because
-     *                                      the above-mentioned condition is not met
+     *                                      of an existing account request
      */
-    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions,
-                                                         boolean isForceUpdate)
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         assert updateOptions != null;
 
@@ -118,16 +114,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
                 || !accountRequest.getInstitute().equals(newAccountRequestAttributes.getInstitute());
 
         if (isEmailOrInstituteChanged) {
-            // check existing account request
-            AccountRequest existingAccountRequest = getAccountRequestEntity(newAccountRequestAttributes.getEmail(),
-                    newAccountRequestAttributes.getInstitute());
-            if (existingAccountRequest != null && existingAccountRequest.getStatus().equals(AccountRequestStatus.REJECTED)
-                    && isForceUpdate) {
-                // force update by deleting the existing account request
-                deleteAccountRequest(newAccountRequestAttributes.getEmail(), newAccountRequestAttributes.getInstitute());
-            }
-
-            // create the updated account request
+            // re-create the updated account request
             newAccountRequestAttributes = createEntity(newAccountRequestAttributes);
             // delete the old account request
             deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());

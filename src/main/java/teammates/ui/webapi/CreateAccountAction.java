@@ -96,7 +96,7 @@ class CreateAccountAction extends Action {
             logic.updateAccountRequest(AccountRequestAttributes
                     .updateOptionsBuilder(instructorEmail, instructorInstitute)
                     .withRegisteredAt(Instant.now())
-                    .build(), false);
+                    .build());
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
