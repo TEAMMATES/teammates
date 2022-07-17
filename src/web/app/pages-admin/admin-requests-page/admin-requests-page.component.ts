@@ -77,6 +77,7 @@ export class AdminRequestsPageComponent implements OnInit {
    * Sets the panel status to EDITING.
    */
   editAccountRequest(accountRequestTab: AccountRequestTab): void {
+    accountRequestTab.errorMessage = '';
     accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.EDITING;
   }
 
@@ -84,6 +85,7 @@ export class AdminRequestsPageComponent implements OnInit {
    * Sets the panel status to SUBMITTED.
    */
   cancelEditAccountRequest(accountRequestTab: AccountRequestTab): void {
+    accountRequestTab.errorMessage = '';
     accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
   }
 
