@@ -12,8 +12,8 @@
       <h3 style="margin-bottom: 0;">Invalid course join link</h3>
     </div>
     <div class="card-body" *ngIf="!validUrl">
-      The course join link is invalid. You may have entered the URL incorrectly or the URL may correspond
-      to a/an {{ entityType }} that does not exist.
+      The course join link is invalid. You may have entered the URL incorrectly, or the URL may correspond
+      to a/an {{ entityType }} that does not exist, or the account request is not approved yet.
     </div>
     <div class="card-body" *ngIf="hasJoined && validUrl">
       The course join link has been used and is no longer valid.

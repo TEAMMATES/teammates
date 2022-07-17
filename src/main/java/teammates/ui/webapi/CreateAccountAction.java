@@ -60,8 +60,13 @@ class CreateAccountAction extends Action {
                     + registrationKey + " could not be found");
         }
 
-        if (accountRequestAttributes.getRegisteredAt() != null) {
+        if (accountRequestAttributes.hasRegistrationKeyBeenUsedToJoin()) {
             throw new InvalidOperationException("The registration key " + registrationKey + " has already been used.");
+        }
+
+        if (!accountRequestAttributes.canRegistrationKeyBeUseToJoin()) {
+            throw new InvalidOperationException("The registration key " + registrationKey + " cannot be used."
+                    + " The account request may not have been approved.");
         }
 
         String instructorEmail = accountRequestAttributes.getEmail();
