@@ -100,9 +100,9 @@ class CreateAccountRequestAction extends Action {
                         accountRequestAttributes.getInstitute());
 
                 String joinLink = accountRequestAttributes.getRegistrationUrl();
-                EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
+                EmailWrapper joinEmail = emailGenerator.generateNewInstructorAccountJoinEmail(
                         instructorEmail, instructorName, joinLink);
-                emailSender.sendEmail(email);
+                emailSender.sendEmail(joinEmail);
 
                 output.setMessage("Account request successfully created and approved.");
                 output.setJoinLink(joinLink);

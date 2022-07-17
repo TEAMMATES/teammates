@@ -36,20 +36,6 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Updates an account request.
-     *
-     * @return the updated account request
-     * @throws InvalidParametersException if the new account request is not valid
-     * @throws EntityDoesNotExistException if the account request to update does not exist
-     * @throws EntityAlreadyExistsException if the account request cannot be updated because of an existing account request
-     */
-    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions,
-                                                         boolean isForceUpdate)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        return accountRequestsDb.updateAccountRequest(updateOptions, isForceUpdate);
-    }
-
-    /**
      * Creates an account request.
      *
      * @return the created account request
@@ -72,7 +58,7 @@ public final class AccountRequestsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         AccountRequestAttributes accountRequestAttributes = accountRequestsDb.createEntity(accountRequest);
         try {
-            accountRequestAttributes = accountRequestsDb.updateAccountRequest(AccountRequestAttributes
+            accountRequestAttributes = updateAccountRequest(AccountRequestAttributes
                     .updateOptionsBuilder(accountRequestAttributes.getEmail(), accountRequestAttributes.getInstitute())
                     .withStatus(AccountRequestStatus.APPROVED)
                     .withLastProcessedAt(accountRequestAttributes.getCreatedAt())
@@ -80,9 +66,74 @@ public final class AccountRequestsLogic {
         } catch (EntityDoesNotExistException ednee) {
             log.severe("Encountered exception when creating account request: "
                     + "The newly created account request disappeared before it could be approved.", ednee);
-            throw ednee;
+            throw ednee; // TODO: change to throw assertion error
         }
         return accountRequestAttributes;
+    }
+
+    /**
+     * Updates an account request.
+     *
+     * @return the updated account request
+     * @throws InvalidParametersException if the new account request is not valid
+     * @throws EntityDoesNotExistException if the account request to update does not exist
+     * @throws EntityAlreadyExistsException if the account request cannot be updated because of an existing account request
+     */
+    public AccountRequestAttributes updateAccountRequest(AccountRequestAttributes.UpdateOptions updateOptions,
+                                                         boolean isForceUpdate)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        return accountRequestsDb.updateAccountRequest(updateOptions, isForceUpdate);
+    }
+
+    /**
+     * Approves the account request associated with the email address and institute.
+     *
+     * @throws EntityDoesNotExistException if the account request to approve does not exist
+     */
+    public AccountRequestAttributes approveAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException {
+        try {
+            return updateAccountRequest(AccountRequestAttributes.updateOptionsBuilder(email, institute)
+                    .withStatus(AccountRequestStatus.APPROVED)
+                    .withLastProcessedAt(Instant.now())
+                    .build(), false);
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+            throw new AssertionError("Approving an account request should not cause " + e.getMessage());
+        }
+    }
+
+    /**
+     * Rejects the account request associated with the email address and institute.
+     *
+     * @throws EntityDoesNotExistException if the account request to reject does not exist
+     */
+    public AccountRequestAttributes rejectAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException {
+        try {
+            return updateAccountRequest(AccountRequestAttributes.updateOptionsBuilder(email, institute)
+                    .withStatus(AccountRequestStatus.REJECTED)
+                    .withLastProcessedAt(Instant.now())
+                    .build(), false);
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+            throw new AssertionError("Rejecting an account request should not cause " + e.getMessage());
+        }
+    }
+
+    /**
+     * Resets the status of the account request associated with the email address and institute back to SUBMITTED.
+     *
+     * @throws EntityDoesNotExistException if the account request to reset does not exist
+     */
+    public AccountRequestAttributes resetAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException {
+        try {
+            return updateAccountRequest(AccountRequestAttributes.updateOptionsBuilder(email, institute)
+                    .withStatus(AccountRequestStatus.SUBMITTED)
+                    .withLastProcessedAt(Instant.now())
+                    .build(), false);
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+            throw new AssertionError("Resetting an account request should not cause " + e.getMessage());
+        }
     }
 
     /**

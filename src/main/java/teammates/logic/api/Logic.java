@@ -1562,6 +1562,57 @@ public class Logic {
     }
 
     /**
+     * Approves an account request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the updated account request
+     * @throws EntityDoesNotExistException if the account request to approve does not exist
+     */
+    public AccountRequestAttributes approveAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert institute != null;
+
+        return accountRequestsLogic.approveAccountRequest(email, institute);
+    }
+
+    /**
+     * Rejects an account request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the updated account request
+     * @throws EntityDoesNotExistException if the account request to reject does not exist
+     */
+    public AccountRequestAttributes rejectAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert institute != null;
+
+        return accountRequestsLogic.rejectAccountRequest(email, institute);
+    }
+
+    /**
+     * Resets an account request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the updated account request
+     * @throws EntityDoesNotExistException if the account request to reset does not exist
+     */
+    public AccountRequestAttributes resetAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert institute != null;
+
+        return accountRequestsLogic.resetAccountRequest(email, institute);
+    }
+
+    /**
      * Deletes an account request.
      *
      * <p>Preconditions:</p>

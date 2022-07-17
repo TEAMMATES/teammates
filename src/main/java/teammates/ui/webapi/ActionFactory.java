@@ -72,6 +72,7 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, PUT, UpdateAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST_STATUS, PUT, UpdateAccountRequestStatusAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
 
         // ACCOUNT REQUESTS APIs
