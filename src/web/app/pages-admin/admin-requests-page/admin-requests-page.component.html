@@ -8,7 +8,9 @@
           <div class="card">
             <div class="card-header bg-primary text-white cursor-pointer"
                  (click)="toggleCard(accountRequestPendingProcessingTab)">
-              <strong class="text-break">{{ accountRequestPendingProcessingTab.accountRequest.name }}</strong>
+              <strong class="text-break">{{ accountRequestPendingProcessingTab.accountRequest.name }}
+                <tm-ajax-loading *ngIf="accountRequestPendingProcessingTab.isSavingChanges" class="ml-1"></tm-ajax-loading>
+              </strong>
               <div class="card-header-btn-toolbar">
                 <tm-panel-chevron [isExpanded]="accountRequestPendingProcessingTab.isTabExpanded"></tm-panel-chevron>
               </div>

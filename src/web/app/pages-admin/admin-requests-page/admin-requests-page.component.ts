@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountRequest, AccountRequests, MessageOutput } from '../../../types/api-output';
+import { AccountRequest, AccountRequests } from '../../../types/api-output';
 import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { removeAnim } from '../../components/teammates-common/remove-anim';
@@ -104,12 +104,10 @@ export class AdminRequestsPageComponent implements OnInit {
           accountRequestTab.isSavingChanges = false;
       }))
       .subscribe((resp: AccountRequest) => {
-        accountRequest.name = resp.name;
-        accountRequest.institute = resp.institute;
-        accountRequest.email = resp.email;
+        accountRequestTab.accountRequest = resp;
         accountRequestTab.errorMessage = '';
-        this.statusMessageService.showSuccessToast('Account request successfully updated.');
         accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
+        this.statusMessageService.showSuccessToast('Account request successfully updated.');
       }, (resp: ErrorMessageOutput) => {
         accountRequestTab.errorMessage = resp.error.message;
         this.statusMessageService.showErrorToast('Failed to update account request.');
@@ -137,10 +135,10 @@ export class AdminRequestsPageComponent implements OnInit {
     accountRequestTab.isSavingChanges = true;
     const accountRequest: AccountRequest = accountRequestTab.accountRequest;
     this.accountService.deleteAccountRequest(accountRequest.email, accountRequest.institute)
-      .subscribe((resp: MessageOutput) => {
+      .subscribe(() => {
         accountRequestTab.errorMessage = '';
-        this.statusMessageService.showSuccessToast(resp.message); // TODO: there's no need to return the message
         this.accountRequestPendingProcessingTabs.splice(index, 1);
+        this.statusMessageService.showSuccessToast('Account request successfully deleted.');
       }, (resp: ErrorMessageOutput) => {
         accountRequestTab.isSavingChanges = false;
         accountRequestTab.errorMessage = resp.error.message;

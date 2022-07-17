@@ -63,7 +63,7 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
         StringBuilder sb = new StringBuilder(basicMessage);
         switch (status) {
         case SUBMITTED:
-            sb.append("You can locate that account request on the admin home page and process it instead.");
+            sb.append("You can locate that account request on the requests page and process it instead.");
             break;
         case APPROVED:
         case REGISTERED:
