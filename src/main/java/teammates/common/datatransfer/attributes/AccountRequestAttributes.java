@@ -234,6 +234,30 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     }
 
     /**
+     * Checks if (the registration key of) this account request can be used to 'join' TEAMMATES (at this moment).
+     */
+    public boolean canRegistrationKeyBeUseToJoin() {
+        // TODO: status should be non-null after data migration
+        if (status == null) {
+            return registeredAt == null;
+        } else {
+            return registeredAt == null && status.equals(AccountRequestStatus.APPROVED);
+        }
+    }
+
+    /**
+     * Checks if (the registration key of) this account request has been used to 'join' TEAMMATES.
+     */
+    public boolean hasRegistrationKeyBeenUsedToJoin() {
+        // TODO: status should be non-null after data migration
+        if (status == null) {
+            return registeredAt != null;
+        } else {
+            return registeredAt != null && status.equals(AccountRequestStatus.REGISTERED);
+        }
+    }
+
+    /**
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {

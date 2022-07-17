@@ -22,7 +22,7 @@ class GetCourseJoinStatusAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidOperationException {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         String isCreatingAccount = getRequestParamValue(Const.ParamsNames.IS_CREATING_ACCOUNT);
@@ -45,13 +45,19 @@ class GetCourseJoinStatusAction extends Action {
         return getJoinStatusResult(student.isRegistered());
     }
 
-    private JsonResult getInstructorJoinStatus(String regkey, boolean isCreatingAccount) {
+    private JsonResult getInstructorJoinStatus(String regkey, boolean isCreatingAccount) throws InvalidOperationException {
         if (isCreatingAccount) {
             AccountRequestAttributes accountRequest = logic.getAccountRequestForRegistrationKey(regkey);
             if (accountRequest == null) {
                 throw new EntityNotFoundException("No account request with given registration key: " + regkey);
             }
-            return getJoinStatusResult(accountRequest.getRegisteredAt() != null);
+            boolean hasJoined = accountRequest.hasRegistrationKeyBeenUsedToJoin();
+            if (!hasJoined) {
+                if (!accountRequest.canRegistrationKeyBeUseToJoin()) {
+                    throw new InvalidOperationException("Registration key " + regkey + " cannot be used to join.");
+                }
+            }
+            return getJoinStatusResult(hasJoined);
         }
 
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);

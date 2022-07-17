@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -95,6 +96,7 @@ class CreateAccountAction extends Action {
         try {
             logic.updateAccountRequest(AccountRequestAttributes
                     .updateOptionsBuilder(instructorEmail, instructorInstitute)
+                    .withStatus(AccountRequestStatus.REGISTERED)
                     .withRegisteredAt(Instant.now())
                     .build());
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
