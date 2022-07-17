@@ -130,6 +130,7 @@ public final class AccountRequestsLogic {
             return updateAccountRequest(AccountRequestAttributes.updateOptionsBuilder(email, institute)
                     .withStatus(AccountRequestStatus.SUBMITTED)
                     .withLastProcessedAt(Instant.now())
+                    .withRegisteredAt(null)
                     .build(), false);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             throw new AssertionError("Resetting an account request should not cause " + e.getMessage());
