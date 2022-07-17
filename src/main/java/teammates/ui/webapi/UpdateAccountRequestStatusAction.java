@@ -57,6 +57,8 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
                             + " Reject it first and then reset.");
                 }
                 accountRequest = logic.resetAccountRequest(email, institute);
+
+                output.setJoinLink(accountRequest.getRegistrationUrl());
                 break;
 
             default:
