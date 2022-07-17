@@ -37,20 +37,21 @@ import teammates.logic.core.StudentsLogic;
  * @see EmailWrapper
  */
 public final class EmailGenerator {
-    // status-related strings
-    private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions,"
-                + " in case you have not submitted yet or wish to update your submission. "
-                + "<mark>No action is required if you have already submitted</mark>";
-    private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
-    private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon";
-    private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
-    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
-
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
     private static final String FEEDBACK_ACTION_VIEW = "view";
-    private static final String HTML_NO_ACTION_REQUIRED =
-            "<p><mark>No action is required if you have already submitted.</mark></p>" + System.lineSeparator();
+    private static final String FEEDBACK_ACTION_SUBMIT_OR_UPDATE = ", in case you have not submitted yet or wish to update your submission. ";
+    private static final String HTML_NO_ACTION_REQUIRED = "<mark>No action is required if you have already submitted</mark>";
+
+    // status-related strings
+    private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions" 
+                                        + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
+    private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
+    private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon" 
+                                        + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
+    private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
+    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
+
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
@@ -700,10 +701,6 @@ public final class EmailGenerator {
             EmailType type, String feedbackAction) {
         StringBuilder studentAdditionalContactBuilder = new StringBuilder();
         StringBuilder instructorAdditionalContactBuilder = new StringBuilder();
-        if (type == EmailType.FEEDBACK_CLOSING) {
-            studentAdditionalContactBuilder.append(HTML_NO_ACTION_REQUIRED);
-            instructorAdditionalContactBuilder.append(HTML_NO_ACTION_REQUIRED);
-        }
         studentAdditionalContactBuilder.append(getAdditionalContactInformationFragment(course, false));
         instructorAdditionalContactBuilder.append(getAdditionalContactInformationFragment(course, true));
 
