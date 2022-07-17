@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountRequest, AccountRequests } from '../../../types/api-output';
+import { AccountRequest, AccountRequests, AccountRequestStatusUpdateResponse } from '../../../types/api-output';
 import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { removeAnim } from '../../components/teammates-common/remove-anim';
@@ -120,14 +120,46 @@ export class AdminRequestsPageComponent implements OnInit {
    * Approves the account request in the tab.
    */
   approveAccountRequest(accountRequestTab: AccountRequestTab): void {
-    accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.APPROVED;
+    accountRequestTab.isSavingChanges = true;
+    const accountRequest: AccountRequest = accountRequestTab.accountRequest;
+    this.accountService.approveAccountRequest(accountRequest.email, accountRequest.institute)
+      .pipe(
+        finalize(() => {
+          accountRequestTab.isSavingChanges = false;
+        }))
+      .subscribe((resp: AccountRequestStatusUpdateResponse) => {
+        accountRequestTab.accountRequest = resp.accountRequest;
+        accountRequestTab.errorMessage = '';
+        accountRequestTab.isTabExpanded = false;
+        accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.APPROVED;
+        this.statusMessageService.showSuccessToast('Account request successfully approved.');
+      }, (resp: ErrorMessageOutput) => {
+        accountRequestTab.errorMessage = resp.error.message;
+        this.statusMessageService.showErrorToast('Failed to approve account request.');
+      });
   }
 
   /**
    * Rejects the account request in the tab.
    */
   rejectAccountRequest(accountRequestTab: AccountRequestTab): void {
-    accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.REJECTED;
+    accountRequestTab.isSavingChanges = true;
+    const accountRequest: AccountRequest = accountRequestTab.accountRequest;
+    this.accountService.rejectAccountRequest(accountRequest.email, accountRequest.institute)
+      .pipe(
+        finalize(() => {
+          accountRequestTab.isSavingChanges = false;
+        }))
+      .subscribe((resp: AccountRequestStatusUpdateResponse) => {
+        accountRequestTab.accountRequest = resp.accountRequest;
+        accountRequestTab.errorMessage = '';
+        accountRequestTab.isTabExpanded = false;
+        accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.REJECTED;
+        this.statusMessageService.showSuccessToast('Account request successfully rejected.');
+      }, (resp: ErrorMessageOutput) => {
+        accountRequestTab.errorMessage = resp.error.message;
+        this.statusMessageService.showErrorToast('Failed to reject account request.');
+      });
   }
 
   /**
@@ -152,7 +184,22 @@ export class AdminRequestsPageComponent implements OnInit {
    * Resets the account request in the tab.
    */
   resetAccountRequest(accountRequestTab: AccountRequestTab): void {
-    accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
+    accountRequestTab.isSavingChanges = true;
+    const accountRequest: AccountRequest = accountRequestTab.accountRequest;
+    this.accountService.resetAccountRequest(accountRequest.email, accountRequest.institute)
+      .pipe(
+        finalize(() => {
+          accountRequestTab.isSavingChanges = false;
+        }))
+      .subscribe((resp: AccountRequestStatusUpdateResponse) => {
+        accountRequestTab.accountRequest = resp.accountRequest;
+        accountRequestTab.errorMessage = '';
+        accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
+        this.statusMessageService.showSuccessToast('Account request successfully reset.');
+      }, (resp: ErrorMessageOutput) => {
+        accountRequestTab.errorMessage = resp.error.message;
+        this.statusMessageService.showErrorToast('Failed to reset account request.');
+      });
   }
 
   /**

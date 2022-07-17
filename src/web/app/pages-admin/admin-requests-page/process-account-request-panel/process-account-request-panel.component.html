@@ -19,6 +19,12 @@
     </div>
   </div>
   <div class="form-group row align-items-top">
+    <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Last processed at:</label>
+    <div class="col-md-9 text-md-left show-new-line">
+      <div>{{ accountRequest!.lastProcessedAt ? (accountRequest!.lastProcessedAt | formatDateDetail: timezone) : '' }}</div>
+    </div>
+  </div>
+  <div class="form-group row align-items-top">
     <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Name:</label>
     <div class="col-md-9 text-md-left">
       <div *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.name }}</div>

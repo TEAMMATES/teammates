@@ -4,15 +4,14 @@ import { ResourceEndpoints } from '../types/api-const';
 import {
   Account, AccountRequest,
   AccountRequestCreateResponse,
-  AccountRequests,
+  AccountRequests, AccountRequestStatusUpdateResponse,
   Accounts,
-  JoinLink,
   MessageOutput,
 } from '../types/api-output';
 import {
   AccountRequestCreateIntent,
   AccountRequestCreateRequest,
-  AccountRequestsGetIntent,
+  AccountRequestsGetIntent, AccountRequestStatusUpdateIntent,
   AccountRequestType, AccountRequestUpdateRequest,
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
@@ -80,6 +79,30 @@ export class AccountService {
   }
 
   /**
+   * Approves an account request by calling API.
+   */
+  approveAccountRequest(email: string, institute: string): Observable<AccountRequestStatusUpdateResponse> {
+    const paramsMap: Record<string, string> = {
+      instructoremail: email,
+      instructorinstitution: institute,
+      intent: AccountRequestStatusUpdateIntent.TO_APPROVE,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_STATUS, paramsMap);
+  }
+
+  /**
+   * Rejects an account request by calling API.
+   */
+  rejectAccountRequest(email: string, institute: string): Observable<AccountRequestStatusUpdateResponse> {
+    const paramsMap: Record<string, string> = {
+      instructoremail: email,
+      instructorinstitution: institute,
+      intent: AccountRequestStatusUpdateIntent.TO_REJECT,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_STATUS, paramsMap);
+  }
+
+  /**
    * Deletes an account by calling API.
    */
   deleteAccount(id: string): Observable<MessageOutput> {
@@ -103,12 +126,13 @@ export class AccountService {
   /**
    * Resets an account request by calling API.
    */
-  resetAccountRequest(email: string, institute: string): Observable<JoinLink> {
-    const paramMap: Record<string, string> = {
+  resetAccountRequest(email: string, institute: string): Observable<AccountRequestStatusUpdateResponse> {
+    const paramsMap: Record<string, string> = {
       instructoremail: email,
       instructorinstitution: institute,
+      intent: AccountRequestStatusUpdateIntent.TO_RESET,
     };
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_RESET, paramMap);
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_STATUS, paramsMap);
   }
 
   /**

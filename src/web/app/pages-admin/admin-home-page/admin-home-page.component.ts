@@ -9,10 +9,9 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
   Account,
-  AccountRequestCreateResponse,
+  AccountRequestCreateResponse, AccountRequestStatusUpdateResponse,
   Accounts,
   Courses,
-  JoinLink,
 } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
@@ -267,7 +266,7 @@ export class AdminHomePageComponent {
           this.instructorsConsolidated[i].institution,
         )
         .subscribe(
-          (resp: JoinLink) => {
+          (resp: AccountRequestStatusUpdateResponse) => {
             this.instructorsConsolidated[i].status = 'SUCCESS';
             this.instructorsConsolidated[i].statusCode = 200;
             this.instructorsConsolidated[i].joinLink = resp.joinLink;
