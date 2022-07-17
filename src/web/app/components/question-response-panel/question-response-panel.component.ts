@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { FeedbackSessionsService } from 'src/web/services/feedback-sessions.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import {
   FeedbackQuestionType,
   FeedbackSession,
@@ -77,6 +77,7 @@ export class QuestionResponsePanelComponent {
       intent: this.intent,
     }).pipe(finalize(() => {
       question.isLoaded = true;
+      question.isLoading = false;
       }))
       .subscribe((sessionResults: SessionResults) => {
         const responses: QuestionOutput = sessionResults.questions[0];
@@ -86,12 +87,14 @@ export class QuestionResponsePanelComponent {
           question.questionStatistics = responses.questionStatistics;
           question.responsesFromSelf = responses.responsesFromSelf;
           question.responsesToSelf = responses.responsesToSelf;
+        } else {
+          question.hasResponse = false;
         }
-        question.isLoading = false;
       });
   }
 
   loadQuestion(event: any, question: FeedbackQuestionModel): void {
+    console.log("hi" + question.feedbackQuestion.questionNumber);
     if (event && event.visible && !question.isLoaded && !question.isLoading) {
       question.isLoading = true;
       this.loadQuestionResults(question);

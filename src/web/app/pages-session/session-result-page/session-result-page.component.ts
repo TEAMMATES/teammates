@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
-import { FeedbackQuestionsService } from 'src/web/services/feedback-questions.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -44,6 +44,7 @@ export interface FeedbackQuestionModel {
   otherResponses: ResponseOutput[][];
   isLoading: boolean;
   isLoaded: boolean;
+  hasResponse: boolean;
 }
 
 @Component({
@@ -287,11 +288,9 @@ export class SessionResultPageComponent implements OnInit {
                 otherResponses: [],
                 isLoading: false,
                 isLoaded: false,
+                hasResponse: true,
               });
             }
-            // this.questions.sort(
-            //   (a: FeedbackQuestionModel, b: FeedbackQuestionModel) =>
-            //       a.questionOutput.feedbackQuestion.questionNumber - b.questionOutput.feedbackQuestion.questionNumber);
           }, (resp: ErrorMessageOutput) => {
             this.handleError(resp);
           });
