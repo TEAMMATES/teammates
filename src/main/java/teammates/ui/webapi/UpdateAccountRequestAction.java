@@ -48,7 +48,8 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException ednee) {
-            throw new EntityNotFoundException(ednee);
+            throw new EntityNotFoundException("Account request for instructor with email: " + email
+                    + " and institute: " + institute + " does not exist.");
         } catch (EntityAlreadyExistsException eaee) {
             AccountRequestAttributes existingAccountRequest =
                     logic.getAccountRequest(updateRequest.getInstructorEmail(), updateRequest.getInstructorInstitute());
