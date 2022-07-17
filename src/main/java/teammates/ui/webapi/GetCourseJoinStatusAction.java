@@ -52,10 +52,8 @@ class GetCourseJoinStatusAction extends Action {
                 throw new EntityNotFoundException("No account request with given registration key: " + regkey);
             }
             boolean hasJoined = accountRequest.hasRegistrationKeyBeenUsedToJoin();
-            if (!hasJoined) {
-                if (!accountRequest.canRegistrationKeyBeUseToJoin()) {
-                    throw new InvalidOperationException("Registration key " + regkey + " cannot be used to join.");
-                }
+            if (!hasJoined && !accountRequest.canRegistrationKeyBeUseToJoin()) {
+                throw new InvalidOperationException("Registration key " + regkey + " cannot be used to join.");
             }
             return getJoinStatusResult(hasJoined);
         }

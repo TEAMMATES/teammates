@@ -66,7 +66,7 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
             }
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException("Account request for instructor with email: " + email
-                    + " and institute: " + institute + " does not exist.");
+                    + " and institute: " + institute + " does not exist.", ednee);
         }
 
         output.setAccountRequest(new AccountRequestData(accountRequest));
