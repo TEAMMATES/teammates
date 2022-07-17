@@ -98,7 +98,8 @@ public final class AccountRequestsLogic {
                     .withLastProcessedAt(Instant.now())
                     .build(), false);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            throw new AssertionError("Approving an account request should not cause " + e.getMessage());
+            throw new AssertionError("Approving an account request should not cause " + e.getClass().getSimpleName()
+                    + ". Error details: " + e.getMessage());
         }
     }
 
@@ -115,7 +116,8 @@ public final class AccountRequestsLogic {
                     .withLastProcessedAt(Instant.now())
                     .build(), false);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            throw new AssertionError("Rejecting an account request should not cause " + e.getMessage());
+            throw new AssertionError("Rejecting an account request should not cause " + e.getClass().getSimpleName()
+                    + ". Error details: " + e.getMessage());
         }
     }
 
@@ -133,7 +135,8 @@ public final class AccountRequestsLogic {
                     .withRegisteredAt(null)
                     .build(), false);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            throw new AssertionError("Resetting an account request should not cause " + e.getMessage());
+            throw new AssertionError("Resetting an account request should not cause " + e.getClass().getSimpleName()
+                    + ". Error details: " + e.getMessage());
         }
     }
 
