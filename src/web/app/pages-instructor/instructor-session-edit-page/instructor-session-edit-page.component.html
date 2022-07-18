@@ -20,6 +20,9 @@
                              (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
                              [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
     </div>
+    <a class="d-block text-right cursor-pointer" (click)="scrollToTopOfPage()">
+      Back to Top <i class="fas fa-arrow-up"></i>
+    </a>
   </div>
   <div *tmIsLoading="isAddingFromTemplate"></div>
   <br/>

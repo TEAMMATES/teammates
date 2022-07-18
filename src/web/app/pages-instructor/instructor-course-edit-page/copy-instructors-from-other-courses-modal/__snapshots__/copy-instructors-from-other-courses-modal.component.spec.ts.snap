@@ -1,0 +1,739 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback questions failed to load 1`] = `
+<tm-copy-instructors-from-other-courses-modal
+  InstructorPermissionRole={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  copyClickedEvent={[Function EventEmitter_]}
+  courses={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isCopyingSelectedInstructors="false"
+  notDisplayedToStudentText={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Instructors
+    </h4>
+    <button
+      aria-label="Close"
+      class="close"
+      id="btn-close-modal"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-instructor-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-right"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Courses By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          id="sort-course-id"
+        >
+          Course ID
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-course-name"
+        >
+          Course Name
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-course-creation-date"
+        >
+          Creation Date
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer text-white bg-info"
+        >
+          <strong
+            class="text-break"
+          >
+            [FAN0002] (Archived): Test Course 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div>
+          <tm-loading-retry>
+            <div
+              class="text-center"
+            >
+              <p
+                class="text-muted m-1"
+              >
+                Failed to load instructors
+              </p>
+              <button
+                class="btn btn-primary"
+              >
+                <i
+                  aria-hidden="true"
+                  class="fas fa-redo"
+                />
+                 Retry
+              </button>
+            </div>
+          </tm-loading-retry>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-instructor"
+      type="button"
+    >
+      Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-instructors-from-other-courses-modal>
+`;
+
+exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instructors are loaded 1`] = `
+<tm-copy-instructors-from-other-courses-modal
+  InstructorPermissionRole={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  copyClickedEvent={[Function EventEmitter_]}
+  courses={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isCopyingSelectedInstructors="false"
+  notDisplayedToStudentText={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Instructors
+    </h4>
+    <button
+      aria-label="Close"
+      class="close"
+      id="btn-close-modal"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-instructor-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-right"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Courses By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          id="sort-course-id"
+        >
+          Course ID
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-course-name"
+        >
+          Course Name
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-course-creation-date"
+        >
+          Creation Date
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer text-white bg-info"
+        >
+          <strong
+            class="text-break"
+          >
+            [FAN0002] (Archived): Test Course 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div>
+          <tm-loading-retry>
+            <div>
+              <div
+                class="card-body"
+              >
+                <table
+                  class="table table-bordered table-responsive-lg"
+                  id="copy-instructor-table"
+                >
+                  <thead
+                    class="text-white bg-info"
+                  >
+                    <tr>
+                      <th>
+                        #
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                         Instructor Name 
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                         Instructor Email 
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                         Displayed to Student As 
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                         Access Level 
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div>
+                          <input
+                            class="form-control no-shadow ng-untouched ng-pristine ng-valid"
+                            id="enabled-checkbox"
+                            type="checkbox"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        King
+                      </td>
+                      <td>
+                        ins1@fan.tmt
+                      </td>
+                      <td>
+                        QWQWQWQ
+                      </td>
+                      <td>
+                        Manager
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div>
+                          <input
+                            class="form-control no-shadow ng-untouched ng-pristine ng-valid"
+                            id="enabled-checkbox"
+                            type="checkbox"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        Nothing
+                      </td>
+                      <td>
+                        ins4@fan.tmt
+                      </td>
+                      <td>
+                        (NOT displayed to students)
+                      </td>
+                      <td>
+                        Tutor
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  class="btn btn-secondary float-right mt-2 mb-3"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="fas fa-redo"
+                  />
+                    Reload 
+                </button>
+              </div>
+            </div>
+          </tm-loading-retry>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-instructor"
+      type="button"
+    >
+      Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-instructors-from-other-courses-modal>
+`;
+
+exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instructors are loading 1`] = `
+<tm-copy-instructors-from-other-courses-modal
+  InstructorPermissionRole={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  copyClickedEvent={[Function EventEmitter_]}
+  courses={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isCopyingSelectedInstructors="false"
+  notDisplayedToStudentText={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Instructors
+    </h4>
+    <button
+      aria-label="Close"
+      class="close"
+      id="btn-close-modal"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-instructor-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-right"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Courses By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          id="sort-course-id"
+        >
+          Course ID
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-course-name"
+        >
+          Course Name
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-course-creation-date"
+        >
+          Creation Date
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer text-white bg-info"
+        >
+          <strong
+            class="text-break"
+          >
+            [FAN0002] (Archived): Test Course 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div>
+          <tm-loading-retry>
+            <tm-loading-spinner>
+              <div
+                class="loading-container"
+              >
+                <div
+                  class="row spinner-border text-primary"
+                  role="status"
+                />
+                <div
+                  class="row text-secondary"
+                >
+                  Loading...
+                </div>
+              </div>
+            </tm-loading-spinner>
+          </tm-loading-retry>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-instructor"
+      type="button"
+    >
+      Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-instructors-from-other-courses-modal>
+`;
+
+exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 1`] = `
+<tm-copy-instructors-from-other-courses-modal
+  InstructorPermissionRole={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  copyClickedEvent={[Function EventEmitter_]}
+  courses={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isCopyingSelectedInstructors="false"
+  notDisplayedToStudentText={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Instructors
+    </h4>
+    <button
+      aria-label="Close"
+      class="close"
+      id="btn-close-modal"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-instructor-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-right"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Courses By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          id="sort-course-id"
+        >
+          Course ID
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-course-name"
+        >
+          Course Name
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-course-creation-date"
+        >
+          Creation Date
+        </button>
+      </div>
+    </div>
+    <div>
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer text-white bg-info"
+        >
+          <strong
+            class="text-break"
+          >
+            [FAN0002] (Archived): Test Course 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                <i
+                  class="fas fa-chevron-down"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer text-white bg-primary"
+        >
+          <strong
+            class="text-break"
+          >
+            [FAN0001]: Test Course 2
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                <i
+                  class="fas fa-chevron-down"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-instructor"
+      type="button"
+    >
+      Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-instructors-from-other-courses-modal>
+`;
+
+exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default fields 1`] = `
+<tm-copy-instructors-from-other-courses-modal
+  InstructorPermissionRole={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  copyClickedEvent={[Function EventEmitter_]}
+  courses={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isCopyingSelectedInstructors="false"
+  notDisplayedToStudentText={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Instructors
+    </h4>
+    <button
+      aria-label="Close"
+      class="close"
+      id="btn-close-modal"
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-instructor-modal"
+  >
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-instructor"
+      type="button"
+    >
+      Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-instructors-from-other-courses-modal>
+`;

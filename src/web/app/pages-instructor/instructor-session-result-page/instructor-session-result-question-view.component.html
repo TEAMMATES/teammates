@@ -12,28 +12,36 @@
     </div>
   </div>
   <div *ngIf="question.isTabExpanded" @collapseAnim>
-    <div *tmIsLoading="!question.hasPopulated" class="card-body">
-      <div class="stats-table">
-        <tm-single-statistics *ngIf="showStatistics"
-                              [question]="question.question.questionDetails"
-                              [statistics]="question.statistics"
-                              [responses]="question.responses"
-                              [recipientType]="question.question.recipientType"
-                              [section]="section" [sectionType]="sectionType"
-        ></tm-single-statistics>
+    <div *tmIsLoading="!question.hasPopulated && !question.errorMessage"></div>
+    <tm-loading-retry
+            class="m-3"
+            [shouldShowRetry]="!!question.errorMessage"
+            [message]="question.errorMessage"
+            (retryEvent)="loadTab.emit(question.question.feedbackQuestionId)"
+    >
+      <div *ngIf="question.hasPopulated" class="card-body">
+        <div class="stats-table">
+          <tm-single-statistics *ngIf="showStatistics"
+                                [question]="question.question.questionDetails"
+                                [statistics]="question.statistics"
+                                [responses]="question.responses"
+                                [recipientType]="question.question.recipientType"
+                                [section]="section" [sectionType]="sectionType"
+          ></tm-single-statistics>
+        </div>
+        <div class="stats-table">
+          <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
+                                          [statistics]="question.statistics"
+                                          [indicateMissingResponses]="indicateMissingResponses" [question]="question.question"
+                                          [isDisplayOnly]="isDisplayOnly"
+                                          [instructorCommentTableModel]="instructorCommentTableModel"
+                                          (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
+                                          (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                                          (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                                          (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+          ></tm-per-question-view-responses>
+        </div>
       </div>
-      <div class="stats-table">
-        <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
-                                        [statistics]="question.statistics"
-                                        [indicateMissingResponses]="indicateMissingResponses" [question]="question.question"
-                                        [isDisplayOnly]="isDisplayOnly"
-                                        [instructorCommentTableModel]="instructorCommentTableModel"
-                                        (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
-                                        (updateCommentEvent)="triggerUpdateCommentEvent($event)"
-                                        (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
-                                        (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-        ></tm-per-question-view-responses>
-      </div>
-    </div>
+    </tm-loading-retry>
   </div>
 </div>

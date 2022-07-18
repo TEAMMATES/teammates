@@ -70,3 +70,14 @@ button {
     }
   }
 }
+
+.different-team-ol {
+  list-style-type: none;
+  counter-reset: elementcounter;
+  padding-left: 0;
+
+  li::before {
+    content: "Alternative " counter(elementcounter) ": ";
+    counter-increment: elementcounter;
+  }
+}
