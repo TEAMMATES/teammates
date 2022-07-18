@@ -126,6 +126,8 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
                     && hasSameValue(accountRequest.getStatus(), newAccountRequestAttributes.getStatus())
                     && hasSameValue(accountRequest.getRegisteredAt(), newAccountRequestAttributes.getRegisteredAt());
             if (hasSameAttributes) {
+                // reset to the exact old account request
+                newAccountRequestAttributes = makeAttributes(accountRequest);
                 log.info(String.format(
                         OPTIMIZED_SAVING_POLICY_APPLIED, AccountRequest.class.getSimpleName(), updateOptions));
             } else {
