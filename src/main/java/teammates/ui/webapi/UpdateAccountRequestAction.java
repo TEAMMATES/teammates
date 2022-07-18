@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes.UpdateOptions;
@@ -35,6 +37,7 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
                 .withName(updateRequest.getInstructorName())
                 .withInstitute(updateRequest.getInstructorInstitute())
                 .withEmail(updateRequest.getInstructorEmail())
+                .withLastProcessedAt(Instant.now())
                 .build();
 
         try {
