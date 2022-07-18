@@ -1,18 +1,21 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { 
-  FeedbackContributionQuestionDetails, 
-  FeedbackContributionResponseDetails, FeedbackMcqQuestionDetails, 
-  FeedbackMcqResponseDetails, FeedbackParticipantType, 
-  FeedbackQuestion, FeedbackQuestionType, 
-  FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails, 
-  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus, 
-  FeedbackTextQuestionDetails, FeedbackTextResponseDetails, FeedbackVisibilityType, 
-  NumberOfEntitiesToGiveFeedbackToSetting, ResponseVisibleSetting, 
-  SessionResults, SessionVisibleSetting 
-} from '../../../types/api-output';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import {
+  FeedbackContributionQuestionDetails,
+  FeedbackContributionResponseDetails, FeedbackMcqQuestionDetails,
+  FeedbackMcqResponseDetails, FeedbackParticipantType,
+  FeedbackQuestion, FeedbackQuestionType,
+  FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
+  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  FeedbackTextQuestionDetails, FeedbackTextResponseDetails, FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting, ResponseVisibleSetting,
+  SessionResults, SessionVisibleSetting,
+} from '../../../types/api-output';
+import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { SingleStatisticsModule } from '../question-responses/single-statistics/single-statistics.module';
 import {
@@ -20,9 +23,6 @@ import {
 } from '../question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../question-text-with-info/question-text-with-info.module';
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
 
 describe('QuestionResponsePanelComponent', () => {
 
@@ -164,16 +164,16 @@ describe('QuestionResponsePanelComponent', () => {
 
   const testFeedbackQuestionModel: FeedbackQuestionModel = {
     feedbackQuestion: testQuestion1,
-    questionStatistics: "",
+    questionStatistics: '',
     allResponses: [],
     responsesToSelf: [],
-    responsesFromSelf:[],
+    responsesFromSelf: [],
     otherResponses: [],
     isLoading: false,
     isLoaded: false,
     hasResponse: true,
   };
-  
+
   let component: QuestionResponsePanelComponent;
   let fixture: ComponentFixture<QuestionResponsePanelComponent>;
   let feedbackSessionsService: FeedbackSessionsService;
@@ -199,7 +199,6 @@ describe('QuestionResponsePanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuestionResponsePanelComponent);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
-    
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -486,26 +485,6 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('should load the recipients and responses of a question if not yet loaded', () => {
-    // const testFeedbackQuestionRecipients: FeedbackQuestionRecipients = {
-    //   recipients: [
-    //     {
-    //       name: 'Barry Harris',
-    //       identifier: 'barry-harris-id',
-    //     },
-    //     {
-    //       name: 'Gene Harris',
-    //       identifier: 'gene-harris-id',
-    //     },
-    //   ],
-    // };
-    // const testExistingResponses: FeedbackResponses = {
-    //   responses: [testResponse1, testResponse2],
-    // };
-
-    // const loadRecipientsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients')
-    //     .mockReturnValue(of(testFeedbackQuestionRecipients));
-    // const getResponseSpy: SpyInstance = jest.spyOn(feedbackResponsesService, 'getFeedbackResponse')
-    //     .mockReturnValue(of(testExistingResponses));
     component.session = testFeedbackSession;
     component.questions = [testFeedbackQuestionModel];
     const testFeedbackSessionResult: SessionResults = {

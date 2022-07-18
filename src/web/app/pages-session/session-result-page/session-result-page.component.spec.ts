@@ -6,15 +6,22 @@ import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
+  FeedbackMcqQuestionDetails,
+  FeedbackParticipantType,
+  FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
+  NumberOfEntitiesToGiveFeedbackToSetting,
   RegkeyValidity,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -28,7 +35,7 @@ import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
-import { SessionResultPageComponent } from './session-result-page.component';
+import { FeedbackQuestionModel, SessionResultPageComponent } from './session-result-page.component';
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -61,11 +68,41 @@ describe('SessionResultPageComponent', () => {
     },
   };
 
+  const testFeedbackQuestion: FeedbackQuestion = {
+    feedbackQuestionId: 'feedbackQuestion1',
+    questionNumber: 1,
+    questionBrief: 'How well did team member perform?',
+    questionDescription: '',
+    questionDetails: {
+      hasAssignedWeights: false,
+      mcqWeights: [],
+      mcqOtherWeight: 0,
+      mcqChoices: [
+        '<p>Good</p>',
+        '<p>Normal</p>',
+        '<p>Bad</p>',
+      ],
+      otherEnabled: false,
+      generateOptionsFor: 'NONE',
+      questionType: FeedbackQuestionType.MCQ,
+      questionText: 'How well did team member perform?',
+    } as FeedbackMcqQuestionDetails,
+    questionType: FeedbackQuestionType.MCQ,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    showResponsesTo: [],
+    showGiverNameTo: [],
+    showRecipientNameTo: [],
+    customNumberOfEntitiesToGiveFeedbackTo: 0,
+  };
+
   let component: SessionResultPageComponent;
   let fixture: ComponentFixture<SessionResultPageComponent>;
   let authService: AuthService;
   let navService: NavigationService;
   let studentService: StudentService;
+  let feedbackQuestionsService: FeedbackQuestionsService;
   let feedbackSessionService: FeedbackSessionsService;
   let logService: LogService;
 
@@ -118,6 +155,7 @@ describe('SessionResultPageComponent', () => {
     authService = TestBed.inject(AuthService);
     navService = TestBed.inject(NavigationService);
     studentService = TestBed.inject(StudentService);
+    feedbackQuestionsService = TestBed.inject(FeedbackQuestionsService);
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
@@ -200,37 +238,6 @@ describe('SessionResultPageComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
-  // it('should load feedback questions', () => {
-  //   const testFeedbackQuestions: FeedbackQuestions = {
-  //     questions: [
-  //       {
-  //         feedbackQuestionId: testMcqQuestionSubmissionForm2.feedbackQuestionId,
-  //         questionNumber: testMcqQuestionSubmissionForm2.questionNumber,
-  //         questionBrief: testMcqQuestionSubmissionForm2.questionBrief,
-  //         questionDescription: testMcqQuestionSubmissionForm2.questionDescription,
-  //         questionDetails: testMcqQuestionSubmissionForm2.questionDetails,
-  //         questionType: testMcqQuestionSubmissionForm2.questionType,
-  //         giverType: testMcqQuestionSubmissionForm2.giverType,
-  //         recipientType: testMcqQuestionSubmissionForm2.recipientType,
-  //         numberOfEntitiesToGiveFeedbackToSetting:
-  //           testMcqQuestionSubmissionForm2.numberOfEntitiesToGiveFeedbackToSetting,
-  //         customNumberOfEntitiesToGiveFeedbackTo: testMcqQuestionSubmissionForm2.customNumberOfEntitiesToGiveFeedbackTo,
-  //         showResponsesTo: testMcqQuestionSubmissionForm2.showResponsesTo,
-  //         showGiverNameTo: testMcqQuestionSubmissionForm2.showGiverNameTo,
-  //         showRecipientNameTo: testMcqQuestionSubmissionForm2.showRecipientNameTo,
-  //       },
-  //     ],
-  //   };
-
-  //   const getQuestionsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
-  //       .mockReturnValue(of(testFeedbackQuestions));
-
-  //   expect(getQuestionsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
-  //   expect(component.questionSubmissionForms.length).toEqual(1);
-  //   expect(component.questionSubmissionForms[0]).toEqual(testMcqQuestionSubmissionForm2);
-  //   expect(component.questionsNeedingSubmission.length).toEqual(0);
-  // });
 
   it('should fetch auth info on init', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
@@ -350,5 +357,42 @@ describe('SessionResultPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entitytype: 'student', key: 'reg-key' });
+  });
+
+  it('should load feedback questions', () => {
+    const testValidity: RegkeyValidity = {
+      isAllowedAccess: true,
+      isUsed: false,
+      isValid: false,
+    };
+    const testFeedbackQuestions: FeedbackQuestions = {
+      questions: [testFeedbackQuestion],
+    };
+    const testFeedbackQuestionModel: FeedbackQuestionModel = {
+      feedbackQuestion: testFeedbackQuestion,
+      questionStatistics: '',
+      allResponses: [],
+      responsesToSelf: [],
+      responsesFromSelf: [],
+      otherResponses: [],
+      isLoading: false,
+      isLoaded: false,
+      hasResponse: true,
+    };
+
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    const getQuestionsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
+        .mockReturnValue(of(testFeedbackQuestions));
+
+    component.ngOnInit();
+    expect(getQuestionsSpy).toHaveBeenLastCalledWith({
+      courseId: testQueryParams.courseid,
+      feedbackSessionName: testQueryParams.fsname,
+      intent: Intent.FULL_DETAIL,
+    });
+    expect(component.questions.length).toEqual(1);
+    expect(component.questions[0]).toEqual(testFeedbackQuestionModel);
   });
 });

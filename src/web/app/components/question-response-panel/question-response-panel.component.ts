@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import {
   FeedbackQuestionType,
   FeedbackSession,
@@ -12,6 +13,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
 
 /**
@@ -28,7 +30,8 @@ export class QuestionResponsePanelComponent {
     FeedbackQuestionType.CONTRIB,
   ];
 
-  constructor(private feedbackSessionsService: FeedbackSessionsService) {};
+  constructor(private feedbackSessionsService: FeedbackSessionsService,
+              private statusMessageService: StatusMessageService) {}
 
   @Input()
   questions: FeedbackQuestionModel[] = [];
@@ -69,6 +72,9 @@ export class QuestionResponsePanelComponent {
     return false;
   }
 
+  /**
+   * Loads responses for feedback question.
+   */
   loadQuestionResults(question: FeedbackQuestionModel): void {
     this.feedbackSessionsService.getFeedbackSessionResults({
       questionId: question.feedbackQuestion.feedbackQuestionId,
@@ -90,14 +96,13 @@ export class QuestionResponsePanelComponent {
         } else {
           question.hasResponse = false;
         }
-      });
+      }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   loadQuestion(event: any, question: FeedbackQuestionModel): void {
-    console.log("hi" + question.feedbackQuestion.questionNumber);
     if (event && event.visible && !question.isLoaded && !question.isLoading) {
       question.isLoading = true;
       this.loadQuestionResults(question);
-    } 
+    }
   }
 }

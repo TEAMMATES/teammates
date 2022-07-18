@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
+import { InViewportModule } from 'ng-in-viewport';
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { SingleStatisticsModule } from '../question-responses/single-statistics/single-statistics.module';
 import {
   StudentViewResponsesModule,
@@ -8,8 +9,6 @@ import {
 import { QuestionTextWithInfoModule } from '../question-text-with-info/question-text-with-info.module';
 
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
-import { InViewportModule } from 'ng-in-viewport';
-import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 /**
  * Question Response Panel module.

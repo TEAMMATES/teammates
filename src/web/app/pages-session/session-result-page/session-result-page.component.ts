@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
@@ -33,7 +33,7 @@ import { ErrorReportComponent } from '../../components/error-report/error-report
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
- * Feedback session result page.
+ * Per feedback question model.
  */
 export interface FeedbackQuestionModel {
   feedbackQuestion: FeedbackQuestion;
@@ -47,6 +47,9 @@ export interface FeedbackQuestionModel {
   hasResponse: boolean;
 }
 
+/**
+ * Feedback session result page.
+ */
 @Component({
   selector: 'tm-session-result-page',
   templateUrl: './session-result-page.component.html',
@@ -291,9 +294,9 @@ export class SessionResultPageComponent implements OnInit {
                 hasResponse: true,
               });
             }
-          }, (resp: ErrorMessageOutput) => {
-            this.handleError(resp);
-          });
+        }, (resp: ErrorMessageOutput) => {
+          this.handleError(resp);
+        });
     }, (resp: ErrorMessageOutput) => {
       this.isFeedbackSessionResultsLoading = false;
       this.handleError(resp);
