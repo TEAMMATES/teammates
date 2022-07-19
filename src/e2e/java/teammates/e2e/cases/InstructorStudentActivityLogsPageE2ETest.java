@@ -43,23 +43,24 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE
-                + "?courseid=tm.e2e.ISActLogs.CS2104");
-        InstructorStudentActivityLogsPage auditLogsPage =
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE)
+                .withCourseId("tm.e2e.ISActLogs.CS2104");
+        InstructorStudentActivityLogsPage studentActivityLogsPage =
                 loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
-        String currentLogsFromDate = auditLogsPage.getLogsFromDate();
-        String currentLogsToDate = auditLogsPage.getLogsToDate();
-        String currentLogsFromTime = auditLogsPage.getLogsFromTime();
-        String currentLogsToTime = auditLogsPage.getLogsToTime();
+        String currentLogsFromDate = studentActivityLogsPage.getLogsFromDate();
+        String currentLogsToDate = studentActivityLogsPage.getLogsToDate();
+        String currentLogsFromTime = studentActivityLogsPage.getLogsFromTime();
+        String currentLogsToTime = studentActivityLogsPage.getLogsToTime();
 
-        auditLogsPage.setLogsFromDateTime(Instant.now().minus(1, ChronoUnit.DAYS),
+        studentActivityLogsPage.setLogsFromDateTime(
+                Instant.now().minus(1, ChronoUnit.DAYS),
                 ZoneId.systemDefault().getId());
-        auditLogsPage.setLogsToDateTime(Instant.now(), ZoneId.systemDefault().getId());
+        studentActivityLogsPage.setLogsToDateTime(Instant.now(), ZoneId.systemDefault().getId());
 
-        assertEquals(currentLogsFromDate, auditLogsPage.getLogsFromDate());
-        assertEquals(currentLogsToDate, auditLogsPage.getLogsToDate());
+        assertEquals(currentLogsFromDate, studentActivityLogsPage.getLogsFromDate());
+        assertEquals(currentLogsToDate, studentActivityLogsPage.getLogsToDate());
         assertEquals(currentLogsFromTime, "23:59H");
         assertEquals(currentLogsToTime, "23:59H");
 
@@ -84,11 +85,12 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentSubmissionPage.clickSubmitQuestionButton(1);
 
         logout();
-        auditLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
-        auditLogsPage.setActivityType("session access and submission");
-        auditLogsPage.waitForPageToLoad();
-        auditLogsPage.startSearching();
+        studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class,
+                instructor.getGoogleId());
+        studentActivityLogsPage.setActivityType("session access and submission");
+        studentActivityLogsPage.waitForPageToLoad();
+        studentActivityLogsPage.startSearching();
 
-        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
+        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }
 }
