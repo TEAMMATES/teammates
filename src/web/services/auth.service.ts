@@ -40,4 +40,12 @@ export class AuthService {
     return this.httpRequestService.get(ResourceEndpoints.AUTH_REGKEY, params);
   }
 
+  /**
+   * Sends login email.
+   */
+  sendLoginEmail(useremail: string, continueurl: string): Observable<AuthInfo> {
+    const params: Record<string, string> = { useremail, continueurl };
+    return this.httpRequestService.post(ResourceEndpoints.LOGIN_EMAIL, params);
+  }
+
 }

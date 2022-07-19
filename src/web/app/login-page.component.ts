@@ -3,6 +3,9 @@ import { GoogleAuthProvider } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../environments/environment';
+import { AuthService } from '../services/auth.service';
+import { StatusMessageService } from '../services/status-message.service';
+import { ErrorMessageOutput } from './error-message-output';
 
 /**
  * Login page component.
@@ -25,7 +28,11 @@ export class LoginPageComponent implements OnInit {
   email: string = 'test@example.com';
   isLoading: boolean = false;
 
-  constructor(private route: ActivatedRoute, private afAuth: AngularFireAuth) {}
+  constructor(private route: ActivatedRoute,
+              private afAuth: AngularFireAuth,
+              private authService: AuthService,
+              private statusMessageService: StatusMessageService,
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -33,20 +40,22 @@ export class LoginPageComponent implements OnInit {
       this.nextUrl = queryParams.nextUrl;
       this.afAuth.isSignInWithEmailLink(window.location.href).then((isEmailLink) => {
         if (isEmailLink) {
-          let email = window.localStorage.getItem('emailForSignIn');
-          if (!email) {
-            email = window.prompt('Please provide your email for confirmation');
+          const email = window.localStorage.getItem('emailForSignIn');
+          if (email) {
+            this.afAuth.signInWithEmailLink(email, window.location.href)
+                .then((authResult) => {
+                  window.localStorage.removeItem('emailForSignIn');
+                  window.location.href = `${this.backendUrl}/oauth2callback?email=${authResult.user!.email}`
+                      + `&nextUrl=${this.nextUrl}`;
+                })
+                .catch((error) => {
+                  this.isLoading = false;
+                  this.statusMessageService.showErrorToast(error.code + error.message);
+                });
+          } else {
+            this.isLoading = false;
+            this.statusMessageService.showErrorToast('Login link expired.');
           }
-          this.afAuth.signInWithEmailLink(email!, window.location.href)
-              .then((authResult) => {
-                window.localStorage.removeItem('emailForSignIn');
-                window.location.href = `${this.backendUrl}/oauth2callback?email=${authResult.user!.email}`
-                    + `&nextUrl=${this.nextUrl}`;
-              })
-              .catch((error) => {
-                console.error('signInWithEmailLinkError', error);
-                this.isLoading = false;
-              });
         } else {
           this.afAuth.getRedirectResult()
               .then((authResult) => {
@@ -56,8 +65,8 @@ export class LoginPageComponent implements OnInit {
                 }
               })
               .catch((error) => {
-                console.error('signInWithGoogleError', error);
                 this.isLoading = false;
+                this.statusMessageService.showErrorToast(error.code + error.message);
               });
           this.isLoading = false;
         }
@@ -70,29 +79,30 @@ export class LoginPageComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
+    this.isLoading = true;
     const googleProvider = new GoogleAuthProvider();
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
     this.afAuth.signInWithRedirect(googleProvider)
+        .then(() => {
+          this.isLoading = false;
+        })
         .catch((error) => {
-          console.error('Authentication failed:', error);
+          this.isLoading = false;
+          this.statusMessageService.showErrorToast(error.code + error.message);
         });
   }
 
   signInWithEmail(): void {
     this.isLoading = true;
-    const actionCodeSettings = {
-      url: `${this.frontendUrl}/web/login${window.location.search}`,
-      handleCodeInApp: true,
-    };
-    this.afAuth.sendSignInLinkToEmail(this.email, actionCodeSettings)
-        .then(() => {
+    this.authService.sendLoginEmail(this.email, `${this.frontendUrl}/web/login${window.location.search}`)
+        .subscribe(() => {
           window.localStorage.setItem('emailForSignIn', this.email);
           this.isSignInLinkEmailSent = true;
           this.isSignInWithEmail = false;
           this.isLoading = false;
-        })
-        .catch((error) => {
-          console.error('sendSignInLinkToEmailError', error);
+        }, (error: ErrorMessageOutput) => {
+          this.isLoading = false;
+          this.statusMessageService.showErrorToast(error.error.message);
         });
   }
 
