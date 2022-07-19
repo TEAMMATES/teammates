@@ -59,6 +59,9 @@ export class QuestionResponsePanelComponent {
   @Input()
   intent: Intent = Intent.STUDENT_RESULT;
 
+  @Input()
+  regKey: string = '';
+
   canUserSeeResponses(question: FeedbackQuestionModel): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
     if (this.intent === Intent.STUDENT_RESULT) {
@@ -81,6 +84,7 @@ export class QuestionResponsePanelComponent {
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
       intent: this.intent,
+      key: this.regKey,
     }).pipe(finalize(() => {
       question.isLoaded = true;
       question.isLoading = false;

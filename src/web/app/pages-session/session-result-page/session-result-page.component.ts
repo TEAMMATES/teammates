@@ -273,7 +273,8 @@ export class SessionResultPageComponent implements OnInit {
       this.feedbackQuestionsService.getFeedbackQuestions({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
-        intent: Intent.FULL_DETAIL,
+        intent: Intent.STUDENT_SUBMISSION,
+        key: this.regKey,
       }).pipe(finalize(() => {
           this.isFeedbackSessionResultsLoading = false;
         }))
@@ -295,6 +296,7 @@ export class SessionResultPageComponent implements OnInit {
               });
             }
         }, (resp: ErrorMessageOutput) => {
+          console.log("getquestions error");
           this.handleError(resp);
         });
     }, (resp: ErrorMessageOutput) => {
