@@ -92,6 +92,7 @@ export class QuestionResponsePanelComponent {
       .subscribe((sessionResults: SessionResults) => {
         const responses: QuestionOutput = sessionResults.questions[0];
         if (responses) {
+          question.feedbackQuestion = responses.feedbackQuestion;
           question.allResponses = responses.allResponses;
           question.otherResponses = responses.otherResponses;
           question.questionStatistics = responses.questionStatistics;
