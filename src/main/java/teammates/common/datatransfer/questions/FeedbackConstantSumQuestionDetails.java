@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.FieldValidator;
 
@@ -47,6 +49,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     static final String CONST_SUM_ANSWER_ABOVE_MAX = "An answer cannot be greater than the maximum number of points: ";
     static final String CONST_MAX_POINT_ERROR_NOT_RESET = "Maximum number of points is not reset.";
     static final String CONST_MIN_POINT_ERROR_NOT_RESET = "Minimum number of points is not reset.";
+    static final String CONST_MIN_POINT_ERROR_NULL = "Minimum number of points cannot be null.";
+    static final String CONST_MAX_POINT_ERROR_NULL = "Maximum number of points cannot be null.";
 
     private List<String> constSumOptions;
     private boolean distributeToRecipients;
@@ -56,8 +60,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private int points;
     private boolean hasMinPoint;
     private boolean hasMaxPoint;
-    private int minPoint;
-    private int maxPoint;
+    @Nullable
+    private Integer minPoint;
+    @Nullable
+    private Integer maxPoint;
 
     public FeedbackConstantSumQuestionDetails() {
         this(null);
@@ -73,8 +79,8 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributePointsFor = FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption();
         this.hasMinPoint = false;
         this.hasMaxPoint = false;
-        this.maxPoint = 100;
-        this.minPoint = 0;
+        this.maxPoint = null;
+        this.minPoint = null;
     }
 
     @Override
@@ -112,11 +118,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return true;
         }
 
-        if (this.maxPoint != this.maxPoint) {
+        if (this.maxPoint.equals(this.maxPoint)) {
             return true;
         }
 
-        if (this.minPoint != this.minPoint) {
+        if (this.minPoint.equals(this.minPoint)) {
             return true;
         }
 
@@ -149,6 +155,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         double evenPointDistribution = ((double) totalPoints) / ((double) constSumOptions.size());
 
         if (hasMinPoint) {
+            if (minPoint == null) {
+                errors.add(CONST_MIN_POINT_ERROR_NULL);
+                return errors;
+            }
+
             if (minPoint < 0) {
                 errors.add(CONST_MIN_POINT_ERROR_NEGATIVE);
             }
@@ -162,12 +173,17 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 errors.add(CONST_MIN_POINT_ERROR_ABOVE_UPPER_BOUND + upperBound);
             }
         } else {
-            if (minPoint != 0) {
+            if (minPoint != null) {
                 errors.add(CONST_MIN_POINT_ERROR_NOT_RESET);
             }
         }
 
         if (hasMaxPoint) {
+            if (maxPoint == null) {
+                errors.add(CONST_MAX_POINT_ERROR_NULL);
+                return errors;
+            }
+
             if (maxPoint < 0) {
                 errors.add(CONST_MAX_POINT_ERROR_NEGATIVE);
             }
@@ -182,7 +198,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 errors.add(CONST_MAX_POINT_ERROR_BELOW_LOWER_BOUND + lowerBound);
             }
         } else {
-            if (maxPoint != totalPoints) {
+            if (maxPoint != null) {
                 errors.add(CONST_MAX_POINT_ERROR_NOT_RESET);
             }
         }

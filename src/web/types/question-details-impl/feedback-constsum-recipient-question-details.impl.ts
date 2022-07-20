@@ -24,8 +24,8 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
   hasMinPoint: boolean = false;
   hasMaxPoint: boolean = false;
-  minPoint: number = 0;
-  maxPoint: number = 100;
+  minPoint: number | undefined = undefined;
+  maxPoint: number | undefined = undefined;
 
   constructor(apiOutput: FeedbackConstantSumQuestionDetails) {
     super();

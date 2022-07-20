@@ -105,10 +105,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     if (event) {
       this.triggerModelChange('hasMaxPoint', event);
     } else {
-      const totalNumberOfPoints : number = this.model.pointsPerOption
-        ? this.model.points * this.model.constSumOptions.length
-        : this.model.points;
-      this.triggerModelChangeBatch({ maxPoint: totalNumberOfPoints, hasMaxPoint: event });
+      this.triggerModelChangeBatch({ maxPoint: undefined, hasMaxPoint: event });
     }
   }
 
@@ -119,7 +116,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     if (event) {
       this.triggerModelChange('hasMinPoint', event);
     } else {
-      this.triggerModelChangeBatch({ minPoint: 0, hasMinPoint: event });
+      this.triggerModelChangeBatch({ minPoint: undefined, hasMinPoint: event });
     }
   }
 }

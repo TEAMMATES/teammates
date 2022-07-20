@@ -96,16 +96,20 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
    * Checks if any of the points are below the minPoint.
    */
   get isAnyPointBelowMinimum(): boolean {
+    const comparator : number = this.questionDetails.minPoint ? this.questionDetails.minPoint : 0;
     return this.responseDetails.answers.reduce((isBelowMinimum: boolean, curr: number) =>
-      isBelowMinimum || (curr < this.questionDetails.minPoint), false);
+      isBelowMinimum || (curr < comparator), false);
   }
 
   /**
-   * Checks if any of the points are below the minPoint.
+   * Checks if any of the points are above the maxPoint.
    */
   get isAnyPointAboveMaximum(): boolean {
+    const comparator : number = this.questionDetails.maxPoint
+      ? this.questionDetails.maxPoint
+      : this.totalRequiredPoints;
     return this.responseDetails.answers.reduce((isAboveMaximum: boolean, curr: number) =>
-      isAboveMaximum || (curr > this.questionDetails.maxPoint), false);
+      isAboveMaximum || (curr > comparator), false);
   }
 
 }
