@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.FirebaseInstance;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.FileStorage;
@@ -44,6 +45,7 @@ public abstract class Action {
     FileStorage fileStorage = FileStorage.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
     LogsProcessor logsProcessor = LogsProcessor.inst();
+    FirebaseInstance firebaseInstance = FirebaseInstance.inst();
 
     HttpServletRequest req;
     UserInfo userInfo;
@@ -84,6 +86,10 @@ public abstract class Action {
 
     public void setLogsProcessor(LogsProcessor logsProcessor) {
         this.logsProcessor = logsProcessor;
+    }
+
+    public void setAuthInstance(FirebaseInstance firebaseInstance) {
+        this.firebaseInstance = firebaseInstance;
     }
 
     /**

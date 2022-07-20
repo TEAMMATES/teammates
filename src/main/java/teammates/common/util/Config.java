@@ -94,6 +94,9 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
+    /** The value of the "app.firebase.serviceaccount.filename" in build.properties file. */
+    public static final String APP_FIREBASE_SERVICEACCOUNT_FILENAME;
+
     /** The value of the "app.localdatastore.port" in build-dev.properties file. */
     public static final int APP_LOCALDATASTORE_PORT;
 
@@ -166,6 +169,8 @@ public final class Config {
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(
                 getProperty(properties, devProperties, "app.enable.datastore.backup", "false"));
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
+        APP_FIREBASE_SERVICEACCOUNT_FILENAME = getProperty(properties, devProperties,
+                "app.firebase.serviceaccount.filename");
 
         // The following properties are not used in production server.
         // So they will only be read from build-dev.properties file.

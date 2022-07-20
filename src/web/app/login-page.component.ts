@@ -8,7 +8,7 @@ import { finalize } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
-import { LoginResponse } from '../types/api-output';
+import { SendLoginEmailResponse } from '../types/api-output';
 import { ErrorMessageOutput } from './error-message-output';
 
 /**
@@ -127,7 +127,7 @@ export class LoginPageComponent implements OnInit {
       captchaResponse: this.captchaResponse,
     }).pipe(finalize(() => {
       this.isFormSubmitting = false;
-    })).subscribe((resp: LoginResponse) => {
+    })).subscribe((resp: SendLoginEmailResponse) => {
       if (resp.isEmailSent) {
         window.localStorage.setItem('emailForSignIn', loginForm.controls.email.value);
         this.isSignInLinkEmailSent = true;

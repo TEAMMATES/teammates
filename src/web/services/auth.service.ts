@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
-import { AuthInfo, LoginResponse, RegkeyValidity } from '../types/api-output';
+import { AuthInfo, SendLoginEmailResponse, RegkeyValidity } from '../types/api-output';
 import { Intent } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -47,7 +47,7 @@ export class AuthService {
     userEmail: string,
     continueUrl: string,
     captchaResponse: string,
-  }): Observable<LoginResponse> {
+  }): Observable<SendLoginEmailResponse> {
     const paramMap: Record<string, string> = {
       useremail: queryParam.userEmail,
       continueurl: queryParam.continueUrl,

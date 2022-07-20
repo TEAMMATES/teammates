@@ -57,9 +57,6 @@
     <listener>
         <listener-class>teammates.logic.core.LogicStarter</listener-class>
     </listener>
-    <listener>
-        <listener-class>teammates.main.FirebaseInitializer</listener-class>
-    </listener>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

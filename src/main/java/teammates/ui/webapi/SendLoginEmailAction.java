@@ -2,10 +2,6 @@ package teammates.ui.webapi;
 
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
-import com.google.firebase.auth.ActionCodeSettings;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -35,23 +31,18 @@ class SendLoginEmailAction extends Action {
             throw new InvalidHttpParameterException("Invalid email address: " + userEmail);
         }
 
-        String continueUrl = getNonNullRequestParamValue(Const.ParamsNames.CONTINUE_URL);
-
         String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
         if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
             return new JsonResult(new SendLoginEmailResponseData(false, "Something went wrong with "
                     + "the reCAPTCHA verification. Please try again."));
         }
 
-        ActionCodeSettings actionCodeSettings = ActionCodeSettings.builder()
-                .setUrl(continueUrl)
-                .setHandleCodeInApp(true)
-                .build();
-        String loginLink;
-        try {
-            loginLink = FirebaseAuth.getInstance().generateSignInWithEmailLink(userEmail, actionCodeSettings);
-        } catch (IllegalArgumentException | FirebaseAuthException e) {
-            throw new InvalidOperationException("Error generating login link: " + e.getMessage());
+        String continueUrl = getNonNullRequestParamValue(Const.ParamsNames.CONTINUE_URL);
+
+        String loginLink = firebaseInstance.generateLoginLink(userEmail, continueUrl);
+        if (loginLink == null) {
+            return new JsonResult(new SendLoginEmailResponseData(false, "An error occurred. "
+                    + "The email could not be generated."));
         }
 
         EmailWrapper loginEmail = emailGenerator.generateLoginEmail(userEmail, loginLink);
