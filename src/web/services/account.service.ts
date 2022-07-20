@@ -115,11 +115,11 @@ export class AccountService {
    * Deletes an account request by calling API.
    */
   deleteAccountRequest(email: string, institute: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = {
+    const paramsMap: Record<string, string> = {
       instructoremail: email,
       instructorinstitution: institute,
     };
-    return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+    return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap);
   }
 
   /**
@@ -138,22 +138,22 @@ export class AccountService {
    * Resets a student account by calling API.
    */
   resetStudentAccount(courseId: string, studentEmail: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = {
+    const paramsMap: Record<string, string> = {
       courseid: courseId,
       studentemail: studentEmail,
     };
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramMap);
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramsMap);
   }
 
   /**
    * Resets an instructor account by calling API.
    */
   resetInstructorAccount(courseId: string, instructorEmail: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = {
+    const paramsMap: Record<string, string> = {
       courseid: courseId,
       instructoremail: instructorEmail,
     };
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramMap);
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramsMap);
   }
 
   /**
@@ -184,6 +184,18 @@ export class AccountService {
       intent: AccountRequestsGetIntent.PENDING_PROCESSING,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);
+  }
+
+  /**
+   * Gets all account requests submitted within the period by calling API.
+   */
+  getAccountRequestsWithinPeriod(startTime: number, endTime: number): Observable<AccountRequests> {
+    const paramsMap: Record<string, string> = {
+      intent: AccountRequestsGetIntent.WITHIN_PERIOD,
+      starttime: `${startTime}`,
+      endtime: `${endTime}`,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramsMap);
   }
 
 }

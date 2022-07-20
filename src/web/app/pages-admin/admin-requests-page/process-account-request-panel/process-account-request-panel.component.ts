@@ -7,6 +7,7 @@ export enum ProcessAccountRequestPanelStatus {
   EDITING,
   APPROVED,
   REJECTED,
+  REGISTERED,
 }
 
 export interface EditedAccountRequestInfoModel {

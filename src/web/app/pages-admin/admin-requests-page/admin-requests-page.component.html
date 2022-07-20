@@ -43,4 +43,86 @@
   </tm-loading-retry>
 </div>
 
-<button class="btn btn-info">Show account requests processed recently</button>
+<div class="card bg-light">
+  <div class="card-body">
+    <div class="mb-1">
+      <h5>Filter by submission time:</h5>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="width-220px m-2 mx-sm-4">
+        <div class="mb-1">
+          <label for="search-from-datepicker" class="font-weight-bold">From</label>
+        </div>
+        <div class="input-group">
+          <input id="search-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.fromDate" #logsFromDp="ngbDatepicker">
+          <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
+            <i class="fas fa-calendar-alt"></i>
+          </button>
+        </div>
+      </div>
+      <div class="width-220px m-2 mx-sm-4">
+        <div class="mb-1">
+          <label for="search-to-datepicker" class="font-weight-bold">To</label>
+        </div>
+        <div class="input-group">
+          <input id="search-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.toDate" #logsToDp="ngbDatepicker"/>
+          <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
+            <i class="fas fa-calendar-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-info" (click)="loadAccountRequestsWithinPeriod()">Show Account Requests</button>
+    </div>
+  </div>
+</div>
+
+<div class="mt-3 mb-5" *ngIf="hasQueried">
+  <div *ngIf="!hasAccountRequestsWithinPeriodLoadingFailed, else loadingAccountRequestsWithPeriodFailedTemplate">
+    <div *tmIsLoading="isLoadingAccountRequestsWithinPeriod">
+      <ng-container *ngIf="accountRequestWithinPeriodTabs.length > 0, else noAccountRequestsWithinPeriodTemplate">
+        <div *ngFor="let accountRequestWithinPeriodTab of accountRequestWithinPeriodTabs; let i = index" @removeAnim>
+          <div class="card">
+            <div class="card-header bg-info text-white cursor-pointer"
+                 (click)="toggleCard(accountRequestWithinPeriodTab)">
+              <strong class="text-break">{{ accountRequestWithinPeriodTab.accountRequest.name }}
+                <tm-ajax-loading *ngIf="accountRequestWithinPeriodTab.isSavingChanges" class="ml-1"></tm-ajax-loading>
+              </strong>
+              <div class="card-header-btn-toolbar">
+                <tm-panel-chevron [isExpanded]="accountRequestWithinPeriodTab.isTabExpanded"></tm-panel-chevron>
+              </div>
+            </div>
+            <div *ngIf="accountRequestWithinPeriodTab.isTabExpanded" @collapseAnim>
+              <tm-process-account-request-panel
+                [accountRequest]="accountRequestWithinPeriodTab.accountRequest"
+                [panelStatus]="accountRequestWithinPeriodTab.panelStatus"
+                [isSavingChanges]="accountRequestWithinPeriodTab.isSavingChanges"
+                [errorMessage]="accountRequestWithinPeriodTab.errorMessage"
+                (editAccountRequestEvent)="editAccountRequest(accountRequestWithinPeriodTab)"
+                (cancelEditAccountRequestEvent)="cancelEditAccountRequest(accountRequestWithinPeriodTab)"
+                (saveAccountRequestEvent)="saveAccountRequest(accountRequestWithinPeriodTab, $event)"
+                (approveAccountRequestEvent)="approveAccountRequest(accountRequestWithinPeriodTab)"
+                (rejectAccountRequestEvent)="rejectAccountRequest(accountRequestWithinPeriodTab)"
+                (deleteAccountRequestEvent)="deleteAccountRequest(accountRequestWithinPeriodTab, i)"
+                (resetAccountRequestEvent)="resetAccountRequest(accountRequestWithinPeriodTab)">
+              </tm-process-account-request-panel>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noAccountRequestsWithinPeriodTemplate>
+        <div class="text-center pt-5">
+          <h5>There are no account requests submitted within this period.</h5>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <ng-template #loadingAccountRequestsWithPeriodFailedTemplate>
+    <div class="text-center pt-5">
+      <h5>Failed to load account requests. Please retry.</h5>
+    </div>
+  </ng-template>
+</div>
