@@ -298,7 +298,6 @@ export class SessionResultPageComponent implements OnInit {
               });
             }
         }, (resp: ErrorMessageOutput) => {
-          console.log("getquestions error");
           this.handleError(resp);
         });
     }, (resp: ErrorMessageOutput) => {

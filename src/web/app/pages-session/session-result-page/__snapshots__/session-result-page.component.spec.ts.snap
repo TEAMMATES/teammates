@@ -27,6 +27,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  questionIntent={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -175,6 +176,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  questionIntent={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -320,6 +322,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  questionIntent={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -465,6 +468,7 @@ exports[`SessionResultPageComponent should snap with session details and results
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  questionIntent={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -559,6 +563,7 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  questionIntent={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -704,6 +709,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName={[Function String]}
+  questionIntent={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -850,6 +856,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName={[Function String]}
+  questionIntent={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}

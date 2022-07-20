@@ -510,6 +510,7 @@ describe('QuestionResponsePanelComponent', () => {
       courseId: 'CS1231',
       feedbackSessionName: 'First Session',
       questionId: testQuestion1.feedbackQuestionId,
+      key: '',
     });
     expect(testFeedbackQuestionModel.isLoading).toBe(false);
     expect(testFeedbackQuestionModel.isLoaded).toBe(true);

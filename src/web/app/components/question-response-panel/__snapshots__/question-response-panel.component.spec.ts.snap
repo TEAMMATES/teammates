@@ -6,6 +6,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   questions={[Function Array]}
+  regKey=""
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -449,6 +450,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   questions={[Function Array]}
+  regKey=""
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
 >
