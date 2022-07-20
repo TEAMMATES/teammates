@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { AjaxLoadingModule } from './components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { LoginPageComponent } from './login-page.component';
 
@@ -26,7 +28,9 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
-    FormsModule,
+    NgxCaptchaModule,
+    ReactiveFormsModule,
+    AjaxLoadingModule,
   ],
 })
 export class LoginPageModule {}

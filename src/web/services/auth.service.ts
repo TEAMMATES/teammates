@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
-import { AuthInfo, RegkeyValidity } from '../types/api-output';
+import { AuthInfo, LoginResponse, RegkeyValidity } from '../types/api-output';
 import { Intent } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -43,9 +43,18 @@ export class AuthService {
   /**
    * Sends login email.
    */
-  sendLoginEmail(useremail: string, continueurl: string): Observable<AuthInfo> {
-    const params: Record<string, string> = { useremail, continueurl };
-    return this.httpRequestService.post(ResourceEndpoints.LOGIN_EMAIL, params);
+  sendLoginEmail(queryParam: {
+    userEmail: string,
+    continueUrl: string,
+    captchaResponse: string,
+  }): Observable<LoginResponse> {
+    const paramMap: Record<string, string> = {
+      useremail: queryParam.userEmail,
+      continueurl: queryParam.continueUrl,
+      captcharesponse: queryParam.captchaResponse,
+    };
+
+    return this.httpRequestService.post(ResourceEndpoints.LOGIN_EMAIL, paramMap);
   }
 
 }
