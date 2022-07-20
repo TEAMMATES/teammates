@@ -16,12 +16,12 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
-import teammates.e2e.pageobjects.InstructorAuditLogsPage;
+import teammates.e2e.pageobjects.InstructorStudentActivityLogsPage;
 
 /**
- * SUT: {@link Const.WebPageURIs#INSTRUCTOR_AUDIT_LOGS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE}.
  */
-public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
+public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     private InstructorAttributes instructor;
     private CourseAttributes course;
     private FeedbackSessionAttributes feedbackSession;
@@ -30,12 +30,12 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorAuditLogsPageE2ETest.json");
+        testData = loadDataBundle("/InstructorStudentActivityLogsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
-        student = testData.students.get("alice.tmms@IAuditLogs.CS2104");
+        student = testData.students.get("alice.tmms@ISActLogs.CS2104");
         feedbackQuestion = testData.feedbackQuestions.get("qn1");
         feedbackSession = testData.feedbackSessions.get("openSession");
     }
@@ -43,21 +43,24 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_AUDIT_LOGS_PAGE);
-        InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE)
+                .withCourseId("tm.e2e.ISActLogs.CS2104");
+        InstructorStudentActivityLogsPage studentActivityLogsPage =
+                loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
-        String currentLogsFromDate = auditLogsPage.getLogsFromDate();
-        String currentLogsToDate = auditLogsPage.getLogsToDate();
-        String currentLogsFromTime = auditLogsPage.getLogsFromTime();
-        String currentLogsToTime = auditLogsPage.getLogsToTime();
+        String currentLogsFromDate = studentActivityLogsPage.getLogsFromDate();
+        String currentLogsToDate = studentActivityLogsPage.getLogsToDate();
+        String currentLogsFromTime = studentActivityLogsPage.getLogsFromTime();
+        String currentLogsToTime = studentActivityLogsPage.getLogsToTime();
 
-        auditLogsPage.setLogsFromDateTime(Instant.now().minus(1, ChronoUnit.DAYS),
+        studentActivityLogsPage.setLogsFromDateTime(
+                Instant.now().minus(1, ChronoUnit.DAYS),
                 ZoneId.systemDefault().getId());
-        auditLogsPage.setLogsToDateTime(Instant.now(), ZoneId.systemDefault().getId());
+        studentActivityLogsPage.setLogsToDateTime(Instant.now(), ZoneId.systemDefault().getId());
 
-        assertEquals(currentLogsFromDate, auditLogsPage.getLogsFromDate());
-        assertEquals(currentLogsToDate, auditLogsPage.getLogsToDate());
+        assertEquals(currentLogsFromDate, studentActivityLogsPage.getLogsFromDate());
+        assertEquals(currentLogsToDate, studentActivityLogsPage.getLogsToDate());
         assertEquals(currentLogsFromTime, "23:59H");
         assertEquals(currentLogsToTime, "23:59H");
 
@@ -69,7 +72,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
                 FeedbackSubmitPage.class, student.getGoogleId());
 
-        StudentAttributes receiver = testData.students.get("benny.tmms@IAuditLogs.CS2104");
+        StudentAttributes receiver = testData.students.get("benny.tmms@ISActLogs.CS2104");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails("Response");
@@ -82,11 +85,12 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         studentSubmissionPage.clickSubmitQuestionButton(1);
 
         logout();
-        auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
-        auditLogsPage.setCourseId(course.getId());
-        auditLogsPage.waitForPageToLoad();
-        auditLogsPage.startSearching();
+        studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class,
+                instructor.getGoogleId());
+        studentActivityLogsPage.setActivityType("session access and submission");
+        studentActivityLogsPage.waitForPageToLoad();
+        studentActivityLogsPage.startSearching();
 
-        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
+        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }
 }
