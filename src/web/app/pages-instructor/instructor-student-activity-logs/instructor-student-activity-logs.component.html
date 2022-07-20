@@ -1,5 +1,5 @@
-<h1>Student Activity Logs</h1>
-<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
+<h1>Student Activity Logs For {{course.courseName}}</h1>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -7,13 +7,13 @@
     <div class="row form-group">
       <div class="col-4">
         <div class="col-12">
-          <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
+          <label for="activity-type-dropdown" class="font-weight-bold">Activity Type</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.courseId" (change)="loadStudents()">
-            <option value="" disabled selected hidden>Select Course ID</option>
-            <option *ngFor="let course of courses">
-              {{course.courseId}}
+          <select id="activity-type-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
+            <option value="" disabled selected hidden>Select Activity Type</option>
+            <option *ngFor="let logType of LOG_TYPES" [value]="logType.value">
+              {{logType.label}}
             </option>
           </select>
         </div>
@@ -42,8 +42,8 @@
         </div>
         <div class="col-12">
           <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
-            <option *ngFor="let student of courseToStudents[formModel.courseId]" [value]="student.email">
-              {{student.name}} {{student.email ? '&lt;' + student.email + '&gt;' : ''}}
+            <option *ngFor="let student of students" [value]="student.email">
+              {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
             </option>
           </select>
         </div>
@@ -63,8 +63,35 @@
             <tm-timepicker id="logs-to-timepicker" [(time)]="formModel.logsTimeTo"></tm-timepicker>
           </div>
           <div class="col-md-2">
-            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || isSearching">Search</button>
+            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="course.courseId === '' || isSearching">Search</button>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-5">
+        <div class="col-12">
+          <label for="session-dropdown" class="font-weight-bold">Feedback Session Name (Optional)</label>
+        </div>
+        <div class="col-12">
+          <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
+            <option value=""></option>
+            <option *ngFor="let session of feedbackSessions | keyvalue" [value]="session.key">
+              {{session.key}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-md-1 ml-md-3">
+        <div class="col-12 form-check" style="margin-top: 30px;">
+          <label class="form-check-label">
+            <input id="show-actions" class="form-check-input" type="checkbox" name="showActions" [checked]="formModel.showActions" (click)="triggerModelChange('showActions', $event.target.checked)">
+            Show actions
+          </label>
+          <label class="form-check-label" style="margin-left: 40px;">
+            <input id="show-inactions" class="form-check-input" type="checkbox" name="showInactions" [checked]="formModel.showInactions" (click)="triggerModelChange('showInactions', $event.target.checked)">
+            Show inactions
+          </label>
         </div>
       </div>
     </div>
