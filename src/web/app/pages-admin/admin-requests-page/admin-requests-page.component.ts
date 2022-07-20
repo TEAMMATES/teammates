@@ -269,9 +269,9 @@ export class AdminRequestsPageComponent implements OnInit {
     this.isLoadingAccountRequestsWithinPeriod = true;
 
     const timestampFrom = this.timezoneService.resolveLocalDateTime(
-      this.formModel.fromDate, {hour: 0, minute: 0}, this.timezone);
+      this.formModel.fromDate, { hour: 0, minute: 0 }, this.timezone);
     const timestampTo = this.timezoneService.resolveLocalDateTime(
-      this.formModel.toDate, {hour: 23, minute: 59}, this.timezone);
+      this.formModel.toDate, { hour: 23, minute: 59 }, this.timezone);
     this.accountService.getAccountRequestsWithinPeriod(timestampFrom, timestampTo)
       .pipe(finalize(() => {
         this.isLoadingAccountRequestsWithinPeriod = false;
@@ -305,6 +305,8 @@ export class AdminRequestsPageComponent implements OnInit {
         return ProcessAccountRequestPanelStatus.REJECTED;
       case AccountRequestStatus.REGISTERED:
         return ProcessAccountRequestPanelStatus.REGISTERED;
+      default:
+        throw new Error('Unsupported account request status');
     }
   }
 
