@@ -40,7 +40,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     static final String CONST_MAX_POINT_ERROR_BELOW_LOWER_BOUND =
             "To ensure total distribution of points, the maximum number of points cannot be smaller than: ";
     static final String CONST_MIN_POINT_ERROR_ABOVE_UPPER_BOUND =
-            "To ensure total distribution of points, the minimum number of point cannot be larger than: ";
+            "To ensure total distribution of points, the minimum number of points cannot be larger than: ";
     static final String CONST_POINT_ERROR_MIN_GREATER_THAN_MAX =
             "Minimum number of points cannot be greater than the maximum number of points";
     static final String CONST_SUM_ANSWER_BELOW_MIN = "An answer cannot be smaller than the minimum number of points: ";

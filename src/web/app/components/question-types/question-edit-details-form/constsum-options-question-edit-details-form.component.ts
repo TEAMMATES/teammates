@@ -99,7 +99,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   }
 
   /**
-   * Updates hasMaxPoint and resets the maxPoint if when hasMaxPoint is set to false.
+   * Updates hasMaxPoint and resets the maxPoint if hasMaxPoint is set to false.
    */
   updateHasMaxPoint(event: boolean): void {
     if (event) {
