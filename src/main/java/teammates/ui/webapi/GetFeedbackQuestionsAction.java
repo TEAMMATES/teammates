@@ -36,7 +36,11 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
+            if (userInfo.isStudent) {
+                gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
+            } else {
+                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
+            }
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
