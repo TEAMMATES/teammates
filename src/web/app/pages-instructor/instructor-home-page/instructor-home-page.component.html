@@ -71,6 +71,9 @@
                 <a class="btn btn-light btn-sm dropdown-item"
                    tmRouterLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
+<!--                <a class="btn btn-light btn-sm dropdown-item"-->
+<!--                   tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: courseTabModel.course.courseId}"> View Logs-->
+<!--                </a>-->
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
                   <a id="btn-delete-course" class="btn btn-light btn-sm dropdown-item"
                      ngbTooltip="Delete the course and its corresponding students and sessions"
