@@ -14,7 +14,7 @@ import teammates.ui.request.AccountRequestsGetIntent;
  */
 class GetAccountRequestsAction extends AdminOnlyAction {
 
-    private static final Duration MAX_SEARCH_WINDOW = Duration.ofDays(45);
+    private static final Duration MAX_SEARCH_WINDOW = Duration.ofDays(15);
 
     @Override
     public JsonResult execute() {
