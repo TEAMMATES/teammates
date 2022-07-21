@@ -167,6 +167,15 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Gets all account requests submitted between {@code startTime} and {@code endTime}.
+     *
+     * @return the list of all account requests submitted within the period or an empty list if not found.
+     */
+    public List<AccountRequestAttributes> getAccountRequestsSubmittedWithinPeriod(Instant startTime, Instant endTime) {
+        return accountRequestsDb.getAccountRequestsSubmittedWithinPeriod(startTime, endTime);
+    }
+
+    /**
      * Gets an account request by unique constraint {@code registrationKey}.
      *
      * @return the account request

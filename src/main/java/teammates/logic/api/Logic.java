@@ -1663,6 +1663,18 @@ public class Logic {
     }
 
     /**
+     * Gets all account requests submitted between {@code startTime} and {@code endTime}.
+     *
+     * @return the list of all account requests submitted within the period.
+     */
+    public List<AccountRequestAttributes> getAccountRequestsSubmittedWithinPeriod(Instant startTime, Instant endTime) {
+        assert startTime != null;
+        assert endTime != null;
+
+        return accountRequestsLogic.getAccountRequestsSubmittedWithinPeriod(startTime, endTime);
+    }
+
+    /**
      * This is used by admin to search account requests in the whole system.
      *
      * @return A list of {@link AccountRequestAttributes} or {@code null} if no match found.

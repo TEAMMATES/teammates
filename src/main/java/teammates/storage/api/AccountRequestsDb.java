@@ -83,6 +83,13 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     }
 
     /**
+     * Gets all account requests with {@code createdAt} timestamp between {@code startTime} and {@code endTime}.
+     */
+    public List<AccountRequestAttributes> getAccountRequestsSubmittedWithinPeriod(Instant startTime, Instant endTime) {
+        return makeAttributes(getAccountRequestEntitiesSubmittedWithinPeriod(startTime, endTime));
+    }
+
+    /**
      * Updates an account request.
      *
      * <p>If the email or institute of the account request is changed, it will be re-created.
@@ -171,6 +178,13 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     private List<AccountRequest> getAccountRequestEntitiesWithStatusSubmitted() {
         return load()
                 .filter("status", AccountRequestStatus.SUBMITTED)
+                .list();
+    }
+
+    private List<AccountRequest> getAccountRequestEntitiesSubmittedWithinPeriod(Instant startTime, Instant endTime) {
+        return load()
+                .filter("createdAt >=", startTime)
+                .filter("createdAt <", endTime)
                 .list();
     }
 

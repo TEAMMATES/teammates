@@ -158,6 +158,8 @@ public final class Const {
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String ACCOUNT_REQUEST_TYPE = "accountrequesttype";
+        public static final String ACCOUNT_REQUESTS_START_TIME = "starttime";
+        public static final String ACCOUNT_REQUESTS_END_TIME = "endtime";
 
         public static final String INTENT = "intent";
 
