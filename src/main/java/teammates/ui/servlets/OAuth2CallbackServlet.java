@@ -7,14 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.common.util.Logger;
 
 /**
  * Servlet that handles the OAuth2 callback.
  */
 public class OAuth2CallbackServlet extends AuthServlet {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -34,14 +31,6 @@ public class OAuth2CallbackServlet extends AuthServlet {
         // Prevent HTTP response splitting
         nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
         resp.sendRedirect(nextUrl);
-    }
-
-    private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
-            throws IOException {
-        resp.setStatus(status);
-        resp.getWriter().print(message);
-
-        log.request(req, status, message);
     }
 
 }

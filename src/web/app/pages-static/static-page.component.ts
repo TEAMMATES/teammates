@@ -60,8 +60,7 @@ export class StaticPageComponent implements OnInit {
   ];
   isFetchingAuthDetails: boolean = false;
 
-  // private backendUrl: string = environment.backendUrl;
-  private frontendUrl: string = environment.frontendUrl;
+  private backendUrl: string = environment.backendUrl;
 
   constructor(private authService: AuthService) {}
 
@@ -78,13 +77,8 @@ export class StaticPageComponent implements OnInit {
         this.isAdmin = res.user.isAdmin;
         this.isMaintainer = res.user.isMaintainer;
       } else {
-        // if (environment.production) {
-          this.studentLoginUrl = `${this.frontendUrl}${res.studentLoginUrl}`;
-          this.instructorLoginUrl = `${this.frontendUrl}${res.instructorLoginUrl}`;
-        // } else {
-        //   this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
-        //   this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
-        // }
+        this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
+        this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
       }
       this.isFetchingAuthDetails = false;
     }, () => {

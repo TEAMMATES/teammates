@@ -6,7 +6,7 @@
       </div>
       <div class="card-body d-flex flex-column align-items-center">
         <div>
-          <button class="btn btn-light" style="min-width: 150px" (click)="signInWithGoogle()">
+          <button class="btn btn-light" style="min-width: 150px" (click)="signInWithGoogle()" [disabled]="isSigningInWithGoogle">
             <tm-ajax-loading *ngIf="isSigningInWithGoogle"></tm-ajax-loading>Log In with Google
           </button>
         </div>
@@ -45,8 +45,8 @@
           <div class="form-group row">
             <div class="col-sm-2"></div>
             <div class="col-sm-10">
-              <button type="submit" class="btn btn-primary">
-                <tm-ajax-loading *ngIf="isFormSubmitting"></tm-ajax-loading>Login
+              <button type="submit" class="btn btn-primary" [disabled]="isSigningInWithEmail">
+                <tm-ajax-loading *ngIf="isSigningInWithEmail"></tm-ajax-loading>Login
               </button>
               <button class="btn btn-light ml-2" (click)="isSignInWithEmail=false; isLoginPage=true">Cancel</button>
             </div>
