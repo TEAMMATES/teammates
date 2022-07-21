@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { AccountService } from '../../../../services/account.service';
-import { StatusMessageService } from '../../../../services/status-message.service';
-import { TimezoneService } from '../../../../services/timezone.service';
-import { AccountRequest, AccountRequestStatus } from '../../../../types/api-output';
-import { AccountRequestUpdateRequest } from '../../../../types/api-request';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
-import { ErrorMessageOutput } from '../../../error-message-output';
+import { AccountService } from '../../../services/account.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
+import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
+import { AccountRequestUpdateRequest } from '../../../types/api-request';
+import { collapseAnim } from '../teammates-common/collapse-anim';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 export enum ProcessAccountRequestPanelStatus {
   SUBMITTED,
@@ -18,7 +18,7 @@ export enum ProcessAccountRequestPanelStatus {
 }
 
 /**
- * Panel to display an account request being processed.
+ * Panel used to display an account request being processed.
  */
 @Component({
   selector: 'tm-process-account-request-panel',

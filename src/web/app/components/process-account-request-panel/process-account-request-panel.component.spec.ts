@@ -2,9 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { JoinState } from '../../../../types/api-output';
-import { LoadingRetryModule } from '../../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../../components/loading-spinner/loading-spinner.module';
+import { JoinState } from '../../../types/api-output';
+import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { InstructorCourseStudentEditPageComponent } from './process-account-request-panel.component';
 
 describe('InstructorCourseStudentEditPageComponent', () => {
