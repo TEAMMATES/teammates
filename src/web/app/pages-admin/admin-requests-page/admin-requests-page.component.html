@@ -45,36 +45,38 @@
 
 <div class="card bg-light">
   <div class="card-body">
-    <div class="mb-1">
-      <h5>Filter by submission time:</h5>
-    </div>
-    <div class="row d-flex justify-content-center">
-      <div class="width-220px m-2 mx-sm-4">
-        <div class="mb-1">
-          <label for="search-from-datepicker" class="font-weight-bold">From</label>
+    <form>
+      <div class="mb-1">
+        <h5>Filter by submission time:</h5>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="width-220px m-2 mx-sm-4">
+          <div class="mb-1">
+            <label for="search-from-datepicker" class="font-weight-bold">From</label>
+          </div>
+          <div class="input-group">
+            <input id="search-from-datepicker" type="text" class="form-control" name="from-date" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.fromDate" #logsFromDp="ngbDatepicker">
+            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
         </div>
-        <div class="input-group">
-          <input id="search-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.fromDate" #logsFromDp="ngbDatepicker">
-          <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
-            <i class="fas fa-calendar-alt"></i>
-          </button>
+        <div class="width-220px m-2 mx-sm-4">
+          <div class="mb-1">
+            <label for="search-to-datepicker" class="font-weight-bold">To</label>
+          </div>
+          <div class="input-group">
+            <input id="search-to-datepicker" type="text" class="form-control" name="to-date" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.toDate" #logsToDp="ngbDatepicker"/>
+            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
         </div>
       </div>
-      <div class="width-220px m-2 mx-sm-4">
-        <div class="mb-1">
-          <label for="search-to-datepicker" class="font-weight-bold">To</label>
-        </div>
-        <div class="input-group">
-          <input id="search-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.toDate" #logsToDp="ngbDatepicker"/>
-          <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
-            <i class="fas fa-calendar-alt"></i>
-          </button>
-        </div>
+      <div class="d-flex justify-content-center mt-4">
+        <button class="btn btn-info" type="submit" (click)="loadAccountRequestsWithinPeriod()">Show Account Requests</button>
       </div>
-    </div>
-    <div class="d-flex justify-content-center mt-4">
-      <button class="btn btn-info" (click)="loadAccountRequestsWithinPeriod()">Show Account Requests</button>
-    </div>
+    </form>
   </div>
 </div>
 

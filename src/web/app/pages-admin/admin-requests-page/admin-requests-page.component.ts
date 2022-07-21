@@ -254,6 +254,15 @@ export class AdminRequestsPageComponent implements OnInit {
    * Loads all account requests submitted within the period specified in formModel.
    */
   loadAccountRequestsWithinPeriod(): void {
+    if (this.formModel.fromDate === null) {
+      this.statusMessageService.showErrorToast('Please enter a start date');
+      return;
+    }
+    if (this.formModel.toDate === null) {
+      this.statusMessageService.showErrorToast('Please enter a end date');
+      return;
+    }
+
     this.hasQueried = true;
     this.accountRequestWithinPeriodTabs = [];
     this.hasAccountRequestsWithinPeriodLoadingFailed = false;
