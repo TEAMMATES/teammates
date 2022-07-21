@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Instruction of contribution question.
@@ -8,4 +10,12 @@ import { Component } from '@angular/core';
   templateUrl: './contribution-question-instruction.component.html',
   styleUrls: ['./contribution-question-instruction.component.scss'],
 })
-export class ContributionQuestionInstructionComponent {}
+export class ContributionQuestionInstructionComponent {
+
+  @Input()
+  questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
+
+  @Input()
+  numOfRecipients: number = 0;
+
+}

@@ -101,6 +101,7 @@ export class LogsPageComponent implements OnInit {
   histogramResult: LogsHistogramDataModel[] = [];
   isLoading: boolean = false;
   isSearching: boolean = false;
+  isSearchingLaterLogs: boolean = false;
   hasResult: boolean = false;
   isTableView: boolean = true;
   isFiltersExpanded: boolean = false;
@@ -163,6 +164,7 @@ export class LogsPageComponent implements OnInit {
 
     this.hasResult = false;
     this.isSearching = true;
+    this.isSearchingLaterLogs = false;
     this.histogramResult = [];
     this.searchResults = [];
     this.logsMap = new Map<string, number>();
@@ -409,7 +411,7 @@ export class LogsPageComponent implements OnInit {
   }
 
   loadLaterLogs(): void {
-    this.isSearching = true;
+    this.isSearchingLaterLogs = true;
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.latestLogTimestampRetrieved;
     this.queryParams.endTime = this.searchEndTime;
@@ -419,14 +421,14 @@ export class LogsPageComponent implements OnInit {
   extendStartTime(): void {
     this.isSearching = true;
     this.queryParams.order = DESCENDING_ORDER;
-    this.queryParams.startTime = this.searchStartTime;
-    this.searchStartTime -= TEN_MINUTES_IN_MILLISECONDS;
     this.queryParams.endTime = this.searchStartTime;
+    this.searchStartTime -= TEN_MINUTES_IN_MILLISECONDS;
+    this.queryParams.startTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
 
   extendEndTime(): void {
-    this.isSearching = true;
+    this.isSearchingLaterLogs = true;
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.searchEndTime;
     this.searchEndTime += TEN_MINUTES_IN_MILLISECONDS;
@@ -448,7 +450,7 @@ export class LogsPageComponent implements OnInit {
   private searchLaterLogs(): void {
     this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => {
-        this.isSearching = false;
+        this.isSearchingLaterLogs = false;
       }))
       .subscribe((generalLogs: GeneralLogs) => {
         this.hasNextPage = generalLogs.hasNextPage;

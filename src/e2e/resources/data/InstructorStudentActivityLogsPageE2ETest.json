@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "tm.e2e.IAuditLogs.instructor",
+      "googleId": "tm.e2e.ISActLogs.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "readNotifications": {}
@@ -9,7 +9,7 @@
   },
   "courses": {
     "course": {
-      "id": "tm.e2e.IAuditLogs.CS2104",
+      "id": "tm.e2e.ISActLogs.CS2104",
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
@@ -17,8 +17,8 @@
   },
   "instructors": {
     "instructor": {
-      "googleId": "tm.e2e.IAuditLogs.instructor",
-      "courseId": "tm.e2e.IAuditLogs.CS2104",
+      "googleId": "tm.e2e.ISActLogs.instructor",
+      "courseId": "tm.e2e.ISActLogs.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -41,19 +41,19 @@
     }
   },
   "students": {
-    "alice.tmms@IAuditLogs.CS2104": {
-      "googleId": "tm.e2e.IAuditLogs.alice.tmms",
+    "alice.tmms@ISActLogs.CS2104": {
+      "googleId": "tm.e2e.ISActLogs.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "tm.e2e.IAuditLogs.CS2104",
+      "course": "tm.e2e.ISActLogs.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "benny.tmms@IAuditLogs.CS2104": {
-      "googleId": "tm.e2e.IAuditLogs.benny.tmms",
+    "benny.tmms@ISActLogs.CS2104": {
+      "googleId": "tm.e2e.ISActLogs.benny.tmms",
       "email": "benny.tmms@gmail.tmt",
-      "course": "tm.e2e.IAuditLogs.CS2104",
+      "course": "tm.e2e.ISActLogs.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
@@ -63,7 +63,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "tm.e2e.IAuditLogs.CS2104",
+      "courseId": "tm.e2e.ISActLogs.CS2104",
       "creatorEmail": "backdoor@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -86,7 +86,7 @@
   },"feedbackQuestions": {
   "qn1": {
     "feedbackSessionName": "First Session",
-    "courseId": "tm.e2e.IAuditLogs.CS2104",
+    "courseId": "tm.e2e.ISActLogs.CS2104",
     "questionDetails": {
       "questionType": "TEXT",
       "questionText": "Testing question text"

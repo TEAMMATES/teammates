@@ -46,7 +46,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   regKey={[Function String]}
   retryAttempts="0"
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -177,7 +176,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -305,7 +303,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -433,7 +430,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -660,7 +656,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1919,8 +1914,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <tm-contribution-question-instruction />
-            <tm-contribution-question-constraint />
+            <tm-contribution-question-instruction>
+            </tm-contribution-question-instruction>
             <p
               class="margin-top-30px margin-bottom-0px"
             >
@@ -1962,7 +1957,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="row"
                       >
                         <div
-                          class="col-lg-3 col-sm-6 col-xs-12"
+                          class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                         >
                           <select
                             class="form-control color-negative ng-untouched ng-pristine ng-valid"
@@ -1971,130 +1966,130 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               value="0: -999"
                             />
                             <option
+                              class="color-positive font-weight-bold"
+                              value="1: 100"
+                            >
+                              Equal share
+                            </option>
+                            <option
                               class="color-positive"
-                              value="1: 200"
+                              value="2: 200"
                             >
                               Equal share + 100%
                             </option>
                             <option
                               class="color-positive"
-                              value="2: 195"
+                              value="3: 195"
                             >
                               Equal share + 95%
                             </option>
                             <option
                               class="color-positive"
-                              value="3: 190"
+                              value="4: 190"
                             >
                               Equal share + 90%
                             </option>
                             <option
                               class="color-positive"
-                              value="4: 185"
+                              value="5: 185"
                             >
                               Equal share + 85%
                             </option>
                             <option
                               class="color-positive"
-                              value="5: 180"
+                              value="6: 180"
                             >
                               Equal share + 80%
                             </option>
                             <option
                               class="color-positive"
-                              value="6: 175"
+                              value="7: 175"
                             >
                               Equal share + 75%
                             </option>
                             <option
                               class="color-positive"
-                              value="7: 170"
+                              value="8: 170"
                             >
                               Equal share + 70%
                             </option>
                             <option
                               class="color-positive"
-                              value="8: 165"
+                              value="9: 165"
                             >
                               Equal share + 65%
                             </option>
                             <option
                               class="color-positive"
-                              value="9: 160"
+                              value="10: 160"
                             >
                               Equal share + 60%
                             </option>
                             <option
                               class="color-positive"
-                              value="10: 155"
+                              value="11: 155"
                             >
                               Equal share + 55%
                             </option>
                             <option
                               class="color-positive"
-                              value="11: 150"
+                              value="12: 150"
                             >
                               Equal share + 50%
                             </option>
                             <option
                               class="color-positive"
-                              value="12: 145"
+                              value="13: 145"
                             >
                               Equal share + 45%
                             </option>
                             <option
                               class="color-positive"
-                              value="13: 140"
+                              value="14: 140"
                             >
                               Equal share + 40%
                             </option>
                             <option
                               class="color-positive"
-                              value="14: 135"
+                              value="15: 135"
                             >
                               Equal share + 35%
                             </option>
                             <option
                               class="color-positive"
-                              value="15: 130"
+                              value="16: 130"
                             >
                               Equal share + 30%
                             </option>
                             <option
                               class="color-positive"
-                              value="16: 125"
+                              value="17: 125"
                             >
                               Equal share + 25%
                             </option>
                             <option
                               class="color-positive"
-                              value="17: 120"
+                              value="18: 120"
                             >
                               Equal share + 20%
                             </option>
                             <option
                               class="color-positive"
-                              value="18: 115"
+                              value="19: 115"
                             >
                               Equal share + 15%
                             </option>
                             <option
                               class="color-positive"
-                              value="19: 110"
+                              value="20: 110"
                             >
                               Equal share + 10%
                             </option>
                             <option
                               class="color-positive"
-                              value="20: 105"
+                              value="21: 105"
                             >
                               Equal share + 5%
-                            </option>
-                            <option
-                              class="color-neutral"
-                              value="21: 100"
-                            >
-                              Equal share
                             </option>
                             <option
                               class="color-negative"
@@ -2219,7 +2214,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </select>
                         </div>
                         <div
-                          class="col-lg-9 col-sm-6 col-xs-12"
+                          class="col-lg-7 col-md-12 col-sm-6 col-xs-12"
                         >
                           <button
                             class="btn btn-link"
@@ -2244,6 +2239,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <div
               class="col-12 constraint-margins"
             >
+              <tm-contribution-question-constraint>
+              </tm-contribution-question-constraint>
             </div>
             <div
               class="row"
@@ -3013,7 +3010,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -4285,8 +4281,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <tm-contribution-question-instruction />
-            <tm-contribution-question-constraint />
+            <tm-contribution-question-instruction>
+            </tm-contribution-question-instruction>
             <p
               class="margin-top-30px margin-bottom-0px"
             >
@@ -4328,7 +4324,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="row"
                       >
                         <div
-                          class="col-lg-3 col-sm-6 col-xs-12"
+                          class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                         >
                           <select
                             class="form-control color-negative ng-untouched ng-pristine ng-valid"
@@ -4337,130 +4333,130 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               value="0: -999"
                             />
                             <option
+                              class="color-positive font-weight-bold"
+                              value="1: 100"
+                            >
+                              Equal share
+                            </option>
+                            <option
                               class="color-positive"
-                              value="1: 200"
+                              value="2: 200"
                             >
                               Equal share + 100%
                             </option>
                             <option
                               class="color-positive"
-                              value="2: 195"
+                              value="3: 195"
                             >
                               Equal share + 95%
                             </option>
                             <option
                               class="color-positive"
-                              value="3: 190"
+                              value="4: 190"
                             >
                               Equal share + 90%
                             </option>
                             <option
                               class="color-positive"
-                              value="4: 185"
+                              value="5: 185"
                             >
                               Equal share + 85%
                             </option>
                             <option
                               class="color-positive"
-                              value="5: 180"
+                              value="6: 180"
                             >
                               Equal share + 80%
                             </option>
                             <option
                               class="color-positive"
-                              value="6: 175"
+                              value="7: 175"
                             >
                               Equal share + 75%
                             </option>
                             <option
                               class="color-positive"
-                              value="7: 170"
+                              value="8: 170"
                             >
                               Equal share + 70%
                             </option>
                             <option
                               class="color-positive"
-                              value="8: 165"
+                              value="9: 165"
                             >
                               Equal share + 65%
                             </option>
                             <option
                               class="color-positive"
-                              value="9: 160"
+                              value="10: 160"
                             >
                               Equal share + 60%
                             </option>
                             <option
                               class="color-positive"
-                              value="10: 155"
+                              value="11: 155"
                             >
                               Equal share + 55%
                             </option>
                             <option
                               class="color-positive"
-                              value="11: 150"
+                              value="12: 150"
                             >
                               Equal share + 50%
                             </option>
                             <option
                               class="color-positive"
-                              value="12: 145"
+                              value="13: 145"
                             >
                               Equal share + 45%
                             </option>
                             <option
                               class="color-positive"
-                              value="13: 140"
+                              value="14: 140"
                             >
                               Equal share + 40%
                             </option>
                             <option
                               class="color-positive"
-                              value="14: 135"
+                              value="15: 135"
                             >
                               Equal share + 35%
                             </option>
                             <option
                               class="color-positive"
-                              value="15: 130"
+                              value="16: 130"
                             >
                               Equal share + 30%
                             </option>
                             <option
                               class="color-positive"
-                              value="16: 125"
+                              value="17: 125"
                             >
                               Equal share + 25%
                             </option>
                             <option
                               class="color-positive"
-                              value="17: 120"
+                              value="18: 120"
                             >
                               Equal share + 20%
                             </option>
                             <option
                               class="color-positive"
-                              value="18: 115"
+                              value="19: 115"
                             >
                               Equal share + 15%
                             </option>
                             <option
                               class="color-positive"
-                              value="19: 110"
+                              value="20: 110"
                             >
                               Equal share + 10%
                             </option>
                             <option
                               class="color-positive"
-                              value="20: 105"
+                              value="21: 105"
                             >
                               Equal share + 5%
-                            </option>
-                            <option
-                              class="color-neutral"
-                              value="21: 100"
-                            >
-                              Equal share
                             </option>
                             <option
                               class="color-negative"
@@ -4585,7 +4581,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </select>
                         </div>
                         <div
-                          class="col-lg-9 col-sm-6 col-xs-12"
+                          class="col-lg-7 col-md-12 col-sm-6 col-xs-12"
                         >
                           <button
                             class="btn btn-link"
@@ -4610,6 +4606,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <div
               class="col-12 constraint-margins"
             >
+              <tm-contribution-question-constraint>
+              </tm-contribution-question-constraint>
             </div>
             <div
               class="row"
@@ -5392,7 +5390,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -5521,7 +5518,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}

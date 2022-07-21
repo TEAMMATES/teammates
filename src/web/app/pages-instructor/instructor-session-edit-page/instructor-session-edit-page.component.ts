@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -202,8 +202,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  constructor(router: Router,
-              instructorService: InstructorService,
+  constructor(instructorService: InstructorService,
               statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
@@ -218,7 +217,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
               private changeDetectorRef: ChangeDetectorRef) {
-    super(router, instructorService, statusMessageService, navigationService,
+    super(instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
         ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService);
   }
@@ -562,7 +561,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.sessionEditFormModel.isDeleting = false;
       }))
       .subscribe(() => {
-        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
+        this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions',
           'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -1156,5 +1155,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       const y: number = newEditForm.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }, 0);
+  }
+
+  scrollToTopOfPage(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
