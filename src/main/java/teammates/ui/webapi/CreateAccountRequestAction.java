@@ -13,7 +13,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.ui.output.AccountRequestCreateResponseData;
+import teammates.ui.output.AccountRequestCreateErrorResults;
+import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountRequestCreateIntent;
 import teammates.ui.request.AccountRequestCreateRequest;
 import teammates.ui.request.AccountRequestType;
@@ -77,10 +78,8 @@ class CreateAccountRequestAction extends Action {
 
         AccountRequestAttributes accountRequestToCreate;
         AccountRequestAttributes accountRequestAttributes;
-        AccountRequestCreateResponseData output = new AccountRequestCreateResponseData();
 
-        AccountRequestCreateResponseData.AccountRequestCreateErrorResults errorResults =
-                new AccountRequestCreateResponseData.AccountRequestCreateErrorResults();
+        AccountRequestCreateErrorResults errorResults = new AccountRequestCreateErrorResults();
 
         try {
             switch (intent) {
@@ -104,9 +103,7 @@ class CreateAccountRequestAction extends Action {
                         instructorEmail, instructorName, joinLink);
                 emailSender.sendEmail(joinEmail);
 
-                output.setMessage("Account request successfully created and approved.");
-                output.setJoinLink(joinLink);
-                break;
+                return new JsonResult(new JoinLinkData(joinLink));
 
             case PUBLIC_CREATE:
                 accountRequestToCreate = AccountRequestAttributes
@@ -124,8 +121,7 @@ class CreateAccountRequestAction extends Action {
                 taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequestAttributes.getEmail(),
                         accountRequestAttributes.getInstitute());
 
-                output.setMessage("Account request successfully created.");
-                break;
+                return new JsonResult("Account request successfully created.");
 
             default:
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -143,8 +139,6 @@ class CreateAccountRequestAction extends Action {
             return new JsonResult("The server encountered an error when processing your request.",
                     HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-
-        return new JsonResult(output);
     }
 
     private String generateExistingAccountRequestErrorMessage(AccountRequestCreateIntent intent,
@@ -164,7 +158,7 @@ class CreateAccountRequestAction extends Action {
 
     private boolean validateAccountRequestAndPopulateErrorResults(
             AccountRequestCreateIntent intent, AccountRequestAttributes accountRequest,
-            AccountRequestCreateResponseData.AccountRequestCreateErrorResults errorResults) {
+            AccountRequestCreateErrorResults errorResults) {
         List<String> invalidityInfo = accountRequest.getInvalidityInfo();
         if (invalidityInfo.isEmpty()) {
             return true;

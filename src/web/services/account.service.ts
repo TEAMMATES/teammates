@@ -3,9 +3,8 @@ import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   Account, AccountRequest,
-  AccountRequestCreateResponse,
   AccountRequests, AccountRequestStatusUpdateResponse,
-  Accounts,
+  Accounts, JoinLink,
   MessageOutput,
 } from '../types/api-output';
 import {
@@ -40,7 +39,7 @@ export class AccountService {
   /**
    * Creates an account request by calling API.
    */
-  createAccountRequestAsAdmin(requestBody: AccountRequestCreateRequest): Observable<AccountRequestCreateResponse> {
+  createAccountRequestAsAdmin(requestBody: AccountRequestCreateRequest): Observable<JoinLink> {
     const paramsMap: Record<string, string> = {
       intent: AccountRequestCreateIntent.ADMIN_CREATE,
       accountrequesttype: AccountRequestType.INSTRUCTOR_ACCOUNT,
@@ -56,7 +55,7 @@ export class AccountService {
     accountRequestType: AccountRequestType,
     captchaResponse: string,
     requestBody: AccountRequestCreateRequest,
-  }): Observable<AccountRequestCreateResponse> {
+  }): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
       intent: AccountRequestCreateIntent.PUBLIC_CREATE,
       accountrequesttype: queryParams.accountRequestType,
