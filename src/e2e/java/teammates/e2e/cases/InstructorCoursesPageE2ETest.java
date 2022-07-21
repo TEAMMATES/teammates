@@ -145,7 +145,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyStatusMessage("All courses have been permanently deleted.");
         coursesPage.verifyNumActiveCourses(3);
         coursesPage.verifyNumDeletedCourses(0);
-        verifyAbsentInDatabase(courses[1]);
         verifyAbsentInDatabase(courses[2]);
     }
 
