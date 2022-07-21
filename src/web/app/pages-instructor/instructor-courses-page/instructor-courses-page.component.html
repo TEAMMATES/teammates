@@ -142,6 +142,9 @@
                           ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse">
                     Copy
                   </button>
+<!--                  <a class="btn btn-primary btn-sm dropdown-item clickable"-->
+<!--                     tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: course.course.courseId}"> View Logs-->
+<!--                  </a>-->
                   <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
                           ngbTooltip="Delete the course and its corresponding students and sessions" placement="left" container="body">
                     Delete
