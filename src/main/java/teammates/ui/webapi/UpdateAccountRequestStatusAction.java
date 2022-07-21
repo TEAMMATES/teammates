@@ -6,7 +6,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.ui.output.AccountRequestData;
-import teammates.ui.output.AccountRequestStatusUpdateResponseData;
 import teammates.ui.request.AccountRequestStatusUpdateIntent;
 
 /**
@@ -27,7 +26,6 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
 
         AccountRequestStatusUpdateIntent intent =
                 AccountRequestStatusUpdateIntent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        AccountRequestStatusUpdateResponseData output = new AccountRequestStatusUpdateResponseData();
         try {
             switch (intent) {
             case TO_APPROVE:
@@ -41,7 +39,6 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
                         accountRequest.getEmail(), accountRequest.getName(), joinLink);
                 emailSender.sendEmail(joinEmail);
 
-                output.setJoinLink(joinLink);
                 break;
 
             case TO_REJECT:
@@ -58,7 +55,6 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
                 }
                 accountRequest = logic.resetAccountRequest(email, institute);
 
-                output.setJoinLink(accountRequest.getRegistrationUrl());
                 break;
 
             default:
@@ -69,8 +65,7 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
                     + " and institute: " + institute + " does not exist.", ednee);
         }
 
-        output.setAccountRequest(new AccountRequestData(accountRequest));
-        return new JsonResult(output);
+        return new JsonResult(new AccountRequestData(accountRequest));
     }
 
 }

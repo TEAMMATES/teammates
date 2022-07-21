@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
 import {
-  Account, AccountRequest,
-  AccountRequests, AccountRequestStatusUpdateResponse,
-  Accounts, JoinLink,
+  Account,
+  AccountRequest,
+  AccountRequests,
+  Accounts,
+  JoinLink,
   MessageOutput,
 } from '../types/api-output';
 import {
@@ -79,7 +81,7 @@ export class AccountService {
   /**
    * Approves an account request by calling API.
    */
-  approveAccountRequest(email: string, institute: string): Observable<AccountRequestStatusUpdateResponse> {
+  approveAccountRequest(email: string, institute: string): Observable<AccountRequest> {
     const paramsMap: Record<string, string> = {
       instructoremail: email,
       instructorinstitution: institute,
@@ -91,7 +93,7 @@ export class AccountService {
   /**
    * Rejects an account request by calling API.
    */
-  rejectAccountRequest(email: string, institute: string): Observable<AccountRequestStatusUpdateResponse> {
+  rejectAccountRequest(email: string, institute: string): Observable<AccountRequest> {
     const paramsMap: Record<string, string> = {
       instructoremail: email,
       instructorinstitution: institute,
@@ -124,7 +126,7 @@ export class AccountService {
   /**
    * Resets an account request by calling API.
    */
-  resetAccountRequest(email: string, institute: string): Observable<AccountRequestStatusUpdateResponse> {
+  resetAccountRequest(email: string, institute: string): Observable<AccountRequest> {
     const paramsMap: Record<string, string> = {
       instructoremail: email,
       instructorinstitution: institute,

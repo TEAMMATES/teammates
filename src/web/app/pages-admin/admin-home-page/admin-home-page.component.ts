@@ -8,8 +8,7 @@ import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
-  Account,
-  AccountRequestStatusUpdateResponse,
+  Account, AccountRequest,
   Accounts,
   Courses, JoinLink,
 } from '../../../types/api-output';
@@ -266,10 +265,11 @@ export class AdminHomePageComponent {
           this.instructorsConsolidated[i].institution,
         )
         .subscribe(
-          (resp: AccountRequestStatusUpdateResponse) => {
+          (resp: AccountRequest) => {
             this.instructorsConsolidated[i].status = 'SUCCESS';
             this.instructorsConsolidated[i].statusCode = 200;
-            this.instructorsConsolidated[i].joinLink = resp.joinLink;
+            this.instructorsConsolidated[i].joinLink =
+              this.linkService.generateAccountRegistrationLink(resp.registrationKey);
             this.ngbModal.dismissAll();
           },
           (resp: ErrorMessageOutput) => {

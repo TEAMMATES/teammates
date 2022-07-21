@@ -977,7 +977,7 @@ describe('AdminSearchPageComponent', () => {
     });
 
     jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
-      joinLink: 'joinlink',
+      joinLink: 'joinlink', // TODO: change to of type AccountRequest, joinLink can be generated
     }));
 
     const spyStatusMessageService = jest.spyOn(statusMessageService, 'showSuccessToast')

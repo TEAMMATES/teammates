@@ -7,7 +7,6 @@ import {
   AccountRequest,
   AccountRequests,
   AccountRequestStatus,
-  AccountRequestStatusUpdateResponse,
 } from '../../../types/api-output';
 import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
@@ -170,8 +169,8 @@ export class AdminRequestsPageComponent implements OnInit {
         finalize(() => {
           accountRequestTab.isSavingChanges = false;
         }))
-      .subscribe((resp: AccountRequestStatusUpdateResponse) => {
-        accountRequestTab.accountRequest = resp.accountRequest;
+      .subscribe((resp: AccountRequest) => {
+        accountRequestTab.accountRequest = resp;
         accountRequestTab.errorMessage = '';
         accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.APPROVED;
         this.statusMessageService.showSuccessToast('Account request successfully approved.');
@@ -192,8 +191,8 @@ export class AdminRequestsPageComponent implements OnInit {
         finalize(() => {
           accountRequestTab.isSavingChanges = false;
         }))
-      .subscribe((resp: AccountRequestStatusUpdateResponse) => {
-        accountRequestTab.accountRequest = resp.accountRequest;
+      .subscribe((resp: AccountRequest) => {
+        accountRequestTab.accountRequest = resp;
         accountRequestTab.errorMessage = '';
         accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.REJECTED;
         this.statusMessageService.showSuccessToast('Account request successfully rejected.');
@@ -232,8 +231,8 @@ export class AdminRequestsPageComponent implements OnInit {
         finalize(() => {
           accountRequestTab.isSavingChanges = false;
         }))
-      .subscribe((resp: AccountRequestStatusUpdateResponse) => {
-        accountRequestTab.accountRequest = resp.accountRequest;
+      .subscribe((resp: AccountRequest) => {
+        accountRequestTab.accountRequest = resp;
         accountRequestTab.errorMessage = '';
         accountRequestTab.panelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
         this.statusMessageService.showSuccessToast('Account request successfully reset.');

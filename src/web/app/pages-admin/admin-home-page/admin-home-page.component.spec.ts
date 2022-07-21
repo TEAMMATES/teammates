@@ -655,7 +655,7 @@ describe('AdminHomePageComponent', () => {
     fixture.detectChanges();
 
     const resetAccountSpy = jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
-      joinLink: 'link',
+      joinLink: 'link', // TODO: change to of type AccountRequest, joinLink can be generated
     }));
 
     const modalSpy = jest
