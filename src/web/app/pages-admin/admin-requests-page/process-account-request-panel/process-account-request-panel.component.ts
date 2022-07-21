@@ -8,6 +8,7 @@ export enum ProcessAccountRequestPanelStatus {
   APPROVED,
   REJECTED,
   REGISTERED,
+  UNDEFINED, // TODO: this is only for old account requests with no status attribute
 }
 
 export interface EditedAccountRequestInfoModel {

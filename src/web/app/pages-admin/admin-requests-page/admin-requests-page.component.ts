@@ -3,11 +3,7 @@ import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import {
-  AccountRequest,
-  AccountRequests,
-  AccountRequestStatus,
-} from '../../../types/api-output';
+import { AccountRequest, AccountRequests, AccountRequestStatus } from '../../../types/api-output';
 import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -305,7 +301,7 @@ export class AdminRequestsPageComponent implements OnInit {
       case AccountRequestStatus.REGISTERED:
         return ProcessAccountRequestPanelStatus.REGISTERED;
       default:
-        throw new Error('Unsupported account request status');
+        return ProcessAccountRequestPanelStatus.UNDEFINED;
     }
   }
 

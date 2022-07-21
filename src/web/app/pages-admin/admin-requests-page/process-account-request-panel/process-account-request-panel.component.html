@@ -8,7 +8,7 @@
         'color-approved': accountRequest!.status === AccountRequestStatus.APPROVED,
         'color-rejected': accountRequest!.status === AccountRequestStatus.REJECTED,
         'color-registered': accountRequest!.status === AccountRequestStatus.REGISTERED
-      }">{{ accountRequest!.status }}</div>
+      }">{{ accountRequest!.status || 'UNDEFINED' }}</div> <!-- TODO: only old account requests should have 'UNDEFINED' status -->
     </div>
   </div>
   <div class="form-group row align-items-top">
