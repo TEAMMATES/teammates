@@ -88,7 +88,7 @@ public abstract class Action {
         this.logsProcessor = logsProcessor;
     }
 
-    public void setAuthInstance(FirebaseInstance firebaseInstance) {
+    public void setFirebaseInstance(FirebaseInstance firebaseInstance) {
         this.firebaseInstance = firebaseInstance;
     }
 
