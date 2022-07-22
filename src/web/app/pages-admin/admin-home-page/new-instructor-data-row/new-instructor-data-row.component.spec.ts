@@ -173,7 +173,7 @@ describe('NewInstructorDataRowComponent', () => {
     fixture.detectChanges();
 
     let hasEmitted = false;
-    component.showRegisteredInstructorModalEvent
+    component.showExistingAccountRequestModalEvent
       .pipe(first())
       .subscribe(() => {
         hasEmitted = true;

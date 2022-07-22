@@ -178,6 +178,17 @@ export class AccountService {
   }
 
   /**
+   * Gets an account request by calling API.
+   */
+  getAccountRequest(email: string, institute: string): Observable<AccountRequest> {
+    const paramsMap: Record<string, string> = {
+      instructoremail: email,
+      instructorinstitution: institute,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap);
+  }
+
+  /**
    * Gets all account requests pending processing by calling API.
    */
   getAccountRequestsPendingProcessing(): Observable<AccountRequests> {

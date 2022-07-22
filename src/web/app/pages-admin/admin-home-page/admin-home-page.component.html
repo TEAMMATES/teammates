@@ -67,7 +67,7 @@
               (addInstructorEvent)="addInstructor(i)"
               (removeInstructorEvent)="removeInstructor(i)"
               (toggleEditModeEvent)="setInstructorRowEditModeEnabled(i, $event)"
-              (showRegisteredInstructorModalEvent)="showRegisteredInstructorModal(i)"
+              (showExistingAccountRequestModalEvent)="showExistingAccountRequestModal(i)"
           ></tr>
         </tbody>
       </table>
@@ -78,19 +78,21 @@
     </div>
   </div>
 </div>
-<ng-template #registeredInstructorModal>
-  <div *tmIsLoading="isRegisteredInstructorModalLoading">
+<ng-template #existingAccountRequestModal>
+  <div *tmIsLoading="isExistingAccountRequestModalLoading">
     <p>
-      You may <a id="reset-account-request-link" href="javascript:;" (click)="resetAccountRequest(registeredInstructorIndex)">reset</a>
-      this account request. Alternatively, reset the Google account or use the Google ID migration script.
+      Below is the existing account request. <del>You may reset this account request. Alternatively, reset the Google account or use the Google ID migration script.</del>
     </p>
+    <tm-process-account-request-panel [accountRequest]="existingAccountRequest"
+                                      [showPanelHeader]="false">
+    </tm-process-account-request-panel>
     <p *ngIf="!registeredInstructorAccountData.length">
       No accounts found for instructor associated with email
-      <b>{{ instructorsConsolidated[registeredInstructorIndex].email }}</b>.
+      <b>{{ instructorsConsolidated[existingAccountRequestIndex].email }}</b>.
     </p>
     <p *ngIf="registeredInstructorAccountData.length">
       The following {{ registeredInstructorAccountData.length }} account(s) are associated with the email
-      <b>{{ instructorsConsolidated[registeredInstructorIndex].email }}</b>:
+      <b>{{ instructorsConsolidated[existingAccountRequestIndex].email }}</b>:
     </p>
     <div class="card" *ngFor="let account of registeredInstructorAccountData">
       <a href="{{ account.manageAccountLink }}" target="_blank"><h5 class="card-header">{{ account.googleId }}</h5></a>
