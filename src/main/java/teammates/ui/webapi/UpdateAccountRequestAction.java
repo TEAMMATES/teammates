@@ -43,7 +43,7 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
         try {
             AccountRequestAttributes updatedAccountRequest = logic.updateAccountRequest(newAccountRequest);
             taskQueuer.scheduleAccountRequestForSearchIndexing(updatedAccountRequest.getEmail(),
-                    updatedAccountRequest.getInstitute()); // TODO: do not delete old document?
+                    updatedAccountRequest.getInstitute());
 
             return new JsonResult(new AccountRequestData(updatedAccountRequest));
         } catch (InvalidParametersException ipe) {
