@@ -305,7 +305,7 @@ describe('SearchService', () => {
     expect(result.institute).toBe('Test Institute');
     expect(result.name).toBe('Test Instructor');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
-    expect(result.registeredAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
+    expect(result.status).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
     expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
   });
 
@@ -317,7 +317,7 @@ describe('SearchService', () => {
     expect(result.institute).toBe('Test Institute');
     expect(result.name).toBe('Test Instructor');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
-    expect(result.registeredAtText).toBe(null);
+    expect(result.status).toBe(null);
     expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
   });
 });

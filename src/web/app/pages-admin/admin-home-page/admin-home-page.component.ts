@@ -36,7 +36,7 @@ export class AdminHomePageComponent {
 
   isAddingInstructors: boolean = false;
 
-  isExistingAccountRequestModalLoading = false;
+  isExistingAccountRequestModalLoading: boolean = false;
   existingAccountRequestIndex: number = 0;
   existingAccountRequest!: AccountRequest;
   registeredInstructorAccountData: RegisteredInstructorAccountData[] = [];
@@ -189,7 +189,7 @@ export class AdminHomePageComponent {
       SimpleModalType.INFO,
       this.existingAccountRequestModal,
       undefined,
-      { scrollable: true },
+      { scrollable: true, size: 'lg', windowClass: 'process-account-request-modal-size' },
     );
 
     this.accountService.getAccountRequest(email, institute).subscribe((ar: AccountRequest) => {

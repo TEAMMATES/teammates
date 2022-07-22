@@ -84,7 +84,8 @@
       Below is the existing account request. <del>You may reset this account request. Alternatively, reset the Google account or use the Google ID migration script.</del>
     </p>
     <tm-process-account-request-panel [accountRequest]="existingAccountRequest"
-                                      [showPanelHeader]="false">
+                                      [showPanelHeader]="false"
+                                      [showRegisteredAt]="true">
     </tm-process-account-request-panel>
     <p *ngIf="!registeredInstructorAccountData.length">
       No accounts found for instructor associated with email
