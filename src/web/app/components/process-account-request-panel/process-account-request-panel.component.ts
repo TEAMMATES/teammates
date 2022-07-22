@@ -46,6 +46,9 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
   @Input()
   panelHeaderColor: string = 'primary';
 
+  @Input()
+  showRegisteredAt: boolean = false;
+
   panelStatus: ProcessAccountRequestPanelStatus = ProcessAccountRequestPanelStatus.SUBMITTED;
   isSavingChanges: boolean = false;
   errorMessage: string = '';

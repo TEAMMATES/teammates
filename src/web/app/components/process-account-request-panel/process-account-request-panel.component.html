@@ -34,6 +34,12 @@
           <div>{{ accountRequest!.lastProcessedAt ? (accountRequest!.lastProcessedAt | formatDateDetail: timezone) : '' }}</div>
         </div>
       </div>
+      <div *ngIf="showRegisteredAt" class="form-group row align-items-top">
+        <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Registered at:</label>
+        <div class="col-md-9 text-md-left">
+          <div>{{ accountRequest!.registeredAt ? (accountRequest!.registeredAt | formatDateDetail: timezone) : '' }}</div>
+        </div>
+      </div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Name:</label>
         <div class="col-md-9 text-md-left">
