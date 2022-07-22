@@ -1,16 +1,17 @@
 <div class="row">
   <div class="col-lg-5 col-md-12 col-sm-6 col-xs-12">
     <select class="form-control"
-            [ngClass]="{'color-positive': responseDetails.answer > 100,
+            [ngClass]="{'color-positive': responseDetails.answer >= 100,
               'color-negative': responseDetails.answer < 100 && responseDetails.answer !== CONTRIBUTION_POINT_NOT_SURE && responseDetails.answer !== CONTRIBUTION_POINT_NOT_SUBMITTED,
-              'color-neutral': responseDetails.answer === 100 || responseDetails.answer === CONTRIBUTION_POINT_NOT_SURE}"
+              'font-weight-bold': responseDetails.answer === 100,
+              'color-black': responseDetails.answer === CONTRIBUTION_POINT_NOT_SURE}"
             [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
       <option [ngValue]="CONTRIBUTION_POINT_NOT_SUBMITTED"></option>
       <option *ngFor="let point of contributionQuestionPoints" [ngValue]="point"
-              [ngClass]="{'color-positive': point > 100,
+              [ngClass]="{'color-positive': point >= 100,
                 'color-negative': point < 100,
-                'color-neutral': point === 100}">{{ point | contributionPointDescription }}</option>
-      <option *ngIf="questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE" class="color-neutral">Not Sure</option>
+                'font-weight-bold': point === 100}">{{ point | contributionPointDescription }}</option>
+      <option *ngIf="questionDetails.isNotSureAllowed" [ngValue]="CONTRIBUTION_POINT_NOT_SURE" class="color-black">Not Sure</option>
     </select>
   </div>
   <div class="col-lg-7 col-md-12 col-sm-6 col-xs-12" *ngIf="shouldShowHelpLink">

@@ -11,13 +11,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Represents the instructor audit logs page of the website.
+ * Represents the student activity logs page of the website.
  */
-public class InstructorAuditLogsPage extends AppPage {
+public class InstructorStudentActivityLogsPage extends AppPage {
     private final Map<String, Boolean> isLogPresentForSession = new HashMap<>();
 
-    @FindBy(id = "course-id-dropdown")
-    private WebElement courseIdDropDown;
+    @FindBy(id = "activity-type-dropdown")
+    private WebElement activityTypeDropdown;
 
     @FindBy(id = "student-name-dropdown")
     private WebElement studentNameDropDown;
@@ -34,13 +34,16 @@ public class InstructorAuditLogsPage extends AppPage {
     @FindBy(id = "logs-to-timepicker")
     private WebElement logsToTimepicker;
 
+    @FindBy(id = "session-dropdown")
+    private WebElement sessionDropdown;
+
     @FindBy(id = "search-button")
     private WebElement searchButton;
 
     @FindBy(id = "logs-output")
     private WebElement logsOutput;
 
-    public InstructorAuditLogsPage(Browser browser) {
+    public InstructorStudentActivityLogsPage(Browser browser) {
         super(browser);
     }
 
@@ -67,8 +70,8 @@ public class InstructorAuditLogsPage extends AppPage {
         return isLogPresentForSession.get(sessionName);
     }
 
-    public String getCourseId() {
-        return getSelectedDropdownOptionText(courseIdDropDown);
+    public String getActivityType() {
+        return getSelectedDropdownOptionText(activityTypeDropdown);
     }
 
     public String getStudentName() {
@@ -91,8 +94,12 @@ public class InstructorAuditLogsPage extends AppPage {
         return getSelectedDropdownOptionText(logsToTimepicker.findElement(By.className("form-control")));
     }
 
-    public void setCourseId(String courseId) {
-        selectDropdownOptionByText(courseIdDropDown, courseId);
+    public String getSession() {
+        return getSelectedDropdownOptionText(sessionDropdown);
+    }
+
+    public void setActivityType(String activityType) {
+        selectDropdownOptionByText(activityTypeDropdown, activityType);
     }
 
     public void setStudentName(String studentName) {
@@ -105,6 +112,10 @@ public class InstructorAuditLogsPage extends AppPage {
 
     public void setLogsToDateTime(Instant instant, String timeZone) {
         setDateTime(logsToDatepicker, logsToTimepicker, instant, timeZone);
+    }
+
+    public void setSessionDropdown(String session) {
+        selectDropdownOptionByText(sessionDropdown, session);
     }
 
     private String getTimeString(Instant instant, String timeZone) {
