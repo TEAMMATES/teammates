@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
 import { AccountRequestUpdateRequest } from '../../../types/api-request';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 
 export enum ProcessAccountRequestPanelStatus {
   SUBMITTED,
@@ -59,6 +62,7 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
 
   constructor(private accountService: AccountService,
               private statusMessageService: StatusMessageService,
+              private simpleModalService: SimpleModalService,
               private timezoneService: TimezoneService) {
   }
 
@@ -153,21 +157,45 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
    * Deletes the account request.
    */
   deleteAccountRequest(): void {
-    this.isSavingChanges = true;
-    this.accountService.deleteAccountRequest(this.accountRequest.email, this.accountRequest.institute)
-      .pipe(
-        finalize(() => {
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+      'Delete account request?',
+      SimpleModalType.WARNING,
+      'Are you sure you want to delete this account request? This action is irreversible.');
+
+    modalRef.result.then(() => {
+      this.isSavingChanges = true;
+      this.accountService.deleteAccountRequest(this.accountRequest.email, this.accountRequest.institute)
+        .pipe(
+          finalize(() => {
+            this.isSavingChanges = false;
+          }))
+        .subscribe(() => {
+          this.errorMessage = '';
+          this.panelStatus = ProcessAccountRequestPanelStatus.UNDEFINED;
+          this.statusMessageService.showSuccessToast('Account request successfully deleted.');
+        }, (resp: ErrorMessageOutput) => {
           this.isSavingChanges = false;
-        }))
-      .subscribe(() => {
-        this.errorMessage = '';
-        this.panelStatus = ProcessAccountRequestPanelStatus.UNDEFINED;
-        this.statusMessageService.showSuccessToast('Account request successfully deleted.');
-      }, (resp: ErrorMessageOutput) => {
-        this.isSavingChanges = false;
-        this.errorMessage = resp.error.message;
-        this.statusMessageService.showErrorToast('Failed to delete account request.');
-      });
+          this.errorMessage = resp.error.message;
+          this.statusMessageService.showErrorToast('Failed to delete account request.');
+        });
+    }, () => {});
+  }
+
+  showOptionalResetAccountRequestWarning(): void {
+    if (this.accountRequest.status === AccountRequestStatus.REGISTERED) {
+      const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Reset account request?',
+        SimpleModalType.WARNING,
+        'It appears that the registration key with this account request has already been used to create an account'
+        + ' and the instructor has joined TEAMMATES. Resetting it now will change its status back to SUBMITTED,'
+        + ' after which it can be approved again and the join link can be reused to create another account.'
+        + ' Are you sure you want to reset this account request? This action is irreversible.');
+      modalRef.result.then(() => {
+        this.resetAccountRequest();
+      }, () => {});
+    } else {
+      this.resetAccountRequest();
+    }
   }
 
   /**

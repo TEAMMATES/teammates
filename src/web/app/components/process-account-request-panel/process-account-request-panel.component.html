@@ -85,13 +85,12 @@
       </div>
       <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.REJECTED" class="mx-auto">
         <button type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()" [disabled]="isSavingChanges">Approve</button>
-        <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="resetAccountRequest()" [disabled]="isSavingChanges">Reset</button>
+        <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="showOptionalResetAccountRequestWarning()" [disabled]="isSavingChanges">Reset</button>
         <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
       </div>
       <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.REGISTERED" class="mx-auto">
-        <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="resetAccountRequest()" [disabled]="isSavingChanges">Reset</button>
+        <button type="button" class="btn btn-danger button-width mx-2 my-1" (click)="showOptionalResetAccountRequestWarning()" [disabled]="isSavingChanges">Reset</button>
       </div>
-      <!--  TODO add confirmation for delete-->
     </div>
   </div>
 </div>
