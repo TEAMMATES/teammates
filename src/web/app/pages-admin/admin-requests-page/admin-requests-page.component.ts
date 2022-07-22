@@ -54,13 +54,7 @@ export class AdminRequestsPageComponent implements OnInit {
     this.dateToday.month = now.getMonth() + 1;
     this.dateToday.day = now.getDate();
 
-    // Default start date is one week before
-    const fromDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    this.formModel.fromDate = {
-      year: fromDate.getFullYear(),
-      month: fromDate.getMonth() + 1,
-      day: fromDate.getDate(),
-    };
+    this.formModel.fromDate = { ...this.dateToday };
     this.formModel.toDate = { ...this.dateToday };
 
     this.loadAccountRequestsPendingProcessing();
