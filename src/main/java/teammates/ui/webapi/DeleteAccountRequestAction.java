@@ -14,8 +14,7 @@ class DeleteAccountRequestAction extends AdminOnlyAction {
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
         AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
-        if (accountRequest != null && accountRequest.getRegisteredAt() != null) {
-            // instructor is registered
+        if (accountRequest != null && accountRequest.hasRegistrationKeyBeenUsedToJoin()) {
             throw new InvalidOperationException("Account request of a registered instructor cannot be deleted.");
         }
 

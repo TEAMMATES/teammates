@@ -29,8 +29,8 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
         try {
             switch (intent) {
             case TO_APPROVE:
-                if (accountRequest.getStatus().equals(AccountRequestStatus.REGISTERED)) {
-                    throw new InvalidOperationException("Account requests with status REGISTERED cannot be approved.");
+                if (accountRequest.hasRegistrationKeyBeenUsedToJoin()) {
+                    throw new InvalidOperationException("Account request of a registered instructor cannot be approved.");
                 }
                 accountRequest = logic.approveAccountRequest(email, institute);
 
@@ -42,8 +42,8 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
                 break;
 
             case TO_REJECT:
-                if (accountRequest.getStatus().equals(AccountRequestStatus.REGISTERED)) {
-                    throw new InvalidOperationException("Account requests with status REGISTERED cannot be rejected.");
+                if (accountRequest.hasRegistrationKeyBeenUsedToJoin()) {
+                    throw new InvalidOperationException("Account request of a registered instructor cannot be rejected.");
                 }
                 accountRequest = logic.rejectAccountRequest(email, institute);
                 break;

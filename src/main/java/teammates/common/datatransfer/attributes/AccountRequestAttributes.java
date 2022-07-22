@@ -253,7 +253,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         if (status == null) {
             return registeredAt != null;
         } else {
-            return registeredAt != null && status.equals(AccountRequestStatus.REGISTERED);
+            return registeredAt != null || status.equals(AccountRequestStatus.REGISTERED);
         }
     }
 
