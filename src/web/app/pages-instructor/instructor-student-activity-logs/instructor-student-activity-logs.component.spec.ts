@@ -1,8 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -19,21 +19,20 @@ import {
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
-import { InstructorAuditLogsPageComponent } from './instructor-audit-logs-page.component';
-import { InstructorAuditLogsPageModule } from './instructor-audit-logs-page.module';
+import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
+import { InstructorStudentActivityLogsModule } from './instructor-student-activity-logs.module';
 
-describe('InstructorAuditLogsPageComponent', () => {
-  let component: InstructorAuditLogsPageComponent;
-  let fixture: ComponentFixture<InstructorAuditLogsPageComponent>;
-  let courseService: CourseService;
+describe('InstructorStudentActivityLogsComponent', () => {
+  let component: InstructorStudentActivityLogsComponent;
+  let fixture: ComponentFixture<InstructorStudentActivityLogsComponent>;
   let studentService: StudentService;
   let logService: LogService;
   let timezoneService: TimezoneService;
 
+  const LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   const resultColumns: ColumnData[] = [
-    { header: 'Time', sortBy: SortBy.LOG_DATE },
+    { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
     { header: 'Name', sortBy: SortBy.GIVER_NAME },
-    { header: 'Activity', sortBy: SortBy.LOG_TYPE },
     { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
     { header: 'Section', sortBy: SortBy.SECTION_NAME },
     { header: 'Team', sortBy: SortBy.TEAM_NAME },
@@ -50,42 +49,6 @@ describe('InstructorAuditLogsPageComponent', () => {
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const testCourse2: Course = {
-    courseId: 'MA1234',
-    courseName: 'MA1234',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
-  };
-  const testCourse3: Course = {
-    courseId: 'EE1111',
-    courseName: 'EE1111',
-    institute: 'Test Institute',
-    timeZone: 'Asia/Singapore',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: false,
-      canModifySession: false,
-      canModifyStudent: false,
-      canModifyInstructor: false,
       canViewStudentInSections: true,
       canModifySessionCommentsInSections: true,
       canViewSessionInSections: true,
@@ -143,13 +106,16 @@ describe('InstructorAuditLogsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [InstructorAuditLogsPageModule, HttpClientTestingModule],
+      imports: [
+        InstructorStudentActivityLogsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InstructorAuditLogsPageComponent);
-    courseService = TestBed.inject(CourseService);
+    fixture = TestBed.createComponent(InstructorStudentActivityLogsComponent);
     studentService = TestBed.inject(StudentService);
     logService = TestBed.inject(LogService);
     timezoneService = TestBed.inject(TimezoneService);
@@ -172,19 +138,19 @@ describe('InstructorAuditLogsPageComponent', () => {
   });
 
   it('should snap when searching for details in search form', () => {
-    component.courses = [testCourse1, testCourse2];
+    component.course = testCourse1;
     component.formModel = {
       logsDateFrom: { year: 1997, month: 9, day: 11 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
-      courseId: 'CS9999',
       studentEmail: 'doejohn@email.com',
+      logType: 'session access',
+      feedbackSessionName: '',
+      showActions: false,
+      showInactions: false,
     };
-    component.courseToStudents = {
-      CS9999: [testStudent],
-      MA1234: [],
-    };
+    component.students = [testStudent];
     component.isLoading = false;
     component.isSearching = true;
     fixture.detectChanges();
@@ -221,27 +187,6 @@ describe('InstructorAuditLogsPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should load all courses that instructor has on init', () => {
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor')
-        .mockReturnValue(of({
-          courses: [
-            testCourse1, testCourse2, testCourse3,
-          ],
-        }));
-
-    component.ngOnInit();
-
-    expect(component.isLoading).toBeFalsy();
-    expect(courseSpy).toBeCalledWith('active');
-    expect(component.courses.length).toEqual(2);
-    expect(component.courses).toContainEqual(testCourse1);
-    expect(component.courses).toContainEqual(testCourse2);
-    expect(component.courses).not.toContainEqual(testCourse3);
-
-    // courseToStudents not loaded on init
-    expect(component.courseToStudents).toMatchObject({});
-  });
-
   it('should load all students of selected course has on select', () => {
     const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
         .mockReturnValue(of({
@@ -250,11 +195,10 @@ describe('InstructorAuditLogsPageComponent', () => {
           ],
         }));
 
-    component.formModel.courseId = testCourse1.courseId;
-    component.loadStudents();
+    component.loadStudents(testCourse1.courseId);
 
-    expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
-    expect(component.courseToStudents[testCourse1.courseId][1]).toEqual(testStudent);
+    expect(component.students[0]).toEqual(emptyStudent);
+    expect(component.students[1]).toEqual(testStudent);
     expect(studentSpy).toHaveBeenNthCalledWith(1, { courseId: testCourse1.courseId });
   });
 
@@ -266,12 +210,11 @@ describe('InstructorAuditLogsPageComponent', () => {
           ],
         }));
 
-    component.formModel.courseId = testCourse1.courseId;
-    component.courseToStudents[testCourse1.courseId] = [emptyStudent];
-    component.loadStudents();
+    component.students = [emptyStudent];
+    component.loadStudents(testCourse1.courseId);
 
-    expect(component.courseToStudents[testCourse1.courseId].length).toEqual(1);
-    expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
+    expect(component.students.length).toEqual(1);
+    expect(component.students[0]).toEqual(emptyStudent);
     expect(studentSpy).not.toHaveBeenCalled();
   });
 
@@ -288,11 +231,14 @@ describe('InstructorAuditLogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      courseId: testCourse1.courseId,
       studentEmail: testStudent.email,
+      logType: 'submission',
+      feedbackSessionName: '',
+      showActions: true,
+      showInactions: false,
     };
-    component.courses = [testCourse1];
-    component.courseToStudents = { CS9999: [testStudent] };
+    component.course = testCourse1;
+    component.students = [testStudent];
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#search-button').click();
@@ -310,15 +256,20 @@ describe('InstructorAuditLogsPageComponent', () => {
       searchFrom: (new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
       searchUntil: (new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
       studentEmail: testStudent.email,
+      sessionName: '',
+      logType: 'submission',
     });
 
     expect(component.searchResults.length).toEqual(2);
 
+    const timestamp: string = timezoneService.formatToString(
+        0, testFeedbackSession.timeZone, LOGS_DATE_TIME_FORMAT);
+
     for (let i: number = 0; i < 2; i += 1) {
-      expect(component.searchResults[i].isTabExpanded).toBeFalsy();
+      expect(component.searchResults[i].isTabExpanded).toBeTruthy();
       expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
       // Testing that the LogType is converted correctly.
-      expect(component.searchResults[i].logRowsData[0][2].value).toEqual('Submitted responses');
+      expect(component.searchResults[i].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
     }
   });
 });
