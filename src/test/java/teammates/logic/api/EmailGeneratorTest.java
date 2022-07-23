@@ -767,5 +767,4 @@ public class EmailGeneratorTest extends BaseLogicTest {
         }
         assertTrue(hasReceivedEmailCorrectly);
     }
-
 }
