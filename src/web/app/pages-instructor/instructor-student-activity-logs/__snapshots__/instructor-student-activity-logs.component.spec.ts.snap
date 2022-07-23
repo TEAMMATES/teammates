@@ -1,28 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorAuditLogsPageComponent should snap when page is still loading 1`] = `
-<tm-instructor-audit-logs-page
+exports[`InstructorStudentActivityLogsComponent should snap when page is still loading 1`] = `
+<tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
+  LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
+  course={[Function Object]}
   courseService={[Function CourseService]}
-  courseToStudents={[Function Object]}
-  courses={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
+  feedbackSessions={[Function Map]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
   isSearching="false"
   logsService={[Function LogService]}
+  route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  studentToLog={[Function Object]}
+  students={[Function Array]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Student Activity Logs
+    Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
@@ -51,32 +56,37 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
     <div>
     </div>
   </div>
-</tm-instructor-audit-logs-page>
+</tm-instructor-student-activity-logs>
 `;
 
-exports[`InstructorAuditLogsPageComponent should snap when searching for details in search form 1`] = `
-<tm-instructor-audit-logs-page
+exports[`InstructorStudentActivityLogsComponent should snap when searching for details in search form 1`] = `
+<tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
+  LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
+  course={[Function Object]}
   courseService={[Function CourseService]}
-  courseToStudents={[Function Object]}
-  courses={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
+  feedbackSessions={[Function Map]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading="false"
   isSearching={[Function Boolean]}
   logsService={[Function LogService]}
+  route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  studentToLog={[Function Object]}
+  students={[Function Array]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Student Activity Logs
+    Student Activity Logs For CS9999
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
@@ -102,9 +112,9 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
           >
             <label
               class="font-weight-bold"
-              for="course-id-dropdown"
+              for="activity-type-dropdown"
             >
-              Course ID
+              Activity Type
             </label>
           </div>
           <div
@@ -112,7 +122,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
           >
             <select
               class="form-control col-12 ng-untouched ng-pristine ng-valid"
-              id="course-id-dropdown"
+              id="activity-type-dropdown"
             >
               <option
                 disabled=""
@@ -120,13 +130,27 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                 selected=""
                 value=""
               >
-                Select Course ID
+                Select Activity Type
               </option>
-              <option>
-                 CS9999 
+              <option
+                value="access"
+              >
+                 session access 
               </option>
-              <option>
-                 MA1234 
+              <option
+                value="submission"
+              >
+                 session submission 
+              </option>
+              <option
+                value="access,submission"
+              >
+                 session access and submission 
+              </option>
+              <option
+                value="view result"
+              >
+                 view session results 
               </option>
             </select>
           </div>
@@ -513,6 +537,68 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
           </div>
         </div>
       </div>
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-5"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="session-dropdown"
+            >
+              Feedback Session Name (Optional)
+            </label>
+          </div>
+          <div
+            class="col-12"
+          >
+            <select
+              class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
+              id="session-dropdown"
+            >
+              <option
+                value=""
+              />
+            </select>
+          </div>
+        </div>
+        <div
+          class="row mt-md-1 ml-md-3"
+        >
+          <div
+            class="col-12 form-check"
+            style="margin-top: 30px;"
+          >
+            <label
+              class="form-check-label"
+            >
+              <input
+                class="form-check-input"
+                id="show-actions"
+                name="showActions"
+                type="checkbox"
+              />
+               Show actions 
+            </label>
+            <label
+              class="form-check-label"
+              style="margin-left: 40px;"
+            >
+              <input
+                class="form-check-input"
+                id="show-inactions"
+                name="showInactions"
+                type="checkbox"
+              />
+               Show inactions 
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
   </div><div
     id="logs-output"
@@ -533,32 +619,37 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
       </div>
     </tm-loading-spinner>
   </div>
-</tm-instructor-audit-logs-page>
+</tm-instructor-student-activity-logs>
 `;
 
-exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = `
-<tm-instructor-audit-logs-page
+exports[`InstructorStudentActivityLogsComponent should snap with default fields 1`] = `
+<tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
+  LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
+  course={[Function Object]}
   courseService={[Function CourseService]}
-  courseToStudents={[Function Object]}
-  courses={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
+  feedbackSessions={[Function Map]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
   isSearching="false"
   logsService={[Function LogService]}
+  route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  studentToLog={[Function Object]}
+  students={[Function Array]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Student Activity Logs
+    Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
@@ -587,32 +678,37 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
     <div>
     </div>
   </div>
-</tm-instructor-audit-logs-page>
+</tm-instructor-student-activity-logs>
 `;
 
-exports[`InstructorAuditLogsPageComponent should snap with results of a search 1`] = `
-<tm-instructor-audit-logs-page
+exports[`InstructorStudentActivityLogsComponent should snap with results of a search 1`] = `
+<tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOGS_RETENTION_PERIOD={[Function Number]}
+  LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
+  course={[Function Object]}
   courseService={[Function CourseService]}
-  courseToStudents={[Function Object]}
-  courses={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
+  feedbackSessions={[Function Map]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading="false"
   isSearching="false"
   logsService={[Function LogService]}
+  route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  studentToLog={[Function Object]}
+  students={[Function Array]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Student Activity Logs
+    Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
@@ -638,9 +734,9 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
           >
             <label
               class="font-weight-bold"
-              for="course-id-dropdown"
+              for="activity-type-dropdown"
             >
-              Course ID
+              Activity Type
             </label>
           </div>
           <div
@@ -648,7 +744,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
           >
             <select
               class="form-control col-12 ng-untouched ng-pristine ng-valid"
-              id="course-id-dropdown"
+              id="activity-type-dropdown"
             >
               <option
                 disabled=""
@@ -656,7 +752,27 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                 selected=""
                 value=""
               >
-                Select Course ID
+                Select Activity Type
+              </option>
+              <option
+                value="access"
+              >
+                 session access 
+              </option>
+              <option
+                value="submission"
+              >
+                 session submission 
+              </option>
+              <option
+                value="access,submission"
+              >
+                 session access and submission 
+              </option>
+              <option
+                value="view result"
+              >
+                 view session results 
               </option>
             </select>
           </div>
@@ -1038,6 +1154,68 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
           </div>
         </div>
       </div>
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-5"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="session-dropdown"
+            >
+              Feedback Session Name (Optional)
+            </label>
+          </div>
+          <div
+            class="col-12"
+          >
+            <select
+              class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
+              id="session-dropdown"
+            >
+              <option
+                value=""
+              />
+            </select>
+          </div>
+        </div>
+        <div
+          class="row mt-md-1 ml-md-3"
+        >
+          <div
+            class="col-12 form-check"
+            style="margin-top: 30px;"
+          >
+            <label
+              class="form-check-label"
+            >
+              <input
+                class="form-check-input"
+                id="show-actions"
+                name="showActions"
+                type="checkbox"
+              />
+               Show actions 
+            </label>
+            <label
+              class="form-check-label"
+              style="margin-left: 40px;"
+            >
+              <input
+                class="form-check-input"
+                id="show-inactions"
+                name="showInactions"
+                type="checkbox"
+              />
+               Show inactions 
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
   </div><div
     id="logs-output"
@@ -1081,7 +1259,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                         <span
                           container="body"
                         >
-                          Time
+                          Status
                         </span>
                         <span
                           class="fa-stack"
@@ -1107,22 +1285,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                           />
                           <i
                             class="fas fa-sort-up"
-                          />
-                        </span>
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                        <span
-                          container="body"
-                        >
-                          Activity
-                        </span>
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
                           />
                         </span>
                       </th>
@@ -1251,5 +1413,5 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
       </div>
     </div>
   </div>
-</tm-instructor-audit-logs-page>
+</tm-instructor-student-activity-logs>
 `;
