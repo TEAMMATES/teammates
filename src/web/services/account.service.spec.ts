@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ResourceEndpoints } from '../types/api-const';
-import { AccountRequestCreateRequest } from '../types/api-request';
+import { AccountCreateRequest } from '../types/api-request';
 import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
 
@@ -70,15 +70,12 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account request endpoint', () => {
-    const testRequest: AccountRequestCreateRequest = {
-      instructorName: 'testName',
-      instructorInstitute: 'testInstitute',
-      instructorCountry: 'testCountry',
+    const testRequest: AccountCreateRequest = {
       instructorEmail: 'testEmail',
-      instructorHomePageUrl: '',
-      comments: '',
+      instructorInstitution: 'testInstitution',
+      instructorName: 'testName',
     };
-    service.createAccountRequestAsAdmin(testRequest);
+    service.createAccountRequest(testRequest);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, {}, testRequest);
   });
 

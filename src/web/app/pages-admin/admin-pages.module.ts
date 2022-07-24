@@ -14,14 +14,6 @@ const routes: Routes = [
     },
   },
   {
-    path: 'requests',
-    loadChildren: () => import('./admin-requests-page/admin-requests-page.module')
-      .then((m: any) => m.AdminRequestsPageModule),
-    data: {
-      pageTitle: 'Account Requests',
-    },
-  },
-  {
     path: 'accounts',
     loadChildren: () => import('./admin-accounts-page/admin-accounts-page.module')
         .then((m: any) => m.AdminAccountsPageModule),

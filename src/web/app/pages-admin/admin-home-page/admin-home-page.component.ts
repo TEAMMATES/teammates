@@ -7,13 +7,9 @@ import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import {
-  Account, AccountRequest,
-  Accounts,
-  Courses, JoinLink,
-} from '../../../types/api-output';
+import { Account, Accounts, Courses, JoinLink } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 
 /**
@@ -36,12 +32,11 @@ export class AdminHomePageComponent {
 
   isAddingInstructors: boolean = false;
 
-  isExistingAccountRequestModalLoading: boolean = false;
-  existingAccountRequestIndex: number = 0;
-  existingAccountRequest!: AccountRequest;
+  isRegisteredInstructorModalLoading = false;
+  registeredInstructorIndex: number = 0;
   registeredInstructorAccountData: RegisteredInstructorAccountData[] = [];
 
-  @ViewChild('existingAccountRequestModal') existingAccountRequestModal!: TemplateRef<any>;
+  @ViewChild('registeredInstructorModal') registeredInstructorModal!: TemplateRef<any>;
 
   constructor(
     private accountService: AccountService,
@@ -113,14 +108,10 @@ export class AdminHomePageComponent {
     instructor.status = 'ADDING';
 
     this.isAddingInstructors = true;
-
-    this.accountService.createAccountRequestAsAdmin({
-      instructorName: instructor.name,
-      instructorInstitute: instructor.institution, // final institute
-      instructorCountry: '',
+    this.accountService.createAccountRequest({
       instructorEmail: instructor.email,
-      instructorHomePageUrl: '',
-      comments: '',
+      instructorName: instructor.name,
+      instructorInstitution: instructor.institution,
     })
         .pipe(finalize(() => {
           this.isAddingInstructors = false;
@@ -130,19 +121,10 @@ export class AdminHomePageComponent {
           instructor.statusCode = 200;
           instructor.joinLink = resp.joinLink;
           this.activeRequests -= 1;
-        }, (resp: ErrorMessageOutput | AccountRequestCreateErrorResultsWrapper) => {
+        }, (resp: ErrorMessageOutput) => {
           instructor.status = 'FAIL';
           instructor.statusCode = resp.status;
-          if ('message' in resp.error) {
-            // resp is ErrorMessageOutput
-            instructor.message = resp.error.message;
-          } else {
-            // resp is AccountRequestCreateErrorResultsWrapper
-            instructor.message = [resp.error.invalidNameMessage, resp.error.invalidEmailMessage,
-              resp.error.invalidInstituteMessage]
-              .filter(Boolean)
-              .join(' ');
-          }
+          instructor.message = resp.error.message;
           this.activeRequests -= 1;
         });
   }
@@ -174,41 +156,33 @@ export class AdminHomePageComponent {
   }
 
   /**
-   * Opens a modal containing more information about an existing account request.
+   * Opens a modal containing more information about a registered instructor.
    */
-  showExistingAccountRequestModal(i: number): void {
-    this.isExistingAccountRequestModalLoading = true;
-    this.existingAccountRequestIndex = i;
+  showRegisteredInstructorModal(i: number): void {
+    this.registeredInstructorIndex = i;
     this.registeredInstructorAccountData = [];
+    this.isRegisteredInstructorModalLoading = true;
 
     const email = this.instructorsConsolidated[i].email;
-    const institute = this.instructorsConsolidated[i].institution;
 
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
-      'An account request already exists',
+      'An instructor has already registered using this account request',
       SimpleModalType.INFO,
-      this.existingAccountRequestModal,
+      this.registeredInstructorModal,
       undefined,
-      { scrollable: true, size: 'lg', windowClass: 'process-account-request-modal-size' },
+      { scrollable: true },
     );
 
-    this.accountService.getAccountRequest(email, institute).subscribe((ar: AccountRequest) => {
-      this.existingAccountRequest = ar;
-
-      this.accountService.getAccounts(email).pipe(
-        map((accounts: Accounts) => accounts.accounts),
-        mergeMap((accounts: Account[]) =>
-          forkJoin(accounts.map(
-            (account: Account) => this.getRegisteredAccountData(account.googleId)),
-          ),
+    this.accountService.getAccounts(email).pipe(
+      map((accounts: Accounts) => accounts.accounts),
+      mergeMap((accounts: Account[]) =>
+        forkJoin(accounts.map(
+          (account: Account) => this.getRegisteredAccountData(account.googleId)),
         ),
-        finalize(() => { this.isExistingAccountRequestModalLoading = false; }),
-      ).subscribe((resp: RegisteredInstructorAccountData[]) => {
-        this.registeredInstructorAccountData = resp;
-      }, (resp: ErrorMessageOutput) => {
-        modalRef.dismiss();
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+      ),
+      finalize(() => { this.isRegisteredInstructorModalLoading = false; }),
+    ).subscribe((resp: RegisteredInstructorAccountData[]) => {
+      this.registeredInstructorAccountData = resp;
     }, (resp: ErrorMessageOutput) => {
       modalRef.dismiss();
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -256,7 +230,6 @@ export class AdminHomePageComponent {
     );
   }
 
-  // TODO: this method should be deleted
   resetAccountRequest(i: number): void {
     const modalContent = `Are you sure you want to reset the account request for
         <strong>${this.instructorsConsolidated[i].name}</strong> with email
@@ -275,11 +248,10 @@ export class AdminHomePageComponent {
           this.instructorsConsolidated[i].institution,
         )
         .subscribe(
-          (resp: AccountRequest) => {
+          (resp: JoinLink) => {
             this.instructorsConsolidated[i].status = 'SUCCESS';
             this.instructorsConsolidated[i].statusCode = 200;
-            this.instructorsConsolidated[i].joinLink =
-              this.linkService.generateAccountRegistrationLink(resp.registrationKey);
+            this.instructorsConsolidated[i].joinLink = resp.joinLink;
             this.ngbModal.dismissAll();
           },
           (resp: ErrorMessageOutput) => {
