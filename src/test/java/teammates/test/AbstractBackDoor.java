@@ -769,10 +769,21 @@ public abstract class AbstractBackDoor {
         }
 
         AccountRequestData accountRequestData = JsonUtils.fromJson(response.responseBody, AccountRequestData.class);
-
-        return AccountRequestAttributes
-                .builder(accountRequestData.getEmail(), accountRequestData.getInstitute(), accountRequestData.getName())
+        AccountRequestAttributes accountRequestAttributes = AccountRequestAttributes
+                .builder(accountRequestData.getName(), accountRequestData.getInstitute(), accountRequestData.getEmail(),
+                        accountRequestData.getHomePageUrl(), accountRequestData.getComments())
+                .withStatus(accountRequestData.getStatus())
                 .build();
+        accountRequestAttributes.setCreatedAt(Instant.ofEpochMilli(accountRequestData.getCreatedAt()));
+        accountRequestAttributes.setRegistrationKey(accountRequestData.getRegistrationKey());
+        if (accountRequestData.getLastProcessedAt() != null) {
+            accountRequestAttributes.setLastProcessedAt(Instant.ofEpochMilli(accountRequestData.getLastProcessedAt()));
+        }
+        if (accountRequestData.getRegisteredAt() != null) {
+            accountRequestAttributes.setRegisteredAt(Instant.ofEpochMilli(accountRequestData.getRegisteredAt()));
+        }
+
+        return accountRequestAttributes;
     }
 
     /**

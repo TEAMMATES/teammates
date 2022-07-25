@@ -99,6 +99,22 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         return new Builder(name, institute, email, homePageUrl, comments);
     }
 
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setLastProcessedAt(Instant lastProcessedAt) {
+        this.lastProcessedAt = lastProcessedAt;
+    }
+
+    public void setRegisteredAt(Instant registeredAt) {
+        this.registeredAt = registeredAt;
+    }
+
+    public void setRegistrationKey(String registrationKey) {
+        this.registrationKey = registrationKey;
+    }
+
     public String getRegistrationKey() {
         return registrationKey;
     }
