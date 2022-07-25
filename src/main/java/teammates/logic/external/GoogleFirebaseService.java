@@ -1,7 +1,5 @@
 package teammates.logic.external;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.google.auth.oauth2.GoogleCredentials;
@@ -24,23 +22,16 @@ public class GoogleFirebaseService implements FirebaseService {
 
     private static final Logger log = Logger.getLogger();
 
-    public GoogleFirebaseService(String serviceAccountFilename) {
+    public GoogleFirebaseService() throws FirebaseException {
         try {
-            FileInputStream serviceAccount = new FileInputStream(serviceAccountFilename);
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setCredentials(GoogleCredentials.getApplicationDefault())
                     .build();
-//            FirebaseOptions options = FirebaseOptions.builder()
-//                    .setCredentials(GoogleCredentials.getApplicationDefault())
-//                    .build();
             FirebaseApp.initializeApp(options);
             log.info("Initialized FirebaseApp instance of name " + FirebaseApp.getInstance().getName());
-        } catch (FileNotFoundException | SecurityException e) {
-            log.severe("File cannot be read.");
-        } catch (IOException e) {
-            log.severe("Google credentials cannot be created.");
-        } catch (IllegalStateException e) {
-            log.severe("The default FirebaseApp has already been initialized.");
+        } catch (IOException | IllegalStateException e) {
+            log.severe("Cannot initialize FirebaseApp: " + e.getMessage());
+            throw new FirebaseException(e);
         }
     }
 

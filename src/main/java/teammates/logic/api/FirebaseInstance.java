@@ -15,11 +15,17 @@ public class FirebaseInstance {
     private final FirebaseService service;
 
     FirebaseInstance() {
+        FirebaseService fs;
         if (Config.IS_DEV_SERVER) {
-            service = new EmptyFirebaseService();
+            fs = new EmptyFirebaseService();
         } else {
-            service = new GoogleFirebaseService(Config.APP_FIREBASE_SERVICEACCOUNT_FILENAME);
+            try {
+                fs = new GoogleFirebaseService();
+            } catch (FirebaseException e) {
+                fs = new EmptyFirebaseService();
+            }
         }
+        service = fs;
     }
 
     public static FirebaseInstance inst() {
