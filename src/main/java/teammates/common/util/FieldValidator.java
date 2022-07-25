@@ -46,14 +46,14 @@ public final class FieldValidator {
     public static final int SECTION_NAME_MAX_LENGTH = 60;
 
     public static final String ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME = "university/school/institute name";
-    public static final int ACCOUNT_REQUEST_NAME_MAX_LENGTH = 60;
+    public static final int ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH = 60;
 
     public static final String ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME = "country name";
     public static final int ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH = 60;
 
     public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH =
-            ACCOUNT_REQUEST_NAME_MAX_LENGTH + ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH + 8;
+            ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH + ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH + 8;
 
     public static final String ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME = "url";
     public static final int ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH = 500;
@@ -476,7 +476,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code pureInstituteName} is acceptable.
      */
     public static String getInvalidityInfoForPureInstituteName(String pureInstituteName) {
-        return getValidityInfoForAllowedName(ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME, ACCOUNT_REQUEST_NAME_MAX_LENGTH,
+        return getValidityInfoForAllowedName(ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME, ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH,
                 pureInstituteName);
     }
 
