@@ -39,8 +39,8 @@ describe('Constants', () => {
     expect(typeof ApiConst.COURSE_NAME_MAX_LENGTH).toEqual('number');
     expect(ApiConst.COURSE_NAME_MAX_LENGTH).toBeGreaterThan(0);
 
-    expect(typeof ApiConst.STUDENT_NAME_MAX_LENGTH).toEqual('number');
-    expect(ApiConst.STUDENT_NAME_MAX_LENGTH).toBeGreaterThan(0);
+    expect(typeof ApiConst.PERSON_NAME_MAX_LENGTH).toEqual('number');
+    expect(ApiConst.PERSON_NAME_MAX_LENGTH).toBeGreaterThan(0);
 
     expect(typeof ApiConst.SECTION_NAME_MAX_LENGTH).toEqual('number');
     expect(ApiConst.SECTION_NAME_MAX_LENGTH).toBeGreaterThan(0);

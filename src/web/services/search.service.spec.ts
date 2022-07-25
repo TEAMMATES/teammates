@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
+  AccountRequestStatus,
   Course,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -188,6 +189,10 @@ describe('SearchService', () => {
     name: 'Test Instructor',
     institute: 'Test Institute',
     email: 'test@example.com',
+    homePageUrl: '',
+    comments: '',
+    status: AccountRequestStatus.APPROVED,
+    lastProcessedAt: 1585487897502,
   };
 
   beforeEach(() => {

@@ -111,7 +111,10 @@ export class AdminHomePageComponent {
     this.accountService.createAccountRequest({
       instructorEmail: instructor.email,
       instructorName: instructor.name,
-      instructorInstitution: instructor.institution,
+      instructorInstitute: instructor.institution, // including country
+      instructorCountry: '',
+      instructorHomePageUrl: '',
+      comments: '',
     })
         .pipe(finalize(() => {
           this.isAddingInstructors = false;

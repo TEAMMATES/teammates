@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ResourceEndpoints } from '../types/api-const';
-import { AccountCreateRequest } from '../types/api-request';
+import { AccountRequestCreateIntent, AccountRequestCreateRequest, AccountRequestType } from '../types/api-request';
 import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
 
@@ -70,13 +70,20 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account request endpoint', () => {
-    const testRequest: AccountCreateRequest = {
+    const testRequest: AccountRequestCreateRequest = {
       instructorEmail: 'testEmail',
-      instructorInstitution: 'testInstitution',
+      instructorInstitute: 'testInstitution',
       instructorName: 'testName',
+      instructorCountry: 'Singapore',
+      instructorHomePageUrl: '',
+      comments: '',
+    };
+    const paramsMap: Record<string, string> = {
+      intent: AccountRequestCreateIntent.ADMIN_CREATE,
+      accountrequesttype: AccountRequestType.INSTRUCTOR_ACCOUNT,
     };
     service.createAccountRequest(testRequest);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, {}, testRequest);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, testRequest);
   });
 
   it('should execute DELETE on account endpoint', () => {
