@@ -1,17 +1,17 @@
 <div class="d-flex flex-column align-items-center" *tmIsLoading="isPageLoading">
-  <div class="card bg-light" style="width:500px;">
+  <div class="card bg-light" style="width: 500px;">
     <div *ngIf="isLoginPage">
       <div class="card-header">
         <strong>Not Logged In</strong>
       </div>
       <div class="card-body d-flex flex-column align-items-center">
         <div>
-          <button class="btn btn-light" style="min-width: 150px" (click)="signInWithGoogle()" [disabled]="isSigningInWithGoogle">
+          <button class="btn btn-light" style="min-width: 150px;" (click)="signInWithGoogle()" [disabled]="isSigningInWithGoogle">
             <tm-ajax-loading *ngIf="isSigningInWithGoogle"></tm-ajax-loading>Log In with Google
           </button>
         </div>
         <div class="mt-2">
-          <button class="btn btn-danger" style="min-width: 150px" (click)="isSignInWithEmail = true; isLoginPage = false;">Log In with Email</button>
+          <button class="btn btn-danger" style="min-width: 150px;" (click)="isSignInWithEmail = true; isLoginPage = false;">Log In with Email</button>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
       </div>
       <div class="card-body">
         <p>A login email with additional instructions was sent to {{formLogin.controls.email.value}}.<br>Check your email to complete login.</p>
-        <a href="#" style="text-decoration: underline" (click)="isTroubleGettingEmail=true; isSignInLinkEmailSent=false;">
+        <a href="#" style="text-decoration: underline;" (click)="isTroubleGettingEmail=true; isSignInLinkEmailSent=false;">
           Trouble getting email?
         </a>
       </div>

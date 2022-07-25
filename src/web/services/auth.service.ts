@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AuthProvider } from 'firebase/auth';
+import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
@@ -15,8 +18,13 @@ import { HttpRequestService } from './http-request.service';
 export class AuthService {
 
   private frontendUrl: string = environment.frontendUrl;
+  private afAuth: AngularFireAuth | undefined;
 
-  constructor(private httpRequestService: HttpRequestService) {}
+  constructor(private httpRequestService: HttpRequestService, private injector: Injector) {
+    if (environment.enableFirebaseAuth) {
+      this.afAuth = <AngularFireAuth> this.injector.get(AngularFireAuth);
+    }
+  }
 
   /**
    * Gets the user authentication information.
@@ -55,6 +63,26 @@ export class AuthService {
     };
 
     return this.httpRequestService.post(ResourceEndpoints.LOGIN_EMAIL, paramMap);
+  }
+
+  isSignInWithEmailLink(url: string): Promise<boolean> {
+    return this.afAuth?.isSignInWithEmailLink(url) || Promise.resolve(false);
+  }
+
+  signInWithEmailLink(email: string, emailLink: string): Promise<firebase.auth.UserCredential> {
+    return this.afAuth?.signInWithEmailLink(email, emailLink) || new Promise(() => {});
+  }
+
+  getRedirectResult(): Promise<firebase.auth.UserCredential> {
+    return this.afAuth?.getRedirectResult() || new Promise(() => {});
+  }
+
+  signInWithRedirect(provider: AuthProvider): Promise<void> {
+    return this.afAuth?.signInWithRedirect(provider) || Promise.resolve();
+  }
+
+  signOut(): Promise<void> {
+    return this.afAuth?.signOut() || Promise.resolve();
   }
 
 }

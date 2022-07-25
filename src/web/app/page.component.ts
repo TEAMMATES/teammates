@@ -15,10 +15,10 @@ import { fromEvent, merge, Observable, of } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
+import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
 import { Toast } from './components/toast/toast';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -75,7 +75,7 @@ export class PageComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
               private ngbModal: NgbModal, location: Location,
-              private statusMessageService: StatusMessageService, private afAuth: AngularFireAuth) {
+              private statusMessageService: StatusMessageService, private authService: AuthService) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -154,13 +154,13 @@ export class PageComponent {
   }
 
   logout(): void {
-    // if (environment.production) {
-      this.afAuth.signOut().then(() => {
+    if (environment.enableFirebaseAuth) {
+      this.authService.signOut().then(() => {
         window.location.href = this.logoutUrl;
       });
-    // } else {
-    //   window.location.href = this.logoutUrl;
-    // }
+    } else {
+      window.location.href = this.logoutUrl;
+    }
   }
 }
 

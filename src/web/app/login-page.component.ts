@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleAuthProvider } from '@angular/fire/auth';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { finalize } from 'rxjs/operators';
@@ -42,8 +41,7 @@ export class LoginPageComponent implements OnInit {
   isSigningInWithEmail: boolean = false;
   isPageLoading: boolean = false;
 
-  constructor(private afAuth: AngularFireAuth,
-              private authService: AuthService,
+  constructor(private authService: AuthService,
               private formBuilder: FormBuilder,
               private statusMessageService: StatusMessageService) {}
 
@@ -55,11 +53,11 @@ export class LoginPageComponent implements OnInit {
       recaptcha: [''],
     });
 
-    this.afAuth.isSignInWithEmailLink(window.location.href).then((isEmailLink) => {
+    this.authService.isSignInWithEmailLink(window.location.href).then((isEmailLink) => {
       if (isEmailLink) {
         const email = window.localStorage.getItem('emailForSignIn');
         if (email) {
-          this.afAuth.signInWithEmailLink(email, window.location.href)
+          this.authService.signInWithEmailLink(email, window.location.href)
               .then((authResult) => {
                 window.localStorage.removeItem('emailForSignIn');
                 window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
@@ -79,10 +77,11 @@ export class LoginPageComponent implements OnInit {
               });
         } else {
           this.isPageLoading = false;
-          this.statusMessageService.showErrorToast('Kindly login using the same device.');
+          this.statusMessageService.showErrorToast(
+              'Login link has already been used, or kindly login using the same device.');
         }
       } else {
-        this.afAuth.getRedirectResult()
+        this.authService.getRedirectResult()
             .then((authResult) => {
               if (authResult.user) {
                 this.isPageLoading = false;
@@ -104,7 +103,7 @@ export class LoginPageComponent implements OnInit {
     this.isSigningInWithGoogle = true;
     const googleProvider = new GoogleAuthProvider();
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
-    this.afAuth.signInWithRedirect(googleProvider)
+    this.authService.signInWithRedirect(googleProvider)
         .then(() => {
           this.isSigningInWithGoogle = false;
         })
