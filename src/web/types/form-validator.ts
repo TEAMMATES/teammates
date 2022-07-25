@@ -15,22 +15,22 @@ export enum FormValidator {
   COURSE_NAME_MAX_LENGTH = ApiConst.COURSE_NAME_MAX_LENGTH,
 
   /**
-   * Max length for the 'Student Name` field.
+   * Max length for the 'Name' field.
    */
-  STUDENT_NAME_MAX_LENGTH = ApiConst.STUDENT_NAME_MAX_LENGTH,
+  PERSON_NAME_MAX_LENGTH = ApiConst.PERSON_NAME_MAX_LENGTH,
 
   /**
-   * Max length for the 'Section Name` field.
+   * Max length for the 'Section Name' field.
    */
   SECTION_NAME_MAX_LENGTH = ApiConst.SECTION_NAME_MAX_LENGTH,
 
   /**
-   * Max length for the 'Team Name` field.
+   * Max length for the 'Team Name' field.
    */
   TEAM_NAME_MAX_LENGTH = ApiConst.TEAM_NAME_MAX_LENGTH,
 
   /**
-   * Max length for the 'E-mail Address` field.
+   * Max length for the 'E-mail Address' field.
    */
   EMAIL_MAX_LENGTH = ApiConst.EMAIL_MAX_LENGTH,
 }

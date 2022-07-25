@@ -26,7 +26,7 @@
                     {{ displayEmptyFieldMessage('Student Name') }}
                   </span>
                   <span [hidden]="!editForm.get('studentname')!.errors!.maxlength">
-                    {{ displayExceedMaxLengthMessage('Student Name', FormValidator.STUDENT_NAME_MAX_LENGTH) }}
+                    {{ displayExceedMaxLengthMessage('Student Name', FormValidator.PERSON_NAME_MAX_LENGTH) }}
                   </span>
                 </div>
             </div>
