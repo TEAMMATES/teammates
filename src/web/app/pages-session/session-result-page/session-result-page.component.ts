@@ -93,7 +93,6 @@ export class SessionResultPageComponent implements OnInit {
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   intent: Intent = Intent.STUDENT_RESULT;
-  questionIntent: Intent = Intent.FULL_DETAIL;
 
   isCourseLoading: boolean = true;
   isFeedbackSessionDetailsLoading: boolean = true;
@@ -149,7 +148,6 @@ export class SessionResultPageComponent implements OnInit {
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
-                this.questionIntent = Intent.STUDENT_SUBMISSION;
                 this.loadCourseInfo();
                 this.loadPersonName();
                 this.loadFeedbackSession();
@@ -275,7 +273,7 @@ export class SessionResultPageComponent implements OnInit {
       this.feedbackQuestionsService.getFeedbackQuestions({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
-        intent: this.questionIntent,
+        intent: this.intent,
         key: this.regKey,
       }).pipe(finalize(() => {
           this.isFeedbackSessionResultsLoading = false;

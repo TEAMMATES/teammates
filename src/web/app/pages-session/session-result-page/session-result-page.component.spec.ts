@@ -390,7 +390,7 @@ describe('SessionResultPageComponent', () => {
     expect(getQuestionsSpy).toHaveBeenLastCalledWith({
       courseId: testQueryParams.courseid,
       feedbackSessionName: testQueryParams.fsname,
-      intent: Intent.STUDENT_SUBMISSION,
+      intent: Intent.STUDENT_RESULT,
       key: testQueryParams.key,
     });
     expect(component.questions.length).toEqual(1);

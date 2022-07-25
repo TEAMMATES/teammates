@@ -36,11 +36,7 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            if (userInfo.isStudent) {
-                gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
-            } else {
-                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
-            }
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
@@ -52,7 +48,8 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                     feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             break;
         case STUDENT_RESULT:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
+            gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
+            break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
@@ -85,7 +82,8 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
             break;
         case STUDENT_RESULT:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
+            questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+            break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
@@ -98,7 +96,7 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         FeedbackQuestionsData response = new FeedbackQuestionsData(questions);
         response.normalizeQuestionNumber();
-        if (intent.equals(Intent.STUDENT_SUBMISSION)) {
+        if (intent.equals(Intent.STUDENT_SUBMISSION) || intent.equals(Intent.STUDENT_RESULT)) {
             for (FeedbackQuestionData questionData : response.getQuestions()) {
                 questionData.hideInformationForStudent();
             }
