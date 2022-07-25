@@ -76,6 +76,13 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      */
     public static Builder builder(String name, String pureInstitute, String pureCountry, String email,
                                   String homePageUrl, String comments) {
+        assert name != null;
+        assert pureInstitute != null;
+        assert pureCountry != null;
+        assert email != null;
+        assert homePageUrl != null;
+        assert comments != null;
+
         return new Builder(name, pureInstitute, pureCountry, email, homePageUrl, comments);
     }
 
@@ -83,6 +90,12 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      * Returns a builder for {@link AccountRequestAttributes}. {@code institute} is specified.
      */
     public static Builder builder(String name, String institute, String email, String homePageUrl, String comments) {
+        assert name != null;
+        assert institute != null;
+        assert email != null;
+        assert homePageUrl != null;
+        assert comments != null;
+
         return new Builder(name, institute, email, homePageUrl, comments);
     }
 
@@ -340,7 +353,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         @Override
         public String toString() {
             return "AccountRequestAttributes.UpdateOptions ["
-                    + ", email = " + email
+                    + "email = " + email
                     + ", institute = " + institute
                     + ", name = " + nameOption
                     + ", new institute = " + instituteOption
@@ -383,31 +396,43 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         }
 
         public B withName(String name) {
+            assert name != null;
+
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withInstitute(String institute) {
+            assert institute != null;
+
             updateOptions.instituteOption = UpdateOption.of(institute);
             return thisBuilder;
         }
 
         public B withEmail(String email) {
+            assert email != null;
+
             updateOptions.emailOption = UpdateOption.of(email);
             return thisBuilder;
         }
 
         public B withStatus(AccountRequestStatus status) {
+            assert status != null;
+
             updateOptions.statusOption = UpdateOption.of(status);
             return thisBuilder;
         }
 
         public B withLastProcessedAt(Instant lastProcessedAt) {
+            assert lastProcessedAt != null;
+
             updateOptions.lastProcessedAtOption = UpdateOption.of(lastProcessedAt);
             return thisBuilder;
         }
 
         public B withRegisteredAt(Instant registeredAt) {
+            // registeredAt is null when instructor is unregistered
+
             updateOptions.registeredAtOption = UpdateOption.of(registeredAt);
             return thisBuilder;
         }
