@@ -39,8 +39,7 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes a google ID by removing leading/trailing whitespace
-     * and the trailing "@gmail.com".
+     * Sanitizes a google ID by removing leading/trailing whitespace.
      *
      * @return the sanitized google ID or null (if the parameter was null).
      */
@@ -49,11 +48,7 @@ public final class SanitizationHelper {
             return null;
         }
 
-        String sanitized = rawGoogleId.trim();
-        if (sanitized.toLowerCase().endsWith("@gmail.com")) {
-            sanitized = sanitized.split("@")[0];
-        }
-        return sanitized.trim();
+        return rawGoogleId.trim();
     }
 
     /**
