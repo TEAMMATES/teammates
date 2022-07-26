@@ -332,7 +332,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               this.numberOfSessionsCopied += 1;
               this.updateProgressBarHandler(
                   Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy));
-              
+
               if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
                 resolve();
               }
