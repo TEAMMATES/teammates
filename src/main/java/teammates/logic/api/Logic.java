@@ -1665,7 +1665,7 @@ public class Logic {
     /**
      * Gets all account requests submitted between {@code startTime} and {@code endTime}.
      *
-     * @return the list of all account requests submitted within the period.
+     * @return the list of all account requests submitted within the period or an empty list if not found.
      */
     public List<AccountRequestAttributes> getAccountRequestsSubmittedWithinPeriod(Instant startTime, Instant endTime) {
         assert startTime != null;
