@@ -14,8 +14,8 @@ import teammates.common.exception.FirebaseException;
 import teammates.common.util.Logger;
 
 /**
- * Google-based Firebase Admin SDK service.
- *
+ * Provides Firebase Admin SDK services.
+ * <p>The FirebaseApp instance is initialized here.</p>
  * @see <a href="https://firebase.google.com/docs/reference/admin">Firebase Admin SDK</a>
  */
 public class GoogleFirebaseService implements FirebaseService {

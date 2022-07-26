@@ -6,21 +6,21 @@
       </div>
       <div class="card-body d-flex flex-column align-items-center">
         <div>
-          <button class="btn btn-light" style="min-width: 150px;" (click)="signInWithGoogle()" [disabled]="isSigningInWithGoogle">
-            <tm-ajax-loading *ngIf="isSigningInWithGoogle"></tm-ajax-loading>Log In with Google
+          <button class="btn btn-light" style="min-width: 150px;" (click)="logInWithGoogle()" [disabled]="isLoggingInWithGoogle">
+            <tm-ajax-loading *ngIf="isLoggingInWithGoogle"></tm-ajax-loading>Log In with Google
           </button>
         </div>
         <div class="mt-2">
-          <button class="btn btn-danger" style="min-width: 150px;" (click)="isSignInWithEmail = true; isLoginPage = false;">Log In with Email</button>
+          <button class="btn btn-danger" style="min-width: 150px;" (click)="isLogInWithEmail = true; isLoginPage = false;">Log In with Email</button>
         </div>
       </div>
     </div>
-    <div *ngIf="isSignInWithEmail">
+    <div *ngIf="isLogInWithEmail">
       <div class="card-header">
         <strong>Log In with Email</strong>
       </div>
       <div class="card-body">
-        <form [formGroup]="formLogin" (ngSubmit)="signInWithEmail(formLogin)">
+        <form [formGroup]="formLogin" (ngSubmit)="logInWithEmail(formLogin)">
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">
               <strong>Email:</strong>
@@ -45,22 +45,22 @@
           <div class="form-group row">
             <div class="col-sm-2"></div>
             <div class="col-sm-10">
-              <button type="submit" class="btn btn-primary" [disabled]="isSigningInWithEmail">
-                <tm-ajax-loading *ngIf="isSigningInWithEmail"></tm-ajax-loading>Login
+              <button type="submit" class="btn btn-primary" [disabled]="isLoggingInWithEmail">
+                <tm-ajax-loading *ngIf="isLoggingInWithEmail"></tm-ajax-loading>Login
               </button>
-              <button class="btn btn-light ml-2" (click)="isSignInWithEmail=false; isLoginPage=true">Cancel</button>
+              <button class="btn btn-light ml-2" (click)="isLogInWithEmail=false; isLoginPage=true">Cancel</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <div *ngIf="isSignInLinkEmailSent">
+    <div *ngIf="isLoginEmailSent">
       <div class="card-header">
         <strong>Login Email Sent</strong>
       </div>
       <div class="card-body">
         <p>A login email with additional instructions was sent to {{formLogin.controls.email.value}}.<br>Check your email to complete login.</p>
-        <a href="#" style="text-decoration: underline;" (click)="isTroubleGettingEmail=true; isSignInLinkEmailSent=false;">
+        <a href="#" style="text-decoration: underline;" (click)="isTroubleGettingEmail=true; isLoginEmailSent=false;">
           Trouble getting email?
         </a>
       </div>
@@ -80,7 +80,7 @@
         <p class="mt-3">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
         <div>
           <button class="btn btn-primary" (click)="resendEmail()">Resend</button>
-          <button class="btn btn-light ml-2" (click)="isTroubleGettingEmail=false; isSignInLinkEmailSent=true;">Back</button>
+          <button class="btn btn-light ml-2" (click)="isTroubleGettingEmail=false; isLoginEmailSent=true;">Back</button>
         </div>
       </div>
     </div>

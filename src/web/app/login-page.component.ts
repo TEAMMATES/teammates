@@ -33,12 +33,12 @@ export class LoginPageComponent implements OnInit {
   private frontendUrl: string = environment.frontendUrl;
 
   isLoginPage: boolean = true;
-  isSignInWithEmail: boolean = false;
-  isSignInLinkEmailSent: boolean = false;
+  isLogInWithEmail: boolean = false;
+  isLoginEmailSent: boolean = false;
   isTroubleGettingEmail: boolean = false;
 
-  isSigningInWithGoogle: boolean = false;
-  isSigningInWithEmail: boolean = false;
+  isLoggingInWithGoogle: boolean = false;
+  isLoggingInWithEmail: boolean = false;
   isPageLoading: boolean = false;
 
   constructor(private authService: AuthService,
@@ -53,70 +53,79 @@ export class LoginPageComponent implements OnInit {
       recaptcha: [''],
     });
 
-    this.authService.isSignInWithEmailLink(window.location.href).then((isEmailLink) => {
+    this.isLoggingInWithEmail = true;
+    this.isLoggingInWithGoogle = true;
+
+    // Handles redirection from email login
+    this.authService.isLogInWithEmailLink(window.location.href).then((isEmailLink) => {
       if (isEmailLink) {
+        // is redirection from email login
         const email = window.localStorage.getItem('emailForSignIn');
         if (email) {
-          this.authService.signInWithEmailLink(email, window.location.href)
+          this.authService.logInWithEmailLink(email, window.location.href)
               .then((authResult) => {
                 window.localStorage.removeItem('emailForSignIn');
                 window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
                     + `&email=${authResult.user!.email}`;
               })
-              .catch((error) => {
+              .catch(() => {
                 this.isPageLoading = false;
-                let errorMsg;
-                switch (error.code) {
-                  case 'auth/invalid-action-code':
-                    errorMsg = 'Login link is malformed, expired, or has already been used.';
-                    break;
-                  default:
-                    errorMsg = error.message;
-                }
-                this.statusMessageService.showErrorToast(errorMsg);
+                this.statusMessageService.showErrorToast('Login with email is unsuccessful. Please try again.');
               });
         } else {
           this.isPageLoading = false;
           this.statusMessageService.showErrorToast(
-              'Login link has already been used, or kindly login using the same device.');
+              'Login link has already been used. If not, kindly login using the same device.');
         }
       } else {
-        this.authService.getRedirectResult()
-            .then((authResult) => {
-              if (authResult.user) {
-                this.isPageLoading = false;
-                window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
-                    + `&email=${authResult.user!.email}`;
-              } else {
-                this.isPageLoading = false;
-              }
-            })
-            .catch((error) => {
-              this.isPageLoading = false;
-              this.statusMessageService.showErrorToast(error.code + error.message);
-            });
+        // not redirection from email login
+        this.isLoggingInWithEmail = false;
+        // page should stop loading only if it is not still logging in with Google
+        this.isPageLoading = this.isLoggingInWithGoogle;
       }
     });
-  }
 
-  signInWithGoogle(): void {
-    this.isSigningInWithGoogle = true;
-    const googleProvider = new GoogleAuthProvider();
-    googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
-    this.authService.signInWithRedirect(googleProvider)
-        .then(() => {
-          this.isSigningInWithGoogle = false;
+    // Handles redirection from Google login
+    this.authService.getRedirectResult()
+        .then((authResult) => {
+          if (authResult.user) {
+            // is redirection from Google login
+            window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
+                + `&email=${authResult.user!.email}`;
+          } else {
+            // not redirection from Google login
+            this.isLoggingInWithGoogle = false;
+            // page should stop loading only if it is not still logging in with email
+            this.isPageLoading = this.isLoggingInWithEmail;
+          }
         })
-        .catch((error) => {
-          this.isSigningInWithGoogle = false;
-          this.statusMessageService.showErrorToast(error.code + error.message);
+        .catch(() => {
+          this.isPageLoading = false;
+          this.statusMessageService.showErrorToast('Login with Google is unsuccessful. Please try again.');
         });
   }
 
   /**
-   * Sends the login link to the specified email address.
+   * Redirects to the Google login page.
    */
-  signInWithEmail(loginForm: FormGroup): void {
+  logInWithGoogle(): void {
+    this.isLoggingInWithGoogle = true;
+    const googleProvider = new GoogleAuthProvider();
+    googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
+    this.authService.logInWithRedirect(googleProvider)
+        .then(() => {
+          this.isLoggingInWithGoogle = false;
+        })
+        .catch(() => {
+          this.isLoggingInWithGoogle = false;
+          this.statusMessageService.showErrorToast('Cannot redirect to Google login page. Please try again.');
+        });
+  }
+
+  /**
+   * Sends the login email to the specified email address.
+   */
+  logInWithEmail(loginForm: FormGroup): void {
     if (!this.captchaSiteKey) {
       this.captchaResponse = '';
     }
@@ -127,19 +136,19 @@ export class LoginPageComponent implements OnInit {
       return;
     }
 
-    this.isSigningInWithEmail = true;
+    this.isLoggingInWithEmail = true;
 
     this.authService.sendLoginEmail({
       userEmail: loginForm.controls.email.value,
       continueUrl: `${this.frontendUrl}/web/login${window.location.search}`,
       captchaResponse: this.captchaResponse,
     }).pipe(finalize(() => {
-      this.isSigningInWithEmail = false;
+      this.isLoggingInWithEmail = false;
     })).subscribe((resp: SendLoginEmailResponse) => {
       if (resp.isEmailSent) {
         window.localStorage.setItem('emailForSignIn', loginForm.controls.email.value);
-        this.isSignInLinkEmailSent = true;
-        this.isSignInWithEmail = false;
+        this.isLoginEmailSent = true;
+        this.isLogInWithEmail = false;
       } else {
         this.statusMessageService.showErrorToast(resp.message);
         this.resetFormGroups();
@@ -151,7 +160,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   /**
-   * Resets the email and reCAPTCHA input fields in the form.
+   * Resets the email and reCAPTCHA input fields in the Log In with Email form.
    */
   resetFormGroups(): void {
     (this.formLogin = this.formBuilder.group({
@@ -172,17 +181,20 @@ export class LoginPageComponent implements OnInit {
   }
 
   /**
-   * Handles successful completion recaptcha challenge.
+   * Handles successful completion reCAPTCHA challenge.
    *
-   * @param captchaResponse User's captcha response token
+   * @param captchaResponse user's reCAPTCHA response token.
    */
   handleSuccess(captchaResponse: string): void {
     this.captchaSuccess = true;
     this.captchaResponse = captchaResponse;
   }
 
+  /**
+   * Resends the login email.
+   */
   resendEmail(): void {
-    this.isSignInWithEmail = true;
+    this.isLogInWithEmail = true;
     this.isTroubleGettingEmail = false;
   }
 

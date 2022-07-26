@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   /**
-   * Sends login email.
+   * Sends login email to the specified user.
    */
   sendLoginEmail(queryParam: {
     userEmail: string,
@@ -65,23 +65,48 @@ export class AuthService {
     return this.httpRequestService.post(ResourceEndpoints.LOGIN_EMAIL, paramMap);
   }
 
-  isSignInWithEmailLink(url: string): Promise<boolean> {
+  /**
+   * Wrapper method for AngularFireAuth.isSignInWithEmailLink().
+   *
+   * @see https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#issigninwithemaillink.
+   */
+  isLogInWithEmailLink(url: string): Promise<boolean> {
     return this.afAuth?.isSignInWithEmailLink(url) || Promise.resolve(false);
   }
 
-  signInWithEmailLink(email: string, emailLink: string): Promise<firebase.auth.UserCredential> {
+  /**
+   * Wrapper method for AngularFireAuth.signInWithEmailLink().
+   *
+   * @see https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#signinwithemaillink
+   */
+  logInWithEmailLink(email: string, emailLink: string): Promise<firebase.auth.UserCredential> {
     return this.afAuth?.signInWithEmailLink(email, emailLink) || new Promise(() => {});
   }
 
+  /**
+   * Wrapper method for AngularFireAuth.getRedirectResult().
+   *
+   * @see https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#getredirectresult
+   */
   getRedirectResult(): Promise<firebase.auth.UserCredential> {
     return this.afAuth?.getRedirectResult() || new Promise(() => {});
   }
 
-  signInWithRedirect(provider: AuthProvider): Promise<void> {
+  /**
+   * Wrapper method for AngularFireAuth.signInWithRedirect().
+   *
+   * @see https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#signinwithredirect
+   */
+  logInWithRedirect(provider: AuthProvider): Promise<void> {
     return this.afAuth?.signInWithRedirect(provider) || Promise.resolve();
   }
 
-  signOut(): Promise<void> {
+  /**
+   * Wrapper method for AngularFireAuth.signOut()
+   *
+   * @see https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#signout
+   */
+  logout(): Promise<void> {
     return this.afAuth?.signOut() || Promise.resolve();
   }
 

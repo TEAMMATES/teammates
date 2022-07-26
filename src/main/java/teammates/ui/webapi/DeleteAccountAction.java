@@ -6,6 +6,7 @@ import teammates.common.util.Logger;
 
 /**
  * Action: deletes an existing account (either student or instructor).
+ * <p>The associated Firebase user is also deleted.</p>
  */
 class DeleteAccountAction extends AdminOnlyAction {
 
@@ -19,13 +20,12 @@ class DeleteAccountAction extends AdminOnlyAction {
         }
         logic.deleteAccountCascade(googleId);
 
-        if (!googleId.contains("@")) {
-            googleId = googleId.concat("@gmail.com");
-        }
+        String email = googleId.contains("@") ? googleId : googleId.concat("@gmail.com");
         try {
-            firebaseInstance.deleteUser(googleId);
+            firebaseInstance.deleteUser(email);
         } catch (FirebaseException e) {
-            // Deleting Firebase user error logged as warning and not throw an exception to ensure backwards compatibility
+            // Deleting Firebase user error logged as warning and not thrown as exception to ensure backwards
+            // compatibility as old TEAMMATES users are not Firebase users
             log.warning("Cannot delete Firebase user: " + e.getMessage());
         }
 

@@ -7,7 +7,7 @@ import teammates.logic.external.FirebaseService;
 import teammates.logic.external.GoogleFirebaseService;
 
 /**
- * Used to initialize a FirebaseApp and provide Firebase services.
+ * Provides Firebase services.
  */
 public class FirebaseInstance {
 
@@ -33,14 +33,18 @@ public class FirebaseInstance {
     }
 
     /**
-     * Generates a login link encoded with {@code userEmail} and {@code continueUrl}.
+     * Generates a Firebase login link unique to the logging in user.
+     * @param userEmail email of the logging in user.
+     * @param continueUrl URL upon successful login.
+     * @return null if error occurs while generating the login link.
      */
     public String generateLoginLink(String userEmail, String continueUrl) {
         return service.generateLoginLink(userEmail, continueUrl);
     }
 
     /**
-     * Deletes the user with the specified {@code userEmail}.
+     * Deletes the Firebase user with the specified {@code userEmail}.
+     * @throws FirebaseException if error occurs while deleting the user.
      */
     public void deleteUser(String userEmail) throws FirebaseException {
         service.deleteUser(userEmail);

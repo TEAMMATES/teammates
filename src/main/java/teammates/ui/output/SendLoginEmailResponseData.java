@@ -1,7 +1,7 @@
 package teammates.ui.output;
 
 /**
- * The output format for send login email request.
+ * The output format for sending of login email requests.
  */
 public class SendLoginEmailResponseData extends ApiOutput {
     private final boolean isEmailSent;

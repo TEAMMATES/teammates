@@ -155,7 +155,7 @@ export class PageComponent {
 
   logout(): void {
     if (environment.enableFirebaseAuth) {
-      this.authService.signOut().then(() => {
+      this.authService.logout().then(() => {
         window.location.href = this.logoutUrl;
       });
     } else {

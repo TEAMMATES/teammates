@@ -10,7 +10,7 @@ import teammates.ui.output.SendLoginEmailResponseData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
- * Creates a new account request.
+ * Sends a login email.
  */
 class SendLoginEmailAction extends Action {
 
@@ -21,7 +21,7 @@ class SendLoginEmailAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        // Login email can be sent to anyone
+        // Sending of login emails can be requested by anyone
     }
 
     @Override

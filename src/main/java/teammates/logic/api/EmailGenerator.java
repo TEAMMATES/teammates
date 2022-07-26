@@ -834,7 +834,7 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates the login email.
+     * Generates the login email for the given user.
      */
     public EmailWrapper generateLoginEmail(String userEmail, String loginLink) {
 
