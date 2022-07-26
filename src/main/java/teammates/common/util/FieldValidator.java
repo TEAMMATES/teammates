@@ -476,8 +476,8 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code pureInstituteName} is acceptable.
      */
     public static String getInvalidityInfoForPureInstituteName(String pureInstituteName) {
-        return getValidityInfoForAllowedName(ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME, ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH,
-                pureInstituteName);
+        return getValidityInfoForAllowedName(ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME,
+                ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH, pureInstituteName);
     }
 
     /**
