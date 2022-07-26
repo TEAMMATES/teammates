@@ -11,7 +11,7 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testSanitizeGoogleId() {
-        assertEquals("big-small.20_12", SanitizationHelper.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
+        assertEquals("big-small.20_12 @Gmail.COM", SanitizationHelper.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
         assertEquals("user@hotmail.com", SanitizationHelper.sanitizeGoogleId(" user@hotmail.com \t\n"));
     }
 
