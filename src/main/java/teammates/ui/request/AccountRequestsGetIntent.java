@@ -11,7 +11,7 @@ public enum AccountRequestsGetIntent {
     PENDING_PROCESSING,
 
     /**
-     * To get account requests within some period.
+     * To get all account requests within some period.
      */
     WITHIN_PERIOD,
 }
