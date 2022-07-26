@@ -86,6 +86,9 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
      * Gets all account requests with {@code createdAt} timestamp between {@code startTime} and {@code endTime}.
      */
     public List<AccountRequestAttributes> getAccountRequestsSubmittedWithinPeriod(Instant startTime, Instant endTime) {
+        assert startTime != null;
+        assert endTime != null;
+
         return makeAttributes(getAccountRequestEntitiesSubmittedWithinPeriod(startTime, endTime));
     }
 
@@ -229,6 +232,9 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
      * Gets the number of account requests created within a specified time range.
      */
     public int getNumAccountRequestsByTimeRange(Instant startTime, Instant endTime) {
+        assert startTime != null;
+        assert endTime != null;
+
         return load()
                 .filter("createdAt >=", startTime)
                 .filter("createdAt <", endTime)
