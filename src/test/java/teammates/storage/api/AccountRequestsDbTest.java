@@ -1,14 +1,18 @@
 package teammates.storage.api;
 
+import java.time.Instant;
+import java.util.List;
+
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.entity.AccountRequest;
+import teammates.common.util.TimeHelper;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
@@ -21,152 +25,399 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     @Test
     public void testCreateAccountRequest() throws Exception {
-        ______TS("typical success case");
+        ______TS("typical success case - 1");
 
         AccountRequestAttributes accountRequest = AccountRequestAttributes
-                .builder("valid@test.com", "TEAMMATES Test Institute 1", "Test account Name")
+                .builder("Adam", "TMT, Singapore", "adam@tmt.tmt", "https://www.google.com/", "My comments")
                 .build();
 
         accountRequest = accountRequestsDb.createEntity(accountRequest);
         verifyPresentInDatabase(accountRequest);
 
-        ______TS("failure: duplicate account request");
+        ______TS("typical success case - 2");
 
-        AccountRequestAttributes duplicateAccountRequest = AccountRequestAttributes
-                .builder("valid@test.com", "TEAMMATES Test Institute 1", "Test account Name")
+        accountRequest = AccountRequestAttributes
+                .builder("Bob", "TMT", "Singapore", "bob@tmt.tmt", "https://www.google.com/", "My comments")
+                .build();
+
+        accountRequest = accountRequestsDb.createEntity(accountRequest);
+        verifyPresentInDatabase(accountRequest);
+
+        ______TS("failure: duplicate account request - 1");
+
+        AccountRequestAttributes duplicateAccountRequest1 = AccountRequestAttributes
+                .builder("adam", "TMT, Singapore", "adam@tmt.tmt", "", "")
                 .build();
 
         assertThrows(EntityAlreadyExistsException.class, () -> {
-            accountRequestsDb.createEntity(duplicateAccountRequest);
+            accountRequestsDb.createEntity(duplicateAccountRequest1);
         });
 
-        accountRequestsDb.deleteAccountRequest("valid@test.com", "TEAMMATES Test Institute 1");
+        ______TS("failure: duplicate account request - 2");
 
-        ______TS("failure case: invalid parameter");
+        AccountRequestAttributes duplicateAccountRequest2 = AccountRequestAttributes
+                .builder("bob", "TMT", "Singapore", "bob@tmt.tmt", "https://www.comp.nus.edu.sg", "")
+                .build();
 
-        AccountRequestAttributes invalidAccountRequest = AccountRequestAttributes
-                .builder("invalid email", "TEAMMATES Test Institute 1", "Test account Name")
+        assertThrows(EntityAlreadyExistsException.class, () -> {
+            accountRequestsDb.createEntity(duplicateAccountRequest2);
+        });
+
+        ______TS("failure: invalid parameter - 1");
+
+        AccountRequestAttributes invalidAccountRequest1 = AccountRequestAttributes
+                .builder("Valid Name", "Valid Institute", "Invalid Email", "", "")
                 .build();
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountRequestsDb.createEntity(invalidAccountRequest));
+                () -> accountRequestsDb.createEntity(invalidAccountRequest1));
         AssertHelper.assertContains(
-                getPopulatedErrorMessage(
-                        FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
+                FieldValidator.EMAIL_FIELD_NAME + ": "
+                        + getPopulatedErrorMessage(
+                                FieldValidator.EMAIL_ERROR_MESSAGE, "Invalid Email",
                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.EMAIL_MAX_LENGTH),
                 ipe.getMessage());
 
+        ______TS("failure: invalid parameter - 2");
+
+        AccountRequestAttributes invalidAccountRequest2 = AccountRequestAttributes
+                .builder("Valid Name", "Valid Institute", "Invalid%Country", "valid_email@tmt.tmt", "", "")
+                .build();
+
+        ipe = assertThrows(InvalidParametersException.class,
+                () -> accountRequestsDb.createEntity(invalidAccountRequest2));
+        AssertHelper.assertContains(
+                FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME + ": "
+                        + getPopulatedErrorMessage(
+                                FieldValidator.INVALID_NAME_ERROR_MESSAGE, "Invalid%Country",
+                        FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME,
+                        FieldValidator.REASON_CONTAINS_INVALID_CHAR),
+                ipe.getMessage());
+
         ______TS("failure: null parameter");
+
         assertThrows(AssertionError.class, () -> accountRequestsDb.createEntity(null));
     }
 
     @Test
     public void testUpdateAccountRequest() throws Exception {
-        accountRequestsDb.createEntity(AccountRequestAttributes
-                .builder("valid@test.com", "TEAMMATES Test Institute 1", "Test account Name")
+        AccountRequestAttributes originalAccountRequest = accountRequestsDb.createEntity(AccountRequestAttributes
+                .builder("Clark", "TMT, Singapore", "clark@tmt.tmt", "", "Comments")
                 .build());
 
-        ______TS("typical success case");
+        ______TS("typical success case - 1");
+
+        Instant lastProcessedAt = Instant.now();
         AccountRequestAttributes.UpdateOptions updateOptions = AccountRequestAttributes
-                .updateOptionsBuilder("valid@test.com", "TEAMMATES Test Institute 1")
-                .withRegisteredAt(Const.TIME_REPRESENTS_NOW)
+                .updateOptionsBuilder("clark@tmt.tmt", "TMT, Singapore")
+                .withName("Clark Edited")
+                .withInstitute("TMT, Singapore")
+                .withEmail("clark_edited@tmt.tmt")
+                .withLastProcessedAt(lastProcessedAt)
                 .build();
         accountRequestsDb.updateAccountRequest(updateOptions);
 
-        AccountRequestAttributes accountRequest = accountRequestsDb
-                .getAccountRequest("valid@test.com", "TEAMMATES Test Institute 1");
+        AccountRequestAttributes actualAccountRequest = accountRequestsDb
+                .getAccountRequest("clark_edited@tmt.tmt", "TMT, Singapore");
+        assertEquals("Clark Edited", actualAccountRequest.getName());
+        assertEquals("TMT, Singapore", actualAccountRequest.getInstitute());
+        assertEquals("clark_edited@tmt.tmt", actualAccountRequest.getEmail());
+        assertEquals(originalAccountRequest.getHomePageUrl(), actualAccountRequest.getHomePageUrl());
+        assertEquals(originalAccountRequest.getComments(), actualAccountRequest.getComments());
+        assertEquals(originalAccountRequest.getStatus(), actualAccountRequest.getStatus());
+        assertEquals(originalAccountRequest.getCreatedAt(), actualAccountRequest.getCreatedAt());
+        assertEquals(lastProcessedAt, actualAccountRequest.getLastProcessedAt());
+        assertEquals(originalAccountRequest.getRegisteredAt(), actualAccountRequest.getRegisteredAt());
+        assertEquals(originalAccountRequest.getRegistrationKey(), actualAccountRequest.getRegistrationKey());
 
-        assertEquals(Const.TIME_REPRESENTS_NOW, accountRequest.getRegisteredAt());
+        ______TS("typical success case - 2");
+
+        originalAccountRequest = actualAccountRequest;
+
+        Instant registeredAt = Instant.now();
+        updateOptions = AccountRequestAttributes
+                .updateOptionsBuilder("clark_edited@tmt.tmt", "TMT, Singapore")
+                .withStatus(AccountRequestStatus.REGISTERED)
+                .withRegisteredAt(registeredAt)
+                .build();
+        accountRequestsDb.updateAccountRequest(updateOptions);
+
+        actualAccountRequest = accountRequestsDb.getAccountRequest("clark_edited@tmt.tmt", "TMT, Singapore");
+        assertEquals(originalAccountRequest.getName(), actualAccountRequest.getName());
+        assertEquals(originalAccountRequest.getInstitute(), actualAccountRequest.getInstitute());
+        assertEquals(originalAccountRequest.getEmail(), actualAccountRequest.getEmail());
+        assertEquals(originalAccountRequest.getHomePageUrl(), actualAccountRequest.getHomePageUrl());
+        assertEquals(originalAccountRequest.getComments(), actualAccountRequest.getComments());
+        assertEquals(AccountRequestStatus.REGISTERED, actualAccountRequest.getStatus());
+        assertEquals(originalAccountRequest.getCreatedAt(), actualAccountRequest.getCreatedAt());
+        assertEquals(originalAccountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
+        assertEquals(registeredAt, actualAccountRequest.getRegisteredAt());
+        assertEquals(originalAccountRequest.getRegistrationKey(), actualAccountRequest.getRegistrationKey());
 
         ______TS("failure: account request not found");
+
         AccountRequestAttributes.UpdateOptions updateOptionsNotFound = AccountRequestAttributes
-                .updateOptionsBuilder("not_found@test.com", "Unknown Test Institute 1")
-                .withRegisteredAt(Const.TIME_REPRESENTS_NOW)
+                .updateOptionsBuilder("clark@tmt.tmt", "TMT, Singapore")
+                .withStatus(AccountRequestStatus.REJECTED)
+                .withLastProcessedAt(Instant.now())
                 .build();
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestsDb.updateAccountRequest(updateOptionsNotFound));
+
+        ______TS("failure: account request to update to already exists");
+
+        accountRequestsDb.createEntity(AccountRequestAttributes
+                .builder("David", "TMT, Singapore", "david@tmt.tmt", "", "")
+                .build());
+
+        AccountRequestAttributes.UpdateOptions updateOptionsAlreadyExists = AccountRequestAttributes
+                .updateOptionsBuilder("clark_edited@tmt.tmt", "TMT, Singapore")
+                .withEmail("david@tmt.tmt")
+                .build();
+
+        assertThrows(EntityAlreadyExistsException.class,
+                () -> accountRequestsDb.updateAccountRequest(updateOptionsAlreadyExists));
+
+        ______TS("success: single field update");
+
+        assertNotEquals("clark@tmt.tmt", actualAccountRequest.getEmail());
+        updateOptions = AccountRequestAttributes
+                .updateOptionsBuilder(actualAccountRequest.getEmail(), actualAccountRequest.getInstitute())
+                .withEmail("clark@tmt.tmt")
+                .build();
+        AccountRequestAttributes updatedAccountRequest = accountRequestsDb.updateAccountRequest(updateOptions);
+        actualAccountRequest = accountRequestsDb.getAccountRequest("clark@tmt.tmt", "TMT, Singapore");
+        assertEquals("clark@tmt.tmt", updatedAccountRequest.getEmail());
+        assertEquals("clark@tmt.tmt", actualAccountRequest.getEmail());
+
+        assertNotEquals("NUS, Singapore", actualAccountRequest.getInstitute());
+        updateOptions = AccountRequestAttributes
+                .updateOptionsBuilder(actualAccountRequest.getEmail(), actualAccountRequest.getInstitute())
+                .withInstitute("NUS, Singapore")
+                .build();
+        updatedAccountRequest = accountRequestsDb.updateAccountRequest(updateOptions);
+        actualAccountRequest = accountRequestsDb.getAccountRequest("clark@tmt.tmt", "NUS, Singapore");
+        assertEquals("NUS, Singapore", updatedAccountRequest.getInstitute());
+        assertEquals("NUS, Singapore", actualAccountRequest.getInstitute());
+
+        assertNotEquals("clark", actualAccountRequest.getName());
+        updateOptions = AccountRequestAttributes
+                .updateOptionsBuilder(actualAccountRequest.getEmail(), actualAccountRequest.getInstitute())
+                .withName("clark")
+                .build();
+        updatedAccountRequest = accountRequestsDb.updateAccountRequest(updateOptions);
+        actualAccountRequest = accountRequestsDb.getAccountRequest("clark@tmt.tmt", "NUS, Singapore");
+        assertEquals("clark", updatedAccountRequest.getName());
+        assertEquals("clark", actualAccountRequest.getName());
+
+        assertNotEquals(AccountRequestStatus.SUBMITTED, actualAccountRequest.getStatus());
+        updateOptions = AccountRequestAttributes
+                .updateOptionsBuilder(actualAccountRequest.getEmail(), actualAccountRequest.getInstitute())
+                .withStatus(AccountRequestStatus.SUBMITTED)
+                .build();
+        updatedAccountRequest = accountRequestsDb.updateAccountRequest(updateOptions);
+        actualAccountRequest = accountRequestsDb.getAccountRequest("clark@tmt.tmt", "NUS, Singapore");
+        assertEquals(AccountRequestStatus.SUBMITTED, updatedAccountRequest.getStatus());
+        assertEquals(AccountRequestStatus.SUBMITTED, actualAccountRequest.getStatus());
+
+        registeredAt = Instant.now();
+        assertNotEquals(registeredAt, actualAccountRequest.getRegisteredAt());
+        updateOptions = AccountRequestAttributes
+                .updateOptionsBuilder(actualAccountRequest.getEmail(), actualAccountRequest.getInstitute())
+                .withRegisteredAt(registeredAt)
+                .build();
+        updatedAccountRequest = accountRequestsDb.updateAccountRequest(updateOptions);
+        actualAccountRequest = accountRequestsDb.getAccountRequest("clark@tmt.tmt", "NUS, Singapore");
+        assertEquals(registeredAt, updatedAccountRequest.getRegisteredAt());
+        assertEquals(registeredAt, actualAccountRequest.getRegisteredAt());
+
+        ______TS("success with optimized saving policy applied");
+
+        originalAccountRequest = actualAccountRequest;
+        updateOptions = AccountRequestAttributes
+                .updateOptionsBuilder(actualAccountRequest.getEmail(), actualAccountRequest.getInstitute())
+                .withName(originalAccountRequest.getName())
+                .withInstitute(originalAccountRequest.getInstitute())
+                .withEmail(originalAccountRequest.getEmail())
+                .withStatus(originalAccountRequest.getStatus())
+                .withRegisteredAt(originalAccountRequest.getRegisteredAt())
+                .withLastProcessedAt(Instant.now()) // only modifying lastProcessedAt is not considered as a change
+                .build();
+        updatedAccountRequest = accountRequestsDb.updateAccountRequest(updateOptions);
+        actualAccountRequest = accountRequestsDb.getAccountRequest("clark@tmt.tmt", "NUS, Singapore");
+        assertEquals(originalAccountRequest.getLastProcessedAt(), updatedAccountRequest.getLastProcessedAt());
+        assertEquals(originalAccountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
     }
 
     @Test
-    public void testDeleteAccountRequest() {
-        AccountRequest accountRequest = new AccountRequest("valid2@test.com",
-                        "Test account Name", "TEAMMATES Test Institute 1");
-        accountRequest.setRegistrationKey("2-123456");
-
-        accountRequestsDb.saveEntity(accountRequest);
-
-        ______TS("silent deletion of non-existent account request");
-
-        accountRequestsDb.deleteAccountRequest("not_exist", "not_exist");
+    public void testDeleteAccountRequest() throws Exception {
+        AccountRequestAttributes accountRequest = accountRequestsDb.createEntity(AccountRequestAttributes
+                .builder("Evans", "TMT, Singapore", "evans@tmt.tmt", "", "")
+                .build());
 
         ______TS("typical success case");
 
-        verifyPresentInDatabase(AccountRequestAttributes.valueOf(accountRequest));
-        accountRequestsDb.deleteAccountRequest("valid2@test.com", "TEAMMATES Test Institute 1");
-        verifyAbsentInDatabase(AccountRequestAttributes.valueOf(accountRequest));
+        verifyPresentInDatabase(accountRequest);
+        accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        verifyAbsentInDatabase(accountRequest);
 
-        ______TS("silent deletion of same account request");
+        ______TS("success: delete the same account request again");
 
-        accountRequestsDb.deleteAccountRequest("valid2@test.com", "TEAMMATES Test Institute 1");
+        accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        verifyAbsentInDatabase(accountRequest);
 
-        ______TS("failure null parameter");
+        ______TS("failure: null parameter");
 
-        assertThrows(AssertionError.class,
-                () -> accountRequestsDb.deleteAccountRequest(null, null));
+        assertThrows(AssertionError.class, () ->
+                accountRequestsDb.deleteAccountRequest(null, accountRequest.getInstitute()));
+        assertThrows(AssertionError.class, () ->
+                accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), null));
     }
 
     @Test
-    public void testGetAccountRequestForRegistrationKey() {
-        AccountRequest accountRequest = new AccountRequest("valid3@test.com",
-                        "Test account Name", "TEAMMATES Test Institute 1");
-        accountRequest.setRegistrationKey("3-123456");
-
-        accountRequestsDb.saveEntity(accountRequest);
+    public void testGetAccountRequestForRegistrationKey() throws Exception {
+        AccountRequestAttributes accountRequest = AccountRequestAttributes
+                .builder("Frank", "TMT, Singapore", "frank@tmt.tmt", "", "")
+                .build();
+        accountRequest.setRegistrationKey("frank-123456");
+        accountRequest = accountRequestsDb.createEntity(accountRequest);
 
         ______TS("typical success case");
 
         AccountRequestAttributes accountRequestAttributes =
-                accountRequestsDb.getAccountRequestForRegistrationKey("3-123456");
-        assertEquals(AccountRequestAttributes.valueOf(accountRequest), accountRequestAttributes);
+                accountRequestsDb.getAccountRequestForRegistrationKey("frank-123456");
+        assertEquals(accountRequest, accountRequestAttributes);
 
         ______TS("account request not found");
 
         AccountRequestAttributes notFoundRequestAttributes =
-                accountRequestsDb.getAccountRequestForRegistrationKey("not-found");
+                accountRequestsDb.getAccountRequestForRegistrationKey("Frank-123456");
         assertNull(notFoundRequestAttributes);
 
-        ______TS("failure null parameter");
+        ______TS("failure: null parameter");
 
-        assertThrows(AssertionError.class,
-                () -> accountRequestsDb.getAccountRequestForRegistrationKey(null));
+        assertThrows(AssertionError.class, () -> accountRequestsDb.getAccountRequestForRegistrationKey(null));
     }
 
     @Test
-    public void testGetAccountRequest() {
-        AccountRequest accountRequest = new AccountRequest("valid4@test.com",
-                        "Test account Name", "TEAMMATES Test Institute 1");
-        accountRequest.setRegistrationKey("4-123456");
-
-        accountRequestsDb.saveEntity(accountRequest);
+    public void testGetAccountRequest() throws Exception {
+        AccountRequestAttributes accountRequest = accountRequestsDb.createEntity(AccountRequestAttributes
+                .builder("Ghosh", "TMT, Singapore", "ghosh@tmt.tmt", "", "")
+                .build());
 
         ______TS("typical success case");
 
         AccountRequestAttributes accountRequestAttributes =
-                accountRequestsDb.getAccountRequest("valid4@test.com", "TEAMMATES Test Institute 1");
-        assertEquals(AccountRequestAttributes.valueOf(accountRequest), accountRequestAttributes);
+                accountRequestsDb.getAccountRequest("ghosh@tmt.tmt", "TMT, Singapore");
+        assertEquals(accountRequest, accountRequestAttributes);
 
         ______TS("account request not found");
 
         AccountRequestAttributes notFoundRequestAttributes =
-                accountRequestsDb.getAccountRequest("not-found@test.com", "not found");
+                accountRequestsDb.getAccountRequest("Ghosh@tmt.tmt", "TMT, Singapore");
         assertNull(notFoundRequestAttributes);
 
-        ______TS("failure null parameter");
+        ______TS("failure: null parameter");
 
-        assertThrows(AssertionError.class,
-                () -> accountRequestsDb.getAccountRequest(null, null));
+        assertThrows(AssertionError.class, () -> accountRequestsDb.getAccountRequest(null, "TMT, Singapore"));
+        assertThrows(AssertionError.class, () -> accountRequestsDb.getAccountRequest("ghosh@tmt.tmt", null));
+    }
+
+    @Test
+    public void testHasExistingEntities() throws Exception {
+        AccountRequestAttributes accountRequest = AccountRequestAttributes
+                .builder("Hills", "TMT, Singapore", "hills@tmt.tmt", "", "")
+                .build();
+
+        ______TS("false before entity creation");
+        assertFalse(accountRequestsDb.hasExistingEntities(accountRequest));
+
+        ______TS("true after entity creation");
+        accountRequestsDb.createEntity(accountRequest);
+        assertTrue(accountRequestsDb.hasExistingEntities(accountRequest));
+    }
+
+    @Test
+    public void testGetAccountRequestsWithStatusSubmitted() throws Exception {
+        AccountRequestAttributes accountRequest1 = accountRequestsDb.createEntity(
+                AccountRequestAttributes
+                        .builder("Person 1", "TMT, Singapore", "person_1@tmt.tmt", "", "")
+                        .withStatus(AccountRequestStatus.SUBMITTED)
+                        .build());
+        AccountRequestAttributes accountRequest2 = accountRequestsDb.createEntity(
+                AccountRequestAttributes
+                        .builder("Person 2", "TMT, Singapore", "person_2@tmt.tmt", "", "")
+                        .withStatus(AccountRequestStatus.APPROVED)
+                        .build());
+        AccountRequestAttributes accountRequest3 = accountRequestsDb.createEntity(
+                AccountRequestAttributes
+                        .builder("Person 3", "TMT, Singapore", "person_3@tmt.tmt", "", "")
+                        .withStatus(AccountRequestStatus.SUBMITTED)
+                        .build());
+        AccountRequestAttributes accountRequest4 = accountRequestsDb.createEntity(
+                AccountRequestAttributes
+                        .builder("Person 4", "TMT, Singapore", "person_4@tmt.tmt", "", "")
+                        .withStatus(AccountRequestStatus.REGISTERED)
+                        .build());
+        AccountRequestAttributes accountRequest5 = accountRequestsDb.createEntity(
+                AccountRequestAttributes
+                        .builder("Person 5", "TMT, Singapore", "person_5@tmt.tmt", "", "")
+                        .withStatus(AccountRequestStatus.REJECTED)
+                        .build());
+
+        List<AccountRequestAttributes> actual = accountRequestsDb.getAccountRequestsWithStatusSubmitted();
+
+        assertEquals(2, actual.size());
+        assertTrue(actual.contains(accountRequest1));
+        assertTrue(actual.contains(accountRequest3));
+    }
+
+    @Test
+    public void testGetAccountRequestsSubmittedWithinPeriod() throws Exception {
+        AccountRequestAttributes accountRequest1 = AccountRequestAttributes
+                .builder("Person 6", "TMT, Singapore", "person_6@tmt.tmt", "", "")
+                .build();
+        accountRequest1.setCreatedAt(TimeHelper.parseInstant("2022-07-26T17:50:11Z"));
+        accountRequest1 = accountRequestsDb.createEntity(accountRequest1);
+
+        AccountRequestAttributes accountRequest2 = AccountRequestAttributes
+                .builder("Person 7", "TMT, Singapore", "person_7@tmt.tmt", "", "")
+                .build();
+        accountRequest2.setCreatedAt(TimeHelper.parseInstant("2022-07-15T10:23:37Z"));
+        accountRequest2 = accountRequestsDb.createEntity(accountRequest2);
+
+        AccountRequestAttributes accountRequest3 = AccountRequestAttributes
+                .builder("Person 8", "TMT, Singapore", "person_8@tmt.tmt", "", "")
+                .build();
+        accountRequest3.setCreatedAt(TimeHelper.parseInstant("2022-07-26T23:59:59Z"));
+        accountRequest3 = accountRequestsDb.createEntity(accountRequest3);
+
+        AccountRequestAttributes accountRequest4 = AccountRequestAttributes
+                .builder("Person 9", "TMT, Singapore", "person_9@tmt.tmt", "", "")
+                .build();
+        accountRequest4.setCreatedAt(TimeHelper.parseInstant("2022-07-27T00:00:00Z"));
+        accountRequest4 = accountRequestsDb.createEntity(accountRequest4);
+
+        AccountRequestAttributes accountRequest5 = AccountRequestAttributes
+                .builder("Person 10", "TMT, Singapore", "person_10@tmt.tmt", "", "")
+                .build();
+        accountRequest5.setCreatedAt(TimeHelper.parseInstant("2023-07-28T12:34:56Z"));
+        accountRequest5 = accountRequestsDb.createEntity(accountRequest5);
+
+        List<AccountRequestAttributes> actual = accountRequestsDb.getAccountRequestsSubmittedWithinPeriod(
+                TimeHelper.parseInstant("2022-07-16T00:00:00Z"), TimeHelper.parseInstant("2022-07-27T00:00:00Z"));
+
+        assertEquals(2, actual.size());
+        assertTrue(actual.contains(accountRequest1));
+        assertTrue(actual.contains(accountRequest3));
+    }
+
+    @AfterMethod
+    private void removeAllAccountRequests() {
+        List<AccountRequestAttributes> allAccountRequests = accountRequestsDb.getAllAccountRequests();
+        allAccountRequests.forEach(ar -> accountRequestsDb.deleteAccountRequest(ar.getEmail(), ar.getInstitute()));
     }
 
 }
