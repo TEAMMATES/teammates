@@ -233,7 +233,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         String editedEmail = "adam@tmt.tmt.nus";
         Instant lastProcessedAt = TimeHelper.parseInstant("2022-07-01T00:10:00Z");
         Instant registeredAt = TimeHelper.parseInstant("2022-07-01T00:12:00Z");
-        
+
         AccountRequestAttributes.UpdateOptions updateOptions =
                 AccountRequestAttributes.updateOptionsBuilder(email, institute)
                         .withName(editedName)
@@ -299,7 +299,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         assertTrue(validAccountRequest.isValid());
 
         ______TS("valid account request attributes, non-null pure institute and pure country");
-        
+
         validAccountRequest = AccountRequestAttributes
                 .builder("Adam", "TMT", "Singapore", "adam@tmt.tmt", "valid url", "valid comments")
                 .build();
@@ -320,7 +320,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         assertFalse(invalidAccountRequest.isValid());
         String errorMessage = FieldValidator.PERSON_NAME_FIELD_NAME + ": "
                 + getPopulatedEmptyStringErrorMessage(
-                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING, 
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                 FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH)
                 + System.lineSeparator() + FieldValidator.INSTITUTE_NAME_FIELD_NAME + ": "
                 + getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidInstitute,
@@ -348,7 +348,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
         assertFalse(invalidAccountRequest.isValid());
         errorMessage = FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME + ": "
-                + getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidPureInstitute, 
+                + getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidPureInstitute,
                 FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME,
                 FieldValidator.REASON_CONTAINS_INVALID_CHAR,
                 FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH)

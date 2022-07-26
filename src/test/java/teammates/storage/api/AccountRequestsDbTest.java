@@ -346,7 +346,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         .builder("Person 1", "TMT, Singapore", "person_1@tmt.tmt", "", "")
                         .withStatus(AccountRequestStatus.SUBMITTED)
                         .build());
-        AccountRequestAttributes accountRequest2 = accountRequestsDb.createEntity(
+        accountRequestsDb.createEntity(
                 AccountRequestAttributes
                         .builder("Person 2", "TMT, Singapore", "person_2@tmt.tmt", "", "")
                         .withStatus(AccountRequestStatus.APPROVED)
@@ -356,12 +356,12 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         .builder("Person 3", "TMT, Singapore", "person_3@tmt.tmt", "", "")
                         .withStatus(AccountRequestStatus.SUBMITTED)
                         .build());
-        AccountRequestAttributes accountRequest4 = accountRequestsDb.createEntity(
+        accountRequestsDb.createEntity(
                 AccountRequestAttributes
                         .builder("Person 4", "TMT, Singapore", "person_4@tmt.tmt", "", "")
                         .withStatus(AccountRequestStatus.REGISTERED)
                         .build());
-        AccountRequestAttributes accountRequest5 = accountRequestsDb.createEntity(
+        accountRequestsDb.createEntity(
                 AccountRequestAttributes
                         .builder("Person 5", "TMT, Singapore", "person_5@tmt.tmt", "", "")
                         .withStatus(AccountRequestStatus.REJECTED)
@@ -386,7 +386,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .builder("Person 7", "TMT, Singapore", "person_7@tmt.tmt", "", "")
                 .build();
         accountRequest2.setCreatedAt(TimeHelper.parseInstant("2022-07-15T10:23:37Z"));
-        accountRequest2 = accountRequestsDb.createEntity(accountRequest2);
+        accountRequestsDb.createEntity(accountRequest2);
 
         AccountRequestAttributes accountRequest3 = AccountRequestAttributes
                 .builder("Person 8", "TMT, Singapore", "person_8@tmt.tmt", "", "")
@@ -398,13 +398,13 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .builder("Person 9", "TMT, Singapore", "person_9@tmt.tmt", "", "")
                 .build();
         accountRequest4.setCreatedAt(TimeHelper.parseInstant("2022-07-27T00:00:00Z"));
-        accountRequest4 = accountRequestsDb.createEntity(accountRequest4);
+        accountRequestsDb.createEntity(accountRequest4);
 
         AccountRequestAttributes accountRequest5 = AccountRequestAttributes
                 .builder("Person 10", "TMT, Singapore", "person_10@tmt.tmt", "", "")
                 .build();
         accountRequest5.setCreatedAt(TimeHelper.parseInstant("2023-07-28T12:34:56Z"));
-        accountRequest5 = accountRequestsDb.createEntity(accountRequest5);
+        accountRequestsDb.createEntity(accountRequest5);
 
         List<AccountRequestAttributes> actual = accountRequestsDb.getAccountRequestsSubmittedWithinPeriod(
                 TimeHelper.parseInstant("2022-07-16T00:00:00Z"), TimeHelper.parseInstant("2022-07-27T00:00:00Z"));
@@ -415,7 +415,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @AfterMethod
-    private void removeAllAccountRequests() {
+    public void removeAllAccountRequests() {
         List<AccountRequestAttributes> allAccountRequests = accountRequestsDb.getAllAccountRequests();
         allAccountRequests.forEach(ar -> accountRequestsDb.deleteAccountRequest(ar.getEmail(), ar.getInstitute()));
     }
