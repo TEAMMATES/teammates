@@ -65,8 +65,15 @@ export class LoginPageComponent implements OnInit {
           this.authService.logInWithEmailLink(email, window.location.href)
               .then((authResult) => {
                 window.localStorage.removeItem('emailForSignIn');
-                window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
-                    + `&email=${authResult.user!.email}`;
+                authResult.user!.getIdToken()
+                    .then((idToken) => {
+                      window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
+                          + `&idToken=${idToken}`;
+                    })
+                    .catch(() => {
+                      this.isPageLoading = false;
+                      this.statusMessageService.showErrorToast('Login with email is unsuccessful. Please try again.');
+                    });
               })
               .catch(() => {
                 this.isPageLoading = false;
@@ -90,8 +97,15 @@ export class LoginPageComponent implements OnInit {
         .then((authResult) => {
           if (authResult.user) {
             // is redirection from Google login
-            window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
-                + `&email=${authResult.user!.email}`;
+            authResult.user!.getIdToken()
+                .then((idToken) => {
+                  window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
+                      + `&idToken=${idToken}`;
+                })
+                .catch(() => {
+                  this.isPageLoading = false;
+                  this.statusMessageService.showErrorToast('Login with Google is unsuccessful. Please try again.');
+                });
           } else {
             // not redirection from Google login
             this.isLoggingInWithGoogle = false;
