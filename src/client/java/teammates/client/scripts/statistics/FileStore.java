@@ -38,7 +38,7 @@ import teammates.test.FileHelper;
 /**
  * File storage service that saves stats/cache to encrypted/unencrypted files.
  */
-public class FileStore {
+public final class FileStore {
 
     private static final String BASE_URI = "src/client/java/teammates/client/scripts/statistics/data/";
 
