@@ -319,6 +319,14 @@ export class InstructorCoursesPageComponent implements OnInit {
     .subscribe(() => {
       // Wrap in a Promise to wait for all feedback sessions to be copied
       const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
+        if (result.selectedFeedbackSessionList.size < 1) {
+          this.copyProgressPercentage = 1;
+          this.progressBarService.updateProgress(this.copyProgressPercentage);
+
+          resolve();
+          return;
+        }
+
         result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
           this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
             .pipe(finalize(() => {
