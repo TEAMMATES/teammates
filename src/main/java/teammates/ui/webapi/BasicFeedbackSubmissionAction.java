@@ -93,6 +93,37 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     }
 
     /**
+     * Checks the access control for student feedback result.
+     */
+    void checkAccessControlForStudentFeedbackResult(
+            StudentAttributes student, FeedbackSessionAttributes feedbackSession) throws UnauthorizedAccessException {
+        if (student == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
+        }
+
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (!StringHelper.isEmpty(previewAsPerson)) {
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+            // TODO: CAN_VIEW_STUDENT_IN_SECTIONS may also need to be checked
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+        } else {
+            gateKeeper.verifyAccessible(student, feedbackSession);
+            if (!StringHelper.isEmpty(student.getGoogleId())) {
+                if (userInfo == null) {
+                    // Student is associated to a google ID; even if registration key is passed, do not allow access
+                    throw new UnauthorizedAccessException("Login is required to access this feedback session");
+                } else if (!userInfo.id.equals(student.getGoogleId())) {
+                    // Logged in student is not the same as the student registered for the given key, do not allow access
+                    throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
+                }
+            }
+        }
+    }
+
+    /**
      * Gets the instructor involved in the submission process.
      */
     InstructorAttributes getInstructorOfCourseFromRequest(String courseId) {
