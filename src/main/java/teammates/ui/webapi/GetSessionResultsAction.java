@@ -28,6 +28,8 @@ class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         FeedbackSessionAttributes fs = getNonNullFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        boolean isPreviewResults = !StringHelper.isEmpty(previewAsPerson);
+        // TODO: It may be better to prevent previewas when the intent is FULL_DETAIL: return a BAD REQUEST
         switch (intent) {
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
@@ -35,16 +37,22 @@ class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             gateKeeper.verifyAccessible(instructor, fs);
             break;
         case INSTRUCTOR_RESULT:
+            if (isPreviewResults) {
+                verifyCanPreviewSessionResults(courseId, fs);
+            }
             instructor = getInstructorOfCourseFromRequest(courseId);
             gateKeeper.verifyAccessible(instructor, fs);
-            if (StringHelper.isEmpty(previewAsPerson) && !fs.isPublished()) {
+            if (!isPreviewResults && !fs.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
             break;
         case STUDENT_RESULT:
+            if (isPreviewResults) {
+                verifyCanPreviewSessionResults(courseId, fs);
+            }
             StudentAttributes student = getStudentOfCourseFromRequest(courseId);
             gateKeeper.verifyAccessible(student, fs);
-            if (StringHelper.isEmpty(previewAsPerson) && !fs.isPublished()) {
+            if (!isPreviewResults && !fs.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
             break;
@@ -54,6 +62,16 @@ class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
+    }
+
+    private void verifyCanPreviewSessionResults(String courseId, FeedbackSessionAttributes fs)
+            throws UnauthorizedAccessException {
+        if (userInfo == null || !userInfo.isInstructor) {
+            throw new UnauthorizedAccessException("You are not authorized to preview this session's results.", true);
+        }
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        // TODO: This error message it better not be the default one either
+        gateKeeper.verifyAccessible(instructor, fs, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
     }
 
     @Override
