@@ -2,8 +2,8 @@ package teammates.logic.api;
 
 import teammates.common.exception.FirebaseException;
 import teammates.common.util.Config;
-import teammates.logic.external.EmptyAuthService;
 import teammates.logic.external.AuthService;
+import teammates.logic.external.EmptyAuthService;
 import teammates.logic.external.FirebaseService;
 
 /**
