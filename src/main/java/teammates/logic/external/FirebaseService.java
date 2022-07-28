@@ -1,24 +1,61 @@
 package teammates.logic.external;
 
+import java.io.IOException;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.ActionCodeSettings;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.UserRecord;
+
 import teammates.common.exception.FirebaseException;
+import teammates.common.util.Logger;
 
 /**
- * Interface that provides Firebase services.
+ * Provides Firebase Admin SDK services.
+ * <p>The FirebaseApp instance is initialized here.</p>
+ * @see <a href="https://firebase.google.com/docs/reference/admin">Firebase Admin SDK</a>
  */
-public interface FirebaseService {
+public class FirebaseService implements AuthService {
 
-    /**
-     * Generates a Firebase login link unique to the logging in user.
-     * @param userEmail email of the logging in user.
-     * @param continueUrl URL upon successful login.
-     * @return null if error occurs while generating the login link.
-     */
-    String generateLoginLink(String userEmail, String continueUrl);
+    private static final Logger log = Logger.getLogger();
 
-    /**
-     * Deletes the Firebase user with the specified {@code userEmail}.
-     * @throws FirebaseException if error occurs while deleting the user.
-     */
-    void deleteUser(String userEmail) throws FirebaseException;
+    public FirebaseService() throws FirebaseException {
+        try {
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials.getApplicationDefault())
+                    .build();
+            FirebaseApp.initializeApp(options);
+            log.info("Initialized FirebaseApp instance of name " + FirebaseApp.getInstance().getName());
+        } catch (IOException | IllegalStateException e) {
+            log.severe("Cannot initialize FirebaseApp: " + e.getMessage());
+            throw new FirebaseException(e);
+        }
+    }
+
+    @Override
+    public String generateLoginLink(String userEmail, String continueUrl) {
+        ActionCodeSettings actionCodeSettings = ActionCodeSettings.builder()
+                .setUrl(continueUrl)
+                .setHandleCodeInApp(true)
+                .build();
+        try {
+            return FirebaseAuth.getInstance().generateSignInWithEmailLink(userEmail, actionCodeSettings);
+        } catch (IllegalArgumentException | FirebaseAuthException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteUser(String userEmail) throws FirebaseException {
+        try {
+            UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(userEmail);
+            FirebaseAuth.getInstance().deleteUser(userRecord.getUid());
+        } catch (IllegalArgumentException | FirebaseAuthException e) {
+            throw new FirebaseException(e);
+        }
+    }
 
 }

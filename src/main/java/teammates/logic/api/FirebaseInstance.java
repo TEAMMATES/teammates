@@ -2,9 +2,9 @@ package teammates.logic.api;
 
 import teammates.common.exception.FirebaseException;
 import teammates.common.util.Config;
-import teammates.logic.external.EmptyFirebaseService;
+import teammates.logic.external.EmptyAuthService;
+import teammates.logic.external.AuthService;
 import teammates.logic.external.FirebaseService;
-import teammates.logic.external.GoogleFirebaseService;
 
 /**
  * Provides Firebase services.
@@ -12,17 +12,17 @@ import teammates.logic.external.GoogleFirebaseService;
 public class FirebaseInstance {
 
     private static final FirebaseInstance instance = new FirebaseInstance();
-    private final FirebaseService service;
+    private final AuthService service;
 
     FirebaseInstance() {
-        FirebaseService fs;
+        AuthService fs;
         if (Config.IS_DEV_SERVER) {
-            fs = new EmptyFirebaseService();
+            fs = new EmptyAuthService();
         } else {
             try {
-                fs = new GoogleFirebaseService();
+                fs = new FirebaseService();
             } catch (FirebaseException e) {
-                fs = new EmptyFirebaseService();
+                fs = new EmptyAuthService();
             }
         }
         service = fs;

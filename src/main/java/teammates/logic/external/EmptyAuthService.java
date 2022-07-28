@@ -5,7 +5,7 @@ import teammates.common.exception.FirebaseException;
 /**
  * Service that does not execute any Firebase operations.
  */
-public class EmptyFirebaseService implements FirebaseService {
+public class EmptyAuthService implements AuthService {
 
     @Override
     public String generateLoginLink(String userEmail, String continueUrl) {
