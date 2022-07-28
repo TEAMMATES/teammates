@@ -186,10 +186,10 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         if (getPureInstitute() != null || getPureCountry() != null) {
             // if either one is non-null, both should be non-null
             // if both are valid, institute should be valid as well
-            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPureInstituteName(getPureInstitute()), errors,
-                    generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME));
-            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPureCountryName(getPureCountry()), errors,
-                    generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME));
+            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestInstituteName(getPureInstitute()),
+                    errors, generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME));
+            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestCountryName(getPureCountry()),
+                    errors, generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME));
         }
         addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors,
                 generatePrefix(FieldValidator.INSTITUTE_NAME_FIELD_NAME));

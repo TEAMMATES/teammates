@@ -470,25 +470,25 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code pureInstituteName} is a non-null non-empty string no longer than the specified length
-     * {@code PURE_INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @return An explanation of why the {@code pureInstituteName} is not acceptable.
-     *         Returns an empty string if the {@code pureInstituteName} is acceptable.
+     * Checks if {@code accountRequestInstituteName} is a non-null non-empty string no longer than the specified length
+     * {@code ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code accountRequestInstituteName} is not acceptable.
+     *         Returns an empty string if the {@code accountRequestInstituteName} is acceptable.
      */
-    public static String getInvalidityInfoForPureInstituteName(String pureInstituteName) {
+    public static String getInvalidityInfoForAccountRequestInstituteName(String accountRequestInstituteName) {
         return getValidityInfoForAllowedName(ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME,
-                ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH, pureInstituteName);
+                ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH, accountRequestInstituteName);
     }
 
     /**
-     * Checks if {@code pureCountryName} is a non-null non-empty string no longer than the specified length
-     * {@code PURE_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @return An explanation of why the {@code pureCountryName} is not acceptable.
-     *         Returns an empty string if the {@code pureCountryName} is acceptable.
+     * Checks if {@code accountRequestCountryName} is a non-null non-empty string no longer than the specified length
+     * {@code ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code accountRequestCountryName} is not acceptable.
+     *         Returns an empty string if the {@code accountRequestCountryName} is acceptable.
      */
-    public static String getInvalidityInfoForPureCountryName(String pureCountryName) {
+    public static String getInvalidityInfoForAccountRequestCountryName(String accountRequestCountryName) {
         return getValidityInfoForAllowedName(ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME,
-                ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH, pureCountryName);
+                ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH, accountRequestCountryName);
     }
 
     /**
