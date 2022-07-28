@@ -2,8 +2,8 @@ package teammates.ui.webapi;
 
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackQuestionRecipientAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionRecipientAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;

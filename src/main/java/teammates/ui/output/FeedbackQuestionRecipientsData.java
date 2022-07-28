@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionRecipientAttributes;
+import teammates.common.datatransfer.FeedbackQuestionRecipientAttributes;
 
 /**
  * API output for Feedback Question Recipients, which is a collection of {@link FeedbackQuestionRecipientData}.

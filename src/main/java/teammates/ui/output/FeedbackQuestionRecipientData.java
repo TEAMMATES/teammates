@@ -2,7 +2,7 @@ package teammates.ui.output;
 
 import javax.annotation.Nullable;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionRecipientAttributes;
+import teammates.common.datatransfer.FeedbackQuestionRecipientAttributes;
 
 /**
  * API output for feedback question recipient.

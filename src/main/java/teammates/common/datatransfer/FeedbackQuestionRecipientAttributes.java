@@ -1,4 +1,4 @@
-package teammates.common.datatransfer.attributes;
+package teammates.common.datatransfer;
 
 import java.util.Objects;
 
