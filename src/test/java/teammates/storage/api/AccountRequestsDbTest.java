@@ -12,6 +12,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelperExtension;
 import teammates.common.util.TimeHelper;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
@@ -175,6 +176,41 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         assertThrows(EntityAlreadyExistsException.class,
                 () -> accountRequestsDb.updateAccountRequest(updateOptionsAlreadyExists));
+
+        ______TS("failure: new account request is invalid");
+
+        String longEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH - 7) + "@tmt.tmt";
+        AccountRequestAttributes.UpdateOptions updateOptionsInvalid = AccountRequestAttributes
+                .updateOptionsBuilder("clark_edited@tmt.tmt", "TMT, Singapore")
+                .withName("|")
+                .withInstitute("")
+                .withEmail(longEmail)
+                .build();
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountRequestsDb.updateAccountRequest(updateOptionsInvalid));
+        AssertHelper.assertContains(
+                FieldValidator.PERSON_NAME_FIELD_NAME + ": "
+                        + getPopulatedErrorMessage(
+                                FieldValidator.INVALID_NAME_ERROR_MESSAGE, "|",
+                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
+                ipe.getMessage());
+        AssertHelper.assertContains(
+                FieldValidator.INSTITUTE_NAME_FIELD_NAME + ": "
+                        + getPopulatedEmptyStringErrorMessage(
+                                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                        FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.INSTITUTE_NAME_MAX_LENGTH),
+                ipe.getMessage());
+        AssertHelper.assertContains(
+                FieldValidator.EMAIL_FIELD_NAME + ": "
+                        + getPopulatedErrorMessage(
+                                FieldValidator.EMAIL_ERROR_MESSAGE, longEmail, FieldValidator.EMAIL_FIELD_NAME,
+                        FieldValidator.REASON_TOO_LONG, FieldValidator.EMAIL_MAX_LENGTH),
+                ipe.getMessage());
+
+        ______TS("failure: null parameter");
+
+        assertThrows(AssertionError.class, () -> accountRequestsDb.updateAccountRequest(null));
 
         ______TS("success: single field update");
 
