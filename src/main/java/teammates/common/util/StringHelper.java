@@ -83,6 +83,13 @@ public final class StringHelper {
      *  E.g., inputString = "person name: John", substring = "person name: ", returns "John"
      */
     public static String removeFirstOccurrenceOfSubstring(String inputString, String subString) {
+        if (inputString == null) {
+            return null;
+        }
+        if (subString == null) {
+            return inputString;
+        }
+
         int index = inputString.indexOf(subString);
         if (index == -1) {
             return inputString;

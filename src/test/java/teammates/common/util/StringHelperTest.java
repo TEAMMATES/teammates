@@ -196,6 +196,44 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testRemoveFirstOccurrenceOfSubstring() {
+        String inputString = "person name: John";
+        String subString = "person name: ";
+        String expected = "John";
+        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+
+        inputString = "institute country name: Unknown";
+        subString = " country name";
+        expected = "institute: Unknown";
+        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+
+        inputString = "NUS (National University of Singapore)\n";
+        subString = " (National University of Singapore)\n";
+        expected = "NUS";
+        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+
+        inputString = "HelloSingaporeSingapore";
+        subString = "Singapore";
+        expected = "HelloSingapore";
+        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+
+        inputString = "2022-07-28 TEAMMATES";
+        subString = "TEAMMATEs";
+        expected = "2022-07-28 TEAMMATES";
+        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+
+        inputString = "inputString";
+        subString = null;
+        expected = "inputString";
+        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+
+        inputString = null;
+        subString = "subString";
+        expected = null;
+        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+    }
+
+    @Test
     public void testSignatureGeneration() throws Exception {
         String data1 = "National University of Singapore";
         String data2 = "Nanyang Technological University";
