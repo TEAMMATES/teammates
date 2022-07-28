@@ -33,10 +33,9 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         AccountRequestAttributes ins2InCourse3 = dataBundle.accountRequests.get("instructor2OfCourse3");
         AccountRequestAttributes insInUnregCourse = dataBundle.accountRequests.get("instructor5");
         AccountRequestAttributes insOfArchivedCourse = dataBundle.accountRequests.get("instructorOfArchivedCourse");
-        AccountRequestAttributes unregisteredInstructor1 =
-                dataBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequestAttributes unregisteredInstructor2 =
-                dataBundle.accountRequests.get("unregisteredInstructor2");
+        // TODO: update parameter names
+        AccountRequestAttributes unregisteredInstructor1 = dataBundle.accountRequests.get("approvedUnregisteredRequest1");
+        AccountRequestAttributes unregisteredInstructor2 = dataBundle.accountRequests.get("approvedUnregisteredRequest1");
 
         ______TS("success: search for account requests; query string does not match anyone");
 
@@ -76,7 +75,7 @@ public class AccountRequestSearchTest extends BaseSearchTest {
 
         ______TS("success: search for account requests; unregistered account requests should be searchable");
 
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("unregisteredinstructor1@gmail.tmt");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("approvedUnregisteredInstructor1@tmt.tmt");
         verifySearchResults(results, unregisteredInstructor1);
 
         ______TS("success: search for account requests; deleted account requests no longer searchable");
