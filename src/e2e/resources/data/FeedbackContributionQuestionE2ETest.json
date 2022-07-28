@@ -158,6 +158,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "tm.e2e.FContrQn.CS2104",
       "questionDetails": {
+        "isZeroSum": false,
         "isNotSureAllowed": true,
         "questionType": "CONTRIB",
         "questionText": "How much has each team member including yourself, contributed to the project?"
@@ -184,6 +185,7 @@
       "feedbackSessionName": "Second Session",
       "courseId": "tm.e2e.FContrQn.CS1101",
       "questionDetails": {
+        "isZeroSum": true,
         "isNotSureAllowed": false,
         "questionType": "CONTRIB",
         "questionText": "How much has each team member including yourself, contributed to the project?"

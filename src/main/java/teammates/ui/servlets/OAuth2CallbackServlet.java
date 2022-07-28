@@ -45,7 +45,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             req.getSession().invalidate();
             cookie = getLoginInvalidationCookie();
         } else {
-            UserInfoCookie uic = new UserInfoCookie(email.replaceFirst("@gmail\\.com$", ""));
+            UserInfoCookie uic = new UserInfoCookie(email);
             cookie = getLoginCookie(uic);
         }
 

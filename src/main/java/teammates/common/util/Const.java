@@ -291,7 +291,8 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/student/edit";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = INSTRUCTOR_PAGE + "/students";
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = INSTRUCTOR_PAGE + "/students/records";
-        public static final String INSTRUCTOR_AUDIT_LOGS_PAGE = INSTRUCTOR_PAGE + "/logs";
+        public static final String INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE = INSTRUCTOR_PAGE
+                + "/courses/student-activity-logs";
         public static final String INSTRUCTOR_NOTIFICATIONS_PAGE = INSTRUCTOR_PAGE + "/notifications";
 
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
