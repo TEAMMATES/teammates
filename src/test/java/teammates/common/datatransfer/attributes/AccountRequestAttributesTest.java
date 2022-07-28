@@ -2,12 +2,12 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.common.util.StringHelperExtension;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.AccountRequest;
 import teammates.test.BaseTestCase;
@@ -311,8 +311,10 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         String emptyName = "";
         String invalidEmail = "invalid-email";
         String invalidInstitute = "{TMT, Singapore";
-        String longUrl = RandomStringUtils.randomAscii(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
-        String longComments = RandomStringUtils.randomAscii(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
+        String longUrl = StringHelperExtension
+                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
+        String longComments = StringHelperExtension
+                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
         AccountRequestAttributes invalidAccountRequest = AccountRequestAttributes
                 .builder(emptyName, invalidInstitute, invalidEmail, longUrl, longComments)
                 .build();
@@ -341,7 +343,8 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         ______TS("invalid account request attributes, non-null pure institute and pure country");
 
         String invalidPureInstitute = "invalid%pure institute";
-        String longPureCountry = RandomStringUtils.randomAscii(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH + 1);
+        String longPureCountry = StringHelperExtension
+                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH + 1);
         invalidAccountRequest = AccountRequestAttributes
                 .builder("Adam", invalidPureInstitute, longPureCountry, "adam@tmt.tmt", "", "")
                 .build();
