@@ -28,7 +28,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("typical success case - 1");
 
         AccountRequestAttributes accountRequest = AccountRequestAttributes
-                .builder("Adam", "TMT, Singapore", "adam@tmt.tmt", "https://www.google.com/", "My comments")
+                .builder("Adams", "TMT, Singapore", "adams@tmt.tmt", "https://www.google.com/", "My comments")
                 .build();
 
         accountRequest = accountRequestsDb.createEntity(accountRequest);
@@ -37,7 +37,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("typical success case - 2");
 
         accountRequest = AccountRequestAttributes
-                .builder("Bob", "TMT", "Singapore", "bob@tmt.tmt", "https://www.google.com/", "My comments")
+                .builder("Baker", "TMT", "Singapore", "baker@tmt.tmt", "https://www.google.com/", "My comments")
                 .build();
 
         accountRequest = accountRequestsDb.createEntity(accountRequest);
@@ -46,22 +46,18 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("failure: duplicate account request - 1");
 
         AccountRequestAttributes duplicateAccountRequest1 = AccountRequestAttributes
-                .builder("adam", "TMT, Singapore", "adam@tmt.tmt", "", "")
+                .builder("adams", "TMT, Singapore", "adams@tmt.tmt", "", "")
                 .build();
 
-        assertThrows(EntityAlreadyExistsException.class, () -> {
-            accountRequestsDb.createEntity(duplicateAccountRequest1);
-        });
+        assertThrows(EntityAlreadyExistsException.class, () -> accountRequestsDb.createEntity(duplicateAccountRequest1));
 
         ______TS("failure: duplicate account request - 2");
 
         AccountRequestAttributes duplicateAccountRequest2 = AccountRequestAttributes
-                .builder("bob", "TMT", "Singapore", "bob@tmt.tmt", "https://www.comp.nus.edu.sg", "")
+                .builder("baker", "TMT", "Singapore", "baker@tmt.tmt", "https://www.comp.nus.edu.sg", "")
                 .build();
 
-        assertThrows(EntityAlreadyExistsException.class, () -> {
-            accountRequestsDb.createEntity(duplicateAccountRequest2);
-        });
+        assertThrows(EntityAlreadyExistsException.class, () -> accountRequestsDb.createEntity(duplicateAccountRequest2));
 
         ______TS("failure: invalid parameter - 1");
 
