@@ -330,7 +330,8 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
             .pipe(finalize(() => {
               this.numberOfSessionsCopied += 1;
-              this.copyProgressPercentage = Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
+              this.copyProgressPercentage =
+                Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
               this.progressBarService.updateProgress(this.copyProgressPercentage);
 
               if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
