@@ -1909,7 +1909,7 @@
       "homePageUrl": "https://www.course2.com/instr1",
       "comments": "Is TEAMMATES free to use?",
       "status": "REGISTERED",
-      "createdAt": "2012-03-29T23:59:00Z",
+      "createdAt": "2012-03-29T23:59:59Z",
       "lastProcessedAt": "2012-04-01T22:00:00Z",
       "registeredAt": "2012-04-01T23:58:00Z"
     },
@@ -2001,23 +2001,33 @@
       "lastProcessedAt": "2012-03-31T19:17:00Z",
       "registeredAt": "2012-04-01T23:26:00Z"
     },
-    "unprocessedRequest1": {
-      "name": "Unprocessed Instructor 1",
+    "submittedRequest1": {
+      "name": "Submitted Instructor 1",
       "institute": "TMT, Singapore",
-      "email": "unprocessedInstructor1@tmt.tmt",
-      "homePageUrl": "https://www.tmt.tmt/unprocessedInstructor1",
-      "comments": "Hi these are my comments:\n",
+      "email": "submittedInstructor1@tmt.tmt",
+      "homePageUrl": "https://www.tmt.tmt/submittedInstructor1",
+      "comments": "Hi these are my comments:\r\n\"Comments\".",
       "status": "SUBMITTED",
       "createdAt": "2012-04-01T05:01:19Z"
     },
-    "unprocessedRequest2": {
-      "name": "Unprocessed Instructor 2",
+    "submittedRequest2": {
+      "name": "Submitted Instructor 2",
       "institute": "TMT, Singapore",
-      "email": "unprocessedInstructor2@tmt.tmt",
+      "email": "submittedInstructor2@tmt.tmt",
       "homePageUrl": "",
       "comments": "",
       "status": "SUBMITTED",
-      "createdAt": "2012-04-01T08:48:09Z"
+      "createdAt": "2012-03-30T00:00:00Z"
+    },
+    "submittedRequest3": {
+      "name": "Submitted Instructor 3",
+      "institute": "TMT, Singapore",
+      "email": "submittedInstructor3@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED",
+      "createdAt": "2012-03-27T23:59:59Z",
+      "lastProcessedAt": "2012-03-31T00:12:25Z"
     },
     "approvedUnregisteredRequest1": {
       "name": "Approved Unregistered Instructor 1",
@@ -2026,8 +2036,8 @@
       "homePageUrl": "",
       "comments": "",
       "status": "APPROVED",
-      "createdAt": "2012-03-30T19:00:59Z",
-      "lastProcessedAt": "2012-03-31T00:17:00Z"
+      "createdAt": "2012-03-31T19:00:59Z",
+      "lastProcessedAt": "2012-03-31T19:17:00Z"
     },
     "approvedUnregisteredRequest2": {
       "name": "Approved Unregistered Instructor 2",
@@ -2048,16 +2058,6 @@
       "status": "REJECTED",
       "createdAt": "2012-03-29T00:00:59Z",
       "lastProcessedAt": "2012-03-31T00:10:00Z"
-    },
-    "processedRequest1": {
-      "name": "Processed Instructor 1",
-      "institute": "TMT, Singapore",
-      "email": "processedInstructor1@tmt.tmt",
-      "homePageUrl": "",
-      "comments": "",
-      "status": "SUBMITTED",
-      "createdAt": "2012-03-27T23:59:59Z",
-      "lastProcessedAt": "2012-03-31T00:12:25Z"
     }
   },
   "notifications": {
