@@ -56,8 +56,39 @@ export class LoginPageComponent implements OnInit {
     this.isLoggingInWithEmail = true;
     this.isLoggingInWithGoogle = true;
 
-    // Handles redirection from email login
-    this.authService.isLogInWithEmailLink(window.location.href).then((isEmailLink) => {
+    this.handleGoogleRedirection();
+    this.handleEmailRedirection();
+  }
+
+  handleGoogleRedirection(): Promise<void> {
+    return this.authService.getRedirectResult()
+        .then((authResult) => {
+          if (authResult.user) {
+            // is redirection from Google login
+            authResult.user!.getIdToken()
+                .then((idToken) => {
+                  window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
+                      + `&idToken=${idToken}`;
+                })
+                .catch(() => {
+                  this.isPageLoading = false;
+                  this.statusMessageService.showErrorToast('Login with Google is unsuccessful. Please try again.');
+                });
+          } else {
+            // not redirection from Google login
+            this.isLoggingInWithGoogle = false;
+            // page should stop loading only if it is not still logging in with email
+            this.isPageLoading = this.isLoggingInWithEmail;
+          }
+        })
+        .catch(() => {
+          this.isPageLoading = false;
+          this.statusMessageService.showErrorToast('Login with Google is unsuccessful. Please try again.');
+        });
+  }
+
+  handleEmailRedirection(): Promise<void> {
+    return this.authService.isLogInWithEmailLink(window.location.href).then((isEmailLink) => {
       if (isEmailLink) {
         // is redirection from email login
         const email = window.localStorage.getItem('emailForSignIn');
@@ -91,42 +122,16 @@ export class LoginPageComponent implements OnInit {
         this.isPageLoading = this.isLoggingInWithGoogle;
       }
     });
-
-    // Handles redirection from Google login
-    this.authService.getRedirectResult()
-        .then((authResult) => {
-          if (authResult.user) {
-            // is redirection from Google login
-            authResult.user!.getIdToken()
-                .then((idToken) => {
-                  window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
-                      + `&idToken=${idToken}`;
-                })
-                .catch(() => {
-                  this.isPageLoading = false;
-                  this.statusMessageService.showErrorToast('Login with Google is unsuccessful. Please try again.');
-                });
-          } else {
-            // not redirection from Google login
-            this.isLoggingInWithGoogle = false;
-            // page should stop loading only if it is not still logging in with email
-            this.isPageLoading = this.isLoggingInWithEmail;
-          }
-        })
-        .catch(() => {
-          this.isPageLoading = false;
-          this.statusMessageService.showErrorToast('Login with Google is unsuccessful. Please try again.');
-        });
   }
 
   /**
    * Redirects to the Google login page.
    */
-  logInWithGoogle(): void {
+  logInWithGoogle(): Promise<void> {
     this.isLoggingInWithGoogle = true;
     const googleProvider = new GoogleAuthProvider();
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
-    this.authService.logInWithRedirect(googleProvider)
+    return this.authService.logInWithRedirect(googleProvider)
         .then(() => {
           this.isLoggingInWithGoogle = false;
         })
