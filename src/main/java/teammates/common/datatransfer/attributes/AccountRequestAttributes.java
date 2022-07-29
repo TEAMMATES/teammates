@@ -209,13 +209,23 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public String toString() {
-        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: "
-                + getEmail() + " name: " + getName() + " institute: " + getInstitute();
+        return "[" + AccountRequestAttributes.class.getSimpleName()
+                + "] name= " + getName()
+                + ", pureInstitute= " + getPureInstitute()
+                + ", pureCountry= " + getPureCountry()
+                + ", institute= " + getInstitute()
+                + ", email= " + getEmail()
+                + ", homePageUrl= " + getHomePageUrl()
+                + ", comments= " + getComments()
+                + ", status= " + getStatus()
+                + ", createdAt= " + getCreatedAt()
+                + ", lastProcessedAt= " + getLastProcessedAt()
+                + ", registeredAt= " + getRegisteredAt();
     }
 
     @Override
     public int hashCode() {
-        return (this.email + this.name + this.institute).hashCode();
+        return (this.name + this.institute + this.email + this.homePageUrl + this.comments).hashCode();
     }
 
     @Override
@@ -226,9 +236,11 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             return true;
         } else if (this.getClass() == other.getClass()) {
             AccountRequestAttributes otherAccountRequestAttributes = (AccountRequestAttributes) other;
-            return Objects.equals(this.email, otherAccountRequestAttributes.email)
+            return Objects.equals(this.name, otherAccountRequestAttributes.name)
                     && Objects.equals(this.institute, otherAccountRequestAttributes.institute)
-                    && Objects.equals(this.name, otherAccountRequestAttributes.name);
+                    && Objects.equals(this.email, otherAccountRequestAttributes.email)
+                    && Objects.equals(this.homePageUrl, otherAccountRequestAttributes.homePageUrl)
+                    && Objects.equals(this.comments, otherAccountRequestAttributes.comments);
         } else {
             return false;
         }
