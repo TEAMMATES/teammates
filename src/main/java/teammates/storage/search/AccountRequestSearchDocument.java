@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.storage.entity.AccountRequest;
 
 /**
  * The {@link SearchDocument} object that defines how we store document for account requests.
@@ -26,7 +25,7 @@ class AccountRequestSearchDocument extends SearchDocument<AccountRequestAttribut
                 accountRequest.getName(), email, institute,
         };
 
-        fields.put("id", AccountRequest.generateId(email, institute));
+        fields.put("id", email + '%' + institute);
         fields.put("_text_", String.join(" ", searchableTexts));
         fields.put("email", email);
         fields.put("institute", institute);
