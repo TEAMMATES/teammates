@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -26,7 +26,7 @@ import {
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
 })
-export class QuestionSubmissionFormComponent implements OnInit {
+export class QuestionSubmissionFormComponent implements DoCheck {
 
   // enum
   QuestionSubmissionFormMode: typeof QuestionSubmissionFormMode = QuestionSubmissionFormMode;
@@ -101,6 +101,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
+  isEveryRecipientSorted: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
@@ -109,8 +110,10 @@ export class QuestionSubmissionFormComponent implements OnInit {
             this.model.giverType, this.model.recipientType);
   }
 
-  ngOnInit(): void {
-    this.sortRecipientsByName();
+  ngDoCheck(): void {
+    if (this.model.isLoaded && !this.isEveryRecipientSorted) {
+      this.sortRecipientsByName();
+    }
   }
 
   /**
@@ -119,7 +122,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
   private sortRecipientsByName(): void {
     this.model.recipientList.sort((firstRecipient: FeedbackResponseRecipient,
       secondRecipient: FeedbackResponseRecipient) =>
-      firstRecipient.recipientName.localeCompare(secondRecipient.recipientName));
+      secondRecipient.recipientName.localeCompare(firstRecipient.recipientName));
 
     const indexes: Map<String, number> = new Map();
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
@@ -133,6 +136,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
       return firstRecipientIndex - secondRecipientIndex;
     });
+    this.isEveryRecipientSorted = true;
   }
 
   /**
