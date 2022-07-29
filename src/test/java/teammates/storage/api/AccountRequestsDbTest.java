@@ -310,23 +310,19 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     @Test
     public void testGetAccountRequestForRegistrationKey() throws Exception {
-        AccountRequestAttributes accountRequest = AccountRequestAttributes
+        AccountRequestAttributes accountRequest = accountRequestsDb.createEntity(AccountRequestAttributes
                 .builder("Frank", "TMT, Singapore", "frank@tmt.tmt", "", "")
-                .build();
-        accountRequest.setRegistrationKey("frank-123456");
-        accountRequest = accountRequestsDb.createEntity(accountRequest);
+                .build());
 
         ______TS("typical success case");
 
-        AccountRequestAttributes accountRequestAttributes =
-                accountRequestsDb.getAccountRequestForRegistrationKey("frank-123456");
-        assertEquals(accountRequest, accountRequestAttributes);
+        AccountRequestAttributes actualAccountRequest =
+                accountRequestsDb.getAccountRequestForRegistrationKey(accountRequest.getRegistrationKey());
+        assertEquals(accountRequest, actualAccountRequest);
 
         ______TS("account request not found");
 
-        AccountRequestAttributes notFoundRequestAttributes =
-                accountRequestsDb.getAccountRequestForRegistrationKey("Frank-123456");
-        assertNull(notFoundRequestAttributes);
+        assertNull(accountRequestsDb.getAccountRequestForRegistrationKey("not-found"));
 
         ______TS("failure: null parameter");
 
@@ -341,20 +337,18 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("typical success case");
 
-        AccountRequestAttributes accountRequestAttributes =
-                accountRequestsDb.getAccountRequest("ghosh@tmt.tmt", "TMT, Singapore");
-        assertEquals(accountRequest, accountRequestAttributes);
+        AccountRequestAttributes actualAccountRequest =
+                accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        assertEquals(accountRequest, actualAccountRequest);
 
         ______TS("account request not found");
 
-        AccountRequestAttributes notFoundRequestAttributes =
-                accountRequestsDb.getAccountRequest("Ghosh@tmt.tmt", "TMT, Singapore");
-        assertNull(notFoundRequestAttributes);
+        assertNull(accountRequestsDb.getAccountRequest("Ghosh@tmt.tmt", accountRequest.getInstitute()));
 
         ______TS("failure: null parameter");
 
-        assertThrows(AssertionError.class, () -> accountRequestsDb.getAccountRequest(null, "TMT, Singapore"));
-        assertThrows(AssertionError.class, () -> accountRequestsDb.getAccountRequest("ghosh@tmt.tmt", null));
+        assertThrows(AssertionError.class, () -> accountRequestsDb.getAccountRequest(null, accountRequest.getInstitute()));
+        assertThrows(AssertionError.class, () -> accountRequestsDb.getAccountRequest(accountRequest.getEmail(), null));
     }
 
     @Test
