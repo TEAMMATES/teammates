@@ -613,13 +613,15 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         AccountRequestAttributes accountRequest1 = dataBundle.accountRequests.get("submittedRequest1");
         AccountRequestAttributes accountRequest2 = dataBundle.accountRequests.get("submittedRequest2");
         AccountRequestAttributes accountRequest3 = dataBundle.accountRequests.get("submittedRequest3");
+        AccountRequestAttributes accountRequest4 = dataBundle.accountRequests.get("submittedRequest4");
 
         List<AccountRequestAttributes> actual = accountRequestsLogic.getAccountRequestsPendingProcessing();
 
-        assertEquals(3, actual.size());
+        assertEquals(4, actual.size());
         assertTrue(actual.contains(accountRequest1));
         assertTrue(actual.contains(accountRequest2));
         assertTrue(actual.contains(accountRequest3));
+        assertTrue(actual.contains(accountRequest4));
     }
 
     @Test

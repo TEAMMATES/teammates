@@ -24,12 +24,14 @@ public class UsageStatisticsLogicTest extends BaseLogicTest {
                 TimeHelper.getInstantDaysOffsetFromNow(1L));
 
         int numCoursesCreatedInDistantPast = 6;
+        int numAccountRequestsCreated = 16;
 
         assertEquals(dataBundle.feedbackResponses.size(), stats.getNumResponses());
         assertEquals(dataBundle.courses.size() - numCoursesCreatedInDistantPast, stats.getNumCourses());
         assertEquals(dataBundle.students.size(), stats.getNumStudents());
         assertEquals(dataBundle.instructors.size(), stats.getNumInstructors());
-        assertEquals(0, stats.getNumAccountRequests()); // all account requests are created in distant past
+        assertEquals(dataBundle.accountRequests.size() - numAccountRequestsCreated,
+                stats.getNumAccountRequests());
 
         ______TS("typical success case: distant past");
 
@@ -40,7 +42,7 @@ public class UsageStatisticsLogicTest extends BaseLogicTest {
         assertEquals(numCoursesCreatedInDistantPast, stats.getNumCourses());
         assertEquals(0, stats.getNumStudents());
         assertEquals(0, stats.getNumInstructors());
-        assertEquals(dataBundle.accountRequests.size(), stats.getNumAccountRequests());
+        assertEquals(numAccountRequestsCreated, stats.getNumAccountRequests());
 
     }
 
