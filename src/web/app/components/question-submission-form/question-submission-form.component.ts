@@ -70,7 +70,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   model: QuestionSubmissionFormModel = {
     isLoading: false,
-    isLoaded: true,
+    isLoaded: false,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -122,7 +122,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   private sortRecipientsByName(): void {
     this.model.recipientList.sort((firstRecipient: FeedbackResponseRecipient,
       secondRecipient: FeedbackResponseRecipient) =>
-      secondRecipient.recipientName.localeCompare(firstRecipient.recipientName));
+      firstRecipient.recipientName.localeCompare(secondRecipient.recipientName));
 
     const indexes: Map<String, number> = new Map();
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
