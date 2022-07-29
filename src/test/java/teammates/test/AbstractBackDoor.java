@@ -869,13 +869,6 @@ public abstract class AbstractBackDoor {
                 .build();
     }
 
-    /**
-     * Sync feedback session logs.
-     */
-    public void syncFeedbackSessionLogEntries() {
-        executeGetRequest(Const.CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_UPDATE, new HashMap<>());
-    }
-
     private static final class ResponseBodyAndCode {
 
         String responseBody;

@@ -17,8 +17,8 @@ import teammates.common.util.Logger;
 public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
-    private static final int minWindowPeriod = 2 * 1000;
-    private static final int maxWindowSize = 4;
+    private static final int MIN_WINDOW_PERIOD = 2 * 1000;
+    private static final int MAX_WINDOW_SIZE = 4;
 
     @Override
     public ActionResult execute() {
@@ -50,25 +50,27 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
             studentToLogs.put(studentEmail, studentLog);
         }
 
-        for (String studentEmail : studentToLogs.keySet()) {
+        for (Map.Entry<String, Map<String, List<FeedbackSessionLogEntryAttributes>>>
+                studentToLog : studentToLogs.entrySet()) {
             Map<String, List<FeedbackSessionLogEntryAttributes>> studentLog =
-                    studentToLogs.get(studentEmail);
+                    studentToLog.getValue();
 
             int windowStartIndex = 0;
             int windowSize = 0;
-            for (String logType : studentLog.keySet()) {
-                List<FeedbackSessionLogEntryAttributes> logs = studentLog.get(logType);
+            for (Map.Entry<String, List<FeedbackSessionLogEntryAttributes>>
+                    logEntries : studentLog.entrySet()) {
+                List<FeedbackSessionLogEntryAttributes> logs = logEntries.getValue();
 
                 for (int i = 0; i < logs.size(); i++) {
                     FeedbackSessionLogEntryAttributes startLog = logs.get(windowStartIndex);
                     FeedbackSessionLogEntryAttributes currLog = logs.get(i);
 
-                    if (currLog.getTimestamp() - startLog.getTimestamp() <= minWindowPeriod) {
+                    if (currLog.getTimestamp() - startLog.getTimestamp() <= MIN_WINDOW_PERIOD) {
                         windowSize++;
 
                         // If the window size exceeds the max value
                         // we only take the first log of the window.
-                        if (windowSize == maxWindowSize) {
+                        if (windowSize == MAX_WINDOW_SIZE) {
                             validLogEntries.add(startLog);
                             windowStartIndex = i + 1;
                         }

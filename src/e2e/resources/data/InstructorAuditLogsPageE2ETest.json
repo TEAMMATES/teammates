@@ -83,39 +83,49 @@
       "studentDeadlines": {},
       "instructorDeadlines": {}
     }
-  },"feedbackQuestions": {
-  "qn1": {
-    "feedbackSessionName": "First Session",
-    "courseId": "tm.e2e.IAuditLogs.CS2104",
-    "questionDetails": {
-      "questionType": "TEXT",
-      "questionText": "Testing question text"
-    },
-    "questionDescription": "<p>Testing description</p>",
-    "questionNumber": 1,
-    "giverType": "STUDENTS",
-    "recipientType": "STUDENTS",
-    "numberOfEntitiesToGiveFeedbackTo": 2,
-    "showResponsesTo": [
-      "STUDENTS",
-      "INSTRUCTORS",
-      "OWN_TEAM_MEMBERS",
-      "RECEIVER"
-    ],
-    "showGiverNameTo": [
-      "STUDENTS",
-      "INSTRUCTORS",
-      "OWN_TEAM_MEMBERS",
-      "RECEIVER"
-    ],
-    "showRecipientNameTo": [
-      "STUDENTS",
-      "INSTRUCTORS",
-      "OWN_TEAM_MEMBERS",
-      "RECEIVER"
-    ]
-  }
-},
+  },
+  "feedbackQuestions": {
+    "qn1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.IAuditLogs.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Testing question text"
+      },
+      "questionDescription": "<p>Testing description</p>",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 2,
+      "showResponsesTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ]
+    }
+  },
+  "feedbackSessionLogEntries": {
+    "logEntry": {
+      "studentEmail": "alice.b.tmms@gmail.tmt",
+      "courseId": "tm.e2e.IAuditLogs.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackSessionLogType": "ACCESS",
+      "timestamp": 0
+    }
+  },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
   "profiles": {}
