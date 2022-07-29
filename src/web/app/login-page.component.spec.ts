@@ -59,7 +59,7 @@ describe('LoginPageComponent', () => {
           expect(args).toEqual('Login link has already been used. If not, kindly login using the same device.');
         });
     fixture.detectChanges();
-    await component.handleEmailRedirection()
+    await component.handleEmailRedirection();
     expect(spy).toBeCalled();
   });
 
@@ -72,7 +72,7 @@ describe('LoginPageComponent', () => {
           expect(args).toEqual('Login with email is unsuccessful. Please try again.');
         });
     fixture.detectChanges();
-    await component.handleEmailRedirection()
+    await component.handleEmailRedirection();
     expect(spy).toBeCalled();
   });
 
@@ -83,7 +83,7 @@ describe('LoginPageComponent', () => {
           expect(args).toEqual('Login with Google is unsuccessful. Please try again.');
         });
     fixture.detectChanges();
-    await component.handleGoogleRedirection()
+    await component.handleGoogleRedirection();
     expect(spy).toBeCalled();
   });
 
@@ -94,7 +94,7 @@ describe('LoginPageComponent', () => {
           expect(args).toEqual('Cannot redirect to Google login page. Please try again.');
         });
     fixture.detectChanges();
-    await component.logInWithGoogle()
+    await component.logInWithGoogle();
     expect(spy).toBeCalled();
   });
 
