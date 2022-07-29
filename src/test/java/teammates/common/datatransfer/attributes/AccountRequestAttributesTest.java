@@ -445,9 +445,12 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        AccountRequestAttributes a = getValidAccountRequestAttributesObject();
-        assertEquals("[AccountRequestAttributes] email: adam@tmt.tmt "
-                + "name: Adam institute: TMT, Singapore", a.toString());
+        AccountRequestAttributes ar = getValidAccountRequestAttributesObject();
+        String expected = "[AccountRequestAttributes] name= Adam, pureInstitute= null, pureCountry= null"
+                + ", institute= TMT, Singapore, email= adam@tmt.tmt, homePageUrl= , comments= , status= SUBMITTED"
+                + ", createdAt= " + ar.getCreatedAt() + ", lastProcessedAt= " + ar.getLastProcessedAt()
+                + ", registeredAt= " + ar.getLastProcessedAt();
+        assertEquals(expected, ar.toString());
     }
 
     @Test
