@@ -319,8 +319,8 @@ export class InstructorCoursesPageComponent implements OnInit {
     .subscribe(() => {
       // Wrap in a Promise to wait for all feedback sessions to be copied
       const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
-        if (result.selectedFeedbackSessionList.size < 1) {
-          this.updateProgressBarHandler(1);
+        if (result.selectedFeedbackSessionList.size === 0) {
+          this.progressBarService.updateProgress(100);
           resolve();
 
           return;
@@ -330,8 +330,8 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
             .pipe(finalize(() => {
               this.numberOfSessionsCopied += 1;
-              this.updateProgressBarHandler(
-                  Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy));
+              this.copyProgressPercentage = Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
+              this.progressBarService.updateProgress(this.copyProgressPercentage);
 
               if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
                 resolve();
@@ -358,16 +358,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.isCopyingCourse = false;
       this.hasLoadingFailed = true;
     });
-  }
-
-  /**
-   * Updates progress bar using ProgressBarService.
-   * This is a helper function used by {@link InstructorCoursesPageComponent#createCourse()} to
-   * reduce code duplication.
-   */
-  private updateProgressBarHandler(copyProgressPercentage: number): void {
-    this.copyProgressPercentage = copyProgressPercentage;
-    this.progressBarService.updateProgress(this.copyProgressPercentage);
   }
 
   /**
