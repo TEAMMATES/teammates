@@ -33,9 +33,11 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         AccountRequestAttributes ins2InCourse3 = dataBundle.accountRequests.get("instructor2OfCourse3");
         AccountRequestAttributes insInUnregCourse = dataBundle.accountRequests.get("instructor5");
         AccountRequestAttributes insOfArchivedCourse = dataBundle.accountRequests.get("instructorOfArchivedCourse");
-        // TODO: update parameter names
-        AccountRequestAttributes unregisteredInstructor1 = dataBundle.accountRequests.get("approvedUnregisteredRequest1");
-        AccountRequestAttributes unregisteredInstructor2 = dataBundle.accountRequests.get("approvedUnregisteredRequest1");
+        AccountRequestAttributes approvedInstructor1 = dataBundle.accountRequests.get("approvedUnregisteredRequest1");
+        AccountRequestAttributes approvedInstructor2 = dataBundle.accountRequests.get("approvedUnregisteredRequest2");
+        AccountRequestAttributes submittedInstructor1 = dataBundle.accountRequests.get("submittedRequest1");
+        AccountRequestAttributes submittedInstructor2 = dataBundle.accountRequests.get("submittedRequest2");
+        AccountRequestAttributes rejectedInstructor1 = dataBundle.accountRequests.get("rejectedRequest1");
 
         ______TS("success: search for account requests; query string does not match anyone");
 
@@ -51,12 +53,14 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         ______TS("success: search for account requests; query string matches some account requests");
 
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"Instructor 1\"");
-        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
+        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InCourse3,
+                approvedInstructor1, submittedInstructor1, rejectedInstructor1);
 
         ______TS("success: search for account requests; query string should be case-insensitive");
 
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"InStRuCtOr 2\"");
-        verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3, unregisteredInstructor2);
+        verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3,
+                approvedInstructor2, submittedInstructor2);
 
         ______TS("success: search for account requests; account requests should be searchable by their name");
 
@@ -76,26 +80,26 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         ______TS("success: search for account requests; unregistered account requests should be searchable");
 
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("approvedUnregisteredInstructor1@tmt.tmt");
-        verifySearchResults(results, unregisteredInstructor1);
+        verifySearchResults(results, approvedInstructor1);
 
         ______TS("success: search for account requests; deleted account requests no longer searchable");
 
         accountRequestsDb.deleteAccountRequest(ins1InCourse1.getEmail(), ins1InCourse1.getInstitute());
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3, approvedInstructor1);
 
         ______TS("success: search for account requests; account requests created without searchability unsearchable");
 
         accountRequestsDb.putEntity(ins1InCourse1);
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
+        verifySearchResults(results, ins1InCourse2, ins1InCourse3, approvedInstructor1);
 
         ______TS("success: search for account requests; deleting account request without deleting document:"
                 + "document deleted during search, account request unsearchable");
 
         accountRequestsDb.deleteAccountRequest(ins2InCourse1.getEmail(), ins2InCourse1.getInstitute());
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 2\"");
-        verifySearchResults(results, ins2InCourse2, ins2InCourse3, unregisteredInstructor2);
+        verifySearchResults(results, ins2InCourse2, ins2InCourse3, approvedInstructor2);
     }
 
     @Test
