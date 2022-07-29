@@ -492,9 +492,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
     public void testGenerateInstitute() {
         assertEquals("TMT, Singapore", AccountRequestAttributes.generateInstitute("TMT", "Singapore"));
         assertThrows(AssertionError.class, () -> AccountRequestAttributes.generateInstitute(null, "Singapore"));
-        assertThrows(AssertionError.class, () -> AccountRequestAttributes.generateInstitute("", "Singapore"));
         assertThrows(AssertionError.class, () -> AccountRequestAttributes.generateInstitute("TMT", null));
-        assertThrows(AssertionError.class, () -> AccountRequestAttributes.generateInstitute("TMT", ""));
     }
 
     private static AccountRequestAttributes getValidAccountRequestAttributesObject() {

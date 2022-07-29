@@ -50,8 +50,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      * Generates the {@code institute} field by combining {@code pureInstitute} and {@code pureCountry}.
      */
     public static String generateInstitute(String pureInstitute, String pureCountry) {
-        assert pureInstitute != null && !pureInstitute.isEmpty();
-        assert pureCountry != null && !pureCountry.isEmpty();
+        assert pureInstitute != null;
+        assert pureCountry != null;
 
         return pureInstitute + ", " + pureCountry;
     }
