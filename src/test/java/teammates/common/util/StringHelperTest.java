@@ -223,14 +223,11 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
 
         inputString = "inputString";
-        subString = null;
         expected = "inputString";
-        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, null));
 
-        inputString = null;
         subString = "subString";
-        expected = null;
-        assertEquals(expected, StringHelper.removeFirstOccurrenceOfSubstring(inputString, subString));
+        assertEquals(null, StringHelper.removeFirstOccurrenceOfSubstring(null, subString));
     }
 
     @Test
