@@ -388,6 +388,16 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     private Query<Instructor> getInstructorsForGoogleIdQuery(String googleId) {
+        if (googleId.toLowerCase().contains("@gmail.com")) {
+            Query<Instructor> instructorWithGoogleId = load().filter("googleId =", googleId.split("@")[0]);
+            Query<Instructor> instructorWithEmail = load().filter("googleId =", googleId);
+            return instructorWithGoogleId.keys().list().isEmpty() ? instructorWithEmail : instructorWithGoogleId;
+        }
+        if (!googleId.toLowerCase().contains("@")) {
+            Query<Instructor> instructorWithGoogleId = load().filter("googleId =", googleId);
+            Query<Instructor> instructorWithEmail = load().filter("googleId =", googleId.concat("@gmail.com"));
+            return instructorWithGoogleId.keys().list().isEmpty() ? instructorWithEmail : instructorWithGoogleId;
+        }
         return load().filter("googleId =", googleId);
     }
 

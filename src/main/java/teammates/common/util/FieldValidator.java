@@ -321,15 +321,13 @@ public final class FieldValidator {
     /**
      * Checks if {@code googleId} is not null, not empty, not longer than {@code GOOGLE_ID_MAX_LENGTH}, does
      * not contain any invalid characters (| or %), AND is either a Google username (without the "@gmail.com")
-     * or a valid email address that does not end in "@gmail.com".
+     * or a valid email address.
      * @return An explanation of why the {@code googleId} is not acceptable.
      *         Returns an empty string if the {@code googleId} is acceptable.
      */
     public static String getInvalidityInfoForGoogleId(String googleId) {
 
         assert googleId != null;
-        assert !googleId.toLowerCase().endsWith("@gmail.com")
-                : "\"" + googleId + "\"" + "is not expected to be a gmail address.";
 
         boolean isValidFullEmail = isValidEmailAddress(googleId);
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);

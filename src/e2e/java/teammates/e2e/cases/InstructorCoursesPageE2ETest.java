@@ -78,7 +78,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorId);
 
         ______TS("verify loaded data");
-        CourseAttributes[] activeCourses = { courses[0], courses[3] };
+        CourseAttributes[] activeCourses = { courses[0], courses[1], courses[3] };
         CourseAttributes[] deletedCourses = { courses[2] };
 
         coursesPage.verifyActiveCoursesDetails(activeCourses);
