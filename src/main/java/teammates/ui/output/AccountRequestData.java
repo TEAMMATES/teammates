@@ -2,6 +2,8 @@ package teammates.ui.output;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Objects;
+
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 
@@ -82,6 +84,33 @@ public class AccountRequestData extends ApiOutput {
 
     public Long getRegisteredAt() {
         return registeredAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AccountRequestData)) {
+            return false;
+        }
+        AccountRequestData that = (AccountRequestData) o;
+        return Objects.equal(name, that.name)
+                && Objects.equal(institute, that.institute)
+                && Objects.equal(email, that.email)
+                && Objects.equal(homePageUrl, that.homePageUrl)
+                && Objects.equal(comments, that.comments)
+                && Objects.equal(registrationKey, that.registrationKey)
+                && Objects.equal(status, that.status)
+                && Objects.equal(createdAt, that.createdAt)
+                && Objects.equal(lastProcessedAt, that.lastProcessedAt)
+                && Objects.equal(registeredAt, that.registeredAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name, institute, email, homePageUrl, comments, registrationKey,
+                status, createdAt, lastProcessedAt, registeredAt);
     }
 
 }
