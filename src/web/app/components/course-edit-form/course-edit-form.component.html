@@ -106,12 +106,12 @@
         </div>
         <div class="form-group m-0">
             <div class=" col-sm-12 text-center">
-                <button id="btn-save-changes" class="btn btn-success" type="submit"
+                <button id="btn-save-course" class="btn btn-success" type="submit"
                     [disabled]="form?.invalid || isSaving" *ngIf="isEditing">
                     <tm-ajax-loading *ngIf="isSaving"></tm-ajax-loading>
                     Save Changes
                 </button>
-                <button id="btn-add-course" class="btn btn-success" type="submit"
+                <button id="btn-submit-course" class="btn btn-success" type="submit"
                     [disabled]="form?.invalid || isSaving || isInstitutesArrayEmpty" *ngIf="isInAddMode">
                     <tm-ajax-loading *ngIf="isSaving"></tm-ajax-loading>
                     Add Course
