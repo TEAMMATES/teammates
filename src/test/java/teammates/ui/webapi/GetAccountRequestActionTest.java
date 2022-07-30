@@ -24,8 +24,6 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     @Override
     @Test
     protected void testExecute() {
-        loginAsAdmin();
-
         AccountRequestAttributes accountRequest =
                 logic.getAccountRequest("approvedUnregisteredInstructor1@tmt.tmt", "TMT, Singapore");
 
@@ -85,8 +83,6 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
         ihpe = verifyHttpParameterFailure(params);
         assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INSTRUCTOR_INSTITUTION),
                 ihpe.getMessage());
-
-        logoutUser();
     }
 
     @Override

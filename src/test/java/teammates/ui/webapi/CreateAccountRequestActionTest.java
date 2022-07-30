@@ -164,8 +164,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
     @Test
     protected void testExecute_adminCreate() throws Exception {
-        loginAsAdmin();
-
         ______TS("typical success case");
 
         String name = "Spider-Man";
@@ -253,8 +251,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         ihpe = verifyHttpParameterFailure(req, params);
         assertEquals("Only instructor accounts can be created.", ihpe.getMessage());
-
-        logoutUser();
     }
 
     @Test
@@ -331,7 +327,8 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         ______TS("intent cannot be null");
 
-        verifyHttpParameterFailureAcl();
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailureAcl();
+        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INTENT), ihpe.getMessage());
     }
 
     private AccountRequestCreateRequest buildCreateRequest(String name, String institute, String country, String email,
