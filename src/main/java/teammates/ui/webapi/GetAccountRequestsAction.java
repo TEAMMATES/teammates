@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -13,8 +12,6 @@ import teammates.ui.request.AccountRequestsGetIntent;
  * Gets all account requests pending processing or recently processed.
  */
 class GetAccountRequestsAction extends AdminOnlyAction {
-
-    private static final Duration MAX_SEARCH_WINDOW = Duration.ofDays(15);
 
     @Override
     public JsonResult execute() {
@@ -58,10 +55,6 @@ class GetAccountRequestsAction extends AdminOnlyAction {
 
         if (endTime < startTime) {
             throw new InvalidHttpParameterException("End date cannot be earlier than start date");
-        }
-
-        if (endTime - startTime > MAX_SEARCH_WINDOW.toMillis()) {
-            throw new InvalidHttpParameterException("Search window cannot exceed " + MAX_SEARCH_WINDOW.toDays() + " days");
         }
     }
 
