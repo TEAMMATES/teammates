@@ -42,8 +42,8 @@
                     placeholder="e.g. CS3215-2013Semester1" #courseId="ngModel" [(ngModel)]="model.course.courseId"
                     [disabled]="isInEditMode || isInputDisabled" [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH"
                     required>
-                <div [hidden]="courseId.valid || (courseId.pristine && courseId.untouched) || isSaving || isDisplayOnly"
-                    class="invalid-field">
+                <div *ngIf="!(courseId.valid || (courseId.pristine && courseId.untouched) || isSaving || isDisplayOnly)"
+                 class="invalid-field">
                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
                     The field Course ID should not be empty.
                 </div>
@@ -55,7 +55,7 @@
                 <input id="course-name" class="form-control" name="courseName" type="text" tabindex="2"
                     placeholder="e.g. Software Engineering" [disabled]="isInputDisabled" #courseName="ngModel"
                     [(ngModel)]="model.course.courseName" [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
-                <div [hidden]="courseName.valid || (courseName.pristine && courseName.untouched) || isSaving || isDisplayOnly"
+                <div *ngIf="!(courseName.valid || (courseName.pristine && courseName.untouched) || isSaving || isDisplayOnly)"
                     class="invalid-field">
                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
                     The field Course Name should not be empty.

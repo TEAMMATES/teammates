@@ -183,7 +183,7 @@ describe('InstructorCourseEditPageComponent', () => {
       deletionTimestamp: 1000,
     }));
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-changes');
+    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
     button.click();
 
     expect(component.courseFormModel.isEditing).toBeFalsy();
