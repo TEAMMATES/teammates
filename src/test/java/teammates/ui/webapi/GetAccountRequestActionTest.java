@@ -24,25 +24,10 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     @Override
     @Test
     protected void testExecute() {
-        AccountRequestAttributes accountRequest =
-                logic.getAccountRequest("unregisteredinstructor1@gmail.tmt", "TEAMMATES Test Institute 1");
-
         loginAsAdmin();
 
-        ______TS("Not enough parameters");
-
-        verifyHttpParameterFailure();
-
-        ______TS("account request does not exist");
-
-        String[] nonExistParams = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "non-existent@email",
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "non existent institute",
-        };
-
-        EntityNotFoundException enfe = verifyEntityNotFound(nonExistParams);
-        assertEquals("Account request for email: non-existent@email and institute: non existent institute not found.",
-                enfe.getMessage());
+        AccountRequestAttributes accountRequest =
+                logic.getAccountRequest("approvedUnregisteredInstructor1@tmt.tmt", "TMT, Singapore");
 
         ______TS("typical success case");
 
@@ -50,17 +35,58 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
                 Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
         };
+        GetAccountRequestAction action = getAction(params);
+        JsonResult result = getJsonResult(action);
 
-        GetAccountRequestAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        AccountRequestData response = (AccountRequestData) result.getOutput();
 
-        AccountRequestData response = (AccountRequestData) r.getOutput();
+        assertEquals(accountRequest.getName(), response.getName());
+        assertEquals(accountRequest.getInstitute(), response.getInstitute());
+        assertEquals(accountRequest.getEmail(), response.getEmail());
+        assertEquals(accountRequest.getHomePageUrl(), response.getHomePageUrl());
+        assertEquals(accountRequest.getComments(), response.getComments());
+        assertEquals(accountRequest.getRegistrationKey(), response.getRegistrationKey());
+        assertEquals(accountRequest.getStatus(), response.getStatus());
+        assertEquals(accountRequest.getCreatedAt().toEpochMilli(), response.getCreatedAt());
+        if (accountRequest.getLastProcessedAt() == null) {
+            assertNull(response.getLastProcessedAt());
+        } else {
+            assertEquals((Long) accountRequest.getLastProcessedAt().toEpochMilli(), response.getLastProcessedAt());
+        }
+        if (accountRequest.getRegisteredAt() == null) {
+            assertNull(response.getRegisteredAt());
+        } else {
+            assertEquals((Long) accountRequest.getRegisteredAt().toEpochMilli(), response.getRegisteredAt());
+        }
 
-        assertEquals(response.getName(), accountRequest.getName());
-        assertEquals(response.getEmail(), accountRequest.getEmail());
-        assertEquals(response.getRegistrationKey(), accountRequest.getRegistrationKey());
-        assertEquals(response.getInstitute(), accountRequest.getInstitute());
-        assertNull(accountRequest.getRegisteredAt());
+        ______TS("failure: account request does not exist");
+
+        params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "non-existent@email",
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "TMT, Singapore",
+        };
+
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("Account request for email: non-existent@email and institute: TMT, Singapore not found.",
+                enfe.getMessage());
+
+        ______TS("failure: null parameters");
+
+        params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
+        };
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
+        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INSTRUCTOR_EMAIL),
+                ihpe.getMessage());
+
+        params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
+        };
+        ihpe = verifyHttpParameterFailure(params);
+        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INSTRUCTOR_INSTITUTION),
+                ihpe.getMessage());
+
+        logoutUser();
     }
 
     @Override
