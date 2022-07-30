@@ -45,8 +45,8 @@ public class GetAccountRequestsActionTest extends BaseActionTest<GetAccountReque
         GetAccountRequestsAction action = getAction(params);
         JsonResult result = getJsonResult(action);
 
-        AccountRequestsData response = (AccountRequestsData) result.getOutput();
-        List<AccountRequestData> actual = response.getAccountRequests();
+        AccountRequestsData output = (AccountRequestsData) result.getOutput();
+        List<AccountRequestData> actual = output.getAccountRequests();
 
         assertEquals(4, actual.size());
         // correctness of AccountRequestData has been implicitly verified in GetAccountRequestActionTest
@@ -84,8 +84,8 @@ public class GetAccountRequestsActionTest extends BaseActionTest<GetAccountReque
         GetAccountRequestsAction action = getAction(params);
         JsonResult result = getJsonResult(action);
 
-        AccountRequestsData response = (AccountRequestsData) result.getOutput();
-        List<AccountRequestData> actual = response.getAccountRequests();
+        AccountRequestsData output = (AccountRequestsData) result.getOutput();
+        List<AccountRequestData> actual = output.getAccountRequests();
 
         assertEquals(4, actual.size());
         // correctness of AccountRequestData has been implicitly verified in GetAccountRequestActionTest

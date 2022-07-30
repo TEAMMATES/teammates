@@ -36,25 +36,25 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
         GetAccountRequestAction action = getAction(params);
         JsonResult result = getJsonResult(action);
 
-        AccountRequestData response = (AccountRequestData) result.getOutput();
+        AccountRequestData output = (AccountRequestData) result.getOutput();
 
-        assertEquals(accountRequest.getName(), response.getName());
-        assertEquals(accountRequest.getInstitute(), response.getInstitute());
-        assertEquals(accountRequest.getEmail(), response.getEmail());
-        assertEquals(accountRequest.getHomePageUrl(), response.getHomePageUrl());
-        assertEquals(accountRequest.getComments(), response.getComments());
-        assertEquals(accountRequest.getRegistrationKey(), response.getRegistrationKey());
-        assertEquals(accountRequest.getStatus(), response.getStatus());
-        assertEquals(accountRequest.getCreatedAt().toEpochMilli(), response.getCreatedAt());
+        assertEquals(accountRequest.getName(), output.getName());
+        assertEquals(accountRequest.getInstitute(), output.getInstitute());
+        assertEquals(accountRequest.getEmail(), output.getEmail());
+        assertEquals(accountRequest.getHomePageUrl(), output.getHomePageUrl());
+        assertEquals(accountRequest.getComments(), output.getComments());
+        assertEquals(accountRequest.getRegistrationKey(), output.getRegistrationKey());
+        assertEquals(accountRequest.getStatus(), output.getStatus());
+        assertEquals(accountRequest.getCreatedAt().toEpochMilli(), output.getCreatedAt());
         if (accountRequest.getLastProcessedAt() == null) {
-            assertNull(response.getLastProcessedAt());
+            assertNull(output.getLastProcessedAt());
         } else {
-            assertEquals((Long) accountRequest.getLastProcessedAt().toEpochMilli(), response.getLastProcessedAt());
+            assertEquals((Long) accountRequest.getLastProcessedAt().toEpochMilli(), output.getLastProcessedAt());
         }
         if (accountRequest.getRegisteredAt() == null) {
-            assertNull(response.getRegisteredAt());
+            assertNull(output.getRegisteredAt());
         } else {
-            assertEquals((Long) accountRequest.getRegisteredAt().toEpochMilli(), response.getRegisteredAt());
+            assertEquals((Long) accountRequest.getRegisteredAt().toEpochMilli(), output.getRegisteredAt());
         }
 
         ______TS("failure: account request does not exist");
