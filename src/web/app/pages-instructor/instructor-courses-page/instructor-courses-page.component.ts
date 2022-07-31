@@ -319,6 +319,13 @@ export class InstructorCoursesPageComponent implements OnInit {
     .subscribe(() => {
       // Wrap in a Promise to wait for all feedback sessions to be copied
       const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
+        if (result.selectedFeedbackSessionList.size === 0) {
+          this.progressBarService.updateProgress(100);
+          resolve();
+
+          return;
+        }
+
         result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
           this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
             .pipe(finalize(() => {
@@ -326,6 +333,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               this.copyProgressPercentage =
                 Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
               this.progressBarService.updateProgress(this.copyProgressPercentage);
+
               if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
                 resolve();
               }
@@ -455,14 +463,39 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return Promise.resolve();
     }
+
+    const institute: string = this.allCoursesList.find(
+      (course: Course) => course.courseId === courseId)?.institute ?? '';
+    const numTotalCourses: number = this.allCoursesList.length;
+    const numCoursesFromSameInstitute: number = this.allCoursesList.filter(
+      (course: Course) => course.institute === institute).length;
+
     const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
-        This operation will delete all students and sessions in these courses.
-        All instructors of these courses will not be able to access them hereafter as well.`;
+      This operation will delete all students and sessions in these courses.
+      All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
+      `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
+
     return modalRef.result.then(() => {
+     if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
+        const finalConfModalContent = numTotalCourses === 1
+          ? `This is your last course on TEAMMATES for which you have instructor access. 
+            Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
+            Are you sure you want to delete the course <strong>${courseId}</strong>?`
+          : `If you delete all courses of institute <strong>${institute}</strong>, 
+            you will <mark><strong>lose instructor access</strong></mark> 
+            to TEAMMATES under the institution <strong>${institute}</strong>. 
+            To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
+            Are you sure you want to delete the course <strong>${courseId}</strong> in institution
+            <strong>${institute}</strong>?`;
+        return this.simpleModalService.openConfirmationModal(
+          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+          SimpleModalType.DANGER, finalConfModalContent).result;
+      }
+      return Promise.resolve();
+    }).then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
         this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
         this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
@@ -499,9 +532,24 @@ export class InstructorCoursesPageComponent implements OnInit {
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
+    const lastCourseRemaining: boolean = this.allCoursesList.length === this.softDeletedCourses.length;
+
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+      'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+
     modalRef.result.then(() => {
+      if (lastCourseRemaining) {
+        const modalContentCnf: string =
+          `These are your last courses registered on TEAMMATES for which you have instructor access. 
+          Deleting these courses will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
+          Are you sure you want to permanently delete these courses?`;
+
+        return this.simpleModalService.openConfirmationModal(
+          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+          SimpleModalType.DANGER, modalContentCnf).result;
+      }
+      return Promise.resolve();
+    }).then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
         deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
@@ -516,7 +564,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-
     }).catch(() => {});
   }
 
