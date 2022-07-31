@@ -99,7 +99,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   };
 
   recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
-  isRecipientListSorted: boolean = false;
   isSectionTeamShown: boolean = false;
 
   @Output()
@@ -107,6 +106,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
+  isEveryRecipientSorted: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
@@ -116,8 +116,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   ngDoCheck(): void {
-    if (!(this.isRecipientListSorted) && this.model.isLoaded) {
-      this.isRecipientListSorted = true;
+    if (this.model.isLoaded && !this.isEveryRecipientSorted) {
       this.sortRecipientsByName();
     }
   }
@@ -162,6 +161,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       return firstRecipientIndex - secondRecipientIndex;
     });
+    this.isEveryRecipientSorted = true;
   }
 
   /**

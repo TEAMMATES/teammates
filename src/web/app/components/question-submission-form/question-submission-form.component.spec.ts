@@ -139,16 +139,16 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Sorted recipient list)',
-    () => {
-      const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
+   () => {
+    const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
 
-      component.formModel = model;
-      component.ngDoCheck();
+    component.formModel = model;
+    component.ngDoCheck();
 
       expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
   });
 
-  it('should arrange recipients according to alphabetical order of name after ngDoCheck(Unsorted recipient list)',
+  it('should arrange recipients according to alphabetical order of name after ngDoCheck (Unsorted recipient list)',
     () => {
       const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
 
