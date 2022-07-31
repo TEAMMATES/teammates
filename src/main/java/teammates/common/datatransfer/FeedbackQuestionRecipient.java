@@ -3,16 +3,19 @@ package teammates.common.datatransfer;
 import java.util.Objects;
 
 /**
- * The data transfer class for Recipient.
+ * Represents a recipient of a feedback question.
  */
-public final class FeedbackQuestionRecipientAttributes {
+public final class FeedbackQuestionRecipient {
 
     private String name;
     private String identifier;
     private String section;
     private String team;
 
-    private FeedbackQuestionRecipientAttributes(String name, String identifier) {
+    /**
+     * Constructor for FeedbackQuestionRecipient without any team or section.
+     */
+    public FeedbackQuestionRecipient(String name, String identifier) {
         this.name = name;
         this.identifier = identifier;
         this.section = null;
@@ -20,22 +23,13 @@ public final class FeedbackQuestionRecipientAttributes {
     }
 
     /**
-     * Returns a {@code FeedbackQuestionRecipientAttributes} with the recipient name and identifier.
+     * Constructor for FeedbackQuestionRecipient with a team and section.
      */
-    public static FeedbackQuestionRecipientAttributes valueOf(String name, String identifier) {
-        return new FeedbackQuestionRecipientAttributes(name, identifier);
-    }
-
-    /**
-     * Returns a {@code FeedbackQuestionRecipientAttributes} with the recipient name, identifier, section and team.
-     */
-    public static FeedbackQuestionRecipientAttributes valueOf(String name, String identifier, String section,
-                                                              String team) {
-        FeedbackQuestionRecipientAttributes attributes =
-                new FeedbackQuestionRecipientAttributes(name, identifier);
-        attributes.section = section;
-        attributes.team = team;
-        return attributes;
+    public FeedbackQuestionRecipient(String name, String identifier, String section, String team) {
+        this.name = name;
+        this.identifier = identifier;
+        this.section = section;
+        this.team = team;
     }
 
     public String getName() {
@@ -61,7 +55,7 @@ public final class FeedbackQuestionRecipientAttributes {
         } else if (this == other) {
             return true;
         } else if (this.getClass() == other.getClass()) {
-            FeedbackQuestionRecipientAttributes otherAttributes = (FeedbackQuestionRecipientAttributes) other;
+            FeedbackQuestionRecipient otherAttributes = (FeedbackQuestionRecipient) other;
             return Objects.equals(this.name, otherAttributes.name)
                     && Objects.equals(this.identifier, otherAttributes.identifier)
                     && Objects.equals(this.section, otherAttributes.section)

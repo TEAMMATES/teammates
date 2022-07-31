@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionRecipientAttributes;
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -270,15 +270,15 @@ public final class FeedbackQuestionsLogic {
      * @param instructorGiver can be null for student giver
      * @param studentGiver can be null for instructor giver
      * @param courseRoster if provided, the function can be completed without touching database
-     * @return a Map of {@code FeedbackQuestionRecipientAttributes} as the value and identifier as the key.
+     * @return a Map of {@code FeedbackQuestionRecipient} as the value and identifier as the key.
      */
-    public Map<String, FeedbackQuestionRecipientAttributes> getRecipientsOfQuestion(
+    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver,
             @Nullable CourseRoster courseRoster) {
         assert instructorGiver != null || studentGiver != null;
 
-        Map<String, FeedbackQuestionRecipientAttributes> recipients = new HashMap();
+        Map<String, FeedbackQuestionRecipient> recipients = new HashMap();
 
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
@@ -303,10 +303,10 @@ public final class FeedbackQuestionsLogic {
         case SELF:
             if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
                 recipients.put(giverTeam,
-                        FeedbackQuestionRecipientAttributes.valueOf(giverTeam, giverTeam));
+                       new FeedbackQuestionRecipient(giverTeam, giverTeam));
             } else {
                 recipients.put(giverEmail,
-                        FeedbackQuestionRecipientAttributes.valueOf(USER_NAME_FOR_SELF, giverEmail));
+                        new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail));
             }
             break;
         case STUDENTS:
@@ -341,8 +341,8 @@ public final class FeedbackQuestionsLogic {
                 if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
                     continue;
                 }
-                recipients.put(student.getEmail(), FeedbackQuestionRecipientAttributes
-                        .valueOf(student.getName(), student.getEmail(), student.getSection(), student.getTeam()));
+                recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                        student.getSection(), student.getTeam()));
             }
             break;
         case INSTRUCTORS:
@@ -360,7 +360,7 @@ public final class FeedbackQuestionsLogic {
                 // Ensure instructor does not evaluate himself
                 if (!giverEmail.equals(instr.getEmail())) {
                     recipients.put(instr.getEmail(),
-                            FeedbackQuestionRecipientAttributes.valueOf(instr.getName(), instr.getEmail()));
+                            new FeedbackQuestionRecipient(instr.getName(), instr.getEmail()));
                 }
             }
             break;
@@ -402,11 +402,11 @@ public final class FeedbackQuestionsLogic {
                 }
                 // recipientEmail doubles as team name in this case.
                 recipients.put(team.getKey(),
-                        FeedbackQuestionRecipientAttributes.valueOf(team.getKey(), team.getKey()));
+                       new FeedbackQuestionRecipient(team.getKey(), team.getKey()));
             }
             break;
         case OWN_TEAM:
-            recipients.put(giverTeam, FeedbackQuestionRecipientAttributes.valueOf(giverTeam, giverTeam));
+            recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam));
             break;
         case OWN_TEAM_MEMBERS:
             List<StudentAttributes> students;
@@ -417,8 +417,8 @@ public final class FeedbackQuestionsLogic {
             }
             for (StudentAttributes student : students) {
                 if (!student.getEmail().equals(giverEmail)) {
-                    recipients.put(student.getEmail(), FeedbackQuestionRecipientAttributes
-                            .valueOf(student.getName(), student.getEmail(), student.getSection(), student.getTeam()));
+                    recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                            student.getSection(), student.getTeam()));
                 }
             }
             break;
@@ -431,13 +431,13 @@ public final class FeedbackQuestionsLogic {
             }
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
-                recipients.put(student.getEmail(), FeedbackQuestionRecipientAttributes
-                        .valueOf(student.getName(), student.getEmail(), student.getSection(), student.getTeam()));
+                recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                        student.getSection(), student.getTeam()));
             }
             break;
         case NONE:
-            recipients.put(Const.GENERAL_QUESTION, FeedbackQuestionRecipientAttributes
-                    .valueOf(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
+            recipients.put(Const.GENERAL_QUESTION,
+                    new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
             break;
         default:
             break;

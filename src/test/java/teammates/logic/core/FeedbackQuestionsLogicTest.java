@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionRecipientAttributes;
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -90,7 +90,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         StudentAttributes studentGiver;
         InstructorAttributes instructorGiver;
         CourseRoster courseRoster;
-        Map<String, FeedbackQuestionRecipientAttributes> recipients;
+        Map<String, FeedbackQuestionRecipient> recipients;
 
         ______TS("response to students, total 5");
 
