@@ -45,6 +45,7 @@ export interface FeedbackQuestionModel {
   isLoading: boolean;
   isLoaded: boolean;
   hasResponse: boolean;
+  errorMessage?: string;
 }
 
 /**

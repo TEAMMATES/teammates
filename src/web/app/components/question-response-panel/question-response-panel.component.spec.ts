@@ -23,6 +23,7 @@ import {
 } from '../question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../question-text-with-info/question-text-with-info.module';
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
+import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 
 describe('QuestionResponsePanelComponent', () => {
 
@@ -190,6 +191,7 @@ describe('QuestionResponsePanelComponent', () => {
         StudentViewResponsesModule,
         QuestionTextWithInfoModule,
         LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
       providers: [FeedbackSessionsService],
     })

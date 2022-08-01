@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { InViewportModule } from 'ng-in-viewport';
+import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { SingleStatisticsModule } from '../question-responses/single-statistics/single-statistics.module';
 import {
@@ -21,6 +22,7 @@ import { QuestionResponsePanelComponent } from './question-response-panel.compon
     StudentViewResponsesModule,
     InViewportModule,
     LoadingSpinnerModule,
+    LoadingRetryModule,
   ],
   declarations: [
     QuestionResponsePanelComponent,

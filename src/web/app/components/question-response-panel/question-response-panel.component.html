@@ -1,5 +1,10 @@
 <div *ngFor="let question of questions" inViewport (inViewportAction)="loadQuestion($event, question)">
-  <div *tmIsLoading="question.isLoading">
+  <div *tmIsLoading="question.isLoading && !question.errorMessage"></div>
+  <tm-loading-retry
+            [shouldShowRetry]="!!question.errorMessage"
+            [message]="question.errorMessage"
+            (retryEvent)="loadQuestionResults(question)"
+  >
     <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card bg-light mt-4" *ngIf="question.hasResponse">
       <div class="card-body">
         <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
@@ -34,5 +39,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </tm-loading-retry>
 </div>
