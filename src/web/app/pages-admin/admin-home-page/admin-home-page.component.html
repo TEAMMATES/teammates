@@ -81,6 +81,10 @@
 <ng-template #registeredInstructorModal>
   <div *tmIsLoading="isRegisteredInstructorModalLoading">
     <p>
+      If the status of the account request is APPROVED:<br>
+      (1) If you want to resend the join link: either manually send the join link, or search for, delete, and re-add the account request.<br>
+      (2) If you want to "reject" the account request: search for and delete the account request.<br><br>
+      If the status of the account request is REGISTERED:<br>
       You may <a id="reset-account-request-link" href="javascript:;" (click)="resetAccountRequest(registeredInstructorIndex)">reset</a>
       this account request. Alternatively, reset the Google account or use the Google ID migration script.
     </p>
