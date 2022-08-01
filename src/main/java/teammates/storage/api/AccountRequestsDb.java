@@ -134,6 +134,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
                     && hasSameValue(accountRequest.getHomePageUrl(), newAccountRequestAttributes.getHomePageUrl())
                     && hasSameValue(accountRequest.getComments(), newAccountRequestAttributes.getComments())
                     && hasSameValue(accountRequest.getStatus(), newAccountRequestAttributes.getStatus())
+                    && hasSameValue(accountRequest.getLastProcessedAt(), newAccountRequestAttributes.getLastProcessedAt())
                     && hasSameValue(accountRequest.getRegisteredAt(), newAccountRequestAttributes.getRegisteredAt());
             if (hasSameAttributes) {
                 // reset to the exact old account request
