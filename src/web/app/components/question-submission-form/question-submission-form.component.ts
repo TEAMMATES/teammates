@@ -134,7 +134,20 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   private compareBySection(firstRecipient: FeedbackResponseRecipient,
      secondRecipient: FeedbackResponseRecipient): number {
-    return firstRecipient!.recipientSection!.localeCompare(secondRecipient.recipientSection!);
+
+    if (firstRecipient.recipientSection && secondRecipient.recipientSection) {
+      return firstRecipient.recipientSection.localeCompare(secondRecipient.recipientSection);
+    }
+
+    if (firstRecipient.recipientSection) {
+      return -1;
+    }
+
+    if (secondRecipient.recipientSection) {
+      return 1;
+    }
+
+    return 0;
   }
 
   /**
@@ -142,7 +155,20 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   private compareByTeam(firstRecipient: FeedbackResponseRecipient,
      secondRecipient: FeedbackResponseRecipient): number {
-    return firstRecipient.recipientTeam!.localeCompare(secondRecipient.recipientTeam!);
+
+    if (firstRecipient.recipientTeam && secondRecipient.recipientTeam) {
+      return firstRecipient.recipientTeam.localeCompare(secondRecipient.recipientTeam);
+    }
+
+    if (firstRecipient.recipientTeam) {
+      return -1;
+    }
+
+    if (secondRecipient.recipientTeam) {
+      return 1;
+    }
+
+    return 0;
   }
 
   /**

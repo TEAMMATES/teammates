@@ -163,5 +163,5 @@ describe('QuestionSubmissionFormComponent', () => {
       component.ngDoCheck();
 
       expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
-  });
+    });
 });
