@@ -357,10 +357,11 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         assertNull(actualAccountRequest.getRegisteredAt());
         assertEquals(originalAccountRequest.getRegistrationKey(), actualAccountRequest.getRegistrationKey());
 
-        ______TS("no change in the new account request: lastProcessedAt should not be updated");
+        ______TS("lastProcessedAt is still updated when no other fields have changed");
 
         originalAccountRequest = actualAccountRequest;
 
+        lastProcessedAt = Instant.now();
         updateOptions = AccountRequestAttributes
                 .updateOptionsBuilder("clark@tmt.tmt", "TEAMMATES TEST, Singapore")
                 .withName(originalAccountRequest.getName())
@@ -368,14 +369,14 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
                 .withEmail(originalAccountRequest.getEmail())
                 .withStatus(originalAccountRequest.getStatus())
                 .withRegisteredAt(originalAccountRequest.getRegisteredAt())
-                .withLastProcessedAt(Instant.now()) // only modifying lastProcessedAt is not considered as a change
+                .withLastProcessedAt(lastProcessedAt)
                 .build();
-        accountRequestsLogic.updateAccountRequest(updateOptions);
 
-        assertEquals(originalAccountRequest.getLastProcessedAt(), updatedAccountRequest.getLastProcessedAt());
+        updatedAccountRequest = accountRequestsLogic.updateAccountRequest(updateOptions);
+        assertEquals(lastProcessedAt, updatedAccountRequest.getLastProcessedAt());
 
         actualAccountRequest = accountRequestsLogic.getAccountRequest("clark@tmt.tmt", "TEAMMATES TEST, Singapore");
-        assertEquals(originalAccountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
+        assertEquals(lastProcessedAt, actualAccountRequest.getLastProcessedAt());
 
         ______TS("failure: account request not found");
 
@@ -447,8 +448,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         assertNotEquals(accountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
         assertEquals(approvedAccountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
 
-        ______TS("approve the same account request again:"
-                + " status should still be APPROVED and lastProcessedAt should not change");
+        ______TS("approve the same account request again: status remains APPROVED, lastProcessedAt is updated");
 
         AccountRequestAttributes newApprovedAccountRequest =
                 accountRequestsLogic.approveAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
@@ -457,8 +457,8 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         assertEquals(AccountRequestStatus.APPROVED, newApprovedAccountRequest.getStatus());
         assertEquals(AccountRequestStatus.APPROVED, newActualAccountRequest.getStatus());
-        assertEquals(approvedAccountRequest.getLastProcessedAt(), newApprovedAccountRequest.getLastProcessedAt());
-        assertEquals(actualAccountRequest.getLastProcessedAt(), newActualAccountRequest.getLastProcessedAt());
+        assertNotEquals(approvedAccountRequest.getLastProcessedAt(), newApprovedAccountRequest.getLastProcessedAt());
+        assertNotEquals(actualAccountRequest.getLastProcessedAt(), newActualAccountRequest.getLastProcessedAt());
 
         ______TS("failure: account request not found");
 

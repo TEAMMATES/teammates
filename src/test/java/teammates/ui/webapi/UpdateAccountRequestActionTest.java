@@ -78,7 +78,7 @@ public class UpdateAccountRequestActionTest extends BaseActionTest<UpdateAccount
 
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
-        ______TS("lastProcessedAt should not be updated when there's no change in name, institute, and email");
+        ______TS("lastProcessedAt is still updated when no fields are changed");
 
         accountRequest = actualAccountRequest;
 
@@ -92,7 +92,7 @@ public class UpdateAccountRequestActionTest extends BaseActionTest<UpdateAccount
 
         actualAccountRequest = logic.getAccountRequest(newEmail, newInstitute);
 
-        assertEquals(accountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
+        assertNotEquals(accountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
 
         output = (AccountRequestData) result.getOutput();
         assertEquals(new AccountRequestData(actualAccountRequest), output);

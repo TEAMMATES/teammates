@@ -265,9 +265,11 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals(registeredAt, updatedAccountRequest.getRegisteredAt());
         assertEquals(registeredAt, actualAccountRequest.getRegisteredAt());
 
-        ______TS("success with optimized saving policy applied");
+        ______TS("lastProcessedAt is still updated when no other fields have changed");
 
         originalAccountRequest = actualAccountRequest;
+
+        lastProcessedAt = Instant.now();
         updateOptions = AccountRequestAttributes
                 .updateOptionsBuilder(actualAccountRequest.getEmail(), actualAccountRequest.getInstitute())
                 .withName(originalAccountRequest.getName())
@@ -275,12 +277,14 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .withEmail(originalAccountRequest.getEmail())
                 .withStatus(originalAccountRequest.getStatus())
                 .withRegisteredAt(originalAccountRequest.getRegisteredAt())
-                .withLastProcessedAt(Instant.now()) // only modifying lastProcessedAt is not considered as a change
+                .withLastProcessedAt(lastProcessedAt)
                 .build();
+
         updatedAccountRequest = accountRequestsDb.updateAccountRequest(updateOptions);
+        assertEquals(lastProcessedAt, updatedAccountRequest.getLastProcessedAt());
+
         actualAccountRequest = accountRequestsDb.getAccountRequest("clark@tmt.tmt", "NUS, Singapore");
-        assertEquals(originalAccountRequest.getLastProcessedAt(), updatedAccountRequest.getLastProcessedAt());
-        assertEquals(originalAccountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
+        assertEquals(lastProcessedAt, actualAccountRequest.getLastProcessedAt());
     }
 
     @Test
