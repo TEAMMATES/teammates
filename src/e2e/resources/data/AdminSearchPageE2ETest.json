@@ -137,22 +137,22 @@
   "accountRequests": {
     "instructor1OfCourse1": {
       "name": "Instructor1 of Course1",
+      "institute": "TEAMMATES Test Institute 1",
       "email": "ASearch.instructor1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-03-10T00:00:00Z",
+      "lastProcessedAt": "2012-03-11T00:00:00Z",
+      "registeredAt": "2012-03-12T00:00:00Z"
     },
-    "instructor2OfCourse1": {
-      "name": "Instructor2 of Course1",
-      "email": "ASearch.instructor2@gmail.tmt",
+    "submittedRequest1": {
+      "name": "Submitted Instructor1",
       "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
-    },
-    "unregisteredInstructor1": {
-      "name": "Typical Instructor Name",
-      "email": "ASearch.unregisteredinstructor1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
+      "email": "ASearch.submittedInstructor1@gmail.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED",
       "createdAt": "2011-01-01T00:00:00Z"
     }
   }
