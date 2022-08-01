@@ -27,6 +27,14 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 
+  get hasMaxPoint(): boolean {
+    return this.model.maxPoint !== undefined;
+  }
+
+  get hasMinPoint(): boolean {
+    return this.model.minPoint !== undefined;
+  }
+
   /**
    * Increases number of Constsum options.
    */
@@ -99,24 +107,24 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   }
 
   /**
-   * Updates hasMaxPoint and resets the maxPoint if hasMaxPoint is set to false.
+   * Resets maxPoint.
    */
-  updateHasMaxPoint(event: boolean): void {
+  resetMaxPoint(event: boolean): void {
     if (event) {
-      this.triggerModelChange('hasMaxPoint', event);
+      this.triggerModelChange('maxPoint', 0);
     } else {
-      this.triggerModelChangeBatch({ maxPoint: undefined, hasMaxPoint: event });
+      this.triggerModelChange('maxPoint', undefined);
     }
   }
 
   /**
-   * Updates hasMinPoint and resets the minPoint if hasMinPoint is set to false.
+   * Resets minPoint.
    */
-  updateHasMinPoint(event: boolean): void {
+  resetMinPoint(event: boolean): void {
     if (event) {
-      this.triggerModelChange('hasMinPoint', event);
+      this.triggerModelChange('minPoint', 0);
     } else {
-      this.triggerModelChangeBatch({ minPoint: undefined, hasMinPoint: event });
+      this.triggerModelChange('minPoint', undefined);
     }
   }
 }

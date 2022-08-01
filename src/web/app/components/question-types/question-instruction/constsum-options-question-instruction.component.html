@@ -9,10 +9,10 @@
   <p id="all-uneven-message" *ngIf="questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">
     <span class="fa fa-info-circle"></span> Every option should be allocated <strong>different number of points.</strong>
   </p>
-  <p id="minimum-point-message" *ngIf="questionDetails.hasMinPoint">
+  <p id="minimum-point-message" *ngIf="questionDetails.minPoint !== undefined">
     <span class="fa fa-info-circle"></span> Minimum points per option is <strong>{{ questionDetails.minPoint }}.</strong>
   </p>
-  <p id="maximum-point-message" *ngIf="questionDetails.hasMaxPoint">
+  <p id="maximum-point-message" *ngIf="questionDetails.maxPoint !== undefined">
     <span class="fa fa-info-circle"></span> Maximum points per option is <strong>{{ questionDetails.maxPoint }}.</strong>
   </p>
 </div>

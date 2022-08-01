@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -33,24 +34,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             "At least some options must be given a different number of points.";
     static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
     static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
-    static final String CONST_MIN_POINT_ERROR_NEGATIVE = "Minimum number of points cannot be negative.";
-    static final String CONST_MAX_POINT_ERROR_NEGATIVE = "Maximum number of points cannot be negative.";
-    static final String CONST_MIN_POINT_ERROR_EXCEEDS_POINTS =
-            "Minimum number of points cannot be greater than the total points distributed: ";
-    static final String CONST_MAX_POINT_ERROR_EXCEEDS_POINTS =
-            "Maximum number of points cannot be greater than the total points distributed: ";
-    static final String CONST_MAX_POINT_ERROR_BELOW_LOWER_BOUND =
+    static final String CONST_SUM_TEMPLATE_NEGATIVE = "%s cannot be negative.";
+    static final String CONST_SUM_TEMPLATE_EXCEEDS_POINTS =
+            "%s cannot be greater than the total points distributed: %s.";
+    static final String CONST_SUM_ERROR_MAX_POINT_BELOW_LOWER_BOUND =
             "To ensure total distribution of points, the maximum number of points cannot be smaller than: ";
-    static final String CONST_MIN_POINT_ERROR_ABOVE_UPPER_BOUND =
+    static final String CONST_SUM_ERROR_MIN_POINT_ABOVE_UPPER_BOUND =
             "To ensure total distribution of points, the minimum number of points cannot be larger than: ";
-    static final String CONST_POINT_ERROR_MIN_GREATER_THAN_MAX =
+    static final String CONST_SUM_ERROR_MIN_GREATER_THAN_MAX =
             "Minimum number of points cannot be greater than the maximum number of points";
     static final String CONST_SUM_ANSWER_BELOW_MIN = "An answer cannot be smaller than the minimum number of points: ";
     static final String CONST_SUM_ANSWER_ABOVE_MAX = "An answer cannot be greater than the maximum number of points: ";
-    static final String CONST_MAX_POINT_ERROR_NOT_RESET = "Maximum number of points is not reset.";
-    static final String CONST_MIN_POINT_ERROR_NOT_RESET = "Minimum number of points is not reset.";
-    static final String CONST_MIN_POINT_ERROR_NULL = "Minimum number of points cannot be null.";
-    static final String CONST_MAX_POINT_ERROR_NULL = "Maximum number of points cannot be null.";
+    static final String MAX_POINT_STRING = "Maximum number of points";
+    static final String MIN_POINT_STRING = "Minimum number of points";
 
     private List<String> constSumOptions;
     private boolean distributeToRecipients;
@@ -58,8 +54,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private boolean forceUnevenDistribution;
     private String distributePointsFor;
     private int points;
-    private boolean hasMinPoint;
-    private boolean hasMaxPoint;
     @Nullable
     private Integer minPoint;
     @Nullable
@@ -77,8 +71,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.points = 100;
         this.forceUnevenDistribution = false;
         this.distributePointsFor = FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption();
-        this.hasMinPoint = false;
-        this.hasMaxPoint = false;
         this.maxPoint = null;
         this.minPoint = null;
     }
@@ -109,20 +101,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             return true;
         }
 
-        // if there are changes to maxPoint and minPoint, the response will be deleted
-        if (this.hasMaxPoint != newConstSumDetails.getHasMaxPoint()) {
+        if (!Objects.equals(this.maxPoint, newConstSumDetails.maxPoint)) {
             return true;
         }
 
-        if (this.hasMinPoint != newConstSumDetails.getHasMinPoint()) {
-            return true;
-        }
-
-        if (this.maxPoint.equals(this.maxPoint)) {
-            return true;
-        }
-
-        if (this.minPoint.equals(this.minPoint)) {
+        if (!Objects.equals(this.minPoint, newConstSumDetails.minPoint)) {
             return true;
         }
 
@@ -154,60 +137,41 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         int totalPoints = pointsPerOption ? points * constSumOptions.size() : points;
         double evenPointDistribution = ((double) totalPoints) / ((double) constSumOptions.size());
 
-        if (hasMinPoint) {
-            if (minPoint == null) {
-                errors.add(CONST_MIN_POINT_ERROR_NULL);
-                return errors;
-            }
-
-            if (minPoint < 0) {
-                errors.add(CONST_MIN_POINT_ERROR_NEGATIVE);
-            }
-            if (minPoint > totalPoints) {
-                errors.add(CONST_MIN_POINT_ERROR_EXCEEDS_POINTS + totalPoints);
-            }
+        if (minPoint != null) {
+            commonBoundaryValidation(errors, minPoint, totalPoints, MIN_POINT_STRING);
 
             // calculates the upper bound for minPoint to satisfy the total distribution of points among options
             int upperBound = (int) Math.floor(evenPointDistribution);
             if (minPoint > upperBound) {
-                errors.add(CONST_MIN_POINT_ERROR_ABOVE_UPPER_BOUND + upperBound);
-            }
-        } else {
-            if (minPoint != null) {
-                errors.add(CONST_MIN_POINT_ERROR_NOT_RESET);
+                errors.add(CONST_SUM_ERROR_MIN_POINT_ABOVE_UPPER_BOUND + upperBound);
             }
         }
 
-        if (hasMaxPoint) {
-            if (maxPoint == null) {
-                errors.add(CONST_MAX_POINT_ERROR_NULL);
-                return errors;
-            }
-
-            if (maxPoint < 0) {
-                errors.add(CONST_MAX_POINT_ERROR_NEGATIVE);
-            }
-
-            if (maxPoint > totalPoints) {
-                errors.add(CONST_MAX_POINT_ERROR_EXCEEDS_POINTS + totalPoints);
-            }
+        if (maxPoint != null) {
+            commonBoundaryValidation(errors, maxPoint, totalPoints, MAX_POINT_STRING);
 
             // calculates the lower bound for maxPoint to satisfy the total distribution of points among options
             int lowerBound = (int) Math.ceil(evenPointDistribution);
             if (maxPoint < lowerBound) {
-                errors.add(CONST_MAX_POINT_ERROR_BELOW_LOWER_BOUND + lowerBound);
-            }
-        } else {
-            if (maxPoint != null) {
-                errors.add(CONST_MAX_POINT_ERROR_NOT_RESET);
+                errors.add(CONST_SUM_ERROR_MAX_POINT_BELOW_LOWER_BOUND + lowerBound);
             }
         }
 
-        if (hasMaxPoint && hasMinPoint && minPoint > maxPoint) {
-            errors.add(CONST_POINT_ERROR_MIN_GREATER_THAN_MAX);
+        if (maxPoint != null && minPoint != null && minPoint > maxPoint) {
+            errors.add(CONST_SUM_ERROR_MIN_GREATER_THAN_MAX);
         }
 
         return errors;
+    }
+
+    private void commonBoundaryValidation(List<String> errors, int points, int totalPoints, String boundaryType) {
+        if (points < 0) {
+            errors.add(String.format(CONST_SUM_TEMPLATE_NEGATIVE, boundaryType));
+        }
+
+        if (points > totalPoints) {
+            errors.add(String.format(CONST_SUM_TEMPLATE_EXCEEDS_POINTS, boundaryType, totalPoints));
+        }
     }
 
     @Override
@@ -282,10 +246,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         List<String> errors = new ArrayList<>();
 
         for (int answer : answers) {
-            if (hasMinPoint && answer < minPoint) {
+            if (minPoint != null && answer < minPoint) {
                 errors.add(CONST_SUM_ANSWER_BELOW_MIN + minPoint);
 
-            } else if (hasMaxPoint && answer > maxPoint) {
+            } else if (maxPoint != null && answer > maxPoint) {
                 errors.add(CONST_SUM_ANSWER_ABOVE_MAX + maxPoint);
             }
         }
@@ -403,22 +367,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
     public void setPoints(int points) {
         this.points = points;
-    }
-
-    public boolean getHasMinPoint() {
-        return hasMinPoint;
-    }
-
-    public void setHasMinPoint(boolean hasMinPoint) {
-        this.hasMinPoint = hasMinPoint;
-    }
-
-    public boolean getHasMaxPoint() {
-        return hasMaxPoint;
-    }
-
-    public void setHasMaxPoint(boolean hasMaxPoint) {
-        this.hasMaxPoint = hasMaxPoint;
     }
 
     public int getMinPoint() {

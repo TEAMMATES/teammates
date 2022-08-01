@@ -546,8 +546,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL: FeedbackConstantSu
   points: 100,
   questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
   questionText: '',
-  hasMinPoint: false,
-  hasMaxPoint: false,
   minPoint: 0,
   maxPoint: 100,
 };
