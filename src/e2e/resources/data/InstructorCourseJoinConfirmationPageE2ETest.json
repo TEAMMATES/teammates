@@ -10,16 +10,24 @@
   "accountRequests": {
     "ICJoinConf.instr.CS1101": {
       "name": "Teammates Test 2",
-      "email": "ICJoinConf.instr2@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "email": "ICJoinConf.instr2@gmail.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
       "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "lastProcessedAt": "2011-01-02T00:00:00Z",
+      "registeredAt": "2011-01-03T00:00:00Z"
     },
     "ICJoinConf.newinstr": {
       "name": "Teammates Test 3",
-      "email": "ICJoinConf.newinstr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "email": "ICJoinConf.newinstr@gmail.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "APPROVED",
+      "createdAt": "2011-01-01T00:00:00Z",
+      "lastProcessedAt": "2011-01-01T00:00:00Z"
     }
   },
   "courses": {
