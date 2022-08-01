@@ -29,7 +29,7 @@ class ResetAccountRequestAction extends AdminOnlyAction {
         AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
 
         if (accountRequest == null) {
-            throw new EntityNotFoundException("Account request for instructor with email: " + email
+            throw new EntityNotFoundException("Account request with email: " + email
                     + " and institute: " + institute + " does not exist.");
         }
 

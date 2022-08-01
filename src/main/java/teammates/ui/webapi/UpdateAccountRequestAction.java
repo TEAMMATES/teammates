@@ -25,7 +25,7 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
 
         AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
         if (accountRequest == null) {
-            throw new EntityNotFoundException("Account request for instructor with email: " + email
+            throw new EntityNotFoundException("Account request with email: " + email
                     + " and institute: " + institute + " does not exist.");
         }
         if (!accountRequest.getStatus().equals(AccountRequestStatus.SUBMITTED)) {
@@ -49,7 +49,7 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException ednee) {
-            throw new EntityNotFoundException("Account request for instructor with email: " + email
+            throw new EntityNotFoundException("Account request with email: " + email
                     + " and institute: " + institute + " does not exist.", ednee);
         } catch (EntityAlreadyExistsException eaee) {
             AccountRequestAttributes existingAccountRequest =

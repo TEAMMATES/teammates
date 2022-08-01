@@ -86,8 +86,8 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Account request for instructor with email: non-existent@email and institute: "
-                + "TMT, Singapore does not exist.", enfe.getMessage());
+        assertEquals("Account request with email: non-existent@email"
+                + " and institute: TMT, Singapore does not exist.", enfe.getMessage());
 
         ______TS("failure: null parameters");
 

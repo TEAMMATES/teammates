@@ -65,7 +65,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Account request for email: non-existent@email and institute: TMT, Singapore not found.",
+        assertEquals("Account request with email: non-existent@email and institute: TMT, Singapore not found.",
                 enfe.getMessage());
 
         ______TS("failure: null parameters");
