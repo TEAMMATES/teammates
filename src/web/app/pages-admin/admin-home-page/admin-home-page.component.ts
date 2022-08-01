@@ -9,7 +9,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Account, Accounts, Courses, JoinLink } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { ErrorMessageOutput } from '../../error-message-output';
+import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 
 /**
@@ -124,10 +124,19 @@ export class AdminHomePageComponent {
           instructor.statusCode = 200;
           instructor.joinLink = resp.joinLink;
           this.activeRequests -= 1;
-        }, (resp: ErrorMessageOutput) => {
+        }, (resp: ErrorMessageOutput | AccountRequestCreateErrorResultsWrapper) => {
           instructor.status = 'FAIL';
           instructor.statusCode = resp.status;
-          instructor.message = resp.error.message;
+          if ('message' in resp.error) {
+            // resp is ErrorMessageOutput
+            instructor.message = resp.error.message;
+          } else {
+            // resp is AccountRequestCreateErrorResultsWrapper
+            instructor.message = [resp.error.invalidNameMessage, resp.error.invalidEmailMessage,
+              resp.error.invalidInstituteMessage]
+              .filter(Boolean)
+              .join(' ');
+          }
           this.activeRequests -= 1;
         });
   }
