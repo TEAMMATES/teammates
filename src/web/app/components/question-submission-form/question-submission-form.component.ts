@@ -356,16 +356,17 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return recipient.recipientName;
     }
 
-    switch (this.recipientLabelType) {
-      case FeedbackRecipientLabelType.INCLUDE_SECTION:
-        return `${recipient.recipientSection} | ${recipient.recipientTeam} | ${recipient.recipientName}`;
-      case FeedbackRecipientLabelType.INCLUDE_TEAM:
-        return `${recipient.recipientTeam} | ${recipient.recipientName}`;
-      case FeedbackRecipientLabelType.INCLUDE_NAME:
-        return recipient.recipientName;
-      default:
-        return 'Unkonwn';
+    let label: string = recipient.recipientName;
+
+    if (recipient.recipientTeam) {
+      label = `${recipient.recipientTeam} | `.concat(label);
     }
+
+    if (recipient.recipientSection) {
+      label = `${recipient.recipientSection} | `.concat(label);
+    }
+
+    return label;
   }
 
   /**
