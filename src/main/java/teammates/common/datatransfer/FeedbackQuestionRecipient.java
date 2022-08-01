@@ -13,17 +13,7 @@ public final class FeedbackQuestionRecipient {
     private String team;
 
     /**
-     * Constructor for FeedbackQuestionRecipient without any team or section.
-     */
-    public FeedbackQuestionRecipient(String name, String identifier) {
-        this.name = name;
-        this.identifier = identifier;
-        this.section = null;
-        this.team = null;
-    }
-
-    /**
-     * Constructor for FeedbackQuestionRecipient with a team and section.
+     * Constructor for FeedbackQuestionRecipient.
      */
     public FeedbackQuestionRecipient(String name, String identifier, String section, String team) {
         this.name = name;

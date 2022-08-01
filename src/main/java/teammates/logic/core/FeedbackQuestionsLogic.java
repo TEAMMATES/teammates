@@ -303,10 +303,10 @@ public final class FeedbackQuestionsLogic {
         case SELF:
             if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
                 recipients.put(giverTeam,
-                       new FeedbackQuestionRecipient(giverTeam, giverTeam));
+                       new FeedbackQuestionRecipient(giverTeam, giverTeam, null, null));
             } else {
                 recipients.put(giverEmail,
-                        new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail));
+                        new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail, null, null));
             }
             break;
         case STUDENTS:
@@ -360,7 +360,7 @@ public final class FeedbackQuestionsLogic {
                 // Ensure instructor does not evaluate himself
                 if (!giverEmail.equals(instr.getEmail())) {
                     recipients.put(instr.getEmail(),
-                            new FeedbackQuestionRecipient(instr.getName(), instr.getEmail()));
+                            new FeedbackQuestionRecipient(instr.getName(), instr.getEmail(), null, null));
                 }
             }
             break;
@@ -402,11 +402,11 @@ public final class FeedbackQuestionsLogic {
                 }
                 // recipientEmail doubles as team name in this case.
                 recipients.put(team.getKey(),
-                       new FeedbackQuestionRecipient(team.getKey(), team.getKey()));
+                       new FeedbackQuestionRecipient(team.getKey(), team.getKey(), null, null));
             }
             break;
         case OWN_TEAM:
-            recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam));
+            recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam, null, null));
             break;
         case OWN_TEAM_MEMBERS:
             List<StudentAttributes> students;
@@ -437,7 +437,7 @@ public final class FeedbackQuestionsLogic {
             break;
         case NONE:
             recipients.put(Const.GENERAL_QUESTION,
-                    new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
+                    new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION, null, null));
             break;
         default:
             break;

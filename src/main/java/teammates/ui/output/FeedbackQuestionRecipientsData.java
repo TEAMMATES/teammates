@@ -16,8 +16,8 @@ public class FeedbackQuestionRecipientsData extends ApiOutput {
     public FeedbackQuestionRecipientsData(Map<String, FeedbackQuestionRecipient> recipients) {
         this.recipients = new ArrayList<>();
 
-        recipients.forEach((identifier, attributes) -> {
-            this.recipients.add(new FeedbackQuestionRecipientData(attributes));
+        recipients.forEach((identifier, recipient) -> {
+            this.recipients.add(new FeedbackQuestionRecipientData(recipient));
         });
 
         // sort by name
