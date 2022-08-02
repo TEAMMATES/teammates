@@ -209,9 +209,9 @@ public class FieldValidatorTest extends BaseTestCase {
                                                                 FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForInstituteName(invalidInstituteName);
         assertEquals("Invalid institute name (too long) should return error message that is specific to institute name",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not "
+                     "\"" + invalidInstituteName + "\" is not "
                          + "acceptable to TEAMMATES as a/an institute name because it is too long. The value "
-                         + "of a/an institute name should be no longer than 64 characters. It should not be empty.",
+                         + "of a/an institute name should be no longer than 128 characters. It should not be empty.",
                      actual);
     }
 
@@ -279,6 +279,98 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "The value of a/an feedback session name should be no longer than 64 characters. "
                          + "It should not be empty.",
                      actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForAccountRequestInstituteName_valid_returnEmptyString() {
+        String validAccountRequestInstituteName = "National University of Singapore";
+        String actual = FieldValidator.getInvalidityInfoForAccountRequestInstituteName(validAccountRequestInstituteName);
+        assertEquals("", actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForAccountRequestInstituteName_invalid_returnErrorString() {
+        String invalidAccountRequestInstituteName = StringHelperExtension.generateStringOfLength(
+                FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH + 1);
+        String actual = FieldValidator.getInvalidityInfoForAccountRequestInstituteName(invalidAccountRequestInstituteName);
+        assertEquals("\"" + invalidAccountRequestInstituteName + "\" is not acceptable to TEAMMATES "
+                        + "as a/an university/school/institute name because it is too long. "
+                        + "The value of a/an university/school/institute name "
+                        + "should be no longer than 60 characters. It should not be empty.",
+                actual);
+
+        invalidAccountRequestInstituteName = "National University of Singapore%";
+        actual = FieldValidator.getInvalidityInfoForAccountRequestInstituteName(invalidAccountRequestInstituteName);
+        assertEquals("\"" + invalidAccountRequestInstituteName + "\" is not acceptable to TEAMMATES "
+                        + "as a/an university/school/institute name because it contains invalid characters. "
+                        + "A/An university/school/institute name must start with an alphanumeric character, "
+                        + "and cannot contain any vertical bar (|) or percent sign (%).",
+                actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForAccountRequestCountryName_valid_returnEmptyString() {
+        String validAccountRequestCountryName = "Singapore";
+        String actual = FieldValidator.getInvalidityInfoForAccountRequestCountryName(validAccountRequestCountryName);
+        assertEquals("", actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForAccountRequestCountryName_invalid_returnErrorString() {
+        String invalidAccountRequestCountryName = StringHelperExtension.generateStringOfLength(
+                FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH + 1);
+        String actual = FieldValidator.getInvalidityInfoForAccountRequestCountryName(invalidAccountRequestCountryName);
+        assertEquals("\"" + invalidAccountRequestCountryName + "\" is not acceptable to TEAMMATES "
+                        + "as a/an country name because it is too long. "
+                        + "The value of a/an country name "
+                        + "should be no longer than 60 characters. It should not be empty.",
+                actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForAccountRequestHomePageUrl_valid_returnEmptyString() {
+        String validAccountRequestHomePageUrl = StringHelperExtension.generateRandomAsciiStringOfLength(
+                FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH);
+        String actual = FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(validAccountRequestHomePageUrl);
+        assertEquals("", actual);
+
+        validAccountRequestHomePageUrl = "";
+        actual = FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(validAccountRequestHomePageUrl);
+        assertEquals("", actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForAccountRequestHomePageUrl_invalid_returnErrorString() {
+        String invalidAccountRequestHomePageUrl = StringHelperExtension.generateRandomAsciiStringOfLength(
+                FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
+        String actual = FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(invalidAccountRequestHomePageUrl);
+        assertEquals("\"" + invalidAccountRequestHomePageUrl + "\" is not acceptable to TEAMMATES "
+                        + "as a/an url because it is too long. "
+                        + "The value of a/an url should be no longer than 500 characters.",
+                actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForAccountRequestComments_valid_returnEmptyString() {
+        String validAccountRequestComments = StringHelperExtension.generateRandomAsciiStringOfLength(
+                FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH);
+        String actual = FieldValidator.getInvalidityInfoForAccountRequestComments(validAccountRequestComments);
+        assertEquals("", actual);
+
+        validAccountRequestComments = "";
+        actual = FieldValidator.getInvalidityInfoForAccountRequestComments(validAccountRequestComments);
+        assertEquals("", actual);
+    }
+
+    @Test
+    public void testGetInvalidityInfoForAccountRequestComments_invalid_returnErrorString() {
+        String invalidAccountRequestComments = StringHelperExtension.generateRandomAsciiStringOfLength(
+                FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
+        String actual = FieldValidator.getInvalidityInfoForAccountRequestComments(invalidAccountRequestComments);
+        assertEquals("\"" + invalidAccountRequestComments + "\" is not acceptable to TEAMMATES "
+                        + "as a/an comment/query because it is too long. "
+                        + "The value of a/an comment/query should be no longer than 1000 characters.",
+                actual);
     }
 
     @Test

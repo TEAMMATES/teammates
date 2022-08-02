@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -26,40 +27,48 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
     @Override
     @Test
     protected void testExecute() {
-        AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("instructor1OfCourse1");
-        AccountRequestAttributes unregisteredAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        loginAsAdmin();
+        AccountRequestAttributes registeredAccountRequest =
+                logic.getAccountRequest("instr1@course1.tmt", "TEAMMATES Test Institute 1");
+        AccountRequestAttributes unregisteredAccountRequest =
+                logic.getAccountRequest("approvedUnregisteredInstructor1@tmt.tmt", "TMT, Singapore");
 
-        ______TS("Failure case: not enough parameters");
+        ______TS("typical success case");
 
-        verifyHttpParameterFailure();
-
-        String[] params = {
-                // Const.ParamsNames.INSTRUCTOR_EMAIL,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
+        String[] params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, registeredAccountRequest.getEmail(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, registeredAccountRequest.getInstitute(),
         };
+        ResetAccountRequestAction action = getAction(params);
+        JsonResult result = getJsonResult(action);
 
-        verifyHttpParameterFailure(params);
+        AccountRequestAttributes actualAccountRequest =
+                logic.getAccountRequest(registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute());
 
-        params = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                // Const.ParamNames.INSTRUCTOR_INSTITUTION,
-        };
+        assertEquals(registeredAccountRequest.getName(), actualAccountRequest.getName());
+        assertEquals(registeredAccountRequest.getInstitute(), actualAccountRequest.getInstitute());
+        assertEquals(registeredAccountRequest.getEmail(), actualAccountRequest.getEmail());
+        assertEquals(registeredAccountRequest.getHomePageUrl(), actualAccountRequest.getHomePageUrl());
+        assertEquals(registeredAccountRequest.getComments(), actualAccountRequest.getComments());
+        assertEquals(AccountRequestStatus.APPROVED, actualAccountRequest.getStatus());
+        assertEquals(registeredAccountRequest.getCreatedAt(), actualAccountRequest.getCreatedAt());
+        assertNotNull(actualAccountRequest.getLastProcessedAt());
+        assertNotEquals(registeredAccountRequest.getLastProcessedAt(), actualAccountRequest.getLastProcessedAt());
+        assertNull(actualAccountRequest.getRegisteredAt());
+        assertEquals(registeredAccountRequest.getRegistrationKey(), actualAccountRequest.getRegistrationKey());
 
-        verifyHttpParameterFailure(params);
+        String joinLink = actualAccountRequest.getRegistrationUrl();
+        JoinLinkData output = (JoinLinkData) result.getOutput();
+        assertEquals(joinLink, output.getJoinLink());
 
-        ______TS("Failure case: account request not found");
+        verifyNumberOfEmailsSent(1);
 
-        params = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "not-found@gmail.tmt",
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "not-found-institute",
-        };
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), registeredAccountRequest.getName()),
+                emailSent.getSubject());
+        assertEquals(registeredAccountRequest.getEmail(), emailSent.getRecipient());
+        assertTrue(emailSent.getContent().contains(joinLink));
 
-        EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Account request for instructor with email: not-found@gmail.tmt and institute: "
-                + "not-found-institute does not exist.", enfe.getMessage());
-
-        ______TS("Failure case: instructor is unregistered");
+        ______TS("failure: reset account whose status is not REGISTERED");
 
         params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, unregisteredAccountRequest.getEmail(),
@@ -69,31 +78,34 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
         InvalidOperationException ioe = verifyInvalidOperation(params);
         assertEquals("Unable to reset account request as instructor is still unregistered.", ioe.getMessage());
 
-        ______TS("typical success case");
+        ______TS("failure: account request to reset does not exist");
 
         params = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "non-existent@email",
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "TMT, Singapore",
         };
 
-        ResetAccountRequestAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("Account request with email: non-existent@email"
+                + " and institute: TMT, Singapore does not exist.", enfe.getMessage());
 
-        accountRequest = logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
-        JoinLinkData response = (JoinLinkData) r.getOutput();
-        assertEquals(accountRequest.getRegistrationUrl(), response.getJoinLink());
+        ______TS("failure: null parameters");
 
-        AccountRequestAttributes updatedAccountRequest =
-                logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
-        assertNull(updatedAccountRequest.getRegisteredAt());
+        registeredAccountRequest = logic.getAccountRequest("instr1@course2.tmt", "TEAMMATES Test Institute 1");
 
-        verifyNumberOfEmailsSent(1);
+        params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, registeredAccountRequest.getInstitute(),
+        };
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
+        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INSTRUCTOR_EMAIL),
+                ihpe.getMessage());
 
-        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), accountRequest.getName()),
-                emailSent.getSubject());
-        assertEquals(accountRequest.getEmail(), emailSent.getRecipient());
-        assertTrue(emailSent.getContent().contains(accountRequest.getRegistrationUrl()));
+        params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, registeredAccountRequest.getEmail(),
+        };
+        ihpe = verifyHttpParameterFailure(params);
+        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INSTRUCTOR_INSTITUTION),
+                ihpe.getMessage());
     }
 
     @Override

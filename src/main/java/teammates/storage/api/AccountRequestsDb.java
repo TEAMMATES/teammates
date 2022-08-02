@@ -93,6 +93,13 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     }
 
     /**
+     * Gets all account requests. This method is only used in testing.
+     */
+    public List<AccountRequestAttributes> getAllAccountRequests() {
+        return makeAttributes(getAllAccountRequestEntities());
+    }
+
+    /**
      * Updates an account request.
      *
      * <p>If the email or institute of the account request is changed, it will be re-created.
@@ -134,6 +141,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
                     && hasSameValue(accountRequest.getHomePageUrl(), newAccountRequestAttributes.getHomePageUrl())
                     && hasSameValue(accountRequest.getComments(), newAccountRequestAttributes.getComments())
                     && hasSameValue(accountRequest.getStatus(), newAccountRequestAttributes.getStatus())
+                    && hasSameValue(accountRequest.getLastProcessedAt(), newAccountRequestAttributes.getLastProcessedAt())
                     && hasSameValue(accountRequest.getRegisteredAt(), newAccountRequestAttributes.getRegisteredAt());
             if (hasSameAttributes) {
                 // reset to the exact old account request
@@ -189,6 +197,10 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
                 .filter("createdAt >=", startTime)
                 .filter("createdAt <", endTime)
                 .list();
+    }
+
+    private List<AccountRequest> getAllAccountRequestEntities() {
+        return load().list();
     }
 
     /**

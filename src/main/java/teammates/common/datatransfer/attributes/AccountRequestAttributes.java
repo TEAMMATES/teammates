@@ -49,7 +49,10 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
     /**
      * Generates the {@code institute} field by combining {@code pureInstitute} and {@code pureCountry}.
      */
-    private static String generateInstitute(String pureInstitute, String pureCountry) {
+    public static String generateInstitute(String pureInstitute, String pureCountry) {
+        assert pureInstitute != null;
+        assert pureCountry != null;
+
         return pureInstitute + ", " + pureCountry;
     }
 
@@ -97,6 +100,22 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
         assert comments != null;
 
         return new Builder(name, institute, email, homePageUrl, comments);
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setLastProcessedAt(Instant lastProcessedAt) {
+        this.lastProcessedAt = lastProcessedAt;
+    }
+
+    public void setRegisteredAt(Instant registeredAt) {
+        this.registeredAt = registeredAt;
+    }
+
+    public void setRegistrationKey(String registrationKey) {
+        this.registrationKey = registrationKey;
     }
 
     public String getRegistrationKey() {
@@ -170,10 +189,10 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
         if (getPureInstitute() != null || getPureCountry() != null) {
             // if either one is non-null, both should be non-null
             // if both are valid, institute should be valid as well
-            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPureInstituteName(getPureInstitute()), errors,
-                    generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME));
-            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForPureCountryName(getPureCountry()), errors,
-                    generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME));
+            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestInstituteName(getPureInstitute()),
+                    errors, generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME));
+            addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForAccountRequestCountryName(getPureCountry()),
+                    errors, generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME));
         }
         addNonEmptyErrorWithPrefix(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors,
                 generatePrefix(FieldValidator.INSTITUTE_NAME_FIELD_NAME));
@@ -209,13 +228,23 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
 
     @Override
     public String toString() {
-        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: "
-                + getEmail() + " name: " + getName() + " institute: " + getInstitute();
+        return "[" + AccountRequestAttributes.class.getSimpleName()
+                + "] name= " + getName()
+                + ", pureInstitute= " + getPureInstitute()
+                + ", pureCountry= " + getPureCountry()
+                + ", institute= " + getInstitute()
+                + ", email= " + getEmail()
+                + ", homePageUrl= " + getHomePageUrl()
+                + ", comments= " + getComments()
+                + ", status= " + getStatus()
+                + ", createdAt= " + getCreatedAt()
+                + ", lastProcessedAt= " + getLastProcessedAt()
+                + ", registeredAt= " + getRegisteredAt();
     }
 
     @Override
     public int hashCode() {
-        return (this.email + this.name + this.institute).hashCode();
+        return (this.name + this.institute + this.email + this.homePageUrl + this.comments).hashCode();
     }
 
     @Override
@@ -226,9 +255,11 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
             return true;
         } else if (this.getClass() == other.getClass()) {
             AccountRequestAttributes otherAccountRequestAttributes = (AccountRequestAttributes) other;
-            return Objects.equals(this.email, otherAccountRequestAttributes.email)
+            return Objects.equals(this.name, otherAccountRequestAttributes.name)
                     && Objects.equals(this.institute, otherAccountRequestAttributes.institute)
-                    && Objects.equals(this.name, otherAccountRequestAttributes.name);
+                    && Objects.equals(this.email, otherAccountRequestAttributes.email)
+                    && Objects.equals(this.homePageUrl, otherAccountRequestAttributes.homePageUrl)
+                    && Objects.equals(this.comments, otherAccountRequestAttributes.comments);
         } else {
             return false;
         }

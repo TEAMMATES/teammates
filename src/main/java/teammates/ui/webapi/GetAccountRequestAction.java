@@ -17,7 +17,7 @@ class GetAccountRequestAction extends AdminOnlyAction {
         AccountRequestAttributes accountRequestInfo = logic.getAccountRequest(email, institute);
 
         if (accountRequestInfo == null) {
-            throw new EntityNotFoundException("Account request for email: "
+            throw new EntityNotFoundException("Account request with email: "
                     + email + " and institute: " + institute + " not found.");
         }
 
