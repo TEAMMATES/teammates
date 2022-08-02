@@ -101,7 +101,9 @@ export class QuestionResponsePanelComponent {
         } else {
           question.hasResponse = false;
           if (question.errorMessage) {
-            this.statusMessageService.showSuccessToast("Question " + question.feedbackQuestion.questionNumber + " has no responses.");
+            this.statusMessageService.showSuccessToast('Question '
+              .concat(question.feedbackQuestion.questionNumber.toString())
+              .concat(' has no responses.'));
           }
         }
       },
