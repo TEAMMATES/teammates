@@ -461,7 +461,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getAnswerString(FeedbackQuestionAttributes question, FeedbackResponseDetails response) {
-        switch(response.getQuestionType()) {
+        switch (response.getQuestionType()) {
         case TEXT:
         case NUMSCALE:
         case RANK_RECIPIENTS:

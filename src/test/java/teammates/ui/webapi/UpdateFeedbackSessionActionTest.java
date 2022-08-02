@@ -267,7 +267,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
             String oldDeadline = "";
             String newDeadline = "";
 
-            switch(userEmail) {
+            switch (userEmail) {
             case studentAEmailAddress:
                 expectedSubject = String.format(EmailType.DEADLINE_EXTENSION_GRANTED.getSubject(),
                         course.getName(), session.getFeedbackSessionName());
@@ -477,7 +477,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
             String oldDeadline = "";
             String newDeadline = "";
 
-            switch(userEmail) {
+            switch (userEmail) {
             case instructorAEmailAddress:
                 expectedSubject = String.format(EmailType.DEADLINE_EXTENSION_GRANTED.getSubject(),
                         course.getName(), session.getFeedbackSessionName());

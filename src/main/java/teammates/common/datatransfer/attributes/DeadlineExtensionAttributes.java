@@ -13,7 +13,7 @@ import teammates.storage.entity.DeadlineExtension;
 /**
  * The data transfer object for {@link DeadlineExtension} entities.
  */
-public class DeadlineExtensionAttributes extends EntityAttributes<DeadlineExtension> {
+public final class DeadlineExtensionAttributes extends EntityAttributes<DeadlineExtension> {
 
     private String courseId;
     private String feedbackSessionName;
