@@ -278,7 +278,7 @@ public final class FeedbackQuestionsLogic {
             @Nullable CourseRoster courseRoster) {
         assert instructorGiver != null || studentGiver != null;
 
-        Map<String, FeedbackQuestionRecipient> recipients = new HashMap();
+        Map<String, FeedbackQuestionRecipient> recipients = new HashMap<>();
 
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
@@ -303,10 +303,10 @@ public final class FeedbackQuestionsLogic {
         case SELF:
             if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
                 recipients.put(giverTeam,
-                       new FeedbackQuestionRecipient(giverTeam, giverTeam, null, null));
+                       new FeedbackQuestionRecipient(giverTeam, giverTeam));
             } else {
                 recipients.put(giverEmail,
-                        new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail, null, null));
+                        new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail));
             }
             break;
         case STUDENTS:
@@ -360,7 +360,7 @@ public final class FeedbackQuestionsLogic {
                 // Ensure instructor does not evaluate himself
                 if (!giverEmail.equals(instr.getEmail())) {
                     recipients.put(instr.getEmail(),
-                            new FeedbackQuestionRecipient(instr.getName(), instr.getEmail(), null, null));
+                            new FeedbackQuestionRecipient(instr.getName(), instr.getEmail()));
                 }
             }
             break;
@@ -401,12 +401,11 @@ public final class FeedbackQuestionsLogic {
                     continue;
                 }
                 // recipientEmail doubles as team name in this case.
-                recipients.put(team.getKey(),
-                       new FeedbackQuestionRecipient(team.getKey(), team.getKey(), null, null));
+                recipients.put(team.getKey(), new FeedbackQuestionRecipient(team.getKey(), team.getKey()));
             }
             break;
         case OWN_TEAM:
-            recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam, null, null));
+            recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam));
             break;
         case OWN_TEAM_MEMBERS:
             List<StudentAttributes> students;
@@ -437,7 +436,7 @@ public final class FeedbackQuestionsLogic {
             break;
         case NONE:
             recipients.put(Const.GENERAL_QUESTION,
-                    new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION, null, null));
+                    new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
             break;
         default:
             break;

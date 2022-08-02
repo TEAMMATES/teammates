@@ -115,23 +115,30 @@ export class QuestionSubmissionFormComponent implements DoCheck {
             this.model.giverType, this.model.recipientType);
   }
 
+  get hasSectionTeam(): boolean {
+    if (this.formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
+      switch (this.recipientLabelType) {
+        case FeedbackRecipientLabelType.INCLUDE_SECTION:
+        case FeedbackRecipientLabelType.INCLUDE_TEAM:
+          return true;
+        default:
+          return false;
+      }
+    }
+    return false;
+  }
+
   ngDoCheck(): void {
     if (this.model.isLoaded && !this.isEveryRecipientSorted) {
       this.sortRecipientsByName();
     }
   }
 
-  /**
-   * Compares FeedbackResponseRecipients' names using localeCompare.
-   */
   private compareByName(firstRecipient: FeedbackResponseRecipient,
      secondRecipient: FeedbackResponseRecipient): number {
     return firstRecipient.recipientName.localeCompare(secondRecipient.recipientName);
   }
 
-  /**
-   * Compares FeedbackResponseRecipients' sections using localeCompare.
-   */
   private compareBySection(firstRecipient: FeedbackResponseRecipient,
      secondRecipient: FeedbackResponseRecipient): number {
 
@@ -150,9 +157,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     return 0;
   }
 
-  /**
-   * Compares FeedbackResponseRecipients' teams using localeCompare.
-   */
   private compareByTeam(firstRecipient: FeedbackResponseRecipient,
      secondRecipient: FeedbackResponseRecipient): number {
 
@@ -171,9 +175,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     return 0;
   }
 
-  /**
-   * Updates the recipientSubmissionForms to correspond to the recipientList.
-   */
   private updateSubmissionFormIndexes(): void {
     const indexes: Map<String, number> = new Map();
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
@@ -190,17 +191,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.isEveryRecipientSorted = true;
   }
 
-  /**
-   * Sorts recipients of feedback by their name.
-   */
-  public sortRecipientsByName(): void {
+  sortRecipientsByName(): void {
     this.model.recipientList.sort(this.compareByName);
     this.updateSubmissionFormIndexes();
   }
 
-  /**
-   * Sorts recipients of feedback by their section and then by their team.
-   */
   private sortRecipientsBySectionTeam(): void {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
       this.model.recipientList.sort((firstRecipient, secondRecipient) => {
@@ -333,9 +328,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.responsesSave.emit(this.model);
   }
 
-  /**
-   * Returns the respective {@code FeedbackRecipientLabelType}
-   */
   getSelectionLabelType(recipientType: FeedbackParticipantType): FeedbackRecipientLabelType {
     switch (recipientType) {
       case FeedbackParticipantType.STUDENTS:
@@ -348,30 +340,26 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
   }
 
-  /**
-   * Returns the Selection Option label as per the recipientType.
-   */
   getSelectionOptionLabel(recipient: FeedbackResponseRecipient): string {
     if (!this.isSectionTeamShown) {
       return recipient.recipientName;
     }
 
-    let label: string = recipient.recipientName;
-
-    if (recipient.recipientTeam) {
-      label = `${recipient.recipientTeam} | `.concat(label);
+    if (recipient.recipientSection && recipient.recipientTeam) {
+      return `${recipient.recipientSection} / ${recipient.recipientTeam} | ${recipient.recipientName}`;
     }
 
     if (recipient.recipientSection) {
-      label = `${recipient.recipientSection} | `.concat(label);
+      return `${recipient.recipientSection} | ${recipient.recipientName}`;
     }
 
-    return label;
+    if (recipient.recipientTeam) {
+      return `${recipient.recipientTeam} | ${recipient.recipientName}`;
+    }
+
+    return recipient.recipientName;
   }
 
-  /**
-   * Toggles to either show recipients' section and team or only the name.
-   */
   toggleSectionTeam(event: Event): void {
     const checkbox : HTMLInputElement = event.target as HTMLInputElement;
     if (checkbox.checked) {

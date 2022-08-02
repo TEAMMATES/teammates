@@ -145,7 +145,7 @@ describe('QuestionSubmissionFormComponent', () => {
     component.formModel = model;
     component.ngDoCheck();
 
-      expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
+    expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
   });
 
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Unsorted recipient list)',

@@ -12,14 +12,15 @@ public final class FeedbackQuestionRecipient {
     private String section;
     private String team;
 
-    /**
-     * Constructor for FeedbackQuestionRecipient.
-     */
     public FeedbackQuestionRecipient(String name, String identifier, String section, String team) {
         this.name = name;
         this.identifier = identifier;
         this.section = section;
         this.team = team;
+    }
+
+    public FeedbackQuestionRecipient(String name, String identifier) {
+        this(name, identifier, null, null);
     }
 
     public String getName() {
