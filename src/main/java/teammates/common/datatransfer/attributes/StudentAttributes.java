@@ -15,7 +15,7 @@ import teammates.storage.entity.CourseStudent;
 /**
  * The data transfer object for {@link CourseStudent} entities.
  */
-public class StudentAttributes extends EntityAttributes<CourseStudent> {
+public final class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     private String email;
     private String course;

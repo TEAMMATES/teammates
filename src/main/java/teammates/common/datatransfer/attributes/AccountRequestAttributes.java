@@ -15,7 +15,7 @@ import teammates.storage.entity.AccountRequest;
 /**
  * The data transfer object for {@link AccountRequest} entities.
  */
-public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
+public final class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     private String name;
     private String pureInstitute;
