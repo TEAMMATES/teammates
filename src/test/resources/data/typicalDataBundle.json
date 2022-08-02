@@ -1893,113 +1893,179 @@
   "accountRequests": {
     "instructor1OfCourse1": {
       "name": "Instructor 1 of Course 1",
+      "institute": "TEAMMATES Test Institute 1",
       "email": "instr1@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
-    },
-    "instructor2OfCourse1": {
-      "name": "Instructor 2 of Course 1",
-      "email": "instr2@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
-    },
-    "helperOfCourse1": {
-      "name": "Helper of Course 1",
-      "email": "helper@course1.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-03-10T00:00:00Z",
+      "lastProcessedAt": "2012-03-11T00:00:00Z",
+      "registeredAt": "2012-03-12T00:00:00Z"
     },
     "instructor1OfCourse2": {
       "name": "Instructor 1 of Course 2",
-      "email": "instr1@course2.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "email": "instr1@course2.tmt",
+      "homePageUrl": "https://www.course2.com/instr1",
+      "comments": "Is TEAMMATES free to use?",
+      "status": "REGISTERED",
+      "createdAt": "2012-03-29T23:59:59Z",
+      "lastProcessedAt": "2012-04-01T22:00:00Z",
+      "registeredAt": "2012-04-01T23:58:00Z"
     },
     "instructor2OfCourse2": {
       "name": "Instructor 2 of Course 2",
+      "institute": "TEAMMATES Test Institute 1",
       "email": "instr2@course2.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
-    },
-    "instructor1OfCourse3": {
-      "name": "Instructor 1 of Course 3",
-      "email": "instr1@course3.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "homePageUrl": "Sorry I don't have a home page.",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-01-01T00:00:00Z",
+      "lastProcessedAt": "2012-01-01T00:00:00Z",
+      "registeredAt": "2012-02-01T15:00:00Z"
     },
     "instructor2OfCourse3": {
       "name": "Instructor 2 of Course 3",
+      "institute": "TEAMMATES Test Institute 1",
       "email": "instr2@course3.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
-    },
-    "instructor3": {
-      "name": "Instructor 3 of Course 1 and 2",
-      "email": "instr3@course1n2.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-04-02T22:00:00Z",
+      "lastProcessedAt": "2012-04-02T22:30:00Z",
+      "registeredAt": "2012-04-02T23:57:30Z"
     },
     "instructor4": {
       "name": "Instructor 4 of CourseNoEvals",
-      "email": "instr4@coursenoevals.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "email": "instr4@coursenoevals.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-03-25T06:07:08Z",
+      "lastProcessedAt": "2012-04-01T11:30:00Z",
+      "registeredAt": "2012-04-01T23:57:00Z"
     },
     "instructor5": {
       "name": "Instructor 5 of CourseNoRegister",
-      "email": "instructor5@courseNoRegister.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "email": "instructor5@courseNoRegister.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2013-02-02T00:00:00Z",
+      "lastProcessedAt": "2013-02-02T00:00:00Z",
+      "registeredAt": "2013-07-15T00:00:00Z"
     },
     "instructorWithoutCourses": {
       "name": "Instructor Without Courses",
+      "institute": "TMT, Singapore",
       "email": "iwc@yahoo.tmt",
-      "institute": "TEAMMATES Test Institute 7",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-04-01T23:59:59Z",
+      "lastProcessedAt": "2012-04-02T10:10:00Z",
+      "registeredAt": "2012-04-15T02:00:00Z"
     },
     "instructorWithOnlyOneSampleCourse": {
       "name": "Instructor With Only One Sample Course",
-      "email": "iwosc@yahoo.tmt",
       "institute": "TEAMMATES Test Institute 7",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "email": "iwosc@yahoo.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-04-02T00:00:00Z",
+      "lastProcessedAt": "2012-04-02T10:11:00Z",
+      "registeredAt": "2012-04-04T00:00:00Z"
     },
     "instructorOfArchivedCourse": {
       "name": "InstructorOfArchiveCourse name",
-      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
       "institute": "TEAMMATES Test Institute 5",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-02-14T00:00:28Z",
+      "lastProcessedAt": "2012-02-14T03:21:00Z",
+      "registeredAt": "2012-02-14T03:23:41Z"
     },
     "instructor1OfTestingSanitizationCourse": {
       "name": "Instructor<script> alert('hi!'); </script>",
-      "email": "instructor1@sanitization.tmt",
       "institute": "inst<script> alert('hi!'); </script>",
-      "createdAt": "2011-01-01T00:00:00Z",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "email": "instructor1@sanitization.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-03-29T12:00:00Z",
+      "lastProcessedAt": "2012-03-31T19:17:00Z",
+      "registeredAt": "2012-04-01T23:26:00Z"
     },
-    "unregisteredInstructor1": {
-      "name": "Unregistered Instructor 1",
-      "email": "unregisteredinstructor1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
-      "createdAt": "2011-01-01T00:00:00Z"
+    "submittedRequest1": {
+      "name": "Submitted Instructor 1",
+      "institute": "TMT, Singapore",
+      "email": "submittedInstructor1@tmt.tmt",
+      "homePageUrl": "https://www.tmt.tmt/submittedInstructor1",
+      "comments": "Hi these are my comments:\r\n\"Comments\".",
+      "status": "SUBMITTED",
+      "createdAt": "2012-04-01T05:01:19Z"
     },
-    "unregisteredInstructor2": {
-      "name": "Unregistered Instructor 2",
-      "email": "unregisteredinstructor2@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 2",
-      "createdAt": "2011-01-01T00:00:00Z"
+    "submittedRequest2": {
+      "name": "Submitted Instructor 2",
+      "institute": "TMT, Singapore",
+      "email": "submittedInstructor2@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED",
+      "createdAt": "2012-03-30T00:00:00Z"
+    },
+    "submittedRequest3": {
+      "name": "Submitted Instructor 3",
+      "institute": "TMT, Singapore",
+      "email": "submittedInstructor3@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED",
+      "createdAt": "2012-03-27T23:59:59Z",
+      "lastProcessedAt": "2012-03-31T00:12:25Z"
+    },
+    "submittedRequest4": {
+      "name": "Submitted Instructor 4",
+      "institute": "TMT, Singapore",
+      "email": "submittedInstructor4@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED"
+    },
+    "approvedUnregisteredRequest1": {
+      "name": "Approved Unregistered Instructor 1",
+      "institute": "TMT, Singapore",
+      "email": "approvedUnregisteredInstructor1@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "APPROVED",
+      "createdAt": "2012-03-31T19:00:59Z",
+      "lastProcessedAt": "2012-03-31T19:17:00Z"
+    },
+    "approvedUnregisteredRequest2": {
+      "name": "Approved Unregistered Instructor 2",
+      "institute": "TMT, Singapore",
+      "email": "approvedUnregisteredInstructor2@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "APPROVED",
+      "createdAt": "2012-03-29T21:07:00Z",
+      "lastProcessedAt": "2012-03-30T18:52:01Z"
+    },
+    "rejectedRequest1": {
+      "name": "Rejected Instructor 1",
+      "institute": "TMT, Singapore",
+      "email": "rejectedInstructor1@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REJECTED",
+      "createdAt": "2012-03-29T00:00:59Z",
+      "lastProcessedAt": "2012-03-31T00:10:00Z"
     }
   },
   "notifications": {

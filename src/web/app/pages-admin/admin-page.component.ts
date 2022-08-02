@@ -24,10 +24,6 @@ export class AdminPageComponent implements OnInit {
       display: 'Home',
     },
     {
-      url: '/web/admin/requests',
-      display: 'Requests',
-    },
-    {
       url: '/web/admin/search',
       display: 'Search',
     },

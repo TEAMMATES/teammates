@@ -118,13 +118,13 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         verifyEntityNotFound(params);
 
-        ______TS("Normal case: account request not used, instructor has not joined course");
+        ______TS("Normal case: account request status is APPROVED, instructor has not joined course");
 
-        String accountRequestNotUsedKey = logic.getAccountRequest("unregisteredinstructor1@gmail.tmt",
-                "TEAMMATES Test Institute 1").getRegistrationKey();
+        String approvedAccountRequestKey =
+                logic.getAccountRequest("approvedUnregisteredInstructor1@tmt.tmt", "TMT, Singapore").getRegistrationKey();
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, accountRequestNotUsedKey,
+                Const.ParamsNames.REGKEY, approvedAccountRequestKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
@@ -135,13 +135,13 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());
 
-        ______TS("Normal case: account request already used, instructor has joined course");
+        ______TS("Normal case: account request status is REGISTERED, instructor has joined course");
 
-        String accountRequestUsedKey =
+        String registeredAccountRequestKey =
                 logic.getAccountRequest("instr1@course1.tmt", "TEAMMATES Test Institute 1").getRegistrationKey();
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, accountRequestUsedKey,
+                Const.ParamsNames.REGKEY, registeredAccountRequestKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
@@ -152,7 +152,33 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
 
-        ______TS("Failure case: account request regkey is not valid");
+        ______TS("Failure case: account request status is SUBMITTED");
+
+        String submittedAccountRequestKey =
+                logic.getAccountRequest("submittedInstructor1@tmt.tmt", "TMT, Singapore").getRegistrationKey();
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, submittedAccountRequestKey,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+        };
+
+        verifyInvalidOperation(params);
+
+        ______TS("Failure case: account request status is REJECTED");
+
+        String rejectedAccountRequestKey =
+                logic.getAccountRequest("rejectedInstructor1@tmt.tmt", "TMT, Singapore").getRegistrationKey();
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, rejectedAccountRequestKey,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
+        };
+
+        verifyInvalidOperation(params);
+
+        ______TS("Failure case: account request registration key is not valid");
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, "invalid-registration-key",

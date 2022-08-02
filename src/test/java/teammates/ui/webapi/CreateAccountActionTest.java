@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -33,9 +34,9 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
     @Override
     @Test
     protected void testExecute() {
-        String name = "Unregistered Instructor 1";
-        String email = "unregisteredinstructor1@gmail.tmt";
-        String institute = "TEAMMATES Test Institute 1";
+        String name = "Approved Unregistered Instructor 1";
+        String email = "approvedUnregisteredInstructor1@tmt.tmt";
+        String institute = "TMT, Singapore";
 
         ______TS("Not enough parameters");
 
@@ -59,6 +60,10 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         };
         CreateAccountAction a = getAction(params);
         getJsonResult(a);
+
+        AccountRequestAttributes updatedAccountRequest = logic.getAccountRequest(email, institute);
+        assertEquals(AccountRequestStatus.REGISTERED, updatedAccountRequest.getStatus());
+        assertNotNull(updatedAccountRequest.getRegisteredAt());
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
 
@@ -90,8 +95,8 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
-        email = "unregisteredinstructor2@gmail.tmt";
-        institute = "TEAMMATES Test Institute 2";
+        email = "approvedUnregisteredInstructor2@tmt.tmt";
+        institute = "TMT, Singapore";
         timezone = "InvalidTimezone";
 
         accountRequest = logic.getAccountRequest(email, institute);
@@ -104,6 +109,10 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         a = getAction(params);
 
         getJsonResult(a);
+
+        updatedAccountRequest = logic.getAccountRequest(email, institute);
+        assertEquals(AccountRequestStatus.REGISTERED, updatedAccountRequest.getStatus());
+        assertNotNull(updatedAccountRequest.getRegisteredAt());
 
         courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
         course = logic.getCourse(courseId);
@@ -120,17 +129,58 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
+        studentList = logic.getStudentsForCourse(courseId);
+        instructorList = logic.getInstructorsForCourse(courseId);
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
                 studentList.size() + instructorList.size());
 
         ______TS("Error: registration key already used");
-        verifyInvalidOperation(params);
+
+        InvalidOperationException ioe = verifyInvalidOperation(params);
+        assertEquals("The registration key " + accountRequest.getRegistrationKey() + " has already been used.",
+                ioe.getMessage());
         verifyNoTasksAdded();
 
         ______TS("Error: account request not found");
 
         params = new String[] { Const.ParamsNames.REGKEY, "unknownregkey", };
         verifyEntityNotFound(params);
+        verifyNoTasksAdded();
+
+        ______TS("Error: account request status is SUBMITTED");
+
+        email = "submittedInstructor1@tmt.tmt";
+        institute = "TMT, Singapore";
+        timezone = "Asia/Singapore";
+
+        accountRequest = logic.getAccountRequest(email, institute);
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.TIMEZONE, timezone,
+        };
+
+        ioe = verifyInvalidOperation(params);
+        assertEquals("The registration key " + accountRequest.getRegistrationKey() + " cannot be used. "
+                + "The account request may not have been approved.", ioe.getMessage());
+        verifyNoTasksAdded();
+
+        ______TS("Error: account request status is REJECTED");
+
+        email = "rejectedInstructor1@tmt.tmt";
+        institute = "TMT, Singapore";
+        timezone = "Asia/Singapore";
+
+        accountRequest = logic.getAccountRequest(email, institute);
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.TIMEZONE, timezone,
+        };
+
+        ioe = verifyInvalidOperation(params);
+        assertEquals("The registration key " + accountRequest.getRegistrationKey() + " cannot be used. "
+                + "The account request may not have been approved.", ioe.getMessage());
         verifyNoTasksAdded();
     }
 

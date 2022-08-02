@@ -131,7 +131,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()).getRegisteredAt());
 
         ______TS("Typical case: Delete account request successful");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor1");
+        accountRequest = testData.accountRequests.get("submittedRequest1");
         searchContent = accountRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);

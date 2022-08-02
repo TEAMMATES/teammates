@@ -57,7 +57,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         homePage.addAllInstructors();
 
         failureMessage = homePage.getMessageForInstructor(2);
-        assertTrue(failureMessage.contains("Cannot create account request as instructor has already registered."));
+        assertTrue(failureMessage.contains("An account request already exists with status REGISTERED."));
 
         ______TS("Success case: Reset account request");
 

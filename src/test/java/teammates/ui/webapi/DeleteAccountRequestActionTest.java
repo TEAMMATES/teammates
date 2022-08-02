@@ -24,49 +24,61 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
     @Override
     @Test
     protected void testExecute() {
-        AccountRequestAttributes registeredAccountRequest = typicalBundle.accountRequests.get("instructor1OfCourse1");
-        AccountRequestAttributes unregisteredAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        AccountRequestAttributes rejectedAccountRequest =
+                logic.getAccountRequest("rejectedInstructor1@tmt.tmt", "TMT, Singapore");
+        AccountRequestAttributes registeredAccountRequest =
+                logic.getAccountRequest("instr1@course1.tmt", "TEAMMATES Test Institute 1");
 
-        ______TS("Not enough parameters");
+        ______TS("typical success case");
 
-        verifyHttpParameterFailure();
+        String[] params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, rejectedAccountRequest.getEmail(),
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, rejectedAccountRequest.getInstitute(),
+        };
+        DeleteAccountRequestAction action = getAction(params);
+        JsonResult result = getJsonResult(action);
 
-        ______TS("Deleting an account request of a registered instructor should fail");
+        assertNull(logic.getAccountRequest(rejectedAccountRequest.getEmail(), rejectedAccountRequest.getInstitute()));
 
-        String[] submissionParams = new String[] {
+        MessageOutput output = (MessageOutput) result.getOutput();
+        assertEquals("Account request successfully deleted.", output.getMessage());
+
+        ______TS("silent failure: delete non-existent (same) account request");
+
+        action = getAction(params);
+        result = getJsonResult(action);
+
+        output = (MessageOutput) result.getOutput();
+        assertEquals("Account request successfully deleted.", output.getMessage());
+
+        ______TS("failure: delete account request with status REGISTERED");
+
+        params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, registeredAccountRequest.getEmail(),
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, registeredAccountRequest.getInstitute(),
         };
 
-        InvalidOperationException ex = verifyInvalidOperation(submissionParams);
-        assertEquals("Account request of a registered instructor cannot be deleted.", ex.getMessage());
-        assertNotNull(logic.getAccountRequest(registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute()));
+        assertNotNull(logic.getAccountRequest(
+                registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute()));
 
-        ______TS("Typical case, delete an existing account request");
+        InvalidOperationException ioe = verifyInvalidOperation(params);
+        assertEquals("Account request of a registered instructor cannot be deleted.", ioe.getMessage());
 
-        submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, unregisteredAccountRequest.getEmail(),
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, unregisteredAccountRequest.getInstitute(),
+        ______TS("failure: null parameters");
+
+        params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, rejectedAccountRequest.getInstitute(),
         };
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
+        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INSTRUCTOR_EMAIL),
+                ihpe.getMessage());
 
-        DeleteAccountRequestAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        MessageOutput msg = (MessageOutput) result.getOutput();
-
-        assertEquals("Account request successfully deleted.", msg.getMessage());
-        assertNull(logic.getAccountRequest(unregisteredAccountRequest.getEmail(),
-                unregisteredAccountRequest.getInstitute()));
-
-        ______TS("Typical case, delete non-existing account request");
-
-        action = getAction(submissionParams);
-        result = getJsonResult(action);
-        msg = (MessageOutput) result.getOutput();
-
-        // should fail silently.
-        assertEquals("Account request successfully deleted.", msg.getMessage());
-
+        params = new String[] {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, rejectedAccountRequest.getEmail(),
+        };
+        ihpe = verifyHttpParameterFailure(params);
+        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INSTRUCTOR_INSTITUTION),
+                ihpe.getMessage());
     }
 
     @Override

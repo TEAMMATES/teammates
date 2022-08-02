@@ -1,7 +1,10 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -26,17 +29,19 @@ class ResetAccountRequestAction extends AdminOnlyAction {
         AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
 
         if (accountRequest == null) {
-            throw new EntityNotFoundException("Account request for instructor with email: " + email
+            throw new EntityNotFoundException("Account request with email: " + email
                     + " and institute: " + institute + " does not exist.");
         }
 
-        if (accountRequest.getRegisteredAt() == null) {
+        if (!accountRequest.hasRegistrationKeyBeenUsedToJoin()) {
             throw new InvalidOperationException("Unable to reset account request as instructor is still unregistered.");
         }
 
         try {
             accountRequest = logic.updateAccountRequest(AccountRequestAttributes
                 .updateOptionsBuilder(email, institute)
+                .withStatus(AccountRequestStatus.APPROVED)
+                .withLastProcessedAt(Instant.now())
                 .withRegisteredAt(null)
                 .build());
         } catch (InvalidParametersException | EntityDoesNotExistException e) {

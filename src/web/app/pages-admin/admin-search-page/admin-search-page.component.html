@@ -218,7 +218,7 @@
           <th>Email</th>
           <th>Institute</th>
           <th>Created At</th>
-          <th>Status</th>
+          <th>Registered At</th>
           <th>Options</th>
         </tr>
       </thead>
@@ -240,18 +240,14 @@
             <td>{{ accountRequest.email }}</td>
             <td>{{ accountRequest.institute }}</td>
             <td>{{ accountRequest.createdAtText }}</td>
+            <td>{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
             <td>
-              <div class="font-weight-bold" [ngClass]="{
-              'color-submitted': accountRequest.status === AccountRequestStatus.SUBMITTED,
-              'color-approved': accountRequest.status === AccountRequestStatus.APPROVED,
-              'color-rejected': accountRequest.status === AccountRequestStatus.REJECTED,
-              'color-registered': accountRequest.status === AccountRequestStatus.REGISTERED
-              }">{{ accountRequest.status || 'UNDEFINED' }}</div>
-            </td>
-            <td>
-              <a id="reset-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); manageAccountRequest(accountRequest);">
-                <i class="fas fa-info-circle"></i> Manage this account request
+              <a id="reset-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); resetAccountRequest(accountRequest);" *ngIf="accountRequest.registeredAtText">
+                <i class="fas fa-sync"></i> Reset Account Request
               </a>
+              <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'">
+                <button id="delete-account-request-{{i}}" class="btn btn-danger" [disabled]="accountRequest.registeredAtText" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest);">Delete</button>
+              </div>
             </td>
           </tr>
           <tr *ngIf="accountRequest.showLinks">
@@ -269,12 +265,3 @@
     </table>
   </div>
 </div>
-
-<ng-template #manageAccountRequestModal>
-  <div *tmIsLoading="isManageAccountRequestModalLoading">
-    <tm-process-account-request-panel [accountRequest]="accountRequestManaged"
-                                      [showPanelHeader]="false"
-                                      [showRegisteredAt]="true">
-    </tm-process-account-request-panel>
-  </div>
-</ng-template>
