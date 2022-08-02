@@ -14,7 +14,7 @@ import teammates.storage.entity.StudentProfile;
 /**
  * The data transfer object for {@link StudentProfile} entities.
  */
-public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
+public final class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
     private String googleId;
     private String shortName;
