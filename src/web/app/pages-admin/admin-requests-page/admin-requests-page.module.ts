@@ -2,37 +2,39 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   ProcessAccountRequestPanelModule,
 } from '../../components/process-account-request-panel/process-account-request-panel.module';
-import { AdminSearchPageComponent } from './admin-search-page.component';
+import { AdminRequestsPageComponent } from './admin-requests-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminSearchPageComponent,
+    component: AdminRequestsPageComponent,
   },
 ];
 
 /**
- * Module for admin search page.
+ * Module for admin requests page.
  */
 @NgModule({
   declarations: [
-    AdminSearchPageComponent,
+    AdminRequestsPageComponent,
   ],
   exports: [
-    AdminSearchPageComponent,
+    AdminRequestsPageComponent,
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    NgbTooltipModule,
     RouterModule.forChild(routes),
-    ProcessAccountRequestPanelModule,
+    LoadingRetryModule,
     LoadingSpinnerModule,
+    FormsModule,
+    NgbModule,
+    ProcessAccountRequestPanelModule,
   ],
 })
-export class AdminSearchPageModule { }
+export class AdminRequestsPageModule { }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
@@ -17,7 +17,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { ApiConst } from '../../../types/api-const';
-import { Email, MessageOutput, RegenerateKey } from '../../../types/api-output';
+import { AccountRequest, AccountRequestStatus, Email, MessageOutput, RegenerateKey } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -37,6 +37,13 @@ export class AdminSearchPageComponent {
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
+
+  isManageAccountRequestModalLoading: boolean = false;
+  accountRequestManaged!: AccountRequest;
+  @ViewChild('manageAccountRequestModal') manageAccountRequestModal!: TemplateRef<any>;
+
+  // enum
+  AccountRequestStatus: typeof AccountRequestStatus = AccountRequestStatus;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -247,6 +254,7 @@ export class AdminSearchPageComponent {
     }, () => {});
   }
 
+  // TODO: this method is no longer used
   resetAccountRequest(accountRequest: AccountRequestSearchResult): void {
     const modalContent = `Are you sure you want to reset the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
@@ -260,13 +268,14 @@ export class AdminSearchPageComponent {
         .subscribe(() => {
           this.statusMessageService
             .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
-          accountRequest.registeredAtText = '';
+          // accountRequest.status = '';
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
     }, () => {});
   }
 
+  // TODO: this method is no longer used
   deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {
     const modalContent: string = `Are you sure you want to delete the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
@@ -283,6 +292,31 @@ export class AdminSearchPageComponent {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
+  }
+
+  manageAccountRequest(accountRequest: AccountRequestSearchResult): void {
+    this.isManageAccountRequestModalLoading = true;
+    const email = accountRequest.email;
+    const institute = accountRequest.institute;
+
+    const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
+      'Manage account request',
+      SimpleModalType.INFO,
+      this.manageAccountRequestModal,
+      undefined,
+      { scrollable: true, size: 'lg', windowClass: 'process-account-request-modal-size' },
+    );
+
+    this.accountService.getAccountRequest(email, institute)
+      .pipe(
+        finalize(() => { this.isManageAccountRequestModalLoading = false; }),
+      )
+      .subscribe((ar: AccountRequest) => {
+        this.accountRequestManaged = ar;
+    }, (resp: ErrorMessageOutput) => {
+        modalRef.dismiss();
+        this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**

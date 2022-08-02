@@ -79,7 +79,7 @@ export class UserJoinPageComponent implements OnInit {
               this.isLoading = false;
             }
           }, (resp: ErrorMessageOutput) => {
-            if (resp.status === 404) {
+            if (resp.status === 404 || resp.status === 409) {
               this.validUrl = false;
               this.isLoading = false;
               return;

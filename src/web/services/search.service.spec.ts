@@ -310,7 +310,7 @@ describe('SearchService', () => {
     expect(result.institute).toBe('Test Institute');
     expect(result.name).toBe('Test Instructor');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
-    expect(result.registeredAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
+    expect(result.registeredAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00'); // TODO: change to status
     expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
   });
 

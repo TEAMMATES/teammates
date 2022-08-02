@@ -82,7 +82,7 @@ describe('AccountService', () => {
       intent: AccountRequestCreateIntent.ADMIN_CREATE,
       accountrequesttype: AccountRequestType.INSTRUCTOR_ACCOUNT,
     };
-    service.createAccountRequest(testRequest);
+    service.createAccountRequestAsAdmin(testRequest);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, testRequest);
   });
 
