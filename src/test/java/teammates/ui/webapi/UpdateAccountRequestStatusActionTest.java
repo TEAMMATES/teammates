@@ -339,8 +339,8 @@ public class UpdateAccountRequestStatusActionTest extends BaseActionTest<UpdateA
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Account request with email: non-existent@email" +
-                " and institute: Non-existent Institute does not exist.", enfe.getMessage());
+        assertEquals("Account request with email: non-existent@email"
+                + " and institute: Non-existent Institute does not exist.", enfe.getMessage());
     }
 
     @Test

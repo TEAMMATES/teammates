@@ -107,8 +107,8 @@ public class UpdateAccountRequestActionTest extends BaseActionTest<UpdateAccount
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Account request with email: non-existent@email" +
-                " and institute: TEAMMATES Test Institute, Singapore does not exist.", enfe.getMessage());
+        assertEquals("Account request with email: non-existent@email"
+                + " and institute: TEAMMATES Test Institute, Singapore does not exist.", enfe.getMessage());
 
         verifyNoTasksAdded();
 
