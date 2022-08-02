@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
@@ -79,17 +78,18 @@ export class QuestionResponsePanelComponent {
    * Loads responses for feedback question.
    */
   loadQuestionResults(question: FeedbackQuestionModel): void {
+    if (question.isLoaded) {
+      // Do not re-fetch data
+      return;
+    }
     this.feedbackSessionsService.getFeedbackSessionResults({
       questionId: question.feedbackQuestion.feedbackQuestionId,
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
       intent: this.intent,
       key: this.regKey,
-    }).pipe(finalize(() => {
-      question.isLoaded = true;
-      question.isLoading = false;
-      }))
-      .subscribe((sessionResults: SessionResults) => {
+    }).subscribe({
+      next: (sessionResults: SessionResults) => {
         const responses: QuestionOutput = sessionResults.questions[0];
         if (responses) {
           question.feedbackQuestion = responses.feedbackQuestion;
@@ -101,7 +101,17 @@ export class QuestionResponsePanelComponent {
         } else {
           question.hasResponse = false;
         }
-      }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+      },
+      complete: () => {
+        question.isLoaded = true;
+        question.isLoading = false;
+        question.errorMessage = '';
+      },
+      error: (resp: ErrorMessageOutput) => {
+        question.errorMessage = resp.error.message;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   loadQuestion(event: any, question: FeedbackQuestionModel): void {

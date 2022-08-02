@@ -13,7 +13,8 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
   <div
     inviewport=""
   >
-    <div>
+    <div />
+    <tm-loading-retry>
       <div
         class="card bg-light mt-4"
         id="question-1-responses"
@@ -115,11 +116,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           </div>
         </div>
       </div>
-    </div>
+    </tm-loading-retry>
   </div><div
     inviewport=""
   >
-    <div>
+    <div />
+    <tm-loading-retry>
       <div
         class="card bg-light mt-4"
         id="question-2-responses"
@@ -268,11 +270,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           </div>
         </div>
       </div>
-    </div>
+    </tm-loading-retry>
   </div><div
     inviewport=""
   >
-    <div>
+    <div />
+    <tm-loading-retry>
       <div
         class="card bg-light mt-4"
         id="question-3-responses"
@@ -439,7 +442,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           </div>
         </div>
       </div>
-    </div>
+    </tm-loading-retry>
   </div>
 </tm-question-response-panel>
 `;
@@ -457,7 +460,8 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
   <div
     inviewport=""
   >
-    <div>
+    <div />
+    <tm-loading-retry>
       <div
         class="card bg-light mt-4"
         id="question-1-responses"
@@ -645,11 +649,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           </div>
         </div>
       </div>
-    </div>
+    </tm-loading-retry>
   </div><div
     inviewport=""
   >
-    <div>
+    <div />
+    <tm-loading-retry>
       <div
         class="card bg-light mt-4"
         id="question-2-responses"
@@ -743,7 +748,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           </div>
         </div>
       </div>
-    </div>
+    </tm-loading-retry>
   </div>
 </tm-question-response-panel>
 `;

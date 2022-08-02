@@ -3,7 +3,7 @@ package teammates.common.datatransfer;
 /**
  * The query for attributes deletion.
  */
-public class AttributesDeletionQuery {
+public final class AttributesDeletionQuery {
 
     private String courseId;
     private String feedbackSessionName;

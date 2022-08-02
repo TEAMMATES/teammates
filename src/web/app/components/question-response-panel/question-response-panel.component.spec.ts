@@ -16,6 +16,7 @@ import {
   SessionResults, SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
+import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { SingleStatisticsModule } from '../question-responses/single-statistics/single-statistics.module';
 import {
@@ -190,6 +191,7 @@ describe('QuestionResponsePanelComponent', () => {
         StudentViewResponsesModule,
         QuestionTextWithInfoModule,
         LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
       providers: [FeedbackSessionsService],
     })

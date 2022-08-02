@@ -79,8 +79,6 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             break;
         case FULL_DETAIL:
         case INSTRUCTOR_RESULT:
-            questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-            break;
         case STUDENT_RESULT:
             questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
             break;
