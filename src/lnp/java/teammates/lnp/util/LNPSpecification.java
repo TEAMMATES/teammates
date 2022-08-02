@@ -3,7 +3,7 @@ package teammates.lnp.util;
 /**
  * Stores the specifications for a LNP test, and verifies whether the results meet the criteria.
  */
-public class LNPSpecification {
+public final class LNPSpecification {
 
     /**
      * Maximum allowable threshold for the ratio of failed request

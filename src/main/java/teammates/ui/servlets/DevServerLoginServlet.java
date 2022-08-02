@@ -60,7 +60,7 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        UserInfoCookie uic = new UserInfoCookie(email.replaceFirst("@gmail\\.com$", ""));
+        UserInfoCookie uic = new UserInfoCookie(email);
         Cookie cookie = getLoginCookie(uic);
         resp.addCookie(cookie);
 
