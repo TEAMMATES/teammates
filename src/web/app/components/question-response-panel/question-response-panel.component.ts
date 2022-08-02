@@ -100,6 +100,9 @@ export class QuestionResponsePanelComponent {
           question.responsesToSelf = responses.responsesToSelf;
         } else {
           question.hasResponse = false;
+          if (question.errorMessage) {
+            this.statusMessageService.showSuccessToast("Question " + question.feedbackQuestion.questionNumber + " has no responses.");
+          }
         }
       },
       complete: () => {
