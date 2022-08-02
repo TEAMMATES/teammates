@@ -101,11 +101,13 @@ export class QuestionResponsePanelComponent {
         } else {
           question.hasResponse = false;
         }
-      }, complete: () => {
+      },
+      complete: () => {
         question.isLoaded = true;
         question.isLoading = false;
         question.errorMessage = '';
-      }, error: (resp: ErrorMessageOutput) => {
+      },
+      error: (resp: ErrorMessageOutput) => {
         question.errorMessage = resp.error.message;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
