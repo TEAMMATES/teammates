@@ -71,10 +71,10 @@ describe('AccountService', () => {
 
   it('should execute POST on account request endpoint', () => {
     const testRequest: AccountRequestCreateRequest = {
-      instructorEmail: 'testEmail',
-      instructorInstitute: 'testInstitution',
       instructorName: 'testName',
-      instructorCountry: 'Singapore',
+      instructorInstitute: 'testInstitution, Singapore',
+      instructorCountry: '',
+      instructorEmail: 'testEmail@tmt.tmt',
       instructorHomePageUrl: '',
       comments: '',
     };
