@@ -7,7 +7,11 @@ import { CourseService } from '../../../services/course.service';
 import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Account, Accounts, Courses, JoinLink } from '../../../types/api-output';
+import {
+  Account, AccountRequest,
+  Accounts,
+  Courses, JoinLink,
+} from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
@@ -32,11 +36,12 @@ export class AdminHomePageComponent {
 
   isAddingInstructors: boolean = false;
 
-  isRegisteredInstructorModalLoading = false;
-  registeredInstructorIndex: number = 0;
+  isExistingAccountRequestModalLoading: boolean = false;
+  existingAccountRequestIndex: number = 0;
+  existingAccountRequest!: AccountRequest;
   registeredInstructorAccountData: RegisteredInstructorAccountData[] = [];
 
-  @ViewChild('registeredInstructorModal') registeredInstructorModal!: TemplateRef<any>;
+  @ViewChild('existingAccountRequestModal') existingAccountRequestModal!: TemplateRef<any>;
 
   constructor(
     private accountService: AccountService,
@@ -108,11 +113,12 @@ export class AdminHomePageComponent {
     instructor.status = 'ADDING';
 
     this.isAddingInstructors = true;
-    this.accountService.createAccountRequest({
-      instructorEmail: instructor.email,
+
+    this.accountService.createAccountRequestAsAdmin({
       instructorName: instructor.name,
-      instructorInstitute: instructor.institution, // including country
+      instructorInstitute: instructor.institution, // final institute
       instructorCountry: '',
+      instructorEmail: instructor.email,
       instructorHomePageUrl: '',
       comments: '',
     })
@@ -168,33 +174,41 @@ export class AdminHomePageComponent {
   }
 
   /**
-   * Opens a modal containing more information about a registered instructor.
+   * Opens a modal containing more information about an existing account request.
    */
-  showRegisteredInstructorModal(i: number): void {
-    this.registeredInstructorIndex = i;
+  showExistingAccountRequestModal(i: number): void {
+    this.isExistingAccountRequestModalLoading = true;
+    this.existingAccountRequestIndex = i;
     this.registeredInstructorAccountData = [];
-    this.isRegisteredInstructorModalLoading = true;
 
     const email = this.instructorsConsolidated[i].email;
+    const institute = this.instructorsConsolidated[i].institution;
 
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
-      'An instructor has already registered using this account request',
+      'An account request already exists',
       SimpleModalType.INFO,
-      this.registeredInstructorModal,
+      this.existingAccountRequestModal,
       undefined,
-      { scrollable: true },
+      { scrollable: true, size: 'lg', windowClass: 'process-account-request-modal-size' },
     );
 
-    this.accountService.getAccounts(email).pipe(
-      map((accounts: Accounts) => accounts.accounts),
-      mergeMap((accounts: Account[]) =>
-        forkJoin(accounts.map(
-          (account: Account) => this.getRegisteredAccountData(account.googleId)),
+    this.accountService.getAccountRequest(email, institute).subscribe((ar: AccountRequest) => {
+      this.existingAccountRequest = ar;
+
+      this.accountService.getAccounts(email).pipe(
+        map((accounts: Accounts) => accounts.accounts),
+        mergeMap((accounts: Account[]) =>
+          forkJoin(accounts.map(
+            (account: Account) => this.getRegisteredAccountData(account.googleId)),
+          ),
         ),
-      ),
-      finalize(() => { this.isRegisteredInstructorModalLoading = false; }),
-    ).subscribe((resp: RegisteredInstructorAccountData[]) => {
-      this.registeredInstructorAccountData = resp;
+        finalize(() => { this.isExistingAccountRequestModalLoading = false; }),
+      ).subscribe((resp: RegisteredInstructorAccountData[]) => {
+        this.registeredInstructorAccountData = resp;
+      }, (resp: ErrorMessageOutput) => {
+        modalRef.dismiss();
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
     }, (resp: ErrorMessageOutput) => {
       modalRef.dismiss();
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -242,6 +256,7 @@ export class AdminHomePageComponent {
     );
   }
 
+  // TODO: this method should be deleted
   resetAccountRequest(i: number): void {
     const modalContent = `Are you sure you want to reset the account request for
         <strong>${this.instructorsConsolidated[i].name}</strong> with email
@@ -260,10 +275,11 @@ export class AdminHomePageComponent {
           this.instructorsConsolidated[i].institution,
         )
         .subscribe(
-          (resp: JoinLink) => {
+          (resp: AccountRequest) => {
             this.instructorsConsolidated[i].status = 'SUCCESS';
             this.instructorsConsolidated[i].statusCode = 200;
-            this.instructorsConsolidated[i].joinLink = resp.joinLink;
+            this.instructorsConsolidated[i].joinLink =
+              this.linkService.generateAccountRegistrationLink(resp.registrationKey);
             this.ngbModal.dismissAll();
           },
           (resp: ErrorMessageOutput) => {

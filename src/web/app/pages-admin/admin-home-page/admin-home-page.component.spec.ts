@@ -551,7 +551,7 @@ describe('AdminHomePageComponent', () => {
 
     fixture.detectChanges();
 
-    const spy = jest.spyOn(component, 'showRegisteredInstructorModal').mockImplementation(() => {});
+    const spy = jest.spyOn(component, 'showExistingAccountRequestModal').mockImplementation(() => {});
 
     const infoButton = fixture.debugElement.nativeElement.querySelector('#instructor-0-registered-info-button');
     infoButton.click();
@@ -624,7 +624,7 @@ describe('AdminHomePageComponent', () => {
 
     fixture.detectChanges();
 
-    component.showRegisteredInstructorModal(0);
+    component.showExistingAccountRequestModal(0);
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(getAccountsSpy).toHaveBeenCalledTimes(1);
@@ -635,7 +635,7 @@ describe('AdminHomePageComponent', () => {
     expect(getInstructorCoursesSpy).toHaveBeenCalledWith('googleId');
     expect(generateAccountLinkSpy).toHaveBeenCalledTimes(1);
     expect(generateAccountLinkSpy).toHaveBeenCalledWith('googleId', '/admin/accounts');
-    expect(component.isRegisteredInstructorModalLoading).toBeFalsy();
+    expect(component.isExistingAccountRequestModalLoading).toBeFalsy();
   });
 
   it('should call reset account endpoint when resetAccountRequest called', async () => {
@@ -655,7 +655,7 @@ describe('AdminHomePageComponent', () => {
     fixture.detectChanges();
 
     const resetAccountSpy = jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
-      joinLink: 'link',
+      joinLink: 'link', // TODO: change to of type AccountRequest, joinLink can be generated
     }));
 
     const modalSpy = jest

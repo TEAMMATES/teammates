@@ -20,7 +20,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   @Output() addInstructorEvent: EventEmitter<void> = new EventEmitter();
   @Output() removeInstructorEvent: EventEmitter<void> = new EventEmitter();
   @Output() toggleEditModeEvent: EventEmitter<boolean> = new EventEmitter();
-  @Output() showRegisteredInstructorModalEvent: EventEmitter<void> = new EventEmitter();
+  @Output() showExistingAccountRequestModalEvent: EventEmitter<void> = new EventEmitter();
 
   isBeingEdited: boolean = false;
   editedInstructorName!: string;
@@ -40,7 +40,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   }
 
   showRegisteredInstructorModal(): void {
-    this.showRegisteredInstructorModalEvent.emit();
+    this.showExistingAccountRequestModalEvent.emit();
   }
 
   /**

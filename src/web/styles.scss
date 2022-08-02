@@ -185,6 +185,11 @@ h6,
   cursor: pointer;
 }
 
+.process-account-request-modal-size .modal-lg {
+  max-width: 1200px;
+  width: 90%;
+}
+
 @media print {
   .no-print {
     display: none;

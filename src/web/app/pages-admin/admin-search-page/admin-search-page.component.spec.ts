@@ -73,7 +73,7 @@ const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
   institute: 'institute',
   registrationLink: 'registrationLink',
   createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-  registeredAtText: null,
+  status: null,
   showLinks: false,
 };
 
@@ -240,7 +240,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute',
         registrationLink: 'registrationLink',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAtText: null,
+        status: null,
         showLinks: true,
       },
     ];
@@ -410,7 +410,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute1',
         registrationLink: 'registrationLink1',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAtText: null,
+        status: null,
         showLinks: true,
       }, {
         name: 'name2',
@@ -418,7 +418,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute2',
         registrationLink: 'registrationLink2',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        registeredAtText: 'Wed, 09 Feb 2022, 10:23 AM +00:00',
+        status: 'Wed, 09 Feb 2022, 10:23 AM +00:00',
         showLinks: true,
       }];
 
@@ -943,7 +943,7 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show error message when resetting account request is unsuccessful', () => {
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
-    component.accountRequests[0].registeredAtText = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
+    component.accountRequests[0].status = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
     fixture.detectChanges();
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
@@ -969,7 +969,7 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show success message when resetting account request is successful', () => {
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
-    component.accountRequests[0].registeredAtText = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
+    component.accountRequests[0].status = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
     fixture.detectChanges();
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
@@ -977,7 +977,7 @@ describe('AdminSearchPageComponent', () => {
     });
 
     jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
-      joinLink: 'joinlink',
+      joinLink: 'joinlink', // TODO: change to of type AccountRequest, joinLink can be generated
     }));
 
     const spyStatusMessageService = jest.spyOn(statusMessageService, 'showSuccessToast')

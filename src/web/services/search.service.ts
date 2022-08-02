@@ -5,7 +5,9 @@ import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
   AccountRequests,
-  Course, FeedbackSession,
+  AccountRequestStatus,
+  Course,
+  FeedbackSession,
   FeedbackSessions,
   Instructor,
   InstructorPermissionRole,
@@ -303,19 +305,18 @@ export class SearchService {
       email: '',
       institute: '',
       createdAtText: '',
-      registeredAtText: '',
+      status: AccountRequestStatus.SUBMITTED,
       registrationLink: '',
       showLinks: false,
     };
 
-    const { registrationKey, createdAt, registeredAt, name, institute, email }: AccountRequest = accountRequest;
+    const { registrationKey, createdAt, name, institute, email, status }: AccountRequest = accountRequest;
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
-    accountRequestResult.registeredAtText = registeredAt ? this.formatTimestampAsString(registeredAt, timezone) : null;
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
-    accountRequestResult = { ...accountRequestResult, name, email, institute, registrationLink };
+    accountRequestResult = { ...accountRequestResult, name, email, institute, status, registrationLink };
 
     return accountRequestResult;
   }
@@ -468,7 +469,7 @@ export interface AccountRequestSearchResult {
   email: string;
   institute: string;
   createdAtText: string;
-  registeredAtText: string | null;
+  status: AccountRequestStatus;
   registrationLink: string;
   showLinks: boolean;
 }
