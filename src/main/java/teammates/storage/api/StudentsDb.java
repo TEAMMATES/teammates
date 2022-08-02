@@ -438,7 +438,19 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForGoogleId(String googleId) {
-        return getCourseStudentsForGoogleIdQuery(googleId).list();
+        if (googleId.toLowerCase().contains("@gmail.com")) {
+            List<CourseStudent> studentWithGoogleId = load().filter("googleId =", googleId.split("@")[0]).list();
+            List<CourseStudent> studentWithEmail = load().filter("googleId =", googleId).list();
+            studentWithGoogleId.addAll(studentWithEmail);
+            return studentWithGoogleId;
+        }
+        if (!googleId.toLowerCase().contains("@")) {
+            List<CourseStudent> studentWithGoogleId = load().filter("googleId =", googleId).list();
+            List<CourseStudent> studentWithEmail = load().filter("googleId =", googleId.concat("@gmail.com")).list();
+            studentWithGoogleId.addAll(studentWithEmail);
+            return studentWithGoogleId;
+        }
+        return load().filter("googleId =", googleId).list();
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
