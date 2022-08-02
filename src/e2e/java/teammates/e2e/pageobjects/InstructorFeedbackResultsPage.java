@@ -359,7 +359,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                   List<FeedbackResponseAttributes> responses,
                                   Collection<InstructorAttributes> instructors,
                                   Collection<StudentAttributes> students) {
-        switch(question.getQuestionType()) {
+        switch (question.getQuestionType()) {
         case MCQ:
             verifyMcqStatistics(questionPanel, question, responses, instructors, students);
             break;
@@ -701,7 +701,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getAnswerString(FeedbackQuestionAttributes question, FeedbackResponseDetails response) {
-        switch(response.getQuestionType()) {
+        switch (response.getQuestionType()) {
         case TEXT:
         case NUMSCALE:
         case RANK_RECIPIENTS:

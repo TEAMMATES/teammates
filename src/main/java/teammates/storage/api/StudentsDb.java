@@ -159,10 +159,33 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         assert googleId != null;
         assert courseId != null;
 
-        CourseStudent student = load()
-                .filter("courseId =", courseId)
-                .filter("googleId =", googleId)
-                .first().now();
+        CourseStudent student;
+        if (googleId.toLowerCase().contains("@gmail.com")) {
+            Query<CourseStudent> studentWithGoogleId = load()
+                    .filter("courseId =", courseId)
+                    .filter("googleId =", googleId.split("@")[0]);
+            Query<CourseStudent> studentWithEmail = load()
+                    .filter("courseId =", courseId)
+                    .filter("googleId =", googleId);
+            student = studentWithGoogleId.keys().list().isEmpty()
+                    ? studentWithEmail.first().now()
+                    : studentWithGoogleId.first().now();
+        } else if (!googleId.toLowerCase().contains("@")) {
+            Query<CourseStudent> studentWithGoogleId = load()
+                    .filter("courseId =", courseId)
+                    .filter("googleId =", googleId);
+            Query<CourseStudent> studentWithEmail = load()
+                    .filter("courseId =", courseId)
+                    .filter("googleId =", googleId.concat("@gmail.com"));
+            student = studentWithGoogleId.keys().list().isEmpty()
+                    ? studentWithEmail.first().now()
+                    : studentWithGoogleId.first().now();
+        } else {
+            student = load()
+                    .filter("courseId =", courseId)
+                    .filter("googleId =", googleId)
+                    .first().now();
+        }
 
         return makeAttributesOrNull(student);
     }
@@ -401,11 +424,33 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     private Query<CourseStudent> getCourseStudentsForGoogleIdQuery(String googleId) {
+        if (googleId.toLowerCase().contains("@gmail.com")) {
+            Query<CourseStudent> studentWithGoogleId = load().filter("googleId =", googleId.split("@")[0]);
+            Query<CourseStudent> studentWithEmail = load().filter("googleId =", googleId);
+            return studentWithGoogleId.keys().list().isEmpty() ? studentWithEmail : studentWithGoogleId;
+        }
+        if (!googleId.toLowerCase().contains("@")) {
+            Query<CourseStudent> studentWithGoogleId = load().filter("googleId =", googleId);
+            Query<CourseStudent> studentWithEmail = load().filter("googleId =", googleId.concat("@gmail.com"));
+            return studentWithGoogleId.keys().list().isEmpty() ? studentWithEmail : studentWithGoogleId;
+        }
         return load().filter("googleId =", googleId);
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForGoogleId(String googleId) {
-        return getCourseStudentsForGoogleIdQuery(googleId).list();
+        if (googleId.toLowerCase().contains("@gmail.com")) {
+            List<CourseStudent> studentWithGoogleId = load().filter("googleId =", googleId.split("@")[0]).list();
+            List<CourseStudent> studentWithEmail = load().filter("googleId =", googleId).list();
+            studentWithGoogleId.addAll(studentWithEmail);
+            return studentWithGoogleId;
+        }
+        if (!googleId.toLowerCase().contains("@")) {
+            List<CourseStudent> studentWithGoogleId = load().filter("googleId =", googleId).list();
+            List<CourseStudent> studentWithEmail = load().filter("googleId =", googleId.concat("@gmail.com")).list();
+            studentWithGoogleId.addAll(studentWithEmail);
+            return studentWithGoogleId;
+        }
+        return load().filter("googleId =", googleId).list();
     }
 
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {

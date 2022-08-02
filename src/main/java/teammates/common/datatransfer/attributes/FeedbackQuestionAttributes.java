@@ -15,7 +15,7 @@ import teammates.storage.entity.FeedbackQuestion;
 /**
  * The data transfer object for {@link FeedbackQuestion} entities.
  */
-public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
+public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
 
     private String feedbackSessionName;

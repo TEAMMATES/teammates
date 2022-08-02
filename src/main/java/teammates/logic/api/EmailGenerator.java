@@ -37,18 +37,21 @@ import teammates.logic.core.StudentsLogic;
  * @see EmailWrapper
  */
 public final class EmailGenerator {
-    // status-related strings
-    private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions";
-    private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
-    private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon";
-    private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
-    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
-
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
     private static final String FEEDBACK_ACTION_VIEW = "view";
-    private static final String HTML_NO_ACTION_REQUIRED =
-            "<p>No action is required if you have already submitted.</p>" + System.lineSeparator();
+    private static final String FEEDBACK_ACTION_SUBMIT_OR_UPDATE =
+                            ", in case you have not submitted yet or wish to update your submission. ";
+    private static final String HTML_NO_ACTION_REQUIRED = "<mark>No action is required if you have already submitted</mark>";
+
+    // status-related strings
+    private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions"
+                                        + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
+    private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
+    private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon"
+                                        + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
+    private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
+    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
@@ -107,7 +110,10 @@ public final class EmailGenerator {
                 ? FEEDBACK_STATUS_SESSION_OPENING
                 : FEEDBACK_STATUS_SESSION_CLOSING;
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", status);
+        String template = emailType == EmailType.FEEDBACK_OPENING
+                ? EmailTemplates.USER_FEEDBACK_SESSION_OPENING.replace("${status}", status)
+                : EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", status);
+
         return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
                 emailType, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
     }
@@ -645,7 +651,7 @@ public final class EmailGenerator {
             EmailType emailType, String userEmail, boolean isInstructor) {
         String status;
 
-        switch(emailType) {
+        switch (emailType) {
         case DEADLINE_EXTENSION_GRANTED:
             status = "You have been granted a deadline extension for the following feedback session.";
             break;
@@ -695,10 +701,6 @@ public final class EmailGenerator {
             EmailType type, String feedbackAction) {
         StringBuilder studentAdditionalContactBuilder = new StringBuilder();
         StringBuilder instructorAdditionalContactBuilder = new StringBuilder();
-        if (type == EmailType.FEEDBACK_CLOSING || type == EmailType.FEEDBACK_SESSION_REMINDER) {
-            studentAdditionalContactBuilder.append(HTML_NO_ACTION_REQUIRED);
-            instructorAdditionalContactBuilder.append(HTML_NO_ACTION_REQUIRED);
-        }
         studentAdditionalContactBuilder.append(getAdditionalContactInformationFragment(course, false));
         instructorAdditionalContactBuilder.append(getAdditionalContactInformationFragment(course, true));
 
