@@ -93,11 +93,11 @@ export class McqQuestionEditAnswerFormComponent
   }
 
   /**
-   *
+   * Updates the answer to the MCQ option specified by the index of the drop down option.
    */
-  updateSelectedMcqDropdownOption($event: Event): void {
-    // @ts-ignore
-    const answer = this.questionDetails.mcqChoices[$event.target.selectedIndex - 1];
+  updateSelectedMcqDropdownOption(selectedIndex: number): void {
+    const answer = this.questionDetails.mcqChoices[selectedIndex - 1];
+    
     this.triggerResponseDetailsChangeBatch({
       answer,
       isOther: false,

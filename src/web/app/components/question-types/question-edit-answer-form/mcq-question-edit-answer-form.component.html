@@ -11,7 +11,7 @@
     </div>
     <div *ngIf="questionDetails.questionDropdownEnabled" >
       {{updateParentCss(true)}}
-      <select class="form-control margin-bottom-8px" (change)="updateSelectedMcqDropdownOption($event)" [disabled]="this.isOtherTicked">
+      <select class="form-control margin-bottom-8px" (change)="updateSelectedMcqDropdownOption($event.target.value)" [disabled]="this.isOtherTicked">
         <option [disabled]="!this.isOtherTicked" selected></option>
         <option *ngFor="let num of questionDetails.mcqChoices; let i = index;"
                 [value]="questionDetails.mcqChoices[i] | safeHtml"
