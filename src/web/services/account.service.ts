@@ -50,22 +50,6 @@ export class AccountService {
   }
 
   /**
-   * Creates an account request by calling API.
-   */
-  createAccountRequestAsPublic(queryParams: {
-    accountRequestType: AccountRequestType,
-    captchaResponse: string,
-    requestBody: AccountRequestCreateRequest,
-  }): Observable<MessageOutput> {
-    const paramsMap: Record<string, string> = {
-      intent: AccountRequestCreateIntent.PUBLIC_CREATE,
-      accountrequesttype: queryParams.accountRequestType,
-      captcharesponse: queryParams.captchaResponse,
-    };
-    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, queryParams.requestBody);
-  }
-
-  /**
    * Updates an account request by calling API.
    */
   updateAccountRequest(email: string, institute: string,
