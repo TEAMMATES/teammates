@@ -53,6 +53,23 @@ describe('Constants', () => {
 
     expect(typeof ApiConst.FEEDBACK_SESSION_NAME_MAX_LENGTH).toEqual('number');
     expect(ApiConst.FEEDBACK_SESSION_NAME_MAX_LENGTH).toBeGreaterThan(0);
+
+    // TODO: missing test for NOTIFICATION_TITLE_MAX_LENGTH
+
+    expect(typeof ApiConst.INSTITUTE_NAME_MAX_LENGTH).toEqual('number');
+    expect(ApiConst.INSTITUTE_NAME_MAX_LENGTH).toBeGreaterThan(0);
+
+    expect(typeof ApiConst.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH).toEqual('number');
+    expect(ApiConst.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH).toBeGreaterThan(0);
+
+    expect(typeof ApiConst.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH).toEqual('number');
+    expect(ApiConst.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH).toBeGreaterThan(0);
+
+    expect(typeof ApiConst.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH).toEqual('number');
+    expect(ApiConst.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH).toBeGreaterThan(0);
+
+    expect(typeof ApiConst.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH).toEqual('number');
+    expect(ApiConst.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH).toBeGreaterThan(0);
   });
 
   // Here we test that the constants are numbers
