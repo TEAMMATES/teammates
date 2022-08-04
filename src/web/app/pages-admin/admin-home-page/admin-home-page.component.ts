@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
@@ -8,9 +8,11 @@ import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
-  Account, AccountRequest,
+  Account,
+  AccountRequest,
   Accounts,
-  Courses, JoinLink,
+  Courses,
+  JoinLink,
 } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
@@ -49,7 +51,6 @@ export class AdminHomePageComponent {
     private simpleModalService: SimpleModalService,
     private statusMessageService: StatusMessageService,
     private linkService: LinkService,
-    private ngbModal: NgbModal,
   ) {}
 
   /**
@@ -192,27 +193,30 @@ export class AdminHomePageComponent {
       { scrollable: true, size: 'lg', windowClass: 'process-account-request-modal-size' },
     );
 
-    this.accountService.getAccountRequest(email, institute).subscribe((ar: AccountRequest) => {
-      this.existingAccountRequest = ar;
-
-      this.accountService.getAccounts(email).pipe(
-        map((accounts: Accounts) => accounts.accounts),
-        mergeMap((accounts: Account[]) =>
-          forkJoin(accounts.map(
-            (account: Account) => this.getRegisteredAccountData(account.googleId)),
-          ),
-        ),
+    this.accountService.getAccountRequest(email, institute)
+      .pipe(
         finalize(() => { this.isExistingAccountRequestModalLoading = false; }),
-      ).subscribe((resp: RegisteredInstructorAccountData[]) => {
-        this.registeredInstructorAccountData = resp;
+      )
+      .subscribe((ar: AccountRequest) => {
+        this.existingAccountRequest = ar;
+
+        this.accountService.getAccounts(email).pipe(
+          map((accounts: Accounts) => accounts.accounts),
+          mergeMap((accounts: Account[]) =>
+            forkJoin(accounts.map(
+              (account: Account) => this.getRegisteredAccountData(account.googleId)),
+            ),
+          ),
+        ).subscribe((resp: RegisteredInstructorAccountData[]) => {
+          this.registeredInstructorAccountData = resp;
+        }, (resp: ErrorMessageOutput) => {
+          modalRef.dismiss();
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
       }, (resp: ErrorMessageOutput) => {
         modalRef.dismiss();
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, (resp: ErrorMessageOutput) => {
-      modalRef.dismiss();
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
   }
 
   private getRegisteredAccountData(googleId: string): Observable<RegisteredInstructorAccountData> {
@@ -254,39 +258,6 @@ export class AdminHomePageComponent {
         };
       }),
     );
-  }
-
-  // TODO: this method should be deleted
-  resetAccountRequest(i: number): void {
-    const modalContent = `Are you sure you want to reset the account request for
-        <strong>${this.instructorsConsolidated[i].name}</strong> with email
-        <strong>${this.instructorsConsolidated[i].email}</strong> from
-        <strong>${this.instructorsConsolidated[i].institution}</strong>?
-        An email with the account registration link will also be sent to the instructor.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset account request for <strong>${this.instructorsConsolidated[i].name}</strong>?`,
-        SimpleModalType.WARNING,
-        modalContent);
-
-    modalRef.result.then(() => {
-      this.accountService
-        .resetAccountRequest(
-          this.instructorsConsolidated[i].email,
-          this.instructorsConsolidated[i].institution,
-        )
-        .subscribe(
-          (resp: AccountRequest) => {
-            this.instructorsConsolidated[i].status = 'SUCCESS';
-            this.instructorsConsolidated[i].statusCode = 200;
-            this.instructorsConsolidated[i].joinLink =
-              this.linkService.generateAccountRegistrationLink(resp.registrationKey);
-            this.ngbModal.dismissAll();
-          },
-          (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        );
-    }, () => {});
   }
 
 }
