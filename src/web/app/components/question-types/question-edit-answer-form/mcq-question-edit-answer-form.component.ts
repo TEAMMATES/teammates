@@ -97,7 +97,7 @@ export class McqQuestionEditAnswerFormComponent
    */
   updateSelectedMcqDropdownOption(selectedIndex: number): void {
     const answer = this.questionDetails.mcqChoices[selectedIndex - 1];
-    
+
     this.triggerResponseDetailsChangeBatch({
       answer,
       isOther: false,
