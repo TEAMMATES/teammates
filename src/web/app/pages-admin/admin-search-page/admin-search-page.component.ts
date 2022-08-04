@@ -39,7 +39,7 @@ export class AdminSearchPageComponent {
   accountRequests: AccountRequestSearchResult[] = [];
 
   isManageAccountRequestModalLoading: boolean = false;
-  accountRequestManaged!: AccountRequest;
+  accountRequestManaged: AccountRequest | undefined;
   @ViewChild('manageAccountRequestModal') manageAccountRequestModal!: TemplateRef<any>;
 
   // enum
@@ -296,6 +296,7 @@ export class AdminSearchPageComponent {
 
   manageAccountRequest(accountRequest: AccountRequestSearchResult): void {
     this.isManageAccountRequestModalLoading = true;
+    this.accountRequestManaged = undefined;
     const email = accountRequest.email;
     const institute = accountRequest.institute;
 
@@ -313,10 +314,10 @@ export class AdminSearchPageComponent {
       )
       .subscribe((ar: AccountRequest) => {
         this.accountRequestManaged = ar;
-    }, (resp: ErrorMessageOutput) => {
+      }, (resp: ErrorMessageOutput) => {
         modalRef.dismiss();
         this.statusMessageService.showErrorToast(resp.error.message);
-    });
+      });
   }
 
   /**
