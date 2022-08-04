@@ -953,7 +953,7 @@ describe('AdminSearchPageComponent', () => {
     } as NgbModalRef);
     jest.spyOn(accountService, 'getAccountRequest').mockReturnValue(throwError({
       error: {
-        message: 'This is the error message.',
+        message: errorMessage,
       },
     }));
     const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showErrorToast')
