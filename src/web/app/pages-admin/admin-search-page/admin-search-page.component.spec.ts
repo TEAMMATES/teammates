@@ -3,21 +3,29 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import { InstructorService } from '../../../services/instructor.service';
 import {
   AccountRequestSearchResult,
-  FeedbackSessionsGroup, InstructorAccountSearchResult,
-  SearchService, StudentAccountSearchResult,
+  FeedbackSessionsGroup,
+  InstructorAccountSearchResult,
+  SearchService,
+  StudentAccountSearchResult,
 } from '../../../services/search.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import {
+  ProcessAccountRequestPanelModule,
+} from '../../components/process-account-request-panel/process-account-request-panel.module';
 import { AdminSearchPageComponent } from './admin-search-page.component';
+import SpyInstance = jest.SpyInstance;
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -73,11 +81,11 @@ const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
   institute: 'institute',
   registrationLink: 'registrationLink',
   createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-  status: null,
+  status: AccountRequestStatus.SUBMITTED,
   showLinks: false,
 };
 
-describe('AdminSearchPageComponent', () => {
+fdescribe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
   let fixture: ComponentFixture<AdminSearchPageComponent>;
   let accountService: AccountService;
@@ -87,6 +95,7 @@ describe('AdminSearchPageComponent', () => {
   let statusMessageService: StatusMessageService;
   let emailGenerationService: EmailGenerationService;
   let ngbModal: NgbModal;
+  let simpleModalService: SimpleModalService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -97,8 +106,10 @@ describe('AdminSearchPageComponent', () => {
         NgbTooltipModule,
         BrowserAnimationsModule,
         RouterTestingModule,
+        ProcessAccountRequestPanelModule,
+        LoadingSpinnerModule,
       ],
-      providers: [AccountService, SearchService, StatusMessageService, NgbModal],
+      providers: [AccountService, SearchService, StatusMessageService, NgbModal, SimpleModalService],
     })
     .compileComponents();
   }));
@@ -113,6 +124,7 @@ describe('AdminSearchPageComponent', () => {
     statusMessageService = TestBed.inject(StatusMessageService);
     emailGenerationService = TestBed.inject(EmailGenerationService);
     ngbModal = TestBed.inject(NgbModal);
+    simpleModalService = TestBed.inject(SimpleModalService);
     fixture.detectChanges();
   });
 
@@ -240,7 +252,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute',
         registrationLink: 'registrationLink',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        status: null,
+        status: AccountRequestStatus.REJECTED,
         showLinks: true,
       },
     ];
@@ -410,7 +422,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute1',
         registrationLink: 'registrationLink1',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        status: null,
+        status: AccountRequestStatus.SUBMITTED,
         showLinks: true,
       }, {
         name: 'name2',
@@ -418,7 +430,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute2',
         registrationLink: 'registrationLink2',
         createdAtText: 'Tue, 08 Feb 2022, 08:23 AM +00:00',
-        status: 'Wed, 09 Feb 2022, 10:23 AM +00:00',
+        status: AccountRequestStatus.APPROVED,
         showLinks: true,
       }];
 
@@ -893,102 +905,65 @@ describe('AdminSearchPageComponent', () => {
     expect(spyStatusMessageService).toBeCalled();
   });
 
-  it('should show error message when deleting account request is unsuccessful', () => {
+  it('should open modal when manage account request button is clicked', () => {
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
+    const spyOpenInformationModal = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation(() => {
+      return createMockNgbModalRef();
+    });
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({});
-    });
+    const button = fixture.debugElement.nativeElement.querySelector('#manage-account-request-0');
+    button.click();
 
-    jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(throwError({
+    expect(spyOpenInformationModal).toHaveBeenCalled();
+  });
+
+  it('should load account request when manage account request button is clicked', () => {
+    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
+    const accountRequest: AccountRequest = {
+      name: DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.name,
+      institute: DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.institute,
+      email: DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.email,
+      homePageUrl: '',
+      comments: '',
+      registrationKey: '',
+      status: DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.status,
+      createdAt: Number(DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.createdAtText),
+    };
+    jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation(() => {
+      return createMockNgbModalRef();
+    });
+    jest.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(accountRequest));
+    fixture.detectChanges();
+
+    expect(component.accountRequestManaged).toBeUndefined();
+
+    const button = fixture.debugElement.nativeElement.querySelector('#manage-account-request-0');
+    button.click();
+
+    expect(component.accountRequestManaged).toEqual(accountRequest);
+    expect(component.isManageAccountRequestModalLoading).toBeFalsy();
+  });
+
+  it('should show error message when manage account request button is clicked and loading fails', () => {
+    const errorMessage: string = 'This is the error message.';
+    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
+    jest.spyOn(simpleModalService, 'openInformationModal').mockReturnValue({
+      dismiss() {}
+    } as NgbModalRef);
+    jest.spyOn(accountService, 'getAccountRequest').mockReturnValue(throwError({
       error: {
         message: 'This is the error message.',
       },
     }));
-
     const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
+      .mockImplementation(() => {});
+    fixture.detectChanges();
 
-    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
+    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#manage-account-request-0');
     deleteButton.click();
 
-    expect(spyStatusMessageService).toBeCalled();
-  });
-
-  it('should show success message when deleting account request is successful', () => {
-    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
-    fixture.detectChanges();
-
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({});
-    });
-
-    jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(of({
-      message: 'Account request successfully deleted.',
-    }));
-
-    const spyStatusMessageService: any = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('Account request successfully deleted.');
-        });
-
-    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
-    deleteButton.click();
-
-    expect(spyStatusMessageService).toBeCalled();
-  });
-
-  it('should show error message when resetting account request is unsuccessful', () => {
-    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
-    component.accountRequests[0].status = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
-    fixture.detectChanges();
-
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({});
-    });
-
-    jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(throwError({
-      error: {
-        message: 'This is the error message.',
-      },
-    }));
-
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
-
-    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
-    resetButton.click();
-
-    expect(spyStatusMessageService).toBeCalled();
-  });
-
-  it('should show success message when resetting account request is successful', () => {
-    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
-    component.accountRequests[0].status = 'Wed, 09 Feb 2022, 10:23 AM +00:00';
-    fixture.detectChanges();
-
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({});
-    });
-
-    jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
-      joinLink: 'joinlink', // TODO: change to of type AccountRequest, joinLink can be generated
-    }));
-
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args)
-            .toEqual(`Reset successful. An email has been sent to ${DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT.email}.`);
-      });
-
-    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
-    resetButton.click();
-
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toBeCalledWith(errorMessage);
+    expect(component.isManageAccountRequestModalLoading).toBeFalsy();
   });
 });
