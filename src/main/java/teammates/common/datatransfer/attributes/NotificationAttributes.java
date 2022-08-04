@@ -17,7 +17,7 @@ import teammates.storage.entity.Notification;
 /**
  * The data transfer object for the notification.
  */
-public class NotificationAttributes extends EntityAttributes<Notification> {
+public final class NotificationAttributes extends EntityAttributes<Notification> {
 
     private String notificationId;
     private Instant startTime;
