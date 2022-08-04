@@ -5,18 +5,17 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   accountService={[Function AccountService]}
   activeRequests="0"
   courseService={[Function CourseService]}
+  existingAccountRequestIndex="0"
+  existingAccountRequestModal={[Function TemplateRef_]}
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
-  isRegisteredInstructorModalLoading="false"
+  isExistingAccountRequestModalLoading="false"
   linkService={[Function LinkService]}
-  ngbModal={[Function NgbModal]}
   registeredInstructorAccountData={[Function Array]}
-  registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef_]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -121,18 +120,17 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   accountService={[Function AccountService]}
   activeRequests={[Function Number]}
   courseService={[Function CourseService]}
+  existingAccountRequestIndex="0"
+  existingAccountRequestModal={[Function TemplateRef_]}
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors={[Function Boolean]}
-  isRegisteredInstructorModalLoading="false"
+  isExistingAccountRequestModalLoading="false"
   linkService={[Function LinkService]}
-  ngbModal={[Function NgbModal]}
   registeredInstructorAccountData={[Function Array]}
-  registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef_]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -383,7 +381,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
               class="loading-container"
             >
               <div
-                class="spinner-border spinner-border-sm text-white"
+                class="spinner-border spinner-border-sm align-middle text-white"
                 role="status"
               />
             </div>
@@ -401,18 +399,17 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   accountService={[Function AccountService]}
   activeRequests="0"
   courseService={[Function CourseService]}
+  existingAccountRequestIndex="0"
+  existingAccountRequestModal={[Function TemplateRef_]}
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
   instructorName=""
   instructorsConsolidated={[Function Array]}
   isAddingInstructors="false"
-  isRegisteredInstructorModalLoading="false"
+  isExistingAccountRequestModalLoading="false"
   linkService={[Function LinkService]}
-  ngbModal={[Function NgbModal]}
   registeredInstructorAccountData={[Function Array]}
-  registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef_]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
