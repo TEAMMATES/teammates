@@ -129,7 +129,8 @@ describe('AccountService', () => {
 
     service.createAccountRequestAsAdmin(createRequest);
 
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, createRequest);
+    expect(spyHttpRequestService.post)
+      .toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, createRequest);
   });
 
   it('should execute PUT on account/request endpoint when updating an account request as admin', () => {

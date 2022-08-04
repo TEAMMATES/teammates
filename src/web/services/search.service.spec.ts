@@ -303,8 +303,11 @@ describe('SearchService', () => {
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
     jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
-    const accountRequest: AccountRequest = { ...mockAccountRequest,
-      status: AccountRequestStatus.REGISTERED, registeredAt: 1685487897502 };
+    const accountRequest: AccountRequest = {
+      ...mockAccountRequest,
+      status: AccountRequestStatus.REGISTERED,
+      registeredAt: 1685487897502,
+    };
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
 
     expect(result.email).toBe('test@example.com');

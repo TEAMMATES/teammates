@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModalRef, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
+import SpyInstance = jest.SpyInstance;
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -25,7 +26,6 @@ import {
   ProcessAccountRequestPanelModule,
 } from '../../components/process-account-request-panel/process-account-request-panel.module';
 import { AdminSearchPageComponent } from './admin-search-page.component';
-import SpyInstance = jest.SpyInstance;
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -85,7 +85,7 @@ const DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT: AccountRequestSearchResult = {
   showLinks: false,
 };
 
-fdescribe('AdminSearchPageComponent', () => {
+describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
   let fixture: ComponentFixture<AdminSearchPageComponent>;
   let accountService: AccountService;
@@ -949,7 +949,7 @@ fdescribe('AdminSearchPageComponent', () => {
     const errorMessage: string = 'This is the error message.';
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST_SEARCH_RESULT];
     jest.spyOn(simpleModalService, 'openInformationModal').mockReturnValue({
-      dismiss() {}
+      dismiss() {},
     } as NgbModalRef);
     jest.spyOn(accountService, 'getAccountRequest').mockReturnValue(throwError({
       error: {
