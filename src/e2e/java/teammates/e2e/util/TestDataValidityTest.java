@@ -211,6 +211,7 @@ public class TestDataValidityTest extends BaseTestCase {
                 .replace("Profile", "Prof")
                 .replace("Reminders", "Rem")
                 .replace("Notification", "Notif")
+                .replace("Activity", "Act")
                 .replace("IndividualExtension", "Ie");
 
         // Shorten question types

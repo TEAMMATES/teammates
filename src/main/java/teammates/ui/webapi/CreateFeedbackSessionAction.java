@@ -86,7 +86,7 @@ class CreateFeedbackSessionAction extends Action {
         }
 
         if (createRequest.getToCopyCourseId() != null) {
-            createFeedbackQuestions(createRequest.getToCopyCourseId(), courseId, createRequest.getFeedbackSessionName(),
+            createFeedbackQuestions(createRequest.getToCopyCourseId(), courseId, feedbackSessionName,
                     createRequest.getToCopySessionName());
         }
         fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());

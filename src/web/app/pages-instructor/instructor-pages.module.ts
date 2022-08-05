@@ -41,6 +41,11 @@ const routes: Routes = [
             .then((m: any) => m.InstructorCourseEnrollPageModule),
       },
       {
+        path: 'student-activity-logs',
+        loadChildren: () => import('./instructor-student-activity-logs/instructor-student-activity-logs.module')
+            .then((m: any) => m.InstructorStudentActivityLogsModule),
+      },
+      {
         path: 'student',
         children: [
           {
@@ -136,16 +141,6 @@ const routes: Routes = [
     data: {
       pageTitle: 'Search Students',
     },
-  },
-  {
-    path: 'logs',
-    loadChildren: () => import('./instructor-audit-logs-page/instructor-audit-logs-page.module')
-        .then((m: any) => m.InstructorAuditLogsPageModule),
-  },
-  {
-    path: 'track-result-view',
-    loadChildren: () => import('./instructor-track-view-page/instructor-track-view-page.module')
-        .then((m: any) => m.InstructorTrackViewPageModule),
   },
   {
     path: 'notifications',
