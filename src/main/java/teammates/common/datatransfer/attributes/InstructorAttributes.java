@@ -18,7 +18,7 @@ import teammates.storage.entity.Instructor;
 /**
  * The data transfer class for Instructor entities.
  */
-public class InstructorAttributes extends EntityAttributes<Instructor> {
+public final class InstructorAttributes extends EntityAttributes<Instructor> {
 
     private String courseId;
     private String email;

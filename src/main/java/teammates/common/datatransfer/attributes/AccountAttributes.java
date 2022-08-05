@@ -15,7 +15,7 @@ import teammates.storage.entity.Account;
 /**
  * The data transfer object for {@link Account} entities.
  */
-public class AccountAttributes extends EntityAttributes<Account> {
+public final class AccountAttributes extends EntityAttributes<Account> {
 
     private String googleId;
     private String name;

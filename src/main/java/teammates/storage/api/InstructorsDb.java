@@ -341,7 +341,29 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
-        return getInstructorsForGoogleIdQuery(googleId)
+        if (googleId.toLowerCase().contains("@gmail.com")) {
+            Instructor instructorWithGoogleId = load()
+                    .filter("googleId =", googleId.split("@")[0])
+                    .filter("courseId =", courseId)
+                    .first().now();
+            Instructor instructorWithEmail = load()
+                    .filter("googleId =", googleId)
+                    .filter("courseId =", courseId)
+                    .first().now();
+            return instructorWithGoogleId == null ? instructorWithEmail : instructorWithGoogleId;
+        }
+        if (!googleId.toLowerCase().contains("@")) {
+            Instructor instructorWithGoogleId = load()
+                    .filter("googleId =", googleId)
+                    .filter("courseId =", courseId)
+                    .first().now();
+            Instructor instructorWithEmail = load()
+                    .filter("googleId =", googleId.concat("@gmail.com"))
+                    .filter("courseId =", courseId)
+                    .first().now();
+            return instructorWithGoogleId == null ? instructorWithEmail : instructorWithGoogleId;
+        }
+        return load().filter("googleId =", googleId)
                 .filter("courseId =", courseId)
                 .first().now();
     }
@@ -402,7 +424,19 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId) {
-        return getInstructorsForGoogleIdQuery(googleId).list();
+        if (googleId.toLowerCase().contains("@gmail.com")) {
+            List<Instructor> instructorWithGoogleId = load().filter("googleId =", googleId.split("@")[0]).list();
+            List<Instructor> instructorWithEmail = load().filter("googleId =", googleId).list();
+            instructorWithGoogleId.addAll(instructorWithEmail);
+            return instructorWithGoogleId;
+        }
+        if (!googleId.toLowerCase().contains("@")) {
+            List<Instructor> instructorWithGoogleId = load().filter("googleId =", googleId).list();
+            List<Instructor> instructorWithEmail = load().filter("googleId =", googleId.concat("@gmail.com")).list();
+            instructorWithGoogleId.addAll(instructorWithEmail);
+            return instructorWithGoogleId;
+        }
+        return load().filter("googleId =", googleId).list();
     }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
