@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="col-sm-12">
-    <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
+    <div class="form-check" *ngIf="!isGeneratedOptionsEnabled">
       <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
              container="body">
         <input id="weights-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
@@ -32,7 +32,7 @@
           trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y" [ngClass]="i === 0 ? 'mt-1' : 'margin-top-22px'">
             <br>
             <div class="col-sm-1" cdkDragHandle>
-              <span class="btn input-group-addon">&#8597; </span>
+              <span class="btn input-group-addon">&#8597;</span>
             </div>
             <div [ngClass]="(model.hasAssignedWeights)?'col-sm-8':'col-sm-10'">
               <tm-mcq-field (elementDeleted)="onMcqOptionDeleted($event)"
@@ -43,7 +43,7 @@
                             [text]="model.mcqChoices[i]"
                             [isQuestionDropdownEnabled]="this.model.questionDropdownEnabled"></tm-mcq-field>
             </div>
-            <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
+            <div class="col-sm-3 ms-n1" *ngIf="model.hasAssignedWeights">
               <tm-weight-field [isEditable]="isEditable"
                               [weight]="model.mcqWeights[i]"
                               (weightEntered)="onMcqWeightEntered($event, i)"></tm-weight-field>
