@@ -87,7 +87,7 @@
   "feedbackSessionLogEntries": {
     "logEntry": {
       "studentEmail": "alice.b.tmms@gmail.tmt",
-      "courseId": "tm.e2e.IAuditLogs.CS2104",
+      "courseId": "tm.e2e.ISActLogs.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": 0
