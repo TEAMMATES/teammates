@@ -19,12 +19,12 @@
         <b>Options are weighted</b>
       </label>
     </div>
-    <div *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled"
-         class="form-check form-check-inline padding-left-300px">Weights&#8595;
-    </div>
   </div>
   <br>
   <div class="row col-sm-12 row-cols-2 mt-4">
+    <div id="weights-label" class="col-sm-6 form-check form-check-inline mb-1" *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled">
+      Weights &#8595;
+    </div>
     <div class="col-sm-6">
       <div *ngIf="!isGeneratedOptionsEnabled">
         <div id="options-section" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
