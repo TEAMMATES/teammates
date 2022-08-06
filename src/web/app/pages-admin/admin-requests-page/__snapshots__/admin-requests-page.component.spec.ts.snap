@@ -1,0 +1,1588 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdminRequestsPageComponent should snap when loading account requests pending processing and account requests within period 1`] = `
+<tm-admin-requests-page
+  accountRequestsPendingProcessing={[Function Array]}
+  accountRequestsWithinPeriod={[Function Array]}
+  accountService={[Function Object]}
+  dateToday={[Function Object]}
+  earliestSearchDate={[Function Object]}
+  formModel={[Function Object]}
+  hasAccountRequestsPendingProcessingLoadingFailed="false"
+  hasAccountRequestsWithinPeriodLoadingFailed="false"
+  hasQueried={[Function Boolean]}
+  isLoadingAccountRequestsPendingProcessing={[Function Boolean]}
+  isLoadingAccountRequestsWithinPeriod={[Function Boolean]}
+  statusMessageService={[Function Object]}
+  timezone={[Function String]}
+  timezoneService={[Function Object]}
+>
+  <div
+    class="mt-3 mb-5"
+  >
+    <tm-loading-retry>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </tm-loading-retry>
+  </div><div
+    class="card bg-light"
+  >
+    <div
+      class="card-body"
+    >
+      <form
+        class="ng-untouched ng-pristine ng-valid"
+        novalidate=""
+      >
+        <div
+          class="mb-1"
+        >
+          <h5>
+            Filter by submission time:
+          </h5>
+        </div>
+        <div
+          class="row d-flex justify-content-center"
+        >
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="from-datepicker"
+              >
+                From
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="from-datepicker"
+                name="from-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="to-datepicker"
+              >
+                To
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="to-datepicker"
+                name="to-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-center mt-4"
+        >
+          <button
+            class="btn btn-info"
+            id="show-account-requests-button"
+            type="submit"
+          >
+            Show Account Requests
+          </button>
+        </div>
+      </form>
+    </div>
+  </div><div
+    class="mt-3 mb-5"
+  >
+    <div>
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </div>
+</tm-admin-requests-page>
+`;
+
+exports[`AdminRequestsPageComponent should snap when loading account requests pending processing and account requests within period fails 1`] = `
+<tm-admin-requests-page
+  accountRequestsPendingProcessing={[Function Array]}
+  accountRequestsWithinPeriod={[Function Array]}
+  accountService={[Function Object]}
+  dateToday={[Function Object]}
+  earliestSearchDate={[Function Object]}
+  formModel={[Function Object]}
+  hasAccountRequestsPendingProcessingLoadingFailed={[Function Boolean]}
+  hasAccountRequestsWithinPeriodLoadingFailed={[Function Boolean]}
+  hasQueried={[Function Boolean]}
+  isLoadingAccountRequestsPendingProcessing="false"
+  isLoadingAccountRequestsWithinPeriod="false"
+  statusMessageService={[Function Object]}
+  timezone={[Function String]}
+  timezoneService={[Function Object]}
+>
+  <div
+    class="mt-3 mb-5"
+  >
+    <tm-loading-retry>
+      <div
+        class="text-center"
+      >
+        <p
+          class="text-muted m-1"
+        >
+          Failed to load account requests pending processing
+        </p>
+        <button
+          class="btn btn-primary"
+        >
+          <i
+            aria-hidden="true"
+            class="fas fa-redo"
+          />
+           Retry
+        </button>
+      </div>
+    </tm-loading-retry>
+  </div><div
+    class="card bg-light"
+  >
+    <div
+      class="card-body"
+    >
+      <form
+        class="ng-untouched ng-pristine ng-valid"
+        novalidate=""
+      >
+        <div
+          class="mb-1"
+        >
+          <h5>
+            Filter by submission time:
+          </h5>
+        </div>
+        <div
+          class="row d-flex justify-content-center"
+        >
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="from-datepicker"
+              >
+                From
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="from-datepicker"
+                name="from-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="to-datepicker"
+              >
+                To
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="to-datepicker"
+                name="to-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-center mt-4"
+        >
+          <button
+            class="btn btn-info"
+            id="show-account-requests-button"
+            type="submit"
+          >
+            Show Account Requests
+          </button>
+        </div>
+      </form>
+    </div>
+  </div><div
+    class="mt-3 mb-5"
+  >
+    <div
+      class="text-center pt-5"
+    >
+      <h5>
+        Failed to load account requests. Please retry.
+      </h5>
+    </div>
+  </div>
+</tm-admin-requests-page>
+`;
+
+exports[`AdminRequestsPageComponent should snap with account requests pending processing and account requests within period 1`] = `
+<tm-admin-requests-page
+  accountRequestsPendingProcessing={[Function Array]}
+  accountRequestsWithinPeriod={[Function Array]}
+  accountService={[Function Object]}
+  dateToday={[Function Object]}
+  earliestSearchDate={[Function Object]}
+  formModel={[Function Object]}
+  hasAccountRequestsPendingProcessingLoadingFailed="false"
+  hasAccountRequestsWithinPeriodLoadingFailed="false"
+  hasQueried={[Function Boolean]}
+  isLoadingAccountRequestsPendingProcessing="false"
+  isLoadingAccountRequestsWithinPeriod="false"
+  statusMessageService={[Function Object]}
+  timezone={[Function String]}
+  timezoneService={[Function Object]}
+>
+  <div
+    class="mt-3 mb-5"
+  >
+    <tm-loading-retry>
+      <div>
+        <div>
+          <tm-process-account-request-panel
+            id="ar-pending-processing-0"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-header bg-primary text-white cursor-pointer"
+                id="panel-header"
+              >
+                <strong
+                  class="text-break"
+                >
+                  U.R. Nice 
+                </strong>
+                <div
+                  class="card-header-btn-toolbar"
+                >
+                  <tm-panel-chevron>
+                    <div
+                      class="chevron"
+                    >
+                      <i
+                        class="fas fa-chevron-up"
+                      />
+                    </div>
+                  </tm-panel-chevron>
+                </div>
+              </div>
+              <div
+                class="ng-trigger ng-trigger-collapseAnim ng-animating"
+                style=""
+              >
+                <div
+                  class="panel-padding text-center"
+                >
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Status:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        class="font-weight-bold color-submitted"
+                        id="status"
+                        style=""
+                      >
+                        SUBMITTED
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Submitted at:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="submitted-at"
+                      >
+                        Time123456
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Last processed at:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="last-processed-at"
+                      >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Name:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="name"
+                        style=""
+                      >
+                        U.R. Nice
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Institute:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="institute"
+                        style=""
+                      >
+                        TEAMMATES Test Institute, Singapore
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Email:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <a
+                        href="mailto:nice@tmt.tmt"
+                        id="email"
+                        style=""
+                      >
+                        nice@tmt.tmt
+                      </a>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Home page URL:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div>
+                        <a
+                          href="https://www.comp.nus.edu.sg/"
+                          id="home-page-url"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          https://www.comp.nus.edu.sg/
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Other comments:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left show-new-line"
+                    >
+                      <div
+                        id="comments"
+                      >
+                        Is TEAMMATES free to use?
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="mx-auto"
+                    style=""
+                  >
+                    <button
+                      class="btn btn-secondary button-width mx-2 my-1"
+                      id="submitted-edit-button"
+                      type="button"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="btn btn-success button-width mx-2 my-1"
+                      id="submitted-approve-button"
+                      type="button"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      class="btn btn-warning button-width mx-2 my-1"
+                      id="submitted-reject-button"
+                      type="button"
+                    >
+                      Reject
+                    </button>
+                    <button
+                      class="btn btn-danger button-width mx-2 my-1"
+                      id="submitted-delete-button"
+                      type="button"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tm-process-account-request-panel>
+        </div>
+        <div>
+          <tm-process-account-request-panel
+            id="ar-pending-processing-1"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-header bg-primary text-white cursor-pointer"
+                id="panel-header"
+              >
+                <strong
+                  class="text-break"
+                >
+                  Olive Yew 
+                </strong>
+                <div
+                  class="card-header-btn-toolbar"
+                >
+                  <tm-panel-chevron>
+                    <div
+                      class="chevron"
+                    >
+                      <i
+                        class="fas fa-chevron-up"
+                      />
+                    </div>
+                  </tm-panel-chevron>
+                </div>
+              </div>
+              <div
+                class="ng-trigger ng-trigger-collapseAnim ng-animating"
+                style=""
+              >
+                <div
+                  class="panel-padding text-center"
+                >
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Status:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        class="font-weight-bold color-submitted"
+                        id="status"
+                        style=""
+                      >
+                        SUBMITTED
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Submitted at:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="submitted-at"
+                      >
+                        Time123456
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Last processed at:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="last-processed-at"
+                      >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Name:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="name"
+                        style=""
+                      >
+                        Olive Yew
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Institute:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="institute"
+                        style=""
+                      >
+                        TMT, Singapore
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Email:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <a
+                        href="mailto:olive@tmt.tmt"
+                        id="email"
+                        style=""
+                      >
+                        olive@tmt.tmt
+                      </a>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Home page URL:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div>
+                        <a
+                          href=""
+                          id="home-page-url"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Other comments:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left show-new-line"
+                    >
+                      <div
+                        id="comments"
+                      >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="mx-auto"
+                    style=""
+                  >
+                    <button
+                      class="btn btn-secondary button-width mx-2 my-1"
+                      id="submitted-edit-button"
+                      type="button"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="btn btn-success button-width mx-2 my-1"
+                      id="submitted-approve-button"
+                      type="button"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      class="btn btn-warning button-width mx-2 my-1"
+                      id="submitted-reject-button"
+                      type="button"
+                    >
+                      Reject
+                    </button>
+                    <button
+                      class="btn btn-danger button-width mx-2 my-1"
+                      id="submitted-delete-button"
+                      type="button"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tm-process-account-request-panel>
+        </div>
+      </div>
+    </tm-loading-retry>
+  </div><div
+    class="card bg-light"
+  >
+    <div
+      class="card-body"
+    >
+      <form
+        class="ng-untouched ng-pristine ng-valid"
+        novalidate=""
+      >
+        <div
+          class="mb-1"
+        >
+          <h5>
+            Filter by submission time:
+          </h5>
+        </div>
+        <div
+          class="row d-flex justify-content-center"
+        >
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="from-datepicker"
+              >
+                From
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="from-datepicker"
+                name="from-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="to-datepicker"
+              >
+                To
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="to-datepicker"
+                name="to-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-center mt-4"
+        >
+          <button
+            class="btn btn-info"
+            id="show-account-requests-button"
+            type="submit"
+          >
+            Show Account Requests
+          </button>
+        </div>
+      </form>
+    </div>
+  </div><div
+    class="mt-3 mb-5"
+  >
+    <div>
+      <div>
+        <div>
+          <tm-process-account-request-panel
+            id="ar-within-period-0"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-header bg-info text-white cursor-pointer"
+                id="panel-header"
+              >
+                <strong
+                  class="text-break"
+                >
+                  U.R. Nice 
+                </strong>
+                <div
+                  class="card-header-btn-toolbar"
+                >
+                  <tm-panel-chevron>
+                    <div
+                      class="chevron"
+                    >
+                      <i
+                        class="fas fa-chevron-down"
+                      />
+                    </div>
+                  </tm-panel-chevron>
+                </div>
+              </div>
+            </div>
+          </tm-process-account-request-panel>
+        </div>
+        <div>
+          <tm-process-account-request-panel
+            id="ar-within-period-1"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-header bg-info text-white cursor-pointer"
+                id="panel-header"
+              >
+                <strong
+                  class="text-break"
+                >
+                  Olive Yew 
+                </strong>
+                <div
+                  class="card-header-btn-toolbar"
+                >
+                  <tm-panel-chevron>
+                    <div
+                      class="chevron"
+                    >
+                      <i
+                        class="fas fa-chevron-down"
+                      />
+                    </div>
+                  </tm-panel-chevron>
+                </div>
+              </div>
+            </div>
+          </tm-process-account-request-panel>
+        </div>
+        <div>
+          <tm-process-account-request-panel
+            id="ar-within-period-2"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-header bg-info text-white cursor-pointer"
+                id="panel-header"
+              >
+                <strong
+                  class="text-break"
+                >
+                  Bob Smith 
+                </strong>
+                <div
+                  class="card-header-btn-toolbar"
+                >
+                  <tm-panel-chevron>
+                    <div
+                      class="chevron"
+                    >
+                      <i
+                        class="fas fa-chevron-down"
+                      />
+                    </div>
+                  </tm-panel-chevron>
+                </div>
+              </div>
+            </div>
+          </tm-process-account-request-panel>
+        </div>
+        <div>
+          <tm-process-account-request-panel
+            id="ar-within-period-3"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-header bg-info text-white cursor-pointer"
+                id="panel-header"
+              >
+                <strong
+                  class="text-break"
+                >
+                  Emily Fung 
+                </strong>
+                <div
+                  class="card-header-btn-toolbar"
+                >
+                  <tm-panel-chevron>
+                    <div
+                      class="chevron"
+                    >
+                      <i
+                        class="fas fa-chevron-down"
+                      />
+                    </div>
+                  </tm-panel-chevron>
+                </div>
+              </div>
+            </div>
+          </tm-process-account-request-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-admin-requests-page>
+`;
+
+exports[`AdminRequestsPageComponent should snap with collapsed account requests pending processing 
+  and expanded account requests within period 1`] = `
+<tm-admin-requests-page
+  accountRequestsPendingProcessing={[Function Array]}
+  accountRequestsWithinPeriod={[Function Array]}
+  accountService={[Function Object]}
+  dateToday={[Function Object]}
+  earliestSearchDate={[Function Object]}
+  formModel={[Function Object]}
+  hasAccountRequestsPendingProcessingLoadingFailed="false"
+  hasAccountRequestsWithinPeriodLoadingFailed="false"
+  hasQueried={[Function Boolean]}
+  isLoadingAccountRequestsPendingProcessing="false"
+  isLoadingAccountRequestsWithinPeriod="false"
+  statusMessageService={[Function Object]}
+  timezone={[Function String]}
+  timezoneService={[Function Object]}
+>
+  <div
+    class="mt-3 mb-5"
+  >
+    <tm-loading-retry>
+      <div>
+        <div>
+          <tm-process-account-request-panel
+            id="ar-pending-processing-0"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-header bg-primary text-white cursor-pointer"
+                id="panel-header"
+              >
+                <strong
+                  class="text-break"
+                >
+                  U.R. Nice 
+                </strong>
+                <div
+                  class="card-header-btn-toolbar"
+                >
+                  <tm-panel-chevron>
+                    <div
+                      class="chevron"
+                    >
+                      <i
+                        class="fas fa-chevron-down"
+                      />
+                    </div>
+                  </tm-panel-chevron>
+                </div>
+              </div>
+            </div>
+          </tm-process-account-request-panel>
+        </div>
+      </div>
+    </tm-loading-retry>
+  </div><div
+    class="card bg-light"
+  >
+    <div
+      class="card-body"
+    >
+      <form
+        class="ng-untouched ng-pristine ng-valid"
+        novalidate=""
+      >
+        <div
+          class="mb-1"
+        >
+          <h5>
+            Filter by submission time:
+          </h5>
+        </div>
+        <div
+          class="row d-flex justify-content-center"
+        >
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="from-datepicker"
+              >
+                From
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="from-datepicker"
+                name="from-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="to-datepicker"
+              >
+                To
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="to-datepicker"
+                name="to-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-center mt-4"
+        >
+          <button
+            class="btn btn-info"
+            id="show-account-requests-button"
+            type="submit"
+          >
+            Show Account Requests
+          </button>
+        </div>
+      </form>
+    </div>
+  </div><div
+    class="mt-3 mb-5"
+  >
+    <div>
+      <div>
+        <div>
+          <tm-process-account-request-panel
+            id="ar-within-period-0"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-header bg-info text-white cursor-pointer"
+                id="panel-header"
+              >
+                <strong
+                  class="text-break"
+                >
+                  Olive Yew 
+                </strong>
+                <div
+                  class="card-header-btn-toolbar"
+                >
+                  <tm-panel-chevron>
+                    <div
+                      class="chevron"
+                    >
+                      <i
+                        class="fas fa-chevron-up"
+                      />
+                    </div>
+                  </tm-panel-chevron>
+                </div>
+              </div>
+              <div
+                class="ng-trigger ng-trigger-collapseAnim"
+                style=""
+              >
+                <div
+                  class="panel-padding text-center"
+                >
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Status:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        class="font-weight-bold color-submitted"
+                        id="status"
+                        style=""
+                      >
+                        SUBMITTED
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Submitted at:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="submitted-at"
+                      >
+                        Time123456
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Last processed at:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="last-processed-at"
+                      >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                    style=""
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Registered at:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="registered-at"
+                      >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Name:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="name"
+                        style=""
+                      >
+                        Olive Yew
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Institute:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div
+                        id="institute"
+                        style=""
+                      >
+                        TMT, Singapore
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Email:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <a
+                        href="mailto:olive@tmt.tmt"
+                        id="email"
+                        style=""
+                      >
+                        olive@tmt.tmt
+                      </a>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Home page URL:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left"
+                    >
+                      <div>
+                        <a
+                          href=""
+                          id="home-page-url"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="form-group row align-items-top"
+                  >
+                    <label
+                      class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+                    >
+                      Other comments:
+                    </label>
+                    <div
+                      class="col-md-9 text-md-left show-new-line"
+                    >
+                      <div
+                        id="comments"
+                      >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="mx-auto"
+                    style=""
+                  >
+                    <button
+                      class="btn btn-secondary button-width mx-2 my-1"
+                      id="submitted-edit-button"
+                      type="button"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="btn btn-success button-width mx-2 my-1"
+                      id="submitted-approve-button"
+                      type="button"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      class="btn btn-warning button-width mx-2 my-1"
+                      id="submitted-reject-button"
+                      type="button"
+                    >
+                      Reject
+                    </button>
+                    <button
+                      class="btn btn-danger button-width mx-2 my-1"
+                      id="submitted-delete-button"
+                      type="button"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tm-process-account-request-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-admin-requests-page>
+`;
+
+exports[`AdminRequestsPageComponent should snap with default fields 1`] = `
+<tm-admin-requests-page
+  accountRequestsPendingProcessing={[Function Array]}
+  accountRequestsWithinPeriod={[Function Array]}
+  accountService={[Function Object]}
+  dateToday={[Function Object]}
+  earliestSearchDate={[Function Object]}
+  formModel={[Function Object]}
+  hasAccountRequestsPendingProcessingLoadingFailed="false"
+  hasAccountRequestsWithinPeriodLoadingFailed="false"
+  hasQueried="false"
+  isLoadingAccountRequestsPendingProcessing="false"
+  isLoadingAccountRequestsWithinPeriod="false"
+  statusMessageService={[Function Object]}
+  timezone={[Function String]}
+  timezoneService={[Function Object]}
+>
+  <div
+    class="mt-3 mb-5"
+  >
+    <tm-loading-retry>
+      <div>
+        <div
+          class="text-center pt-5"
+        >
+          <h5>
+            There are no account requests pending processing.
+          </h5>
+        </div>
+      </div>
+    </tm-loading-retry>
+  </div><div
+    class="card bg-light"
+  >
+    <div
+      class="card-body"
+    >
+      <form
+        class="ng-untouched ng-pristine ng-valid"
+        novalidate=""
+      >
+        <div
+          class="mb-1"
+        >
+          <h5>
+            Filter by submission time:
+          </h5>
+        </div>
+        <div
+          class="row d-flex justify-content-center"
+        >
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="from-datepicker"
+              >
+                From
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="from-datepicker"
+                name="from-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            class="width-220px m-2 mx-sm-4"
+          >
+            <div
+              class="mb-1"
+            >
+              <label
+                class="font-weight-bold"
+                for="to-datepicker"
+              >
+                To
+              </label>
+            </div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="to-datepicker"
+                name="to-date"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-flex justify-content-center mt-4"
+        >
+          <button
+            class="btn btn-info"
+            id="show-account-requests-button"
+            type="submit"
+          >
+            Show Account Requests
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</tm-admin-requests-page>
+`;
