@@ -6,7 +6,6 @@
       <ng-container *ngIf="accountRequestsPendingProcessing.length > 0, else noAccountRequestsPendingProcessingTemplate">
         <div *ngFor="let accountRequestPendingProcessing of accountRequestsPendingProcessing; let i = index">
           <tm-process-account-request-panel [accountRequest]="accountRequestPendingProcessing"
-                                            [index]="i"
                                             [isTabExpanded]="true"
                                             [panelHeaderColor]="'primary'">
           </tm-process-account-request-panel>
@@ -65,7 +64,6 @@
       <ng-container *ngIf="accountRequestsWithinPeriod.length > 0, else noAccountRequestsWithinPeriodTemplate">
         <div *ngFor="let accountRequestWithinPeriod of accountRequestsWithinPeriod; let i = index">
           <tm-process-account-request-panel [accountRequest]="accountRequestWithinPeriod"
-                                            [index]="i"
                                             [isTabExpanded]="false"
                                             [panelHeaderColor]="'info'"
                                             [showRegisteredAt]="true">

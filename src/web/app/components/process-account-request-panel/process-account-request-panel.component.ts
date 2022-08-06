@@ -35,9 +35,6 @@ export class ProcessAccountRequestPanelComponent implements OnInit {
   accountRequest!: AccountRequest;
 
   @Input()
-  index: number | undefined;
-
-  @Input()
   isTabExpanded: boolean = true;
 
   @Input()

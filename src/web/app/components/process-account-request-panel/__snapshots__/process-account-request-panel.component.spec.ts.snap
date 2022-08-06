@@ -1,0 +1,2230 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is EDITING 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges="false"
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus={[Function Number]}
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt="false"
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-primary text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        U.R. Nice 
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-up"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold color-submitted"
+              id="status"
+              style=""
+            >
+              SUBMITTED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Fri, 05 Aug 2022, 12:18 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="name-input"
+              style=""
+            />
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="institute-input"
+              style=""
+            />
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="email-input"
+              style=""
+            />
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href="https://www.comp.nus.edu.sg/"
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                https://www.comp.nus.edu.sg/
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+              Is TEAMMATES free to use?
+            </div>
+          </div>
+        </div>
+        <div
+          class="mx-auto"
+          style=""
+        >
+          <button
+            class="btn btn-primary button-width mx-2 my-1"
+            id="editing-save-button"
+            type="button"
+          >
+            Save
+          </button>
+          <button
+            class="btn btn-secondary button-width mx-2 my-1"
+            id="editing-cancel-button"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is UNDEFINED 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges="false"
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus={[Function Number]}
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt="false"
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-primary text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        U.R. Nice 
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-up"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold"
+              style=""
+            >
+              UNDEFINED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Fri, 05 Aug 2022, 12:18 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="name"
+              style=""
+            >
+              U.R. Nice
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="institute"
+              style=""
+            >
+              TEAMMATES Test Institute, Singapore
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <a
+              href="mailto:nice@tmt.tmt"
+              id="email"
+              style=""
+            >
+              nice@tmt.tmt
+            </a>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href="https://www.comp.nus.edu.sg/"
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                https://www.comp.nus.edu.sg/
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+              Is TEAMMATES free to use?
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap when saving changes 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges={[Function Boolean]}
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus="0"
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt="false"
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-primary text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        U.R. Nice 
+        <tm-ajax-loading
+          class="ml-1"
+        >
+          <div
+            class="loading-container"
+          >
+            <div
+              class="spinner-border spinner-border-sm align-middle text-white"
+              role="status"
+            />
+          </div>
+        </tm-ajax-loading>
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-up"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold color-submitted"
+              id="status"
+              style=""
+            >
+              SUBMITTED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Fri, 05 Aug 2022, 12:18 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="name"
+              style=""
+            >
+              U.R. Nice
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="institute"
+              style=""
+            >
+              TEAMMATES Test Institute, Singapore
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <a
+              href="mailto:nice@tmt.tmt"
+              id="email"
+              style=""
+            >
+              nice@tmt.tmt
+            </a>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href="https://www.comp.nus.edu.sg/"
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                https://www.comp.nus.edu.sg/
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+              Is TEAMMATES free to use?
+            </div>
+          </div>
+        </div>
+        <div
+          class="mx-auto"
+          style=""
+        >
+          <button
+            class="btn btn-secondary button-width mx-2 my-1"
+            disabled=""
+            id="submitted-edit-button"
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-success button-width mx-2 my-1"
+            disabled=""
+            id="submitted-approve-button"
+            type="button"
+          >
+            Approve
+          </button>
+          <button
+            class="btn btn-warning button-width mx-2 my-1"
+            disabled=""
+            id="submitted-reject-button"
+            type="button"
+          >
+            Reject
+          </button>
+          <button
+            class="btn btn-danger button-width mx-2 my-1"
+            disabled=""
+            id="submitted-delete-button"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap with a collapsed tab 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges="false"
+  isTabExpanded="false"
+  panelHeaderColor={[Function String]}
+  panelStatus="0"
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt="false"
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-primary text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        U.R. Nice 
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-down"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap with a non-default Bootstrap background color for panel header and a non-empty error message 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage={[Function String]}
+  isSavingChanges="false"
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus="0"
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt="false"
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-info text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        U.R. Nice 
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-up"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="alert border-danger text-left show-new-line"
+          id="error-message"
+        >
+          Some errors!
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold color-submitted"
+              id="status"
+              style=""
+            >
+              SUBMITTED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Fri, 05 Aug 2022, 12:18 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="name"
+              style=""
+            >
+              U.R. Nice
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="institute"
+              style=""
+            >
+              TEAMMATES Test Institute, Singapore
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <a
+              href="mailto:nice@tmt.tmt"
+              id="email"
+              style=""
+            >
+              nice@tmt.tmt
+            </a>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href="https://www.comp.nus.edu.sg/"
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                https://www.comp.nus.edu.sg/
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+              Is TEAMMATES free to use?
+            </div>
+          </div>
+        </div>
+        <div
+          class="mx-auto"
+          style=""
+        >
+          <button
+            class="btn btn-secondary button-width mx-2 my-1"
+            id="submitted-edit-button"
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-success button-width mx-2 my-1"
+            id="submitted-approve-button"
+            type="button"
+          >
+            Approve
+          </button>
+          <button
+            class="btn btn-warning button-width mx-2 my-1"
+            id="submitted-reject-button"
+            type="button"
+          >
+            Reject
+          </button>
+          <button
+            class="btn btn-danger button-width mx-2 my-1"
+            id="submitted-delete-button"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap with default APPROVED account request 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges="false"
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus="0"
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt="false"
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-primary text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        Bob Smith 
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-up"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold color-approved"
+              id="status"
+              style=""
+            >
+              APPROVED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Fri, 05 Aug 2022, 12:25 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+              Fri, 05 Aug 2022, 01:00 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="name"
+              style=""
+            >
+              Bob Smith
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="institute"
+              style=""
+            >
+              TMT, Singapore
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <a
+              href="mailto:bob_smith@tmt.tmt"
+              id="email"
+              style=""
+            >
+              bob_smith@tmt.tmt
+            </a>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href="Home page url can contain spaces."
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Home page url can contain spaces.
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+              Comments can contain
+  new line
+  "quotation mark"
+  slash same line: \\n
+  empty line
+            </div>
+          </div>
+        </div>
+        <div
+          class="mx-auto"
+          style=""
+        >
+          <button
+            class="btn btn-secondary button-width mx-2 my-1"
+            id="submitted-edit-button"
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-success button-width mx-2 my-1"
+            id="submitted-approve-button"
+            type="button"
+          >
+            Approve
+          </button>
+          <button
+            class="btn btn-warning button-width mx-2 my-1"
+            id="submitted-reject-button"
+            type="button"
+          >
+            Reject
+          </button>
+          <button
+            class="btn btn-danger button-width mx-2 my-1"
+            id="submitted-delete-button"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap with default REGISTERED account request showing registeredAt 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges="false"
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus="0"
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt={[Function Boolean]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-primary text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        Bernie Pei Yip Hang 
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-up"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold color-registered"
+              id="status"
+              style=""
+            >
+              REGISTERED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Mon, 08 Aug 2022, 07:59 AM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+              Mon, 08 Aug 2022, 07:59 AM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Registered at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="registered-at"
+            >
+              Mon, 08 Aug 2022, 08:00 AM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="name"
+              style=""
+            >
+              Bernie Pei Yip Hang
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="institute"
+              style=""
+            >
+              TMT, Singapore
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <a
+              href="mailto:bernie@tmt.tmt"
+              id="email"
+              style=""
+            >
+              bernie@tmt.tmt
+            </a>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href=""
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="mx-auto"
+          style=""
+        >
+          <button
+            class="btn btn-secondary button-width mx-2 my-1"
+            id="submitted-edit-button"
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-success button-width mx-2 my-1"
+            id="submitted-approve-button"
+            type="button"
+          >
+            Approve
+          </button>
+          <button
+            class="btn btn-warning button-width mx-2 my-1"
+            id="submitted-reject-button"
+            type="button"
+          >
+            Reject
+          </button>
+          <button
+            class="btn btn-danger button-width mx-2 my-1"
+            id="submitted-delete-button"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap with default REJECTED account request showing registeredAt 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges="false"
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus="0"
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt={[Function Boolean]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-primary text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        Emily Fung 
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-up"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold color-rejected"
+              id="status"
+              style=""
+            >
+              REJECTED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Wed, 20 Jul 2022, 06:00 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+              Thu, 21 Jul 2022, 08:15 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Registered at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="registered-at"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="name"
+              style=""
+            >
+              Emily Fung
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="institute"
+              style=""
+            >
+              TMT, Singapore
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <a
+              href="mailto:emily@tmt.tmt"
+              id="email"
+              style=""
+            >
+              emily@tmt.tmt
+            </a>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href=""
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="mx-auto"
+          style=""
+        >
+          <button
+            class="btn btn-secondary button-width mx-2 my-1"
+            id="submitted-edit-button"
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-success button-width mx-2 my-1"
+            id="submitted-approve-button"
+            type="button"
+          >
+            Approve
+          </button>
+          <button
+            class="btn btn-warning button-width mx-2 my-1"
+            id="submitted-reject-button"
+            type="button"
+          >
+            Reject
+          </button>
+          <button
+            class="btn btn-danger button-width mx-2 my-1"
+            id="submitted-delete-button"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap with default SUBMITTED account request 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges="false"
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus="0"
+  showPanelHeader={[Function Boolean]}
+  showRegisteredAt="false"
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="card-header bg-primary text-white cursor-pointer"
+      id="panel-header"
+    >
+      <strong
+        class="text-break"
+      >
+        U.R. Nice 
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+            <i
+              class="fas fa-chevron-up"
+            />
+          </div>
+        </tm-panel-chevron>
+      </div>
+    </div>
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold color-submitted"
+              id="status"
+              style=""
+            >
+              SUBMITTED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Fri, 05 Aug 2022, 12:18 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="name"
+              style=""
+            >
+              U.R. Nice
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="institute"
+              style=""
+            >
+              TEAMMATES Test Institute, Singapore
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <a
+              href="mailto:nice@tmt.tmt"
+              id="email"
+              style=""
+            >
+              nice@tmt.tmt
+            </a>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href="https://www.comp.nus.edu.sg/"
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                https://www.comp.nus.edu.sg/
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+              Is TEAMMATES free to use?
+            </div>
+          </div>
+        </div>
+        <div
+          class="mx-auto"
+          style=""
+        >
+          <button
+            class="btn btn-secondary button-width mx-2 my-1"
+            id="submitted-edit-button"
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-success button-width mx-2 my-1"
+            id="submitted-approve-button"
+            type="button"
+          >
+            Approve
+          </button>
+          <button
+            class="btn btn-warning button-width mx-2 my-1"
+            id="submitted-reject-button"
+            type="button"
+          >
+            Reject
+          </button>
+          <button
+            class="btn btn-danger button-width mx-2 my-1"
+            id="submitted-delete-button"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
+
+exports[`ProcessAccountRequestPanelComponent should snap without showing panel header 1`] = `
+<tm-process-account-request-panel
+  AccountRequestStatus={[Function Object]}
+  ProcessAccountRequestPanelStatus={[Function Object]}
+  accountRequest={[Function Object]}
+  accountService={[Function AccountService]}
+  errorMessage=""
+  isSavingChanges="false"
+  isTabExpanded={[Function Boolean]}
+  panelHeaderColor={[Function String]}
+  panelStatus="0"
+  showPanelHeader="false"
+  showRegisteredAt="false"
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  timezone={[Function String]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="card"
+  >
+    <div
+      class="ng-trigger ng-trigger-collapseAnim"
+      style=""
+    >
+      <div
+        class="panel-padding text-center"
+      >
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Status:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              class="font-weight-bold color-submitted"
+              id="status"
+              style=""
+            >
+              SUBMITTED
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Submitted at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="submitted-at"
+            >
+              Fri, 05 Aug 2022, 12:18 PM +08
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Last processed at:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="last-processed-at"
+            >
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Name:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="name"
+              style=""
+            >
+              U.R. Nice
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Institute:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div
+              id="institute"
+              style=""
+            >
+              TEAMMATES Test Institute, Singapore
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Email:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <a
+              href="mailto:nice@tmt.tmt"
+              id="email"
+              style=""
+            >
+              nice@tmt.tmt
+            </a>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Home page URL:
+          </label>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <div>
+              <a
+                href="https://www.comp.nus.edu.sg/"
+                id="home-page-url"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                https://www.comp.nus.edu.sg/
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row align-items-top"
+        >
+          <label
+            class="col-md-3 py-2 py-md-0 mb-0 text-md-right"
+          >
+            Other comments:
+          </label>
+          <div
+            class="col-md-9 text-md-left show-new-line"
+          >
+            <div
+              id="comments"
+            >
+              Is TEAMMATES free to use?
+            </div>
+          </div>
+        </div>
+        <div
+          class="mx-auto"
+          style=""
+        >
+          <button
+            class="btn btn-secondary button-width mx-2 my-1"
+            id="submitted-edit-button"
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-success button-width mx-2 my-1"
+            id="submitted-approve-button"
+            type="button"
+          >
+            Approve
+          </button>
+          <button
+            class="btn btn-warning button-width mx-2 my-1"
+            id="submitted-reject-button"
+            type="button"
+          >
+            Reject
+          </button>
+          <button
+            class="btn btn-danger button-width mx-2 my-1"
+            id="submitted-delete-button"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-process-account-request-panel>
+`;
