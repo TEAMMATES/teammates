@@ -5,7 +5,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is EDI
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
@@ -13,10 +13,10 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is EDI
   panelStatus={[Function Number]}
   showPanelHeader={[Function Boolean]}
   showRegisteredAt="false"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -85,7 +85,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is EDI
             <div
               id="submitted-at"
             >
-              Fri, 05 Aug 2022, 12:18 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -231,7 +231,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is UND
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
@@ -239,10 +239,10 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is UND
   panelStatus={[Function Number]}
   showPanelHeader={[Function Boolean]}
   showRegisteredAt="false"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -310,7 +310,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is UND
             <div
               id="submitted-at"
             >
-              Fri, 05 Aug 2022, 12:18 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -441,7 +441,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when saving changes 1`]
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges={[Function Boolean]}
   isTabExpanded={[Function Boolean]}
@@ -449,10 +449,10 @@ exports[`ProcessAccountRequestPanelComponent should snap when saving changes 1`]
   panelStatus="0"
   showPanelHeader={[Function Boolean]}
   showRegisteredAt="false"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -533,7 +533,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when saving changes 1`]
             <div
               id="submitted-at"
             >
-              Fri, 05 Aug 2022, 12:18 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -701,7 +701,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with a collapsed tab 1`
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges="false"
   isTabExpanded="false"
@@ -709,10 +709,10 @@ exports[`ProcessAccountRequestPanelComponent should snap with a collapsed tab 1`
   panelStatus="0"
   showPanelHeader={[Function Boolean]}
   showRegisteredAt="false"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -749,7 +749,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with a non-default Boot
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage={[Function String]}
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
@@ -757,10 +757,10 @@ exports[`ProcessAccountRequestPanelComponent should snap with a non-default Boot
   panelStatus="0"
   showPanelHeader={[Function Boolean]}
   showRegisteredAt="false"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -835,7 +835,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with a non-default Boot
             <div
               id="submitted-at"
             >
-              Fri, 05 Aug 2022, 12:18 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -999,7 +999,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default APPROVED a
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
@@ -1007,10 +1007,10 @@ exports[`ProcessAccountRequestPanelComponent should snap with default APPROVED a
   panelStatus="0"
   showPanelHeader={[Function Boolean]}
   showRegisteredAt="false"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -1079,7 +1079,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default APPROVED a
             <div
               id="submitted-at"
             >
-              Fri, 05 Aug 2022, 12:25 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -1097,7 +1097,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default APPROVED a
             <div
               id="last-processed-at"
             >
-              Fri, 05 Aug 2022, 01:00 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -1248,7 +1248,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REGISTERED
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
@@ -1256,10 +1256,10 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REGISTERED
   panelStatus="0"
   showPanelHeader={[Function Boolean]}
   showRegisteredAt={[Function Boolean]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -1328,7 +1328,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REGISTERED
             <div
               id="submitted-at"
             >
-              Mon, 08 Aug 2022, 07:59 AM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -1346,7 +1346,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REGISTERED
             <div
               id="last-processed-at"
             >
-              Mon, 08 Aug 2022, 07:59 AM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -1364,7 +1364,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REGISTERED
             <div
               id="registered-at"
             >
-              Mon, 08 Aug 2022, 08:00 AM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -1509,7 +1509,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REJECTED a
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
@@ -1517,10 +1517,10 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REJECTED a
   panelStatus="0"
   showPanelHeader={[Function Boolean]}
   showRegisteredAt={[Function Boolean]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -1589,7 +1589,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REJECTED a
             <div
               id="submitted-at"
             >
-              Wed, 20 Jul 2022, 06:00 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -1607,7 +1607,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REJECTED a
             <div
               id="last-processed-at"
             >
-              Thu, 21 Jul 2022, 08:15 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -1769,7 +1769,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default SUBMITTED 
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
@@ -1777,10 +1777,10 @@ exports[`ProcessAccountRequestPanelComponent should snap with default SUBMITTED 
   panelStatus="0"
   showPanelHeader={[Function Boolean]}
   showRegisteredAt="false"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -1849,7 +1849,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default SUBMITTED 
             <div
               id="submitted-at"
             >
-              Fri, 05 Aug 2022, 12:18 PM +08
+              Time123456
             </div>
           </div>
         </div>
@@ -2013,7 +2013,7 @@ exports[`ProcessAccountRequestPanelComponent should snap without showing panel h
   AccountRequestStatus={[Function Object]}
   ProcessAccountRequestPanelStatus={[Function Object]}
   accountRequest={[Function Object]}
-  accountService={[Function AccountService]}
+  accountService={[Function Object]}
   errorMessage=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
@@ -2021,10 +2021,10 @@ exports[`ProcessAccountRequestPanelComponent should snap without showing panel h
   panelStatus="0"
   showPanelHeader="false"
   showRegisteredAt="false"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function Object]}
+  statusMessageService={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function Object]}
 >
   <div
     class="card"
@@ -2070,7 +2070,7 @@ exports[`ProcessAccountRequestPanelComponent should snap without showing panel h
             <div
               id="submitted-at"
             >
-              Fri, 05 Aug 2022, 12:18 PM +08
+              Time123456
             </div>
           </div>
         </div>

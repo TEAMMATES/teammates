@@ -19,55 +19,55 @@ import {
   ProcessAccountRequestPanelStatus,
 } from './process-account-request-panel.component';
 
-const DEFAULT_SUBMITTED_ACCOUNT_REQUEST: AccountRequest = {
-  name: 'U.R. Nice',
-  institute: 'TEAMMATES Test Institute, Singapore',
-  email: 'nice@tmt.tmt',
-  homePageUrl: 'https://www.comp.nus.edu.sg/',
-  comments: 'Is TEAMMATES free to use?',
-  registrationKey: 'nice-123456789',
-  status: AccountRequestStatus.SUBMITTED,
-  createdAt: new Date('2022-08-05T04:18:00Z').getTime(),
-};
-
-const DEFAULT_APPROVED_ACCOUNT_REQUEST: AccountRequest = {
-  name: 'Bob Smith',
-  institute: 'TMT, Singapore',
-  email: 'bob_smith@tmt.tmt',
-  homePageUrl: 'Home page url can contain spaces.',
-  comments: 'Comments can contain\nnew line\n"quotation mark"\nslash same line: \\n\n\nempty line',
-  registrationKey: 'bob-123456789',
-  status: AccountRequestStatus.APPROVED,
-  createdAt: new Date('2022-08-05T04:25:00Z').getTime(),
-  lastProcessedAt: new Date('2022-08-05T05:00:00Z').getTime(),
-};
-
-const DEFAULT_REJECTED_ACCOUNT_REQUEST: AccountRequest = {
-  name: 'Emily Fung',
-  institute: 'TMT, Singapore',
-  email: 'emily@tmt.tmt',
-  homePageUrl: '',
-  comments: '',
-  registrationKey: 'emily-123456789',
-  status: AccountRequestStatus.REJECTED,
-  createdAt: new Date('2022-07-20T10:00:00Z').getTime(),
-  lastProcessedAt: new Date('2022-07-21T12:15:00Z').getTime(),
-};
-
-const DEFAULT_REGISTERED_ACCOUNT_REQUEST: AccountRequest = {
-  name: 'Bernie Pei Yip Hang',
-  institute: 'TMT, Singapore',
-  email: 'bernie@tmt.tmt',
-  homePageUrl: '',
-  comments: '',
-  registrationKey: 'bernie-123456789',
-  status: AccountRequestStatus.REGISTERED,
-  createdAt: new Date('2022-08-07T23:59:59Z').getTime(),
-  lastProcessedAt: new Date('2022-08-07T23:59:59Z').getTime(),
-  registeredAt: new Date('2022-08-08T00:00:00Z').getTime(),
-};
-
 describe('ProcessAccountRequestPanelComponent', () => {
+  const DEFAULT_SUBMITTED_ACCOUNT_REQUEST: AccountRequest = {
+    name: 'U.R. Nice',
+    institute: 'TEAMMATES Test Institute, Singapore',
+    email: 'nice@tmt.tmt',
+    homePageUrl: 'https://www.comp.nus.edu.sg/',
+    comments: 'Is TEAMMATES free to use?',
+    registrationKey: 'nice-123456789',
+    status: AccountRequestStatus.SUBMITTED,
+    createdAt: new Date('2022-08-05T04:18:00Z').getTime(),
+  };
+
+  const DEFAULT_APPROVED_ACCOUNT_REQUEST: AccountRequest = {
+    name: 'Bob Smith',
+    institute: 'TMT, Singapore',
+    email: 'bob_smith@tmt.tmt',
+    homePageUrl: 'Home page url can contain spaces.',
+    comments: 'Comments can contain\nnew line\n"quotation mark"\nslash same line: \\n\n\nempty line',
+    registrationKey: 'bob-123456789',
+    status: AccountRequestStatus.APPROVED,
+    createdAt: new Date('2022-08-05T04:25:00Z').getTime(),
+    lastProcessedAt: new Date('2022-08-05T05:00:00Z').getTime(),
+  };
+
+  const DEFAULT_REJECTED_ACCOUNT_REQUEST: AccountRequest = {
+    name: 'Emily Fung',
+    institute: 'TMT, Singapore',
+    email: 'emily@tmt.tmt',
+    homePageUrl: '',
+    comments: '',
+    registrationKey: 'emily-123456789',
+    status: AccountRequestStatus.REJECTED,
+    createdAt: new Date('2022-07-20T10:00:00Z').getTime(),
+    lastProcessedAt: new Date('2022-07-21T12:15:00Z').getTime(),
+  };
+
+  const DEFAULT_REGISTERED_ACCOUNT_REQUEST: AccountRequest = {
+    name: 'Bernie Pei Yip Hang',
+    institute: 'TMT, Singapore',
+    email: 'bernie@tmt.tmt',
+    homePageUrl: '',
+    comments: '',
+    registrationKey: 'bernie-123456789',
+    status: AccountRequestStatus.REGISTERED,
+    createdAt: new Date('2022-08-07T23:59:59Z').getTime(),
+    lastProcessedAt: new Date('2022-08-07T23:59:59Z').getTime(),
+    registeredAt: new Date('2022-08-08T00:00:00Z').getTime(),
+  };
+
   let fixture: ComponentFixture<ProcessAccountRequestPanelComponent>;
   let component: ProcessAccountRequestPanelComponent;
   let accountService: AccountService;
@@ -76,6 +76,25 @@ describe('ProcessAccountRequestPanelComponent', () => {
   let statusMessageService: StatusMessageService;
 
   beforeEach(waitForAsync(() => {
+    const accountServiceStub: Partial<AccountService> = {
+      updateAccountRequest: () => of(DEFAULT_SUBMITTED_ACCOUNT_REQUEST),
+      approveAccountRequest: () => of(DEFAULT_APPROVED_ACCOUNT_REQUEST),
+      rejectAccountRequest: () => of(DEFAULT_REJECTED_ACCOUNT_REQUEST),
+      resetAccountRequest: () => of(DEFAULT_SUBMITTED_ACCOUNT_REQUEST),
+      deleteAccountRequest: () => of({ message: 'Successful' }),
+    };
+    const timezoneServiceStub: Partial<TimezoneService> = {
+      guessTimezone: () => 'Asia/Singapore',
+      formatToString: () => 'Time123456',
+    };
+    const simpleModalServiceStub: Partial<SimpleModalService> = {
+      openConfirmationModal: () => createMockNgbModalRef({}, Promise.resolve()),
+    };
+    const statusMessageServiceStub: Partial<StatusMessageService> = {
+      showSuccessToast: () => {},
+      showErrorToast: () => {},
+    };
+
     TestBed.configureTestingModule({
       declarations: [ProcessAccountRequestPanelComponent],
       imports: [
@@ -88,10 +107,10 @@ describe('ProcessAccountRequestPanelComponent', () => {
         CommonModule,
       ],
       providers: [
-        AccountService,
-        TimezoneService,
-        SimpleModalService,
-        StatusMessageService,
+        { provide: AccountService, useValue: accountServiceStub },
+        { provide: TimezoneService, useValue: timezoneServiceStub },
+        { provide: SimpleModalService, useValue: simpleModalServiceStub },
+        { provide: StatusMessageService, useValue: statusMessageServiceStub },
       ],
     })
       .compileComponents();
@@ -109,7 +128,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 
   it('should snap with default SUBMITTED account request', () => {
@@ -226,10 +245,11 @@ describe('ProcessAccountRequestPanelComponent', () => {
   });
 
   it('should display account request fields correctly', () => {
+    const timestamp = 'Fake time';
     component.accountRequest = DEFAULT_APPROVED_ACCOUNT_REQUEST;
     component.panelStatus = ProcessAccountRequestPanelStatus.APPROVED;
     component.showRegisteredAt = true;
-    component.timezone = 'UTC';
+    jest.spyOn(timezoneService, 'formatToString').mockReturnValue(timestamp);
     fixture.detectChanges();
 
     const displayedStatus: string = fixture.debugElement.query(By.css('#status'))
@@ -252,8 +272,8 @@ describe('ProcessAccountRequestPanelComponent', () => {
       .nativeElement.textContent;
 
     expect(displayedStatus).toBe(DEFAULT_APPROVED_ACCOUNT_REQUEST.status.toString());
-    expect(displayedSubmittedAt).toBe('Fri, 05 Aug 2022, 04:25 AM UTC');
-    expect(displayedLastProcessedAt).toBe('Fri, 05 Aug 2022, 05:00 AM UTC');
+    expect(displayedSubmittedAt).toBe(timestamp);
+    expect(displayedLastProcessedAt).toBe(timestamp);
     expect(displayedRegisteredAt).toBe('');
     expect(displayedName).toBe(DEFAULT_APPROVED_ACCOUNT_REQUEST.name);
     expect(displayedInstitute).toBe(DEFAULT_APPROVED_ACCOUNT_REQUEST.institute);
@@ -368,7 +388,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
     component.isSavingChanges = true;
     const updateAccountRequestSpy = jest.spyOn(accountService, 'updateAccountRequest')
       .mockReturnValue(of(editedAccountRequest));
-    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation(() => {});
+    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
     component.saveAccountRequest();
 
@@ -403,7 +423,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
           message: errorMessage,
         },
       }));
-    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation(() => {});
+    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.saveAccountRequest();
 
@@ -422,7 +442,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
     component.isSavingChanges = true;
     const approveAccountRequestSpy = jest.spyOn(accountService, 'approveAccountRequest')
       .mockReturnValue(of(DEFAULT_APPROVED_ACCOUNT_REQUEST));
-    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation(() => {});
+    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
     component.approveAccountRequest();
 
@@ -448,7 +468,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
           message: errorMessage,
         },
       }));
-    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation(() => {});
+    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.approveAccountRequest();
 
@@ -465,7 +485,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
     component.isSavingChanges = true;
     const rejectAccountRequestSpy = jest.spyOn(accountService, 'rejectAccountRequest')
       .mockReturnValue(of(DEFAULT_REJECTED_ACCOUNT_REQUEST));
-    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation(() => {});
+    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
     component.rejectAccountRequest();
 
@@ -493,7 +513,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
           message: errorMessage,
         },
       }));
-    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation(() => {});
+    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.rejectAccountRequest();
 
@@ -512,10 +532,8 @@ describe('ProcessAccountRequestPanelComponent', () => {
       .mockReturnValue(of({
         message: 'This message will not be used',
       }));
-    const openConfirmationModalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
-      return createMockNgbModalRef({}, Promise.resolve());
-    });
-    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation(() => {});
+    const openConfirmationModalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal');
+    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
     component.deleteAccountRequest();
 
@@ -561,9 +579,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
   it(`should not open confirmation modal when it calls showOptionalResetAccountRequestWarning 
   and account request status is not REGISTERED`, () => {
     const resetAccountRequestSpy = jest.spyOn(component, 'resetAccountRequest').mockImplementation(() => {});
-    const openConfirmationModalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
-      return createMockNgbModalRef({}, Promise.resolve());
-    });
+    const openConfirmationModalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal');
 
     component.showOptionalResetAccountRequestWarning();
 
@@ -575,9 +591,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
   and account request status is REGISTERED and confirms in the confirmation modal`, waitForAsync(() => {
     component.accountRequest = DEFAULT_REGISTERED_ACCOUNT_REQUEST;
     const resetAccountRequestSpy = jest.spyOn(component, 'resetAccountRequest').mockImplementation(() => {});
-    const openConfirmationModalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
-      return createMockNgbModalRef({}, Promise.resolve());
-    });
+    const openConfirmationModalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal');
 
     component.showOptionalResetAccountRequestWarning();
 
@@ -610,7 +624,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
     component.isSavingChanges = true;
     const resetAccountRequestSpy = jest.spyOn(accountService, 'resetAccountRequest')
       .mockReturnValue(of(DEFAULT_SUBMITTED_ACCOUNT_REQUEST));
-    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation(() => {});
+    const showSuccessToastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
     component.resetAccountRequest();
 
@@ -638,7 +652,7 @@ describe('ProcessAccountRequestPanelComponent', () => {
           message: errorMessage,
         },
       }));
-    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation(() => {});
+    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.resetAccountRequest();
 
@@ -688,9 +702,6 @@ describe('ProcessAccountRequestPanelComponent', () => {
 
   it('should call deleteAccountRequest when the Delete button is clicked (panelStatus is SUBMITTED)', () => {
     const deleteAccountRequestSpy = jest.spyOn(component, 'deleteAccountRequest');
-    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
-      return createMockNgbModalRef();
-    });
 
     fixture.debugElement.query(By.css('#submitted-delete-button')).triggerEventHandler('click', null);
 
@@ -730,9 +741,6 @@ describe('ProcessAccountRequestPanelComponent', () => {
   it('should call deleteAccountRequest when the Delete button is clicked (panelStatus is APPROVED)', () => {
     component.panelStatus = ProcessAccountRequestPanelStatus.APPROVED;
     const deleteAccountRequestSpy = jest.spyOn(component, 'deleteAccountRequest');
-    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
-      return createMockNgbModalRef();
-    });
     fixture.detectChanges();
 
     fixture.debugElement.query(By.css('#approved-delete-button')).triggerEventHandler('click', null);
@@ -763,9 +771,6 @@ describe('ProcessAccountRequestPanelComponent', () => {
   it('should call deleteAccountRequest when the Delete button is clicked (panelStatus is REJECTED)', () => {
     component.panelStatus = ProcessAccountRequestPanelStatus.REJECTED;
     const deleteAccountRequestSpy = jest.spyOn(component, 'deleteAccountRequest');
-    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
-      return createMockNgbModalRef();
-    });
     fixture.detectChanges();
 
     fixture.debugElement.query(By.css('#rejected-delete-button')).triggerEventHandler('click', null);
