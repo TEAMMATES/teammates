@@ -38,7 +38,7 @@ export class AdminRequestsPageComponent implements OnInit {
     toDate: { year: 0, month: 0, day: 0 },
   };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
-  earliestSearchDate: DateFormat = { year: 2016, month: 1, day: 1 };
+  earliestSearchDate: DateFormat = { year: 2010, month: 1, day: 1 };
   timezone: string = '';
 
   constructor(private accountService: AccountService,
