@@ -16,20 +16,20 @@
         <input id="weights-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
                [disabled]="!isEditable"
                (ngModelChange)="triggerWeightsColumn($event)">
-        <b class="margin-left-2px">Options are weighted</b>
+        <b>Options are weighted</b>
       </label>
     </div>
     <div *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled"
-         class="form-check form-check-inline padding-left-300px align-center">Weights&#8595;
+         class="form-check form-check-inline padding-left-300px">Weights&#8595;
     </div>
   </div>
   <br>
-  <div class="row col-sm-12 row-cols-2">
+  <div class="row col-sm-12 row-cols-2 mt-4">
     <div class="col-sm-6">
       <div *ngIf="!isGeneratedOptionsEnabled">
         <div id="options-section" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
           <div class="row" *ngFor="let num of model.mcqChoices; let i = index;
-          trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y" [ngClass]="i === 0 ? 'margin-top-12px' : 'margin-top-22px'">
+          trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y" [ngClass]="i === 0 ? 'mt-1' : 'margin-top-22px'">
             <br>
             <div class="col-sm-1" cdkDragHandle>
               <span class="btn input-group-addon">&#8597; </span>
@@ -75,8 +75,8 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6 margin-top-6px">
-      <label class="form-check-label">
+    <div class="col-sm-6">
+      <label class="form-check-label mb-2">
         <input id="generate-checkbox" class="form-check-input" type="checkbox"  [disabled]="!isEditable"
               [ngModel]="isGeneratedOptionsEnabled"
               (ngModelChange)="triggerGeneratedOptionsChange($event)">
