@@ -701,28 +701,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     forkJoin([
       this.courseService.getAllCoursesAsInstructor('active'),
-      this.courseService.getAllCoursesAsInstructor('archived'),
     ]).subscribe((values: Courses[]) => {
       const activeCourses: Courses = values[0];
-      const archivedCourses: Courses = values[1];
 
       activeCourses.courses.forEach((course: Course) => {
-        if (course.courseId !== this.courseId && course.institute === this.course.institute) {
-          const model: CourseTabModel = {
-            courseId: course.courseId,
-            courseName: course.courseName,
-            creationTimestamp: course.creationTimestamp,
-            instructorCandidates: [],
-            instructorCandidatesSortBy: SortBy.NONE,
-            instructorCandidatesSortOrder: SortOrder.ASC,
-            hasInstructorsLoaded: false,
-            isTabExpanded: false,
-            hasLoadingFailed: false,
-          };
-          courseTabModels.push(model);
-        }
-      });
-      archivedCourses.courses.forEach((course: Course) => {
         if (course.courseId !== this.courseId && course.institute === this.course.institute) {
           const model: CourseTabModel = {
             courseId: course.courseId,
