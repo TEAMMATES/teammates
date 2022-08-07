@@ -70,6 +70,10 @@ public class InstructorStudentActivityLogsPage extends AppPage {
         return isLogPresentForSession.get(sessionName);
     }
 
+    public void addLogEntry(String sessionName) {
+        isLogPresentForSession.put(sessionName, true);
+    }
+
     public String getActivityType() {
         return getSelectedDropdownOptionText(activityTypeDropdown);
     }

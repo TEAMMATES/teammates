@@ -6,12 +6,7 @@ import java.time.temporal.ChronoUnit;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.*;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -27,6 +22,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     private FeedbackSessionAttributes feedbackSession;
     private FeedbackQuestionAttributes feedbackQuestion;
     private StudentAttributes student;
+    private FeedbackSessionLogEntryAttributes logEntry;
 
     @Override
     protected void prepareTestData() {
@@ -38,6 +34,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         student = testData.students.get("alice.tmms@ISActLogs.CS2104");
         feedbackQuestion = testData.feedbackQuestions.get("qn1");
         feedbackSession = testData.feedbackSessions.get("openSession");
+        logEntry = testData.feedbackSessionLogEntries.get("logEntry");
     }
 
     @Test
@@ -90,6 +87,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentActivityLogsPage.setActivityType("session access and submission");
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
+        studentActivityLogsPage.addLogEntry(logEntry.getFeedbackSessionName());
 
         assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }
