@@ -889,6 +889,16 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                 tabindex="1"
                 type="text"
               />
+              <div
+                class="invalid-field"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                 The field Course ID should not be empty. 
+              </div>
             </div>
           </div>
           <div
@@ -912,6 +922,16 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                 tabindex="2"
                 type="text"
               />
+              <div
+                class="invalid-field"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                 The field Course Name should not be empty. 
+              </div>
             </div>
           </div>
           <div
