@@ -1,39 +1,39 @@
 package teammates.logic.api;
 
-import teammates.common.exception.FirebaseException;
+import teammates.common.exception.AuthException;
 import teammates.common.util.Config;
 import teammates.logic.external.AuthService;
 import teammates.logic.external.EmptyAuthService;
 import teammates.logic.external.FirebaseService;
 
 /**
- * Provides Firebase services.
+ * Provides authentication-related services.
  */
-public class FirebaseInstance {
+public class AuthProxy {
 
-    private static final FirebaseInstance instance = new FirebaseInstance();
+    private static final AuthProxy PROXY = new AuthProxy();
     private final AuthService service;
 
-    FirebaseInstance() {
+    AuthProxy() {
         AuthService fs;
         if (Config.IS_DEV_SERVER) {
             fs = new EmptyAuthService();
         } else {
             try {
                 fs = new FirebaseService();
-            } catch (FirebaseException e) {
+            } catch (AuthException e) {
                 fs = new EmptyAuthService();
             }
         }
         service = fs;
     }
 
-    public static FirebaseInstance inst() {
-        return instance;
+    public static AuthProxy inst() {
+        return PROXY;
     }
 
     /**
-     * Generates a Firebase login link unique to the logging in user.
+     * Generates login link for the logging in user.
      * @param userEmail email of the logging in user.
      * @param continueUrl URL upon successful login.
      * @return null if error occurs while generating the login link.
@@ -43,10 +43,10 @@ public class FirebaseInstance {
     }
 
     /**
-     * Deletes the Firebase user with the specified {@code userEmail}.
-     * @throws FirebaseException if error occurs while deleting the user.
+     * Deletes user with the specified {@code userEmail}.
+     * @throws AuthException if error occurs while deleting the user.
      */
-    public void deleteUser(String userEmail) throws FirebaseException {
+    public void deleteUser(String userEmail) throws AuthException {
         service.deleteUser(userEmail);
     }
 

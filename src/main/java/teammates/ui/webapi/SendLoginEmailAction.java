@@ -33,13 +33,13 @@ class SendLoginEmailAction extends Action {
 
         String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
         if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
-            return new JsonResult(new SendLoginEmailResponseData(false, "Something went wrong with "
-                    + "the reCAPTCHA verification. Please try again."));
+            return new JsonResult(new SendLoginEmailResponseData(false, "ReCAPTCHA verification "
+                    + "failed. Please try again."));
         }
 
         String continueUrl = getNonNullRequestParamValue(Const.ParamsNames.CONTINUE_URL);
 
-        String loginLink = firebaseInstance.generateLoginLink(userEmail, continueUrl);
+        String loginLink = authProxy.generateLoginLink(userEmail, continueUrl);
         if (loginLink == null) {
             return new JsonResult(new SendLoginEmailResponseData(false, "An error occurred. "
                     + "The email could not be generated."));

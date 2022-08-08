@@ -38,6 +38,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         try {
             email = FirebaseAuth.getInstance().verifyIdToken(idToken).getEmail();
         } catch (FirebaseAuthException e) {
+            log.warning("Invalid user ID token", e);
             email = null;
         }
         Cookie cookie;

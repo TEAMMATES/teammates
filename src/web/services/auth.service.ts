@@ -18,7 +18,7 @@ import { HttpRequestService } from './http-request.service';
 export class AuthService {
 
   private frontendUrl: string = environment.frontendUrl;
-  private afAuth: AngularFireAuth | undefined;
+  private afAuth?: AngularFireAuth;
 
   constructor(private httpRequestService: HttpRequestService, private injector: Injector) {
     if (environment.enableFirebaseAuth) {

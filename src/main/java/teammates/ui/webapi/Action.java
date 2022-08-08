@@ -12,15 +12,16 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.RequestLogUser;
+import teammates.common.exception.AuthException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.AuthProxy;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.FileStorage;
-import teammates.logic.api.FirebaseInstance;
 import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
@@ -45,7 +46,7 @@ public abstract class Action {
     FileStorage fileStorage = FileStorage.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
     LogsProcessor logsProcessor = LogsProcessor.inst();
-    FirebaseInstance firebaseInstance = FirebaseInstance.inst();
+    AuthProxy authProxy = AuthProxy.inst();
 
     HttpServletRequest req;
     UserInfo userInfo;
@@ -88,8 +89,8 @@ public abstract class Action {
         this.logsProcessor = logsProcessor;
     }
 
-    public void setFirebaseInstance(FirebaseInstance firebaseInstance) {
-        this.firebaseInstance = firebaseInstance;
+    public void setAuthProxy(AuthProxy authProxy) {
+        this.authProxy = authProxy;
     }
 
     /**
@@ -331,6 +332,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
+    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException, AuthException;
 
 }

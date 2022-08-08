@@ -1,11 +1,11 @@
-package teammates.logic.external;
+package teammates.logic.api;
 
 import teammates.common.exception.AuthException;
 
 /**
- * Service that does not execute any authentication operations.
+ * Allows mocking of the {@link AuthProxy} used in production.
  */
-public class EmptyAuthService implements AuthService {
+public class MockAuthProxy extends AuthProxy {
 
     @Override
     public String generateLoginLink(String userEmail, String continueUrl) {

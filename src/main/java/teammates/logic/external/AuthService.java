@@ -1,14 +1,14 @@
 package teammates.logic.external;
 
-import teammates.common.exception.FirebaseException;
+import teammates.common.exception.AuthException;
 
 /**
- * Interface that provides Firebase services.
+ * Interface that provides authentication-related services.
  */
 public interface AuthService {
 
     /**
-     * Generates a Firebase login link unique to the logging in user.
+     * Generates login link for the logging in user.
      * @param userEmail email of the logging in user.
      * @param continueUrl URL upon successful login.
      * @return null if error occurs while generating the login link.
@@ -16,9 +16,9 @@ public interface AuthService {
     String generateLoginLink(String userEmail, String continueUrl);
 
     /**
-     * Deletes the Firebase user with the specified {@code userEmail}.
-     * @throws FirebaseException if error occurs while deleting the user.
+     * Deletes user with the specified {@code userEmail}.
+     * @throws AuthException if error occurs while deleting the user.
      */
-    void deleteUser(String userEmail) throws FirebaseException;
+    void deleteUser(String userEmail) throws AuthException;
 
 }

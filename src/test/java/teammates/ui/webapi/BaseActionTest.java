@@ -24,14 +24,15 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.AuthException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
+import teammates.logic.api.MockAuthProxy;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockFileStorage;
-import teammates.logic.api.MockFirebaseInstance;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
@@ -65,7 +66,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
-    MockFirebaseInstance mockFirebaseInstance = new MockFirebaseInstance();
+    MockAuthProxy mockAuthProxy = new MockAuthProxy();
 
     abstract String getActionUri();
 
@@ -117,7 +118,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             action.setLogsProcessor(mockLogsProcessor);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
-            action.setFirebaseInstance(mockFirebaseInstance);
+            action.setAuthProxy(mockAuthProxy);
             action.init(req);
             return action;
         } catch (ActionMappingException e) {
@@ -595,7 +596,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             ActionResult r = a.execute();
             assertEquals(statusCode, r.getStatusCode());
             return (JsonResult) r;
-        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
+        } catch (InvalidOperationException | InvalidHttpRequestBodyException | AuthException e) {
             throw new RuntimeException(e);
         }
     }
@@ -608,7 +609,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     protected ImageResult getImageResult(Action a) {
         try {
             return (ImageResult) a.execute();
-        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
+        } catch (InvalidOperationException | InvalidHttpRequestBodyException | AuthException e) {
             throw new RuntimeException(e);
         }
     }

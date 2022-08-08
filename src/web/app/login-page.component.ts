@@ -182,10 +182,10 @@ export class LoginPageComponent implements OnInit {
    * Resets the email and reCAPTCHA input fields in the Log In with Email form.
    */
   resetFormGroups(): void {
-    (this.formLogin = this.formBuilder.group({
+    this.formLogin = this.formBuilder.group({
       email: ['', Validators.required],
       recaptcha: [''],
-    }));
+    });
 
     this.reloadCaptcha();
   }
@@ -204,7 +204,7 @@ export class LoginPageComponent implements OnInit {
    *
    * @param captchaResponse user's reCAPTCHA response token.
    */
-  handleSuccess(captchaResponse: string): void {
+  handleCaptchaSuccess(captchaResponse: string): void {
     this.captchaSuccess = true;
     this.captchaResponse = captchaResponse;
   }
