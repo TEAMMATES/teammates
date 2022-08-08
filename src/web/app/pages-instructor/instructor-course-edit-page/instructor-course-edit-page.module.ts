@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { CourseEditFormModule } from '../../components/course-edit-form/course-edit-form.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
@@ -51,6 +52,7 @@ const routes: Routes = [
     LoadingRetryModule,
     TeammatesRouterModule,
     PanelChevronModule,
+    CourseEditFormModule,
   ],
   entryComponents: [
     ViewRolePrivilegesModalComponent,
