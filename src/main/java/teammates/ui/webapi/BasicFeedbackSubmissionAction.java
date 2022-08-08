@@ -84,7 +84,8 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                 if (userInfo == null) {
                     // Student is associated to a google ID; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!userInfo.id.equals(student.getGoogleId())) {
+                } else if (!userInfo.id.replaceFirst("@gmail.com$", "")
+                        .equals(student.getGoogleId().replaceFirst("@gmail.com$", ""))) {
                     // Logged in student is not the same as the student registered for the given key, do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
                 }
@@ -134,7 +135,8 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                 if (userInfo == null) {
                     // Instructor is associated to a google ID; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!userInfo.id.equals(instructor.getGoogleId())) {
+                } else if (!userInfo.id.replaceFirst("@gmail.com$", "")
+                        .equals(instructor.getGoogleId().replaceFirst("@gmail.com$", ""))) {
                     // Logged in instructor is not the same as the instructor registered for the given key,
                     // do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");

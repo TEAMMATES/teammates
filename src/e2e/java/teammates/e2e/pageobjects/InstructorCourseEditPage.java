@@ -565,7 +565,7 @@ public class InstructorCourseEditPage extends AppPage {
     // Methods for indexing
 
     private int getRoleIndex(String role) {
-        switch(role) {
+        switch (role) {
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
             return INSTRUCTOR_TYPE_COOWNER;
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
@@ -582,7 +582,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     private int getCourseLevelPrivilegeIndex(String privilege) {
-        switch(privilege) {
+        switch (privilege) {
         case Const.InstructorPermissions.CAN_MODIFY_COURSE:
             return COURSE_MODIFY_COURSE;
         case Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR:
@@ -605,7 +605,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     private int getSectionLevelPrivilegeIndex(String privilege) {
-        switch(privilege) {
+        switch (privilege) {
         case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
             return SECTION_VIEW_STUDENTS;
         case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
@@ -620,7 +620,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     private int getSessionLevelPrivilegeIndex(String privilege) {
-        switch(privilege) {
+        switch (privilege) {
         case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
             return SESSION_GIVE_RESPONSES;
         case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
