@@ -225,13 +225,14 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String invalidInstitute = "TEAMMATES Test Institute%Singapore";
 
         req = buildCreateRequest(name, invalidInstitute, "", email, homePageUrl, comments);
-        action = getAction(req, params);
-        result = getJsonResult(action, HttpStatus.SC_BAD_REQUEST);
 
-        AccountRequestCreateErrorResults errorResults = (AccountRequestCreateErrorResults) result.getOutput();
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(req, params);
         assertEquals(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidInstitute,
                         FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR),
-                errorResults.getInvalidInstituteMessage());
+                ihrbe.getMessage());
+
+        verifyNoEmailsSent();
+        verifyNoTasksAdded();
 
         ______TS("failure: null parameters");
 
@@ -329,6 +330,13 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         InvalidHttpParameterException ihpe = verifyHttpParameterFailureAcl();
         assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.INTENT), ihpe.getMessage());
+    }
+
+    @Test
+    public void testGenerateInstitute() {
+        assertEquals("TMT, Singapore", CreateAccountRequestAction.generateInstitute("TMT", "Singapore"));
+        assertThrows(AssertionError.class, () -> CreateAccountRequestAction.generateInstitute(null, "Singapore"));
+        assertThrows(AssertionError.class, () -> CreateAccountRequestAction.generateInstitute("TMT", null));
     }
 
     private AccountRequestCreateRequest buildCreateRequest(String name, String institute, String country, String email,

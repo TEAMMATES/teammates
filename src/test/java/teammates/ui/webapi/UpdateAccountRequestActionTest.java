@@ -194,14 +194,13 @@ public class UpdateAccountRequestActionTest extends BaseActionTest<UpdateAccount
         req = buildUpdateRequest(invalidName, invalidInstitute, invalidEmail);
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(req, params);
 
-        String expectedExceptionMessage = FieldValidator.PERSON_NAME_FIELD_NAME + ": "
-                + getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidName,
+        String expectedExceptionMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidName,
                 FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR)
-                + System.lineSeparator() + FieldValidator.INSTITUTE_NAME_FIELD_NAME + ": "
+                + System.lineSeparator()
                 + getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, invalidInstitute,
                 FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.INSTITUTE_NAME_MAX_LENGTH)
-                + System.lineSeparator() + FieldValidator.EMAIL_FIELD_NAME + ": "
+                + System.lineSeparator()
                 + getPopulatedEmptyStringErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE_EMPTY_STRING,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.EMAIL_MAX_LENGTH);
         assertEquals(expectedExceptionMessage, ihrbe.getMessage());
