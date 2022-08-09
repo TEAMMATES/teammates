@@ -233,37 +233,6 @@ describe('AdminHomePageComponent', () => {
     expect(component.activeRequests).toEqual(0);
   });
 
-  it('should display the correct error message during failure', () => {
-    component.instructorsConsolidated = [
-      {
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
-        joinLink: 'This should not be displayed',
-        message: 'This should not be displayed',
-      },
-    ];
-    jest.spyOn(accountService, 'createAccountRequestAsAdmin').mockReturnValue(throwError({
-      error: {
-        invalidNameMessage: 'inv name.',
-        invalidInstituteMessage: 'inv institute.',
-        invalidCountryMessage: 'inv country.',
-        invalidEmailMessage: 'inv email.',
-        invalidHomePageUrlMessage: 'inv home page url.',
-        invalidCommentsMessage: '',
-      },
-    }));
-    fixture.detectChanges();
-
-    const index: number = 0;
-    component.addInstructor(index);
-
-    // only name, email, and institute error messages should be applicable for ADMIN_CREATE
-    expect(component.instructorsConsolidated[index].message).toEqual('inv name. inv email. inv institute.');
-  });
-
   it('should enter edit mode for only the specified instructor', () => {
     component.instructorsConsolidated = [
       {
