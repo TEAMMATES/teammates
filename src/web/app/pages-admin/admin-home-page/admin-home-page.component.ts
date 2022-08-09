@@ -15,7 +15,7 @@ import {
   JoinLink,
 } from '../../../types/api-output';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorData, RegisteredInstructorAccountData } from './instructor-data';
 
 /**
@@ -131,19 +131,11 @@ export class AdminHomePageComponent {
           instructor.statusCode = 200;
           instructor.joinLink = resp.joinLink;
           this.activeRequests -= 1;
-        }, (resp: ErrorMessageOutput | AccountRequestCreateErrorResultsWrapper) => {
+        }, (resp: ErrorMessageOutput) => {
+          // resp should not be of type AccountRequestCreateErrorResultsWrapper for ADMIN_CREATE
           instructor.status = 'FAIL';
           instructor.statusCode = resp.status;
-          if ('message' in resp.error) {
-            // resp is ErrorMessageOutput
-            instructor.message = resp.error.message;
-          } else {
-            // resp is AccountRequestCreateErrorResultsWrapper
-            instructor.message = [resp.error.invalidNameMessage, resp.error.invalidEmailMessage,
-              resp.error.invalidInstituteMessage]
-              .filter(Boolean)
-              .join(' ');
-          }
+          instructor.message = resp.error.message;
           this.activeRequests -= 1;
         });
   }

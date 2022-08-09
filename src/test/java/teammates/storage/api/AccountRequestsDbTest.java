@@ -38,7 +38,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("typical success case - 2");
 
         accountRequest = AccountRequestAttributes
-                .builder("Baker", "TMT", "Singapore", "baker@tmt.tmt", "https://www.google.com/", "My comments")
+                .builder("Baker", "TMT, Singapore", "baker@tmt.tmt", "https://www.google.com/", "My comments")
                 .build();
 
         accountRequest = accountRequestsDb.createEntity(accountRequest);
@@ -55,7 +55,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("failure: duplicate account request - 2");
 
         AccountRequestAttributes duplicateAccountRequest2 = AccountRequestAttributes
-                .builder("baker", "TMT", "Singapore", "baker@tmt.tmt", "https://www.comp.nus.edu.sg", "")
+                .builder("baker", "TMT, Singapore", "baker@tmt.tmt", "https://www.comp.nus.edu.sg", "")
                 .build();
 
         assertThrows(EntityAlreadyExistsException.class, () -> accountRequestsDb.createEntity(duplicateAccountRequest2));
@@ -69,9 +69,8 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountRequestsDb.createEntity(invalidAccountRequest1));
         AssertHelper.assertContains(
-                FieldValidator.EMAIL_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
-                                FieldValidator.EMAIL_ERROR_MESSAGE, "Invalid Email",
+                getPopulatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, "Invalid Email",
                         FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.EMAIL_MAX_LENGTH),
                 ipe.getMessage());
@@ -79,17 +78,15 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("failure: invalid parameter - 2");
 
         AccountRequestAttributes invalidAccountRequest2 = AccountRequestAttributes
-                .builder("Valid Name", "Valid Institute", "Invalid%Country", "valid_email@tmt.tmt", "", "")
+                .builder("Valid Name", "Valid Institute, Invalid%Country", "valid_email@tmt.tmt", "", "")
                 .build();
 
         ipe = assertThrows(InvalidParametersException.class,
                 () -> accountRequestsDb.createEntity(invalidAccountRequest2));
         AssertHelper.assertContains(
-                FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
-                                FieldValidator.INVALID_NAME_ERROR_MESSAGE, "Invalid%Country",
-                        FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME,
-                        FieldValidator.REASON_CONTAINS_INVALID_CHAR),
+                getPopulatedErrorMessage(
+                        FieldValidator.INVALID_NAME_ERROR_MESSAGE, "Valid Institute, Invalid%Country",
+                        FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR),
                 ipe.getMessage());
 
         ______TS("failure: null parameter");
@@ -190,21 +187,18 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountRequestsDb.updateAccountRequest(updateOptionsInvalid));
         AssertHelper.assertContains(
-                FieldValidator.PERSON_NAME_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
-                                FieldValidator.INVALID_NAME_ERROR_MESSAGE, "|",
+                getPopulatedErrorMessage(
+                        FieldValidator.INVALID_NAME_ERROR_MESSAGE, "|",
                         FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                 ipe.getMessage());
         AssertHelper.assertContains(
-                FieldValidator.INSTITUTE_NAME_FIELD_NAME + ": "
-                        + getPopulatedEmptyStringErrorMessage(
-                                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                getPopulatedEmptyStringErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                         FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.INSTITUTE_NAME_MAX_LENGTH),
                 ipe.getMessage());
         AssertHelper.assertContains(
-                FieldValidator.EMAIL_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
-                                FieldValidator.EMAIL_ERROR_MESSAGE, longEmail, FieldValidator.EMAIL_FIELD_NAME,
+                getPopulatedErrorMessage(
+                        FieldValidator.EMAIL_ERROR_MESSAGE, longEmail, FieldValidator.EMAIL_FIELD_NAME,
                         FieldValidator.REASON_TOO_LONG, FieldValidator.EMAIL_MAX_LENGTH),
                 ipe.getMessage());
 

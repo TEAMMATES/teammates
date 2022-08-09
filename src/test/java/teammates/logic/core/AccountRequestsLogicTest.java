@@ -36,7 +36,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testCreateAccountRequest() throws Exception {
-        ______TS("typical success case - 1");
+        ______TS("typical success case");
 
         AccountRequestAttributes accountRequest = AccountRequestAttributes
                 .builder("Adams", "TMT, Singapore", "adams@tmt.tmt", "https://www.google.com/", "My comments")
@@ -55,32 +55,8 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         assertNull(createdAccountRequest.getLastProcessedAt());
         assertNull(createdAccountRequest.getRegisteredAt());
         assertNotNull(createdAccountRequest.getRegistrationKey());
-        assertNull(createdAccountRequest.getPureInstitute());
-        assertNull(createdAccountRequest.getPureCountry());
 
-        ______TS("typical success case - 2");
-
-        accountRequest = AccountRequestAttributes
-                .builder("Baker", "TMT", "Singapore", "baker@tmt.tmt", "", "")
-                .build();
-
-        createdAccountRequest = accountRequestsLogic.createAccountRequest(accountRequest);
-        verifyPresentInDatabase(createdAccountRequest);
-
-        assertEquals(accountRequest.getName(), createdAccountRequest.getName());
-        assertEquals(accountRequest.getInstitute(), createdAccountRequest.getInstitute());
-        assertEquals(accountRequest.getEmail(), createdAccountRequest.getEmail());
-        assertEquals(accountRequest.getHomePageUrl(), createdAccountRequest.getHomePageUrl());
-        assertEquals(accountRequest.getComments(), createdAccountRequest.getComments());
-        assertEquals(AccountRequestStatus.SUBMITTED, createdAccountRequest.getStatus());
-        assertNotNull(createdAccountRequest.getCreatedAt());
-        assertNull(createdAccountRequest.getLastProcessedAt());
-        assertNull(createdAccountRequest.getRegisteredAt());
-        assertNotNull(createdAccountRequest.getRegistrationKey());
-        assertNull(createdAccountRequest.getPureInstitute());
-        assertNull(createdAccountRequest.getPureCountry());
-
-        ______TS("failure: duplicate account request - 1");
+        ______TS("failure: duplicate account request");
 
         AccountRequestAttributes duplicateAccountRequest1 = AccountRequestAttributes
                 .builder("adams", "TMT, Singapore", "adams@tmt.tmt", "https://www.comp.nus.edu.sg", "")
@@ -89,16 +65,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         assertThrows(EntityAlreadyExistsException.class,
                 () -> accountRequestsLogic.createAccountRequest(duplicateAccountRequest1));
 
-        ______TS("failure: duplicate account request - 2");
-
-        AccountRequestAttributes duplicateAccountRequest2 = AccountRequestAttributes
-                .builder("baker", "TMT", "Singapore", "baker@tmt.tmt", "", "")
-                .build();
-
-        assertThrows(EntityAlreadyExistsException.class,
-                () -> accountRequestsLogic.createAccountRequest(duplicateAccountRequest2));
-
-        ______TS("failure case: invalid parameter - 1");
+        ______TS("failure case: invalid parameter");
 
         String longName = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         AccountRequestAttributes invalidAccountRequest1 = AccountRequestAttributes
@@ -108,47 +75,11 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountRequestsLogic.createAccountRequest(invalidAccountRequest1));
         AssertHelper.assertContains(
-                FieldValidator.PERSON_NAME_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
-                                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, longName,
+                getPopulatedErrorMessage(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, longName,
                         FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                         FieldValidator.PERSON_NAME_MAX_LENGTH),
                 ipe.getMessage());
-
-        ______TS("failure case: invalid parameter - 2");
-
-        String longInstitute =
-                StringHelperExtension.generateStringOfLength(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH + 1);
-        String invalidCountry = ",Invalid Country";
-        AccountRequestAttributes invalidAccountRequest2 = AccountRequestAttributes
-                .builder("", longInstitute, invalidCountry, "valid_email@tmt.tmt", "", "")
-                .build();
-
-        ipe = assertThrows(InvalidParametersException.class,
-                () -> accountRequestsLogic.createAccountRequest(invalidAccountRequest2));
-        AssertHelper.assertContains(
-                FieldValidator.PERSON_NAME_FIELD_NAME + ": "
-                        + getPopulatedEmptyStringErrorMessage(
-                                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
-                        FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH),
-                ipe.getMessage());
-        AssertHelper.assertContains(
-                FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
-                                FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, longInstitute,
-                        FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
-                        FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH),
-                ipe.getMessage());
-        AssertHelper.assertContains(
-                FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
-                                FieldValidator.INVALID_NAME_ERROR_MESSAGE, invalidCountry,
-                        FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME,
-                        FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
-                ipe.getMessage());
-        // `longInstitute + ", " + ",Invalid Country"` is a valid final institute
-        assertFalse(ipe.getMessage().contains(
-                AccountRequestAttributes.generateInstitute(longInstitute, invalidCountry)));
 
         ______TS("failure: null parameter");
 
@@ -161,7 +92,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testCreateAndApproveAccountRequest() throws Exception {
-        ______TS("typical success case - 1");
+        ______TS("typical success case");
 
         AccountRequestAttributes accountRequest = AccountRequestAttributes
                 .builder("Adams", "TMT, Singapore", "adams@tmt.tmt", "", "My comments")
@@ -182,32 +113,8 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         assertEquals(createdAccountRequest.getCreatedAt(), createdAccountRequest.getLastProcessedAt());
         assertNull(createdAccountRequest.getRegisteredAt());
         assertNotNull(createdAccountRequest.getRegistrationKey());
-        assertNull(createdAccountRequest.getPureInstitute());
-        assertNull(createdAccountRequest.getPureCountry());
 
-        ______TS("typical success case - 2");
-
-        accountRequest = AccountRequestAttributes
-                .builder("Baker", "TMT", "Singapore", "baker@tmt.tmt", "", "")
-                .build();
-
-        createdAccountRequest = accountRequestsLogic.createAndApproveAccountRequest(accountRequest);
-        verifyPresentInDatabase(createdAccountRequest);
-
-        assertEquals(accountRequest.getName(), createdAccountRequest.getName());
-        assertEquals(accountRequest.getInstitute(), createdAccountRequest.getInstitute());
-        assertEquals(accountRequest.getEmail(), createdAccountRequest.getEmail());
-        assertEquals(accountRequest.getHomePageUrl(), createdAccountRequest.getHomePageUrl());
-        assertEquals(accountRequest.getComments(), createdAccountRequest.getComments());
-        assertEquals(AccountRequestStatus.APPROVED, createdAccountRequest.getStatus());
-        assertNotNull(createdAccountRequest.getCreatedAt());
-        assertNotNull(createdAccountRequest.getLastProcessedAt());
-        assertEquals(createdAccountRequest.getCreatedAt(), createdAccountRequest.getLastProcessedAt());
-        assertNotNull(createdAccountRequest.getRegistrationKey());
-        assertNull(createdAccountRequest.getPureInstitute());
-        assertNull(createdAccountRequest.getPureCountry());
-
-        ______TS("failure: duplicate account request - 1");
+        ______TS("failure: duplicate account request");
 
         AccountRequestAttributes duplicateAccountRequest1 = AccountRequestAttributes
                 .builder("adams", "TMT, Singapore", "adams@tmt.tmt", "", "")
@@ -215,15 +122,6 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         assertThrows(EntityAlreadyExistsException.class,
                 () -> accountRequestsLogic.createAndApproveAccountRequest(duplicateAccountRequest1));
-
-        ______TS("failure: duplicate account request - 2");
-
-        AccountRequestAttributes duplicateAccountRequest2 = AccountRequestAttributes
-                .builder("baker", "TMT", "Singapore", "baker@tmt.tmt", "", "")
-                .build();
-
-        assertThrows(EntityAlreadyExistsException.class,
-                () -> accountRequestsLogic.createAndApproveAccountRequest(duplicateAccountRequest2));
 
         ______TS("failure case: invalid parameter - 1");
 
@@ -236,34 +134,29 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountRequestsLogic.createAndApproveAccountRequest(invalidAccountRequest1));
         AssertHelper.assertContains(
-                FieldValidator.INSTITUTE_NAME_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
-                                FieldValidator.INVALID_NAME_ERROR_MESSAGE, "Invalid | Institute",
+                getPopulatedErrorMessage(
+                        FieldValidator.INVALID_NAME_ERROR_MESSAGE, "Invalid | Institute",
                         FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_CONTAINS_INVALID_CHAR),
                 ipe.getMessage());
         AssertHelper.assertContains(
-                FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
+                getPopulatedErrorMessage(
                         FieldValidator.SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, longUrl,
                         FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                         FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH),
                 ipe.getMessage());
-        assertFalse(ipe.getMessage().contains(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME + ": "));
-        assertFalse(ipe.getMessage().contains(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME + ": "));
 
         ______TS("failure case: invalid parameter - 2");
 
         String longComments =
                 StringHelperExtension.generateStringOfLength(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
         AccountRequestAttributes invalidAccountRequest2 = AccountRequestAttributes
-                .builder("Valid Name", "Valid Institute", "Valid Country", "valid_email@tmt.tmt", "", longComments)
+                .builder("Valid Name", "Valid Institute, Valid Country", "valid_email@tmt.tmt", "", longComments)
                 .build();
 
         ipe = assertThrows(InvalidParametersException.class,
                 () -> accountRequestsLogic.createAndApproveAccountRequest(invalidAccountRequest2));
         AssertHelper.assertContains(
-                FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
+                getPopulatedErrorMessage(
                         FieldValidator.SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, longComments,
                         FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                         FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH),
@@ -281,7 +174,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     @Test
     public void testUpdateAccountRequest() throws Exception {
         AccountRequestAttributes originalAccountRequest = accountRequestsLogic.createAccountRequest(AccountRequestAttributes
-                .builder("Clark", "TMT", "Singapore", "clark@tmt.tmt", "", "Comments")
+                .builder("Clark", "TMT, Singapore", "clark@tmt.tmt", "", "Comments")
                 .build());
 
         ______TS("typical success case - 1");
@@ -392,7 +285,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         ______TS("failure: account request to update to already exists");
 
         accountRequestsLogic.createAccountRequest(AccountRequestAttributes
-                .builder("David", "TEAMMATES TEST", "Singapore", "david@tmt.tmt", "", "")
+                .builder("David", "TEAMMATES TEST, Singapore", "david@tmt.tmt", "", "")
                 .build());
 
         AccountRequestAttributes.UpdateOptions updateOptionsAlreadyExists = AccountRequestAttributes
@@ -414,8 +307,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountRequestsLogic.updateAccountRequest(updateOptionsInvalid));
         AssertHelper.assertContains(
-                FieldValidator.EMAIL_FIELD_NAME + ": "
-                        + getPopulatedErrorMessage(
+                getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail, FieldValidator.EMAIL_FIELD_NAME,
                         FieldValidator.REASON_INCORRECT_FORMAT, FieldValidator.EMAIL_MAX_LENGTH),
                 ipe.getMessage());
@@ -432,7 +324,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     @Test
     public void testApproveAccountRequest() throws Exception {
         AccountRequestAttributes accountRequest = accountRequestsLogic.createAccountRequest(AccountRequestAttributes
-                .builder("Evans", "TMT", "Singapore", "evans@tmt.tmt", "", "Comments")
+                .builder("Evans", "TMT, Singapore", "evans@tmt.tmt", "", "Comments")
                 .build());
 
         ______TS("typical success case");
@@ -477,7 +369,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     @Test
     public void testRejectAccountRequest() throws Exception {
         AccountRequestAttributes accountRequest = accountRequestsLogic.createAccountRequest(AccountRequestAttributes
-                .builder("Evans", "TMT", "Singapore", "evans@tmt.tmt", "", "Comments")
+                .builder("Evans", "TMT, Singapore", "evans@tmt.tmt", "", "Comments")
                 .build());
 
         ______TS("typical success case");
@@ -505,7 +397,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     @Test
     public void testResetAccountRequest() throws Exception {
         AccountRequestAttributes accountRequest = accountRequestsLogic.createAccountRequest(AccountRequestAttributes
-                .builder("Evans", "TMT", "Singapore", "evans@tmt.tmt", "", "Comments")
+                .builder("Evans", "TMT, Singapore", "evans@tmt.tmt", "", "Comments")
                         .withStatus(AccountRequestStatus.REGISTERED)
                         .withLastProcessedAt(Instant.now().minusSeconds(600))
                         .withRegisteredAt(Instant.now())

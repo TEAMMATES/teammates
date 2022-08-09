@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.List;
-
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -12,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.AccountRequestCreateErrorResults;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountRequestCreateIntent;
@@ -79,66 +76,123 @@ class CreateAccountRequestAction extends Action {
         AccountRequestAttributes accountRequestToCreate;
         AccountRequestAttributes accountRequestAttributes;
 
-        AccountRequestCreateErrorResults errorResults = new AccountRequestCreateErrorResults();
+        switch (intent) {
+        case ADMIN_CREATE:
+            accountRequestToCreate = AccountRequestAttributes
+                    .builder(instructorName, instructorInstitute, instructorEmail, instructorHomePageUrl, comments)
+                    .build();
 
-        try {
-            switch (intent) {
-            case ADMIN_CREATE:
-                accountRequestToCreate = AccountRequestAttributes
-                        .builder(instructorName, instructorInstitute, instructorEmail, instructorHomePageUrl, comments)
-                        .build();
-                if (!validateAccountRequestAndPopulateErrorResults(intent, accountRequestToCreate, errorResults)) {
-                    log.warning("Account request fails to be created: invalid request.",
-                            new InvalidHttpRequestBodyException("Account request fails to be created: invalid request."));
-                    return new JsonResult(errorResults, HttpStatus.SC_BAD_REQUEST);
-                }
-
+            try {
                 accountRequestAttributes = logic.createAndApproveAccountRequest(accountRequestToCreate);
                 // only schedule for search indexing if account request created successfully
                 taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequestAttributes.getEmail(),
                         accountRequestAttributes.getInstitute());
+            } catch (EntityAlreadyExistsException eaee) {
+                throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
+                        intent, instructorEmail, instructorInstitute), eaee);
+            } catch (InvalidParametersException ipe) {
+                throw new InvalidHttpRequestBodyException(ipe);
+            } catch (EntityDoesNotExistException ednee) {
+                // error has been logged in method createAndApproveAccountRequest()
+                return new JsonResult("The server encountered an error when processing your request.",
+                        HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            }
 
-                String joinLink = accountRequestAttributes.getRegistrationUrl();
-                EmailWrapper joinEmail = emailGenerator.generateNewInstructorAccountJoinEmail(
-                        instructorEmail, instructorName, joinLink);
-                emailSender.sendEmail(joinEmail);
+            String joinLink = accountRequestAttributes.getRegistrationUrl();
+            EmailWrapper joinEmail = emailGenerator.generateNewInstructorAccountJoinEmail(
+                    instructorEmail, instructorName, joinLink);
+            emailSender.sendEmail(joinEmail);
 
-                return new JsonResult(new JoinLinkData(joinLink));
+            return new JsonResult(new JoinLinkData(joinLink));
 
-            case PUBLIC_CREATE:
-                accountRequestToCreate = AccountRequestAttributes
-                        .builder(instructorName, instructorInstitute, instructorCountry, instructorEmail,
-                                instructorHomePageUrl, comments)
-                        .build();
-                if (!validateAccountRequestAndPopulateErrorResults(intent, accountRequestToCreate, errorResults)) {
-                    log.warning("Account request fails to be created: invalid request.",
-                            new InvalidHttpRequestBodyException("Account request fails to be created: invalid request."));
-                    return new JsonResult(errorResults, HttpStatus.SC_BAD_REQUEST);
-                }
+        case PUBLIC_CREATE:
+            AccountRequestCreateErrorResults errorResults = new AccountRequestCreateErrorResults();
+            if (!validateAccountRequestAndPopulateErrorResults(instructorName, instructorInstitute, instructorCountry,
+                    instructorEmail, instructorHomePageUrl, comments, errorResults)) {
+                log.warning("Account request fails to be created: invalid request.",
+                        new InvalidHttpRequestBodyException("Account request fails to be created: invalid request."));
+                return new JsonResult(errorResults, HttpStatus.SC_BAD_REQUEST);
+            }
+            accountRequestToCreate = AccountRequestAttributes
+                    .builder(instructorName, generateInstitute(instructorInstitute, instructorCountry), instructorEmail,
+                            instructorHomePageUrl, comments)
+                    .build();
 
+            try {
                 accountRequestAttributes = logic.createAccountRequest(accountRequestToCreate);
                 // only schedule for search indexing if account request created successfully
                 taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequestAttributes.getEmail(),
                         accountRequestAttributes.getInstitute());
 
                 return new JsonResult("Account request successfully created.");
-
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
+            } catch (EntityAlreadyExistsException eaee) {
+                throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
+                        intent, instructorEmail, instructorInstitute), eaee);
+            } catch (InvalidParametersException ipe) {
+                // account request has been validated before so this exception should not happen
+                log.severe("Encountered exception when creating account request: " + ipe.getMessage(), ipe);
+                return new JsonResult("The server encountered an error when processing your request.",
+                        HttpStatus.SC_INTERNAL_SERVER_ERROR);
             }
-        } catch (EntityAlreadyExistsException eaee) {
-            throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
-                    intent, instructorEmail, instructorInstitute), eaee);
-        } catch (InvalidParametersException ipe) {
-            // account request has been validated before so this exception should not happen
-            log.severe("Encountered exception when creating account request: " + ipe.getMessage(), ipe);
-            return new JsonResult("The server encountered an error when processing your request.",
-                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        } catch (EntityDoesNotExistException ednee) {
-            // error has been logged in method createAndApproveAccountRequest()
-            return new JsonResult("The server encountered an error when processing your request.",
-                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
+
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
+    }
+
+    /**
+     * Generates the AccountRequest {@code institute} field by combining {@code arInstitute} and {@code arCountry}.
+     */
+    public static String generateInstitute(String arInstitute, String arCountry) {
+        assert arInstitute != null;
+        assert arCountry != null;
+
+        return arInstitute + ", " + arCountry;
+    }
+
+    private boolean validateAccountRequestAndPopulateErrorResults(
+            String name, String arInstitute, String arCountry, String email, String homePageUrl, String comments,
+            AccountRequestCreateErrorResults errorResults) {
+        boolean isValid = true;
+        String invalidityInfo;
+
+        invalidityInfo = FieldValidator.getInvalidityInfoForPersonName(name);
+        if (!invalidityInfo.isEmpty()) {
+            isValid = false;
+            errorResults.setInvalidNameMessage(invalidityInfo);
+        }
+
+        invalidityInfo = FieldValidator.getInvalidityInfoForAccountRequestInstituteName(arInstitute);
+        if (!invalidityInfo.isEmpty()) {
+            isValid = false;
+            errorResults.setInvalidInstituteMessage(invalidityInfo);
+        }
+
+        invalidityInfo = FieldValidator.getInvalidityInfoForAccountRequestCountryName(arCountry);
+        if (!invalidityInfo.isEmpty()) {
+            isValid = false;
+            errorResults.setInvalidCountryMessage(invalidityInfo);
+        }
+
+        invalidityInfo = FieldValidator.getInvalidityInfoForEmail(email);
+        if (!invalidityInfo.isEmpty()) {
+            isValid = false;
+            errorResults.setInvalidEmailMessage(invalidityInfo);
+        }
+
+        invalidityInfo = FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(homePageUrl);
+        if (!invalidityInfo.isEmpty()) {
+            isValid = false;
+            errorResults.setInvalidHomePageUrlMessage(invalidityInfo);
+        }
+
+        invalidityInfo = FieldValidator.getInvalidityInfoForAccountRequestComments(comments);
+        if (!invalidityInfo.isEmpty()) {
+            isValid = false;
+            errorResults.setInvalidCommentsMessage(invalidityInfo);
+        }
+
+        return isValid;
     }
 
     private String generateExistingAccountRequestErrorMessage(AccountRequestCreateIntent intent,
@@ -154,56 +208,6 @@ class CreateAccountRequestAction extends Action {
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
-    }
-
-    private boolean validateAccountRequestAndPopulateErrorResults(
-            AccountRequestCreateIntent intent, AccountRequestAttributes accountRequest,
-            AccountRequestCreateErrorResults errorResults) {
-        List<String> invalidityInfo = accountRequest.getInvalidityInfo();
-        if (invalidityInfo.isEmpty()) {
-            return true;
-        }
-
-        for (String i : invalidityInfo) {
-            String ii;
-            if (i.startsWith(
-                    AccountRequestAttributes.generatePrefix(FieldValidator.PERSON_NAME_FIELD_NAME))) {
-                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
-                        AccountRequestAttributes.generatePrefix(FieldValidator.PERSON_NAME_FIELD_NAME));
-                errorResults.setInvalidNameMessage(ii);
-            } else if (i.startsWith(
-                    AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME))) {
-                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
-                        AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_FIELD_NAME));
-                errorResults.setInvalidInstituteMessage(ii);
-            } else if (i.startsWith(
-                    AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME))) {
-                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
-                        AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COUNTRY_NAME_FIELD_NAME));
-                errorResults.setInvalidCountryMessage(ii);
-            } else if (intent.equals(AccountRequestCreateIntent.ADMIN_CREATE) && i.startsWith(
-                    AccountRequestAttributes.generatePrefix(FieldValidator.INSTITUTE_NAME_FIELD_NAME))) {
-                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
-                        AccountRequestAttributes.generatePrefix(FieldValidator.INSTITUTE_NAME_FIELD_NAME));
-                errorResults.setInvalidInstituteMessage(ii);
-            } else if (i.startsWith(
-                    AccountRequestAttributes.generatePrefix(FieldValidator.EMAIL_FIELD_NAME))) {
-                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
-                        AccountRequestAttributes.generatePrefix(FieldValidator.EMAIL_FIELD_NAME));
-                errorResults.setInvalidEmailMessage(ii);
-            } else if (i.startsWith(
-                    AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME))) {
-                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
-                        AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_FIELD_NAME));
-                errorResults.setInvalidHomePageUrlMessage(ii);
-            } else if (i.startsWith(
-                    AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME))) {
-                ii = StringHelper.removeFirstOccurrenceOfSubstring(i,
-                        AccountRequestAttributes.generatePrefix(FieldValidator.ACCOUNT_REQUEST_COMMENTS_FIELD_NAME));
-                errorResults.setInvalidCommentsMessage(ii);
-            }
-        }
-        return false;
     }
 
 }
