@@ -4,7 +4,6 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -92,10 +91,6 @@ class CreateAccountRequestAction extends Action {
                         intent, instructorEmail, instructorInstitute), eaee);
             } catch (InvalidParametersException ipe) {
                 throw new InvalidHttpRequestBodyException(ipe);
-            } catch (EntityDoesNotExistException ednee) {
-                // error has been logged in method createAndApproveAccountRequest()
-                return new JsonResult("The server encountered an error when processing your request.",
-                        HttpStatus.SC_INTERNAL_SERVER_ERROR);
             }
 
             String joinLink = accountRequestAttributes.getRegistrationUrl();
