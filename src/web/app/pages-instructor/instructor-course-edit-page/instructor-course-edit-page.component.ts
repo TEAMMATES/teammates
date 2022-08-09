@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -12,7 +11,6 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
   Course,
@@ -40,6 +38,11 @@ import {
 } from '../../../types/default-instructor-privilege';
 import { FormValidator } from '../../../types/form-validator';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import {
+  CourseEditFormMode,
+  CourseEditFormModel,
+  DEFAULT_COURSE_EDIT_FORM_MODEL,
+} from '../../components/course-edit-form/course-edit-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -67,18 +70,6 @@ interface InstructorEditPanelDetail {
   editPanel: InstructorEditPanel;
 }
 
-interface Timezone {
-  id: string;
-  offset: string;
-}
-
-const formatTwoDigits: Function = (n: number): string => {
-  if (n < 10) {
-    return `0${n}`;
-  }
-  return String(n);
-};
-
 /**
  * Instructor course edit page.
  */
@@ -90,33 +81,14 @@ const formatTwoDigits: Function = (n: number): string => {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
-  @ViewChild('courseForm') form!: FormGroup;
-
   // enum
   EditMode: typeof EditMode = EditMode;
   FormValidator: typeof FormValidator = FormValidator;
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
   Sections: typeof Sections = Sections;
+  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
   courseId: string = '';
-  timezones: Timezone[] = [];
-  isEditingCourse: boolean = false;
-  course: Course = {
-    courseName: '',
-    courseId: '',
-    institute: '',
-    timeZone: 'UTC',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-  };
-  originalCourse: Course = {
-    courseName: '',
-    courseId: '',
-    institute: '',
-    timeZone: 'UTC',
-    creationTimestamp: 0,
-    deletionTimestamp: 0,
-  };
   currInstructorGoogleId: string = '';
   currInstructorCoursePrivilege: InstructorPermissionSet = {
     canModifyCourse: true,
@@ -161,6 +133,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
     isSavingInstructorEdit: false,
   };
 
+  courseFormModel: CourseEditFormModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+  resetCourseFormEvent: EventEmitter<void> = new EventEmitter();
+
   // for fine-grain permission setting
   allSections: string[] = [];
   allSessions: string[] = [];
@@ -169,12 +144,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
   hasCourseLoadingFailed: boolean = false;
   isInstructorsLoading: boolean = false;
   hasInstructorsLoadingFailed: boolean = false;
-  isSavingCourseEdit: boolean = false;
   isSavingNewInstructor: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private navigationService: NavigationService,
-              private timezoneService: TimezoneService,
               private studentService: StudentService,
               private instructorService: InstructorService,
               private feedbackSessionsService: FeedbackSessionsService,
@@ -207,23 +180,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
         this.loadCourseInstructors();
       });
     });
-
-    for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
-      const hourOffset: number = Math.floor(Math.abs(offset) / 60);
-      const minOffset: number = Math.abs(offset) % 60;
-      const sign: string = offset < 0 ? '-' : '+';
-      this.timezones.push({
-        id,
-        offset: offset === 0 ? 'UTC' : `UTC ${sign}${formatTwoDigits(hourOffset)}:${formatTwoDigits(minOffset)}`,
-      });
-    }
-  }
-
-  /**
-   * Replaces the timezone value with the detected timezone.
-   */
-  detectTimezone(): void {
-    this.course.timeZone = this.timezoneService.guessTimezone();
   }
 
   /**
@@ -235,9 +191,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
       this.isCourseLoading = false;
     })).subscribe((resp: Course) => {
-      this.course = resp;
+      this.courseFormModel.course = resp;
+      this.courseFormModel.originalCourse = { ...resp };
       this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
-      this.originalCourse = { ...resp };
+      this.courseFormModel.canModifyCourse = this.currInstructorCoursePrivilege.canModifyCourse;
     }, (resp: ErrorMessageOutput) => {
       this.hasCourseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -271,36 +228,21 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Saves the updated course details.
    */
   onSaveCourse(): void {
-    if (this.form.invalid) {
-      Object.values(this.form.controls).forEach((control: any) => control.markAsTouched());
-      return;
-    }
-    this.isSavingCourseEdit = true;
+    this.courseFormModel.isSaving = true;
     this.courseService.updateCourse(this.courseId, {
-      courseName: this.course.courseName,
-      timeZone: this.course.timeZone,
+      courseName: this.courseFormModel.course.courseName,
+      timeZone: this.courseFormModel.course.timeZone,
     }).pipe(finalize(() => {
-      this.isSavingCourseEdit = false;
+      this.courseFormModel.isSaving = false;
     })).subscribe((resp: Course) => {
       this.statusMessageService.showSuccessToast('The course has been edited.');
-      this.isEditingCourse = false;
-      this.course = resp;
-      this.originalCourse = { ...resp };
+      this.courseFormModel.isEditing = false;
+      this.courseFormModel.course = resp;
+      this.courseFormModel.originalCourse = { ...resp };
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-    Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
-    Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
-  }
-
-  /**
-   * Cancels editing the course details.
-   */
-  cancelEditingCourse(): void {
-    this.course = { ...this.originalCourse };
-    this.isEditingCourse = false;
-    Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
-    Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
+    this.resetCourseFormEvent.emit();
   }
 
   /**
@@ -707,7 +649,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       const archivedCourses: Courses = values[1];
 
       activeCourses.courses.forEach((course: Course) => {
-        if (course.courseId !== this.courseId && course.institute === this.course.institute) {
+        if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
           const model: CourseTabModel = {
             courseId: course.courseId,
             courseName: course.courseName,
@@ -724,7 +666,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }
       });
       archivedCourses.courses.forEach((course: Course) => {
-        if (course.courseId !== this.courseId && course.institute === this.course.institute) {
+        if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
           const model: CourseTabModel = {
             courseId: course.courseId,
             courseName: course.courseName,
