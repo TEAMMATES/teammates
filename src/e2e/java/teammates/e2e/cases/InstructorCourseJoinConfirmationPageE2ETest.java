@@ -35,7 +35,8 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 joinLink, CourseJoinConfirmationPage.class, newInstructor.getGoogleId());
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
-                + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
+                + "entered the URL incorrectly, or the URL may correspond to a/an instructor that does not exist, "
+                + "or the account request is not approved yet.");
 
         ______TS("Click join link: valid key");
         String courseId = testData.courses.get("ICJoinConf.CS1101").getId();
@@ -54,19 +55,20 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
 
         logout();
 
-        ______TS("Click join link: invalid key");
+        ______TS("Click join link creating account: invalid key");
+
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount("true")
                 .withRegistrationKey(invalidKey);
         confirmationPage = loginToPage(joinLink, CourseJoinConfirmationPage.class, "ICJoinConf.newinstr");
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
-                + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
+                + "entered the URL incorrectly, or the URL may correspond to a/an instructor that does not exist, "
+                + "or the account request is not approved yet.");
 
-        ______TS("Click join link: valid account request key");
+        ______TS("Click join link creating account: valid account request key");
 
-        String regKey = BACKDOOR
-                .getRegKeyForAccountRequest("ICJoinConf.newinstr@gmail.tmt", "TEAMMATES Test Institute 1");
+        String regKey = getKeyForAccountRequest("ICJoinConf.newinstr@gmail.tmt", "TEAMMATES Test Institute 1");
 
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount("true")
@@ -79,5 +81,20 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         ______TS("Regkey for account request used, no confirmation page");
 
         getNewPageInstance(joinLink, InstructorHomePage.class);
+
+        logout();
+
+        ______TS("Click join link creating account: valid account request key but account request status is not APPROVED");
+
+        regKey = getKeyForAccountRequest("ICJoinConf.submitted@gmail.tmt", "TEAMMATES Test Institute 1");
+
+        joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount("true")
+                .withRegistrationKey(regKey);
+        confirmationPage = loginToPage(joinLink, CourseJoinConfirmationPage.class, "ICJoinConf.submittedRequest");
+
+        confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
+                + "entered the URL incorrectly, or the URL may correspond to a/an instructor that does not exist, "
+                + "or the account request is not approved yet.");
     }
 }
