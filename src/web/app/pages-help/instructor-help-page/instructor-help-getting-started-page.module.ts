@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CourseEditFormModule } from '../../components/course-edit-form/course-edit-form.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import {
-  AddCourseFormModule,
-} from '../../pages-instructor/instructor-courses-page/add-course-form/add-course-form.module';
 import { ExampleBoxModule } from './example-box/example-box.module';
 import {
   InstructorHelpGettingStartedComponent,
@@ -26,9 +24,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    AddCourseFormModule,
     ExampleBoxModule,
     TeammatesRouterModule,
+    CourseEditFormModule,
   ],
 })
 export class InstructorHelpGettingStartedPageModule { }
