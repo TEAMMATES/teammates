@@ -84,7 +84,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         InvalidOperationException ioe = verifyInvalidOperation(req, params);
         assertEquals("Oops, your submission is unsuccessful because an account request already exists."
                 + " Please check if you have entered your personal information correctly."
-                + " If you think this shouldn't happen, contact us at the email address given above.",
+                + " If you think this shouldn't happen, please contact us.",
                 ioe.getMessage());
 
         ______TS("failure: invalid body fields");

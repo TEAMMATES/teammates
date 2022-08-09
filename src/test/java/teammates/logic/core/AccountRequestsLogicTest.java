@@ -87,7 +87,6 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         // clean up
         accountRequestsLogic.deleteAccountRequest("adams@tmt.tmt", "TMT, Singapore");
-        accountRequestsLogic.deleteAccountRequest("baker@tmt.tmt", "TMT, Singapore");
     }
 
     @Test
@@ -168,7 +167,6 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         // clean up
         accountRequestsLogic.deleteAccountRequest("adams@tmt.tmt", "TMT, Singapore");
-        accountRequestsLogic.deleteAccountRequest("baker@tmt.tmt", "TMT, Singapore");
     }
 
     @Test
