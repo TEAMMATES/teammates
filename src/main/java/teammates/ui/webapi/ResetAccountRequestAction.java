@@ -44,13 +44,10 @@ class ResetAccountRequestAction extends AdminOnlyAction {
                 .withLastProcessedAt(Instant.now())
                 .withRegisteredAt(null)
                 .build());
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+        } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
             // InvalidParametersException should not be thrown as validity of params verified when fetching entity.
             // EntityDoesNoExistException shuold not be thrown as existence of entity has just been validated.
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        } catch (EntityAlreadyExistsException e) {
-            log.severe("The account request is not supposed to be re-created.", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 

@@ -104,13 +104,10 @@ class CreateAccountAction extends Action {
                     .withStatus(AccountRequestStatus.REGISTERED)
                     .withRegisteredAt(Instant.now())
                     .build());
-        } catch (EntityDoesNotExistException | InvalidParametersException e) {
+        } catch (EntityDoesNotExistException | InvalidParametersException | EntityAlreadyExistsException e) {
             // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        } catch (EntityAlreadyExistsException e) {
-            log.severe("The account request is not supposed to be re-created.", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
