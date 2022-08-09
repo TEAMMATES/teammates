@@ -23,6 +23,11 @@ class CreateAccountRequestAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
+    static final String PUBLIC_CREATE_EXISTING_ACCOUNT_REQUEST_MESSAGE =
+            "Oops, your submission is unsuccessful because an account request already exists."
+                    + " Please check if you have entered your personal information correctly."
+                    + " If you think this shouldn't happen, please contact us.";
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
@@ -87,8 +92,9 @@ class CreateAccountRequestAction extends Action {
                 taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequestAttributes.getEmail(),
                         accountRequestAttributes.getInstitute());
             } catch (EntityAlreadyExistsException eaee) {
-                throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
-                        intent, instructorEmail, instructorInstitute), eaee);
+                AccountRequestAttributes accountRequest = logic.getAccountRequest(instructorEmail, instructorInstitute);
+                throw new InvalidOperationException(
+                        "An account request already exists with status " + accountRequest.getStatus() + ".", eaee);
             } catch (InvalidParametersException ipe) {
                 throw new InvalidHttpRequestBodyException(ipe);
             }
@@ -121,8 +127,7 @@ class CreateAccountRequestAction extends Action {
 
                 return new JsonResult("Account request successfully created.");
             } catch (EntityAlreadyExistsException eaee) {
-                throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
-                        intent, instructorEmail, instructorInstitute), eaee);
+                throw new InvalidOperationException(PUBLIC_CREATE_EXISTING_ACCOUNT_REQUEST_MESSAGE, eaee);
             } catch (InvalidParametersException ipe) {
                 // account request has been validated before so this exception should not happen
                 log.severe("Encountered exception when creating account request: " + ipe.getMessage(), ipe);
@@ -188,21 +193,6 @@ class CreateAccountRequestAction extends Action {
         }
 
         return isValid;
-    }
-
-    private String generateExistingAccountRequestErrorMessage(AccountRequestCreateIntent intent,
-                                                              String instructorEmail, String instructorInstitute) {
-        switch (intent) {
-        case ADMIN_CREATE:
-            AccountRequestAttributes accountRequest = logic.getAccountRequest(instructorEmail, instructorInstitute);
-            return "An account request already exists with status " + accountRequest.getStatus() + ".";
-        case PUBLIC_CREATE:
-            return "Oops, your submission is unsuccessful because an account request already exists."
-                    + " Please check if you have entered your personal information correctly."
-                    + " If you think this shouldn't happen, contact us at the email address given above.";
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
     }
 
 }
