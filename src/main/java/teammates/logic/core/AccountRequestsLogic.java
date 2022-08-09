@@ -55,20 +55,14 @@ public final class AccountRequestsLogic {
      * @throws EntityAlreadyExistsException if the account request to create already exists
      */
     public AccountRequestAttributes createAndApproveAccountRequest(AccountRequestAttributes accountRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        AccountRequestAttributes accountRequestAttributes = accountRequestsDb.createEntity(accountRequest);
-        try {
-            accountRequestAttributes = updateAccountRequest(AccountRequestAttributes
-                    .updateOptionsBuilder(accountRequestAttributes.getEmail(), accountRequestAttributes.getInstitute())
-                    .withStatus(AccountRequestStatus.APPROVED)
-                    .withLastProcessedAt(accountRequestAttributes.getCreatedAt())
-                    .build());
-        } catch (EntityDoesNotExistException ednee) {
-            log.severe("Encountered exception when creating account request: "
-                    + "The newly created account request disappeared before it could be approved.", ednee);
-            throw ednee;
-        }
-        return accountRequestAttributes;
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        accountRequest.update(AccountRequestAttributes
+                .updateOptionsBuilder(accountRequest.getEmail(), accountRequest.getInstitute())
+                .withStatus(AccountRequestStatus.APPROVED)
+                .withLastProcessedAt(accountRequest.getCreatedAt())
+                .build());
+
+        return accountRequestsDb.createEntity(accountRequest);
     }
 
     /**

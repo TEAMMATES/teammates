@@ -1536,7 +1536,7 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the account request already exists
      */
     public AccountRequestAttributes createAndApproveAccountRequest(AccountRequestAttributes accountRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         assert accountRequest != null;
 
         return accountRequestsLogic.createAndApproveAccountRequest(accountRequest);
