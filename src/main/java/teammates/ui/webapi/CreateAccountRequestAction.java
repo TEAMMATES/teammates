@@ -21,12 +21,12 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 class CreateAccountRequestAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
-
     static final String PUBLIC_CREATE_EXISTING_ACCOUNT_REQUEST_MESSAGE =
             "Oops, your submission is unsuccessful because an account request already exists."
                     + " Please check if you have entered your personal information correctly."
                     + " If you think this shouldn't happen, please contact us.";
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {

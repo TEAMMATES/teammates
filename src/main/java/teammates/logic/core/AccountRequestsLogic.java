@@ -9,15 +9,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.util.Logger;
 import teammates.storage.api.AccountRequestsDb;
 
 /**
  * Handles the logic related to account requests.
  */
 public final class AccountRequestsLogic {
-
-    private static final Logger log = Logger.getLogger();
 
     private static final AccountRequestsLogic instance = new AccountRequestsLogic();
 
