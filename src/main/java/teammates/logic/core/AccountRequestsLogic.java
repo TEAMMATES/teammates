@@ -53,6 +53,9 @@ public final class AccountRequestsLogic {
      */
     public AccountRequestAttributes createAndApproveAccountRequest(AccountRequestAttributes accountRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        assert accountRequest != null;
+
+        accountRequest.setCreatedAt(Instant.now());
         accountRequest.update(AccountRequestAttributes
                 .updateOptionsBuilder(accountRequest.getEmail(), accountRequest.getInstitute())
                 .withStatus(AccountRequestStatus.APPROVED)
