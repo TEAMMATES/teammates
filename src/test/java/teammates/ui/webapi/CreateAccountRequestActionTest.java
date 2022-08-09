@@ -94,9 +94,9 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String invalidPureCountry = ",Singapore";
         String invalidEmail = "invalid_email@tmt";
         String invalidHomePageUrl = StringHelperExtension
-                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
+                .generateStringOfLength(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
         String invalidComments = StringHelperExtension
-                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
+                .generateStringOfLength(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
 
         req = buildCreateRequest(invalidName, invalidPureInstitute, invalidPureCountry,
                 invalidEmail, invalidHomePageUrl, invalidComments);

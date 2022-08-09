@@ -205,9 +205,9 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         String invalidEmail = "invalid-email";
         String invalidInstitute = "{TMT, Singapore";
         String longUrl = StringHelperExtension
-                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
+                .generateStringOfLength(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
         String longComments = StringHelperExtension
-                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
+                .generateStringOfLength(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
         AccountRequestAttributes invalidAccountRequest = AccountRequestAttributes
                 .builder(emptyName, invalidInstitute, invalidEmail, longUrl, longComments)
                 .build();

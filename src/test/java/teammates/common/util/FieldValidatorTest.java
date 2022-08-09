@@ -329,7 +329,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForAccountRequestHomePageUrl_valid_returnEmptyString() {
-        String validAccountRequestHomePageUrl = StringHelperExtension.generateRandomAsciiStringOfLength(
+        String validAccountRequestHomePageUrl = StringHelperExtension.generateStringOfLength(
                 FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH);
         String actual = FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(validAccountRequestHomePageUrl);
         assertEquals("", actual);
@@ -341,7 +341,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForAccountRequestHomePageUrl_invalid_returnErrorString() {
-        String invalidAccountRequestHomePageUrl = StringHelperExtension.generateRandomAsciiStringOfLength(
+        String invalidAccountRequestHomePageUrl = StringHelperExtension.generateStringOfLength(
                 FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForAccountRequestHomePageUrl(invalidAccountRequestHomePageUrl);
         assertEquals("\"" + invalidAccountRequestHomePageUrl + "\" is not acceptable to TEAMMATES "
@@ -352,7 +352,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForAccountRequestComments_valid_returnEmptyString() {
-        String validAccountRequestComments = StringHelperExtension.generateRandomAsciiStringOfLength(
+        String validAccountRequestComments = StringHelperExtension.generateStringOfLength(
                 FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH);
         String actual = FieldValidator.getInvalidityInfoForAccountRequestComments(validAccountRequestComments);
         assertEquals("", actual);
@@ -364,7 +364,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForAccountRequestComments_invalid_returnErrorString() {
-        String invalidAccountRequestComments = StringHelperExtension.generateRandomAsciiStringOfLength(
+        String invalidAccountRequestComments = StringHelperExtension.generateStringOfLength(
                 FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForAccountRequestComments(invalidAccountRequestComments);
         assertEquals("\"" + invalidAccountRequestComments + "\" is not acceptable to TEAMMATES "
