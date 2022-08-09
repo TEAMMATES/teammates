@@ -25,37 +25,33 @@ class GetAccountRequestsAction extends AdminOnlyAction {
             accountRequests = logic.getAccountRequestsPendingProcessing();
             break;
         case WITHIN_PERIOD:
-            String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUESTS_START_TIME);
-            String endTimeString = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUESTS_END_TIME);
-            validateStartAndEndTime(startTimeString, endTimeString);
+            long startTime;
+            try {
+                startTime = getLongRequestParamValue(Const.ParamsNames.ACCOUNT_REQUESTS_START_TIME);
+            } catch (InvalidHttpParameterException ihpe) {
+                throw new InvalidHttpParameterException("Invalid start time", ihpe);
+            }
+
+            long endTime;
+            try {
+                endTime = getLongRequestParamValue(Const.ParamsNames.ACCOUNT_REQUESTS_END_TIME);
+            } catch (InvalidHttpParameterException ihpe) {
+                throw new InvalidHttpParameterException("Invalid end time", ihpe);
+            }
+
+            if (endTime < startTime) {
+                throw new InvalidHttpParameterException("End time cannot be earlier than start time");
+            }
+
             accountRequests = logic.getAccountRequestsSubmittedWithinPeriod(
-                    Instant.ofEpochMilli(Long.parseLong(startTimeString)),
-                    Instant.ofEpochMilli(Long.parseLong(endTimeString)));
+                    Instant.ofEpochMilli(startTime),
+                    Instant.ofEpochMilli(endTime));
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         return new JsonResult(new AccountRequestsData(accountRequests));
-    }
-
-    private void validateStartAndEndTime(String startTimeString, String endTimeString) {
-        long startTime;
-        try {
-            startTime = Long.parseLong(startTimeString);
-        } catch (NumberFormatException e) {
-            throw new InvalidHttpParameterException("Invalid start time", e);
-        }
-        long endTime;
-        try {
-            endTime = Long.parseLong(endTimeString);
-        } catch (NumberFormatException e) {
-            throw new InvalidHttpParameterException("Invalid end time", e);
-        }
-
-        if (endTime < startTime) {
-            throw new InvalidHttpParameterException("End date cannot be earlier than start date");
-        }
     }
 
 }
