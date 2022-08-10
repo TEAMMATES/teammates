@@ -187,7 +187,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.verifyStatusMessage("The course " + otherCourse.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
-        homePage.verifyNumCourses(0);
+        homePage.verifyNumCourses(1);
         assertTrue(BACKDOOR.isCourseInRecycleBin(otherCourse.getId()));
     }
 
