@@ -37,7 +37,8 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
                 joinLink, CourseJoinConfirmationPage.class, newStudent.getGoogleId());
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
-                + "entered the URL incorrectly or the URL may correspond to a/an student that does not exist.");
+                + "entered the URL incorrectly, or the URL may correspond to a/an student that does not exist, "
+                + "or the account request is not approved yet.");
 
         ______TS("Click join link: valid key");
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
