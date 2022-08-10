@@ -46,10 +46,11 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         assertTrue(failureMessage.contains(
                 "\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format."));
 
-        assertNotNull(BACKDOOR.getAccountRequest(email, institute));
+        assertNotNull(getAccountRequest(email, institute));
         BACKDOOR.deleteAccountRequest(email, institute);
 
-        ______TS("Failure case: Instructor is already registered");
+        ______TS("Failure case: Existing account request and instructor is already registered");
+
         AccountRequestAttributes registeredAccountRequest = testData.accountRequests.get("AHome.instructor1OfCourse1");
         homePage.queueInstructorForAdding(registeredAccountRequest.getName(),
                 registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute());
@@ -59,17 +60,32 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         failureMessage = homePage.getMessageForInstructor(2);
         assertTrue(failureMessage.contains("An account request already exists with status REGISTERED."));
 
-        ______TS("Success case: Reset account request");
+        ______TS("Reset the existing account request in the opened panel");
 
-        homePage.clickMoreInfoButtonForRegisteredInstructor(2);
-        homePage.clickResetAccountRequestLink();
+        homePage.clickMoreInfoButtonForExistingAccountRequest(2);
+        homePage.clickAccountRequestPanelRegisteredResetButton();
+
+        homePage.verifyStatusMessage("Account request successfully reset.");
+
+        assertNull(getAccountRequest(registeredAccountRequest).getRegisteredAt());
+
+        ______TS("Delete the existing account request in the opened panel after resetting it");
+
+        homePage.clickAccountRequestPanelSubmittedDeleteButton();
+
+        homePage.verifyStatusMessage("Account request successfully deleted.");
+
+        // there is a limitation that the message inside new-instructor-data-row cannot be updated automatically
+        failureMessage = homePage.getMessageForInstructor(2);
+        assertTrue(failureMessage.contains("An account request already exists with status REGISTERED."));
+
+        ______TS("Success case: Add the account request again");
+
+        homePage.waitForConfirmationModalAndClickOk(); // it's actually an information modal instead of confirmation modal
+        homePage.addAllInstructors();
 
         successMessage = homePage.getMessageForInstructor(2);
-        assertTrue(successMessage.contains(
-                "Instructor \"" + registeredAccountRequest.getName() + "\" has been successfully created"));
-
-        assertNull(BACKDOOR.getAccountRequest(
-                registeredAccountRequest.getEmail(), registeredAccountRequest.getInstitute()).getRegisteredAt());
+        assertTrue(successMessage.contains("Instructor \"Teammates Instr1\" has been successfully created"));
     }
 
 }
