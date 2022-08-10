@@ -180,7 +180,7 @@ describe('NewInstructorDataRowComponent', () => {
       });
 
     fixture.debugElement
-      .query(By.css(`#instructor-${expectedIndex}-registered-info-button`))
+      .query(By.css(`#existing-account-request-info-button-${expectedIndex}`))
       .triggerEventHandler('click', null);
     expect(hasEmitted).toBeTruthy();
   });
@@ -213,7 +213,7 @@ describe('NewInstructorDataRowComponent', () => {
     fixture.detectChanges();
 
     const debugElement = fixture.debugElement
-      .query(By.css(`#instructor-${expectedIndex}-registered-info-button`));
+      .query(By.css(`#existing-account-request-info-button-${expectedIndex}`));
     expect(debugElement).toBeTruthy();
   });
 

@@ -795,7 +795,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 <span>
                   <a
                     class="btn btn-link"
-                    id="instructor-3-registered-info-button"
+                    id="existing-account-request-info-button-3"
                     type="button"
                   >
                     <i

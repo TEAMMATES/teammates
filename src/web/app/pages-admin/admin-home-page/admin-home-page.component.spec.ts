@@ -561,7 +561,7 @@ describe('AdminHomePageComponent', () => {
 
     const spy = jest.spyOn(component, 'showExistingAccountRequestModal').mockImplementation(() => {});
 
-    const infoButton = fixture.debugElement.nativeElement.querySelector('#instructor-0-registered-info-button');
+    const infoButton = fixture.debugElement.nativeElement.querySelector('#existing-account-request-info-button-0');
     infoButton.click();
 
     expect(spy).toHaveBeenCalledTimes(1);
