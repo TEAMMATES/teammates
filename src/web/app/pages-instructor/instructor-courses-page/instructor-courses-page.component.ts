@@ -24,6 +24,11 @@ import { FeedbackSessionCreateRequest } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
+import {
+  CourseAddFormModel,
+  CourseEditFormMode,
+  DEFAULT_COURSE_ADD_FORM_MODEL,
+} from '../../components/course-edit-form/course-edit-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -51,6 +56,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   allCoursesList: Course[] = [];
   activeCoursesList: Course[] = [];
   courseStats: Record<string, Record<string, number>> = {};
+  courseFormModel: CourseAddFormModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+  resetCourseForm: EventEmitter<void> = new EventEmitter();
 
   activeTableSortOrder: SortOrder = SortOrder.ASC;
   activeTableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
@@ -60,6 +67,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
+  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
   isLoading: boolean = false;
   hasLoadingFailed: boolean = false;
@@ -93,6 +101,11 @@ export class InstructorCoursesPageComponent implements OnInit {
       }
       this.loadInstructorCourses();
     });
+  }
+
+  setIsCopyingCourse(value: boolean): void {
+    this.isCopyingCourse = value;
+    this.courseFormModel.isCopying = value;
   }
 
   /**
@@ -153,6 +166,9 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
+
+    this.courseFormModel.activeCourses = this.activeCoursesList;
+    this.courseFormModel.allCourses = this.allCoursesList;
   }
 
   /**
@@ -180,6 +196,28 @@ export class InstructorCoursesPageComponent implements OnInit {
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
+  }
+
+  /**
+   * Creates new course
+   */
+  createNewCourse(): void {
+    this.courseFormModel.isSaving = true;
+    this.courseService.createCourse(this.courseFormModel.course.institute, {
+      courseName: this.courseFormModel.course.courseName,
+      timeZone: this.courseFormModel.course.timeZone,
+      courseId: this.courseFormModel.course.courseId,
+    }).pipe(finalize(() => {
+      this.courseFormModel.isSaving = false;
+    })).subscribe(() => {
+      this.statusMessageService.showSuccessToast('The course has been added.');
+      this.courseFormModel.course.courseId = '';
+      this.courseFormModel.course.courseName = '';
+      this.resetCourseForm.emit();
+      this.loadInstructorCourses();
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
@@ -217,7 +255,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       modalRef.componentInstance.newTimeZone = timeZone;
       modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
       modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
-      modalRef.result.then((result: CopyCourseModalResult) => this.createCourse(result), () => {});
+      modalRef.result.then((result: CopyCourseModalResult) => this.createCopiedCourse(result), () => {});
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -226,8 +264,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Creates a new course with the selected feedback sessions
    */
-  createCourse(result: CopyCourseModalResult): void {
-    this.isCopyingCourse = true;
+  createCopiedCourse(result: CopyCourseModalResult): void {
+    this.setIsCopyingCourse(true);
     this.numberOfSessionsCopied = 0;
     this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
     this.copyProgressPercentage = 0;
@@ -271,13 +309,13 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.activeCoursesList.push(course);
             this.allCoursesList.push(course);
             this.activeCoursesDefaultSort();
-            this.isCopyingCourse = false;
+            this.setIsCopyingCourse(false);
             this.statusMessageService.showSuccessToast('The course has been added.');
           });
       });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
-      this.isCopyingCourse = false;
+      this.setIsCopyingCourse(false);
       this.hasLoadingFailed = true;
     });
   }

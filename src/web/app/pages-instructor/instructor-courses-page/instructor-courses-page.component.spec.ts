@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,12 +13,12 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, Courses, JoinState, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
 describe('InstructorCoursesPageComponent', () => {
@@ -243,6 +244,7 @@ describe('InstructorCoursesPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorCoursesPageComponent,
+        CourseEditFormComponent,
       ],
       imports: [
         HttpClientTestingModule,
@@ -252,10 +254,10 @@ describe('InstructorCoursesPageComponent', () => {
         BrowserAnimationsModule,
         LoadingSpinnerModule,
         AjaxLoadingModule,
-        AddCourseFormModule,
         LoadingRetryModule,
         PanelChevronModule,
         ProgressBarModule,
+        FormsModule,
       ],
     })
     .compileComponents();

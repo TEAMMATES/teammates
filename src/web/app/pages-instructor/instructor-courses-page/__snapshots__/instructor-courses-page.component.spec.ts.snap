@@ -2,6 +2,7 @@
 
 exports[`InstructorCoursesPageComponent should snap when courses are still loading 1`] = `
 <tm-instructor-courses-page
+  CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
@@ -13,6 +14,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
+  courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -26,6 +28,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -67,6 +70,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
 
 exports[`InstructorCoursesPageComponent should snap when it is undeletable and unrestorable 1`] = `
 <tm-instructor-courses-page
+  CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
@@ -78,6 +82,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   canRestoreAll="false"
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
+  courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -91,6 +96,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -452,6 +458,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
 
 exports[`InstructorCoursesPageComponent should snap when new course form is expanded 1`] = `
 <tm-instructor-courses-page
+  CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
@@ -463,6 +470,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
+  courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -476,6 +484,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -500,163 +509,167 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
     id="add-course-section"
     style=""
   >
-    <tm-add-course-form>
+    <tm-course-edit-form>
       <div
-        class="card border-primary fill-plain"
+        class="card-header bg-primary text-white"
       >
+        <strong
+          style=""
+        >
+          Create a new Course
+        </strong>
         <div
-          class="close-header"
+          class="card-header-btn-toolbar"
         >
           <button
-            aria-label="Close"
-            class="close"
-            type="button"
+            class="btn btn-primary btn-sm"
+            disabled=""
+            id="btn-edit-course"
+            style=""
           >
-            <span
+            <i
               aria-hidden="true"
-            >
-              ×
-            </span>
+              class="fa fa-copy"
+            />
+             Copy from previous courses 
+          </button>
+          <button
+            class="btn btn-primary btn-sm"
+            id="btn-close-form"
+            style=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-times"
+            />
           </button>
         </div>
-        <div
-          class="row"
+      </div>
+      <div
+        class="card-body fill-plain"
+      >
+        <form
+          class="ng-untouched ng-pristine ng-valid"
+          novalidate=""
         >
           <div
-            class="col-md-6"
-          >
-            <div
-              class="row align-items-center"
-            >
-              <div
-                class="col-md-6"
-              >
-                <h5
-                  class="text-center"
-                >
-                  Create new Course
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div
-            class="col-md-6"
-          >
-            <div
-              class="row text-center align-items-center mt-1"
-            >
-              <div
-                class="col-md-3"
-              >
-                <h5
-                  class="text-md-right"
-                >
-                  Or: 
-                </h5>
-              </div>
-              <div
-                class="col-md-9 text-md-left"
-              >
-                <button
-                  class="btn btn-info"
-                  disabled=""
-                  id="btn-copy-course"
-                  type="button"
-                >
-                   Copy from previous courses 
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="card-body text-center"
-        >
-          <div
-            class="form-group row"
+            class="form-row form-group"
           >
             <label
-              class="col-md-3 text-md-right col-form-label"
+              class="col-sm-2 font-weight-bold text-md-right"
             >
               Course ID:
             </label>
             <div
-              class="col-md-6 text-md-left"
+              class="col-sm-9"
             >
               <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="new-course-id"
+                class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+                id="course-id"
                 maxlength="64"
+                name="courseId"
                 placeholder="e.g. CS3215-2013Semester1"
+                required=""
+                tabindex="1"
                 type="text"
               />
+              <div
+                class="invalid-field"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                 The field Course ID should not be empty. 
+              </div>
             </div>
           </div>
           <div
-            class="form-group row"
+            class="form-row form-group"
           >
             <label
-              class="col-md-3 text-md-right col-form-label"
+              class="col-sm-2 font-weight-bold text-md-right"
             >
               Course Name:
             </label>
             <div
-              class="col-md-6 text-md-left"
+              class="col-sm-9"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
-                id="new-course-name"
+                id="course-name"
                 maxlength="80"
+                name="courseName"
                 placeholder="e.g. Software Engineering"
+                required=""
+                tabindex="2"
                 type="text"
               />
+              <div
+                class="invalid-field"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                 The field Course Name should not be empty. 
+              </div>
             </div>
           </div>
           <div
-            class="form-group row"
+            class="form-row form-group"
           >
             <label
-              class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
+              class="col-sm-2 font-weight-bold text-md-right"
             >
               <span
+                class="ngb-tooltip-class"
                 ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+                style=""
               >
                  Course institute: 
               </span>
             </label>
             <div
-              class="col-md-6 text-md-left"
+              class="col-sm-9"
             >
               <select
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="new-course-institute"
+                class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+                id="course-institute"
+                name="institute"
+                required=""
+                type="text"
               >
               </select>
             </div>
           </div>
           <div
-            class="form-group row"
+            class="form-row form-group"
           >
             <label
-              class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
+              class="col-xs-12 col-sm-2 font-weight-bold text-md-right"
             >
               <span
-                ngbtooltip="You should not
-                  need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
-                  to match the current time offset in your area, including clock changes due to daylight saving time."
+                class="ngb-tooltip-class"
+                ngbtooltip="You should not need to change this as it is auto-detected based on your
+                  device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
               >
                  Time Zone:
               </span>
             </label>
             <div
-              class="col-md-6 text-md-left"
+              class="col-xs-12 col-sm-9"
             >
               <div
                 class="input-group"
               >
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
-                  id="new-time-zone"
+                  id="time-zone"
+                  name="timeZone"
+                  required=""
                 >
                   <option
                     style=""
@@ -685,35 +698,37 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                 </select>
                 <span
                   class="input-group-btn"
-                  style="margin-left: 5px;"
                 >
                   <button
-                    class="btn btn-primary btn-margin-left"
+                    class="btn btn-primary"
+                    type="button"
                   >
-                    Auto Detect
+                     Auto-Detect 
                   </button>
                 </span>
               </div>
             </div>
           </div>
           <div
-            class="form-group row"
+            class="form-group m-0"
           >
             <div
-              class="col-md-9 offset-md-3 text-md-left"
+              class=" col-sm-12 text-center"
             >
               <button
                 class="btn btn-success"
                 disabled=""
-                id="btn-save-course"
+                id="btn-submit-course"
+                style=""
+                type="submit"
               >
                  Add Course 
               </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
-    </tm-add-course-form>
+    </tm-course-edit-form>
   </div><tm-loading-retry>
     <div>
       <div
@@ -729,6 +744,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
 
 exports[`InstructorCoursesPageComponent should snap with all courses in course stats 1`] = `
 <tm-instructor-courses-page
+  CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
@@ -740,6 +756,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
+  courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -753,6 +770,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -1118,6 +1136,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
 
 exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 <tm-instructor-courses-page
+  CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
@@ -1129,6 +1148,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
+  courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -1142,6 +1162,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -1183,6 +1204,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 
 exports[`InstructorCoursesPageComponent should snap with no courses in course stats 1`] = `
 <tm-instructor-courses-page
+  CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
@@ -1194,6 +1216,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
+  courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -1207,6 +1230,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
+  resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
