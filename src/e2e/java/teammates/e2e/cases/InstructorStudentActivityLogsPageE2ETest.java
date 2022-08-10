@@ -6,7 +6,13 @@ import java.time.temporal.ChronoUnit;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.*;
+import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
