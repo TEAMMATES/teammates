@@ -309,8 +309,8 @@ public class AdminSearchPage extends AppPage {
 
     public void resetRegisteredAccountRequest(AccountRequestAttributes accountRequest) {
         clickManageAccountRequestButton(accountRequest);
-        WebElement deleteButton = browser.driver.findElement(By.id("registered-reset-button"));
-        click(deleteButton);
+        WebElement resetButton = browser.driver.findElement(By.id("registered-reset-button"));
+        click(resetButton);
         ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
         List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
         click(okButtons.get(1)); // Second modal is confirmation modal
