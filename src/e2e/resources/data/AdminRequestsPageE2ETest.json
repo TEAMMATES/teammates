@@ -1,0 +1,62 @@
+{
+  "accountRequests": {
+    "accountRequest1": {
+      "name": "Account Request 1",
+      "institute": "TEAMMATES Test Institute, Singapore",
+      "email": "ARequests.account_request_1@tmt.tmt",
+      "homePageUrl": "https://www.google.com/",
+      "comments": "Some comments.",
+      "status": "SUBMITTED",
+      "createdAt": "2012-03-01T00:01:00Z"
+    },
+    "accountRequest2": {
+      "name": "Account Request 2",
+      "institute": "TEAMMATES Test Institute, Singapore",
+      "email": "ARequests.account_request_2@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED",
+      "createdAt": "2012-03-04T00:01:00Z"
+    },
+    "accountRequest3": {
+      "name": "Account Request 3",
+      "institute": "TEAMMATES Test Institute, Singapore",
+      "email": "ARequests.account_request_3@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED",
+      "createdAt": "2012-03-07T00:01:00Z"
+    },
+    "accountRequest4": {
+      "name": "Account Request 4",
+      "institute": "TEAMMATES Test Institute, Singapore",
+      "email": "ARequests.account_request_4@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "APPROVED",
+      "createdAt": "2012-03-10T00:01:00Z",
+      "lastProcessedAt": "2012-03-10T00:01:00Z"
+    },
+    "accountRequest5": {
+      "name": "Account Request 5",
+      "institute": "TEAMMATES Test Institute, Singapore",
+      "email": "ARequests.account_request_5@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REGISTERED",
+      "createdAt": "2012-03-13T00:01:00Z",
+      "lastProcessedAt": "2012-03-13T00:02:00Z",
+      "registeredAt": "2012-03-13T00:03:00Z"
+    },
+    "accountRequest6": {
+      "name": "Account Request 6",
+      "institute": "TEAMMATES Test Institute, Singapore",
+      "email": "ARequests.account_request_6@tmt.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "REJECTED",
+      "createdAt": "2012-03-16T00:01:00Z",
+      "lastProcessedAt": "2012-03-16T00:02:00Z"
+    }
+  }
+}
