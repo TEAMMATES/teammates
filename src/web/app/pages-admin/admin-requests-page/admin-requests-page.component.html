@@ -6,6 +6,7 @@
       <ng-container *ngIf="accountRequestsPendingProcessing.length > 0, else noAccountRequestsPendingProcessingTemplate">
         <div *ngFor="let accountRequestPendingProcessing of accountRequestsPendingProcessing; let i = index">
           <tm-process-account-request-panel id="ar-pending-processing-{{ i }}"
+                                            [identifier]="'pp-' + i"
                                             [accountRequest]="accountRequestPendingProcessing"
                                             [isTabExpanded]="true"
                                             [panelHeaderColor]="'primary'">
@@ -26,7 +27,7 @@
   <div class="card-body">
     <form>
       <div class="mb-1">
-        <h5>Filter by submission time:</h5>
+        <h5>Filter by submission time based on your system timezone ({{ timezone }}):</h5>
       </div>
       <div class="row d-flex justify-content-center">
         <div class="width-220px m-2 mx-sm-4">
@@ -67,6 +68,7 @@
       <ng-container *ngIf="accountRequestsWithinPeriod.length > 0, else noAccountRequestsWithinPeriodTemplate">
         <div *ngFor="let accountRequestWithinPeriod of accountRequestsWithinPeriod; let i = index">
           <tm-process-account-request-panel id="ar-within-period-{{ i }}"
+                                            [identifier]="'wp-' + i"
                                             [accountRequest]="accountRequestWithinPeriod"
                                             [isTabExpanded]="false"
                                             [panelHeaderColor]="'info'"

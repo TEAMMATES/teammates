@@ -1,5 +1,5 @@
 <div class="card">
-  <div id="panel-header" *ngIf="showPanelHeader" class="card-header bg-{{ panelHeaderColor }} text-white cursor-pointer" (click)="toggleCard()">
+  <div id="{{ identifier ? 'panel-header-' + identifier : 'panel-header' }}" *ngIf="showPanelHeader" class="card-header bg-{{ panelHeaderColor }} text-white cursor-pointer" (click)="toggleCard()">
     <strong class="text-break">{{ accountRequest.name }}
       <!-- TODO: this loading animation won't be shown if showPanelHeader is false -->
       <tm-ajax-loading *ngIf="isSavingChanges" class="ml-1"></tm-ajax-loading>
@@ -10,93 +10,93 @@
   </div>
   <div *ngIf="isTabExpanded" @collapseAnim>
     <div class="panel-padding text-center">
-      <div id="error-message" *ngIf="errorMessage" class="alert border-danger text-left show-new-line" >{{ errorMessage }}</div>
+      <div id="{{ identifier ? 'error-message-' + identifier : 'error-message' }}" *ngIf="errorMessage" class="alert border-danger text-left show-new-line" >{{ errorMessage }}</div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Status:</label>
         <div class="col-md-9 text-md-left">
-          <div id="status" *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.UNDEFINED" class="font-weight-bold" [ngClass]="{
+          <div id="{{ identifier ? 'status-' + identifier : 'status' }}" *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.UNDEFINED" class="font-weight-bold" [ngClass]="{
           'color-submitted': accountRequest!.status === AccountRequestStatus.SUBMITTED,
           'color-approved': accountRequest!.status === AccountRequestStatus.APPROVED,
           'color-rejected': accountRequest!.status === AccountRequestStatus.REJECTED,
           'color-registered': accountRequest!.status === AccountRequestStatus.REGISTERED
           }">{{ accountRequest!.status || 'UNDEFINED' }}</div>
-          <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.UNDEFINED" class="font-weight-bold">{{ 'UNDEFINED' }}</div>
+          <div id="{{ identifier ? 'status-undefined-' + identifier : 'status-undefined' }}" *ngIf="panelStatus === ProcessAccountRequestPanelStatus.UNDEFINED" class="font-weight-bold">{{ 'UNDEFINED' }}</div>
         </div>
       </div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Submitted at:</label>
         <div class="col-md-9 text-md-left">
-          <div id="submitted-at">{{ accountRequest!.createdAt | formatDateDetail: timezone }}</div>
+          <div id="{{ identifier ? 'submitted-at-' + identifier : 'submitted-at' }}">{{ accountRequest!.createdAt | formatDateDetail: timezone }}</div>
         </div>
       </div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Last processed at:</label>
         <div class="col-md-9 text-md-left">
-          <div id="last-processed-at">{{ accountRequest!.lastProcessedAt ? (accountRequest!.lastProcessedAt | formatDateDetail: timezone) : '' }}</div>
+          <div id="{{ identifier ? 'last-processed-at-' + identifier : 'last-processed-at' }}">{{ accountRequest!.lastProcessedAt ? (accountRequest!.lastProcessedAt | formatDateDetail: timezone) : '' }}</div>
         </div>
       </div>
       <div *ngIf="showRegisteredAt" class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Registered at:</label>
         <div class="col-md-9 text-md-left">
-          <div id="registered-at">{{ accountRequest!.registeredAt ? (accountRequest!.registeredAt | formatDateDetail: timezone) : '' }}</div>
+          <div id="{{ identifier ? 'registered-at-' + identifier : 'registered-at' }}">{{ accountRequest!.registeredAt ? (accountRequest!.registeredAt | formatDateDetail: timezone) : '' }}</div>
         </div>
       </div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Name:</label>
         <div class="col-md-9 text-md-left">
-          <div id="name" *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.name }}</div>
-          <input id="name-input" *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [disabled]="isSavingChanges" [(ngModel)]="editedName">
+          <div id="{{ identifier ? 'name-' + identifier : 'name' }}" *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.name }}</div>
+          <input id="{{ identifier ? 'name-input-' + identifier : 'name-input' }}" *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [disabled]="isSavingChanges" [(ngModel)]="editedName">
         </div>
       </div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Institute:</label>
         <div class="col-md-9 text-md-left">
-          <div id="institute" *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.institute }}</div>
-          <input id="institute-input" *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [disabled]="isSavingChanges" [(ngModel)]="editedInstitute">
+          <div id="{{ identifier ? 'institute-' + identifier : 'institute' }}" *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING">{{ accountRequest!.institute }}</div>
+          <input id="{{ identifier ? 'institute-input-' + identifier : 'institute-input' }}" *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [disabled]="isSavingChanges" [(ngModel)]="editedInstitute">
         </div>
       </div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Email:</label>
         <div class="col-md-9 text-md-left">
-          <a id="email" *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING" href="mailto:{{ accountRequest!.email }}">{{ accountRequest!.email }}</a>
-          <input id="email-input" *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [disabled]="isSavingChanges" [(ngModel)]="editedEmail">
+          <a id="{{ identifier ? 'email-' + identifier : 'email' }}" *ngIf="panelStatus !== ProcessAccountRequestPanelStatus.EDITING" href="mailto:{{ accountRequest!.email }}">{{ accountRequest!.email }}</a>
+          <input id="{{ identifier ? 'email-input-' + identifier : 'email-input' }}" *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="form-control" [disabled]="isSavingChanges" [(ngModel)]="editedEmail">
         </div>
       </div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Home page URL:</label>
         <div class="col-md-9 text-md-left">
           <div>
-            <a id="home-page-url" href="{{ accountRequest!.homePageUrl }}" target="_blank" rel="noopener noreferrer">{{ accountRequest!.homePageUrl }}</a>
+            <a id="{{ identifier ? 'home-page-url-' + identifier : 'home-page-url' }}" href="{{ accountRequest!.homePageUrl }}" target="_blank" rel="noopener noreferrer">{{ accountRequest!.homePageUrl }}</a>
           </div>
         </div>
       </div>
       <div class="form-group row align-items-top">
         <label class="col-md-3 py-2 py-md-0 mb-0 text-md-right">Other comments:</label>
         <div class="col-md-9 text-md-left show-new-line">
-          <div id="comments">{{ accountRequest!.comments }}</div>
+          <div id="{{ identifier ? 'comments-' + identifier : 'comments' }}">{{ accountRequest!.comments }}</div>
         </div>
       </div>
       <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.SUBMITTED" class="mx-auto">
-        <button id="submitted-edit-button" type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="editAccountRequest()" [disabled]="isSavingChanges">Edit</button>
-        <button id="submitted-approve-button" type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()" [disabled]="isSavingChanges">Approve</button>
-        <button id="submitted-reject-button" type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()" [disabled]="isSavingChanges">Reject</button>
-        <button id="submitted-delete-button" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
+        <button id="{{ identifier ? 'submitted-edit-button-' + identifier : 'submitted-edit-button' }}" type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="editAccountRequest()" [disabled]="isSavingChanges">Edit</button>
+        <button id="{{ identifier ? 'submitted-approve-button-' + identifier : 'submitted-approve-button' }}" type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()" [disabled]="isSavingChanges">Approve</button>
+        <button id="{{ identifier ? 'submitted-reject-button-' + identifier : 'submitted-reject-button' }}" type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()" [disabled]="isSavingChanges">Reject</button>
+        <button id="{{ identifier ? 'submitted-delete-button-' + identifier : 'submitted-delete-button' }}" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
       </div>
       <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.EDITING" class="mx-auto">
-        <button id="editing-save-button" type="button" class="btn btn-primary button-width mx-2 my-1" (click)="saveAccountRequest()" [disabled]="isSavingChanges">Save</button>
-        <button id="editing-cancel-button" type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="cancelEditAccountRequest()" [disabled]="isSavingChanges">Cancel</button>
+        <button id="{{ identifier ? 'editing-save-button-' + identifier : 'editing-save-button' }}" type="button" class="btn btn-primary button-width mx-2 my-1" (click)="saveAccountRequest()" [disabled]="isSavingChanges">Save</button>
+        <button id="{{ identifier ? 'editing-cancel-button-' + identifier : 'editing-cancel-button' }}" type="button" class="btn btn-secondary button-width mx-2 my-1" (click)="cancelEditAccountRequest()" [disabled]="isSavingChanges">Cancel</button>
       </div>
       <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.APPROVED" class="mx-auto">
-        <button id="approved-reject-button" type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()" [disabled]="isSavingChanges">Reject</button>
-        <button id="approved-delete-button" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
+        <button id="{{ identifier ? 'approved-reject-button-' + identifier : 'approved-reject-button' }}" type="button" class="btn btn-warning button-width mx-2 my-1" (click)="rejectAccountRequest()" [disabled]="isSavingChanges">Reject</button>
+        <button id="{{ identifier ? 'approved-delete-button-' + identifier : 'approved-delete-button' }}" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
       </div>
       <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.REJECTED" class="mx-auto">
-        <button id="rejected-approve-button" type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()" [disabled]="isSavingChanges">Approve</button>
-        <button id="rejected-reset-button" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="showOptionalResetAccountRequestWarning()" [disabled]="isSavingChanges">Reset</button>
-        <button id="rejected-delete-button" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
+        <button id="{{ identifier ? 'rejected-approve-button-' + identifier : 'rejected-approve-button' }}" type="button" class="btn btn-success button-width mx-2 my-1" (click)="approveAccountRequest()" [disabled]="isSavingChanges">Approve</button>
+        <button id="{{ identifier ? 'rejected-reset-button-' + identifier : 'rejected-reset-button' }}" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="showOptionalResetAccountRequestWarning()" [disabled]="isSavingChanges">Reset</button>
+        <button id="{{ identifier ? 'rejected-delete-button-' + identifier : 'rejected-delete-button' }}" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="deleteAccountRequest()" [disabled]="isSavingChanges">Delete</button>
       </div>
       <div *ngIf="panelStatus === ProcessAccountRequestPanelStatus.REGISTERED" class="mx-auto">
-        <button id="registered-reset-button" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="showOptionalResetAccountRequestWarning()" [disabled]="isSavingChanges">Reset</button>
+        <button id="{{ identifier ? 'registered-reset-button-' + identifier : 'registered-reset-button' }}" type="button" class="btn btn-danger button-width mx-2 my-1" (click)="showOptionalResetAccountRequestWarning()" [disabled]="isSavingChanges">Reset</button>
       </div>
     </div>
   </div>
