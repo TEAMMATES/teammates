@@ -239,7 +239,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   private prepareEnrollmentResults(enrolledStudents: Student[],
                                    studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
     this.enrollResultPanelList = this.populateEnrollResultPanelList(this.existingStudents,
-        enrolledStudents, Array.from(studentEnrollRequests.values()));
+        enrolledStudents, studentEnrollRequests);
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
@@ -370,7 +370,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
-                                        enrollRequests: StudentEnrollRequest[]): EnrollResultPanel[] {
+                                        enrollRequests: Map<number, StudentEnrollRequest>): EnrollResultPanel[] {
 
     const panels: EnrollResultPanel[] = [];
     const studentLists: Student[][] = [];
@@ -418,7 +418,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     // Identify students that failed to enroll.
-    for (const request of enrollRequests) {
+    for (const request of enrollRequests.values()) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
         return student.email === request.email;
       });
