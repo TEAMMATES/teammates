@@ -65,30 +65,35 @@ exports[`AdminRequestsPageComponent should snap when loading account requests pe
             >
               <label
                 class="font-weight-bold"
-                for="from-datepicker"
               >
                 From
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="from-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="from-datepicker"
-                name="from-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
           <div
             class="width-220px m-2 mx-sm-4"
@@ -98,30 +103,35 @@ exports[`AdminRequestsPageComponent should snap when loading account requests pe
             >
               <label
                 class="font-weight-bold"
-                for="to-datepicker"
               >
                 To
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="to-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="to-datepicker"
-                name="to-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
         </div>
         <div
@@ -229,30 +239,35 @@ exports[`AdminRequestsPageComponent should snap when loading account requests pe
             >
               <label
                 class="font-weight-bold"
-                for="from-datepicker"
               >
                 From
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="from-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="from-datepicker"
-                name="from-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
           <div
             class="width-220px m-2 mx-sm-4"
@@ -262,30 +277,35 @@ exports[`AdminRequestsPageComponent should snap when loading account requests pe
             >
               <label
                 class="font-weight-bold"
-                for="to-datepicker"
               >
                 To
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="to-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="to-datepicker"
-                name="to-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
         </div>
         <div
@@ -823,30 +843,35 @@ exports[`AdminRequestsPageComponent should snap with account requests pending pr
             >
               <label
                 class="font-weight-bold"
-                for="from-datepicker"
               >
                 From
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="from-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="from-datepicker"
-                name="from-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
           <div
             class="width-220px m-2 mx-sm-4"
@@ -856,30 +881,35 @@ exports[`AdminRequestsPageComponent should snap with account requests pending pr
             >
               <label
                 class="font-weight-bold"
-                for="to-datepicker"
               >
                 To
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="to-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="to-datepicker"
-                name="to-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
         </div>
         <div
@@ -1124,30 +1154,35 @@ exports[`AdminRequestsPageComponent should snap with collapsed account requests 
             >
               <label
                 class="font-weight-bold"
-                for="from-datepicker"
               >
                 From
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="from-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="from-datepicker"
-                name="from-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
           <div
             class="width-220px m-2 mx-sm-4"
@@ -1157,30 +1192,35 @@ exports[`AdminRequestsPageComponent should snap with collapsed account requests 
             >
               <label
                 class="font-weight-bold"
-                for="to-datepicker"
               >
                 To
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="to-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="to-datepicker"
-                name="to-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
         </div>
         <div
@@ -1511,30 +1551,35 @@ exports[`AdminRequestsPageComponent should snap with default fields 1`] = `
             >
               <label
                 class="font-weight-bold"
-                for="from-datepicker"
               >
                 From
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="from-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="from-datepicker"
-                name="from-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
           <div
             class="width-220px m-2 mx-sm-4"
@@ -1544,30 +1589,35 @@ exports[`AdminRequestsPageComponent should snap with default fields 1`] = `
             >
               <label
                 class="font-weight-bold"
-                for="to-datepicker"
               >
                 To
               </label>
             </div>
-            <div
-              class="input-group"
+            <tm-datepicker
+              id="to-datepicker"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="to-datepicker"
-                name="to-date"
-                ngbdatepicker=""
-                type="text"
-              />
-              <button
-                class="btn btn-light"
-                type="button"
+              <div
+                class="input-group"
               >
-                <i
-                  class="fas fa-calendar-alt"
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  ngbdatepicker=""
+                  type="text"
                 />
-              </button>
-            </div>
+                <div
+                  class="input-group-append"
+                >
+                  <button
+                    class="btn btn-light"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-calendar-alt"
+                    />
+                  </button>
+                </div>
+              </div>
+            </tm-datepicker>
           </div>
         </div>
         <div

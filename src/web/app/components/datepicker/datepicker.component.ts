@@ -18,6 +18,9 @@ export class DatepickerComponent {
   disabled: boolean = false;
 
   @Input()
+  readonly: boolean = true;
+
+  @Input()
   maxDate: DateFormat | undefined;
 
   @Input()

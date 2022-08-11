@@ -10,6 +10,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
 import { DateFormat } from '../../components/datepicker/datepicker.component';
+import { DatepickerModule } from '../../components/datepicker/datepicker.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
@@ -99,6 +100,7 @@ describe('AdminRequestsPageComponent', () => {
         PanelChevronModule,
         NoopAnimationsModule,
         ProcessAccountRequestPanelModule,
+        DatepickerModule,
       ],
       declarations: [AdminRequestsPageComponent],
       providers: [
@@ -318,13 +320,11 @@ describe('AdminRequestsPageComponent', () => {
     const fromDate: DateFormat = { year: 2022, month: 7, day: 26 };
     const toDate: string = 'Invalid date';
 
-    const fromDatepicker: HTMLInputElement = fixture.debugElement.query(By.css('#from-datepicker')).nativeElement;
-    fromDatepicker.value = `${fromDate.year}-${fromDate.month}-${fromDate.day}`;
-    fromDatepicker.dispatchEvent(new Event('input'));
+    const fromDatepickerDe = fixture.debugElement.query(By.css('#from-datepicker'));
+    fromDatepickerDe.triggerEventHandler('dateChangeCallback', fromDate);
 
-    const toDatepicker: HTMLInputElement = fixture.debugElement.query(By.css('#to-datepicker')).nativeElement;
-    toDatepicker.value = toDate;
-    toDatepicker.dispatchEvent(new Event('input'));
+    const toDatepickerDe = fixture.debugElement.query(By.css('#to-datepicker'));
+    toDatepickerDe.triggerEventHandler('dateChangeCallback', toDate);
 
     expect(component.formModel.fromDate).toEqual(fromDate);
     expect(component.formModel.toDate).toEqual(toDate);
@@ -334,9 +334,8 @@ describe('AdminRequestsPageComponent', () => {
     const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
     const getAccountRequestsWithinPeriodSpy = jest.spyOn(accountService, 'getAccountRequestsWithinPeriod');
 
-    const fromDatepicker: HTMLInputElement = fixture.debugElement.query(By.css('#from-datepicker')).nativeElement;
-    fromDatepicker.value = '';
-    fromDatepicker.dispatchEvent(new Event('input'));
+    const fromDatepickerDe = fixture.debugElement.query(By.css('#from-datepicker'));
+    fromDatepickerDe.triggerEventHandler('dateChangeCallback', null);
 
     fixture.debugElement.query(By.css('#show-account-requests-button')).triggerEventHandler('click', null);
 
@@ -351,9 +350,8 @@ describe('AdminRequestsPageComponent', () => {
     const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
     const getAccountRequestsWithinPeriodSpy = jest.spyOn(accountService, 'getAccountRequestsWithinPeriod');
 
-    const toDatepicker: HTMLInputElement = fixture.debugElement.query(By.css('#to-datepicker')).nativeElement;
-    toDatepicker.value = '';
-    toDatepicker.dispatchEvent(new Event('input'));
+    const toDatepickerDe = fixture.debugElement.query(By.css('#to-datepicker'));
+    toDatepickerDe.triggerEventHandler('dateChangeCallback', null);
 
     fixture.debugElement.query(By.css('#show-account-requests-button')).triggerEventHandler('click', null);
 

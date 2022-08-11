@@ -31,25 +31,27 @@
       <div class="row d-flex justify-content-center">
         <div class="width-220px m-2 mx-sm-4">
           <div class="mb-1">
-            <label for="from-datepicker" class="font-weight-bold">From</label>
+            <label class="font-weight-bold">From</label>
           </div>
-          <div class="input-group">
-            <input id="from-datepicker" type="text" class="form-control" name="from-date" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.fromDate" #logsFromDp="ngbDatepicker">
-            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
-          </div>
+          <tm-datepicker id="from-datepicker"
+                         [date]="formModel.fromDate"
+                         [minDate]="earliestSearchDate"
+                         [maxDate]="dateToday"
+                         [readonly]="false"
+                         (dateChangeCallback)="formModel.fromDate = $event">
+          </tm-datepicker>
         </div>
         <div class="width-220px m-2 mx-sm-4">
           <div class="mb-1">
-            <label for="to-datepicker" class="font-weight-bold">To</label>
+            <label class="font-weight-bold">To</label>
           </div>
-          <div class="input-group">
-            <input id="to-datepicker" type="text" class="form-control" name="to-date" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.toDate" #logsToDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
-          </div>
+          <tm-datepicker id="to-datepicker"
+                         [date]="formModel.toDate"
+                         [minDate]="earliestSearchDate"
+                         [maxDate]="dateToday"
+                         [readonly]="false"
+                         (dateChangeCallback)="formModel.toDate = $event">
+          </tm-datepicker>
         </div>
       </div>
       <div class="d-flex justify-content-center mt-4">
