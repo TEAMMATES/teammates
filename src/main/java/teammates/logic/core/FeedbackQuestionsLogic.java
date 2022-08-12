@@ -468,6 +468,15 @@ public final class FeedbackQuestionsLogic {
             case INSTRUCTORS:
             case SELF:
                 InstructorAttributes instructorGiver = courseRoster.getInstructorForEmail(possibleGiver);
+
+                if (instructorGiver == null) {
+                    instructorGiver =
+                            InstructorAttributes
+                                    .builder(relatedQuestion.getCourseId(), possibleGiver)
+                                    .withName("Instructor has quit")
+                                    .build();
+                }
+
                 completeGiverRecipientMap
                         .computeIfAbsent(possibleGiver, key -> new HashSet<>())
                         .addAll(getRecipientsOfQuestion(
