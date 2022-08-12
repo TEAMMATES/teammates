@@ -7,7 +7,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is EDI
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
@@ -234,7 +234,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is UND
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
@@ -292,6 +292,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when panelStatus is UND
           >
             <div
               class="font-weight-bold"
+              id="status-undefined"
               style=""
             >
               UNDEFINED
@@ -445,7 +446,7 @@ exports[`ProcessAccountRequestPanelComponent should snap when saving changes 1`]
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges={[Function Boolean]}
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
@@ -706,7 +707,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with a collapsed tab 1`
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded="false"
   panelHeaderColor={[Function String]}
@@ -755,7 +756,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with a non-default Boot
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage={[Function String]}
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
@@ -1006,7 +1007,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default APPROVED a
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
@@ -1256,7 +1257,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REGISTERED
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
@@ -1518,7 +1519,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default REJECTED a
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
@@ -1779,7 +1780,7 @@ exports[`ProcessAccountRequestPanelComponent should snap with default SUBMITTED 
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
@@ -2024,7 +2025,7 @@ exports[`ProcessAccountRequestPanelComponent should snap without showing panel h
   accountRequest={[Function Object]}
   accountService={[Function Object]}
   errorMessage=""
-  index=""
+  identifier=""
   isSavingChanges="false"
   isTabExpanded={[Function Boolean]}
   panelHeaderColor={[Function String]}
