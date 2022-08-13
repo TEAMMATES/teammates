@@ -174,7 +174,8 @@ final class GateKeeper {
                                                   + "] is not accessible to instructor [" + instructor.getEmail() + "]");
         }
 
-        if (!instructor.isAllowedForPrivilege(privilegeName)) {
+        if (!instructor.isAllowedForPrivilege(privilegeName) &&
+                !instructor.isAllowedForPrivilegeAnySection(feedbacksession.getFeedbackSessionName(), privilegeName)) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getFeedbackSessionName()
                                                   + "] is not accessible to instructor [" + instructor.getEmail()
                                                   + "] for privilege [" + privilegeName + "]");
