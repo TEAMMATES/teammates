@@ -3,7 +3,7 @@
     "accountRequest1": {
       "name": "Account Request 1",
       "institute": "TEAMMATES Test Institute, Singapore",
-      "email": "ARequests.account_request_1@tmt.tmt",
+      "email": "ARequests.accountRequest1@gmail.tmt",
       "homePageUrl": "https://www.google.com/",
       "comments": "Some comments.",
       "status": "SUBMITTED",
@@ -12,7 +12,7 @@
     "accountRequest2": {
       "name": "Account Request 2",
       "institute": "TEAMMATES Test Institute, Singapore",
-      "email": "ARequests.account_request_2@tmt.tmt",
+      "email": "ARequests.accountRequest2@gmail.tmt",
       "homePageUrl": "",
       "comments": "",
       "status": "SUBMITTED",
@@ -21,7 +21,7 @@
     "accountRequest3": {
       "name": "Account Request 3",
       "institute": "TEAMMATES Test Institute, Singapore",
-      "email": "ARequests.account_request_3@tmt.tmt",
+      "email": "ARequests.accountRequest3@gmail.tmt",
       "homePageUrl": "",
       "comments": "",
       "status": "SUBMITTED",
@@ -30,7 +30,7 @@
     "accountRequest4": {
       "name": "Account Request 4",
       "institute": "TEAMMATES Test Institute, Singapore",
-      "email": "ARequests.account_request_4@tmt.tmt",
+      "email": "ARequests.accountRequest4@gmail.tmt",
       "homePageUrl": "",
       "comments": "",
       "status": "APPROVED",
@@ -40,7 +40,7 @@
     "accountRequest5": {
       "name": "Account Request 5",
       "institute": "TEAMMATES Test Institute, Singapore",
-      "email": "ARequests.account_request_5@tmt.tmt",
+      "email": "ARequests.accountRequest5@gmail.tmt",
       "homePageUrl": "",
       "comments": "",
       "status": "REGISTERED",
@@ -51,7 +51,7 @@
     "accountRequest6": {
       "name": "Account Request 6",
       "institute": "TEAMMATES Test Institute, Singapore",
-      "email": "ARequests.account_request_6@tmt.tmt",
+      "email": "ARequests.accountRequest6@gmail.tmt",
       "homePageUrl": "",
       "comments": "",
       "status": "REJECTED",
