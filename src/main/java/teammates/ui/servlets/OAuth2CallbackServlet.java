@@ -34,19 +34,19 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (idToken == null) {
             return;
         }
-        String email;
+        String googleId = null;
         try {
-            email = FirebaseAuth.getInstance().verifyIdToken(idToken).getEmail();
+            googleId = FirebaseAuth.getInstance().verifyIdToken(idToken).getEmail();
         } catch (FirebaseAuthException e) {
             log.warning("Invalid user ID token", e);
-            email = null;
         }
         Cookie cookie;
-        if (email == null) {
+        if (googleId == null) {
+            // invalid google ID
             req.getSession().invalidate();
             cookie = getLoginInvalidationCookie();
         } else {
-            UserInfoCookie uic = new UserInfoCookie(email);
+            UserInfoCookie uic = new UserInfoCookie(googleId);
             cookie = getLoginCookie(uic);
         }
 
