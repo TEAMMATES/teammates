@@ -55,7 +55,7 @@ jobs:
         run: ./gradlew lint --continue
       - name: Install Frontend Dependencies
         run: npm ci
-      - name: Run Lint Checks 
+      - name: Run Lint Checks
         run: npm run lint
   component-testing:
     strategy:
