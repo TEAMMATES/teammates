@@ -41,7 +41,7 @@ export class AccountService {
   }
 
   /**
-   * Creates an account request by calling API.
+   * Creates an account request as admin by calling API.
    */
   createAccountRequestAsAdmin(requestBody: AccountRequestCreateRequest): Observable<JoinLink> {
     const paramsMap: Record<string, string> = {
@@ -52,7 +52,7 @@ export class AccountService {
   }
 
   /**
-   * Creates an account request by calling API.
+   * Creates an account request as public by calling API.
    */
   createAccountRequestAsPublic(queryParams: {
     accountRequestType: AccountRequestType,

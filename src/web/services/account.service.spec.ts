@@ -133,6 +133,31 @@ describe('AccountService', () => {
       .toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, createRequest);
   });
 
+  it('should execute POST on account/request endpoint when creating an account request as public', () => {
+    const createRequest: AccountRequestCreateRequest = {
+      instructorName: 'testName',
+      instructorInstitute: 'testInstitution',
+      instructorCountry: 'Singapore',
+      instructorEmail: 'testEmail@tmt.tmt',
+      instructorHomePageUrl: 'https://www.google.com/',
+      comments: 'Is TEAMMATES free to use?',
+    };
+    const paramsMap: Record<string, string> = {
+      intent: AccountRequestCreateIntent.PUBLIC_CREATE,
+      accountrequesttype: AccountRequestType.INSTRUCTOR_ACCOUNT,
+      captcharesponse: '123456',
+    };
+
+    service.createAccountRequestAsPublic({
+      accountRequestType: AccountRequestType.INSTRUCTOR_ACCOUNT,
+      captchaResponse: '123456',
+      requestBody: createRequest,
+    });
+
+    expect(spyHttpRequestService.post)
+      .toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramsMap, createRequest);
+  });
+
   it('should execute PUT on account/request endpoint when updating an account request as admin', () => {
     const updateRequest: AccountRequestUpdateRequest = {
       instructorName: 'updatedName',
