@@ -10,7 +10,7 @@
     "lint:ts": "ng lint --cache --eslint-config static-analysis/teammates-eslint.yml",
     "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --ignore-pattern \"src/web/dist/*.css\" --cache --config static-analysis/teammates-stylelint.yml",
     "lint:windows:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.properties\" \"*.yml\" \"*.json\" \"*.gradle\" \"static-analysis/*.*ml\" \".gitattributes\"",
-    "lint:nix:spaces": "lintspaces -n -t -d spaces -l 1 --matchdotfiles $(git diff --name-only --diff-filter=ACMRTUXB master | grep -E \"src/(main|web)/.*.html|src/.*.(xml|json|properties)|*.(yml|json|gradle)|static-analysis/*.*ml|.gitattributes\")",
+    "lint:nix:spaces": "lintspaces -n -t -d spaces -l 1 --matchdotfiles $(git diff --name-only --diff-filter=ACMRTUXB origin/master HEAD | grep -E \"src/(main|web)/.*.html|src/.*.(xml|json|properties)|*.(yml|json|gradle)|static-analysis/*.*ml|.gitattributes\")",
     "lint": "run-script-os",
     "lint:windows": "npm-run-all lint:ts lint:css lint:windows:spaces -c",
     "lint:nix": "npm-run-all lint:ts lint:css lint:nix:spaces -c"
