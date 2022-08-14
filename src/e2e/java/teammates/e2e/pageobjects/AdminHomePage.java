@@ -79,20 +79,29 @@ public class AdminHomePage extends AppPage {
         return element.getText();
     }
 
-    public void clickMoreInfoButtonForRegisteredInstructor(int i) {
-        By by = By.id("instructor-" + i + "-registered-info-button");
+    public void clickMoreInfoButtonForExistingAccountRequest(int i) {
+        By by = By.id("existing-account-request-info-button-" + i);
         waitForElementVisibility(by);
         WebElement element = browser.driver.findElement(by);
         element.click();
-        waitForElementVisibility(By.id("reset-account-request-link"));
+        waitForElementVisibility(By.cssSelector("tm-process-account-request-panel"));
     }
 
-    public void clickResetAccountRequestLink() {
-        By by = By.id("reset-account-request-link");
-        WebElement element = browser.driver.findElement(by);
-        element.click();
+    public void clickAccountRequestPanelRegisteredResetButton() {
+        By by = By.id("registered-reset-button");
+        click(by);
         ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
         List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
-        clickDismissModalButtonAndWaitForModalHidden(okButtons.get(1)); // Second modal is confirmation modal
+        click(okButtons.get(1)); // Second modal is confirmation modal
+        waitForPageToLoad(true);
+    }
+
+    public void clickAccountRequestPanelSubmittedDeleteButton() {
+        By by = By.id("submitted-delete-button");
+        click(by);
+        ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
+        List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
+        click(okButtons.get(1)); // Second modal is confirmation modal
+        waitForPageToLoad(true);
     }
 }

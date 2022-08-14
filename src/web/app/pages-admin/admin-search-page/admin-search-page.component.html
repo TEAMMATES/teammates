@@ -249,7 +249,7 @@
               }">{{ accountRequest.status || 'UNDEFINED' }}</div>
             </td>
             <td>
-              <a id="reset-account-request-{{i}}" href="javascript:;" (click)="$event.stopPropagation(); manageAccountRequest(accountRequest);">
+              <a id="manage-account-request-{{i}}" role="button" (click)="$event.stopPropagation(); manageAccountRequest(accountRequest);">
                 <i class="fas fa-info-circle"></i> Manage this account request
               </a>
             </td>
@@ -272,7 +272,8 @@
 
 <ng-template #manageAccountRequestModal>
   <div *tmIsLoading="isManageAccountRequestModalLoading">
-    <tm-process-account-request-panel [accountRequest]="accountRequestManaged"
+    <tm-process-account-request-panel *ngIf="accountRequestManaged"
+                                      [accountRequest]="accountRequestManaged"
                                       [showPanelHeader]="false"
                                       [showRegisteredAt]="true">
     </tm-process-account-request-panel>

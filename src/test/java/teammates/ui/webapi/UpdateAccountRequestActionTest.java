@@ -122,8 +122,7 @@ public class UpdateAccountRequestActionTest extends BaseActionTest<UpdateAccount
         };
         InvalidOperationException ioe = verifyInvalidOperation(req, params);
         assertEquals("There’s an existing account request with the email address and institute"
-                        + " you want to update to and its status is SUBMITTED.\n"
-                        + "You can locate that account request on the requests page and process it instead.",
+                        + " you want to update to, and its status is SUBMITTED.",
                 ioe.getMessage());
         verifyNoTasksAdded();
 
@@ -135,8 +134,7 @@ public class UpdateAccountRequestActionTest extends BaseActionTest<UpdateAccount
         };
         ioe = verifyInvalidOperation(req, params);
         assertEquals("There’s an existing account request with the email address and institute"
-                        + " you want to update to and its status is APPROVED.\n"
-                        + "You can search for that account request to see more information.",
+                        + " you want to update to, and its status is APPROVED.",
                 ioe.getMessage());
         verifyNoTasksAdded();
 
@@ -148,8 +146,7 @@ public class UpdateAccountRequestActionTest extends BaseActionTest<UpdateAccount
         };
         ioe = verifyInvalidOperation(req, params);
         assertEquals("There’s an existing account request with the email address and institute"
-                        + " you want to update to and its status is REJECTED.\n"
-                        + "You can search for that account request to see more information.",
+                        + " you want to update to, and its status is REJECTED.",
                 ioe.getMessage());
         verifyNoTasksAdded();
 
@@ -161,8 +158,7 @@ public class UpdateAccountRequestActionTest extends BaseActionTest<UpdateAccount
         };
         ioe = verifyInvalidOperation(req, params);
         assertEquals("There’s an existing account request with the email address and institute"
-                        + " you want to update to and its status is REGISTERED.\n"
-                        + "You can search for that account request to see more information.",
+                        + " you want to update to, and its status is REGISTERED.",
                 ioe.getMessage());
         verifyNoTasksAdded();
 

@@ -9,15 +9,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.util.Logger;
 import teammates.storage.api.AccountRequestsDb;
 
 /**
  * Handles the logic related to account requests.
  */
 public final class AccountRequestsLogic {
-
-    private static final Logger log = Logger.getLogger();
 
     private static final AccountRequestsLogic instance = new AccountRequestsLogic();
 
@@ -55,20 +52,17 @@ public final class AccountRequestsLogic {
      * @throws EntityAlreadyExistsException if the account request to create already exists
      */
     public AccountRequestAttributes createAndApproveAccountRequest(AccountRequestAttributes accountRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        AccountRequestAttributes accountRequestAttributes = accountRequestsDb.createEntity(accountRequest);
-        try {
-            accountRequestAttributes = updateAccountRequest(AccountRequestAttributes
-                    .updateOptionsBuilder(accountRequestAttributes.getEmail(), accountRequestAttributes.getInstitute())
-                    .withStatus(AccountRequestStatus.APPROVED)
-                    .withLastProcessedAt(accountRequestAttributes.getCreatedAt())
-                    .build());
-        } catch (EntityDoesNotExistException ednee) {
-            log.severe("Encountered exception when creating account request: "
-                    + "The newly created account request disappeared before it could be approved.", ednee);
-            throw ednee;
-        }
-        return accountRequestAttributes;
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert accountRequest != null;
+
+        accountRequest.setCreatedAt(Instant.now());
+        accountRequest.update(AccountRequestAttributes
+                .updateOptionsBuilder(accountRequest.getEmail(), accountRequest.getInstitute())
+                .withStatus(AccountRequestStatus.APPROVED)
+                .withLastProcessedAt(accountRequest.getCreatedAt())
+                .build());
+
+        return accountRequestsDb.createEntity(accountRequest);
     }
 
     /**

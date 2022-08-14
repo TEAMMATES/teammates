@@ -270,6 +270,7 @@ public final class Const {
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_ACCOUNTS_PAGE = ADMIN_PAGE + "/accounts";
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
+        public static final String ADMIN_REQUESTS_PAGE = ADMIN_PAGE + "/requests";
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String ADMIN_LOGS_PAGE = ADMIN_PAGE + "/logs";

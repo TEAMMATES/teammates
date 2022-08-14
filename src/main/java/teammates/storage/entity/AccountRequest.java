@@ -29,18 +29,21 @@ public class AccountRequest extends BaseEntity {
 
     private String email;
 
-    private String homePageUrl; // for old AR, this field can be set to ""
+    private String homePageUrl;
 
-    private String comments; // for old AR, this field can be set to ""
+    private String comments;
 
-    private AccountRequestStatus status; // for old AR, this field should be set to APPROVED if registeredAt == null
-    // else, it should be set to REGISTERED
+    private AccountRequestStatus status;
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
+    /**
+     * The time when this account request is last processed by an administrator.
+     * Processing includes edit, approve, reject, and reset. Initially, lastProcessedAt is set to {@code null}.
+     */
     @Translate(InstantTranslatorFactory.class)
-    private Instant lastProcessedAt; // for old AR, this field should be set to = createdAt
+    private Instant lastProcessedAt;
 
     @Translate(InstantTranslatorFactory.class)
     private Instant registeredAt;
@@ -50,9 +53,6 @@ public class AccountRequest extends BaseEntity {
         // required by Objectify
     }
 
-    /**
-     * Constructs a new account request. The status is initialized to {@code SUBMITTED}.
-     */
     public AccountRequest(String name, String institute, String email, String homePageUrl, String comments) {
         this.setName(name);
         this.setInstitute(institute);

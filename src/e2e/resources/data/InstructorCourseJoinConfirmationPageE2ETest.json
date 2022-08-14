@@ -28,6 +28,15 @@
       "status": "APPROVED",
       "createdAt": "2011-01-01T00:00:00Z",
       "lastProcessedAt": "2011-01-01T00:00:00Z"
+    },
+    "ICJoinConf.submittedRequest": {
+      "name": "Teammates Test Submitted Request",
+      "institute": "TEAMMATES Test Institute 1",
+      "email": "ICJoinConf.submitted@gmail.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED",
+      "createdAt": "2011-01-01T00:00:00Z"
     }
   },
   "courses": {

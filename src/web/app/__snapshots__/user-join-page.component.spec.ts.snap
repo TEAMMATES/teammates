@@ -116,7 +116,7 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
       <div
         class="card-body"
       >
-         The course join link is invalid. You may have entered the URL incorrectly or the URL may correspond to a/an student that does not exist. 
+         The course join link is invalid. You may have entered the URL incorrectly, or the URL may correspond to a/an student that does not exist, or the account request is not approved yet. 
       </div>
     </div>
   </div>

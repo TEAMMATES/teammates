@@ -84,7 +84,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         InvalidOperationException ioe = verifyInvalidOperation(req, params);
         assertEquals("Oops, your submission is unsuccessful because an account request already exists."
                 + " Please check if you have entered your personal information correctly."
-                + " If you think this shouldn't happen, contact us at the email address given above.",
+                + " If you think this shouldn't happen, please contact us.",
                 ioe.getMessage());
 
         ______TS("failure: invalid body fields");
@@ -94,9 +94,9 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String invalidPureCountry = ",Singapore";
         String invalidEmail = "invalid_email@tmt";
         String invalidHomePageUrl = StringHelperExtension
-                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
+                .generateStringOfLength(FieldValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH + 1);
         String invalidComments = StringHelperExtension
-                .generateRandomAsciiStringOfLength(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
+                .generateStringOfLength(FieldValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH + 1);
 
         req = buildCreateRequest(invalidName, invalidPureInstitute, invalidPureCountry,
                 invalidEmail, invalidHomePageUrl, invalidComments);

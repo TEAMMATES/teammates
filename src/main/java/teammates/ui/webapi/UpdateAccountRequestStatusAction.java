@@ -26,43 +26,51 @@ class UpdateAccountRequestStatusAction extends AdminOnlyAction {
 
         AccountRequestStatusUpdateIntent intent =
                 AccountRequestStatusUpdateIntent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        try {
-            switch (intent) {
-            case TO_APPROVE:
-                if (accountRequest.hasRegistrationKeyBeenUsedToJoin()) {
-                    throw new InvalidOperationException("Account request of a registered instructor cannot be approved.");
-                }
-                accountRequest = logic.approveAccountRequest(email, institute);
-
-                String joinLink = accountRequest.getRegistrationUrl();
-                EmailWrapper joinEmail = emailGenerator.generateNewInstructorAccountJoinEmail(
-                        accountRequest.getEmail(), accountRequest.getName(), joinLink);
-                emailSender.sendEmail(joinEmail);
-
-                break;
-
-            case TO_REJECT:
-                if (accountRequest.hasRegistrationKeyBeenUsedToJoin()) {
-                    throw new InvalidOperationException("Account request of a registered instructor cannot be rejected.");
-                }
-                accountRequest = logic.rejectAccountRequest(email, institute);
-                break;
-
-            case TO_RESET:
-                if (accountRequest.getStatus().equals(AccountRequestStatus.APPROVED)) {
-                    throw new InvalidOperationException("Account requests with status APPROVED cannot be reset."
-                            + " Reject it first and then reset.");
-                }
-                accountRequest = logic.resetAccountRequest(email, institute);
-
-                break;
-
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
+        switch (intent) {
+        case TO_APPROVE:
+            if (accountRequest.hasRegistrationKeyBeenUsedToJoin()) {
+                throw new InvalidOperationException("Account request of a registered instructor cannot be approved.");
             }
-        } catch (EntityDoesNotExistException ednee) {
-            throw new EntityNotFoundException("Account request with email: " + email
-                    + " and institute: " + institute + " does not exist.", ednee);
+            try {
+                accountRequest = logic.approveAccountRequest(email, institute);
+            } catch (EntityDoesNotExistException ednee) {
+                throw new EntityNotFoundException("Account request with email: " + email
+                        + " and institute: " + institute + " does not exist.", ednee);
+            }
+
+            String joinLink = accountRequest.getRegistrationUrl();
+            EmailWrapper joinEmail = emailGenerator.generateNewInstructorAccountJoinEmail(
+                    accountRequest.getEmail(), accountRequest.getName(), joinLink);
+            emailSender.sendEmail(joinEmail);
+            break;
+
+        case TO_REJECT:
+            if (accountRequest.hasRegistrationKeyBeenUsedToJoin()) {
+                throw new InvalidOperationException("Account request of a registered instructor cannot be rejected.");
+            }
+            try {
+                accountRequest = logic.rejectAccountRequest(email, institute);
+            } catch (EntityDoesNotExistException ednee) {
+                throw new EntityNotFoundException("Account request with email: " + email
+                        + " and institute: " + institute + " does not exist.", ednee);
+            }
+            break;
+
+        case TO_RESET:
+            if (accountRequest.getStatus().equals(AccountRequestStatus.APPROVED)) {
+                throw new InvalidOperationException("Account requests with status APPROVED cannot be reset."
+                        + " Reject it first and then reset.");
+            }
+            try {
+                accountRequest = logic.resetAccountRequest(email, institute);
+            } catch (EntityDoesNotExistException ednee) {
+                throw new EntityNotFoundException("Account request with email: " + email
+                        + " and institute: " + institute + " does not exist.", ednee);
+            }
+            break;
+
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         return new JsonResult(new AccountRequestData(accountRequest));

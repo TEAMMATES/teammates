@@ -118,7 +118,7 @@ public class GetAccountRequestsActionTest extends BaseActionTest<GetAccountReque
                 Const.ParamsNames.ACCOUNT_REQUESTS_END_TIME, startTime,
         };
         ihpe = verifyHttpParameterFailure(params);
-        assertEquals("End date cannot be earlier than start date", ihpe.getMessage());
+        assertEquals("End time cannot be earlier than start time", ihpe.getMessage());
 
         ______TS("failure: null parameters");
 
@@ -134,16 +134,14 @@ public class GetAccountRequestsActionTest extends BaseActionTest<GetAccountReque
                 Const.ParamsNames.ACCOUNT_REQUESTS_END_TIME, endTime,
         };
         ihpe = verifyHttpParameterFailure(params);
-        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.ACCOUNT_REQUESTS_START_TIME),
-                ihpe.getMessage());
+        assertEquals("Invalid start time", ihpe.getMessage());
 
         params = new String[] {
                 Const.ParamsNames.INTENT, AccountRequestsGetIntent.WITHIN_PERIOD.toString(),
                 Const.ParamsNames.ACCOUNT_REQUESTS_START_TIME, startTime,
         };
         ihpe = verifyHttpParameterFailure(params);
-        assertEquals(String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.ACCOUNT_REQUESTS_END_TIME),
-                ihpe.getMessage());
+        assertEquals("Invalid end time", ihpe.getMessage());
     }
 
     @Override

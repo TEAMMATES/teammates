@@ -18,6 +18,10 @@ public class InvalidHttpParameterException extends RuntimeException {
         super(cause.getMessage(), cause);
     }
 
+    public InvalidHttpParameterException(String message, InvalidHttpParameterException cause) {
+        super(message, cause);
+    }
+
     public InvalidHttpParameterException(String message, ArithmeticException cause) {
         super(message, cause);
     }

@@ -4,7 +4,6 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -21,6 +20,11 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Creates a new account request.
  */
 class CreateAccountRequestAction extends Action {
+
+    static final String PUBLIC_CREATE_EXISTING_ACCOUNT_REQUEST_MESSAGE =
+            "Oops, your submission is unsuccessful because an account request already exists."
+                    + " Please check if you have entered your personal information correctly."
+                    + " If you think this shouldn't happen, please contact us.";
 
     private static final Logger log = Logger.getLogger();
 
@@ -88,14 +92,11 @@ class CreateAccountRequestAction extends Action {
                 taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequestAttributes.getEmail(),
                         accountRequestAttributes.getInstitute());
             } catch (EntityAlreadyExistsException eaee) {
-                throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
-                        intent, instructorEmail, instructorInstitute), eaee);
+                AccountRequestAttributes accountRequest = logic.getAccountRequest(instructorEmail, instructorInstitute);
+                throw new InvalidOperationException(
+                        "An account request already exists with status " + accountRequest.getStatus() + ".", eaee);
             } catch (InvalidParametersException ipe) {
                 throw new InvalidHttpRequestBodyException(ipe);
-            } catch (EntityDoesNotExistException ednee) {
-                // error has been logged in method createAndApproveAccountRequest()
-                return new JsonResult("The server encountered an error when processing your request.",
-                        HttpStatus.SC_INTERNAL_SERVER_ERROR);
             }
 
             String joinLink = accountRequestAttributes.getRegistrationUrl();
@@ -126,8 +127,7 @@ class CreateAccountRequestAction extends Action {
 
                 return new JsonResult("Account request successfully created.");
             } catch (EntityAlreadyExistsException eaee) {
-                throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
-                        intent, instructorEmail, instructorInstitute), eaee);
+                throw new InvalidOperationException(PUBLIC_CREATE_EXISTING_ACCOUNT_REQUEST_MESSAGE, eaee);
             } catch (InvalidParametersException ipe) {
                 // account request has been validated before so this exception should not happen
                 log.severe("Encountered exception when creating account request: " + ipe.getMessage(), ipe);
@@ -193,21 +193,6 @@ class CreateAccountRequestAction extends Action {
         }
 
         return isValid;
-    }
-
-    private String generateExistingAccountRequestErrorMessage(AccountRequestCreateIntent intent,
-                                                              String instructorEmail, String instructorInstitute) {
-        switch (intent) {
-        case ADMIN_CREATE:
-            AccountRequestAttributes accountRequest = logic.getAccountRequest(instructorEmail, instructorInstitute);
-            return "An account request already exists with status " + accountRequest.getStatus() + ".";
-        case PUBLIC_CREATE:
-            return "Oops, your submission is unsuccessful because an account request already exists."
-                    + " Please check if you have entered your personal information correctly."
-                    + " If you think this shouldn't happen, contact us at the email address given above.";
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
     }
 
 }

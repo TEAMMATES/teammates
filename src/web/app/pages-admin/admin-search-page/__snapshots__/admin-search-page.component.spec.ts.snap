@@ -2,12 +2,15 @@
 
 exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 <tm-admin-search-page
+  AccountRequestStatus={[Function Object]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isManageAccountRequestModalLoading="false"
   loadingBarService={[Function LoadingBarService]}
+  manageAccountRequestModal={[Function TemplateRef_]}
   searchQuery=""
   searchService={[Function SearchService]}
   simpleModalService={[Function SimpleModalService]}
@@ -328,12 +331,15 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 
 exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
+  AccountRequestStatus={[Function Object]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isManageAccountRequestModalLoading="false"
   loadingBarService={[Function LoadingBarService]}
+  manageAccountRequestModal={[Function TemplateRef_]}
   searchQuery={[Function String]}
   searchService={[Function SearchService]}
   simpleModalService={[Function SimpleModalService]}
@@ -378,12 +384,15 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 
 exports[`AdminSearchPageComponent should snap with an expanded account requests table 1`] = `
 <tm-admin-search-page
+  AccountRequestStatus={[Function Object]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isManageAccountRequestModalLoading="false"
   loadingBarService={[Function LoadingBarService]}
+  manageAccountRequestModal={[Function TemplateRef_]}
   searchQuery=""
   searchService={[Function SearchService]}
   simpleModalService={[Function SimpleModalService]}
@@ -473,7 +482,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
               Created At
             </th>
             <th>
-              Registered At
+              Status
             </th>
             <th>
               Options
@@ -508,19 +517,22 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
             <td>
-              Not Registered Yet
+              <div
+                class="font-weight-bold color-rejected"
+              >
+                REJECTED
+              </div>
             </td>
             <td>
-              <div
-                class="ngb-tooltip-class"
+              <a
+                id="manage-account-request-0"
+                role="button"
               >
-                <button
-                  class="btn btn-danger"
-                  id="delete-account-request-0"
-                >
-                  Delete
-                </button>
-              </div>
+                <i
+                  class="fas fa-info-circle"
+                />
+                 Manage this account request 
+              </a>
             </td>
           </tr>
           <tr>
@@ -554,12 +566,15 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
 
 exports[`AdminSearchPageComponent should snap with an expanded instructor table 1`] = `
 <tm-admin-search-page
+  AccountRequestStatus={[Function Object]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isManageAccountRequestModalLoading="false"
   loadingBarService={[Function LoadingBarService]}
+  manageAccountRequestModal={[Function TemplateRef_]}
   searchQuery=""
   searchService={[Function SearchService]}
   simpleModalService={[Function SimpleModalService]}
@@ -807,12 +822,15 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 
 exports[`AdminSearchPageComponent should snap with an expanded student table 1`] = `
 <tm-admin-search-page
+  AccountRequestStatus={[Function Object]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isManageAccountRequestModalLoading="false"
   loadingBarService={[Function LoadingBarService]}
+  manageAccountRequestModal={[Function TemplateRef_]}
   searchQuery=""
   searchService={[Function SearchService]}
   simpleModalService={[Function SimpleModalService]}
@@ -1110,12 +1128,15 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 
 exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
+  AccountRequestStatus={[Function Object]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isManageAccountRequestModalLoading="false"
   loadingBarService={[Function LoadingBarService]}
+  manageAccountRequestModal={[Function TemplateRef_]}
   searchQuery=""
   searchService={[Function SearchService]}
   simpleModalService={[Function SimpleModalService]}

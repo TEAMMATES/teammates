@@ -54,26 +54,9 @@ class UpdateAccountRequestAction extends AdminOnlyAction {
         } catch (EntityAlreadyExistsException eaee) {
             AccountRequestAttributes existingAccountRequest =
                     logic.getAccountRequest(updateRequest.getInstructorEmail(), updateRequest.getInstructorInstitute());
-            throw new InvalidOperationException(generateExistingAccountRequestErrorMessage(
-                    existingAccountRequest.getStatus()), eaee);
+            throw new InvalidOperationException("There’s an existing account request with the email address and institute"
+                    + " you want to update to, and its status is " + existingAccountRequest.getStatus() + ".", eaee);
         }
-    }
-
-    private String generateExistingAccountRequestErrorMessage(AccountRequestStatus status) {
-        String basicMessage = "There’s an existing account request with the email address and institute"
-                + " you want to update to and its status is " + status + ".\n";
-        StringBuilder sb = new StringBuilder(basicMessage);
-        switch (status) {
-        case SUBMITTED:
-            sb.append("You can locate that account request on the requests page and process it instead.");
-            break;
-        case APPROVED:
-        case REGISTERED:
-        case REJECTED:
-            sb.append("You can search for that account request to see more information.");
-            break;
-        }
-        return sb.toString();
     }
 
 }

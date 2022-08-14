@@ -39,7 +39,7 @@ export class NewInstructorDataRowComponent implements OnInit {
     this.removeInstructorEvent.emit();
   }
 
-  showRegisteredInstructorModal(): void {
+  showExistingAccountRequestModal(): void {
     this.showExistingAccountRequestModalEvent.emit();
   }
 

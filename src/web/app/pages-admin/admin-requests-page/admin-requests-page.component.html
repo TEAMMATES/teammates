@@ -5,8 +5,9 @@
     <div *tmIsLoading="isLoadingAccountRequestsPendingProcessing">
       <ng-container *ngIf="accountRequestsPendingProcessing.length > 0, else noAccountRequestsPendingProcessingTemplate">
         <div *ngFor="let accountRequestPendingProcessing of accountRequestsPendingProcessing; let i = index">
-          <tm-process-account-request-panel [accountRequest]="accountRequestPendingProcessing"
-                                            [index]="i"
+          <tm-process-account-request-panel id="ar-pending-processing-{{ i }}"
+                                            [identifier]="'pp-' + i"
+                                            [accountRequest]="accountRequestPendingProcessing"
                                             [isTabExpanded]="true"
                                             [panelHeaderColor]="'primary'">
           </tm-process-account-request-panel>
@@ -26,34 +27,36 @@
   <div class="card-body">
     <form>
       <div class="mb-1">
-        <h5>Filter by submission time:</h5>
+        <h5>Filter by submission time based on your system timezone ({{ timezone }}):</h5>
       </div>
       <div class="row d-flex justify-content-center">
         <div class="width-220px m-2 mx-sm-4">
           <div class="mb-1">
-            <label for="search-from-datepicker" class="font-weight-bold">From</label>
+            <label class="font-weight-bold">From</label>
           </div>
-          <div class="input-group">
-            <input id="search-from-datepicker" type="text" class="form-control" name="from-date" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.fromDate" #logsFromDp="ngbDatepicker">
-            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
-          </div>
+          <tm-datepicker id="from-datepicker"
+                         [date]="formModel.fromDate"
+                         [minDate]="earliestSearchDate"
+                         [maxDate]="dateToday"
+                         [readonly]="false"
+                         (dateChangeCallback)="formModel.fromDate = $event">
+          </tm-datepicker>
         </div>
         <div class="width-220px m-2 mx-sm-4">
           <div class="mb-1">
-            <label for="search-to-datepicker" class="font-weight-bold">To</label>
+            <label class="font-weight-bold">To</label>
           </div>
-          <div class="input-group">
-            <input id="search-to-datepicker" type="text" class="form-control" name="to-date" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.toDate" #logsToDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
-          </div>
+          <tm-datepicker id="to-datepicker"
+                         [date]="formModel.toDate"
+                         [minDate]="earliestSearchDate"
+                         [maxDate]="dateToday"
+                         [readonly]="false"
+                         (dateChangeCallback)="formModel.toDate = $event">
+          </tm-datepicker>
         </div>
       </div>
       <div class="d-flex justify-content-center mt-4">
-        <button class="btn btn-info" type="submit" (click)="loadAccountRequestsWithinPeriod()">Show Account Requests</button>
+        <button id="show-account-requests-button" class="btn btn-info" type="submit" (click)="loadAccountRequestsWithinPeriod()">Show Account Requests</button>
       </div>
     </form>
   </div>
@@ -64,8 +67,9 @@
     <div *tmIsLoading="isLoadingAccountRequestsWithinPeriod">
       <ng-container *ngIf="accountRequestsWithinPeriod.length > 0, else noAccountRequestsWithinPeriodTemplate">
         <div *ngFor="let accountRequestWithinPeriod of accountRequestsWithinPeriod; let i = index">
-          <tm-process-account-request-panel [accountRequest]="accountRequestWithinPeriod"
-                                            [index]="i"
+          <tm-process-account-request-panel id="ar-within-period-{{ i }}"
+                                            [identifier]="'wp-' + i"
+                                            [accountRequest]="accountRequestWithinPeriod"
                                             [isTabExpanded]="false"
                                             [panelHeaderColor]="'info'"
                                             [showRegisteredAt]="true">

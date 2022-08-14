@@ -122,22 +122,34 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: Expand and collapse links");
         searchPage.verifyLinkExpansionButtons(student, instructor, accountRequest);
 
-        ______TS("Typical case: Reset account request successful");
+        ______TS("Typical case: Reset registered account request successful");
         searchContent = accountRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickResetAccountRequestButton(accountRequest);
-        assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()).getRegisteredAt());
+        searchPage.resetRegisteredAccountRequest(accountRequest);
+        // verifying the old account request because
+        // there is a limitation that the account request row cannot be updated automatically
+        searchPage.verifyAccountRequestRowContent(accountRequest);
 
-        ______TS("Typical case: Delete account request successful");
+        accountRequest = getAccountRequest(accountRequest);
+        // to see the updated information, it needs to search again
+        searchPage.clickSearchButton();
+        searchPage.verifyAccountRequestRowContent(accountRequest);
+
+        ______TS("Typical case: Delete submitted account request successful");
         accountRequest = testData.accountRequests.get("submittedRequest1");
         searchContent = accountRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickDeleteAccountRequestButton(accountRequest);
-        assertNull(BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
+        searchPage.deleteSubmittedAccountRequest(accountRequest);
+        // still verifying the old account request because
+        // there is a limitation that the account request row cannot be updated automatically
+        searchPage.verifyAccountRequestRowContent(accountRequest);
+        // the account request won't be found if search again
+        searchPage.clickSearchButton();
+        searchPage.verifyAccountRequestNotFound(accountRequest);
     }
 
     private String getExpectedStudentDetails(StudentAttributes student) {

@@ -326,7 +326,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   class="loading-container"
                 >
                   <div
-                    class="spinner-border spinner-border-sm text-primary"
+                    class="spinner-border spinner-border-sm align-middle text-primary"
                     role="status"
                   />
                 </div>
@@ -776,7 +776,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   class="loading-container"
                 >
                   <div
-                    class="spinner-border spinner-border-sm text-primary"
+                    class="spinner-border spinner-border-sm align-middle text-primary"
                     role="status"
                   />
                 </div>

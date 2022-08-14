@@ -3,6 +3,7 @@ package teammates.e2e.pageobjects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Represents the admin home page of the website.
@@ -39,7 +41,7 @@ public class AdminSearchPage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 3;
     private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 4;
-    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 5;
+    private static final int ACCOUNT_REQUEST_COL_STATUS = 5;
 
     private static final String EXPANDED_ROWS_HEADER_EMAIL = "Email";
     private static final String EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK = "Course Join Link";
@@ -285,28 +287,43 @@ public class AdminSearchPage extends AppPage {
         return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_CREATED_AT);
     }
 
-    public String getAccountRequestRegisteredAt(WebElement accountRequestRow) {
-        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_REGISTERED_AT);
+    public String getAccountRequestStatus(WebElement accountRequestRow) {
+        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_STATUS);
     }
 
     public String getAccountRequestRegistrationLink(WebElement accountRequestRow) {
         return getExpandedRowInputValue(accountRequestRow, EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK);
     }
 
-    public void clickDeleteAccountRequestButton(AccountRequestAttributes accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
-        deleteButton.click();
-        waitForConfirmationModalAndClickOk();
+    public void deleteSubmittedAccountRequest(AccountRequestAttributes accountRequest) {
+        clickManageAccountRequestButton(accountRequest);
+        WebElement deleteButton = browser.driver.findElement(By.id("submitted-delete-button"));
+        click(deleteButton);
+        ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
+        List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
+        click(okButtons.get(1)); // Second modal is confirmation modal
+        waitForPageToLoad();
+        click(okButtons.get(0)); // Dismiss the account request process panel
         waitForPageToLoad();
     }
 
-    public void clickResetAccountRequestButton(AccountRequestAttributes accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
-        deleteButton.click();
-        waitForConfirmationModalAndClickOk();
+    public void resetRegisteredAccountRequest(AccountRequestAttributes accountRequest) {
+        clickManageAccountRequestButton(accountRequest);
+        WebElement resetButton = browser.driver.findElement(By.id("registered-reset-button"));
+        click(resetButton);
+        ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
+        List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
+        click(okButtons.get(1)); // Second modal is confirmation modal
         waitForPageToLoad();
+        click(okButtons.get(0)); // Dismiss the account request process panel
+        waitForPageToLoad();
+    }
+
+    private void clickManageAccountRequestButton(AccountRequestAttributes accountRequest) {
+        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        WebElement manageButton = accountRequestRow.findElement(By.cssSelector("[id^='manage-account-request-']"));
+        manageButton.click();
+        waitForElementVisibility(By.cssSelector("tm-process-account-request-panel"));
     }
 
     public int getNumExpandedRows(WebElement row) {
@@ -418,17 +435,13 @@ public class AdminSearchPage extends AppPage {
         String actualEmail = getAccountRequestEmail(accountRequestRow);
         String actualInstitute = getAccountRequestInstitute(accountRequestRow);
         String actualCreatedAt = getAccountRequestCreatedAt(accountRequestRow);
-        String actualRegisteredAt = getAccountRequestRegisteredAt(accountRequestRow);
+        String actualStatus = getAccountRequestStatus(accountRequestRow);
 
         assertEquals(accountRequest.getName(), actualName);
         assertEquals(accountRequest.getEmail(), actualEmail);
         assertEquals(accountRequest.getInstitute(), actualInstitute);
         assertFalse(actualCreatedAt.isBlank());
-        if (accountRequest.getRegisteredAt() == null) {
-            assertEquals("Not Registered Yet", actualRegisteredAt);
-        } else {
-            assertFalse(actualRegisteredAt.isBlank());
-        }
+        assertEquals(accountRequest.getStatus().toString(), actualStatus);
     }
 
     public void verifyAccountRequestExpandedLinks(AccountRequestAttributes accountRequest) {
@@ -490,6 +503,10 @@ public class AdminSearchPage extends AppPage {
 
         String regeneratedJoinLink = getInstructorJoinLink(instructor);
         assertNotEquals(regeneratedJoinLink, originalJoinLink);
+    }
+
+    public void verifyAccountRequestNotFound(AccountRequestAttributes accountRequest) {
+        assertNull(getAccountRequestRow(accountRequest));
     }
 
 }

@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
@@ -9,8 +10,12 @@ import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import {
+  ProcessAccountRequestPanelModule,
+} from '../../components/process-account-request-panel/process-account-request-panel.module';
 import { AdminHomePageComponent } from './admin-home-page.component';
 import { InstructorData } from './instructor-data';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
@@ -20,6 +25,7 @@ describe('AdminHomePageComponent', () => {
   let fixture: ComponentFixture<AdminHomePageComponent>;
   let accountService: AccountService;
   let courseService: CourseService;
+  let statusMessageService: StatusMessageService;
   let linkService: LinkService;
   let simpleModalService: SimpleModalService;
 
@@ -35,6 +41,7 @@ describe('AdminHomePageComponent', () => {
         LoadingSpinnerModule,
         AjaxLoadingModule,
         RouterTestingModule,
+        ProcessAccountRequestPanelModule,
       ],
       providers: [
         AccountService,
@@ -52,6 +59,7 @@ describe('AdminHomePageComponent', () => {
     accountService = TestBed.inject(AccountService);
     courseService = TestBed.inject(CourseService);
     simpleModalService = TestBed.inject(SimpleModalService);
+    statusMessageService = TestBed.inject(StatusMessageService);
     linkService = TestBed.inject(LinkService);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -185,7 +193,7 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(of({
+    jest.spyOn(accountService, 'createAccountRequestAsAdmin').mockReturnValue(of({
       joinLink: 'http://localhost:4200/web/join',
     }));
     fixture.detectChanges();
@@ -210,7 +218,7 @@ describe('AdminHomePageComponent', () => {
         message: 'This should not be displayed',
       },
     ];
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(throwError({
+    jest.spyOn(accountService, 'createAccountRequestAsAdmin').mockReturnValue(throwError({
       error: {
         message: 'This is the error message',
       },
@@ -535,7 +543,7 @@ describe('AdminHomePageComponent', () => {
     );
   });
 
-  it('should call showRegisteredInstructorModal when info button for registered instructors clicked', () => {
+  it('should call showExistingAccountRequestModal when info button for existing instructors clicked', () => {
     component.instructorsConsolidated = [
       {
         name: 'Instructor A',
@@ -553,13 +561,13 @@ describe('AdminHomePageComponent', () => {
 
     const spy = jest.spyOn(component, 'showExistingAccountRequestModal').mockImplementation(() => {});
 
-    const infoButton = fixture.debugElement.nativeElement.querySelector('#instructor-0-registered-info-button');
+    const infoButton = fixture.debugElement.nativeElement.querySelector('#existing-account-request-info-button-0');
     infoButton.click();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should fetch account and course information when showRegisteredInstructorModal is called', () => {
+  it('should fetch related information when showExistingAccountRequestModal is called', () => {
     component.instructorsConsolidated = [
       {
         name: 'Instructor A',
@@ -572,10 +580,23 @@ describe('AdminHomePageComponent', () => {
         message: 'message',
       },
     ];
+    const accountRequest: AccountRequest = {
+      name: 'name',
+      institute: 'institute',
+      email: 'email',
+      homePageUrl: '',
+      comments: '',
+      registrationKey: '',
+      status: AccountRequestStatus.REGISTERED,
+      createdAt: 1659601756,
+    };
 
     const modalSpy = jest
       .spyOn(simpleModalService, 'openInformationModal')
       .mockReturnValue(createMockNgbModalRef());
+    const getAccountRequestSpy = jest
+      .spyOn(accountService, 'getAccountRequest')
+      .mockReturnValue(of(accountRequest));
     const getAccountsSpy = jest
       .spyOn(accountService, 'getAccounts')
       .mockReturnValue(of({
@@ -627,6 +648,8 @@ describe('AdminHomePageComponent', () => {
     component.showExistingAccountRequestModal(0);
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(getAccountRequestSpy).toHaveBeenCalledTimes(1);
+    expect(getAccountRequestSpy).toHaveBeenCalledWith('instructora@example.com', 'Sample Institution A');
     expect(getAccountsSpy).toHaveBeenCalledTimes(1);
     expect(getAccountsSpy).toHaveBeenCalledWith('instructora@example.com');
     expect(getStudentCoursesSpy).toHaveBeenCalledTimes(1);
@@ -635,10 +658,11 @@ describe('AdminHomePageComponent', () => {
     expect(getInstructorCoursesSpy).toHaveBeenCalledWith('googleId');
     expect(generateAccountLinkSpy).toHaveBeenCalledTimes(1);
     expect(generateAccountLinkSpy).toHaveBeenCalledWith('googleId', '/admin/accounts');
+    expect(component.existingAccountRequest).toEqual(accountRequest);
     expect(component.isExistingAccountRequestModalLoading).toBeFalsy();
   });
 
-  it('should call reset account endpoint when resetAccountRequest called', async () => {
+  it('should fail properly if fetching account request fails when showExistingAccountRequestModal is called', () => {
     component.instructorsConsolidated = [
       {
         name: 'Instructor A',
@@ -651,35 +675,36 @@ describe('AdminHomePageComponent', () => {
         message: 'message',
       },
     ];
+    const errorMessage: string = 'Some error message';
+
+    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal')
+      .mockReturnValue({
+        dismiss() {},
+      } as NgbModalRef);
+    const getAccountRequestSpy = jest.spyOn(accountService, 'getAccountRequest')
+      .mockReturnValue(throwError({
+        error: {
+          message: errorMessage,
+        },
+      }));
+    const getAccountsSpy = jest.spyOn(accountService, 'getAccounts');
+    const getStudentCoursesSpy = jest.spyOn(courseService, 'getStudentCoursesInMasqueradeMode');
+    const getInstructorCoursesSpy = jest.spyOn(courseService, 'getInstructorCoursesInMasqueradeMode');
+    const generateAccountLinkSpy = jest.spyOn(linkService, 'generateManageAccountLink');
+    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation(() => {});
 
     fixture.detectChanges();
 
-    const resetAccountSpy = jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
-      joinLink: 'link', // TODO: change to of type AccountRequest, joinLink can be generated
-    }));
+    component.showExistingAccountRequestModal(0);
 
-    const modalSpy = jest
-      .spyOn(simpleModalService, 'openConfirmationModal')
-      .mockImplementation(() => {
-        return createMockNgbModalRef();
-      });
-
-    component.resetAccountRequest(0);
-
-    await fixture.whenStable().then(() => {
-      expect(modalSpy).toHaveBeenCalledTimes(1);
-      expect(resetAccountSpy).toBeCalledTimes(1);
-      expect(resetAccountSpy).toBeCalledWith('instructora@example.com', 'Sample Institution A');
-      expect(component.instructorsConsolidated[0]).toEqual({
-        name: 'Instructor A',
-        email: 'instructora@example.com',
-        institution: 'Sample Institution A',
-        status: 'SUCCESS',
-        statusCode: 200,
-        isCurrentlyBeingEdited: false,
-        joinLink: 'link',
-        message: 'message',
-      });
-    });
+    expect(modalSpy).toHaveBeenCalledTimes(1);
+    expect(getAccountRequestSpy).toHaveBeenCalledTimes(1);
+    expect(getAccountRequestSpy).toHaveBeenCalledWith('instructora@example.com', 'Sample Institution A');
+    expect(getAccountsSpy).not.toHaveBeenCalled();
+    expect(getStudentCoursesSpy).not.toHaveBeenCalled();
+    expect(getInstructorCoursesSpy).not.toHaveBeenCalled();
+    expect(generateAccountLinkSpy).not.toHaveBeenCalled();
+    expect(showErrorToastSpy).toHaveBeenCalledWith(errorMessage);
+    expect(component.isExistingAccountRequestModalLoading).toBeFalsy();
   });
 });

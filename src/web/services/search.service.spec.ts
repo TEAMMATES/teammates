@@ -303,14 +303,18 @@ describe('SearchService', () => {
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
     jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
-    const accountRequest: AccountRequest = { ...mockAccountRequest, registeredAt: 1685487897502 };
+    const accountRequest: AccountRequest = {
+      ...mockAccountRequest,
+      status: AccountRequestStatus.REGISTERED,
+      registeredAt: 1685487897502,
+    };
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
 
     expect(result.email).toBe('test@example.com');
     expect(result.institute).toBe('Test Institute');
     expect(result.name).toBe('Test Instructor');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
-    expect(result.registeredAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00'); // TODO: change to status
+    expect(result.status).toBe(AccountRequestStatus.REGISTERED);
     expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
   });
 
@@ -322,7 +326,7 @@ describe('SearchService', () => {
     expect(result.institute).toBe('Test Institute');
     expect(result.name).toBe('Test Instructor');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
-    expect(result.registeredAtText).toBe(null);
+    expect(result.status).toBe(AccountRequestStatus.APPROVED);
     expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
   });
 });

@@ -320,6 +320,14 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
     }
 
+    AccountRequestAttributes getAccountRequest(String email, String institute) {
+        return BACKDOOR.getAccountRequest(email, institute);
+    }
+
+    String getKeyForAccountRequest(String email, String institute) {
+        return BACKDOOR.getRegKeyForAccountRequest(email, institute);
+    }
+
     NotificationAttributes getNotification(String notificationId) {
         return BACKDOOR.getNotification(notificationId);
     }

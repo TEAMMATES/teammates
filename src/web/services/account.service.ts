@@ -12,8 +12,10 @@ import {
 import {
   AccountRequestCreateIntent,
   AccountRequestCreateRequest,
-  AccountRequestsGetIntent, AccountRequestStatusUpdateIntent,
-  AccountRequestType, AccountRequestUpdateRequest,
+  AccountRequestsGetIntent,
+  AccountRequestStatusUpdateIntent,
+  AccountRequestType,
+  AccountRequestUpdateRequest,
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -191,10 +193,10 @@ export class AccountService {
    * Gets all account requests pending processing by calling API.
    */
   getAccountRequestsPendingProcessing(): Observable<AccountRequests> {
-    const paramMap: Record<string, string> = {
+    const paramsMap: Record<string, string> = {
       intent: AccountRequestsGetIntent.PENDING_PROCESSING,
     };
-    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramsMap);
   }
 
   /**

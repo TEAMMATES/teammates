@@ -31,11 +31,15 @@ export enum ProcessAccountRequestPanelStatus {
 })
 export class ProcessAccountRequestPanelComponent implements OnInit {
 
+  /**
+   * The index of the panel, which should be provided and unique if the component is rendered multiple times in a page.
+   * The default value is an empty string.
+   */
   @Input()
-  accountRequest!: AccountRequest;
+  identifier: string = '';
 
   @Input()
-  index: number | undefined;
+  accountRequest!: AccountRequest;
 
   @Input()
   isTabExpanded: boolean = true;
