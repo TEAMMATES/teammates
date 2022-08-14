@@ -94,7 +94,6 @@ public final class DataBundleLogic {
         Collection<InstructorAttributes> instructors = dataBundle.instructors.values();
         Collection<StudentAttributes> students = dataBundle.students.values();
         Collection<FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions.values();
-        sessions.forEach(fsa -> fsa.setFullValidationRequired(false));
         Collection<FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponseAttributes> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments.values();

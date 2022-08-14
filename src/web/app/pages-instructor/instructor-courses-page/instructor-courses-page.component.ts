@@ -18,12 +18,11 @@ import {
   FeedbackSession,
   FeedbackSessions,
   JoinState,
-  MessageOutput,
-  SessionVisibleSetting,
+  MessageOutput, SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
-import { FeedbackSessionCreateRequest, ResponseVisibleSetting } from '../../../types/api-request';
+import { FeedbackSessionCreateRequest } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
@@ -389,21 +388,51 @@ export class InstructorCoursesPageComponent implements OnInit {
       toCopySessionName: fromFeedbackSession.feedbackSessionName,
       instructions: fromFeedbackSession.instructions,
 
-      submissionStartTimestamp: moment().tz(newTimeZone).add(2, 'hours').startOf('hour')
-          .valueOf(),
-      submissionEndTimestamp: moment().tz(newTimeZone).add(2, 'days').startOf('day')
-          .valueOf(),
+      submissionStartTimestamp: this.copySubmissionStartTimestamp(fromFeedbackSession.submissionStartTimestamp,
+          newTimeZone),
+      submissionEndTimestamp: this.copySubmissionEndTimestamp(fromFeedbackSession.submissionEndTimestamp, newTimeZone),
       gracePeriod: fromFeedbackSession.gracePeriod,
 
-      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+      sessionVisibleSetting: this.copySessionVisibilitySetting(fromFeedbackSession.sessionVisibleSetting,
+          fromFeedbackSession.customSessionVisibleTimestamp,
+          this.copySubmissionStartTimestamp(fromFeedbackSession.submissionStartTimestamp, newTimeZone),
+          newTimeZone),
       customSessionVisibleTimestamp: fromFeedbackSession.customSessionVisibleTimestamp,
 
-      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+      responseVisibleSetting: fromFeedbackSession.responseVisibleSetting,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
     };
+  }
+
+  private copySubmissionStartTimestamp(startTime: number, timeZone: string): number {
+    if (startTime > moment().tz(timeZone).subtract(3, 'hour').valueOf()
+        && startTime < moment().tz(timeZone).add(90, 'day').valueOf()) {
+      return startTime;
+    }
+    return moment().tz(timeZone).add(2, 'hours').startOf('hour')
+        .valueOf();
+  }
+
+  private copySubmissionEndTimestamp(endTime: number, timeZone: string): number {
+    if (endTime > moment().tz(timeZone).subtract(3, 'hour').valueOf()
+        && endTime < moment().tz(timeZone).add(180, 'day').valueOf()) {
+      return endTime;
+    }
+    return moment().tz(timeZone).add(2, 'days').startOf('day')
+        .valueOf();
+  }
+
+  private copySessionVisibilitySetting(visibilitySetting: SessionVisibleSetting, visibilityStart: number | undefined,
+                                       startTime: number, timeZone: string): SessionVisibleSetting {
+    if (visibilitySetting === SessionVisibleSetting.CUSTOM
+        && visibilityStart! > moment(startTime).tz(timeZone).subtract(30, 'day').valueOf()
+        && visibilityStart! < moment(startTime).tz(timeZone).valueOf()) {
+      return visibilitySetting;
+    }
+    return SessionVisibleSetting.AT_OPEN;
   }
 
   /**

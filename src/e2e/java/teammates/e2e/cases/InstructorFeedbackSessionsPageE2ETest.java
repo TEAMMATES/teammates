@@ -115,10 +115,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(2))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        // As openSession is loaded with isFullValidationRequired set to false, it is set to true to pass
-        // verifyPresentInDatabase() check
-        copiedSession.setFullValidationRequired(true);
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
@@ -139,10 +135,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession2.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession2.getTimeZone())).plus(Duration.ofDays(2))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         copiedSession2.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        copiedSession2.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        // As openSession2 is loaded with isFullValidationRequired set to false, it is set to true to pass
-        // verifyPresentInDatabase() check
-        copiedSession2.setFullValidationRequired(true);
         feedbackSessionsPage.copySession(openSession, course, newName);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "

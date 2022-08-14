@@ -61,7 +61,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 .withEndTime(ZonedDateTime.now(ZoneId.of("Asia/Singapore")).plus(Duration.ofDays(2))
                         .truncatedTo(ChronoUnit.DAYS).toInstant())
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
-                .withResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)
+                .withResultsVisibleFromTime(session.getResultsVisibleFromTime())
                 .withGracePeriod(Duration.ofMinutes(session.getGracePeriodMinutes()))
                 .withInstructions(session.getInstructions())
                 .withTimeZone(copyCourse.getTimeZone())

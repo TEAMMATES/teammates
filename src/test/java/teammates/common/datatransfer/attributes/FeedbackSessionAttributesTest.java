@@ -139,7 +139,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10,
                 false, false, false, false, false,
-                true, true, true, new HashMap<>(), new HashMap<>(), true);
+                true, true, true, new HashMap<>(), new HashMap<>());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
 
@@ -163,7 +163,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
         assertEquals(feedbackSession.getStudentDeadlines(), feedbackSessionAttributes.getStudentDeadlines());
         assertEquals(feedbackSession.getInstructorDeadlines(), feedbackSessionAttributes.getInstructorDeadlines());
-        assertEquals(feedbackSession.isFullValidationRequired(), feedbackSessionAttributes.isFullValidationRequired());
 
         assertEquals(feedbackSession.getEndTime(), feedbackSessionAttributes.getDeadline());
     }
@@ -177,7 +176,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10, false,
                 false, false, false, false,
-                true, true, true, null, null, false);
+                true, true, true, null, null);
         assertNull(feedbackSession.getInstructions());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
@@ -202,7 +201,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
         assertEquals(new HashMap<>(), feedbackSessionAttributes.getStudentDeadlines());
         assertEquals(new HashMap<>(), feedbackSessionAttributes.getInstructorDeadlines());
-        assertEquals(feedbackSession.isFullValidationRequired(), feedbackSessionAttributes.isFullValidationRequired());
 
         assertEquals(feedbackSession.getEndTime(), feedbackSessionAttributes.getDeadline());
     }

@@ -105,11 +105,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(2))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
         copiedSession.setTimeZone(otherCourse.getTimeZone());
-        // As feedbackSessionAwaiting is loaded with isFullValidationRequired set to false, it is set to true to pass
-        // verifyPresentInDatabase() check
-        copiedSession.setFullValidationRequired(true);
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
 
         homePage.verifyStatusMessage("The feedback session has been copied. "
