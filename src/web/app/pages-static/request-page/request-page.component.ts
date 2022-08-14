@@ -70,7 +70,7 @@ export class RequestPageComponent implements OnInit {
    * Returns a validator function to check if the form control field has the expected value.
    */
   fieldExpectedValueValidator(expected: string) {
-    return function (control: AbstractControl) : ValidationErrors | null {
+    return (control: AbstractControl) : ValidationErrors | null => {
       if ((control.value as string) !== expected) {
         return { notExpected: true };
       }
@@ -83,7 +83,7 @@ export class RequestPageComponent implements OnInit {
    * after leading/trailing spaces are trimmed.
    */
   maxLengthValidator(maxLength: number) {
-    return function (control: AbstractControl) : ValidationErrors | null {
+    return (control: AbstractControl) : ValidationErrors | null => {
       if ((control.value as string).trim().length > maxLength) {
         return { maxLength: true };
       }
@@ -95,7 +95,7 @@ export class RequestPageComponent implements OnInit {
    * Returns a validator function to check if the control's value is empty after leading/trailing spaces are trimmed.
    */
   nonEmptyValidator() {
-    return function (control: AbstractControl) : ValidationErrors | null {
+    return (control: AbstractControl) : ValidationErrors | null => {
       if (!(control.value as string).trim()) {
         return { empty: true };
       }
