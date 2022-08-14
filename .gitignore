@@ -13,12 +13,16 @@ node_modules/
 npm-debug.log
 coverage/*
 .eslintcache
+.stylelintcache
 
 # Gradle
 .gradle
 build/
 bin/
 !gradle-wrapper.jar
+
+# Husky
+.husky/_/husky.sh
 
 # Eclipse
 .classpath
