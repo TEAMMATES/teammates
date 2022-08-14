@@ -24,109 +24,6 @@ import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 
-const testCourse1: Course = {
-  courseId: 'CS1231',
-  courseName: 'Discrete Structures',
-  institute: 'Test Institute',
-  creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
-  deletionTimestamp: 0,
-  timeZone: 'Asia/Singapore',
-};
-
-const testCourse2: Course = {
-  courseId: 'CS3281',
-  courseName: 'Thematic Systems I',
-  institute: 'Test Institute',
-  creationTimestamp: 1611580917000, // Monday, 25 January 2021 21:21:57 GMT+08:00
-  deletionTimestamp: 0,
-  timeZone: 'Asia/Singapore',
-};
-
-const testFeedbackSession1: FeedbackSession = {
-  feedbackSessionName: 'First Session',
-  courseId: 'CS1231',
-  timeZone: 'Asia/Singapore',
-  instructions: '',
-  submissionStartTimestamp: 0,
-  submissionEndTimestamp: 1610371317000, // Monday, 11 January 2021 21:21:57 GMT+08:00
-  gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-  responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-  submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-  publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-  isClosingEmailEnabled: true,
-  isPublishedEmailEnabled: true,
-  createdAtTimestamp: 0,
-  studentDeadlines: {},
-  instructorDeadlines: {},
-};
-
-const testFeedbackSession2: FeedbackSession = {
-  feedbackSessionName: 'Second Session',
-  courseId: 'CS3281',
-  timeZone: 'Asia/Singapore',
-  instructions: '',
-  submissionStartTimestamp: 0,
-  submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
-  gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-  responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-  submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-  publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-  isClosingEmailEnabled: true,
-  isPublishedEmailEnabled: true,
-  createdAtTimestamp: 0,
-  studentDeadlines: {},
-  instructorDeadlines: {},
-};
-
-const testFeedbackSession3: FeedbackSession = {
-  feedbackSessionName: 'Third Session',
-  courseId: 'CS1231',
-  timeZone: 'Asia/Singapore',
-  instructions: '',
-  submissionStartTimestamp: 0,
-  submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
-  gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-  responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-  submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-  publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-  isClosingEmailEnabled: true,
-  isPublishedEmailEnabled: true,
-  createdAtTimestamp: 0,
-  deletedAtTimestamp: 1611580917000, // Monday, 25 January 2021 21:21:57 GMT+08:00
-  studentDeadlines: {},
-  instructorDeadlines: {},
-};
-
-const testFeedbackSession4: FeedbackSession = {
-  feedbackSessionName: 'Fourth Session',
-  courseId: 'CS3281',
-  timeZone: 'Asia/Singapore',
-  instructions: '',
-  submissionStartTimestamp: 0,
-  submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
-  gracePeriod: 0,
-  sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-  responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-  submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-  publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-  isClosingEmailEnabled: true,
-  isPublishedEmailEnabled: true,
-  createdAtTimestamp: 0,
-  deletedAtTimestamp: 1612958400, // Wednesday, February 10, 2021 20:00:00 GMT+08:00
-  studentDeadlines: {},
-  instructorDeadlines: {},
-};
-
-const testTutorPrivilege: any = {
-  canModifyCourse: false,
-  canModifySession: false,
-  canModifyStudent: false,
-  canSubmitSessionInSections: false,
-};
-
 describe('InstructorSessionsPageComponent', () => {
   let component: InstructorSessionsPageComponent;
   let courseService: CourseService;
@@ -134,6 +31,109 @@ describe('InstructorSessionsPageComponent', () => {
   let sessionService: FeedbackSessionsService;
   let timezoneService: TimezoneService;
   let ngbModal: NgbModal;
+
+  const testCourse1: Course = {
+    courseId: 'CS1231',
+    courseName: 'Discrete Structures',
+    institute: 'Test Institute',
+    creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
+    deletionTimestamp: 0,
+    timeZone: 'Asia/Singapore',
+  };
+
+  const testCourse2: Course = {
+    courseId: 'CS3281',
+    courseName: 'Thematic Systems I',
+    institute: 'Test Institute',
+    creationTimestamp: 1611580917000, // Monday, 25 January 2021 21:21:57 GMT+08:00
+    deletionTimestamp: 0,
+    timeZone: 'Asia/Singapore',
+  };
+
+  const testFeedbackSession1: FeedbackSession = {
+    feedbackSessionName: 'First Session',
+    courseId: 'CS1231',
+    timeZone: 'Asia/Singapore',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 1610371317000, // Monday, 11 January 2021 21:21:57 GMT+08:00
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
+  };
+
+  const testFeedbackSession2: FeedbackSession = {
+    feedbackSessionName: 'Second Session',
+    courseId: 'CS3281',
+    timeZone: 'Asia/Singapore',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+    studentDeadlines: {},
+    instructorDeadlines: {},
+  };
+
+  const testFeedbackSession3: FeedbackSession = {
+    feedbackSessionName: 'Third Session',
+    courseId: 'CS1231',
+    timeZone: 'Asia/Singapore',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+    deletedAtTimestamp: 1611580917000, // Monday, 25 January 2021 21:21:57 GMT+08:00
+    studentDeadlines: {},
+    instructorDeadlines: {},
+  };
+
+  const testFeedbackSession4: FeedbackSession = {
+    feedbackSessionName: 'Fourth Session',
+    courseId: 'CS3281',
+    timeZone: 'Asia/Singapore',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+    deletedAtTimestamp: 1612958400, // Wednesday, February 10, 2021 20:00:00 GMT+08:00
+    studentDeadlines: {},
+    instructorDeadlines: {},
+  };
+
+  const testTutorPrivilege: any = {
+    canModifyCourse: false,
+    canModifySession: false,
+    canModifyStudent: false,
+    canSubmitSessionInSections: false,
+  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
