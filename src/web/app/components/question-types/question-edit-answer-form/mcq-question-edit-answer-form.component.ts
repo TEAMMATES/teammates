@@ -34,7 +34,7 @@ export class McqQuestionEditAnswerFormComponent
   isOtherTicked: boolean = false;
 
   @Output()
-  cssRefresh = new EventEmitter<boolean>();
+  cssRefresh: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS(), DEFAULT_MCQ_RESPONSE_DETAILS());
@@ -96,7 +96,7 @@ export class McqQuestionEditAnswerFormComponent
    * Updates the answer to the MCQ option specified by the index of the drop down option.
    */
   updateSelectedMcqDropdownOption(selectedIndex: number): void {
-    const answer = this.questionDetails.mcqChoices[selectedIndex - 1];
+    const answer: string = this.questionDetails.mcqChoices[selectedIndex - 1];
 
     this.triggerResponseDetailsChangeBatch({
       answer,
