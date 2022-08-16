@@ -8,19 +8,16 @@ import { ExtensionConfirmModalComponent } from './extension-confirm-modal.compon
  * Module for confirming deadline extensions.
  */
 @NgModule({
-  declarations: [
-    ExtensionConfirmModalComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    TeammatesCommonModule,
-  ],
-  entryComponents: [
-    ExtensionConfirmModalComponent,
-  ],
-  exports: [
-    ExtensionConfirmModalComponent,
-  ],
+    declarations: [
+        ExtensionConfirmModalComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        TeammatesCommonModule,
+    ],
+    exports: [
+        ExtensionConfirmModalComponent,
+    ]
 })
 export class ExtensionConfirmModalModule { }

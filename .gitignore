@@ -81,3 +81,4 @@ datastore-dev/datastore/*
 # Docs
 docs/_site/*
 docs/_markbind/logs/*
+.angular/*

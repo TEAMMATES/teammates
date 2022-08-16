@@ -8,16 +8,13 @@ import { ContributionComponent } from './contribution.component';
  * Module for contribution question statistics
  */
 @NgModule({
-  declarations: [ContributionComponent, ContributionRatingsListComponent],
-  imports: [
-    CommonModule,
-    NgbTooltipModule,
-  ],
-  entryComponents: [
-    ContributionComponent, ContributionRatingsListComponent,
-  ],
-  exports: [
-    ContributionComponent, ContributionRatingsListComponent,
-  ],
+    declarations: [ContributionComponent, ContributionRatingsListComponent],
+    imports: [
+        CommonModule,
+        NgbTooltipModule,
+    ],
+    exports: [
+        ContributionComponent, ContributionRatingsListComponent,
+    ]
 })
 export class ContributionQuestionStatisticsModule { }

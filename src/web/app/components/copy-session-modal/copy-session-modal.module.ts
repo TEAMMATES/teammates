@@ -7,18 +7,15 @@ import { CopySessionModalComponent } from './copy-session-modal.component';
  * Module for copy current session modal.
  */
 @NgModule({
-  declarations: [
-    CopySessionModalComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-  ],
-  entryComponents: [
-    CopySessionModalComponent,
-  ],
-  exports: [
-    CopySessionModalComponent,
-  ],
+    declarations: [
+        CopySessionModalComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
+    exports: [
+        CopySessionModalComponent,
+    ]
 })
 export class CopySessionModalModule { }

@@ -8,14 +8,13 @@ import { SimpleModalComponent } from './simple-modal.component';
  * Module for the modal component
  */
 @NgModule({
-  declarations: [SimpleModalComponent],
-  exports: [SimpleModalComponent],
-  imports: [
-    CommonModule,
-    ProgressBarModule,
-    NgbModule,
-  ],
-  entryComponents: [SimpleModalComponent],
+    declarations: [SimpleModalComponent],
+    exports: [SimpleModalComponent],
+    imports: [
+        CommonModule,
+        ProgressBarModule,
+        NgbModule,
+    ]
 })
 
 export class SimpleModalModule { }

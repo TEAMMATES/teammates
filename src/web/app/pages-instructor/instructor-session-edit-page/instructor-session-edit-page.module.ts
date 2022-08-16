@@ -33,37 +33,33 @@ const routes: Routes = [
  * Module for instructor session edit page.
  */
 @NgModule({
-  imports: [
-    AddingQuestionPanelModule,
-    AjaxLoadingModule,
-    CommonModule,
-    FormsModule,
-    NgbCollapseModule,
-    NgbDropdownModule,
-    NgbTooltipModule,
-    TeammatesCommonModule,
-    SessionEditFormModule,
-    QuestionEditFormModule,
-    CopySessionModalModule,
-    RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    LoadingRetryModule,
-    TeammatesRouterModule,
-    PreviewSessionPanelModule,
-    PanelChevronModule,
-    ExtensionConfirmModalModule,
-  ],
-  entryComponents: [
-    TemplateQuestionModalComponent,
-    CopyQuestionsFromOtherSessionsModalComponent,
-  ],
-  declarations: [
-    InstructorSessionEditPageComponent,
-    TemplateQuestionModalComponent,
-    CopyQuestionsFromOtherSessionsModalComponent,
-  ],
-  exports: [
-    InstructorSessionEditPageComponent,
-  ],
+    imports: [
+        AddingQuestionPanelModule,
+        AjaxLoadingModule,
+        CommonModule,
+        FormsModule,
+        NgbCollapseModule,
+        NgbDropdownModule,
+        NgbTooltipModule,
+        TeammatesCommonModule,
+        SessionEditFormModule,
+        QuestionEditFormModule,
+        CopySessionModalModule,
+        RouterModule.forChild(routes),
+        LoadingSpinnerModule,
+        LoadingRetryModule,
+        TeammatesRouterModule,
+        PreviewSessionPanelModule,
+        PanelChevronModule,
+        ExtensionConfirmModalModule,
+    ],
+    declarations: [
+        InstructorSessionEditPageComponent,
+        TemplateQuestionModalComponent,
+        CopyQuestionsFromOtherSessionsModalComponent,
+    ],
+    exports: [
+        InstructorSessionEditPageComponent,
+    ]
 })
 export class InstructorSessionEditPageModule { }

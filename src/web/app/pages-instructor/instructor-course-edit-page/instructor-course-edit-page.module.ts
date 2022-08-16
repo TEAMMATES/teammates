@@ -31,31 +31,28 @@ const routes: Routes = [
  * Module for instructor course edit page component.
  */
 @NgModule({
-  declarations: [
-    InstructorCourseEditPageComponent,
-    InstructorEditPanelComponent,
-    ViewRolePrivilegesModalComponent,
-    CustomPrivilegeSettingPanelComponent,
-    CopyInstructorsFromOtherCoursesModalComponent,
-  ],
-  exports: [
-    InstructorCourseEditPageComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule.forChild(routes),
-    NgbTooltipModule,
-    TeammatesCommonModule,
-    LoadingSpinnerModule,
-    AjaxLoadingModule,
-    LoadingRetryModule,
-    TeammatesRouterModule,
-    PanelChevronModule,
-    CourseEditFormModule,
-  ],
-  entryComponents: [
-    ViewRolePrivilegesModalComponent,
-  ],
+    declarations: [
+        InstructorCourseEditPageComponent,
+        InstructorEditPanelComponent,
+        ViewRolePrivilegesModalComponent,
+        CustomPrivilegeSettingPanelComponent,
+        CopyInstructorsFromOtherCoursesModalComponent,
+    ],
+    exports: [
+        InstructorCourseEditPageComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule.forChild(routes),
+        NgbTooltipModule,
+        TeammatesCommonModule,
+        LoadingSpinnerModule,
+        AjaxLoadingModule,
+        LoadingRetryModule,
+        TeammatesRouterModule,
+        PanelChevronModule,
+        CourseEditFormModule,
+    ]
 })
 export class InstructorCourseEditPageModule { }

@@ -25,30 +25,26 @@ import { SessionsTableComponent } from './sessions-table.component';
  * Module for sessions table.
  */
 @NgModule({
-  declarations: [
-    PublishStatusTooltipPipe,
-    SessionsTableComponent,
-    ResendResultsLinkToRespondentModalComponent,
-    SendRemindersToRespondentsModalComponent,
-    RespondentListInfoTableComponent,
-  ],
-  imports: [
-    CommonModule,
-    AjaxLoadingModule,
-    AjaxPreloadModule,
-    TeammatesCommonModule,
-    NgbDropdownModule,
-    NgbTooltipModule,
-    FormsModule,
-    CopySessionModalModule,
-    RouterModule,
-    TeammatesCommonModule,
-    TeammatesRouterModule,
-  ],
-  entryComponents: [
-    ResendResultsLinkToRespondentModalComponent,
-    SendRemindersToRespondentsModalComponent,
-  ],
-  exports: [SessionsTableComponent, RespondentListInfoTableComponent],
+    declarations: [
+        PublishStatusTooltipPipe,
+        SessionsTableComponent,
+        ResendResultsLinkToRespondentModalComponent,
+        SendRemindersToRespondentsModalComponent,
+        RespondentListInfoTableComponent,
+    ],
+    imports: [
+        CommonModule,
+        AjaxLoadingModule,
+        AjaxPreloadModule,
+        TeammatesCommonModule,
+        NgbDropdownModule,
+        NgbTooltipModule,
+        FormsModule,
+        CopySessionModalModule,
+        RouterModule,
+        TeammatesCommonModule,
+        TeammatesRouterModule,
+    ],
+    exports: [SessionsTableComponent, RespondentListInfoTableComponent]
 })
 export class SessionsTableModule {}

@@ -26,22 +26,21 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TeammatesCommonModule,
-    FormsModule,
-    RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    DatepickerModule,
-    TimepickerModule,
-    LoadingRetryModule,
-    ExtensionConfirmModalModule,
-  ],
-  entryComponents: [IndividualExtensionDateModalComponent, ExtensionConfirmModalComponent],
-  declarations: [
-    InstructorSessionIndividualExtensionPageComponent,
-    IndividualExtensionDateModalComponent,
-  ],
-  exports: [InstructorSessionIndividualExtensionPageComponent],
+    imports: [
+        CommonModule,
+        TeammatesCommonModule,
+        FormsModule,
+        RouterModule.forChild(routes),
+        LoadingSpinnerModule,
+        DatepickerModule,
+        TimepickerModule,
+        LoadingRetryModule,
+        ExtensionConfirmModalModule,
+    ],
+    declarations: [
+        InstructorSessionIndividualExtensionPageComponent,
+        IndividualExtensionDateModalComponent,
+    ],
+    exports: [InstructorSessionIndividualExtensionPageComponent]
 })
 export class InstructorSessionIndividualExtensionPageModule {}

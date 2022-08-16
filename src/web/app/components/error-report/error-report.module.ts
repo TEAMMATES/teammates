@@ -7,12 +7,11 @@ import { ErrorReportComponent } from './error-report.component';
  * Error report module.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-  ],
-  exports: [ErrorReportComponent],
-  entryComponents: [ErrorReportComponent],
-  declarations: [ErrorReportComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+    ],
+    exports: [ErrorReportComponent],
+    declarations: [ErrorReportComponent]
 })
 export class ErrorReportModule { }

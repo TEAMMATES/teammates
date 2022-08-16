@@ -25,27 +25,24 @@ const routes: Routes = [
  * Module for feedback session submission page.
  */
 @NgModule({
-  imports: [
-    AjaxLoadingModule,
-    TeammatesCommonModule,
-    CommonModule,
-    FormsModule,
-    NgbTooltipModule,
-    QuestionSubmissionFormModule,
-    RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    LoadingRetryModule,
-    InViewportModule,
-  ],
-  declarations: [
-    SavingCompleteModalComponent,
-    SessionSubmissionPageComponent,
-  ],
-  exports: [
-    SessionSubmissionPageComponent,
-  ],
-  entryComponents: [
-    SavingCompleteModalComponent,
-  ],
+    imports: [
+        AjaxLoadingModule,
+        TeammatesCommonModule,
+        CommonModule,
+        FormsModule,
+        NgbTooltipModule,
+        QuestionSubmissionFormModule,
+        RouterModule.forChild(routes),
+        LoadingSpinnerModule,
+        LoadingRetryModule,
+        InViewportModule,
+    ],
+    declarations: [
+        SavingCompleteModalComponent,
+        SessionSubmissionPageComponent,
+    ],
+    exports: [
+        SessionSubmissionPageComponent,
+    ]
 })
 export class SessionSubmissionPageModule { }

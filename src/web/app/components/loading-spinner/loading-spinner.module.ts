@@ -7,11 +7,10 @@ import { LoadingSpinnerDirective } from './loading-spinner.directive';
  * Module for the loading spinner
  */
 @NgModule({
-  declarations: [LoadingSpinnerDirective, LoadingSpinnerComponent],
-  imports: [
-    CommonModule,
-  ],
-  exports: [LoadingSpinnerDirective],
-  entryComponents: [LoadingSpinnerComponent],
+    declarations: [LoadingSpinnerDirective, LoadingSpinnerComponent],
+    imports: [
+        CommonModule,
+    ],
+    exports: [LoadingSpinnerDirective]
 })
 export class LoadingSpinnerModule { }

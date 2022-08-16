@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { from, throwError } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class StudentProfilePageComponent implements OnInit {
   id: string = '';
   student!: StudentProfile;
   name?: string;
-  editForm!: FormGroup;
+  editForm!: UntypedFormGroup;
   nationalities?: string[];
   profilePicLink!: string;
   defaultPictureLink: string = '/assets/images/profile_picture_default.png';
@@ -102,14 +102,14 @@ export class StudentProfilePageComponent implements OnInit {
    * Initializes the edit form with the student profile fields fetched from the backend.
    */
   initStudentProfileForm(profile: StudentProfile): void {
-    this.editForm = new FormGroup({
-      studentshortname: new FormControl(profile.shortName),
-      studentprofileemail: new FormControl(profile.email),
-      studentprofileinstitute: new FormControl(profile.institute),
-      studentnationality: new FormControl(profile.nationality),
-      existingNationality: new FormControl(profile.nationality),
-      studentgender: new FormControl(profile.gender),
-      studentprofilemoreinfo: new FormControl(profile.moreInfo),
+    this.editForm = new UntypedFormGroup({
+      studentshortname: new UntypedFormControl(profile.shortName),
+      studentprofileemail: new UntypedFormControl(profile.email),
+      studentprofileinstitute: new UntypedFormControl(profile.institute),
+      studentnationality: new UntypedFormControl(profile.nationality),
+      existingNationality: new UntypedFormControl(profile.nationality),
+      studentgender: new UntypedFormControl(profile.gender),
+      studentprofilemoreinfo: new UntypedFormControl(profile.moreInfo),
     });
   }
 

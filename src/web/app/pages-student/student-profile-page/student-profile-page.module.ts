@@ -24,26 +24,23 @@ const routes: Routes = [
  * Module for student profile page.
  */
 @NgModule({
-  declarations: [
-    StudentProfilePageComponent,
-    UploadEditProfilePictureModalComponent,
-  ],
-  exports: [
-    StudentProfilePageComponent,
-  ],
-  entryComponents: [
-    UploadEditProfilePictureModalComponent,
-  ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(routes),
-    TeammatesCommonModule,
-    ImageCropperModule,
-    NgbTooltipModule,
-    LoadingSpinnerModule,
-    AjaxLoadingModule,
-    LoadingRetryModule,
-  ],
+    declarations: [
+        StudentProfilePageComponent,
+        UploadEditProfilePictureModalComponent,
+    ],
+    exports: [
+        StudentProfilePageComponent,
+    ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule.forChild(routes),
+        TeammatesCommonModule,
+        ImageCropperModule,
+        NgbTooltipModule,
+        LoadingSpinnerModule,
+        AjaxLoadingModule,
+        LoadingRetryModule,
+    ]
 })
 export class StudentProfilePageModule { }
