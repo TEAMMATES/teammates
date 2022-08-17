@@ -36,7 +36,7 @@ export class RequestPageComponent implements OnInit {
   readonly successMessage : string = 'Your submission is successful and the request will be processed within 24 hours.';
   readonly failureMessage : string = 'Submission fails. See details at the bottom of the form.';
 
-  readonly recaptchaSiteKey: string = environment.captchaSiteKey;
+  recaptchaSiteKey: string = environment.captchaSiteKey;
 
   isSubmitting: boolean = false;
 

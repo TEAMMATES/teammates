@@ -96,6 +96,7 @@ describe('RequestPageComponent', () => {
     accountService = TestBed.inject(AccountService);
     statusMessageService = TestBed.inject(StatusMessageService);
     navigationService = TestBed.inject(NavigationService);
+    component.recaptchaSiteKey = 'fake-non-empty-key-for-testing-to-render-the-recaptcha-element';
     fixture.detectChanges();
   });
 
