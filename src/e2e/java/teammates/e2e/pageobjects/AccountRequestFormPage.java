@@ -12,15 +12,31 @@ import org.openqa.selenium.support.FindBy;
  */
 public class AccountRequestFormPage extends AppPage {
 
+    /** Field name for the "Your full name" field in the form. */
     public static final String NAME_FIELD_NAME = "name";
+
+    /** Field name for the "University/school/institute" field in the form. */
     public static final String INSTITUTE_FIELD_NAME = "institute";
+
+    /** Field name for the "Country" field in the form. */
     public static final String COUNTRY_FIELD_NAME = "country";
+
+    /** Field name for the ""Official" email address" field in the form. */
     public static final String EMAIL_FIELD_NAME = "email";
+
+    /** Field name for the "URL of your home page (if any)" field in the form. */
     public static final String HOME_PAGE_URL_FIELD_NAME = "url";
+
+    /** Field name for the "I'm requesting for" field in the form. */
     public static final String ACCOUNT_TYPE_FIELD_NAME = "account-type";
+
+    /** Field name for the "Any other comments/queries" field in the form. */
     public static final String COMMENTS_FIELD_NAME = "comments";
 
+    /** Account type name for the "I'm requesting for an instructor account" option in the form. */
     public static final String INSTRUCTOR_ACCOUNT_TYPE_NAME = "instructor";
+
+    /** Account type name for the "I'm requesting for a student account" option in the form. */
     public static final String STUDENT_ACCOUNT_TYPE_NAME = "student";
 
     @FindBy(id = "btn-submit")
