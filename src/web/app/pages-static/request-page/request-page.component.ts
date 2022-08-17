@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
-import { FormValidator } from 'src/web/types/form-validator';
 import { environment } from '../../../environments/environment';
 import { AccountService } from '../../../services/account.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -10,6 +9,7 @@ import {
   AccountRequestCreateRequest,
   AccountRequestType,
 } from '../../../types/api-request';
+import { FormValidator } from '../../../types/form-validator';
 import { AccountRequestCreateErrorResultsWrapper, ErrorMessageOutput } from '../../error-message-output';
 
 /**

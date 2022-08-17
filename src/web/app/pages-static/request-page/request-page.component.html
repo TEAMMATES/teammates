@@ -26,17 +26,11 @@
         id="name"
         class="form-control"
         formControlName="name">
-      <div *ngIf="name!.errors && (name!.dirty || name!.touched)" class="invalid-field">
+      <div id="name-error" *ngIf="name!.errors && (name!.dirty || name!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
-        <span [hidden]="!name!.errors!.empty">
-          {{ emptyFieldMessage }}
-        </span>
-        <span [hidden]="!name!.errors!.maxLength">
-          {{ displayExceedMaxLengthMessage('Name', FormValidator.PERSON_NAME_MAX_LENGTH) }}
-        </span>
-        <span [hidden]="!name!.errors!.invalidField">
-          {{ name!.errors!.invalidField }}
-        </span>
+        <span [hidden]="!name!.errors!.empty">{{ emptyFieldMessage }}</span>
+        <span [hidden]="!name!.errors!.maxLength">{{ displayExceedMaxLengthMessage('Name', FormValidator.PERSON_NAME_MAX_LENGTH) }}</span>
+        <span [hidden]="!name!.errors!.invalidField">{{ name!.errors!.invalidField }}</span>
       </div>
     </div>
     <div class="form-group">
@@ -50,17 +44,11 @@
         id="institute"
         class="form-control"
         formControlName="institute">
-      <div *ngIf="institute!.errors && (institute!.dirty || institute!.touched)" class="invalid-field">
+      <div id="institute-error" *ngIf="institute!.errors && (institute!.dirty || institute!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
-        <span [hidden]="!institute!.errors!.empty">
-          {{ emptyFieldMessage }}
-        </span>
-        <span [hidden]="!institute!.errors!.maxLength">
-          {{ displayExceedMaxLengthMessage('University/school/institute', FormValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH) }}
-        </span>
-        <span [hidden]="!institute!.errors!.invalidField">
-          {{ institute!.errors!.invalidField }}
-        </span>
+        <span [hidden]="!institute!.errors!.empty">{{ emptyFieldMessage }}</span>
+        <span [hidden]="!institute!.errors!.maxLength">{{ displayExceedMaxLengthMessage('University/school/institute', FormValidator.ACCOUNT_REQUEST_INSTITUTE_NAME_MAX_LENGTH) }}</span>
+        <span [hidden]="!institute!.errors!.invalidField">{{ institute!.errors!.invalidField }}</span>
       </div>
     </div>
     <div class="form-group">
@@ -74,17 +62,11 @@
         id="country"
         class="form-control"
         formControlName="country">
-      <div *ngIf="country!.errors && (country!.dirty || country!.touched)" class="invalid-field">
+      <div id="country-error" *ngIf="country!.errors && (country!.dirty || country!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
-        <span [hidden]="!country!.errors!.empty">
-          {{ emptyFieldMessage }}
-        </span>
-        <span [hidden]="!country!.errors!.maxLength">
-          {{ displayExceedMaxLengthMessage('Country name', FormValidator.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH) }}
-        </span>
-        <span [hidden]="!country!.errors!.invalidField">
-          {{ country!.errors!.invalidField }}
-        </span>
+        <span [hidden]="!country!.errors!.empty">{{ emptyFieldMessage }}</span>
+        <span [hidden]="!country!.errors!.maxLength">{{ displayExceedMaxLengthMessage('Country name', FormValidator.ACCOUNT_REQUEST_COUNTRY_NAME_MAX_LENGTH) }}</span>
+        <span [hidden]="!country!.errors!.invalidField">{{ country!.errors!.invalidField }}</span>
       </div>
     </div>
     <div class="form-group">
@@ -99,17 +81,11 @@
         id="email"
         class="form-control"
         formControlName="email">
-      <div *ngIf="email!.errors && (email!.dirty || email!.touched)" class="invalid-field">
+      <div id="email-error" *ngIf="email!.errors && (email!.dirty || email!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
-        <span [hidden]="!email!.errors!.empty">
-          {{ emptyFieldMessage }}
-        </span>
-        <span [hidden]="!email!.errors!.maxLength">
-          {{ displayExceedMaxLengthMessage('Email address', FormValidator.EMAIL_MAX_LENGTH) }}
-        </span>
-        <span [hidden]="!email!.errors!.invalidField">
-          {{ email!.errors!.invalidField }}
-        </span>
+        <span [hidden]="!email!.errors!.empty">{{ emptyFieldMessage }}</span>
+        <span [hidden]="!email!.errors!.maxLength">{{ displayExceedMaxLengthMessage('Email address', FormValidator.EMAIL_MAX_LENGTH) }}</span>
+        <span [hidden]="!email!.errors!.invalidField">{{ email!.errors!.invalidField }}</span>
       </div>
     </div>
     <div class="form-group">
@@ -120,14 +96,10 @@
         id="url"
         class="form-control"
         formControlName="url">
-      <div *ngIf="url!.errors && (url!.dirty || url!.touched)" class="invalid-field">
+      <div id="url-error" *ngIf="url!.errors && (url!.dirty || url!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
-        <span [hidden]="!url!.errors!.maxLength">
-          {{ displayExceedMaxLengthMessage('URL', FormValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH) }}
-        </span>
-        <span [hidden]="!url!.errors!.invalidField">
-          {{ url!.errors!.invalidField }}
-        </span>
+        <span [hidden]="!url!.errors!.maxLength">{{ displayExceedMaxLengthMessage('URL', FormValidator.ACCOUNT_REQUEST_HOME_PAGE_URL_MAX_LENGTH) }}</span>
+        <span [hidden]="!url!.errors!.invalidField">{{ url!.errors!.invalidField }}</span>
       </div>
     </div>
     <div class="form-group">
@@ -144,13 +116,9 @@
       </div>
       <div *ngIf="accountType!.errors" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
-        <span [hidden]="!accountType!.errors!.required">
-          {{ emptyFieldMessage }}
-        </span>
-        <span [hidden]="!accountType!.errors!.notExpected">
-          {{ 'This form is for instructors to submit only. As a student, you do not need a TEAMMATES account to use TEAMMATES.'
-        + ' After your instructor sets up the system for your course, TEAMMATES will send you access details.' }}
-        </span>
+        <span [hidden]="!accountType!.errors!.required">{{ emptyFieldMessage }}</span>
+        <span [hidden]="!accountType!.errors!.notExpected">{{ 'This form is for instructors to submit only. As a student, you do not need a TEAMMATES account to use TEAMMATES.'
+        + ' After your instructor sets up the system for your course, TEAMMATES will send you access details.' }}</span>
       </div>
     </div>
     <div class="form-group">
@@ -163,14 +131,10 @@
         rows="6"
         formControlName="comments">
       </textarea>
-      <div *ngIf="comments!.errors && (comments!.dirty || comments!.touched)" class="invalid-field">
+      <div id="comments-error" *ngIf="comments!.errors && (comments!.dirty || comments!.touched)" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
-        <span [hidden]="!comments!.errors!.maxLength">
-          {{ displayExceedMaxLengthMessage('Comments/queries', FormValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH) }}
-        </span>
-        <span [hidden]="!comments!.errors!.invalidField">
-          {{ comments!.errors!.invalidField }}
-        </span>
+        <span [hidden]="!comments!.errors!.maxLength">{{ displayExceedMaxLengthMessage('Comments/queries', FormValidator.ACCOUNT_REQUEST_COMMENTS_MAX_LENGTH) }}</span>
+        <span [hidden]="!comments!.errors!.invalidField">{{ comments!.errors!.invalidField }}</span>
       </div>
     </div>
     <div *ngIf="recaptchaSiteKey !== ''" class="form-group recaptcha">
@@ -180,11 +144,9 @@
                       [hl]="'en'"
                       formControlName="recaptcha">
       </ngx-recaptcha2>
-      <div *ngIf="recaptcha!.errors" class="invalid-field">
+      <div id="recaptcha-error" *ngIf="recaptcha!.errors" class="invalid-field">
         <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i>
-        <span [hidden]="!recaptcha!.errors!.unchecked">
-          {{ 'Please check the box' }}
-      </span>
+        <span [hidden]="!recaptcha!.errors!.unchecked">{{ 'Please check the box' }}</span>
       </div>
     </div>
     <div class="alert alert-primary mb-5" >{{ beforeSubmissionMessage }}</div>

@@ -1,0 +1,1215 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RequestPageComponent should snap when submitting form 1`] = `
+<tm-request-page
+  FormValidator={[Function Object]}
+  accountService={[Function Object]}
+  backendOtherErrorMessage=""
+  beforeSubmissionMessage={[Function String]}
+  emptyFieldMessage={[Function String]}
+  failureMessage={[Function String]}
+  form={[Function FormGroup]}
+  invalidFieldsMessage={[Function String]}
+  isSubmitting={[Function Boolean]}
+  navigationService={[Function Object]}
+  recaptchaElem={[Function MockReCaptcha2Component]}
+  recaptchaSiteKey={[Function String]}
+  statusMessageService={[Function Object]}
+  successMessage={[Function String]}
+  supportEmail={[Function String]}
+>
+  <h1
+    class="color-orange"
+  >
+     Request for an Account
+  </h1><div
+    class="card col-lg-10 mt-4"
+  >
+    <h3>
+       Request for an account using this form if you want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students 
+    </h3>
+    <h5>
+       This form is for 
+      <b>
+        instructors only
+      </b>
+      . Students do not need TEAMMATES accounts to use TEAMMATES. 
+    </h5>
+    <br />
+    <h5>
+       Please contact us at 
+      <a
+        href="mailto:teammates@comp.nus.edu.sg"
+      >
+        teammates@comp.nus.edu.sg
+      </a>
+       if you encounter any problems with this form. 
+    </h5>
+  </div><div
+    class="card col-lg-10 mt-4"
+  >
+    <form
+      class="ng-untouched ng-pristine ng-invalid"
+      id="account-request-form"
+      novalidate=""
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            Your full name
+          </label>
+          <div
+            class="hint"
+          >
+             This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.) 
+          </div>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="name"
+          id="name"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            University/school/institute
+          </label>
+          <div
+            class="hint"
+          >
+             Please give full name of the university 
+          </div>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="institute"
+          id="institute"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            Country
+          </label>
+          <div
+            class="hint"
+          >
+             Your university/institute is based in which country? 
+          </div>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="country"
+          id="country"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            "Official" email address
+          </label>
+          <div
+            class="hint"
+          >
+             Please use the email address 
+            <b>
+              given to you by your school/university
+            </b>
+             (not your Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
+          </div>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="email"
+          id="email"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            URL of your home page (if any)
+          </label>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          formcontrolname="url"
+          id="url"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            I'm requesting for,
+          </label>
+        </div>
+        <div
+          class="radio-div"
+        >
+          <input
+            class="radio-input ng-untouched ng-pristine ng-valid"
+            formcontrolname="account-type"
+            id="instructor-account-type"
+            name="account-type"
+            type="radio"
+            value="instructor"
+          />
+          <label
+            class="radio-label"
+            for="instructor-account-type"
+          >
+            an instructor account
+          </label>
+        </div>
+        <div
+          class="radio-div"
+        >
+          <input
+            class="radio-input ng-untouched ng-pristine ng-valid"
+            formcontrolname="account-type"
+            id="student-account-type"
+            name="account-type"
+            type="radio"
+            value="student"
+          />
+          <label
+            class="radio-label"
+            for="student-account-type"
+          >
+            a student account
+          </label>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            Any other comments/queries
+          </label>
+        </div>
+        <textarea
+          class="form-control ng-untouched ng-pristine ng-valid"
+          formcontrolname="comments"
+          id="comments"
+          rows="6"
+        >
+        </textarea>
+      </div>
+      <div
+        class="form-group recaptcha"
+      >
+        <ngx-recaptcha2
+          class="ng-untouched ng-pristine ng-valid"
+          formcontrolname="recaptcha"
+        >
+          <input />
+        </ngx-recaptcha2>
+      </div>
+      <div
+        class="alert alert-primary mb-5"
+      >
+        The request is manually processed and you should receive an email from us
+    within 24 hours after successfully submitting this form. If you don't get a response within 24 hours 
+    (remember to check your spam box too), please contact us at teammates@comp.nus.edu.sg for follow up.
+      </div>
+      <div
+        class="text-center"
+      >
+        <button
+          class="btn btn-success mb-4"
+          disabled=""
+          id="btn-submit"
+          type="submit"
+        >
+          <tm-ajax-loading>
+            <div
+              class="loading-container"
+            >
+              <div
+                class="spinner-border spinner-border-sm align-middle text-white"
+                role="status"
+              />
+            </div>
+          </tm-ajax-loading>
+          Submit 
+        </button>
+      </div>
+    </form>
+  </div>
+</tm-request-page>
+`;
+
+exports[`RequestPageComponent should snap with default fields 1`] = `
+<tm-request-page
+  FormValidator={[Function Object]}
+  accountService={[Function Object]}
+  backendOtherErrorMessage=""
+  beforeSubmissionMessage={[Function String]}
+  emptyFieldMessage={[Function String]}
+  failureMessage={[Function String]}
+  form={[Function FormGroup]}
+  invalidFieldsMessage={[Function String]}
+  isSubmitting="false"
+  navigationService={[Function Object]}
+  recaptchaElem={[Function MockReCaptcha2Component]}
+  recaptchaSiteKey={[Function String]}
+  statusMessageService={[Function Object]}
+  successMessage={[Function String]}
+  supportEmail={[Function String]}
+>
+  <h1
+    class="color-orange"
+  >
+     Request for an Account
+  </h1><div
+    class="card col-lg-10 mt-4"
+  >
+    <h3>
+       Request for an account using this form if you want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students 
+    </h3>
+    <h5>
+       This form is for 
+      <b>
+        instructors only
+      </b>
+      . Students do not need TEAMMATES accounts to use TEAMMATES. 
+    </h5>
+    <br />
+    <h5>
+       Please contact us at 
+      <a
+        href="mailto:teammates@comp.nus.edu.sg"
+      >
+        teammates@comp.nus.edu.sg
+      </a>
+       if you encounter any problems with this form. 
+    </h5>
+  </div><div
+    class="card col-lg-10 mt-4"
+  >
+    <form
+      class="ng-untouched ng-pristine ng-invalid"
+      id="account-request-form"
+      novalidate=""
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            Your full name
+          </label>
+          <div
+            class="hint"
+          >
+             This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.) 
+          </div>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="name"
+          id="name"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            University/school/institute
+          </label>
+          <div
+            class="hint"
+          >
+             Please give full name of the university 
+          </div>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="institute"
+          id="institute"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            Country
+          </label>
+          <div
+            class="hint"
+          >
+             Your university/institute is based in which country? 
+          </div>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="country"
+          id="country"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            "Official" email address
+          </label>
+          <div
+            class="hint"
+          >
+             Please use the email address 
+            <b>
+              given to you by your school/university
+            </b>
+             (not your Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
+          </div>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="email"
+          id="email"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            URL of your home page (if any)
+          </label>
+        </div>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          formcontrolname="url"
+          id="url"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            I'm requesting for,
+          </label>
+        </div>
+        <div
+          class="radio-div"
+        >
+          <input
+            class="radio-input ng-untouched ng-pristine ng-valid"
+            formcontrolname="account-type"
+            id="instructor-account-type"
+            name="account-type"
+            type="radio"
+            value="instructor"
+          />
+          <label
+            class="radio-label"
+            for="instructor-account-type"
+          >
+            an instructor account
+          </label>
+        </div>
+        <div
+          class="radio-div"
+        >
+          <input
+            class="radio-input ng-untouched ng-pristine ng-valid"
+            formcontrolname="account-type"
+            id="student-account-type"
+            name="account-type"
+            type="radio"
+            value="student"
+          />
+          <label
+            class="radio-label"
+            for="student-account-type"
+          >
+            a student account
+          </label>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            Any other comments/queries
+          </label>
+        </div>
+        <textarea
+          class="form-control ng-untouched ng-pristine ng-valid"
+          formcontrolname="comments"
+          id="comments"
+          rows="6"
+        >
+        </textarea>
+      </div>
+      <div
+        class="form-group recaptcha"
+      >
+        <ngx-recaptcha2
+          class="ng-untouched ng-pristine ng-valid"
+          formcontrolname="recaptcha"
+        >
+          <input />
+        </ngx-recaptcha2>
+      </div>
+      <div
+        class="alert alert-primary mb-5"
+      >
+        The request is manually processed and you should receive an email from us
+    within 24 hours after successfully submitting this form. If you don't get a response within 24 hours 
+    (remember to check your spam box too), please contact us at teammates@comp.nus.edu.sg for follow up.
+      </div>
+      <div
+        class="text-center"
+      >
+        <button
+          class="btn btn-success mb-4"
+          id="btn-submit"
+          type="submit"
+        >
+          Submit 
+        </button>
+      </div>
+    </form>
+  </div>
+</tm-request-page>
+`;
+
+exports[`RequestPageComponent should snap with error messages 1`] = `
+<tm-request-page
+  FormValidator={[Function Object]}
+  accountService={[Function Object]}
+  backendOtherErrorMessage=""
+  beforeSubmissionMessage={[Function String]}
+  emptyFieldMessage={[Function String]}
+  failureMessage={[Function String]}
+  form={[Function FormGroup]}
+  invalidFieldsMessage={[Function String]}
+  isSubmitting="false"
+  navigationService={[Function Object]}
+  recaptchaElem={[Function MockReCaptcha2Component]}
+  recaptchaSiteKey={[Function String]}
+  statusMessageService={[Function Object]}
+  successMessage={[Function String]}
+  supportEmail={[Function String]}
+>
+  <h1
+    class="color-orange"
+  >
+     Request for an Account
+  </h1><div
+    class="card col-lg-10 mt-4"
+  >
+    <h3>
+       Request for an account using this form if you want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students 
+    </h3>
+    <h5>
+       This form is for 
+      <b>
+        instructors only
+      </b>
+      . Students do not need TEAMMATES accounts to use TEAMMATES. 
+    </h5>
+    <br />
+    <h5>
+       Please contact us at 
+      <a
+        href="mailto:teammates@comp.nus.edu.sg"
+      >
+        teammates@comp.nus.edu.sg
+      </a>
+       if you encounter any problems with this form. 
+    </h5>
+  </div><div
+    class="card col-lg-10 mt-4"
+  >
+    <form
+      class="ng-pristine ng-invalid ng-touched"
+      id="account-request-form"
+      novalidate=""
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            Your full name
+          </label>
+          <div
+            class="hint"
+          >
+             This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.) 
+          </div>
+        </div>
+        <input
+          class="form-control ng-pristine ng-invalid ng-touched"
+          formcontrolname="name"
+          id="name"
+        />
+        <div
+          class="invalid-field"
+          id="name-error"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-exclamation-circle mr-2"
+          />
+          <span
+            hidden=""
+          >
+            This field should not be empty
+          </span>
+          <span
+            hidden=""
+          >
+            Name should not exceed 100 characters
+          </span>
+          <span>
+            Invalid Name
+          </span>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            University/school/institute
+          </label>
+          <div
+            class="hint"
+          >
+             Please give full name of the university 
+          </div>
+        </div>
+        <input
+          class="form-control ng-pristine ng-invalid ng-touched"
+          formcontrolname="institute"
+          id="institute"
+        />
+        <div
+          class="invalid-field"
+          id="institute-error"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-exclamation-circle mr-2"
+          />
+          <span
+            hidden=""
+          >
+            This field should not be empty
+          </span>
+          <span
+            hidden=""
+          >
+            University/school/institute should not exceed 60 characters
+          </span>
+          <span>
+            Invalid Institute
+          </span>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            Country
+          </label>
+          <div
+            class="hint"
+          >
+             Your university/institute is based in which country? 
+          </div>
+        </div>
+        <input
+          class="form-control ng-pristine ng-invalid ng-touched"
+          formcontrolname="country"
+          id="country"
+        />
+        <div
+          class="invalid-field"
+          id="country-error"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-exclamation-circle mr-2"
+          />
+          <span
+            hidden=""
+          >
+            This field should not be empty
+          </span>
+          <span
+            hidden=""
+          >
+            Country name should not exceed 60 characters
+          </span>
+          <span>
+            Invalid Country
+          </span>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            "Official" email address
+          </label>
+          <div
+            class="hint"
+          >
+             Please use the email address 
+            <b>
+              given to you by your school/university
+            </b>
+             (not your Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
+          </div>
+        </div>
+        <input
+          class="form-control ng-pristine ng-invalid ng-touched"
+          formcontrolname="email"
+          id="email"
+        />
+        <div
+          class="invalid-field"
+          id="email-error"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-exclamation-circle mr-2"
+          />
+          <span
+            hidden=""
+          >
+            This field should not be empty
+          </span>
+          <span
+            hidden=""
+          >
+            Email address should not exceed 254 characters
+          </span>
+          <span>
+            Invalid Email
+          </span>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            URL of your home page (if any)
+          </label>
+        </div>
+        <input
+          class="form-control ng-pristine ng-touched ng-invalid"
+          formcontrolname="url"
+          id="url"
+        />
+        <div
+          class="invalid-field"
+          id="url-error"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-exclamation-circle mr-2"
+          />
+          <span
+            hidden=""
+          >
+            URL should not exceed 500 characters
+          </span>
+          <span>
+            Invalid URL
+          </span>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            I'm requesting for,
+          </label>
+        </div>
+        <div
+          class="radio-div"
+        >
+          <input
+            class="radio-input ng-pristine ng-touched ng-invalid"
+            formcontrolname="account-type"
+            id="instructor-account-type"
+            name="account-type"
+            type="radio"
+            value="instructor"
+          />
+          <label
+            class="radio-label"
+            for="instructor-account-type"
+          >
+            an instructor account
+          </label>
+        </div>
+        <div
+          class="radio-div"
+        >
+          <input
+            class="radio-input ng-pristine ng-touched ng-invalid"
+            formcontrolname="account-type"
+            id="student-account-type"
+            name="account-type"
+            type="radio"
+            value="student"
+          />
+          <label
+            class="radio-label"
+            for="student-account-type"
+          >
+            a student account
+          </label>
+        </div>
+        <div
+          class="invalid-field"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-exclamation-circle mr-2"
+          />
+          <span
+            hidden=""
+          >
+            This field should not be empty
+          </span>
+          <span>
+            This form is for instructors to submit only. As a student, you do not need a TEAMMATES account to use TEAMMATES. After your instructor sets up the system for your course, TEAMMATES will send you access details.
+          </span>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            Any other comments/queries
+          </label>
+        </div>
+        <textarea
+          class="form-control ng-pristine ng-touched ng-invalid"
+          formcontrolname="comments"
+          id="comments"
+          rows="6"
+        >
+        </textarea>
+        <div
+          class="invalid-field"
+          id="comments-error"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-exclamation-circle mr-2"
+          />
+          <span
+            hidden=""
+          >
+            Comments/queries should not exceed 1000 characters
+          </span>
+          <span>
+            Invalid Comments
+          </span>
+        </div>
+      </div>
+      <div
+        class="form-group recaptcha"
+      >
+        <ngx-recaptcha2
+          class="ng-pristine ng-touched ng-invalid"
+          formcontrolname="recaptcha"
+        >
+          <input />
+        </ngx-recaptcha2>
+        <div
+          class="invalid-field"
+          id="recaptcha-error"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-exclamation-circle mr-2"
+          />
+          <span>
+            Please check the box
+          </span>
+        </div>
+      </div>
+      <div
+        class="alert alert-primary mb-5"
+      >
+        The request is manually processed and you should receive an email from us
+    within 24 hours after successfully submitting this form. If you don't get a response within 24 hours 
+    (remember to check your spam box too), please contact us at teammates@comp.nus.edu.sg for follow up.
+      </div>
+      <div
+        class="text-center"
+      >
+        <button
+          class="btn btn-success mb-4"
+          disabled=""
+          id="btn-submit"
+          type="submit"
+        >
+          Submit 
+        </button>
+      </div>
+    </form>
+  </div>
+</tm-request-page>
+`;
+
+exports[`RequestPageComponent should snap with valid fields 1`] = `
+<tm-request-page
+  FormValidator={[Function Object]}
+  accountService={[Function Object]}
+  backendOtherErrorMessage=""
+  beforeSubmissionMessage={[Function String]}
+  emptyFieldMessage={[Function String]}
+  failureMessage={[Function String]}
+  form={[Function FormGroup]}
+  invalidFieldsMessage={[Function String]}
+  isSubmitting="false"
+  navigationService={[Function Object]}
+  recaptchaElem={[Function MockReCaptcha2Component]}
+  recaptchaSiteKey={[Function String]}
+  statusMessageService={[Function Object]}
+  successMessage={[Function String]}
+  supportEmail={[Function String]}
+>
+  <h1
+    class="color-orange"
+  >
+     Request for an Account
+  </h1><div
+    class="card col-lg-10 mt-4"
+  >
+    <h3>
+       Request for an account using this form if you want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students 
+    </h3>
+    <h5>
+       This form is for 
+      <b>
+        instructors only
+      </b>
+      . Students do not need TEAMMATES accounts to use TEAMMATES. 
+    </h5>
+    <br />
+    <h5>
+       Please contact us at 
+      <a
+        href="mailto:teammates@comp.nus.edu.sg"
+      >
+        teammates@comp.nus.edu.sg
+      </a>
+       if you encounter any problems with this form. 
+    </h5>
+  </div><div
+    class="card col-lg-10 mt-4"
+  >
+    <form
+      class="ng-touched ng-dirty ng-valid"
+      id="account-request-form"
+      novalidate=""
+    >
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            Your full name
+          </label>
+          <div
+            class="hint"
+          >
+             This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.) 
+          </div>
+        </div>
+        <input
+          class="form-control ng-touched ng-dirty ng-valid"
+          formcontrolname="name"
+          id="name"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            University/school/institute
+          </label>
+          <div
+            class="hint"
+          >
+             Please give full name of the university 
+          </div>
+        </div>
+        <input
+          class="form-control ng-touched ng-dirty ng-valid"
+          formcontrolname="institute"
+          id="institute"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            Country
+          </label>
+          <div
+            class="hint"
+          >
+             Your university/institute is based in which country? 
+          </div>
+        </div>
+        <input
+          class="form-control ng-touched ng-dirty ng-valid"
+          formcontrolname="country"
+          id="country"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label
+            class="required"
+          >
+            "Official" email address
+          </label>
+          <div
+            class="hint"
+          >
+             Please use the email address 
+            <b>
+              given to you by your school/university
+            </b>
+             (not your Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
+          </div>
+        </div>
+        <input
+          class="form-control ng-touched ng-dirty ng-valid"
+          formcontrolname="email"
+          id="email"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            URL of your home page (if any)
+          </label>
+        </div>
+        <input
+          class="form-control ng-valid ng-touched ng-dirty"
+          formcontrolname="url"
+          id="url"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            I'm requesting for,
+          </label>
+        </div>
+        <div
+          class="radio-div"
+        >
+          <input
+            class="radio-input ng-valid ng-touched ng-dirty"
+            formcontrolname="account-type"
+            id="instructor-account-type"
+            name="account-type"
+            type="radio"
+            value="instructor"
+          />
+          <label
+            class="radio-label"
+            for="instructor-account-type"
+          >
+            an instructor account
+          </label>
+        </div>
+        <div
+          class="radio-div"
+        >
+          <input
+            class="radio-input ng-valid ng-touched ng-dirty"
+            formcontrolname="account-type"
+            id="student-account-type"
+            name="account-type"
+            type="radio"
+            value="student"
+          />
+          <label
+            class="radio-label"
+            for="student-account-type"
+          >
+            a student account
+          </label>
+        </div>
+      </div>
+      <div
+        class="form-group"
+      >
+        <div
+          class="field-title"
+        >
+          <label>
+            Any other comments/queries
+          </label>
+        </div>
+        <textarea
+          class="form-control ng-valid ng-touched ng-dirty"
+          formcontrolname="comments"
+          id="comments"
+          rows="6"
+        >
+        </textarea>
+      </div>
+      <div
+        class="form-group recaptcha"
+      >
+        <ngx-recaptcha2
+          class="ng-valid ng-touched ng-dirty"
+          formcontrolname="recaptcha"
+        >
+          <input />
+        </ngx-recaptcha2>
+      </div>
+      <div
+        class="alert alert-primary mb-5"
+      >
+        The request is manually processed and you should receive an email from us
+    within 24 hours after successfully submitting this form. If you don't get a response within 24 hours 
+    (remember to check your spam box too), please contact us at teammates@comp.nus.edu.sg for follow up.
+      </div>
+      <div
+        class="text-center"
+      >
+        <button
+          class="btn btn-success mb-4"
+          id="btn-submit"
+          type="submit"
+        >
+          Submit 
+        </button>
+      </div>
+    </form>
+  </div>
+</tm-request-page>
+`;
