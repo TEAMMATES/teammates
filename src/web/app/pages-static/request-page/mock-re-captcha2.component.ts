@@ -49,5 +49,4 @@ export class MockReCaptcha2Component implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouch = fn;
   }
-
 }
