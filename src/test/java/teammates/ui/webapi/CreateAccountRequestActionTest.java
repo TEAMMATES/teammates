@@ -135,19 +135,10 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         params = new String[] {
                 Const.ParamsNames.INTENT, AccountRequestCreateIntent.PUBLIC_CREATE.toString(),
-                Const.ParamsNames.ACCOUNT_REQUEST_TYPE, AccountRequestType.INSTRUCTOR_ACCOUNT.toString(),
-        };
-        req = buildCreateRequest(name, pureInstituteWithSpaces, pureCountryWithSpaces, email, homePageUrl, comments);
-
-        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(req, params);
-        assertEquals("Please check the \"I'm not a robot\" box before submission.", ihpe.getMessage());
-
-        params = new String[] {
-                Const.ParamsNames.INTENT, AccountRequestCreateIntent.PUBLIC_CREATE.toString(),
                 Const.ParamsNames.USER_CAPTCHA_RESPONSE, "",
         };
 
-        ihpe = verifyHttpParameterFailure(req, params);
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(req, params);
         assertEquals("Only instructor accounts can be created.", ihpe.getMessage());
 
         ______TS("failure: invalid parameters");
