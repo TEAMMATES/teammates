@@ -541,7 +541,7 @@ exports[`RequestPageComponent should snap with error messages 1`] = `
 <tm-request-page
   FormValidator={[Function Object]}
   accountService={[Function Object]}
-  backendOtherErrorMessage=""
+  backendOtherErrorMessage={[Function String]}
   beforeSubmissionMessage={[Function String]}
   emptyFieldMessage={[Function String]}
   failureMessage={[Function String]}
@@ -855,6 +855,7 @@ exports[`RequestPageComponent should snap with error messages 1`] = `
         </div>
         <div
           class="invalid-field"
+          id="account-type-error"
         >
           <i
             aria-hidden="true"
@@ -933,6 +934,12 @@ exports[`RequestPageComponent should snap with error messages 1`] = `
         The request is manually processed and you should receive an email from us
     within 24 hours after successfully submitting this form. If you don't get a response within 24 hours 
     (remember to check your spam box too), please contact us at teammates@comp.nus.edu.sg for follow up.
+      </div>
+      <div
+        class="alert alert-warning mb-3"
+        id="other-error"
+      >
+        Other errors
       </div>
       <div
         class="text-center"

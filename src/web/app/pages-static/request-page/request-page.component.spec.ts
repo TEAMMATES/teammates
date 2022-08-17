@@ -141,6 +141,7 @@ describe('RequestPageComponent', () => {
       unchecked: true,
     });
     component.form.markAllAsTouched();
+    component.backendOtherErrorMessage = 'Other errors';
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -408,6 +409,7 @@ describe('RequestPageComponent', () => {
     const displayedCountryErrorDe = fixture.debugElement.query(By.css('#country-error'));
     const displayedEmailErrorDe = fixture.debugElement.query(By.css('#email-error'));
     const displayedUrlErrorDe = fixture.debugElement.query(By.css('#url-error'));
+    const displayedAccountTypeErrorDe = fixture.debugElement.query(By.css('#account-type-error'));
     const displayedCommentsErrorDe = fixture.debugElement.query(By.css('#comments-error'));
     const displayedReCaptchaErrorDe = fixture.debugElement.query(By.css('#recaptcha-error'));
 
@@ -416,6 +418,7 @@ describe('RequestPageComponent', () => {
     expect(displayedCountryErrorDe).toBeNull();
     expect(displayedEmailErrorDe).toBeNull();
     expect(displayedUrlErrorDe).toBeNull();
+    expect(displayedAccountTypeErrorDe).toBeNull();
     expect(displayedCommentsErrorDe).toBeNull();
     expect(displayedReCaptchaErrorDe).toBeNull();
   });
@@ -443,5 +446,28 @@ describe('RequestPageComponent', () => {
     expect(displayedCountryError).toBe(component.emptyFieldMessage);
     expect(displayedEmailError).toBe(component.emptyFieldMessage);
     expect(displayedReCaptchaError).toContain('Please check the box');
+  });
+
+  it('should display backendOtherErrorMessage', () => {
+    const errorMessage: string = 'Other errors';
+    component.backendOtherErrorMessage = errorMessage;
+    fixture.detectChanges();
+
+    const displayedOtherError: string = fixture.debugElement.query(By.css('#other-error')).nativeElement.textContent;
+    expect(displayedOtherError).toBe(errorMessage);
+  });
+
+  it('should show error and disable the Submit button when student account type is selected', () => {
+    const submitButton = fixture.debugElement.query(By.css('#btn-submit')).nativeElement;
+    expect(submitButton.disabled).toBeFalsy();
+
+    fixture.debugElement.query(By.css('#student-account-type')).nativeElement.click();
+    fixture.detectChanges();
+
+    const displayedAccountTypeError: string = fixture.debugElement
+      .query(By.css('#account-type-error span:not([hidden])')).nativeElement.textContent;
+
+    expect(displayedAccountTypeError).toContain('This form is for instructors to submit only.');
+    expect(submitButton.disabled).toBeTruthy();
   });
 });
