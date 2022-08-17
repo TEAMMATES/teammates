@@ -6,6 +6,7 @@
             <package name="teammates.e2e.util" />
         </packages>
         <classes>
+            <class name="teammates.e2e.cases.AccountRequestFormPageE2ETest" />
             <class name="teammates.e2e.cases.AutomatedSessionRemindersE2ETest" />
             <class name="teammates.e2e.cases.SystemErrorEmailReportE2ETest" />
             <class name="teammates.e2e.cases.TimezoneSyncerTest" />

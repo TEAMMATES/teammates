@@ -1,0 +1,13 @@
+{
+  "accountRequests": {
+    "existingAccountRequest": {
+      "name": "Existing Account Request",
+      "institute": "TEAMMATES Test Institute, Singapore",
+      "email": "RequestForm.existing@gmail.tmt",
+      "homePageUrl": "",
+      "comments": "",
+      "status": "SUBMITTED",
+      "createdAt": "2012-03-01T00:01:00Z"
+    }
+  }
+}
