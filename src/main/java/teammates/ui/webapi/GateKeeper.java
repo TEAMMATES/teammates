@@ -98,6 +98,10 @@ final class GateKeeper {
      */
     void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName)
             throws UnauthorizedAccessException {
+        boolean instructorIsAllowedCoursePrivilege = instructor.isAllowedForPrivilege(privilegeName);
+        boolean instructorIsAllowedSectionPrivilege =
+                instructor.getSectionsWithPrivilege(privilegeName).size() != 0;
+
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.getCourseId(), "instructor's course ID");
         verifyNotNull(course, "course");
@@ -108,7 +112,7 @@ final class GateKeeper {
                                                   + instructor.getEmail() + "]");
         }
 
-        if (!instructor.isAllowedForPrivilege(privilegeName)) {
+        if (!instructorIsAllowedCoursePrivilege && !instructorIsAllowedSectionPrivilege) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.getEmail() + "] for privilege [" + privilegeName + "]");
         }

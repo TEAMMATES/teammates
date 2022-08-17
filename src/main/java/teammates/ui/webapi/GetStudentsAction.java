@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -40,11 +42,30 @@ class GetStudentsAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
 
-        if (teamName == null) {
-            // request to get all students of a course by instructor
+        if (teamName == null
+                && instructor != null
+                && instructor.isAllowedForPrivilege(privilegeName)) {
+            // request by instructor with course privilege
             List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
             return new JsonResult(new StudentsData(studentsForCourse));
+
+        } else if (teamName == null
+                && instructor != null
+                && !instructor.isAllowedForPrivilege(privilegeName)) {
+            // request by instructor with section privilege
+            List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
+            List<StudentAttributes> studentsToReturn = new LinkedList<>();
+            Set<String> sectionsWithViewPrivileges = instructor.getSectionsWithPrivilege(privilegeName).keySet();
+            studentsForCourse.forEach(student -> {
+                if (sectionsWithViewPrivileges.contains(student.getSection())) {
+                    studentsToReturn.add(student);
+                }
+            });
+            return new JsonResult(new StudentsData(studentsToReturn));
+
         } else {
             // request to get team members by current student
             List<StudentAttributes> studentsForTeam = logic.getStudentsForTeam(teamName, courseId);
