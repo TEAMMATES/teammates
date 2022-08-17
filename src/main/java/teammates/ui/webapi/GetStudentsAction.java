@@ -44,17 +44,17 @@ class GetStudentsAction extends Action {
         String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
+        boolean hasCoursePrivilege = instructor != null
+                && instructor.isAllowedForPrivilege(privilegeName);
+        boolean hasSectionPrivilege = instructor != null
+                && instructor.getSectionsWithPrivilege(privilegeName).size() != 0;
 
-        if (teamName == null
-                && instructor != null
-                && instructor.isAllowedForPrivilege(privilegeName)) {
+        if (teamName == null && hasCoursePrivilege) {
             // request by instructor with course privilege
             List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
             return new JsonResult(new StudentsData(studentsForCourse));
 
-        } else if (teamName == null
-                && instructor != null
-                && !instructor.isAllowedForPrivilege(privilegeName)) {
+        } else if (teamName == null && hasSectionPrivilege) {
             // request by instructor with section privilege
             List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
             List<StudentAttributes> studentsToReturn = new LinkedList<>();
