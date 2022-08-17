@@ -58,7 +58,7 @@ class CreateAccountRequestAction extends Action {
 
         if (!intent.equals(AccountRequestCreateIntent.ADMIN_CREATE)) {
             String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
-            if (userCaptchaResponse == null || !recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
+            if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
                 throw new InvalidHttpParameterException("Please check the \"I'm not a robot\" box before submission.");
             }
         }

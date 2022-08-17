@@ -116,12 +116,16 @@ export class RequestPageComponent implements OnInit {
   onSubmit(): void {
     this.form.markAllAsTouched();
 
-    // set recaptcha validation errors only on submit
-    const recaptchaResponse: string = this.recaptchaElem.getResponse();
-    if (this.recaptchaSiteKey !== '' && recaptchaResponse === '') {
-      this.recaptcha!.setErrors({
-        unchecked: true,
-      });
+    let recaptchaResponse: string = '';
+    if (this.recaptchaSiteKey !== '') {
+      recaptchaResponse = this.recaptchaElem.getResponse();
+
+      // set recaptcha validation errors only on submit
+      if (recaptchaResponse === '') {
+        this.recaptcha!.setErrors({
+          unchecked: true,
+        });
+      }
     }
 
     if (!this.form.valid) {
@@ -155,7 +159,9 @@ export class RequestPageComponent implements OnInit {
         this.isSubmitting = false;
         this.statusMessageService.showWarningToast(this.failureMessage);
 
-        this.recaptchaElem.resetCaptcha();
+        if (this.recaptchaSiteKey !== '') {
+          this.recaptchaElem.resetCaptcha();
+        }
 
         if ('message' in resp.error) {
           this.backendOtherErrorMessage = resp.error.message;
