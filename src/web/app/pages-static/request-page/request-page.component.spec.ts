@@ -11,6 +11,7 @@ import { AccountRequestCreateRequest, AccountRequestType } from '../../../types/
 import { FormValidator } from '../../../types/form-validator';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { MockReCaptcha2Component } from './mock-re-captcha2.component';
+import { MockReCaptcha2ComponentModule } from './mock-re-captcha2.module';
 import { RequestPageComponent } from './request-page.component';
 
 describe('RequestPageComponent', () => {
@@ -72,12 +73,13 @@ describe('RequestPageComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [RequestPageComponent, MockReCaptcha2Component],
+      declarations: [RequestPageComponent],
       imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         AjaxLoadingModule,
+        MockReCaptcha2ComponentModule,
       ],
       providers: [
         { provide: AccountService, useValue: accountServiceStub },
