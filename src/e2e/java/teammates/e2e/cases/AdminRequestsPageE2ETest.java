@@ -166,6 +166,7 @@ public class AdminRequestsPageE2ETest extends BaseE2ETestCase {
         Instant startTime = testData.accountRequests.get("accountRequest3").getCreatedAt().minus(1, ChronoUnit.DAYS);
         Instant endTime = testData.accountRequests.get("accountRequest5").getCreatedAt().plus(1, ChronoUnit.DAYS);
 
+        requestsPage.waitForPageToLoad(); // to prevent interception when clicking on the date later
         requestsPage.fillFromDate(startTime);
         requestsPage.fillToDate(endTime);
         requestsPage.clickShowAccountRequestsButton();
