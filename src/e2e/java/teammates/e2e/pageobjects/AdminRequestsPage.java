@@ -36,7 +36,7 @@ public class AdminRequestsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Account Requests</h1>");
+        return getPageTitle().contains("Account Requests");
     }
 
     public void fillFromDate(Instant instant) {
