@@ -41,7 +41,7 @@ public class AccountRequestSearchManager extends SearchManager<AccountRequestAtt
 
     @Override
     void sortResult(List<AccountRequestAttributes> result) {
-        result.sort(Comparator.comparing((AccountRequestAttributes accountRequest) -> accountRequest.getCreatedAt())
+        result.sort(Comparator.comparing(AccountRequestAttributes::getCreatedAt)
                 .reversed());
     }
 
