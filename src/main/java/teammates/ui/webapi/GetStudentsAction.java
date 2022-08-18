@@ -53,7 +53,6 @@ class GetStudentsAction extends Action {
             // request by instructor with course privilege
             List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
             return new JsonResult(new StudentsData(studentsForCourse));
-
         } else if (teamName == null && hasSectionPrivilege) {
             // request by instructor with section privilege
             List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
@@ -65,7 +64,6 @@ class GetStudentsAction extends Action {
                 }
             });
             return new JsonResult(new StudentsData(studentsToReturn));
-
         } else {
             // request to get team members by current student
             List<StudentAttributes> studentsForTeam = logic.getStudentsForTeam(teamName, courseId);
@@ -73,7 +71,6 @@ class GetStudentsAction extends Action {
             studentsData.getStudents().forEach(StudentData::hideInformationForStudent);
             return new JsonResult(studentsData);
         }
-
     }
 
 }
