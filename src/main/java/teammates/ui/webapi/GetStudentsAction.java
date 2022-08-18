@@ -50,11 +50,11 @@ class GetStudentsAction extends Action {
                 && instructor.getSectionsWithPrivilege(privilegeName).size() != 0;
 
         if (teamName == null && hasCoursePrivilege) {
-            // request by instructor with course privilege
+            // request to get all course students by instructor with course privilege
             List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
             return new JsonResult(new StudentsData(studentsForCourse));
         } else if (teamName == null && hasSectionPrivilege) {
-            // request by instructor with section privilege
+            // request to get students by instructor with section privilege
             List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
             List<StudentAttributes> studentsToReturn = new LinkedList<>();
             Set<String> sectionsWithViewPrivileges = instructor.getSectionsWithPrivilege(privilegeName).keySet();
