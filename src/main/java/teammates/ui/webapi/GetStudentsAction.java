@@ -72,5 +72,4 @@ class GetStudentsAction extends Action {
             return new JsonResult(studentsData);
         }
     }
-
 }
