@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEnabled is updated 1`] = `
+<tm-mcq-question-edit-answer-form
+  cssRefresh={[Function EventEmitter_]}
+  id=""
+  inputTextBoxOther="undefined"
+  isDisabled="false"
+  isMcqOptionSelected={[Function Array]}
+  isOtherTicked="false"
+  questionDetails={[Function Object]}
+  responseDetails={[Function Object]}
+  responseDetailsChange={[Function EventEmitter_]}
+>
+  <tr>
+    <td>
+      <div>
+        <select
+          class="form-control margin-bottom-8px"
+          id="dropdown-option-select"
+        >
+          <option
+            disabled=""
+            selected=""
+          />
+        </select>
+      </div>
+    </td>
+  </tr>
+</tm-mcq-question-edit-answer-form>
+`;
