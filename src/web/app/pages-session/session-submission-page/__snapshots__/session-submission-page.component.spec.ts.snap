@@ -896,6 +896,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 />
                                 <span
                                   class="option-text"
+                                  id="radioOptionSpan"
                                 >
                                   choice 1
                                 </span>
@@ -914,6 +915,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 />
                                 <span
                                   class="option-text"
+                                  id="radioOptionSpan"
                                 >
                                   choice 2
                                 </span>
@@ -932,6 +934,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 />
                                 <span
                                   class="option-text"
+                                  id="radioOptionSpan"
                                 >
                                   choice 3
                                 </span>
@@ -3253,6 +3256,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 />
                                 <span
                                   class="option-text"
+                                  id="radioOptionSpan"
                                 >
                                   choice 1
                                 </span>
@@ -3272,6 +3276,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 />
                                 <span
                                   class="option-text"
+                                  id="radioOptionSpan"
                                 >
                                   choice 2
                                 </span>
@@ -3291,6 +3296,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 />
                                 <span
                                   class="option-text"
+                                  id="radioOptionSpan"
                                 >
                                   choice 3
                                 </span>
