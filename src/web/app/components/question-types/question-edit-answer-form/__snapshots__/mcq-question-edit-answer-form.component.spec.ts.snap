@@ -29,3 +29,24 @@ exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEna
   </tr>
 </tm-mcq-question-edit-answer-form>
 `;
+
+exports[`McqQuestionEditAnswerFormComponent should snap with default view 1`] = `
+<tm-mcq-question-edit-answer-form
+  cssRefresh={[Function EventEmitter_]}
+  id=""
+  inputTextBoxOther="undefined"
+  isDisabled="false"
+  isMcqOptionSelected={[Function Array]}
+  isOtherTicked="false"
+  questionDetails={[Function Object]}
+  responseDetails={[Function Object]}
+  responseDetailsChange={[Function EventEmitter_]}
+>
+  <tr>
+    <td>
+      <div>
+      </div>
+    </td>
+  </tr>
+</tm-mcq-question-edit-answer-form>
+`;

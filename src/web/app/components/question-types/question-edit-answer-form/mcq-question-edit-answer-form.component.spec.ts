@@ -33,6 +33,10 @@ describe('McqQuestionEditAnswerFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should snap with default view', () => {
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should snap when questionDropdownEnabled is updated', () => {
     component.questionDetails.questionDropdownEnabled = true;
     fixture.detectChanges();
