@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { FeedbackMcqQuestionDetails } from 'src/web/types/api-output';
@@ -74,5 +74,42 @@ describe('McqQuestionEditAnswerFormComponent', () => {
     for (let i = 0; i < select.options.length; i += 1) {
       expect(select.options[i].text).toStrictEqual(mcqChoices[i]);
     }
+  });
+
+  it('should call change function upon selecting a dropdown option', fakeAsync(() => {
+    const SELECTED_SELECT_INDEX = 1;    
+
+    component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
+    component.questionDetails.questionDropdownEnabled = true;
+
+    fixture.detectChanges();
+
+    let select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
+
+    jest.spyOn(component, 'updateSelectedMcqDropdownOption');
+
+    select.value = select.options[SELECTED_SELECT_INDEX].value;
+    select.dispatchEvent(new Event('change'));
+    tick();
+
+    expect(component.updateSelectedMcqDropdownOption).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should update answer selection upon selecting a dropdown option', () => {
+    // Works for both select and mcqChoices as select first option is disabled
+    const SELECTED_INDEX = 0;
+    
+    component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
+    component.questionDetails.questionDropdownEnabled = true;
+    fixture.detectChanges();
+
+    let select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
+
+    select.value = select.options[SELECTED_INDEX].value;
+    select.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    expect(component.questionDetails.mcqChoices[select.selectedIndex])
+      .toEqual(component.questionDetails.mcqChoices[SELECTED_INDEX]);
   });
 });
