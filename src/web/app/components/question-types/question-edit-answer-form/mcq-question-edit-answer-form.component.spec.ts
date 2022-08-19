@@ -44,36 +44,38 @@ describe('McqQuestionEditAnswerFormComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display all MCQ choices for question dropdown disabled', () => {
-    component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
-    fixture.detectChanges();
+  describe('should display all MCQ choices', () => {
+    it('question dropdown disabled', () => {
+      component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
+      fixture.detectChanges();
 
-    const radioGroup: DebugElement[] = fixture.debugElement.queryAll(By.css('#radioOptionSpan'));
-    const mcqChoices: FeedbackMcqQuestionDetails['mcqChoices'] = component.questionDetails.mcqChoices;
-    const radioSpans: HTMLSpanElement[] = [];
+      const radioGroup: DebugElement[] = fixture.debugElement.queryAll(By.css('#radioOptionSpan'));
+      const mcqChoices: FeedbackMcqQuestionDetails['mcqChoices'] = component.questionDetails.mcqChoices;
+      const radioSpans: HTMLSpanElement[] = [];
 
-    radioGroup.forEach((de: DebugElement) => radioSpans.push(de.nativeElement));
+      radioGroup.forEach((de: DebugElement) => radioSpans.push(de.nativeElement));
 
-    for (let i = 0; i < radioSpans.length; i += 1) {
-      expect(radioSpans[i].innerHTML).toStrictEqual(mcqChoices[i]);
-    }
-  });
+      for (let i = 0; i < radioSpans.length; i += 1) {
+        expect(radioSpans[i].innerHTML).toStrictEqual(mcqChoices[i]);
+      }
+    });
 
-  it('should display all MCQ choices for question dropdown enabled', () => {
-    component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
-    component.questionDetails.questionDropdownEnabled = true;
-    fixture.detectChanges();
+    it('question dropdown enabled', () => {
+      component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
+      component.questionDetails.questionDropdownEnabled = true;
+      fixture.detectChanges();
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
+      const select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
 
-    // Removes placeholder option
-    select.options.remove(0);
+      // Removes placeholder option
+      select.options.remove(0);
 
-    const mcqChoices: FeedbackMcqQuestionDetails['mcqChoices'] = component.questionDetails.mcqChoices;
+      const mcqChoices: FeedbackMcqQuestionDetails['mcqChoices'] = component.questionDetails.mcqChoices;
 
-    for (let i = 0; i < select.options.length; i += 1) {
-      expect(select.options[i].text).toStrictEqual(mcqChoices[i]);
-    }
+      for (let i = 0; i < select.options.length; i += 1) {
+        expect(select.options[i].text).toStrictEqual(mcqChoices[i]);
+      }
+    });
   });
 
   it('should call change function upon selecting a dropdown option', fakeAsync(() => {
