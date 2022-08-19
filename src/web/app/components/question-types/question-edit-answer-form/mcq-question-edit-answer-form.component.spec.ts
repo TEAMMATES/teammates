@@ -77,14 +77,14 @@ describe('McqQuestionEditAnswerFormComponent', () => {
   });
 
   it('should call change function upon selecting a dropdown option', fakeAsync(() => {
-    const SELECTED_SELECT_INDEX = 1;    
+    const SELECTED_SELECT_INDEX = 1;
 
     component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
     component.questionDetails.questionDropdownEnabled = true;
 
     fixture.detectChanges();
 
-    let select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
 
     jest.spyOn(component, 'updateSelectedMcqDropdownOption');
 
@@ -98,12 +98,12 @@ describe('McqQuestionEditAnswerFormComponent', () => {
   it('should update answer selection upon selecting a dropdown option', () => {
     // Works for both select and mcqChoices as select first option is disabled
     const SELECTED_INDEX = 0;
-    
+
     component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
     component.questionDetails.questionDropdownEnabled = true;
     fixture.detectChanges();
 
-    let select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
 
     select.value = select.options[SELECTED_INDEX].value;
     select.dispatchEvent(new Event('change'));
