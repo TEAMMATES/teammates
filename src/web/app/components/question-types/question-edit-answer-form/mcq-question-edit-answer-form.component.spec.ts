@@ -41,7 +41,7 @@ describe('McqQuestionEditAnswerFormComponent', () => {
   });
 
   it('should display all MCQ choices for question dropdown disabled', () => {
-    component.questionDetails.mcqChoices = ['1', '2', '3'];
+    component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
     fixture.detectChanges();
 
     const radioGroup: DebugElement[] = fixture.debugElement.queryAll(By.css('#radioOptionSpan'));
@@ -56,7 +56,7 @@ describe('McqQuestionEditAnswerFormComponent', () => {
   });
 
   it('should display all MCQ choices for question dropdown enabled', () => {
-    component.questionDetails.mcqChoices = ['1', '2', '3'];
+    component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
     component.questionDetails.questionDropdownEnabled = true;
     fixture.detectChanges();
 
