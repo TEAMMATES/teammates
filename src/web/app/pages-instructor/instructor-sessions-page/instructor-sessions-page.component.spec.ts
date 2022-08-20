@@ -265,7 +265,7 @@ describe('InstructorSessionsPageComponent', () => {
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(0);
   });
 
-  it('should restore all session', () => {
+  it('should restore all sessions', () => {
     const recycleBinFeedbackSessionRowModel1: any = {
       feedbackSession: testFeedbackSession3,
     };
@@ -310,7 +310,6 @@ describe('InstructorSessionsPageComponent', () => {
     expect(sessionSpy).toHaveBeenCalledTimes(1);
     expect(sessionSpy).toHaveBeenLastCalledWith('CS1231', 'Third Session');
 
-    // expect(component.activeCourses.length).toEqual(0);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(0);
   });
 
