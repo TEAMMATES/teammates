@@ -78,6 +78,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   model: QuestionSubmissionFormModel = {
     isLoading: false,
     isLoaded: false,
+    isSaved: false,
     feedbackQuestionId: '',
 
     questionNumber: 0,
