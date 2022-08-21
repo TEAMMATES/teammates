@@ -1,5 +1,6 @@
 <div id="question-submission-form" class="card">
-  <div class="card-header bg-primary text-white question-header">
+  <div class="card-header bg-primary text-white question-header"
+    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'">
     <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 

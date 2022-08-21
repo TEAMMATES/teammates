@@ -113,6 +113,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
   isEveryRecipientSorted: boolean = false;
+  isSaved: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
@@ -331,6 +332,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
+    this.isSaved = true;
+    this.model.isSaved = true;
     this.responsesSave.emit(this.model);
   }
 
