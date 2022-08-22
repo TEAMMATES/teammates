@@ -1,6 +1,7 @@
 import { Injectable, TemplateRef } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Toast } from '../app/components/toast/toast';
+import { MsConst } from '../types/datetime-const';
 
 /**
  * Handles operations related to status message provision.
@@ -19,21 +20,21 @@ export class StatusMessageService {
   /**
    * Shows a success toast on the page.
    */
-  showSuccessToast(message: string, delay: number = 10000): void {
+  showSuccessToast(message: string, delay: number = MsConst.TEN_SECOND_MILLISECONDS): void {
     this.showToast(message, 'bg-success text-light', delay);
   }
 
   /**
    * Shows a warning toast on the page.
    */
-  showWarningToast(message: string, delay: number = 10000): void {
+  showWarningToast(message: string, delay: number = MsConst.TEN_SECOND_MILLISECONDS): void {
     this.showToast(message, 'bg-warning', delay);
   }
 
   /**
    * Shows an error toast on the page.
    */
-  showErrorToast(message: string, delay: number = 10000): void {
+  showErrorToast(message: string, delay: number = MsConst.TEN_SECOND_MILLISECONDS): void {
     this.showToast(message, 'bg-danger text-light', delay);
   }
 
@@ -49,7 +50,7 @@ export class StatusMessageService {
   /**
    * Shows a success toast containing HTML on the page
    */
-  showSuccessToastTemplate(template: TemplateRef<any>, delay: number = 10000): void {
+  showSuccessToastTemplate(template: TemplateRef<any>, delay: number = MsConst.TEN_SECOND_MILLISECONDS): void {
     this.showToastTemplate(template, 'bg-success text-light', delay);
   }
 

@@ -37,6 +37,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
+import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
@@ -207,6 +208,7 @@ describe('InstructorSessionEditPageComponent', () => {
     isDeleting: false,
   };
 
+  const newLocal = 0;
   const sessionEditFormModel: SessionEditFormModel = {
     courseId: 'testId',
     timeZone: 'Asia/Singapore',
@@ -214,19 +216,19 @@ describe('InstructorSessionEditPageComponent', () => {
     feedbackSessionName: 'test session',
     instructions: 'Instructions',
 
-    submissionStartTime: { hour: 23, minute: 59 },
-    submissionStartDate: { year: 0, month: 0, day: 0 },
-    submissionEndTime: { hour: 23, minute: 59 },
-    submissionEndDate: { year: 0, month: 0, day: 0 },
+    submissionStartTime: getLatestTimeFormat(),
+    submissionStartDate: { year: newLocal, month: 0, day: 0 },
+    submissionEndTime: getLatestTimeFormat(),
+    submissionEndDate: getDefaultDateFormat(),
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: { hour: 23, minute: 59 },
-    customSessionVisibleDate: { year: 0, month: 0, day: 0 },
+    customSessionVisibleTime: getLatestTimeFormat(),
+    customSessionVisibleDate: getDefaultDateFormat(),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: { hour: 23, minute: 59 },
-    customResponseVisibleDate: { year: 0, month: 0, day: 0 },
+    customResponseVisibleTime: getLatestTimeFormat(),
+    customResponseVisibleDate: getDefaultDateFormat(),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -285,7 +287,7 @@ describe('InstructorSessionEditPageComponent', () => {
         StatusMessageService,
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -563,7 +565,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/sessions',
-        'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+      'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
   });
 
   it('should create new question', () => {
@@ -712,8 +714,8 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
     expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/sessions/edit',
-        'The feedback session has been copied. Please modify settings/questions as necessary.',
-        { courseid: 'testId2', fsname: 'Test Session' });
+      'The feedback session has been copied. Please modify settings/questions as necessary.',
+      { courseid: 'testId2', fsname: 'Test Session' });
   });
 
   it('should open danger modal if session end time updates end time after any extensions deadline', () => {

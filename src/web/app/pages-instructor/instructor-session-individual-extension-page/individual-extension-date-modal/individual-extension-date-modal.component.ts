@@ -3,10 +3,18 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
-import { DateFormat } from '../../../components/datepicker/datepicker.component';
+import {
+  DateFormat,
+  TimeFormat,
+  getDefaultDateFormat,
+  getLatestTimeFormat,
+  HoursConst,
+  MinutesConst,
+  MsConst,
+  SecondsConst,
+} from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
-import { TimeFormat } from '../../../components/timepicker/timepicker.component';
 
 export enum RadioOptions {
   EXTEND_TO = 1,
@@ -42,7 +50,7 @@ export class IndividualExtensionDateModalComponent {
     public activeModal: NgbActiveModal,
     private timeZoneService: TimezoneService,
     private simpleModalService: SimpleModalService,
-  ) {}
+  ) { }
 
   RadioOptions: typeof RadioOptions = RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
@@ -50,21 +58,21 @@ export class IndividualExtensionDateModalComponent {
 
   extendByDeadlineKey: String = '';
   extendByDeadlineOptions: Map<String, Number> = new Map([
-    ['12 hours', 12],
-    ['1 day', 24],
-    ['3 days', 72],
-    ['1 week', 168],
-    ['Customize', 0],
+    ['12 hours', HoursConst.TWELVE_HOURS],
+    ['1 day', HoursConst.ONE_DAY_HOURS],
+    ['3 days', HoursConst.THREE_DAYS_HOURS],
+    ['1 week', HoursConst.ONE_WEEK_HOURS],
+    ['Customize', HoursConst.ZERO_HOURS],
   ]);
   extendByDatePicker = { hours: 0, days: 0 };
 
-  ONE_MINUTE_IN_MILLISECONDS = 60 * 1000;
-  ONE_HOUR_IN_MILLISECONDS = 60 * this.ONE_MINUTE_IN_MILLISECONDS;
-  ONE_DAY_IN_MILLISECONDS = 24 * this.ONE_HOUR_IN_MILLISECONDS;
+  ONE_MINUTE_IN_MILLISECONDS = SecondsConst.ONE_MINUTE_SECONDS * MsConst.ONE_SECOND_MILLISECONDS;
+  ONE_HOUR_IN_MILLISECONDS = MinutesConst.ONE_HOURS_MINUTES * this.ONE_MINUTE_IN_MILLISECONDS;
+  ONE_DAY_IN_MILLISECONDS = HoursConst.ONE_DAY_HOURS * this.ONE_HOUR_IN_MILLISECONDS;
   MAX_EPOCH_TIME_IN_DAYS = 100000000;
   MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * this.ONE_DAY_IN_MILLISECONDS;
-  extendToDatePicker: DateFormat = { year: 0, month: 0, day: 0 };
-  extendToTimePicker: TimeFormat = { hour: 23, minute: 59 };
+  extendToDatePicker: DateFormat = getDefaultDateFormat();
+  extendToTimePicker: TimeFormat = getLatestTimeFormat();
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
 
   sortMapByOriginalOrder = (): number => 0;
@@ -83,10 +91,10 @@ export class IndividualExtensionDateModalComponent {
         'Are you sure you wish to set the new deadline to before the current time?',
         SimpleModalType.WARNING,
         '<b>Any users affected will have their sessions closed immediately.</b>'
-          + ` The current time now is ${currentTimeString} and you are extending to`
-          + ` ${extensionTimeString}. Do you wish to proceed?`,
+        + ` The current time now is ${currentTimeString} and you are extending to`
+        + ` ${extensionTimeString}. Do you wish to proceed?`,
       )
-      .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()), () => {});
+      .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()), () => { });
   }
 
   onChangeDateTime(data: DateFormat | TimeFormat, field: DateTime): void {

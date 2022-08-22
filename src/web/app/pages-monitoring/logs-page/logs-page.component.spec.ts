@@ -8,6 +8,7 @@ import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { GeneralLogEntry, LogEvent, LogSeverity } from '../../../types/api-output';
+import { getLatestTimeFormat } from '../../../types/datetime-const';
 import { LogsPageComponent } from './logs-page.component';
 import { LogsPageModule } from './logs-page.module';
 
@@ -22,7 +23,7 @@ describe('LogsPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [NgbModule, LogsPageModule, HttpClientTestingModule, RouterTestingModule],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -51,9 +52,9 @@ describe('LogsPageComponent', () => {
   it('should snap when searching for details in search form', () => {
     component.formModel = {
       logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
+      logsTimeFrom: getLatestTimeFormat(),
       logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
+      logsTimeTo: getLatestTimeFormat(),
       filters: {
         severity: LogSeverity.ERROR,
         minSeverity: LogSeverity.INFO,
@@ -70,18 +71,18 @@ describe('LogsPageComponent', () => {
 
   it('should search for logs when search button is clicked', () => {
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+      .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-        .mockReturnValue(0);
+      .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
     component.filterType = 'SEVERITY';
     component.formModel = {
       logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
+      logsTimeFrom: getLatestTimeFormat(),
       logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
+      logsTimeTo: getLatestTimeFormat(),
       filters: {
         severity: LogSeverity.INFO,
         minSeverity: LogSeverity.INFO,
@@ -105,18 +106,18 @@ describe('LogsPageComponent', () => {
 
   it('should search for logs with minimum severity', () => {
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+      .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-        .mockReturnValue(0);
+      .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
     component.filterType = 'MIN_SEVERITY';
     component.formModel = {
       logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
+      logsTimeFrom: getLatestTimeFormat(),
       logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
+      logsTimeTo: getLatestTimeFormat(),
       filters: {
         severity: LogSeverity.INFO,
         minSeverity: LogSeverity.INFO,
@@ -140,18 +141,18 @@ describe('LogsPageComponent', () => {
 
   it('should search for logs with event type', () => {
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+      .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-        .mockReturnValue(0);
+      .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
     component.filterType = 'EVENT';
     component.formModel = {
       logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
+      logsTimeFrom: getLatestTimeFormat(),
       logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
+      logsTimeTo: getLatestTimeFormat(),
       filters: {
         severity: LogSeverity.INFO,
         minSeverity: LogSeverity.INFO,
@@ -201,9 +202,9 @@ describe('LogsPageComponent', () => {
     component.filterType = 'SEVERITY';
     component.formModel = {
       logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
+      logsTimeFrom: getLatestTimeFormat(),
       logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
+      logsTimeTo: getLatestTimeFormat(),
       filters: {
         severity: LogSeverity.INFO,
         minSeverity: LogSeverity.INFO,
@@ -226,9 +227,9 @@ describe('LogsPageComponent', () => {
     jest.spyOn(timezoneService, 'resolveLocalDateTime').mockReturnValue(0);
     component.formModel = {
       logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
+      logsTimeFrom: getLatestTimeFormat(),
       logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
+      logsTimeTo: getLatestTimeFormat(),
       filters: {
         severity: LogSeverity.INFO,
         minSeverity: LogSeverity.INFO,
@@ -260,10 +261,10 @@ describe('LogsPageComponent', () => {
       message: 'message',
     };
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-        .mockReturnValueOnce(of({ logEntries: [testLog1], hasNextPage: true }))
-        .mockReturnValueOnce(of({ logEntries: [], hasNextPage: false }));
+      .mockReturnValueOnce(of({ logEntries: [testLog1], hasNextPage: true }))
+      .mockReturnValueOnce(of({ logEntries: [], hasNextPage: false }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-        .mockReturnValue(0);
+      .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;

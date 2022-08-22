@@ -9,6 +9,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
+import { getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
@@ -20,10 +21,10 @@ const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
   shown: false,
 
-  startTime: { hour: 0, minute: 0 },
-  startDate: { year: 0, month: 0, day: 0 },
-  endTime: { hour: 0, minute: 0 },
-  endDate: { year: 0, month: 0, day: 0 },
+  startTime: getDefaultTimeFormat(),
+  startDate: getDefaultDateFormat(),
+  endTime: getDefaultTimeFormat(),
+  endDate: getDefaultDateFormat(),
 
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
@@ -87,7 +88,7 @@ describe('AdminNotificationsPageComponent', () => {
         TimezoneService,
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -260,12 +261,12 @@ describe('AdminNotificationsPageComponent', () => {
     expect(component.notificationsTableRowModels[0].notification.message).toEqual(expectedMessage);
     // notification edit form model should be updated to the newly loaded notification
     expect(component.notificationEditFormModel.message)
-        .toEqual(component.notificationsTableRowModels[1].notification.message);
+      .toEqual(component.notificationsTableRowModels[1].notification.message);
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Discard unsaved edit?',
-        SimpleModalType.WARNING,
-        'Warning: If you choose to edit another notification, any unsaved changes will be lost.');
+      SimpleModalType.WARNING,
+      'Warning: If you choose to edit another notification, any unsaved changes will be lost.');
   });
 
   it('should delete notfication', () => {
@@ -290,8 +291,8 @@ describe('AdminNotificationsPageComponent', () => {
     component.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_START_TIME);
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
 
-    const expected : NotificationsTableRowModel[] = [notificationTableRowModel2, notificationTableRowModel1]
-        .sort(component.getNotificationsTableRowModelsComparator());
+    const expected: NotificationsTableRowModel[] = [notificationTableRowModel2, notificationTableRowModel1]
+      .sort(component.getNotificationsTableRowModelsComparator());
     expect(expected[0]).toBe(component.notificationsTableRowModels[0]);
     expect(expected[1]).toBe(component.notificationsTableRowModels[1]);
   });

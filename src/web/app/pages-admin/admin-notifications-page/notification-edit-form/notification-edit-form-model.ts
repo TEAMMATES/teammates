@@ -1,11 +1,10 @@
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
-import { DateFormat } from '../../../components/datepicker/datepicker.component';
-import { TimeFormat } from '../../../components/timepicker/timepicker.component';
+import { DateFormat, TimeFormat } from '../../../../types/datetime-const';
 
 /**
  * The mode of operation for notification edit form.
  */
- export enum NotificationEditFormMode {
+export enum NotificationEditFormMode {
   /**
    * Adding a new notification.
    */

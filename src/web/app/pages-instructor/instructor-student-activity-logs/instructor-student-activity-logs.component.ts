@@ -15,11 +15,18 @@ import {
   FeedbackSessionLogs, FeedbackSessions,
   Student,
 } from '../../../types/api-output';
+import {
+  getDefaultDateFormat,
+  getDefaultTimeFormat,
+  getLatestTimeFormat,
+  DateFormat,
+  TimeFormat,
+  HoursConst,
+  MsConst,
+} from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
-import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
-import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -75,10 +82,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
 
   formModel: SearchLogsFormModel = {
-    logsDateFrom: { year: 0, month: 0, day: 0 },
-    logsTimeFrom: { hour: 0, minute: 0 },
-    logsDateTo: { year: 0, month: 0, day: 0 },
-    logsTimeTo: { hour: 0, minute: 0 },
+    logsDateFrom: getDefaultDateFormat(),
+    logsTimeFrom: getDefaultTimeFormat(),
+    logsDateTo: getDefaultDateFormat(),
+    logsTimeTo: getDefaultTimeFormat(),
     logType: '',
     studentEmail: '',
     feedbackSessionName: '',
@@ -93,8 +100,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     creationTimestamp: 0,
     deletionTimestamp: 0,
   };
-  dateToday: DateFormat = { year: 0, month: 0, day: 0 };
-  earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
+  dateToday: DateFormat = getDefaultDateFormat();
+  earliestSearchDate: DateFormat = getDefaultDateFormat();
   studentToLog: Record<string, FeedbackSessionLogEntry> = {};
   students: Student[] = [];
   feedbackSessions: Map<string, FeedbackSession> = new Map();
@@ -103,12 +110,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   isSearching: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private courseService: CourseService,
-              private feedbackSessionsService: FeedbackSessionsService,
-              private studentService: StudentService,
-              private logsService: LogService,
-              private timezoneService: TimezoneService,
-              private statusMessageService: StatusMessageService) { }
+    private courseService: CourseService,
+    private feedbackSessionsService: FeedbackSessionsService,
+    private studentService: StudentService,
+    private logsService: LogService,
+    private timezoneService: TimezoneService,
+    private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -129,7 +136,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.dateToday.month = today.getMonth() + 1;
     this.dateToday.day = today.getDate();
 
-    const earliestSearchDate: Date = new Date(Date.now() - this.LOGS_RETENTION_PERIOD * 24 * 60 * 60 * 1000);
+    const earliestSearchDate: Date = new Date(Date.now()
+      - this.LOGS_RETENTION_PERIOD * HoursConst.ONE_DAY_HOURS * MsConst.ONE_HOUR_MILLISECONDS);
     this.earliestSearchDate.year = earliestSearchDate.getFullYear();
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
@@ -143,8 +151,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       day: fromDate.getDate(),
     };
     this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
-    this.formModel.logsTimeTo = { hour: 23, minute: 59 };
+    this.formModel.logsTimeFrom = getLatestTimeFormat();
+    this.formModel.logsTimeTo = getLatestTimeFormat();
   }
 
   /**
@@ -157,9 +165,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
     const timeZone: string = this.course.timeZone;
     const searchFrom: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
+      this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone, true);
     const searchUntil: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
+      this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone, true);
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.course.courseId,
@@ -169,9 +177,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       logType: this.formModel.logType,
       sessionName: this.formModel.feedbackSessionName,
     }).pipe(
-        finalize(() => {
-          this.isSearching = false;
-        }),
+      finalize(() => {
+        this.isSearching = false;
+      }),
     ).subscribe((logs: FeedbackSessionLogs) => {
       if (this.formModel.feedbackSessionName === '') {
         logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
@@ -182,7 +190,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         });
       } else {
         const targetFeedbackSessionLog = logs.feedbackSessionLogs.find((log: FeedbackSessionLog) =>
-            log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
+          log.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
 
         if (targetFeedbackSessionLog) {
           targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
@@ -201,25 +209,25 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
    */
   private loadCourse(courseId: string): void {
     this.courseService
-        .getCourseAsInstructor(courseId)
-        .pipe(finalize(() => {
-          this.isLoading = false;
-        }))
-        .subscribe((course: Course) => {
-              this.course = course;
-            },
-            (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .getCourseAsInstructor(courseId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((course: Course) => {
+        this.course = course;
+      },
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
   private loadFeedbackSessions(courseId: string): void {
     this.feedbackSessionsService
-        .getFeedbackSessionsForInstructor(courseId)
-        .subscribe(((feedbackSessions: FeedbackSessions) => {
-              feedbackSessions.feedbackSessions.forEach((fs: FeedbackSession) => {
-                this.feedbackSessions.set(fs.feedbackSessionName, fs);
-              });
-            }),
-            (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .getFeedbackSessionsForInstructor(courseId)
+      .subscribe(((feedbackSessions: FeedbackSessions) => {
+        feedbackSessions.feedbackSessions.forEach((fs: FeedbackSession) => {
+          this.feedbackSessions.set(fs.feedbackSessionName, fs);
+        });
+      }),
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
   /**
@@ -229,16 +237,16 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     if (this.students.length === 0) {
       this.isLoading = true;
       this.studentService.getStudentsFromCourse({ courseId })
-          .pipe(finalize(() => { this.isLoading = false; }))
-          .subscribe(({ students }: { students: Student[] }) => {
-            const emptyStudent: Student = {
-              courseId: '', email: '', name: '', sectionName: '', teamName: '',
-            };
-            students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
+        .pipe(finalize(() => { this.isLoading = false; }))
+        .subscribe(({ students }: { students: Student[] }) => {
+          const emptyStudent: Student = {
+            courseId: '', email: '', name: '', sectionName: '', teamName: '',
+          };
+          students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
 
-            // Student with no name is selectable to search for all students since the field is optional
-            this.students = [emptyStudent, ...students];
-          });
+          // Student with no name is selectable to search for all students since the field is optional
+          this.students = [emptyStudent, ...students];
+        });
     }
   }
 
@@ -264,61 +272,61 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         { header: 'Team', sortBy: SortBy.TEAM_NAME },
       ],
       logRowsData: this.students
-          .filter((student: Student) => {
-            if (student.email === '') {
-              return false;
-            }
+        .filter((student: Student) => {
+          if (student.email === '') {
+            return false;
+          }
 
-            if (this.formModel.studentEmail !== '' && student.email !== this.formModel.studentEmail) {
-              return false;
-            }
+          if (this.formModel.studentEmail !== '' && student.email !== this.formModel.studentEmail) {
+            return false;
+          }
 
-            if (this.formModel.showInactions && this.formModel.showActions) {
-              return true;
-            }
-
-            const studentKey = this.getStudentKey(log, student.email);
-
-            if (studentKey in this.studentToLog) {
-              if (this.formModel.showInactions) {
-                return false;
-              }
-            } else if (this.formModel.showActions) {
-              return false;
-            }
-
+          if (this.formModel.showInactions && this.formModel.showActions) {
             return true;
-          })
-          .map((student: Student) => {
-            let status: string;
-            let dataStyle: string = 'font-family:monospace; white-space:pre;';
-            const statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
-            const studentKey = this.getStudentKey(log, student.email);
+          }
 
-            if (studentKey in this.studentToLog) {
-              const entry: FeedbackSessionLogEntry = this.studentToLog[studentKey];
-              const timestamp: string = this.timezoneService.formatToString(
-                  entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `${statusPrefix} at ${timestamp}`;
-            } else {
-              const timestamp: string = this.timezoneService.formatToString(
-                  notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `Not ${statusPrefix.toLowerCase()} since ${timestamp}`;
-              dataStyle += 'color:red;';
+          const studentKey = this.getStudentKey(log, student.email);
+
+          if (studentKey in this.studentToLog) {
+            if (this.formModel.showInactions) {
+              return false;
             }
-            return [
-              {
-                value: status,
-                style: dataStyle,
-              },
-              { value: student.name },
-              { value: student.email },
-              { value: student.sectionName },
-              { value: student.teamName },
-            ];
-          }),
+          } else if (this.formModel.showActions) {
+            return false;
+          }
+
+          return true;
+        })
+        .map((student: Student) => {
+          let status: string;
+          let dataStyle: string = 'font-family:monospace; white-space:pre;';
+          const statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
+          const studentKey = this.getStudentKey(log, student.email);
+
+          if (studentKey in this.studentToLog) {
+            const entry: FeedbackSessionLogEntry = this.studentToLog[studentKey];
+            const timestamp: string = this.timezoneService.formatToString(
+              entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+            status = `${statusPrefix} at ${timestamp}`;
+          } else {
+            const timestamp: string = this.timezoneService.formatToString(
+              notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+            status = `Not ${statusPrefix.toLowerCase()} since ${timestamp}`;
+            dataStyle += 'color:red;';
+          }
+          return [
+            {
+              value: status,
+              style: dataStyle,
+            },
+            { value: student.name },
+            { value: student.email },
+            { value: student.sectionName },
+            { value: student.teamName },
+          ];
+        }),
       isTabExpanded: (log.feedbackSessionLogEntries.length !== 0 && this.formModel.showActions)
-          || (log.feedbackSessionLogEntries.length === 0 && this.formModel.showInactions),
+        || (log.feedbackSessionLogEntries.length === 0 && this.formModel.showInactions),
     };
   }
 
