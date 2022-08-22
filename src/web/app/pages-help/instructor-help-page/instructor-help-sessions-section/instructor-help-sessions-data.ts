@@ -278,6 +278,7 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
           showGiverNameTo: [],
           showRecipientNameTo: [],
           customNumberOfEntitiesToGiveFeedbackTo: 0,
+          isSaved: false,
         },
         questionStatistics: '',
         allResponses: [
@@ -356,6 +357,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
     showGiverNameTo: [],
     showRecipientNameTo: [],
     customNumberOfEntitiesToGiveFeedbackTo: 0,
+    isSaved: false,
   },
   questionStatistics: '',
   allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],

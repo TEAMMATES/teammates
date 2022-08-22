@@ -30,6 +30,7 @@ export abstract class InstructorResponsesViewBase {
     showResponsesTo: [],
     showGiverNameTo: [],
     showRecipientNameTo: [],
+    isSaved: false,
   };
 
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};

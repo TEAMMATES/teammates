@@ -156,6 +156,7 @@ export class QuestionEditFormComponent {
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
+    isSaved: false,
   };
 
   @Output()

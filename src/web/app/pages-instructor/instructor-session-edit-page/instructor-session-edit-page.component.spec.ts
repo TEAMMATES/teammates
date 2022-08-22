@@ -108,6 +108,7 @@ describe('InstructorSessionEditPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
+    isSaved: false,
   };
 
   const testFeedbackQuestion2: FeedbackQuestion = {
@@ -128,6 +129,7 @@ describe('InstructorSessionEditPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
+    isSaved: false,
   };
 
   const testFeedbackQuestion3: FeedbackQuestion = {
@@ -150,6 +152,7 @@ describe('InstructorSessionEditPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
+    isSaved: false,
   };
 
   const testQuestionEditFormModel1: QuestionEditFormModel = {
@@ -178,6 +181,7 @@ describe('InstructorSessionEditPageComponent', () => {
     isQuestionDetailsChanged: false,
     isDuplicating: false,
     isDeleting: false,
+    isSaved: false,
   };
 
   const testQuestionEditFormModel2: QuestionEditFormModel = {
@@ -206,6 +210,7 @@ describe('InstructorSessionEditPageComponent', () => {
     isQuestionDetailsChanged: false,
     isDuplicating: false,
     isDeleting: false,
+    isSaved: false,
   };
 
   const sessionEditFormModel: SessionEditFormModel = {
