@@ -7,10 +7,10 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
-def checkstyleVersion = "9.3"
-def pmdVersion = "6.43.0"
-def spotbugsVersion = "4.5.3"
-def jacocoVersion = "0.8.7"
+def checkstyleVersion = "10.3.2"
+def pmdVersion = "6.48.0"
+def spotbugsVersion = "4.7.1"
+def jacocoVersion = "0.8.8"
 
 buildscript {
     repositories {
@@ -20,12 +20,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.4.2"
-        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.6"
-        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.35.1025") {
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.4.4"
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.9"
+        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.36.1070") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:31.0.1-jre"
+        classpath "com.google.guava:guava:31.1-jre"
     }
 }
 
@@ -38,7 +38,7 @@ repositories {
 }
 
 def objectify = "com.googlecode.objectify:objectify:6.0.7"
-def testng = "org.testng:testng:7.5"
+def testng = "org.testng:testng:7.6.1"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -48,44 +48,44 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.5.3")
-    implementation(platform("com.google.cloud:google-cloud-bom:0.167.0"))
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.8.1")
+    implementation(platform("com.google.cloud:google-cloud-bom:0.176.0"))
     implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
     implementation("com.google.cloud:google-cloud-storage")
     implementation("com.google.code.gson:gson:2.9.0")
-    implementation("com.google.guava:guava:31.0.1-jre")
+    implementation("com.google.guava:guava:31.1-jre")
     implementation(objectify)
-    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20211018.2")
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20220608.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.0")
-    implementation("com.sendgrid:sendgrid-java:4.8.3")
+    implementation("com.sendgrid:sendgrid-java:4.9.3")
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
     implementation("org.apache.solr:solr-solrj:8.11.1")
-    implementation(platform("org.eclipse.jetty:jetty-bom:9.4.45.v20220203"))
+    implementation(platform("org.eclipse.jetty:jetty-bom:9.4.48.v20220622"))
     implementation("org.eclipse.jetty:jetty-server")
     implementation("org.eclipse.jetty:jetty-webapp")
     implementation("org.eclipse.jetty:jetty-annotations")
-    implementation("org.jsoup:jsoup:1.14.3")
+    implementation("org.jsoup:jsoup:1.15.2")
 
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.1.3")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.3.0")
     testImplementation(testng)
     // For supporting authorization code flow locally
-    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.33.1")
+    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
     // For using Gmail API
-    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20211108-1.32.1")
+    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20220404-1.32.1")
     // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.4.3") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.5") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.4.3") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.5") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
@@ -137,6 +137,7 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     ]
     mapEnum = "asEnum"
     nonConstEnums = true
+    noFileComment = true
 }
 
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {

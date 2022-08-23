@@ -313,11 +313,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForGoogleId_untrimmedGmailDomain_throwException() {
-        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForGoogleId("abc@GMAIL.com"));
-    }
-
-    @Test
     public void testGetInvalidityInfoForGoogleId_valid_returnEmptyString() {
         String typicalId = "valid9.Goo-gle.id_";
         assertEquals("Valid Google ID (typical) should return empty string", "",

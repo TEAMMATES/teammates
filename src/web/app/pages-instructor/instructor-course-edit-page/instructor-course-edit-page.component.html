@@ -1,95 +1,21 @@
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed" [message]="'Failed to load course'" (retryEvent)="loadCourseInfo()">
   <div *tmIsLoading="isCourseLoading" class="card bg-light top-padded text-center">
-    <div class="card-header bg-primary text-white">
-      <strong>Course</strong>
-      <div class="card-header-btn-toolbar">
-        <button id="btn-edit-course" class="btn btn-primary btn-sm"
-                [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
-                *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
-          <i class="fa fa-pen" aria-hidden="true"></i>
-          Edit
-        </button>
-        <button id="btn-cancel-course" *ngIf="isEditingCourse" class="btn btn-primary btn-sm"
-                [disabled]="isSavingCourseEdit"
-                (click)="cancelEditingCourse()">
-          <i class="fa fa-times" aria-hidden="true"></i>
-          Cancel
-        </button>
-        <button id="btn-delete-course" class="btn btn-primary btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions"
-                [disabled]="!currInstructorCoursePrivilege.canModifyCourse || isSavingCourseEdit" (click)="deleteCourse()">
-          <i class="fa fa-trash" aria-hidden="true"></i>
-          Delete
-        </button>
-      </div>
-    </div>
-    <div class="card-body fill-plain">
-      <form #courseForm="ngForm" (ngSubmit)="onSaveCourse()">
-        <div class="form-row form-group">
-          <label class="col-sm-2 font-weight-bold text-md-right">Course ID:</label>
-          <div class="col-sm-9">
-            <input id="course-id" class="col-xs-12 form-control" type="text" tabindex="1"
-                   [(ngModel)]="course.courseId" name="courseId" required disabled>
-          </div>
-        </div>
-        <div class="form-row form-group">
-          <label class="col-sm-2 font-weight-bold text-md-right">Course Name:</label>
-          <div class="col-sm-9">
-            <input id = "course-name" class="form-control"
-                   type="text" tabindex="2" [disabled]="!isEditingCourse" name="courseName"
-                   [(ngModel)]="course.courseName" #courseName="ngModel"
-                   [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
-            <div [hidden]="courseName.valid || (courseName.pristine && courseName.untouched)"
-                 class="invalid-field">
-              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-              The field Course Name should not be empty.
-            </div>
-          </div>
-        </div>
-        <div class="form-row form-group">
-          <label class="col-sm-2 font-weight-bold text-md-right">Course institute:</label>
-          <div class="col-sm-9">
-            <input id="course-institute" class="col-xs-12 form-control" type="text"
-                   [(ngModel)]="course.institute" name="institute" required disabled>
-          </div>
-        </div>
-        <div class="form-row form-group">
-          <label class="col-xs-12 col-sm-2 font-weight-bold text-md-right"><span class="ngb-tooltip-class" ngbTooltip="You should not need to change this as it is auto-detected based on your
-                device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
-            Time Zone:</span></label>
-          <div class="col-xs-12 col-sm-9">
-            <div class="input-group">
-              <select id="time-zone" class="form-control"
-                [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
-                <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
-              </select>
-              <span class="input-group-btn">
-                <button class="btn btn-primary" type=button [disabled]="!isEditingCourse || isSavingCourseEdit" (click)="detectTimezone()">
-                  Auto-Detect
-                </button>
-               </span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group m-0">
-          <div class=" col-sm-12 text-center">
-            <button id="btn-save-course" class="btn btn-success" type="submit" [disabled]="form.invalid || isSavingCourseEdit" *ngIf="isEditingCourse">
-              <tm-ajax-loading *ngIf="isSavingCourseEdit"></tm-ajax-loading>
-              Save Changes
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+  <tm-course-edit-form
+    [formMode]="CourseEditFormMode.EDIT"
+    [(formModel)]="courseFormModel"
+    [resetFormEvent]="resetCourseFormEvent"
+    (deleteCourseEvent)="deleteCourse()"
+    (updateCourseEvent)="onSaveCourse()"
+  ></tm-course-edit-form>
   </div>
+</tm-loading-retry>
+<tm-loading-retry [shouldShowRetry]="hasInstructorsLoadingFailed" [message]="'Failed to load instructors of course'" (retryEvent)="loadCourseInstructors()">
   <div class="right top-padded">
     <a class="small" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}" rel="noopener noreferrer" target="_blank">
       <i class="fa fa-info-circle" aria-hidden="true"></i>
       More about configuring access permissions
     </a>
   </div>
-</tm-loading-retry>
-
-<tm-loading-retry [shouldShowRetry]="hasInstructorsLoadingFailed" [message]="'Failed to load instructors of course'" (retryEvent)="loadCourseInstructors()">
   <div *tmIsLoading="isInstructorsLoading">
     <ng-container *ngFor="let panelDetail of instructorDetailPanels; let i = index">
       <tm-instructor-edit-panel
