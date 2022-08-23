@@ -840,7 +840,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
           <button
             class="btn btn-primary btn-sm"
             disabled=""
-            id="btn-edit-course"
+            id="btn-copy-course"
             style=""
           >
             <i
