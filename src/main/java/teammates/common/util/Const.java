@@ -56,6 +56,9 @@ public final class Const {
     public static final Instant TIME_REPRESENTS_NOW;
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
+    // Represented in terms of ASCII
+    public static final int ERROR_MESSAGE_DELIMITER = Integer.valueOf((int) Character.valueOf('\t'));
+
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31T00:00:00Z");
         TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22T00:00:00Z");

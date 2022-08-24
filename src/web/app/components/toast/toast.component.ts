@@ -14,6 +14,13 @@ export class ToastComponent implements OnChanges {
   @Input() toast: Toast | null = null;
   @Output() toastChange: EventEmitter<Toast | null> = new EventEmitter<Toast | null>();
 
+  get messages(): string[] {
+    if (this.toast?.messages && Array.isArray(this.toast?.messages)) {
+      return this.toast?.messages;
+    }
+    return [];
+  }
+
   ngOnChanges(): void {
     // reset autohide timing
     this.setAutohide(false);
@@ -43,7 +50,7 @@ export class ToastComponent implements OnChanges {
     if (!this.toast) {
       return false;
     }
-    return this.toast.message instanceof TemplateRef;
+    return this.toast.messages instanceof TemplateRef;
   }
 
 }

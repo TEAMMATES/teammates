@@ -1,7 +1,17 @@
 <ngb-toast *ngIf="toast" [delay]="toast.delay || 10000" (hidden)="removeToast()" [class]="toast.classes" [autohide]="toast.autohide">
   <ng-template [ngIf]="isTemplate()">
-    <ng-template [ngTemplateOutlet]="toast.message"></ng-template>
+    <ng-template [ngTemplateOutlet]="toast.messages"></ng-template>
   </ng-template>
   <button type="button" class="close" (click)="removeToast()"><i class="fas fa-times"></i></button>
-  <ng-container *ngIf="!isTemplate()">{{ toast.message }}</ng-container>
+  <ng-container class="max" *ngIf="!isTemplate()">
+    <ng-container *ngIf="messages.length === 1">
+      {{messages[0]}}
+    </ng-container>
+    <ng-container *ngIf="messages.length > 1">
+      <ng-container *ngFor="let message of messages;">
+        {{ "\u2022 " + message }}
+      <br/>
+      </ng-container>
+    </ng-container>
+  </ng-container>
 </ngb-toast>

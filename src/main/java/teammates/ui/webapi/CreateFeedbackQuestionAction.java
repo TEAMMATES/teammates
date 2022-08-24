@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.ErrorMessageFormatter;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -61,7 +62,7 @@ class CreateFeedbackQuestionAction extends Action {
         FeedbackQuestionDetails questionDetails = attributes.getQuestionDetailsCopy();
         List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
         if (!questionDetailsErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
+            throw new InvalidHttpRequestBodyException(ErrorMessageFormatter.format(questionDetailsErrors));
         }
 
         try {
