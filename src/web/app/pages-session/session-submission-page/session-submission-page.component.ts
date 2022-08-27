@@ -126,7 +126,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private navigationService: NavigationService,
               private commentService: FeedbackResponseCommentService,
               private logService: LogService,
-    @Inject(DOCUMENT) private document: any) {
+              @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -423,10 +423,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             }
           } else {
             this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
-              resp.error.message,
+                resp.error.message,
                 {
                   onClosed: () => this.navigationService.navigateByURL(
-                    this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
+                      this.loggedInUser ? `/web/${this.entityType}/home` : '/web/front/home'),
                 },
                 { backdrop: 'static' });
           }
@@ -474,17 +474,17 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
               numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
               customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
-                ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo : 0,
+                  ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo : 0,
 
               showGiverNameTo: feedbackQuestion.showGiverNameTo,
               showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
               showResponsesTo: feedbackQuestion.showResponsesTo,
             };
             this.questionSubmissionForms.push(model);
-        });
+         });
         }, (resp: ErrorMessageOutput) => {
           this.handleError(resp);
-      });
+        });
   }
 
   /**
@@ -710,46 +710,46 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
         savingRequests.push(
           this.feedbackResponsesService.submitFeedbackResponses(questionSubmissionFormModel.feedbackQuestionId, {
-            responses,
-          }, {
-            intent: this.intent,
-            key: this.regKey,
-            moderatedperson: this.moderatedPerson,
-          }).pipe(
-            tap((resp: FeedbackResponses) => {
-              const responsesMap: Record<string, FeedbackResponse> = {};
-              resp.responses.forEach((response: FeedbackResponse) => {
-                responsesMap[response.recipientIdentifier] = response;
-                answers[questionSubmissionFormModel.feedbackQuestionId] =
-                  answers[questionSubmissionFormModel.feedbackQuestionId] || [];
-                answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
-              });
-              requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
-
-              questionSubmissionFormModel.recipientSubmissionForms
-                .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
-                  if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
-                    const correspondingResp: FeedbackResponse =
-                      responsesMap[recipientSubmissionFormModel.recipientIdentifier];
-                    recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
-                    recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
-                    recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
-                  } else {
-                    recipientSubmissionFormModel.responseId = '';
-                    recipientSubmissionFormModel.commentByGiver = undefined;
-                  }
+              responses,
+            }, {
+              intent: this.intent,
+              key: this.regKey,
+              moderatedperson: this.moderatedPerson,
+            }).pipe(
+              tap((resp: FeedbackResponses) => {
+                const responsesMap: Record<string, FeedbackResponse> = {};
+                resp.responses.forEach((response: FeedbackResponse) => {
+                  responsesMap[response.recipientIdentifier] = response;
+                  answers[questionSubmissionFormModel.feedbackQuestionId] =
+                    answers[questionSubmissionFormModel.feedbackQuestionId] || [];
+                  answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
                 });
-            }),
-            switchMap(() =>
-              forkJoin(questionSubmissionFormModel.recipientSubmissionForms
-                .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
-                  this.createCommentRequest(recipientSubmissionFormModel))),
+                requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
+
+                questionSubmissionFormModel.recipientSubmissionForms
+                  .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+                    if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
+                      const correspondingResp: FeedbackResponse =
+                        responsesMap[recipientSubmissionFormModel.recipientIdentifier];
+                      recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
+                      recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
+                      recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
+                    } else {
+                      recipientSubmissionFormModel.responseId = '';
+                      recipientSubmissionFormModel.commentByGiver = undefined;
+                    }
+                  });
+              }),
+              switchMap(() =>
+                forkJoin(questionSubmissionFormModel.recipientSubmissionForms
+                  .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
+                    this.createCommentRequest(recipientSubmissionFormModel))),
+              ),
+              catchError((error: ErrorMessageOutput) => {
+                failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
+                return of(error);
+              }),
             ),
-            catchError((error: ErrorMessageOutput) => {
-              failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
-              return of(error);
-            }),
-          ),
         );
       }
 
@@ -827,9 +827,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       // comment is empty, create delete request
       return this.commentService.deleteComment(
           recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {
-          key: this.regKey,
-          moderatedperson: this.moderatedPerson,
-        })
+            key: this.regKey,
+            moderatedperson: this.moderatedPerson,
+          })
           .pipe(
               tap(() => {
                 recipientSubmissionFormModel.commentByGiver = undefined;

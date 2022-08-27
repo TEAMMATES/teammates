@@ -113,8 +113,7 @@ export class SessionEditFormComponent {
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) {
-}
+  constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) {}
 
   /**
    * Triggers the change of the model for the form.

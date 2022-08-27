@@ -252,13 +252,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       }).pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
       }))
-          .subscribe((feedbackSession: FeedbackSession) => {
-            this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
-            this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
-          }, (resp: ErrorMessageOutput) => {
-            this.hasLoadingFeedbackSessionFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          });
+      .subscribe((feedbackSession: FeedbackSession) => {
+        this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
+        this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
+      }, (resp: ErrorMessageOutput) => {
+        this.hasLoadingFeedbackSessionFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isLoadingFeedbackSession = false;
@@ -273,10 +273,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     // load course candidates first
     return new Promise<void>((_resolve: any, reject: any) => {
       this.courseService.getInstructorCoursesThatAreActive()
-        .pipe(finalize(() => {
-          this.sessionEditFormModel.isCopying = false;
-        }))
-        .subscribe((courses: Courses) => {
+      .pipe(finalize(() => {
+        this.sessionEditFormModel.isCopying = false;
+      }))
+      .subscribe((courses: Courses) => {
         this.failedToCopySessions = {};
         const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
         modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
@@ -294,20 +294,20 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           }
           if (requestList.length > 1) {
             forkJoin(requestList)
-              .pipe(finalize(() => {
-                this.sessionEditFormModel.isCopying = false;
-              }))
-              .subscribe(() => {
-                this.showCopyStatusMessage();
-              });
+            .pipe(finalize(() => {
+              this.sessionEditFormModel.isCopying = false;
+            }))
+            .subscribe(() => {
+              this.showCopyStatusMessage();
+            });
           }
         }, (resp: ErrorMessageOutput) => {
           reject(resp);
           this.statusMessageService.showErrorToast(resp.error.message);
         })
-          .catch(() => {
-              this.sessionEditFormModel.isCopying = false;
-            });
+        .catch(() => {
+          this.sessionEditFormModel.isCopying = false;
+        });
         });
     });
   }
@@ -569,7 +569,7 @@ feedbackSession.timeZone, true);
             this.questionEditFormModels.push(addedQuestionEditFormModel);
             this.loadResponseStatusForQuestion(addedQuestionEditFormModel);
             this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);
-        });
+          });
         }, (resp: ErrorMessageOutput) => {
           this.hasLoadingFeedbackQuestionsFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -756,7 +756,7 @@ feedbackSession.timeZone, true);
         .pipe(
             finalize(() => {
               questionEditFormModel.isDuplicating = false;
-           }),
+            }),
         )
         .subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
@@ -920,12 +920,12 @@ feedbackSession.timeZone, true);
 
       let isAllowedToUseInheritedVisibility: boolean = false;
       if (this.feedbackQuestionsService
-        .isCustomFeedbackVisibilitySettingAllowed(this.newQuestionEditFormModel.questionType)) {
+          .isCustomFeedbackVisibilitySettingAllowed(this.newQuestionEditFormModel.questionType)) {
         isAllowedToUseInheritedVisibility = true;
       } else {
         const commonFeedbackVisibilitySettings: CommonVisibilitySetting[] =
-          this.feedbackQuestionsService.getCommonFeedbackVisibilitySettings(
-            newQuestionVisibilityStateMachine, this.newQuestionEditFormModel.questionType);
+            this.feedbackQuestionsService.getCommonFeedbackVisibilitySettings(
+                newQuestionVisibilityStateMachine, this.newQuestionEditFormModel.questionType);
         // new question is only allowed to have common visibility settings
         // check whether the inherited settings fall into that or not
         for (const commonVisibilityOption of commonFeedbackVisibilitySettings) {
