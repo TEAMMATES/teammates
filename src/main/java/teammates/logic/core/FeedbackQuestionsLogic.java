@@ -469,8 +469,7 @@ public final class FeedbackQuestionsLogic {
             case SELF:
                 InstructorAttributes instructorGiver = courseRoster.getInstructorForEmail(possibleGiver);
 
-                // This is to resolve the only corner case
-                // where a session creator quits the course
+                // only when a session creator quits their course
                 if (instructorGiver == null) {
                     instructorGiver =
                             InstructorAttributes
