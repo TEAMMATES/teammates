@@ -88,7 +88,7 @@ describe('AdminNotificationsPageComponent', () => {
         TimezoneService,
       ],
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
@@ -261,12 +261,12 @@ describe('AdminNotificationsPageComponent', () => {
     expect(component.notificationsTableRowModels[0].notification.message).toEqual(expectedMessage);
     // notification edit form model should be updated to the newly loaded notification
     expect(component.notificationEditFormModel.message)
-      .toEqual(component.notificationsTableRowModels[1].notification.message);
+        .toEqual(component.notificationsTableRowModels[1].notification.message);
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Discard unsaved edit?',
-      SimpleModalType.WARNING,
-      'Warning: If you choose to edit another notification, any unsaved changes will be lost.');
+        SimpleModalType.WARNING,
+        'Warning: If you choose to edit another notification, any unsaved changes will be lost.');
   });
 
   it('should delete notfication', () => {
@@ -291,8 +291,8 @@ describe('AdminNotificationsPageComponent', () => {
     component.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_START_TIME);
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
 
-    const expected: NotificationsTableRowModel[] = [notificationTableRowModel2, notificationTableRowModel1]
-      .sort(component.getNotificationsTableRowModelsComparator());
+    const expected : NotificationsTableRowModel[] = [notificationTableRowModel2, notificationTableRowModel1]
+        .sort(component.getNotificationsTableRowModelsComparator());
     expect(expected[0]).toBe(component.notificationsTableRowModels[0]);
     expect(expected[1]).toBe(component.notificationsTableRowModels[1]);
   });

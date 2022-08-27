@@ -287,7 +287,7 @@ describe('InstructorSessionEditPageComponent', () => {
         StatusMessageService,
       ],
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -565,7 +565,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/sessions',
-      'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+        'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
   });
 
   it('should create new question', () => {
@@ -714,8 +714,8 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
     expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/sessions/edit',
-      'The feedback session has been copied. Please modify settings/questions as necessary.',
-      { courseid: 'testId2', fsname: 'Test Session' });
+        'The feedback session has been copied. Please modify settings/questions as necessary.',
+        { courseid: 'testId2', fsname: 'Test Session' });
   });
 
   it('should open danger modal if session end time updates end time after any extensions deadline', () => {

@@ -113,9 +113,9 @@ export class SessionEditFormComponent {
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(
-    private simpleModalService: SimpleModalService,
-    public calendar: NgbCalendar) { }
+  constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) {
+
+}
 
   /**
    * Triggers the change of the model for the form.
@@ -219,9 +219,9 @@ export class SessionEditFormComponent {
    */
   cancelHandler(): void {
     this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
-      SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
-        this.cancelEditingSessionEvent.emit();
-      }, () => { });
+        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
+          this.cancelEditingSessionEvent.emit();
+        }, () => {});
   }
 
   /**
@@ -229,13 +229,13 @@ export class SessionEditFormComponent {
    */
   deleteHandler(): void {
     this.simpleModalService.openConfirmationModal(
-      `Delete the session <strong>${this.model.feedbackSessionName}</strong>?`,
-      SimpleModalType.WARNING,
-      'The session will be moved to the recycle bin. This action can be reverted '
-      + 'by going to the "Sessions" tab and restoring the desired session(s).',
+        `Delete the session <strong>${this.model.feedbackSessionName}</strong>?`,
+        SimpleModalType.WARNING,
+        'The session will be moved to the recycle bin. This action can be reverted '
+        + 'by going to the "Sessions" tab and restoring the desired session(s).',
     ).result.then(() => {
       this.deleteExistingSessionEvent.emit();
-    }, () => { });
+    }, () => {});
   }
 
   /**

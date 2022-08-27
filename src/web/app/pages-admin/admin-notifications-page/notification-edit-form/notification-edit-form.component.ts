@@ -97,10 +97,10 @@ export class NotificationEditFormComponent {
    * Handles cancel button click event.
    */
   cancelHandler(): void {
-    this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
-      SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
-        this.cancelEditingNotificationEvent.emit();
-      });
+      this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
+        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
+          this.cancelEditingNotificationEvent.emit();
+        });
   }
 
 }

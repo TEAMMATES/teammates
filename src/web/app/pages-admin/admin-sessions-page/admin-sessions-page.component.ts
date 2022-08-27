@@ -53,8 +53,8 @@ export class AdminSessionsPageComponent implements OnInit {
   isLoadingOngoingSessions: boolean = false;
 
   constructor(private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService,
-    private feedbackSessionsService: FeedbackSessionsService) { }
+              private statusMessageService: StatusMessageService,
+              private feedbackSessionsService: FeedbackSessionsService) { }
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -117,13 +117,13 @@ export class AdminSessionsPageComponent implements OnInit {
   getFeedbackSessions(): void {
     const timezone: string = this.filterTimezone;
     const startTime: number = this.timezoneService.resolveLocalDateTime(
-      { year: this.startDate.year, month: this.startDate.month, day: this.startDate.day },
-      { hour: this.startTime.hour, minute: this.startTime.minute },
-      timezone);
+        { year: this.startDate.year, month: this.startDate.month, day: this.startDate.day },
+        { hour: this.startTime.hour, minute: this.startTime.minute },
+        timezone);
     const endTime: number = this.timezoneService.resolveLocalDateTime(
-      { year: this.endDate.year, month: this.endDate.month, day: this.endDate.day },
-      { hour: this.endTime.hour, minute: this.endTime.minute },
-      timezone);
+        { year: this.endDate.year, month: this.endDate.month, day: this.endDate.day },
+        { hour: this.endTime.hour, minute: this.endTime.minute },
+        timezone);
     const displayFormat: string = 'ddd, DD MMM YYYY, hh:mm a';
     this.startTimeString = this.timezoneService.formatToString(startTime, timezone, displayFormat);
     this.endTimeString = this.timezoneService.formatToString(endTime, timezone, displayFormat);
@@ -168,17 +168,17 @@ export class AdminSessionsPageComponent implements OnInit {
       event.stopPropagation();
     }
     this.feedbackSessionsService.loadSessionStatistics(courseId, feedbackSessionName)
-      .subscribe((resp: FeedbackSessionStats) => {
-        const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
-          session.ongoingSession.courseId === courseId
-          && session.ongoingSession.feedbackSessionName === feedbackSessionName,
-        );
-        if (sessions.length) {
-          sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-        }
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+        .subscribe((resp: FeedbackSessionStats) => {
+          const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
+            session.ongoingSession.courseId === courseId
+            && session.ongoingSession.feedbackSessionName === feedbackSessionName,
+          );
+          if (sessions.length) {
+            sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+          }
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   updateDisplayedTimes(): void {

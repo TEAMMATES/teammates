@@ -5,7 +5,7 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
 import { of } from 'rxjs';
 import { UsageStatisticsService } from '../../../services/usage-statistics.service';
 import { UsageStatistics } from '../../../types/api-output';
-import { MsConst } from '../../../types/datetime-const';
+import { Milliseconds } from '../../../types/datetime-const';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { StatsLineChartComponent } from './stats-line-chart/stats-line-chart.component';
 import { AggregationType, StatisticsType, UsageStatisticsPageComponent } from './usage-statistics-page.component';
@@ -25,7 +25,7 @@ const generateData = (startTime: number, iterations: number): UsageStatistics[] 
       numEmails: 0,
       numSubmissions: 0,
     });
-    time += MsConst.ONE_HOUR_MILLISECONDS;
+    time += Milliseconds.IN_ONE_HOUR;
   }
   return stats;
 };
@@ -49,7 +49,7 @@ describe('UsageStatisticsPageComponent', () => {
         LoadingSpinnerModule,
       ],
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

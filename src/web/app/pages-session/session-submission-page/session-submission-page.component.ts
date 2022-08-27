@@ -39,7 +39,7 @@ import {
   Student,
 } from '../../../types/api-output';
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
-import { MsConst } from '../../../types/datetime-const';
+import { Milliseconds } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
@@ -915,6 +915,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   private isFeedbackEndingLessThanFifteenMinutes(feedbackSession: FeedbackSession): boolean {
     const userSessionEndingTime = DeadlineExtensionHelper.getOngoingUserFeedbackSessionEndingTimestamp(feedbackSession);
-    return (userSessionEndingTime - Date.now()) < MsConst.FIFTEEN_MINUTE_MILLISECONDS;
+    return (userSessionEndingTime - Date.now()) < Milliseconds.IN_FIFTEEN_MINUTES;
   }
 }

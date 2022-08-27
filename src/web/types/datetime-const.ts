@@ -1,27 +1,28 @@
-export enum HoursConst {
-    ZERO_HOURS = 0,
-    TWELVE_HOURS = 12,
-    ONE_DAY_HOURS = 24,
-    THREE_DAYS_HOURS = 72,
-    ONE_WEEK_HOURS = 168,
+export enum Hours {
+    ZERO = 0,
+    TWELVE = 12,
+    IN_ONE_DAY = 24,
+    IN_THREE_DAYS = 72,
+    IN_ONE_WEEK = 168,
 }
 
-export enum SecondsConst {
-    ONE_MINUTE_SECONDS = 60,
+export enum Seconds {
+    IN_ONE_MINUTE = 60,
 }
 
-export enum MinutesConst {
-    ONE_HOURS_MINUTES = 60,
+export enum Minutes {
+    IN_ONE_HOUR = 60,
 }
 
-export enum MsConst {
-    ONE_SECOND_MILLISECONDS = 1000,
-    TEN_SECOND_MILLISECONDS = 10000,
-    ONE_MINUTE_MILLISECONDS = 60000,
-    TEN_MINUTE_MILLISECONDS = 600000,
-    FIFTEEN_MINUTE_MILLISECONDS = 900000,
-    ONE_HOUR_MILLISECONDS = 3600000,
-    ONE_WEEK_MILLISECONDS = 604800000,
+export enum Milliseconds {
+    IN_ONE_SECOND = 1000,
+    IN_TEN_SECONDS = 10000,
+    IN_ONE_MINUTE = 60000,
+    IN_TEN_MINUTES = 600000,
+    IN_FIFTEEN_MINUTES = 900000,
+    IN_ONE_HOUR = 3600000,
+    IN_ONE_DAY = 86400000,
+    IN_ONE_WEEK = 604800000,
 }
 
 export const getDefaultDateFormat = (): DateFormat => {

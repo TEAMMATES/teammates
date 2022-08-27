@@ -30,13 +30,13 @@ export class TimezoneService {
     moment.tz.load(timezone);
     this.tzVersion = (moment.tz as any).dataVersion;
     moment.tz.names()
-      .filter((tz: string) => !this.isBadZone(tz))
-      .forEach((tz: string) => {
-        const zone: moment.MomentZone | null = moment.tz.zone(tz);
-        if (zone) {
-          this.tzOffsets[tz] = zone.utcOffset(d.getTime()) * -1;
-        }
-      });
+        .filter((tz: string) => !this.isBadZone(tz))
+        .forEach((tz: string) => {
+          const zone: moment.MomentZone | null = moment.tz.zone(tz);
+          if (zone) {
+            this.tzOffsets[tz] = zone.utcOffset(d.getTime()) * -1;
+          }
+        });
     this.guessedTimezone = moment.tz.guess();
   }
 
@@ -92,7 +92,7 @@ export class TimezoneService {
    * Resolves the local date time to a UNIX timestamp.
    */
   resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone?: string,
-    resolveMidnightTo0000: boolean = false): number {
+      resolveMidnightTo0000: boolean = false): number {
     const inst: moment.Moment = this.getMomentInstance(null, timeZone || this.guessTimezone());
     inst.set('year', date.year);
     inst.set('month', date.month - 1); // moment month is from 0-11

@@ -23,7 +23,7 @@ describe('LogsPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [NgbModule, LogsPageModule, HttpClientTestingModule, RouterTestingModule],
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -71,9 +71,9 @@ describe('LogsPageComponent', () => {
 
   it('should search for logs when search button is clicked', () => {
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-      .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-      .mockReturnValue(0);
+        .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -141,9 +141,9 @@ describe('LogsPageComponent', () => {
 
   it('should search for logs with event type', () => {
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-      .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-      .mockReturnValue(0);
+        .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -261,10 +261,10 @@ describe('LogsPageComponent', () => {
       message: 'message',
     };
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-      .mockReturnValueOnce(of({ logEntries: [testLog1], hasNextPage: true }))
-      .mockReturnValueOnce(of({ logEntries: [], hasNextPage: false }));
+        .mockReturnValueOnce(of({ logEntries: [testLog1], hasNextPage: true }))
+        .mockReturnValueOnce(of({ logEntries: [], hasNextPage: false }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-      .mockReturnValue(0);
+        .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;

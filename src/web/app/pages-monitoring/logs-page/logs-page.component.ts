@@ -22,8 +22,8 @@ import {
   getDefaultTimeFormat,
   DateFormat,
   TimeFormat,
-  HoursConst,
-  MsConst,
+  Hours,
+  Milliseconds,
 } from '../../../types/datetime-const';
 import { LogsHistogramDataModel } from '../../components/logs-histogram/logs-histogram-model';
 import { LogsTableRowModel } from '../../components/logs-table/logs-table-model';
@@ -57,7 +57,7 @@ const DESCENDING_ORDER: string = 'desc';
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number
-    = this.LOGS_RETENTION_PERIOD_IN_DAYS * HoursConst.ONE_DAY_HOURS * MsConst.ONE_HOUR_MILLISECONDS;
+    = this.LOGS_RETENTION_PERIOD_IN_DAYS * Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR;
   readonly SEVERITIES: LogSeverity[] = [
     LogSeverity.INFO, LogSeverity.WARNING, LogSeverity.ERROR,
   ];
@@ -139,7 +139,7 @@ export class LogsPageComponent implements OnInit {
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
     // Start with logs from the past hour
-    const fromDate: Date = new Date(now.getTime() - MsConst.ONE_HOUR_MILLISECONDS);
+    const fromDate: Date = new Date(now.getTime() - Milliseconds.IN_ONE_HOUR);
 
     this.formModel.logsDateFrom = {
       year: fromDate.getFullYear(),
@@ -159,10 +159,10 @@ export class LogsPageComponent implements OnInit {
       });
 
     this.activatedRoute.data.pipe(
-      tap((data: any) => {
-        this.isAdmin = data.isAdmin;
-      }),
-    ).subscribe(() => { });
+        tap((data: any) => {
+          this.isAdmin = data.isAdmin;
+        }),
+    ).subscribe(() => {});
   }
 
   searchForLogs(): void {
@@ -181,9 +181,9 @@ export class LogsPageComponent implements OnInit {
     this.hasPreviousPage = true;
     this.hasNextPage = false;
     const timestampFrom: number = this.timezoneService.resolveLocalDateTime(
-      this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
     const timestampUntil: number = this.timezoneService.resolveLocalDateTime(
-      this.formModel.logsDateTo, this.formModel.logsTimeTo);
+        this.formModel.logsDateTo, this.formModel.logsTimeTo);
 
     if (this.isTableView) {
       this.searchForLogsTableView(timestampFrom, timestampUntil);
@@ -210,7 +210,7 @@ export class LogsPageComponent implements OnInit {
 
   private isFormValid(): boolean {
     if (this.formModel.filters.sourceLocation && !this.formModel.filters.sourceLocation.file
-      && this.formModel.filters.sourceLocation.function) {
+        && this.formModel.filters.sourceLocation.function) {
       this.isFiltersExpanded = true;
       this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
       return false;
@@ -327,7 +327,7 @@ export class LogsPageComponent implements OnInit {
     }
 
     const timestampForDisplay: string = this.timezoneService.formatToString(
-      log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A');
+        log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A');
 
     return {
       traceIdForDisplay,
@@ -430,7 +430,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.queryParams.order = DESCENDING_ORDER;
     this.queryParams.endTime = this.searchStartTime;
-    this.searchStartTime -= MsConst.TEN_MINUTE_MILLISECONDS;
+    this.searchStartTime -= Milliseconds.IN_TEN_MINUTES;
     this.queryParams.startTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
@@ -439,7 +439,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearchingLaterLogs = true;
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.searchEndTime;
-    this.searchEndTime += MsConst.TEN_MINUTE_MILLISECONDS;
+    this.searchEndTime += Milliseconds.IN_TEN_MINUTES;
     this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }

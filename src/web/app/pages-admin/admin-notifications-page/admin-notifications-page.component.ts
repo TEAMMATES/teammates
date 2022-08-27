@@ -66,7 +66,7 @@ export class AdminNotificationsPageComponent implements OnInit {
     private statusMessageService: StatusMessageService,
     private tableComparatorService: TableComparatorService,
     private timezoneService: TimezoneService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initNotificationEditFormModel();
@@ -239,20 +239,20 @@ export class AdminNotificationsPageComponent implements OnInit {
       startTimestamp: startTime,
       endTimestamp: endTime,
     })
-      .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
-      .subscribe(
-        (notification: Notification) => {
-          this.notificationsTableRowModels.unshift({
-            isHighlighted: true,
-            notification,
-          });
-          this.initNotificationEditFormModel();
-          this.statusMessageService.showSuccessToast('Notification created successfully.');
-        },
-        (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
+    .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
+    .subscribe(
+      (notification: Notification) => {
+        this.notificationsTableRowModels.unshift({
+          isHighlighted: true,
+          notification,
+        });
+        this.initNotificationEditFormModel();
+        this.statusMessageService.showSuccessToast('Notification created successfully.');
+      },
+      (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    );
   }
 
   /**
@@ -277,24 +277,24 @@ export class AdminNotificationsPageComponent implements OnInit {
       startTimestamp: startTime,
       endTimestamp: endTime,
     }, this.notificationEditFormModel.notificationId)
-      .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
-      .subscribe(
-        (notification: Notification) => {
-          this.statusMessageService.showSuccessToast('Notification updated successfully.');
+    .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
+    .subscribe(
+      (notification: Notification) => {
+        this.statusMessageService.showSuccessToast('Notification updated successfully.');
 
-          this.notificationsTableRowModels.forEach((rowModel: NotificationsTableRowModel) => {
-            if (rowModel.notification.notificationId === notification.notificationId) {
-              rowModel.isHighlighted = true;
-              rowModel.notification = notification;
-            }
-          });
+        this.notificationsTableRowModels.forEach((rowModel: NotificationsTableRowModel) => {
+          if (rowModel.notification.notificationId === notification.notificationId) {
+            rowModel.isHighlighted = true;
+            rowModel.notification = notification;
+          }
+        });
 
-          this.initNotificationEditFormModel();
-        },
-        (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      );
+        this.initNotificationEditFormModel();
+      },
+      (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    );
   }
 
   /**
@@ -343,38 +343,38 @@ export class AdminNotificationsPageComponent implements OnInit {
    */
   getNotificationsTableRowModelsComparator():
     ((a: NotificationsTableRowModel, b: NotificationsTableRowModel) => number) {
-    return (a: NotificationsTableRowModel, b: NotificationsTableRowModel) => {
-      let strA: string;
-      let strB: string;
-      switch (this.notificationsTableRowModelsSortBy) {
-        case SortBy.NOTIFICATION_CREATE_TIME:
-          strA = String(a.notification.createdAt);
-          strB = String(b.notification.createdAt);
-          break;
-        case SortBy.NOTIFICATION_TITLE:
-          strA = a.notification.title;
-          strB = b.notification.title;
-          break;
-        case SortBy.NOTIFICATION_START_TIME:
-          strA = String(a.notification.startTimestamp);
-          strB = String(b.notification.startTimestamp);
-          break;
-        case SortBy.NOTIFICATION_END_TIME:
-          strA = String(a.notification.endTimestamp);
-          strB = String(b.notification.endTimestamp);
-          break;
-        case SortBy.NOTIFICATION_TARGET_USER:
-          strA = String(a.notification.targetUser);
-          strB = String(b.notification.targetUser);
-          break;
-        case SortBy.NOTIFICATION_STYLE:
-          strA = String(a.notification.style);
-          strB = String(b.notification.style);
-          break;
-        default:
-          strA = '';
-          strB = '';
-      }
+      return (a: NotificationsTableRowModel, b: NotificationsTableRowModel) => {
+        let strA: string;
+        let strB: string;
+        switch (this.notificationsTableRowModelsSortBy) {
+          case SortBy.NOTIFICATION_CREATE_TIME:
+            strA = String(a.notification.createdAt);
+            strB = String(b.notification.createdAt);
+            break;
+          case SortBy.NOTIFICATION_TITLE:
+            strA = a.notification.title;
+            strB = b.notification.title;
+            break;
+          case SortBy.NOTIFICATION_START_TIME:
+            strA = String(a.notification.startTimestamp);
+            strB = String(b.notification.startTimestamp);
+            break;
+          case SortBy.NOTIFICATION_END_TIME:
+            strA = String(a.notification.endTimestamp);
+            strB = String(b.notification.endTimestamp);
+            break;
+          case SortBy.NOTIFICATION_TARGET_USER:
+            strA = String(a.notification.targetUser);
+            strB = String(b.notification.targetUser);
+            break;
+          case SortBy.NOTIFICATION_STYLE:
+            strA = String(a.notification.style);
+            strB = String(b.notification.style);
+            break;
+          default:
+            strA = '';
+            strB = '';
+        }
 
       return this.tableComparatorService.compare(
         this.notificationsTableRowModelsSortBy, this.notificationsTableRowModelsSortOrder, strA, strB);

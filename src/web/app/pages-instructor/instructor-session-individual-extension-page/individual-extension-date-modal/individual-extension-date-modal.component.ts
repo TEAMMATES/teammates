@@ -8,10 +8,10 @@ import {
   TimeFormat,
   getDefaultDateFormat,
   getLatestTimeFormat,
-  HoursConst,
-  MinutesConst,
-  MsConst,
-  SecondsConst,
+  Hours,
+  Minutes,
+  Milliseconds,
+  Seconds,
 } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
@@ -50,7 +50,7 @@ export class IndividualExtensionDateModalComponent {
     public activeModal: NgbActiveModal,
     private timeZoneService: TimezoneService,
     private simpleModalService: SimpleModalService,
-  ) { }
+  ) {}
 
   RadioOptions: typeof RadioOptions = RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
@@ -58,17 +58,17 @@ export class IndividualExtensionDateModalComponent {
 
   extendByDeadlineKey: String = '';
   extendByDeadlineOptions: Map<String, Number> = new Map([
-    ['12 hours', HoursConst.TWELVE_HOURS],
-    ['1 day', HoursConst.ONE_DAY_HOURS],
-    ['3 days', HoursConst.THREE_DAYS_HOURS],
-    ['1 week', HoursConst.ONE_WEEK_HOURS],
-    ['Customize', HoursConst.ZERO_HOURS],
+    ['12 hours', Hours.TWELVE],
+    ['1 day', Hours.IN_ONE_DAY],
+    ['3 days', Hours.IN_THREE_DAYS],
+    ['1 week', Hours.IN_ONE_WEEK],
+    ['Customize', Hours.ZERO],
   ]);
   extendByDatePicker = { hours: 0, days: 0 };
 
-  ONE_MINUTE_IN_MILLISECONDS = SecondsConst.ONE_MINUTE_SECONDS * MsConst.ONE_SECOND_MILLISECONDS;
-  ONE_HOUR_IN_MILLISECONDS = MinutesConst.ONE_HOURS_MINUTES * this.ONE_MINUTE_IN_MILLISECONDS;
-  ONE_DAY_IN_MILLISECONDS = HoursConst.ONE_DAY_HOURS * this.ONE_HOUR_IN_MILLISECONDS;
+  ONE_MINUTE_IN_MILLISECONDS = Seconds.IN_ONE_MINUTE * Milliseconds.IN_ONE_SECOND;
+  ONE_HOUR_IN_MILLISECONDS = Minutes.IN_ONE_HOUR * this.ONE_MINUTE_IN_MILLISECONDS;
+  ONE_DAY_IN_MILLISECONDS = Hours.IN_ONE_DAY * this.ONE_HOUR_IN_MILLISECONDS;
   MAX_EPOCH_TIME_IN_DAYS = 100000000;
   MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * this.ONE_DAY_IN_MILLISECONDS;
   extendToDatePicker: DateFormat = getDefaultDateFormat();
@@ -91,8 +91,8 @@ export class IndividualExtensionDateModalComponent {
         'Are you sure you wish to set the new deadline to before the current time?',
         SimpleModalType.WARNING,
         '<b>Any users affected will have their sessions closed immediately.</b>'
-        + ` The current time now is ${currentTimeString} and you are extending to`
-        + ` ${extensionTimeString}. Do you wish to proceed?`,
+          + ` The current time now is ${currentTimeString} and you are extending to`
+          + ` ${extensionTimeString}. Do you wish to proceed?`,
       )
       .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()), () => { });
   }

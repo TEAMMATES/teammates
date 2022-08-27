@@ -5,7 +5,7 @@ import SpyInstance = jest.SpyInstance;
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
-import { HoursConst, MsConst } from '../../../../types/datetime-const';
+import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
@@ -65,26 +65,26 @@ describe('IndividualExtensionDateModalComponent', () => {
 
     component.extendByDeadlineKey = '12 hours';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (HoursConst.TWELVE_HOURS * MsConst.ONE_HOUR_MILLISECONDS));
-    expect(component.extendAndFormatEndTimeBy(HoursConst.TWELVE_HOURS, 0))
+      component.feedbackSessionEndingTimestamp + (Hours.TWELVE * Milliseconds.IN_ONE_HOUR));
+    expect(component.extendAndFormatEndTimeBy(Hours.TWELVE, 0))
       .toEqual('Mon, 14 Sep 2020, 08:26 AM +08');
 
     component.extendByDeadlineKey = '1 day';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (HoursConst.ONE_DAY_HOURS * MsConst.ONE_HOUR_MILLISECONDS));
-    expect(component.extendAndFormatEndTimeBy(HoursConst.ONE_DAY_HOURS, 0))
+      component.feedbackSessionEndingTimestamp + (Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR));
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_DAY, 0))
       .toEqual('Mon, 14 Sep 2020, 08:26 PM +08');
 
     component.extendByDeadlineKey = '3 days';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (HoursConst.THREE_DAYS_HOURS * MsConst.ONE_HOUR_MILLISECONDS));
-    expect(component.extendAndFormatEndTimeBy(HoursConst.THREE_DAYS_HOURS, 0))
+      component.feedbackSessionEndingTimestamp + (Hours.IN_THREE_DAYS * Milliseconds.IN_ONE_HOUR));
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_THREE_DAYS, 0))
       .toEqual('Wed, 16 Sep 2020, 08:26 PM +08');
 
     component.extendByDeadlineKey = '1 week';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (HoursConst.ONE_WEEK_HOURS * MsConst.ONE_HOUR_MILLISECONDS));
-    expect(component.extendAndFormatEndTimeBy(HoursConst.ONE_WEEK_HOURS, 0))
+      component.feedbackSessionEndingTimestamp + (Hours.IN_ONE_WEEK * Milliseconds.IN_ONE_HOUR));
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_WEEK, 0))
       .toEqual('Sun, 20 Sep 2020, 08:26 PM +08');
   });
 

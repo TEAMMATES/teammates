@@ -8,7 +8,7 @@ import {
   DateFormat,
   TimeFormat,
   getDefaultTimeFormat,
-  MsConst,
+  Milliseconds,
 } from '../../../types/datetime-const';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -77,7 +77,7 @@ export class UsageStatisticsPageComponent implements OnInit {
     private usageStatisticsService: UsageStatisticsService,
     private timezoneService: TimezoneService,
     private statusMessageService: StatusMessageService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.timezone = this.timezoneService.guessTimezone();
@@ -88,7 +88,7 @@ export class UsageStatisticsPageComponent implements OnInit {
     this.dateToday.day = now.getDate();
 
     // Start with statistics from the past week
-    const fromDate = new Date(now.getTime() - MsConst.ONE_WEEK_MILLISECONDS);
+    const fromDate = new Date(now.getTime() - Milliseconds.IN_ONE_WEEK);
 
     this.formModel.fromDate = {
       year: fromDate.getFullYear(),

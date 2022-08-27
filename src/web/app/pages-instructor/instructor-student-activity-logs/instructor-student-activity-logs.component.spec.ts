@@ -17,7 +17,7 @@ import {
   SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
-import { MsConst } from '../../../types/datetime-const';
+import { Milliseconds } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
 import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
@@ -190,11 +190,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
   it('should load all students of selected course has on select', () => {
     const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
-      .mockReturnValue(of({
-        students: [
-          testStudent,
-        ],
-      }));
+        .mockReturnValue(of({
+          students: [
+            testStudent,
+          ],
+        }));
 
     component.loadStudents(testCourse1.courseId);
 
@@ -205,11 +205,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
   it('should load students from cache if present', () => {
     const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
-      .mockReturnValue(of({
-        students: [
-          testStudent,
-        ],
-      }));
+        .mockReturnValue(of({
+          students: [
+            testStudent,
+          ],
+        }));
 
     component.students = [emptyStudent];
     component.loadStudents(testCourse1.courseId);
@@ -221,7 +221,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
     const logSpy: SpyInstance = jest.spyOn(logService, 'searchFeedbackSessionLog')
-      .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
+        .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime');
     const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
@@ -255,9 +255,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       courseId: testCourse1.courseId,
       searchFrom: (new Date('2020-12-31T00:00+00:00').getTime()
-        - tzOffset * MsConst.ONE_MINUTE_MILLISECONDS).toString(),
+        - tzOffset * Milliseconds.IN_ONE_MINUTE).toString(),
       searchUntil: (new Date('2021-01-01T00:00+00:00').getTime()
-        - tzOffset * MsConst.ONE_MINUTE_MILLISECONDS).toString(),
+        - tzOffset * Milliseconds.IN_ONE_MINUTE).toString(),
       studentEmail: testStudent.email,
       sessionName: '',
       logType: 'submission',
