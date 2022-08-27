@@ -207,7 +207,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
    * Load the course based on the course id
    */
   private loadCourse(courseId: string): void {
-      this.courseService
+    this.courseService
         .getCourseAsInstructor(courseId)
         .pipe(finalize(() => {
           this.isLoading = false;
@@ -305,11 +305,11 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             if (studentKey in this.studentToLog) {
               const entry: FeedbackSessionLogEntry = this.studentToLog[studentKey];
               const timestamp: string = this.timezoneService.formatToString(
-                entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+                  entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
               status = `${statusPrefix} at ${timestamp}`;
             } else {
               const timestamp: string = this.timezoneService.formatToString(
-                notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+                  notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
               status = `Not ${statusPrefix.toLowerCase()} since ${timestamp}`;
               dataStyle += 'color:red;';
             }

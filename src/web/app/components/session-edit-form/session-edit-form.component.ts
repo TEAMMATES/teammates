@@ -114,7 +114,6 @@ export class SessionEditFormComponent {
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) {
-
 }
 
   /**

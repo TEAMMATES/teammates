@@ -266,7 +266,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(component.searchResults.length).toEqual(2);
 
     const timestamp: string = timezoneService.formatToString(
-      0, testFeedbackSession.timeZone, LOGS_DATE_TIME_FORMAT);
+        0, testFeedbackSession.timeZone, LOGS_DATE_TIME_FORMAT);
 
     for (let i: number = 0; i < 2; i += 1) {
       expect(component.searchResults[i].isTabExpanded).toBeTruthy();

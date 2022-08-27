@@ -136,8 +136,8 @@ describe('TimezoneService', () => {
     expect(usTime).toEqual(baseEpochTime);
 
     usTime = service.resolveLocalDateTime(
-      { year: 2020, month: 11, day: 1 },
-      { hour: 1, minute: 0 }, 'US/Central');
+        { year: 2020, month: 11, day: 1 },
+        { hour: 1, minute: 0 }, 'US/Central');
 
     // Here, the clock has sprung backward and the time exists in duplicate.
     // It can be resolved to either the earlier or the latter hour.
