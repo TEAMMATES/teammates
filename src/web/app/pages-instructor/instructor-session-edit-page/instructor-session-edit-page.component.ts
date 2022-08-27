@@ -308,7 +308,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         .catch(() => {
           this.sessionEditFormModel.isCopying = false;
         });
-        });
+      });
     });
   }
 
@@ -367,16 +367,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     if (feedbackSession.customSessionVisibleTimestamp) {
       const customSessionVisible: { date: DateFormat, time: TimeFormat } =
-          this.datetimeService.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp,
-feedbackSession.timeZone, true);
+          this.datetimeService.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone, true);
       model.customSessionVisibleTime = customSessionVisible.time;
       model.customSessionVisibleDate = customSessionVisible.date;
     }
 
     if (feedbackSession.customResponseVisibleTimestamp) {
       const customResponseVisible: { date: DateFormat, time: TimeFormat } =
-          this.datetimeService.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp,
-feedbackSession.timeZone, true);
+          this.datetimeService.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp, feedbackSession.timeZone, true);
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
