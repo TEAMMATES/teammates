@@ -376,8 +376,8 @@ export class AdminNotificationsPageComponent implements OnInit {
             strB = '';
         }
 
-      return this.tableComparatorService.compare(
-        this.notificationsTableRowModelsSortBy, this.notificationsTableRowModelsSortOrder, strA, strB);
-    };
+        return this.tableComparatorService.compare(
+          this.notificationsTableRowModelsSortBy, this.notificationsTableRowModelsSortOrder, strA, strB);
+      };
   }
 }

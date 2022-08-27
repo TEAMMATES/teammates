@@ -54,7 +54,7 @@ export class AdminSessionsPageComponent implements OnInit {
 
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
-              private feedbackSessionsService: FeedbackSessionsService) { }
+              private feedbackSessionsService: FeedbackSessionsService) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -131,32 +131,32 @@ export class AdminSessionsPageComponent implements OnInit {
     this.isLoadingOngoingSessions = true;
 
     this.feedbackSessionsService.getOngoingSessions(startTime, endTime)
-      .pipe(finalize(() => {
-        this.isLoadingOngoingSessions = false;
-      }))
-      .subscribe((resp: OngoingSessions) => {
-        this.totalOngoingSessions = resp.totalOngoingSessions;
-        this.totalOpenSessions = resp.totalOpenSessions;
-        this.totalClosedSessions = resp.totalClosedSessions;
-        this.totalAwaitingSessions = resp.totalAwaitingSessions;
-        this.totalInstitutes = resp.totalInstitutes;
-        Object.keys(resp.sessions).forEach((key: string) => {
-          this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
-            return {
-              ongoingSession,
-              startTimeString: this.showDateFromMillis(ongoingSession.startTime),
-              endTimeString: this.showDateFromMillis(ongoingSession.endTime),
-            };
+        .pipe(finalize(() => {
+          this.isLoadingOngoingSessions = false;
+        }))
+        .subscribe((resp: OngoingSessions) => {
+          this.totalOngoingSessions = resp.totalOngoingSessions;
+          this.totalOpenSessions = resp.totalOpenSessions;
+          this.totalClosedSessions = resp.totalClosedSessions;
+          this.totalAwaitingSessions = resp.totalAwaitingSessions;
+          this.totalInstitutes = resp.totalInstitutes;
+          Object.keys(resp.sessions).forEach((key: string) => {
+            this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
+              return {
+                ongoingSession,
+                startTimeString: this.showDateFromMillis(ongoingSession.startTime),
+                endTimeString: this.showDateFromMillis(ongoingSession.endTime),
+              };
+            });
           });
-        });
 
-        this.institutionPanelsStatus = {};
-        for (const institution of Object.keys(resp.sessions)) {
-          this.institutionPanelsStatus[institution] = true;
-        }
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+          this.institutionPanelsStatus = {};
+          for (const institution of Object.keys(resp.sessions)) {
+            this.institutionPanelsStatus[institution] = true;
+          }
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**

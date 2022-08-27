@@ -114,11 +114,11 @@ describe('NotificationEditFormComponent', () => {
     });
     const promise: Promise<void> = Promise.resolve();
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
-    .mockReturnValue(createMockNgbModalRef({}, promise));
+        .mockReturnValue(createMockNgbModalRef({}, promise));
     component.cancelHandler();
     await promise;
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Discard unsaved edit?',
-    SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.');
+        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.');
   });
 });

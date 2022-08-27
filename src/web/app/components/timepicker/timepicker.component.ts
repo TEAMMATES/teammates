@@ -52,7 +52,7 @@ export class TimepickerComponent {
    */
   isInFixedList(time: TimeFormat): boolean {
     return (time.hour >= 1 && time.hour <= 23 && time.minute === 0)
-      || (time.hour === 23 && time.minute === 59);
+        || (time.hour === 23 && time.minute === 59);
   }
 
   /**
