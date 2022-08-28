@@ -481,8 +481,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               showResponsesTo: feedbackQuestion.showResponsesTo,
             };
             this.questionSubmissionForms.push(model);
-         });
-         }, (resp: ErrorMessageOutput) => {
+          });
+        }, (resp: ErrorMessageOutput) => {
           this.handleError(resp);
         });
   }
@@ -727,28 +727,28 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                   requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
 
                   questionSubmissionFormModel.recipientSubmissionForms
-                    .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
-                      if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
-                        const correspondingResp: FeedbackResponse =
-                          responsesMap[recipientSubmissionFormModel.recipientIdentifier];
-                        recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
-                        recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
-                        recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
-                      } else {
-                        recipientSubmissionFormModel.responseId = '';
-                        recipientSubmissionFormModel.commentByGiver = undefined;
-                      }
-                    });
-              }),
-              switchMap(() =>
-                  forkJoin(questionSubmissionFormModel.recipientSubmissionForms
-                      .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
-                          this.createCommentRequest(recipientSubmissionFormModel))),
-              ),
-              catchError((error: ErrorMessageOutput) => {
-                failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
-                return of(error);
-              }),
+                      .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+                        if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
+                          const correspondingResp: FeedbackResponse =
+                              responsesMap[recipientSubmissionFormModel.recipientIdentifier];
+                          recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
+                          recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
+                          recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
+                        } else {
+                          recipientSubmissionFormModel.responseId = '';
+                          recipientSubmissionFormModel.commentByGiver = undefined;
+                        }
+                      });
+                }),
+                switchMap(() =>
+                    forkJoin(questionSubmissionFormModel.recipientSubmissionForms
+                        .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
+                            this.createCommentRequest(recipientSubmissionFormModel))),
+                ),
+                catchError((error: ErrorMessageOutput) => {
+                  failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
+                  return of(error);
+                }),
             ),
         );
       }

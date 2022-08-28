@@ -66,7 +66,7 @@ export class NotificationEditFormComponent {
   @Output()
   cancelEditingNotificationEvent = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService) {}
+  constructor(private simpleModalService: SimpleModalService) { }
 
   /**
    * Triggers the change of the model for the form.
