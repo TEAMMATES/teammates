@@ -188,7 +188,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
       this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
-          result.fromFeedbackSession.courseId)
+        result.fromFeedbackSession.courseId)
           .pipe(finalize(() => {
             this.isCopyOtherSessionLoading = false;
           }))
