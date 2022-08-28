@@ -324,25 +324,25 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           concatMap((question: FeedbackQuestion) => {
             return this.feedbackQuestionsService.createFeedbackQuestion(
                 feedbackSession.courseId, feedbackSession.feedbackSessionName, {
-                questionNumber: question.questionNumber,
-                questionBrief: question.questionBrief,
-                questionDescription: question.questionDescription,
+                  questionNumber: question.questionNumber,
+                  questionBrief: question.questionBrief,
+                  questionDescription: question.questionDescription,
 
-                questionDetails: question.questionDetails,
-                questionType: question.questionType,
+                  questionDetails: question.questionDetails,
+                  questionType: question.questionType,
 
-                giverType: question.giverType,
-                recipientType: question.recipientType,
+                  giverType: question.giverType,
+                  recipientType: question.recipientType,
 
-                numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
-                customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
+                  numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
+                  customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
 
-                showResponsesTo: question.showResponsesTo,
-                showGiverNameTo: question.showGiverNameTo,
-                showRecipientNameTo: question.showRecipientNameTo,
-              });
+                  showResponsesTo: question.showResponsesTo,
+                  showGiverNameTo: question.showGiverNameTo,
+                  showRecipientNameTo: question.showRecipientNameTo,
+                });
           }),
-      ).subscribe(() => { }, (resp: ErrorMessageOutput) => {
+      ).subscribe(() => {}, (resp: ErrorMessageOutput) => {
         this.sessionEditFormModel.isSaving = false;
         this.statusMessageService.showErrorToast(
             `The session is created but the template questions cannot be created: ${resp.error.message}`);
@@ -434,13 +434,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.feedbackSessionsService.deleteSessionFromRecycleBin(
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
-      )
+    )
         .pipe(finalize(() => {
           this.isRestoreFeedbackSessionLoading = false;
         }))
         .subscribe((feedbackSession: FeedbackSession) => {
           this.recycleBinFeedbackSessionRowModels.splice(
-            this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
+              this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
           const m: SessionsTableRowModel = {
             feedbackSession,
             responseRate: '',
@@ -461,7 +461,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.feedbackSessionsService.moveSessionToRecycleBin(
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
-      )
+    )
         .pipe(finalize(() => {
           this.isMoveToRecycleBinLoading = false;
         }))
@@ -471,7 +471,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             feedbackSession,
           });
           this.statusMessageService.showSuccessToast('The feedback session has been deleted. '
-            + 'You can restore it from the deleted sessions table below.');
+              + 'You can restore it from the deleted sessions table below.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
