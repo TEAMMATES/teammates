@@ -97,7 +97,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    protected void testExecute_adminDeletesLastInstructorByGoogleId_shouldPass() {
+    protected void testExecute_adminDeletesLastInstructorByGoogleId_shouldFail() {
         loginAsAdmin();
 
         InstructorAttributes instructor4 = typicalBundle.instructors.get("instructor4");
@@ -110,13 +110,12 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         assertEquals(logic.getInstructorsForCourse(instructor4.getCourseId()).size(), 1);
 
-        DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
-        JsonResult response = getJsonResult(deleteInstructorAction);
+        InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        MessageOutput msg = (MessageOutput) response.getOutput();
-        assertEquals("Instructor is successfully deleted.", msg.getMessage());
-
-        assertNull(logic.getInstructorForEmail(instructor4.getCourseId(), instructor4.getEmail()));
+        assertNotNull(logic.getInstructorForEmail(instructor4.getCourseId(), instructor4.getEmail()));
+        assertNotNull(logic.getInstructorForGoogleId(instructor4.getCourseId(), instructor4.getGoogleId()));
     }
 
     @Test
