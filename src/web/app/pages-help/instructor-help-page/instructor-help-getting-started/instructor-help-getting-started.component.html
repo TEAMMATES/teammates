@@ -29,7 +29,7 @@
         From the <b>Home</b> page, click <button class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Add New Course</button>.<br>
         Fill out the following form. Hover your mouse over text to reveal tooltips which tell you what the element does.
         <tm-example-box>
-          <tm-add-course-form [isEnabled]="false"></tm-add-course-form>
+          <tm-course-edit-form [formMode]="CouseEditFormMode.ADD" [isDisplayOnly]="true"></tm-course-edit-form>
         </tm-example-box>
       </li>
       <li>
