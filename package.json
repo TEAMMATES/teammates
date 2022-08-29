@@ -6,7 +6,6 @@
     "analyze": "webpack-bundle-analyzer src/web/dist/stats.json",
     "test": "ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
-    "prepare": "husky install",
     "lint:ts": "ng lint --cache --eslint-config static-analysis/teammates-eslint.yml",
     "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --ignore-pattern \"src/web/dist/*.css\" --cache --config static-analysis/teammates-stylelint.yml",
     "lint:windows:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.properties\" \"*.yml\" \"*.json\" \"*.gradle\" \"static-analysis/*.*ml\" \".gitattributes\"",
@@ -14,14 +13,6 @@
     "lint": "run-script-os",
     "lint:windows": "npm-run-all lint:ts lint:css lint:windows:spaces -c",
     "lint:nix": "npm-run-all lint:ts lint:css lint:nix:spaces -c"
-  },
-  "lint-staged": {
-    "src/web/**/*.{css,scss,html}": [
-      "stylelint --config static-analysis/teammates-stylelint.yml"
-    ],
-    "{src/{main,web}/**/*.html,src/**/*.{xml,json,properties},*.{yml,json,gradle},static-analysis/*.*ml,.gitattributes}": [
-      "lintspaces -. -n -t -d spaces -l 1"
-    ]
   },
   "private": true,
   "dependencies": {
@@ -78,9 +69,7 @@
     "eslint-plugin-jest": "^26.1.1",
     "eslint-plugin-jsdoc": "^37.9.4",
     "eslint-plugin-rxjs": "^3.3.7",
-    "husky": "^7.0.4",
     "jest": "^27.4.7",
-    "lint-staged": "^11.2.6",
     "lintspaces-cli": "^0.7.1",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.7",

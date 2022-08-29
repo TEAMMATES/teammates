@@ -1,4 +1,0 @@
-#!/bin/sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-npx lint-staged && ng lint --cache --eslint-config static-analysis/teammates-eslint.yml

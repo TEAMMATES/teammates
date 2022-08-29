@@ -21,9 +21,6 @@ build/
 bin/
 !gradle-wrapper.jar
 
-# Husky
-.husky/_/husky.sh
-
 # Eclipse
 .classpath
 .project
