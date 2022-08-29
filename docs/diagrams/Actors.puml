@@ -1,0 +1,13 @@
+@startuml
+!include style.puml
+
+actor Evaluator #line.dotted;text:grey
+actor Student #transparent;line:orange;line.bold;text:orange
+actor Instructor #transparent;line:blue;line.bold;text:blue
+actor Admin #transparent;line:red;line.bold;text:red
+
+Student <|-- Admin #line:orange
+Instructor <|-- Admin #line:blue
+Evaluator <|-- Admin #line:grey
+
+@enduml
