@@ -9,6 +9,10 @@ label {
   font-weight: bold;
 }
 
+ol {
+  margin-bottom: 0;
+}
+
 @media (max-width: 768px) {
   .mobile-invisible {
     display: none;
