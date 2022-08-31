@@ -30,6 +30,9 @@ export class RequestPageComponent implements OnInit {
   readonly emptyFieldMessage : string = 'This field should not be empty';
   readonly invalidFieldsMessage : string = `Oops, some information is in incorrect format. 
   Please fix them and submit again.`;
+  readonly existingRequestMessage : string = `Oops, your submission is unsuccessful 
+  because an account request already exists. Please check if you have entered your personal information correctly. 
+  If you think this shouldn't happen, please contact us at ${this.supportEmail}.`;
   readonly beforeSubmissionMessage : string = `The request is manually processed and you should receive an email from us
   within 24 hours after successfully submitting this form. If you don't get a response within 24 hours 
   (remember to check your spam box too), please contact us at ${this.supportEmail} for follow up.`;
@@ -164,7 +167,11 @@ export class RequestPageComponent implements OnInit {
         }
 
         if ('message' in resp.error) {
-          this.backendOtherErrorMessage = resp.error.message;
+          if (resp.status == 409) {
+            this.backendOtherErrorMessage = this.existingRequestMessage;
+          } else {
+            this.backendOtherErrorMessage = resp.error.message;
+          }
         } else {
           this.backendOtherErrorMessage = this.invalidFieldsMessage;
 
