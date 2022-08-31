@@ -167,7 +167,7 @@ export class RequestPageComponent implements OnInit {
         }
 
         if ('message' in resp.error) {
-          if (resp.status == 409) {
+          if (resp.status === 409) {
             this.backendOtherErrorMessage = this.existingRequestMessage;
           } else {
             this.backendOtherErrorMessage = resp.error.message;
