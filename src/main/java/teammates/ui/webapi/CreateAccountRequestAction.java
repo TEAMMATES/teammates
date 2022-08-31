@@ -21,11 +21,6 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 class CreateAccountRequestAction extends Action {
 
-    static final String PUBLIC_CREATE_EXISTING_ACCOUNT_REQUEST_MESSAGE =
-            "Oops, your submission is unsuccessful because an account request already exists."
-                    + " Please check if you have entered your personal information correctly."
-                    + " If you think this shouldn't happen, please contact us.";
-
     private static final Logger log = Logger.getLogger();
 
     @Override
@@ -127,7 +122,7 @@ class CreateAccountRequestAction extends Action {
 
                 return new JsonResult("Account request successfully created.");
             } catch (EntityAlreadyExistsException eaee) {
-                throw new InvalidOperationException(PUBLIC_CREATE_EXISTING_ACCOUNT_REQUEST_MESSAGE, eaee);
+                throw new InvalidOperationException(eaee);
             } catch (InvalidParametersException ipe) {
                 // account request has been validated before so this exception should not happen
                 log.severe("Encountered exception when creating account request: " + ipe.getMessage(), ipe);
