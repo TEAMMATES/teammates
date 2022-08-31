@@ -101,7 +101,7 @@ public class AccountRequestFormPageE2ETest extends BaseE2ETestCase {
         requestFormPage.verifyPageBottomErrorMessage(
                 "Oops, your submission is unsuccessful because an account request already exists."
                         + " Please check if you have entered your personal information correctly."
-                        + " If you think this shouldn't happen, please contact us.");
+                        + " If you think this shouldn't happen, please contact us at teammates@comp.nus.edu.sg.");
 
         ______TS("successful submission");
 
