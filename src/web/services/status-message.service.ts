@@ -1,7 +1,6 @@
 import { Injectable, TemplateRef } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Toast } from '../app/components/toast/toast';
-import { ApiConst } from '../types/api-const';
 
 /**
  * Handles operations related to status message provision.
@@ -21,27 +20,26 @@ export class StatusMessageService {
    * Shows a success toast on the page.
    */
   showSuccessToast(message: string, delay: number = 10000): void {
-    this.showToast([message], 'bg-success text-light', delay);
+    this.showToast(message, 'bg-success text-light', delay);
   }
 
   /**
    * Shows a warning toast on the page.
    */
   showWarningToast(message: string, delay: number = 10000): void {
-    this.showToast([message], 'bg-warning', delay);
+    this.showToast(message, 'bg-warning', delay);
   }
 
   /**
    * Shows an error toast on the page.
    */
   showErrorToast(message: string, delay: number = 10000): void {
-    const cleanedMessages: string[] = this.cleanMessage(message);
-    this.showToast(cleanedMessages, 'bg-danger text-light', delay);
+    this.showToast(message, 'bg-danger text-light', delay);
   }
 
-  private showToast(messages: string[], classes: string, delay: number): void {
+  private showToast(message: string, classes: string, delay: number): void {
     this.toast.next({
-      messages,
+      message,
       classes,
       delay,
       autohide: true,
@@ -49,7 +47,7 @@ export class StatusMessageService {
   }
 
   /**
-   * Shows a success toast containing HTML on the page.
+   * Shows a success toast containing HTML on the page
    */
   showSuccessToastTemplate(template: TemplateRef<any>, delay: number = 10000): void {
     this.showToastTemplate(template, 'bg-success text-light', delay);
@@ -59,20 +57,9 @@ export class StatusMessageService {
     this.toast.next({
       classes,
       delay,
-      messages: template,
+      message: template,
       autohide: true,
     });
   }
 
-  /**
-   * Returns an array of messages after delimiter is removed.
-   */
-  cleanMessage(message: string): string[] {
-    const messages: string[] = message.split(this.numToChar(ApiConst.ERROR_MESSAGE_DELIMITER));
-    return messages;
-  }
-
-  numToChar(num: number): string {
-    return String.fromCharCode(num);
-  }
 }

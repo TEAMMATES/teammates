@@ -17,7 +17,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.ErrorMessageFormatter;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.ui.output.FeedbackResponsesData;
@@ -193,7 +192,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                         .validateResponsesDetails(responseDetails, numRecipients);
 
         if (!questionSpecificErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(ErrorMessageFormatter.format(questionSpecificErrors));
+            throw new InvalidHttpRequestBodyException(String.join("\n", questionSpecificErrors));
         }
 
         List<String> recipients = submitRequest.getRecipients();
