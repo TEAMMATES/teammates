@@ -43,7 +43,6 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
 
     /**
      * Gets the {@link AccountRequestAttributes} instance of the given {@link AccountRequest}.
-     * As an AccountRequest only stores institute, pureInstitute and pureCountry are set to null.
      */
     public static AccountRequestAttributes valueOf(AccountRequest accountRequest) {
         AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(
@@ -60,7 +59,7 @@ public final class AccountRequestAttributes extends EntityAttributes<AccountRequ
     }
 
     /**
-     * Returns a builder for {@link AccountRequestAttributes}. {@code institute} is specified.
+     * Returns a builder for {@link AccountRequestAttributes}.
      */
     public static Builder builder(String name, String institute, String email, String homePageUrl, String comments) {
         assert name != null;
