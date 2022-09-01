@@ -11,10 +11,10 @@
     </div>
     <div *ngIf="questionDetails.questionDropdownEnabled" >
       {{updateParentCss(true)}}
-      <select id="dropdown-option-select" class="form-control margin-bottom-8px" (change)="updateSelectedMcqDropdownOption($event.target.value)" [disabled]="this.isOtherTicked">
+      <select id="dropdown-option-select" class="form-control margin-bottom-8px" [(ngModel)]="valueSelected" (change)="updateSelectedMcqDropdownOption()" [disabled]="this.isOtherTicked">
         <option [disabled]="!this.isOtherTicked" selected></option>
         <option *ngFor="let num of questionDetails.mcqChoices; let i = index;"
-                [value]="questionDetails.mcqChoices[i] | safeHtml"
+                [ngValue]="questionDetails.mcqChoices[i]"
                 [selected]="isMcqOptionSelected[i]" [disabled]="isDisabled">{{ questionDetails.mcqChoices[i] }}</option>
       </select>
     </div>

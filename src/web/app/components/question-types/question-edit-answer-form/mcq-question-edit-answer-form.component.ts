@@ -29,6 +29,8 @@ export class McqQuestionEditAnswerFormComponent
 
   @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
+  valueSelected: string = "";
+
   isMcqOptionSelected: boolean[] = [];
 
   isOtherTicked: boolean = false;
@@ -95,11 +97,9 @@ export class McqQuestionEditAnswerFormComponent
   /**
    * Updates the answer to the MCQ option specified by the index of the drop down option.
    */
-  updateSelectedMcqDropdownOption(selectedIndex: number): void {
-    const answer: string = this.questionDetails.mcqChoices[selectedIndex - 1];
-
+  updateSelectedMcqDropdownOption(): void {
     this.triggerResponseDetailsChangeBatch({
-      answer,
+      answer: this.valueSelected,
       isOther: false,
       otherFieldContent: '',
     });
