@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 
 import {
   FeedbackMcqQuestionDetails,
@@ -17,7 +17,7 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 })
 export class McqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
-    implements OnChanges {
+    implements OnChanges, OnInit {
 
   /**
    * The unique ID in the page where the component is used.
@@ -29,7 +29,7 @@ export class McqQuestionEditAnswerFormComponent
 
   @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
-  valueSelected: string = "";
+  valueSelected: string = '';
 
   isMcqOptionSelected: boolean[] = [];
 
@@ -40,6 +40,10 @@ export class McqQuestionEditAnswerFormComponent
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS(), DEFAULT_MCQ_RESPONSE_DETAILS());
+  }
+
+  ngOnInit(): void {
+      this.valueSelected = this.responseDetails.answer;
   }
 
   updateParentCss(refresh : boolean): void {
