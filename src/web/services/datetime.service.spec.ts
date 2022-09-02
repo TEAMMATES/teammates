@@ -27,7 +27,8 @@ describe('DateTimeService', () => {
         expect(result.minute).toEqual(0);
     });
 
-    it('should convert Date to TimeFormat correctly for if hour is between 0 and 24 and minute is between 0 and 60', () => {
+    it('should convert Date to TimeFormat correctly for if hour is between 0 and 24 and minute is between 0 and 60',
+     () => {
         const date: Date = new Date();
         date.setHours(10);
         date.setMinutes(56);
