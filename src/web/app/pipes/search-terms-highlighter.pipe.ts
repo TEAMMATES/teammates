@@ -5,27 +5,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SearchTermsHighlighterPipe implements PipeTransform {
 
-    transform(value: any, args: any, type: string): unknown {
+    transform(value: any, args: any): unknown {
         if (!args) return value;
-        const exactPhrases: string[] = this.findAllExactPhrases(args);
-        args = this.removeAllExactPhrases(args);
-        const terms = args.split(" ");
-        for (const arg of terms) {
-            if (arg !== "") {
-                if (type === 'full') {
-                    const re = new RegExp("\\b" + arg + "\\b", 'igm');
-                    value = value.replace(re, '<span class="highlighted-text">$&</span>');
-                }
-                else {
-                    const re = new RegExp(arg, 'igm');
-                    value = value.replace(re, '<span class="highlighted-text">$&</span>');
-                }
-            }   
+        const exactPhrases: string = this.findAllExactPhrases(args).map(str => "\\b" + str + "\\b" ).filter(str => str !== "\\b\\b").join("|");
+        const searchTerms: string = this.removeAllExactPhrases(args);
+
+        if (searchTerms.trim() !== "") {
+            const combinedSearchTerms = searchTerms.split(" ").map(str => "\\b" + str + "\\b" ).filter(str => str !== "\\b\\b").join("|");
+            const partialMatchRe = new RegExp(combinedSearchTerms, "igm");
+            value = value.replace(partialMatchRe, '<span class="highlighted-text">$&</span>');
         }
 
-        for (const exactPhrase of exactPhrases) {
-            const re = new RegExp("\\b" + exactPhrase + "\\b", 'igm');
-            value = value.replace(re, '<span class="highlighted-text">$&</span>');
+        if (exactPhrases.trim() !== "") {
+            const exactPhrasesRe = new RegExp(exactPhrases, "igm");
+            value = value.replace(exactPhrasesRe, '<span class="highlighted-text">$&</span>');
         }
 
         return value;

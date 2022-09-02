@@ -12,7 +12,7 @@ describe('ResponseStatusPipe', () => {
         expect(highlighterPipe).toBeTruthy();
     });
 
-    it('should highlight text by case insenstive partial match', () => {
+    it('should highlight text by case insenstive word match', () => {
         const consolidatedSamples = [
             {
                 sampleSearch: 'Student',
@@ -42,7 +42,7 @@ describe('ResponseStatusPipe', () => {
             }
         ]
         for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
-            expect(highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, ''))
+            expect(highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch))
             .toEqual(consolidatedSamples[i].expected);
         }
     })
@@ -63,20 +63,33 @@ describe('ResponseStatusPipe', () => {
             }
         ]
         for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
-            expect(highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, ''))
+            expect(highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch))
                 .toEqual(consolidatedSamples[i].sampleValue);
         }
     })
 
     it('should highlight text if there are exact phrases', () => {
-        const sampleSearch = '"student one" "studentemail@gmail.com"';
+        const sampleSearch = '\"student one\" \"studentemail@gmail.com\"';
         const sampleValue = 'student one studentemail@gmail.com';
-        expect(highlighterPipe.transform(sampleValue, sampleSearch, '')).toBe('<span class="highlighted-text">student one</span> <span class="highlighted-text">studentemail@gmail.com</span>')
+        expect(highlighterPipe.transform(sampleValue, sampleSearch))
+        .toBe('<span class="highlighted-text">student one</span> <span class="highlighted-text">studentemail@gmail.com</span>')
     })
 
     it('should not highlight text if there are no matches to exact phrases', () => {
-        const sampleSearch = '"student one" "studentemail@gmail.com"';
-        const sampleValue = 'student ne stuentemail@gmail.com';
-        expect(highlighterPipe.transform(sampleValue, sampleSearch, '')).toBe(sampleValue)
+        const sampleSearch = '\"student one\" \"studentmail@gmail.com\"';
+        const sampleValue = 'student ne one student stuentemail@gmail.com';
+        expect(highlighterPipe.transform(sampleValue, sampleSearch)).toBe(sampleValue)
+    })
+
+    it('should not highlight text if there is only partial match', () => {
+        const sampleSearch = 's t u dent';
+        const sampleValue = 'student';
+        expect(highlighterPipe.transform(sampleValue, sampleSearch)).toBe(sampleValue)
+    })
+
+    it ('should not highlight any text if search terms are empty', () => {
+        const sampleSearch = '\"\"  ';
+        const sampleValue = 'Student A';
+        expect(highlighterPipe.transform(sampleValue, sampleSearch)).toBe(sampleValue)
     })
 });
