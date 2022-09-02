@@ -33,8 +33,6 @@ export class McqQuestionEditAnswerFormComponent
 
   isMcqOptionSelected: boolean[] = [];
 
-  isOtherTicked: boolean = false;
-
   @Output()
   cssRefresh: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -64,7 +62,6 @@ export class McqQuestionEditAnswerFormComponent
    * Updates the other option radio box when clicked.
    */
   updateIsOtherOption(): void {
-    this.isOtherTicked = !this.isOtherTicked;
     this.isMcqOptionSelected = Array(this.questionDetails.mcqChoices.length).fill(false);
     const fieldsToUpdate: any = {};
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
