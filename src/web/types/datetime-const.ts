@@ -37,18 +37,12 @@ export const getDefaultTimeFormat = (): TimeFormat => {
     return { hour: 0, minute: 0 };
 };
 
-/**
- * The date format.
- */
 export interface DateFormat {
     year: number;
     month: number;
     day: number;
 }
 
-/**
- * The output format of the time picker.
- */
 export interface TimeFormat {
     hour: number;
     minute: number;

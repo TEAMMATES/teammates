@@ -44,7 +44,7 @@ export class DateTimeService {
     }
 
     /**
-     * Converts a {@code Date} object to a {@code TimeFormat} object.
+     * Converts a Date object to a TimeFormat object.
      *
      * @param date Date to be converted into TimeFormat object.
      */
