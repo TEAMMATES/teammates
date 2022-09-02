@@ -11,17 +11,17 @@ exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEna
   questionDetails={[Function Object]}
   responseDetails={[Function Object]}
   responseDetailsChange={[Function EventEmitter_]}
+  valueSelected=""
 >
   <tr>
     <td>
       <div>
         <select
-          class="form-control margin-bottom-8px"
+          class="form-control margin-bottom-8px ng-untouched ng-pristine ng-valid"
           id="dropdown-option-select"
         >
           <option
-            disabled=""
-            selected=""
+            value=""
           />
         </select>
       </div>
@@ -41,6 +41,7 @@ exports[`McqQuestionEditAnswerFormComponent should snap with default view 1`] = 
   questionDetails={[Function Object]}
   responseDetails={[Function Object]}
   responseDetailsChange={[Function EventEmitter_]}
+  valueSelected=""
 >
   <tr>
     <td>
