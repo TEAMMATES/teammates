@@ -99,12 +99,23 @@ export class ContributionQuestionConstraintComponent
     if (this.totalAnsweredContributions === 0) {
       return '0%';
     }
+
     if (this.totalAnsweredContributions / 100 < 1) {
       return `1 x Equal Share - ${100 - this.totalAnsweredContributions % 100}%`;
     }
-    if (this.totalAnsweredContributions % 100 === 0) {
+
+    const membersCount = this.totalRequiredContributions / 100;
+
+    if (this.totalAnsweredContributions % 100 === 0 && this.totalAnsweredContributions / 100 <= membersCount) {
       return `${Math.floor(this.totalAnsweredContributions / 100)} x Equal Share`;
     }
+
+    const excess = this.totalAnsweredContributions - this.totalRequiredContributions;
+
+    if (this.totalAnsweredContributions > this.totalRequiredContributions) {
+      return `${membersCount} x Equal Share + ${excess}%`;
+    }
+
     return `${Math.floor(this.totalAnsweredContributions / 100)} x Equal Share +  
         ${this.totalAnsweredContributions % 100}%`;
   }
