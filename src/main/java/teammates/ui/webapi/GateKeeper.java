@@ -108,7 +108,10 @@ final class GateKeeper {
                                                   + instructor.getEmail() + "]");
         }
 
-        if (!instructor.isAllowedForPrivilege(privilegeName)) {
+        boolean instructorIsAllowedCoursePrivilege = instructor.isAllowedForPrivilege(privilegeName);
+        boolean instructorIsAllowedSectionPrivilege =
+                instructor.getSectionsWithPrivilege(privilegeName).size() != 0;
+        if (!instructorIsAllowedCoursePrivilege && !instructorIsAllowedSectionPrivilege) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
                                                   + instructor.getEmail() + "] for privilege [" + privilegeName + "]");
         }
