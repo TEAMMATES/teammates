@@ -9,9 +9,7 @@ import {
   getDefaultDateFormat,
   getLatestTimeFormat,
   Hours,
-  Minutes,
   Milliseconds,
-  Seconds,
 } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
@@ -66,11 +64,8 @@ export class IndividualExtensionDateModalComponent {
   ]);
   extendByDatePicker = { hours: 0, days: 0 };
 
-  ONE_MINUTE_IN_MILLISECONDS = Seconds.IN_ONE_MINUTE * Milliseconds.IN_ONE_SECOND;
-  ONE_HOUR_IN_MILLISECONDS = Minutes.IN_ONE_HOUR * this.ONE_MINUTE_IN_MILLISECONDS;
-  ONE_DAY_IN_MILLISECONDS = Hours.IN_ONE_DAY * this.ONE_HOUR_IN_MILLISECONDS;
   MAX_EPOCH_TIME_IN_DAYS = 100000000;
-  MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * this.ONE_DAY_IN_MILLISECONDS;
+  MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * Milliseconds.IN_ONE_DAY;
   extendToDatePicker: DateFormat = getDefaultDateFormat();
   extendToTimePicker: TimeFormat = getLatestTimeFormat();
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
@@ -144,7 +139,7 @@ export class IndividualExtensionDateModalComponent {
   }
 
   private addTime(timestamp: number, hours: number, days: number): number {
-    return timestamp + hours * this.ONE_HOUR_IN_MILLISECONDS + days * this.ONE_DAY_IN_MILLISECONDS;
+    return timestamp + hours * Milliseconds.IN_ONE_HOUR + days * Milliseconds.IN_ONE_DAY;
   }
 
   private adjustToFeedbackSessionTimeZone(time: number): string {
