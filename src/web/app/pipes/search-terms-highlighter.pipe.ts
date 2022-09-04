@@ -5,23 +5,37 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SearchTermsHighlighterPipe implements PipeTransform {
 
-    transform(value: any, args: any): unknown {
+    /**
+     * Transforms text to add highlighting styling.
+     *
+     * @param value text to be transformed if it contains search terms
+     * @param args search terms entered by user in the search bar
+     * @param partial optional argument, true when text should be highlighted on a partial match,
+     *                by default, text is only highlighted on a full word match
+     * @returns transformed text with styling added if search terms were found
+     */
+    transform(value: any, args: any, partial?: boolean): unknown {
         if (!args) return value;
-        const exactPhrases: string = this.findAllExactPhrases(args).map((str) => `\\b${str}\\b`)
+        const exactPhrases: string = this.findAllExactPhrases(args).map((str) => {
+            return partial ? `${str}` : `\\b${str}\\b`;
+        })
         .filter((str) => str !== '\\b\\b').join('|');
         const searchTerms: string = this.removeAllExactPhrases(args);
 
         let result:string = value;
 
         if (searchTerms.trim() !== '') {
-            const combinedSearchTerms = searchTerms.split(' ').map((str) => `\\b${str}\\b`)
+            const combinedSearchTerms = searchTerms.split(' ').map((str) => {
+                return partial ? `${str}` : `\\b${str}\\b`;
+            })
             .filter((str) => str !== '\\b\\b').join('|');
             const partialMatchRe = new RegExp(combinedSearchTerms, 'igm');
-            result = value.replace(partialMatchRe, '<span class="highlighted-text">$&</span>');
+            result = result.replace(partialMatchRe, '<span class="highlighted-text">$&</span>');
         }
+
         if (exactPhrases.trim() !== '') {
             const exactPhrasesRe = new RegExp(exactPhrases, 'igm');
-            result = value.replace(exactPhrasesRe, '<span class="highlighted-text">$&</span>');
+            result = result.replace(exactPhrasesRe, '<span class="highlighted-text">$&</span>');
         }
 
         return result;
@@ -44,8 +58,8 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
     }
 
     removeAllExactPhrases(searchValue: string): string {
-        const re = /'"(.*?)"/igm;
-        const cleanedString = searchValue.replace(re, '');
+        const re = /"(.*?)"/igm;
+        const cleanedString = searchValue.replace(re, '').trim();
         return cleanedString;
     }
 
