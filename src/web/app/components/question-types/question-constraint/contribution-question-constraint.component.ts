@@ -110,9 +110,9 @@ export class ContributionQuestionConstraintComponent
       return `${Math.floor(this.totalAnsweredContributions / 100)} x Equal Share`;
     }
 
-    const excess = this.totalAnsweredContributions - this.totalRequiredContributions;
-
     if (this.totalAnsweredContributions > this.totalRequiredContributions) {
+      const excess = this.totalAnsweredContributions - this.totalRequiredContributions;
+
       return `${membersCount} x Equal Share + ${excess}%`;
     }
 
