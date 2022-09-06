@@ -59,8 +59,8 @@
                             [section]="Sections.sessions"
                             headerText="How do I create and schedule a new feedback session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]">
-    To create a new feedback session, click the <b>Sessions</b> tab at the top of the page. Then,
-    fill out and submit the <b>Add New Feedback Session</b> form:
+    To create a new feedback session, click the <mark>Sessions</mark> tab at the top of the page. Then,
+    fill out and submit the <mark>Add New Feedback Session</mark> form:
     <ol>
       <li>
         <b>Choose a session type</b>. You can choose between creating a session with your own questions,
@@ -144,7 +144,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]">
     <p>
       After setting up a session, you can start adding questions.<br>
-      You can also access this page by clicking the <button class="btn btn-sm btn-light">Edit</button> button of the desired session from the <b>Home</b> or <b>Sessions</b> page.
+      You can also access this page by clicking the <button class="btn btn-sm btn-light">Edit</button> button of the desired session from the <mark>Home</mark> or <mark>Sessions</mark> page.
     </p>
     <p>
       To add a question:
@@ -214,11 +214,11 @@
                             headerText="How do I preview a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
     <p>
-      To see what the current session looks like to anyone in the course when they are submitting responses, use the <b>Preview</b> feature.<br>
+      To see what the current session looks like to anyone in the course when they are submitting responses, use the <mark>Preview</mark> feature.<br>
       You can quickly and easily confirm that the questions and their settings are correct after editing questions.
     </p>
     <p>
-      To access the preview panel of a specific session, click the <button class="btn btn-sm btn-light">Edit</button> button for that session in the <b>Home</b> or <b>Sessions</b> page. The preview
+      To access the preview panel of a specific session, click the <button class="btn btn-sm btn-light">Edit</button> button for that session in the <mark>Home</mark> or <mark>Sessions</mark> page. The preview
       panel is located at the bottom of the Edit Feedback Session page.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" @collapseAnim>
@@ -261,7 +261,7 @@
         They should specify the exact email address that was used to enroll them in TEAMMATES.
       </li>
       <li>
-        Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button on your <b>Home</b> or <b>Sessions</b> page (there is one for each session) to resend emails to specific students or all those who haven't submitted yet. Also, ask students to check their spam box.
+        Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button on your <mark>Home</mark> or <mark>Sessions</mark> page (there is one for each session) to resend emails to specific students or all those who haven't submitted yet. Also, ask students to check their spam box.
       </li>
       <li>
         Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a>. We can resend the email using an alternate means.
@@ -283,7 +283,7 @@
     </p>
     <ol>
       <li>
-        Edit the session and click <a>Individual Deadline Extensions <i class="fas fa-edit"></i></a> next to <b>Submission closing time</b>.
+        Edit the session and click <a>Individual Deadline Extensions <i class="fas fa-edit"></i></a> next to <mark>Submission closing time</mark>.
       </li>
       <li>
         Select the students and/or instructors you want to extend the deadline for, then click the <button class="btn btn-sm btn-success">Extend / Edit</button> button at the bottom.
@@ -292,13 +292,13 @@
         Follow the instructions on the pop-up window to extend the deadline. There are two options:
         <ul>
           <li>
-            <b>Extend by a specific period</b>: new deadline = original submission closing time (not the current deadline for the selected students and/or instructors) + selected extension time
+            <mark>Extend by a specific period</mark>: new deadline = original submission closing time (not the current deadline for the selected students and/or instructors) + selected extension time
           </li>
           <li>
-            <b>Extend to a specific time</b>: new deadline = selected date and time
+            <mark>Extend to a specific time</mark>: new deadline = selected date and time
           </li>
         </ul>
-        Before confirming the new deadline, you can tick the <b>Notify affected students and/or instructors by email about this extension</b> checkbox, if you want TEAMMATES to send an email to the affected persons.<br>
+        Before confirming the new deadline, you can tick the <mark>Notify affected students and/or instructors by email about this extension</mark> checkbox, if you want TEAMMATES to send an email to the affected persons.<br>
         Students and instructors who have deadline extensions for the session will be highlighted in yellow.
       </li>
       <li>
@@ -374,7 +374,7 @@
         <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the course-wide results</a> of the session.
       </li>
       <li>
-        Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
+        Scroll to the panel titled <mark>Participants who have not responded to any question</mark>. Click on the panel to expand it.
       </li>
       <li>
         Click the <button type="button" class="btn btn-sm btn-light">Submit responses</button> button of the corresponding student. You will be directed to a page where you can submit responses on behalf of the student.
@@ -401,14 +401,14 @@
                             headerText="How do I view the results of my session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
     <p>
-      To view responses to a session, click the <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button of a session in the <b>Home</b> or <b>Sessions</b> page, then select one of these options:
+      To view responses to a session, click the <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button of a session in the <mark>Home</mark> or <mark>Sessions</mark> page, then select one of these options:
     </p>
     <ul>
       <li>
-        <b>View Results (from/to me)</b>: to view responses you submitted, and responses others submitted about you
+        <mark>View Results (from/to me)</mark>: to view responses you submitted, and responses others submitted about you
       </li>
       <li>
-        <b>View Results (course-wide)</b>: to view all responses collected by that session
+        <mark>View Results (course-wide)</mark>: to view all responses collected by that session
       </li>
     </ul>
     <br>
@@ -416,7 +416,7 @@
       The following is useful if you are viewing course-wide results.
     </p>
     <p>
-      You can use different options in the <b>View</b> drop-down menu to sort the results in an order that best suits you.<br>
+      You can use different options in the <mark>View</mark> drop-down menu to sort the results in an order that best suits you.<br>
       5 different views are available, each denoting the order in which responses are grouped.
       Additionally, you can group the results by team, show or hide statistics, view missing responses and filter responses from a particular section.
     </p>
@@ -424,7 +424,7 @@
       <tm-view-results-panel></tm-view-results-panel>
     </tm-example-box>
     <p>
-      In the example below, results are sorted by <b>Giver &#8594; Recipient &#8594; Question</b>. Additionally, missing responses have been recorded.
+      In the example below, results are sorted by <mark>Giver &#8594; Recipient &#8594; Question</mark>. Additionally, missing responses have been recorded.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
       <tm-instructor-session-result-grq-view [session]="this.exampleFeedbackSession"
@@ -463,7 +463,7 @@
     </p>
     <ol>
       <li>
-        Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+        Go to the <mark>Students</mark> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
       </li>
       <li>
         Click <button class="btn btn-sm btn-light">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
@@ -520,8 +520,8 @@
         They should specify the exact email address that was used to enroll them in TEAMMATES.
       </li>
       <li>
-        Go to the <b>Home</b> or <b>Sessions</b> page and click the <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button of the published session.<br>
-        Then select <b>Resend link to view results</b> in the drop-down menu to resend emails to specific students. Make sure the session results are published if you are unable to see the option.
+        Go to the <mark>Home</mark> or <mark>Sessions</mark> page and click the <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button of the published session.<br>
+        Then select <mark>Resend link to view results</mark> in the drop-down menu to resend emails to specific students. Make sure the session results are published if you are unable to see the option.
       </li>
       <li>
         Failing all above, ask students to email us at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a>. We can resend the email using an alternate means.
@@ -549,7 +549,7 @@
         <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the course-wide results</a> of the session.
       </li>
       <li>
-        Click the <b>View</b> drop-down menu and change the view type to <b>Group by - Giver &#8594; Recipient &#8594; Question</b> or <b>Group by - Recipient &#8594; Giver &#8594; Question</b>.
+        Click the <mark>View</mark> drop-down menu and change the view type to <mark>Group by - Giver &#8594; Recipient &#8594; Question</mark> or <mark>Group by - Recipient &#8594; Giver &#8594; Question</mark>.
       </li>
       <li>
         Click the <button class="btn btn-outline-primary btn-sm"><i class="fas fa-comment"></i></button> icon on the right-hand side of the response you would like to comment on.
@@ -598,7 +598,7 @@
         If you are editing the comment, make your edits and click <button class="btn btn-success btn-sm"><i class="fas fa-save"></i> Save</button> to save changes.
       </li>
       <li>
-        If you are deleting the comment, click <b>Yes</b> to confirm that you want to delete the comment.
+        If you are deleting the comment, click <mark>Yes</mark> to confirm that you want to delete the comment.
       </li>
     </ol>
   </tm-instructor-help-panel>
@@ -612,8 +612,8 @@
                             headerText="How do I view sessions I have deleted?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]">
     <p>
-      You can view all your deleted feedback sessions by navigating to the <b>Sessions</b> page.<br>
-      Scroll to the <b>Deleted feedback sessions</b> heading, which looks similar to this:
+      You can view all your deleted feedback sessions by navigating to the <mark>Sessions</mark> page.<br>
+      Scroll to the <mark>Deleted feedback sessions</mark> heading, which looks similar to this:
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]" @collapseAnim>
       <tm-sessions-recycle-bin-table
@@ -633,7 +633,7 @@
                             headerText="How do I restore a deleted session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
     <p>
-      To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
+      To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to restore in the <mark>Sessions</mark> page.<br>
       Then, click on the <button class="btn btn-light btn-sm">Restore</button> button corresponding to the session you want to restore.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" @collapseAnim>
@@ -653,7 +653,7 @@
                             headerText="How do I permanently delete a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
     <p>
-      To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
+      To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to permanently delete in the <mark>Sessions</mark> page.<br>
       Then, click on the <button class="btn btn-sm btn-light text-danger">Delete Permanently</button> button corresponding to the session you want to delete.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" @collapseAnim>
@@ -674,8 +674,8 @@
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
     <p>
       First <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
-      To restore all sessions, click on the <button class="btn btn-sm btn-secondary"><i class="fas fa-check"></i> Restore All</button> button in <b>Deleted feedback sessions</b> heading;
-      to delete all sessions, click on the <button class="btn btn-sm btn-secondary"><i class="fas fa-times"></i> Delete All</button> button in <b>Deleted feedback sessions</b> heading.
+      To restore all sessions, click on the <button class="btn btn-sm btn-secondary"><i class="fas fa-check"></i> Restore All</button> button in <mark>Deleted feedback sessions</mark> heading;
+      to delete all sessions, click on the <button class="btn btn-sm btn-secondary"><i class="fas fa-times"></i> Delete All</button> button in <mark>Deleted feedback sessions</mark> heading.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]" @collapseAnim>
       <tm-sessions-recycle-bin-table
