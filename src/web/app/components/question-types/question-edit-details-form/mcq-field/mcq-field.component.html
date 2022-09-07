@@ -1,5 +1,5 @@
 <div class="input-group">
-  <span class="input-group-addon">
+  <span class="input-group-addon" *ngIf="!isQuestionDropdownEnabled">
     <input type="radio" disabled>
   </span>
   <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #mcq

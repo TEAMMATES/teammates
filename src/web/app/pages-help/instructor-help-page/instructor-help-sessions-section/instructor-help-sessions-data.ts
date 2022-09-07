@@ -264,6 +264,7 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
               '<p>Bad</p>',
             ],
             otherEnabled: false,
+            questionDropdownEnabled: false,
             generateOptionsFor: 'NONE',
             questionType: FeedbackQuestionType.MCQ,
             questionText: 'How well did team member perform?',
