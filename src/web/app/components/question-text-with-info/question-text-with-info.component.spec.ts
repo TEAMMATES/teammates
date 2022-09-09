@@ -51,6 +51,7 @@ describe('QuestionTextWithInfoComponent', () => {
     mcqOtherWeight: 0,
     mcqChoices: ['a', 'b'],
     otherEnabled: false,
+    questionDropdownEnabled: false,
     generateOptionsFor: FeedbackParticipantType.NONE,
 
   };

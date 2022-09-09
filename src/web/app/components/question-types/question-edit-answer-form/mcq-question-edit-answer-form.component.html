@@ -1,11 +1,22 @@
 <tr>
   <td>
-    <div class="radio" *ngFor="let num of questionDetails.mcqChoices; let i = index;">
-      <label class="margin-right-15px">
-        <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="isMcqOptionSelected[i]"
-               (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">
-        <span class="option-text" [innerHTML]="questionDetails.mcqChoices[i] | safeHtml"></span>
-      </label>
+    <div *ngIf="!questionDetails.questionDropdownEnabled">
+      <div class="radio" *ngFor="let num of questionDetails.mcqChoices; let i = index;">
+        <label class="margin-right-15px">
+          <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="isMcqOptionSelected[i]"
+                 (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">
+          <span class="option-text" id="radioOptionSpan" [innerHTML]="questionDetails.mcqChoices[i] | safeHtml"></span>
+        </label>
+      </div>
+    </div>
+    <div *ngIf="questionDetails.questionDropdownEnabled" >
+      {{updateParentCss(true)}}
+      <select id="dropdown-option-select" class="form-control margin-bottom-8px" [(ngModel)]="valueSelected" (change)="updateSelectedMcqDropdownOption()">
+        <option value=""></option>
+        <option *ngFor="let num of questionDetails.mcqChoices; let i = index;"
+                [ngValue]="questionDetails.mcqChoices[i]"
+                [selected]="isMcqOptionSelected[i]" [disabled]="isDisabled">{{ questionDetails.mcqChoices[i] }}</option>
+      </select>
     </div>
     <div id="other-option" class="radio" *ngIf="questionDetails.otherEnabled">
       <label class="margin-right-15px">
