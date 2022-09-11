@@ -2,6 +2,7 @@
 !include style.puml
 skinparam minClassWidth 100
 skinparam ranksep 1
+
 !define orange E97126
 !define lightorange FEC092
 !define blue 5B7CA3
@@ -65,5 +66,5 @@ Common -[hidden]- Storage
 Common -[hidden]- Logic
 GCD -[hidden]down- GAE
 container2 -[hidden]down- GCD
-Test -[hidden]right-> container2
+Test -[hidden]right- container2
 @enduml
