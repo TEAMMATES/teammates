@@ -93,9 +93,17 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
          Notes: 
         <ul>
           <li>
-             You can use the "Submit Response for Question _" buttons to submit one-response-at-a-time. 
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
             <br />
-            Alternatively, you can submit all responses in one go using the "Submit Responses for All Questions" button at the bottom of this page. 
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
           </li>
           <li>
             You may edit your submission any number of times before the closing time of this session.
@@ -233,9 +241,17 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
          Notes: 
         <ul>
           <li>
-             You can use the "Submit Response for Question _" buttons to submit one-response-at-a-time. 
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
             <br />
-            Alternatively, you can submit all responses in one go using the "Submit Responses for All Questions" button at the bottom of this page. 
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
           </li>
           <li>
             You may edit your submission any number of times before the closing time of this session.
@@ -370,9 +386,17 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
          Notes: 
         <ul>
           <li>
-             You can use the "Submit Response for Question _" buttons to submit one-response-at-a-time. 
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
             <br />
-            Alternatively, you can submit all responses in one go using the "Submit Responses for All Questions" button at the bottom of this page. 
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
           </li>
           <li>
             You may edit your submission any number of times before the closing time of this session.
@@ -508,9 +532,17 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
          Notes: 
         <ul>
           <li>
-             You can use the "Submit Response for Question _" buttons to submit one-response-at-a-time. 
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
             <br />
-            Alternatively, you can submit all responses in one go using the "Submit Responses for All Questions" button at the bottom of this page. 
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
           </li>
           <li>
             You may edit your submission any number of times before the closing time of this session.
@@ -743,9 +775,17 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
          Notes: 
         <ul>
           <li>
-             You can use the "Submit Response for Question _" buttons to submit one-response-at-a-time. 
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
             <br />
-            Alternatively, you can submit all responses in one go using the "Submit Responses for All Questions" button at the bottom of this page. 
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
           </li>
           <li>
             You may edit your submission any number of times before the closing time of this session.
@@ -3112,9 +3152,17 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
          Notes: 
         <ul>
           <li>
-             You can use the "Submit Response for Question _" buttons to submit one-response-at-a-time. 
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
             <br />
-            Alternatively, you can submit all responses in one go using the "Submit Responses for All Questions" button at the bottom of this page. 
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
           </li>
           <li>
             You may edit your submission any number of times before the closing time of this session.
@@ -5508,9 +5556,17 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
          Notes: 
         <ul>
           <li>
-             You can use the "Submit Response for Question _" buttons to submit one-response-at-a-time. 
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
             <br />
-            Alternatively, you can submit all responses in one go using the "Submit Responses for All Questions" button at the bottom of this page. 
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
           </li>
           <li>
             You may edit your submission any number of times before the closing time of this session.
@@ -5646,9 +5702,17 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
          Notes: 
         <ul>
           <li>
-             You can use the "Submit Response for Question _" buttons to submit one-response-at-a-time. 
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
             <br />
-            Alternatively, you can submit all responses in one go using the "Submit Responses for All Questions" button at the bottom of this page. 
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
           </li>
           <li>
             You may edit your submission any number of times before the closing time of this session.
