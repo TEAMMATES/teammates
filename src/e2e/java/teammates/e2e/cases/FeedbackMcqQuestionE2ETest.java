@@ -72,6 +72,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails.setHasAssignedWeights(false);
         questionDetails.setMcqWeights(new ArrayList<>());
         questionDetails.setOtherEnabled(false);
+        questionDetails.setQuestionDropdownEnabled(false);
         questionDetails.setMcqOtherWeight(0);
         List<String> choices = questionDetails.getMcqChoices();
         choices.add("Edited choice");
