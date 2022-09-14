@@ -90,7 +90,25 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -220,7 +238,25 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -347,7 +383,25 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -475,7 +529,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -700,7 +772,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -877,64 +967,69 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-mcq-question-edit-answer-form>
                       <tr>
                         <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                          <div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 1
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 2
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 3
-                              </span>
-                            </label>
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 3
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </td>
                       </tr>
@@ -1116,7 +1211,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-text-question-edit-answer-form>
                       <div
@@ -1361,7 +1456,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
                       <tr>
@@ -1604,7 +1699,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
@@ -1790,7 +1885,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-constsum-recipients-question-edit-answer-form>
                       <div>
@@ -1950,7 +2045,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-contribution-question-edit-answer-form>
                       <div
@@ -2357,7 +2452,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
                       <table
@@ -2662,7 +2757,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
@@ -2890,7 +2985,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-recipients-question-edit-answer-form>
                       <div
@@ -3054,7 +3149,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -3231,67 +3344,72 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-mcq-question-edit-answer-form>
                       <tr>
                         <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                          <div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 1
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 2
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 3
-                              </span>
-                            </label>
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 3
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </td>
                       </tr>
@@ -3475,7 +3593,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-text-question-edit-answer-form>
                       <div
@@ -3720,7 +3838,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
                       <tr>
@@ -3969,7 +4087,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
@@ -4156,7 +4274,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-constsum-recipients-question-edit-answer-form>
                       <div>
@@ -4317,7 +4435,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-contribution-question-edit-answer-form>
                       <div
@@ -4725,7 +4843,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
                       <table
@@ -5039,7 +5157,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
@@ -5268,7 +5386,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-recipients-question-edit-answer-form>
                       <div
@@ -5435,7 +5553,25 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -5563,7 +5699,25 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
