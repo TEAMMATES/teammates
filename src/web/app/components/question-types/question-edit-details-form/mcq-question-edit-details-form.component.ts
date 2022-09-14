@@ -139,6 +139,15 @@ export class McqQuestionEditDetailsFormComponent
   }
 
   /**
+   * Triggers the setting of choosing other option.
+   */
+  triggerQuestionDropdownEnabled(checked: boolean): void {
+    this.triggerModelChangeBatch({
+      questionDropdownEnabled: checked,
+    });
+  }
+
+  /**
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
   triggerGeneratedOptionsChange(checked: boolean): void {
