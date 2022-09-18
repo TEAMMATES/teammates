@@ -89,7 +89,25 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -218,7 +236,25 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -344,7 +380,25 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -471,7 +525,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -695,7 +767,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -3053,7 +3143,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -5438,7 +5546,25 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -5565,7 +5691,25 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
