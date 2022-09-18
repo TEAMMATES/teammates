@@ -11,7 +11,7 @@ describe('ResponseStatusPipe', () => {
         expect(highlighterPipe).toBeTruthy();
     });
 
-    it('should highlight text by case insenstive word match', () => {
+    it('should highlight text by case insensitive word match', () => {
         const consolidatedSamples = [
             {
                 sampleSearch: 'Student',
@@ -111,7 +111,7 @@ describe('ResponseStatusPipe', () => {
         ];
         for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe
-                .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch))
+            .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch))
             .toEqual(consolidatedSamples[i].expected);
         }
     });
@@ -153,7 +153,7 @@ describe('ResponseStatusPipe', () => {
         ];
         for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe
-                .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
+            .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
             .toEqual(consolidatedSamples[i].expected);
         }
     });
@@ -189,66 +189,66 @@ describe('ResponseStatusPipe', () => {
         for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe
                 .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
-            .toEqual(consolidatedSamples[i].expected);
+                .toEqual(consolidatedSamples[i].expected);
         }
     });
 
     it('should highlight case-insensitive partial matches with exact phrases in search term '
-    + 'if partial parameter is specified', () => {
-        const consolidatedSamples = [
-            {
-                sampleSearch: '"Test"',
-                sampleValue: 'TestCourse',
-                expected: '<span class="highlighted-text">Test</span>Course',
+        + 'if partial parameter is specified', () => {
+            const consolidatedSamples = [
+                {
+                    sampleSearch: '"Test"',
+                    sampleValue: 'TestCourse',
+                    expected: '<span class="highlighted-text">Test</span>Course',
 
-            },
-            {
-                sampleSearch: '"Te"',
-                sampleValue: 'TestCourse',
-                expected: '<span class="highlighted-text">Te</span>stCourse',
-            },
-            {
-                sampleSearch: '"test"',
-                sampleValue: 'TestCourse',
-                expected: '<span class="highlighted-text">Test</span>Course',
-            },
-            {
-                sampleSearch: '"Test"',
-                sampleValue: 'testcourse',
-                expected: '<span class="highlighted-text">test</span>course',
-            },
-            {
-                sampleSearch: '"estc"',
-                sampleValue: 'TestCourse',
-                expected: 'T<span class="highlighted-text">estC</span>ourse',
-            },
-            {
-                sampleSearch: '"est C"',
-                sampleValue: 'Test Course',
-                expected: 'T<span class="highlighted-text">est C</span>ourse',
-            },
-            {
-                sampleSearch: '"Test Course"',
-                sampleValue: 'Test Course',
-                expected: '<span class="highlighted-text">Test Course</span>',
-            },
-            {
-                sampleSearch: '"Test "',
-                sampleValue: 'Test Course',
-                expected: '<span class="highlighted-text">Test </span>Course',
-            },
-            {
-                sampleSearch: '" Course"',
-                sampleValue: 'Test Course',
-                expected: 'Test<span class="highlighted-text"> Course</span>',
-            },
-        ];
-        for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
-            expect(highlighterPipe
-                .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
-            .toEqual(consolidatedSamples[i].expected);
-        }
-    });
+                },
+                {
+                    sampleSearch: '"Te"',
+                    sampleValue: 'TestCourse',
+                    expected: '<span class="highlighted-text">Te</span>stCourse',
+                },
+                {
+                    sampleSearch: '"test"',
+                    sampleValue: 'TestCourse',
+                    expected: '<span class="highlighted-text">Test</span>Course',
+                },
+                {
+                    sampleSearch: '"Test"',
+                    sampleValue: 'testcourse',
+                    expected: '<span class="highlighted-text">test</span>course',
+                },
+                {
+                    sampleSearch: '"estc"',
+                    sampleValue: 'TestCourse',
+                    expected: 'T<span class="highlighted-text">estC</span>ourse',
+                },
+                {
+                    sampleSearch: '"est C"',
+                    sampleValue: 'Test Course',
+                    expected: 'T<span class="highlighted-text">est C</span>ourse',
+                },
+                {
+                    sampleSearch: '"Test Course"',
+                    sampleValue: 'Test Course',
+                    expected: '<span class="highlighted-text">Test Course</span>',
+                },
+                {
+                    sampleSearch: '"Test "',
+                    sampleValue: 'Test Course',
+                    expected: '<span class="highlighted-text">Test </span>Course',
+                },
+                {
+                    sampleSearch: '" Course"',
+                    sampleValue: 'Test Course',
+                    expected: 'Test<span class="highlighted-text"> Course</span>',
+                },
+            ];
+            for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
+                expect(highlighterPipe
+                    .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
+                    .toEqual(consolidatedSamples[i].expected);
+            }
+        });
 
     it('should not highlight if there are no case-insensitive partial matches for exact phrases', () => {
         const consolidatedSamples = [
@@ -266,7 +266,7 @@ describe('ResponseStatusPipe', () => {
         for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe
                 .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
-            .toEqual(consolidatedSamples[i].expected);
+                .toEqual(consolidatedSamples[i].expected);
         }
     });
 });

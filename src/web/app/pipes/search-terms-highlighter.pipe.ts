@@ -14,15 +14,17 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
      *                by default, text is only highlighted on a full word match
      * @returns transformed text with styling added if search terms were found
      */
-    transform(value: any, args: any, partial?: boolean): unknown {
-        if (!args) return value;
+    transform(value: string, args: string, partial?: boolean): unknown {
+        if (!args) {
+            return value;
+        }
         const exactPhrases: string = this.findAllExactPhrases(args).map((str) => {
             return partial ? `${str}` : `\\b${str}\\b`;
         })
         .filter((str) => str !== '\\b\\b').join('|');
         const searchTerms: string = this.removeAllExactPhrases(args);
 
-        let result:string = value;
+        let result: string = value;
 
         if (searchTerms.trim() !== '') {
             const combinedSearchTerms = searchTerms.split(' ').map((str) => {
@@ -46,8 +48,7 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
     }
 
     findAllExactPhrases(searchValue: string): string[] {
-        const re = /"(.*?)"/igm;
-        const exactPhrases = searchValue.match(re);
+        const exactPhrases = searchValue.match(/"(.*?)"/igm);
         if (exactPhrases === null) {
             return [];
         }
@@ -58,8 +59,7 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
     }
 
     removeAllExactPhrases(searchValue: string): string {
-        const re = /"(.*?)"/igm;
-        const cleanedString = searchValue.replace(re, '').trim();
+        const cleanedString = searchValue.replace(/"(.*?)"/igm, '').trim();
         return cleanedString;
     }
 

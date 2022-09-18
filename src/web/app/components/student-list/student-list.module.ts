@@ -29,4 +29,4 @@ import { StudentListComponent } from './student-list.component';
     Pipes,
   ],
 })
-export class StudentListModule {}
+export class StudentListModule { }
