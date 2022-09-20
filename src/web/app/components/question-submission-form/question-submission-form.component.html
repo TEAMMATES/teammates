@@ -74,7 +74,7 @@
               </div>
             </div>
           </div>
-          <div class="col margin-top-20px">
+          <div class="margin-top-20px" [ngClass]="isMCQDropDownEnabled ? 'col-12' : 'col'">
             <tm-contribution-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="model.questionDetails"
                                                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                       [shouldShowHelpLink]="i === 0"
@@ -104,6 +104,7 @@
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                     [isDisabled]="isFormsDisabled"
                                                     [id]="model.feedbackQuestionId + recipientSubmissionFormModel.recipientIdentifier"
+                                                    (cssRefresh)=refreshCssForDropdownMCQ($event)
             ></tm-mcq-question-edit-answer-form>
             <tm-msq-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [questionDetails]="model.questionDetails"
                                               [responseDetails]="recipientSubmissionFormModel.responseDetails"

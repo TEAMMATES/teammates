@@ -421,7 +421,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setQuestionNumber(1);
         updateRequest.setQuestionBrief("this is the brief for contribution question");
         updateRequest.setQuestionDescription("this is the description for contribution question");
-        FeedbackContributionQuestionDetails textQuestionDetails = new FeedbackContributionQuestionDetails("");
+        FeedbackContributionQuestionDetails textQuestionDetails = new FeedbackContributionQuestionDetails();
         textQuestionDetails.setZeroSum(false);
         textQuestionDetails.setNotSureAllowed(false);
         updateRequest.setQuestionDetails(textQuestionDetails);

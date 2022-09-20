@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 
 import {
   FeedbackMcqQuestionDetails,
@@ -17,7 +17,7 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 })
 export class McqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
-    implements OnChanges {
+    implements OnChanges, OnInit {
 
   /**
    * The unique ID in the page where the component is used.
@@ -29,10 +29,23 @@ export class McqQuestionEditAnswerFormComponent
 
   @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
+  valueSelected: string = '';
+
   isMcqOptionSelected: boolean[] = [];
+
+  @Output()
+  cssRefresh: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS(), DEFAULT_MCQ_RESPONSE_DETAILS());
+  }
+
+  ngOnInit(): void {
+      this.valueSelected = this.responseDetails.answer;
+  }
+
+  updateParentCss(refresh : boolean): void {
+    this.cssRefresh.emit(refresh);
   }
 
   // sync the internal status with the input data
@@ -49,6 +62,7 @@ export class McqQuestionEditAnswerFormComponent
    * Updates the other option radio box when clicked.
    */
   updateIsOtherOption(): void {
+    this.isMcqOptionSelected = Array(this.questionDetails.mcqChoices.length).fill(false);
     const fieldsToUpdate: any = {};
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
     if (fieldsToUpdate.isOther) {
@@ -76,6 +90,17 @@ export class McqQuestionEditAnswerFormComponent
     }
     this.triggerResponseDetailsChangeBatch({
       answer,
+      isOther: false,
+      otherFieldContent: '',
+    });
+  }
+
+  /**
+   * Updates the answer to the MCQ option specified by the index of the drop down option.
+   */
+  updateSelectedMcqDropdownOption(): void {
+    this.triggerResponseDetailsChangeBatch({
+      answer: this.valueSelected,
       isOther: false,
       otherFieldContent: '',
     });

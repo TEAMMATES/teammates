@@ -8,7 +8,7 @@
   </button>
 </div>
 
-<div class="margin-top-30px" *ngIf="isSessionEditFormExpanded && !isCoursesLoading" @collapseAnim>
+<div id="add-session-section" class="margin-top-30px" *ngIf="isSessionEditFormExpanded && !isCoursesLoading" @collapseAnim>
   <div>
     <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
                           [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"

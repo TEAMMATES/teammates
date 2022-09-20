@@ -641,7 +641,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getViewerString(FeedbackParticipantType viewerType, FeedbackParticipantType recipientType) {
-        switch(viewerType) {
+        switch (viewerType) {
         case RECEIVER:
             return "The receiving " + getRecipientString(recipientType);
         case OWN_TEAM_MEMBERS:
@@ -656,7 +656,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getRecipientString(FeedbackParticipantType recipientType) {
-        switch(recipientType) {
+        switch (recipientType) {
         case TEAMS:
         case TEAMS_EXCLUDING_SELF:
         case TEAMS_IN_SAME_SECTION:

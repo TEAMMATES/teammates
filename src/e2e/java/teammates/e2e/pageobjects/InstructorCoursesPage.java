@@ -27,16 +27,16 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btn-confirm-copy-course")
     private WebElement copyCourseButton;
 
-    @FindBy(id = "new-course-id")
+    @FindBy(id = "course-id")
     private WebElement courseIdTextBox;
 
-    @FindBy(id = "new-course-name")
+    @FindBy(id = "course-name")
     private WebElement courseNameTextBox;
 
-    @FindBy(id = "new-course-institute")
+    @FindBy(id = "course-institute")
     private WebElement courseInstituteDropdown;
 
-    @FindBy(id = "new-time-zone")
+    @FindBy(id = "time-zone")
     private WebElement timeZoneDropdown;
 
     @FindBy(id = "copy-course-id")
@@ -48,7 +48,7 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "copy-time-zone")
     private WebElement copyTimeZoneDropdown;
 
-    @FindBy(id = "btn-save-course")
+    @FindBy(id = "btn-submit-course")
     private WebElement submitButton;
 
     public InstructorCoursesPage(Browser browser) {

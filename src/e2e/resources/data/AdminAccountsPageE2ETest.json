@@ -5,6 +5,12 @@
       "name": "Teammates Instr2",
       "email": "AAccounts.instr2@gmail.tmt",
       "readNotifications": {}
+    },
+    "AAccounts.instr3": {
+      "googleId": "tm.e2e.AAccounts.instr3",
+      "name": "Teammates Instr3",
+      "email": "AAccounts.instr3@gmail.tmt",
+      "readNotifications": {}
     }
   },
   "courses": {
@@ -57,7 +63,7 @@
       "name": "Teammates Instr2",
       "email": "AAccounts.instr2@gmail.tmt",
       "role": "Co-owner",
-      "isDisplayedToStudents": false,
+      "isDisplayedToStudents": true,
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
@@ -81,6 +87,29 @@
       "email": "AAccounts.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAccounts.instr3-AAccounts.CS2103": {
+      "googleId": "tm.e2e.AAccounts.instr3",
+      "courseId": "tm.e2e.AAccounts.CS2103",
+      "name": "Teammates Instr3",
+      "email": "AAccounts.instr3@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
