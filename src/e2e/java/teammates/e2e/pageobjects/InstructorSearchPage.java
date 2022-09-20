@@ -16,11 +16,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.StringHelper;
 import teammates.test.ThreadHelper;
 
+
+import teammates.common.util.Logger;
 /**
  * Represents the instructor search page.
  */
 public class InstructorSearchPage extends AppPage {
-
+    private static final Logger log = Logger.getLogger();
     @FindBy(id = "search-keyword")
     private WebElement searchKeyword;
 
@@ -60,7 +62,7 @@ public class InstructorSearchPage extends AppPage {
     }
 
     private String createHeaderText(CourseAttributes course) {
-        return "[" + course.getId() + "]";
+        return course.getId();
     }
 
     public void verifyStudentDetails(Map<String, CourseAttributes> courses, Map<String, StudentAttributes[]> students) {
