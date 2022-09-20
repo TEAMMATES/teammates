@@ -16,13 +16,10 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.StringHelper;
 import teammates.test.ThreadHelper;
 
-
-import teammates.common.util.Logger;
 /**
  * Represents the instructor search page.
  */
 public class InstructorSearchPage extends AppPage {
-    private static final Logger log = Logger.getLogger();
     @FindBy(id = "search-keyword")
     private WebElement searchKeyword;
 
