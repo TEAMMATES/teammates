@@ -20,6 +20,7 @@ import teammates.test.ThreadHelper;
  * Represents the instructor search page.
  */
 public class InstructorSearchPage extends AppPage {
+    
     @FindBy(id = "search-keyword")
     private WebElement searchKeyword;
 
