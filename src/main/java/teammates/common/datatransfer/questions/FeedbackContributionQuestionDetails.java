@@ -48,18 +48,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private boolean isNotSureAllowed;
 
     public FeedbackContributionQuestionDetails() {
-        super(FeedbackQuestionType.CONTRIB, null);
-        /*
-            Contribution question details was changed to include isZeroSum field in
-            https://github.com/TEAMMATES/teammates/pull/11827.
-            isZeroSum field has to be set to false for old contribution questions.
-            This constructor is used to deserialize question details string into FeedbackContributionQuestionDetails
-            object.
-            We set the default value of isZeroSum to false here so that the default value if isZeroSum is not present
-            will be false.
-        */
-        isZeroSum = false;
-        isNotSureAllowed = false;
+        this(null);
     }
 
     public FeedbackContributionQuestionDetails(String questionText) {
