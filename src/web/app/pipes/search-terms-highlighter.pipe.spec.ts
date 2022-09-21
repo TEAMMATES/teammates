@@ -1,6 +1,6 @@
 import { SearchTermsHighlighterPipe } from './search-terms-highlighter.pipe';
 
-describe('ResponseStatusPipe', () => {
+describe('SearchTermsHighlighterPipe', () => {
     let highlighterPipe: SearchTermsHighlighterPipe;
 
     beforeEach(() => {

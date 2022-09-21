@@ -31,4 +31,4 @@ const routes: Routes = [
     Pipes,
   ],
 })
-export class InstructorSearchPageModule {}
+export class InstructorSearchPageModule { }

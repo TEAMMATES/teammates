@@ -14,7 +14,7 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
      *                by default, text is only highlighted on a full word match
      * @returns transformed text with styling added if search terms were found
      */
-    transform(value: string, args: string, partial?: boolean): unknown {
+    transform(value: string, args: string, partial?: boolean): string {
         if (!args) {
             return value;
         }

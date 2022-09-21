@@ -60,7 +60,7 @@ public class InstructorSearchPage extends AppPage {
     }
 
     private String createHeaderText(CourseAttributes course) {
-        return course.getId();
+        return "[" + course.getId() + "]";
     }
 
     public void verifyStudentDetails(Map<String, CourseAttributes> courses, Map<String, StudentAttributes[]> students) {
@@ -86,7 +86,7 @@ public class InstructorSearchPage extends AppPage {
         List<WebElement> studentCoursesResult = getStudentCoursesResult();
 
         return studentCoursesResult.stream().filter(studentCourse -> {
-            String courseHeader = studentCourse.findElement(By.className("card-header")).getText();
+            String courseHeader = "[" + studentCourse.findElement(By.className("card-header")).getText() + "]";
             return targetHeader.equals(courseHeader);
         }).findFirst().orElse(null);
     }
