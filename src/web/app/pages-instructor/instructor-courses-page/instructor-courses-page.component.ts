@@ -89,15 +89,15 @@ export class InstructorCoursesPageComponent implements OnInit {
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private ngbModal: NgbModal,
-    private route: ActivatedRoute,
-    private statusMessageService: StatusMessageService,
-    private courseService: CourseService,
-    private studentService: StudentService,
-    private simpleModalService: SimpleModalService,
-    private tableComparatorService: TableComparatorService,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private progressBarService: ProgressBarService,
-  ) { }
+              private route: ActivatedRoute,
+              private statusMessageService: StatusMessageService,
+              private courseService: CourseService,
+              private studentService: StudentService,
+              private simpleModalService: SimpleModalService,
+              private tableComparatorService: TableComparatorService,
+              private feedbackSessionsService: FeedbackSessionsService,
+              private progressBarService: ProgressBarService,
+              ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -210,19 +210,19 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     course.isLoadingCourseStats = true;
     this.studentService.getStudentsFromCourse({ courseId })
-      .pipe(finalize(() => {
-        course.isLoadingCourseStats = false;
-      }))
-      .subscribe((students: Students) => {
-        this.courseStats[courseId] = {
-          sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
-          teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
-          students: students.students.length,
-          unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
-        };
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+        .pipe(finalize(() => {
+          course.isLoadingCourseStats = false;
+        }))
+        .subscribe((students: Students) => {
+          this.courseStats[courseId] = {
+            sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
+            teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
+            students: students.students.length,
+            unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
+          };
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**
@@ -334,7 +334,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       modalRef.componentInstance.newTimeZone = timeZone;
       modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
       modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
-      modalRef.result.then((result: CopyCourseModalResult) => this.createCopiedCourse(result), () => { });
+      modalRef.result.then((result: CopyCourseModalResult) => this.createCopiedCourse(result), () => {});
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -354,49 +354,49 @@ export class InstructorCoursesPageComponent implements OnInit {
       timeZone: result.newTimeZone,
       courseId: result.newCourseId,
     })
-      .subscribe(() => {
-        // Wrap in a Promise to wait for all feedback sessions to be copied
-        const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
-          if (result.selectedFeedbackSessionList.size === 0) {
-            this.progressBarService.updateProgress(100);
-            resolve();
+    .subscribe(() => {
+      // Wrap in a Promise to wait for all feedback sessions to be copied
+      const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
+        if (result.selectedFeedbackSessionList.size === 0) {
+          this.progressBarService.updateProgress(100);
+          resolve();
 
-            return;
-          }
+          return;
+        }
 
-          result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-            this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
-              .pipe(finalize(() => {
-                this.numberOfSessionsCopied += 1;
-                this.copyProgressPercentage =
-                  Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
-                this.progressBarService.updateProgress(this.copyProgressPercentage);
+        result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
+          this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
+            .pipe(finalize(() => {
+              this.numberOfSessionsCopied += 1;
+              this.copyProgressPercentage =
+                Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
+              this.progressBarService.updateProgress(this.copyProgressPercentage);
 
-                if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
-                  resolve();
-                }
-              }))
-              .subscribe();
-          });
+              if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
+                resolve();
+              }
+            }))
+            .subscribe();
         });
-
-        promise.then(() => {
-          this.courseService
-            .getCourseAsInstructor(result.newCourseId)
-            .subscribe((course: Course) => {
-              this.activeCourses.push(this.getCourseModelFromCourse(course));
-              this.activeCoursesList.push(course);
-              this.allCoursesList.push(course);
-              this.activeCoursesDefaultSort();
-              this.setIsCopyingCourse(false);
-              this.statusMessageService.showSuccessToast('The course has been added.');
-            });
-        });
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.setIsCopyingCourse(false);
-        this.hasLoadingFailed = true;
       });
+
+      promise.then(() => {
+        this.courseService
+          .getCourseAsInstructor(result.newCourseId)
+          .subscribe((course: Course) => {
+            this.activeCourses.push(this.getCourseModelFromCourse(course));
+            this.activeCoursesList.push(course);
+            this.allCoursesList.push(course);
+            this.activeCoursesDefaultSort();
+            this.setIsCopyingCourse(false);
+            this.statusMessageService.showSuccessToast('The course has been added.');
+          });
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+      this.setIsCopyingCourse(false);
+      this.hasLoadingFailed = true;
+    });
   }
 
   /**
@@ -417,7 +417,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Copies a feedback session.
    */
   private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string, oldCourseId: string):
-    Observable<FeedbackSession> {
+      Observable<FeedbackSession> {
     return this.feedbackSessionsService
       .createFeedbackSession(newCourseId, this.toFbSessionCreationReqWithName(fromFeedbackSession, oldCourseId));
   }
@@ -426,7 +426,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Creates a FeedbackSessionCreateRequest with the provided name.
    */
   private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, oldCourseId: string):
-    FeedbackSessionCreateRequest {
+      FeedbackSessionCreateRequest {
     return {
       feedbackSessionName: fromFeedbackSession.feedbackSessionName,
       toCopyCourseId: oldCourseId,
@@ -457,8 +457,8 @@ export class InstructorCoursesPageComponent implements OnInit {
       return Promise.resolve();
     }
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      'Warning: The course will be moved to the recycle bin.',
-      SimpleModalType.WARNING, 'Are you sure you want to continue?');
+        'Warning: The course will be moved to the recycle bin.',
+        SimpleModalType.WARNING, 'Are you sure you want to continue?');
     return modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
@@ -467,7 +467,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }).catch(() => { });
+    }).catch(() => {});
   }
 
   /**
@@ -517,7 +517,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.componentInstance.courseId = courseId;
 
     return modalRef.result.then(() => {
-      if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
+     if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
         const finalConfModalContent = numTotalCourses === 1
           ? `This is your last course on TEAMMATES for which you have instructor access. 
             Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
@@ -541,7 +541,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }).catch(() => { });
+    }).catch(() => {});
   }
 
   /**
@@ -566,7 +566,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onDeleteAll(): void {
     const modalContent: string =
-      `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
+        `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
@@ -602,7 +602,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }).catch(() => { });
+    }).catch(() => {});
   }
 
   /**
@@ -627,7 +627,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   sortCoursesEvent(by: SortBy): void {
     this.activeTableSortOrder = this.activeTableSortBy === by && this.activeTableSortOrder === SortOrder.ASC
-      ? SortOrder.DESC : SortOrder.ASC;
+        ? SortOrder.DESC : SortOrder.ASC;
     this.activeTableSortBy = by;
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
   }
@@ -646,7 +646,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   sortArchivedCoursesEvent(by: SortBy): void {
     this.archivedTableSortOrder = this.archivedTableSortBy === by && this.archivedTableSortOrder === SortOrder.ASC
-      ? SortOrder.DESC : SortOrder.ASC;
+        ? SortOrder.DESC : SortOrder.ASC;
     this.archivedTableSortBy = by;
     this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
   }
@@ -665,7 +665,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   sortDeletedCoursesEvent(by: SortBy): void {
     this.deletedTableSortOrder = this.deletedTableSortBy === by && this.deletedTableSortOrder === SortOrder.ASC
-      ? SortOrder.DESC : SortOrder.ASC;
+        ? SortOrder.DESC : SortOrder.ASC;
     this.deletedTableSortBy = by;
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
   }
@@ -683,7 +683,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy, order: SortOrder):
-    ((a: CourseModel, b: CourseModel) => number) {
+      ((a: CourseModel, b: CourseModel) => number) {
     return (a: CourseModel, b: CourseModel): number => {
       let strA: string;
       let strB: string;
