@@ -61,6 +61,7 @@ describe('QuestionResponsePanelComponent', () => {
         '<p>Bad</p>',
       ],
       otherEnabled: false,
+      questionDropdownEnabled: false,
       generateOptionsFor: 'NONE',
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'How well did team member perform?',
