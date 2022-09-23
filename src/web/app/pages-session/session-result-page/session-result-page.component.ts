@@ -32,9 +32,6 @@ import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-a
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-/**
- * Per feedback question model.
- */
 export interface FeedbackQuestionModel {
   feedbackQuestion: FeedbackQuestion;
   questionStatistics: string;
