@@ -1,6 +1,7 @@
 @startuml
 !include style.puml
 skinparam legendBackgroundColor #f2f2f2
+skinparam linetype ortho
 <style>
 rectangle {
     LineColor transparent
@@ -22,14 +23,14 @@ together {
         rectangle s.ToMerge
     }
     circle " " as start1 #silver;line:transparent
-    circle "Closed" as start3 #silver;line:transparent
 }
+circle " " as start3 #silver;line:transparent
 
 New -[#purple]> Accepted
 New -[#purple]> start3 : Reject
 Accepted .[#green]right.> start1
-Accepted -[#purple]> start3 : Outdated
-Accepted -[#coral]> start3 : Fixed
+Accepted -[#purple]-> "Outdated" start3
+start3 <-[#coral]- Accepted : Fixed
 start1 -[#silver]-> s.Ongoing
 start2 -right-> New #line:grey
 
@@ -40,7 +41,7 @@ s.FinalReview -[#purple]-> s.ToMerge
 s.Ongoing -[#green]up-> s.FinalReview
 s.Ongoing -[#purple]left-> start3 : Abandoned
 s.FinalReview -[#purple]-> s.Ongoing
-s.ToMerge -[#coral]left-> start3 : Merged
+s.ToMerge "Merged" -[#coral]left-> "Closed" start3
 
 legend bottom center
   |<color:green><size:18><&arrow-right></size></color> | Dev |
@@ -49,10 +50,5 @@ legend bottom center
 endlegend
 
 ' The hidden associations are for positioning purposes only
-PRs -[hidden]left- Issues
-s.ToReview -[hidden]down- s.Ongoing
-s.FinalReview -[hidden]down- s.ToMerge
-s.ToReview -[hidden]right- s.FinalReview
-s.Ongoing -[hidden]right- s.ToMerge
 Issues -[hidden]down- start3
 @enduml

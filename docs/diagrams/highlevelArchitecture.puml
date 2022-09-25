@@ -2,6 +2,7 @@
 !include style.puml
 skinparam minClassWidth 100
 skinparam ranksep 1
+skinparam linetype ortho
 
 !define orange E97126
 !define lightorange FEC092
@@ -43,8 +44,8 @@ Developers <.right.> Test
 Admin <.right.> Client
 E2E_rect .down.> UI_browser #darkorange
 Test .up.> UI_browser #maroon
-UI_browser .[#blue]right.> UI_server : <color:blue> HTTP
-UI_browser .[#transparent]right.> UI_server : <color:blue> AJAX
+UI_browser .[#blue]right.> "<color:blue>AJAX" UI_server : <color:blue> HTTP
+'UI_browser .[#transparent]right.> UI_server : <color:blue> AJAX
 UI_server .[#blue]up.> Common
 Logic .[#violet]up.> Common
 Storage .[#green]up.> Common
@@ -53,6 +54,7 @@ Client .[#orange]right.> GCD : <color:orange>GAE Remote API
 UI_server .right.> Logic
 Logic .right.> Storage
 Test .up.> container2
+GCD -down- GAE
 
 ' The hidden associations are for positioning purposes only
 E2E_actor -[hidden]- Users
@@ -66,5 +68,4 @@ Common -[hidden]- Storage
 Common -[hidden]- Logic
 GCD -[hidden]down- GAE
 container2 -[hidden]down- GCD
-Test -[hidden]right- container2
 @enduml
