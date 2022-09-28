@@ -23,6 +23,9 @@ export class McqFieldComponent {
   @Input()
   index: number = 0;
 
+  @Input()
+  isQuestionDropdownEnabled: boolean = false;
+
   @Output()
   elementDeleted: EventEmitter<any> = new EventEmitter();
 
