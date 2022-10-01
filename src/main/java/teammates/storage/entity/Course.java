@@ -38,7 +38,9 @@ public class Course extends BaseEntity {
 
     public Course(String courseId, String courseName, String courseTimeZone, String institute,
             Instant createdAt, Instant deletedAt) {
+        courseId = courseId.trim();
         this.setUniqueId(courseId);
+        courseName = courseName.trim();
         this.setName(courseName);
         if (courseTimeZone == null) {
             this.setTimeZone(Const.DEFAULT_TIME_ZONE);
@@ -59,7 +61,7 @@ public class Course extends BaseEntity {
     }
 
     public void setUniqueId(String uniqueId) {
-        this.id = uniqueId.trim();
+        this.id = uniqueId;
     }
 
     public String getName() {
@@ -67,7 +69,7 @@ public class Course extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = name.trim();
+        this.name = name;
     }
 
     public Instant getCreatedAt() {
