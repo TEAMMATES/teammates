@@ -5,7 +5,6 @@ import {
   Course,
   FeedbackSession,
   Instructor,
-  QuestionOutput,
   ResponseOutput,
   Student,
 } from '../../../../types/api-output';
@@ -29,6 +28,7 @@ import {
 import {
   InstructorSessionResultViewType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
+import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/session-result-page.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
 import {
@@ -83,7 +83,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel>
     = EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL;
   readonly exampleGrqResponses: Record<string, SectionTabModel> = EXAMPLE_GRQ_RESPONSES;
-  readonly exampleQuestionsWithResponses: QuestionOutput[] = EXAMPLE_QUESTIONS_WITH_RESPONSES;
+  readonly exampleQuestionsWithResponses: FeedbackQuestionModel[] = EXAMPLE_QUESTIONS_WITH_RESPONSES;
 
   readonly questionsOrder: string[] = [
     SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL,
