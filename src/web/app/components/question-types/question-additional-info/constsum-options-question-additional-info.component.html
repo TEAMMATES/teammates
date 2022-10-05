@@ -2,6 +2,6 @@ Distribute points (among options) question options:
 <ul>
   <li *ngFor="let option of questionDetails.constSumOptions">{{ option }}</li>
 </ul>
-<span *ngIf="questionDetails.pointsPerOption">Points per option:</span>
-<span *ngIf="!questionDetails.pointsPerOption">Total points:</span>
-{{ questionDetails.points }}
+<span *ngIf="!questionDetails.pointsPerOption">{{getPointsLabel()}}: {{ questionDetails.points }}</span>
+<span *ngIf="questionDetails.maxPoint !== undefined">Maximum number of point per option: {{ questionDetails.maxPoint }}</span>
+<span *ngIf="questionDetails.minPoint !== undefined">Minimum number of point per option: {{ questionDetails.minPoint }}</span>

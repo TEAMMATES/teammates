@@ -18,4 +18,10 @@ export class ConstsumOptionsQuestionAdditionalInfoComponent
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 
+  /**
+   * Returns the label for the number of points.
+   */
+  getPointsLabel(): string {
+    return this.questionDetails.pointsPerOption ? 'Points per option' : 'Total points';
+  }
 }
