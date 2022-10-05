@@ -468,6 +468,15 @@ public final class FeedbackQuestionsLogic {
             case INSTRUCTORS:
             case SELF:
                 InstructorAttributes instructorGiver = courseRoster.getInstructorForEmail(possibleGiver);
+
+                // only happens when a session creator quits their course
+                if (instructorGiver == null) {
+                    instructorGiver =
+                            InstructorAttributes
+                                    .builder(relatedQuestion.getCourseId(), possibleGiver)
+                                    .build();
+                }
+
                 completeGiverRecipientMap
                         .computeIfAbsent(possibleGiver, key -> new HashSet<>())
                         .addAll(getRecipientsOfQuestion(

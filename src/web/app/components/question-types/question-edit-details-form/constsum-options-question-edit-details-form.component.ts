@@ -27,6 +27,14 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 
+  get hasMaxPoint(): boolean {
+    return this.model.maxPoint !== undefined;
+  }
+
+  get hasMinPoint(): boolean {
+    return this.model.minPoint !== undefined;
+  }
+
   /**
    * Increases number of Constsum options.
    */
@@ -98,4 +106,25 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     });
   }
 
+  /**
+   * Resets maxPoint.
+   */
+  resetMaxPoint(event: boolean): void {
+    if (event) {
+      this.triggerModelChange('maxPoint', 0);
+    } else {
+      this.triggerModelChange('maxPoint', undefined);
+    }
+  }
+
+  /**
+   * Resets minPoint.
+   */
+  resetMinPoint(event: boolean): void {
+    if (event) {
+      this.triggerModelChange('minPoint', 0);
+    } else {
+      this.triggerModelChange('minPoint', undefined);
+    }
+  }
 }
