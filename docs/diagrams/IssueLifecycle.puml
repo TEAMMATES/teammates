@@ -1,0 +1,54 @@
+@startuml
+!include style.puml
+skinparam legendBackgroundColor #f2f2f2
+skinparam linetype ortho
+<style>
+rectangle {
+    LineColor transparent
+}
+</style>
+
+together {
+    rectangle <color:white>Issues as Issues #lightsteelblue {
+        rectangle Accepted
+        rectangle New
+    }
+    circle " " as start2 #silver;line:transparent
+}
+together {
+    rectangle <color:white>PRs as PRs #peachpuff {
+        rectangle s.ToReview
+        rectangle s.FinalReview
+        rectangle s.Ongoing
+        rectangle s.ToMerge
+    }
+    circle " " as start1 #silver;line:transparent
+}
+circle " " as start3 #silver;line:transparent
+
+New -[#purple]> Accepted
+New -[#purple]> start3 : Reject
+Accepted .[#green]right.> start1
+Accepted -[#purple]-> "Outdated" start3
+start3 <-[#coral]- Accepted : Fixed
+start1 -[#silver]-> s.Ongoing
+start2 -right-> New #line:grey
+
+s.Ongoing -[#green]-> s.ToReview
+s.ToReview -[#coral]-> s.Ongoing
+s.ToReview -[#coral]right-> s.FinalReview
+s.FinalReview -[#purple]-> s.ToMerge
+s.Ongoing -[#green]up-> s.FinalReview
+s.Ongoing -[#purple]left-> start3 : Abandoned
+s.FinalReview -[#purple]-> s.Ongoing
+s.ToMerge "Merged" -[#coral]left-> "Closed" start3
+
+legend bottom center
+  |<color:green><size:18><&arrow-right></size></color> | Dev |
+  |<color:coral><size:18><&arrow-right></size></color>| Reviewer |
+  |<color:purple><size:18><&arrow-right></size></color>| Team Member |
+endlegend
+
+' The hidden associations are for positioning purposes only
+Issues -[hidden]down- start3
+@enduml
