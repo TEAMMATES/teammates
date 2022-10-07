@@ -109,6 +109,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
+  isQuestionCountOne: boolean = false;
+
   private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
@@ -483,6 +485,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             };
             this.questionSubmissionForms.push(model);
           });
+
+          this.isQuestionCountOne = this.questionSubmissionForms.length === 1;
         }, (resp: ErrorMessageOutput) => {
           this.handleError(resp);
         });
