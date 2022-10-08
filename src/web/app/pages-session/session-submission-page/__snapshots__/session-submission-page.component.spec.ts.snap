@@ -30,6 +30,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
   logService={[Function LogService]}
@@ -178,6 +179,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
   logService={[Function LogService]}
@@ -323,6 +325,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
   logService={[Function LogService]}
@@ -468,6 +471,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
   logService={[Function LogService]}
@@ -712,6 +716,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
   logService={[Function LogService]}
@@ -3089,6 +3094,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
   logService={[Function LogService]}
@@ -5492,6 +5498,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
   logService={[Function LogService]}
@@ -5638,6 +5645,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
   logService={[Function LogService]}
