@@ -216,7 +216,7 @@ describe('InstructorSessionEditPageComponent', () => {
     instructions: 'Instructions',
 
     submissionStartTime: getLatestTimeFormat(),
-    submissionStartDate: { year: 0, month: 0, day: 0 },
+    submissionStartDate: getDefaultDateFormat(),
     submissionEndTime: getLatestTimeFormat(),
     submissionEndDate: getDefaultDateFormat(),
     gracePeriod: 0,
