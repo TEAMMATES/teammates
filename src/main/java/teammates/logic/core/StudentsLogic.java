@@ -449,6 +449,10 @@ public final class StudentsLogic {
         deLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
     }
 
+    private void updateStudentResponsesBeforeDeletion(String courseId, String studentEmail) {
+
+    }
+
     /**
      * Deletes all students associated a googleId and cascade
      * its associated feedback responses, deadline extensions and comments.

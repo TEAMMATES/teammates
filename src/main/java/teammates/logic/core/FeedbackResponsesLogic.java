@@ -103,6 +103,8 @@ public final class FeedbackResponsesLogic {
     List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+//        System.out.println("Hello");
+//        return null;
     }
 
     /**
@@ -153,7 +155,7 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Gets all responses given by an user for a question.
+     * Gets all responses given by a user for a question.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestion(
             String feedbackQuestionId, String userEmail) {
@@ -161,7 +163,7 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Gets all responses received by an user for a question.
+     * Gets all responses received by a user for a question.
      */
     private List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
             String feedbackQuestionId, String userEmail) {
