@@ -64,6 +64,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
+  @Input()
+  isQuestionCountOne: boolean = false;
+
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
