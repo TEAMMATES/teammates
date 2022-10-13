@@ -86,7 +86,7 @@ public class InstructorSearchPage extends AppPage {
         List<WebElement> studentCoursesResult = getStudentCoursesResult();
 
         return studentCoursesResult.stream().filter(studentCourse -> {
-            String courseHeader = String.format("[%s]", studentCourse.findElement(By.className("card-header")).getText());
+            String courseHeader = studentCourse.findElement(By.className("card-header")).getText();
             return targetHeader.equals(courseHeader);
         }).findFirst().orElse(null);
     }
