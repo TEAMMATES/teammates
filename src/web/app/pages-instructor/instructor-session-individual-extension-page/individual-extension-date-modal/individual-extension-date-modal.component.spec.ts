@@ -5,6 +5,7 @@ import SpyInstance = jest.SpyInstance;
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
+import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
@@ -12,8 +13,6 @@ import { IndividualExtensionDateModalComponent, RadioOptions } from './individua
 describe('IndividualExtensionDateModalComponent', () => {
   const testTimeString = 'Sat, 5 Apr 2000 2:00 +08';
   const MAX_EPOCH_TIME_IN_DAYS = 100000000;
-  const ONE_MINUTE_IN_MILLISECONDS = 60 * 1000;
-  const ONE_HOUR_IN_MILLISECONDS = 60 * ONE_MINUTE_IN_MILLISECONDS;
 
   let component: IndividualExtensionDateModalComponent;
   let fixture: ComponentFixture<IndividualExtensionDateModalComponent>;
@@ -66,23 +65,27 @@ describe('IndividualExtensionDateModalComponent', () => {
 
     component.extendByDeadlineKey = '12 hours';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (12 * ONE_HOUR_IN_MILLISECONDS));
-    expect(component.extendAndFormatEndTimeBy(12, 0)).toEqual('Mon, 14 Sep 2020, 08:26 AM +08');
+      component.feedbackSessionEndingTimestamp + (Hours.TWELVE * Milliseconds.IN_ONE_HOUR));
+    expect(component.extendAndFormatEndTimeBy(Hours.TWELVE, 0))
+      .toEqual('Mon, 14 Sep 2020, 08:26 AM +08');
 
     component.extendByDeadlineKey = '1 day';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (24 * ONE_HOUR_IN_MILLISECONDS));
-    expect(component.extendAndFormatEndTimeBy(24, 0)).toEqual('Mon, 14 Sep 2020, 08:26 PM +08');
+      component.feedbackSessionEndingTimestamp + (Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR));
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_DAY, 0))
+      .toEqual('Mon, 14 Sep 2020, 08:26 PM +08');
 
     component.extendByDeadlineKey = '3 days';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (72 * ONE_HOUR_IN_MILLISECONDS));
-    expect(component.extendAndFormatEndTimeBy(72, 0)).toEqual('Wed, 16 Sep 2020, 08:26 PM +08');
+      component.feedbackSessionEndingTimestamp + (Hours.IN_THREE_DAYS * Milliseconds.IN_ONE_HOUR));
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_THREE_DAYS, 0))
+      .toEqual('Wed, 16 Sep 2020, 08:26 PM +08');
 
     component.extendByDeadlineKey = '1 week';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (168 * ONE_HOUR_IN_MILLISECONDS));
-    expect(component.extendAndFormatEndTimeBy(168, 0)).toEqual('Sun, 20 Sep 2020, 08:26 PM +08');
+      component.feedbackSessionEndingTimestamp + (Hours.IN_ONE_WEEK * Milliseconds.IN_ONE_HOUR));
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_WEEK, 0))
+      .toEqual('Sun, 20 Sep 2020, 08:26 PM +08');
   });
 
   it('should snap with the extend by radio option with customize', () => {
