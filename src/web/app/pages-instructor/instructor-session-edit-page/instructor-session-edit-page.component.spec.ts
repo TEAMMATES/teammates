@@ -37,6 +37,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
+import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
@@ -214,19 +215,19 @@ describe('InstructorSessionEditPageComponent', () => {
     feedbackSessionName: 'test session',
     instructions: 'Instructions',
 
-    submissionStartTime: { hour: 23, minute: 59 },
-    submissionStartDate: { year: 0, month: 0, day: 0 },
-    submissionEndTime: { hour: 23, minute: 59 },
-    submissionEndDate: { year: 0, month: 0, day: 0 },
+    submissionStartTime: getLatestTimeFormat(),
+    submissionStartDate: getDefaultDateFormat(),
+    submissionEndTime: getLatestTimeFormat(),
+    submissionEndDate: getDefaultDateFormat(),
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: { hour: 23, minute: 59 },
-    customSessionVisibleDate: { year: 0, month: 0, day: 0 },
+    customSessionVisibleTime: getLatestTimeFormat(),
+    customSessionVisibleDate: getDefaultDateFormat(),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: { hour: 23, minute: 59 },
-    customResponseVisibleDate: { year: 0, month: 0, day: 0 },
+    customResponseVisibleTime: getLatestTimeFormat(),
+    customResponseVisibleDate: getDefaultDateFormat(),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

@@ -39,6 +39,7 @@ import {
   Student,
 } from '../../../types/api-output';
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
+import { Milliseconds } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
@@ -69,8 +70,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   Intent: typeof Intent = Intent;
-
-  FIFTEEN_MINUTES = 15 * 60 * 1000;
 
   courseId: string = '';
   feedbackSessionName: string = '';
@@ -920,6 +919,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   private isFeedbackEndingLessThanFifteenMinutes(feedbackSession: FeedbackSession): boolean {
     const userSessionEndingTime = DeadlineExtensionHelper.getOngoingUserFeedbackSessionEndingTimestamp(feedbackSession);
-    return (userSessionEndingTime - Date.now()) < this.FIFTEEN_MINUTES;
+    return (userSessionEndingTime - Date.now()) < Milliseconds.IN_FIFTEEN_MINUTES;
   }
 }
