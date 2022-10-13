@@ -2,7 +2,6 @@
 
 exports[`SessionSubmissionPageComponent should snap when feedback session questions have failed to load 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
@@ -150,7 +149,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
@@ -295,7 +293,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 
 exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
@@ -440,7 +437,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 
 exports[`SessionSubmissionPageComponent should snap with feedback session and user details 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
@@ -684,7 +680,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
@@ -3061,7 +3056,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms when disabled 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
@@ -5464,7 +5458,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with user that is logged in and using session link 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
@@ -5610,7 +5603,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 
 exports[`SessionSubmissionPageComponent should snap with user that is not logged in and using session link 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   authService={[Function AuthService]}
