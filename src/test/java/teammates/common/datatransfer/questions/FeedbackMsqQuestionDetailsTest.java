@@ -147,6 +147,84 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testValidateQuestionDetails_emptyChoiceEntered_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(Arrays.asList("a", "   "));
+
+        List<String> errors = msqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        AssertHelper.assertContains(FeedbackMsqQuestionDetails.MSQ_ERROR_EMPTY_MSQ_OPTION, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_weightsNotEnabledButExist_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(Arrays.asList("a", "b"));
+        msqDetails.setHasAssignedWeights(false);
+        msqDetails.setMsqWeights(List.of(1.22));
+
+        List<String> errors = msqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        AssertHelper.assertContains(FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_otherNotEnabledButWeightExist_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(Arrays.asList("a", "b"));
+        msqDetails.setOtherEnabled(false);
+        msqDetails.setMsqOtherWeight(1.11);
+        msqDetails.setHasAssignedWeights(true);
+        msqDetails.setMsqWeights(List.of(1.22, 1.33));
+
+        List<String> errors = msqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        AssertHelper.assertContains(FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_minChoicesLessThanOne_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(Arrays.asList("a", "b"));
+        msqDetails.setMinSelectableChoices(0);
+
+        List<String> errors = msqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        AssertHelper.assertContains(FeedbackMsqQuestionDetails.MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_minChoicesMoreThanExistingChoices_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(Arrays.asList("a", "b"));
+        msqDetails.setMinSelectableChoices(3);
+
+        List<String> errors = msqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        AssertHelper.assertContains(
+                FeedbackMsqQuestionDetails.MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_minChoicesMoreThanMax_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(Arrays.asList("a", "b", "c", "d"));
+        msqDetails.setMinSelectableChoices(3);
+        msqDetails.setMaxSelectableChoices(2);
+
+        List<String> errors = msqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        AssertHelper.assertContains(
+                FeedbackMsqQuestionDetails.MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE, errors.get(0));
+    }
+
+    @Test
     public void testValidateResponseDetails_otherAnswerNotChosenButOtherFieldIsNotEmpty_shouldTriggerError() {
         FeedbackMsqQuestionDetails msqQuestionDetails = new FeedbackMsqQuestionDetails();
         msqQuestionDetails.setMsqChoices(Arrays.asList("choiceA", "choiceB"));
@@ -211,6 +289,116 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testValidateResponseDetails_otherDisabledButExists_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of("choiceA", "choiceB"));
+        msqDetails.setOtherEnabled(false);
+
+        FeedbackMsqResponseDetails msqResponseDetails = new FeedbackMsqResponseDetails();
+        msqResponseDetails.setOther(true);
+        msqResponseDetails.setOtherFieldContent("choiceA");
+        msqResponseDetails.setAnswers(List.of("choiceA"));
+
+        List<String> errors = msqDetails.validateResponsesDetails(List.of(msqResponseDetails), 1);
+
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_OPTION, errors.get(0));
+    }
+
+    @Test
+    public void testValidateResponseDetails_otherEnabledButEmpty_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of("choiceA", "choiceB", "other"));
+        msqDetails.setOtherEnabled(true);
+
+        FeedbackMsqResponseDetails msqResponseDetails = new FeedbackMsqResponseDetails();
+        msqResponseDetails.setOther(true);
+        msqResponseDetails.setOtherFieldContent("   ");
+        msqResponseDetails.setAnswers(List.of("other", "   "));
+
+        List<String> errors = msqDetails.validateResponsesDetails(List.of(msqResponseDetails), 1);
+
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED, errors.get(0));
+    }
+
+    @Test
+    public void testValidateResponseDetails_choicesMoreThanMax_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of("choiceA", "choiceB", "choiceC"));
+        msqDetails.setMaxSelectableChoices(2);
+
+        FeedbackMsqResponseDetails msqResponseDetails = new FeedbackMsqResponseDetails();
+        msqResponseDetails.setAnswers(List.of("choiceA", "choiceB", "choiceC"));
+
+        String expectedError =
+                FeedbackMsqQuestionDetails.MSQ_ERROR_NUM_SELECTED_MORE_THAN_MAXIMUM
+                + msqDetails.getMaxSelectableChoices();
+
+        List<String> errors = msqDetails.validateResponsesDetails(List.of(msqResponseDetails), 1);
+
+        assertEquals(1, errors.size());
+        assertEquals(expectedError, errors.get(0));
+    }
+
+    @Test
+    public void testValidateResponseDetails_choicesLessThanMin_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of("choiceA", "choiceB", "choiceC"));
+        msqDetails.setMinSelectableChoices(2);
+
+        FeedbackMsqResponseDetails msqResponseDetails = new FeedbackMsqResponseDetails();
+        msqResponseDetails.setAnswers(List.of("choiceA"));
+
+        String expectedError =
+                FeedbackMsqQuestionDetails.MSQ_ERROR_NUM_SELECTED_LESS_THAN_MINIMUM
+                + msqDetails.getMinSelectableChoices();
+
+        List<String> errors = msqDetails.validateResponsesDetails(List.of(msqResponseDetails), 1);
+
+        assertEquals(1, errors.size());
+        assertEquals(expectedError, errors.get(0));
+    }
+
+    @Test
+    public void testValidateResponseDetails_noneOfTheAboveSelectedWhenMinRestriction_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of("choiceA", "choiceB", "choiceC"));
+        msqDetails.setMinSelectableChoices(2);
+
+        FeedbackMsqResponseDetails msqResponseDetails = new FeedbackMsqResponseDetails();
+        msqResponseDetails.setAnswers(List.of("choiceA", ""));
+
+        List<String> errors = msqDetails.validateResponsesDetails(List.of(msqResponseDetails), 1);
+
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_OPTION, errors.get(0));
+    }
+
+    @Test
+    public void testValidateResponseDetails_noneOfTheAboveSelectedButOtherExists_shouldReturnError() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of(
+                "choiceA",
+                "choiceB",
+                "choiceC",
+                FeedbackMsqQuestionDetails.MSQ_ANSWER_NONE_OF_THE_ABOVE,
+                "other"
+        ));
+        msqDetails.setOtherEnabled(true);
+
+        FeedbackMsqResponseDetails msqResponseDetails = new FeedbackMsqResponseDetails();
+        msqResponseDetails.setAnswers(List.of(FeedbackMsqQuestionDetails.MSQ_ANSWER_NONE_OF_THE_ABOVE, "other"));
+        msqResponseDetails.setOther(true);
+        msqResponseDetails.setOtherFieldContent("other");
+
+        List<String> errors = msqDetails.validateResponsesDetails(List.of(msqResponseDetails), 1);
+
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER, errors.get(0));
+    }
+
+    @Test
     public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
         assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
@@ -220,5 +408,97 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
         assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentMsqChoices_shouldReturnTrue() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of("choice1", "choice2"));
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMsqChoices(List.of("choice1", "choice 3"));
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentGenerateOptionsFor_shouldReturnTrue() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_maxRestrictionAdded_shouldReturnTrue() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMaxSelectableChoices(Const.POINTS_NO_VALUE);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMaxSelectableChoices(32767);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_minRestrictionAdded_shouldReturnTrue() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMinSelectableChoices(Const.POINTS_NO_VALUE);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMinSelectableChoices(32767);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_moreStrictMaxRestrictionAdded_shouldReturnTrue() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMaxSelectableChoices(32767);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMaxSelectableChoices(3);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_moreStrictMinRestrictionAdded_shouldReturnTrue() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMinSelectableChoices(3);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMinSelectableChoices(32767);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentOtherEnabled_shouldReturnTrue() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setOtherEnabled(true);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setOtherEnabled(false);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_sameQuestionsDifferentOrder_shouldReturnFalse() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMsqChoices(List.of("choice1", "choice2", "choice3"));
+        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        msqDetails.setOtherEnabled(false);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMsqChoices(List.of("choice2", "choice3", "choice1"));
+        newMsqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        newMsqDetails.setOtherEnabled(false);
+
+        assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
     }
 }
