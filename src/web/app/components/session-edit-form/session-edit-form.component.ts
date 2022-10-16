@@ -10,9 +10,9 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import { DateFormat, getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
-import { DateFormat } from '../datepicker/datepicker.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
@@ -45,19 +45,19 @@ export class SessionEditFormComponent {
     feedbackSessionName: '',
     instructions: '',
 
-    submissionStartTime: { hour: 0, minute: 0 },
-    submissionStartDate: { year: 0, month: 0, day: 0 },
-    submissionEndTime: { hour: 0, minute: 0 },
-    submissionEndDate: { year: 0, month: 0, day: 0 },
+    submissionStartTime: getDefaultTimeFormat(),
+    submissionStartDate: getDefaultDateFormat(),
+    submissionEndTime: getDefaultTimeFormat(),
+    submissionEndDate: getDefaultDateFormat(),
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: { hour: 0, minute: 0 },
-    customSessionVisibleDate: { year: 0, month: 0, day: 0 },
+    customSessionVisibleTime: getDefaultTimeFormat(),
+    customSessionVisibleDate: getDefaultDateFormat(),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: { hour: 0, minute: 0 },
-    customResponseVisibleDate: { year: 0, month: 0, day: 0 },
+    customResponseVisibleTime: getDefaultTimeFormat(),
+    customResponseVisibleDate: getDefaultDateFormat(),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
