@@ -60,15 +60,10 @@ public final class FeedbackQuestionRecipient {
     public int hashCode() {
         int prime = 31;
         int result = 1;
-
         result = prime * result + (name == null ? 0 : name.hashCode());
-
         result = prime * result + (identifier == null ? 0 : identifier.hashCode());
-
         result = prime * result + (section == null ? 0 : section.hashCode());
-
         result = prime * result + (team == null ? 0 : team.hashCode());
-
         return result;
     }
 }

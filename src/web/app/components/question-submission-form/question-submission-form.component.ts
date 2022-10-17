@@ -205,7 +205,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
       this.model.recipientList.sort((firstRecipient, secondRecipient) => {
         return this.compareBySection(firstRecipient, secondRecipient)
-         || this.compareByTeam(firstRecipient, secondRecipient);
+          || this.compareByTeam(firstRecipient, secondRecipient);
         });
 
     } else if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_TEAM) {
