@@ -1,0 +1,71 @@
+@startuml
+!include style.puml
+skinparam minClassWidth 100
+skinparam ranksep 1
+skinparam linetype ortho
+
+!define orange E97126
+!define lightorange FEC092
+!define blue 5B7CA3
+!define lightblue 91B0D4
+!define skyblue 8CCBDB
+!define lightred DC9693
+!define violet B2A0C4
+!define lightgreen C0D59C
+!define lightpink FEEADA
+
+actor E2E_actor as "E2E Testers" #line.bold;line:orange;text:orange
+actor Users #line.bold;line:blue;text:blue
+actor Developers #line.bold;line:maroon;text:maroon
+actor Admin #line.bold;line:orange;text:orange
+
+together {
+    rectangle container1 as " " #beige;line:transparent {
+        rectangle E2E_rect as "<color:orange>E2E\n\n<color:white>TestNG,\n<color:white>Seleium(Java)" #lightorange
+        rectangle UI_browser as "<color:royalblue>UI (browser)\n\n<color:white>HTML,SCSS,\n<color:white>Angular\n<color:white>(TypeScript),\n<color:white>Bootstrap" #lightblue
+        rectangle Test as "<color:maroon>Test Driver\n\n<color:white>TestNG,\n<color:white>Jest" #lightred
+        rectangle Client as "<color:orange>Client\n<color:white>Java" #lightorange
+    }
+
+    rectangle container2 as " " #lightpink;line:transparent {
+        rectangle Common as "<color:blue>Common\n\t\t\t\t\t\t\t\t\t<color:white>Java\t\t\t" #skyblue
+        rectangle UI_server as "<color:royalblue>UI\n<color:royalblue>(server)\n\n<color:white>Java\n<color:white>Servlets" #lightblue
+        rectangle Logic as "<color:darkpurple>Logic\n\n<color:white>Java" #violet
+        rectangle Storage as "<color:darkgreen>Storage\n\n<color:white>Java" #lightgreen
+    }
+
+    database GCD as "<color:white>Google\n<color:white>Cloud\n<color:white>Datastore" #lightgrey
+    rectangle GAE as "<color:white>Google App Engine (GAE)" #lightgrey
+}
+
+E2E_actor <.right.> E2E_rect
+Users <.right.> UI_browser
+Developers <.right.> Test
+Admin <.right.> Client
+E2E_rect .down.> UI_browser #darkorange
+Test .up.> UI_browser #maroon
+UI_browser .[#blue]right.> "<color:blue>AJAX" UI_server : <color:blue> HTTP
+'UI_browser .[#transparent]right.> UI_server : <color:blue> AJAX
+UI_server .[#blue]up.> Common
+Logic .[#violet]up.> Common
+Storage .[#green]up.> Common
+Storage .[#green]down.> GCD : <color:green>Objectify
+Client .[#orange]right.> GCD : <color:orange>GAE Remote API
+UI_server .right.> Logic
+Logic .right.> Storage
+Test .up.> container2
+GCD -down- GAE
+
+' The hidden associations are for positioning purposes only
+E2E_actor -[hidden]- Users
+Users -[hidden]- Developers
+Developers -[hidden]- Admin
+E2E_rect -[hidden]- UI_browser
+UI_browser -[hidden]- Test
+Test -[hidden]- Client
+Common -[hidden]- UI_server
+Common -[hidden]- Storage
+Common -[hidden]- Logic
+GCD -[hidden]down- GAE
+container2 -[hidden]down- GCD
+@enduml

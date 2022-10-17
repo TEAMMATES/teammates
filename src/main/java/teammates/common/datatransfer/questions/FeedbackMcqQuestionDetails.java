@@ -29,6 +29,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private double mcqOtherWeight;
     private List<String> mcqChoices;
     private boolean otherEnabled;
+    private boolean questionDropdownEnabled;
     private FeedbackParticipantType generateOptionsFor;
 
     public FeedbackMcqQuestionDetails() {
@@ -41,6 +42,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.mcqWeights = new ArrayList<>();
         this.mcqChoices = new ArrayList<>();
         this.otherEnabled = false;
+        this.questionDropdownEnabled = false;
         this.mcqOtherWeight = 0;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
@@ -196,6 +198,14 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     public void setOtherEnabled(boolean otherEnabled) {
         this.otherEnabled = otherEnabled;
+    }
+
+    public boolean isQuestionDropdownEnabled() {
+        return questionDropdownEnabled;
+    }
+
+    public void setQuestionDropdownEnabled(boolean questionDropdownEnabled) {
+        this.questionDropdownEnabled = questionDropdownEnabled;
     }
 
     public FeedbackParticipantType getGenerateOptionsFor() {

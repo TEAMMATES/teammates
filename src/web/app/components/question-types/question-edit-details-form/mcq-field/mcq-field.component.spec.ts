@@ -26,4 +26,8 @@ describe('McqFieldComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be false by default for isQuestionDropdownEnabled', () => {
+    expect(component.isQuestionDropdownEnabled).toBeFalsy();
+  });
 });
