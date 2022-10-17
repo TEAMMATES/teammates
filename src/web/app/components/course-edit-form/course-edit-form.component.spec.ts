@@ -32,6 +32,7 @@ import {
   CourseAddFormModel,
    CourseEditFormMode,
    DEFAULT_COURSE_ADD_FORM_MODEL,
+   DEFAULT_COURSE_EDIT_FORM_MODEL,
 } from './course-edit-form-model';
 import { CourseEditFormComponent } from './course-edit-form.component';
 
@@ -102,7 +103,6 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should create', () => {
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -112,6 +112,11 @@ describe('CourseEditFormComponent', () => {
     fixture.detectChanges();
 
     const optionElement = fixture.debugElement.nativeElement.querySelector('#time-zone');
+    const submitButton = fixture.debugElement.nativeElement.querySelector('#btn-submit-course');
+    const copyButton = fixture.debugElement.nativeElement.querySelector('#btn-copy-course');
+
+    expect(submitButton).toHaveProperty('disabled', true);
+    expect(copyButton).toHaveProperty('disabled', true);
     expect(optionElement.options.length).toEqual(0);
     expect(fixture).toMatchSnapshot();
   });
@@ -123,8 +128,44 @@ describe('CourseEditFormComponent', () => {
     fixture.detectChanges();
 
     const optionElement = fixture.debugElement.nativeElement.querySelector('#time-zone');
+    const submitButton = fixture.debugElement.nativeElement.querySelector('#btn-submit-course');
+    const copyButton = fixture.debugElement.nativeElement.querySelector('#btn-copy-course');
+
+    // submit button and copy button must be disabled since there is no valid input for the input fields
+    expect(submitButton).toHaveProperty('disabled', true);
+    expect(copyButton).toHaveProperty('disabled', true);
+
     expect(optionElement.options.length).toEqual(1);
     expect(component.model.course.timeZone).toEqual(testTimeZone);
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when in EDIT Mode and is display only', () => {
+    component.isDisplayOnly = true;
+    component.formMode = CourseEditFormMode.EDIT;
+    fixture.detectChanges();
+
+    const optionElement = fixture.debugElement.nativeElement.querySelector('#time-zone');
+    const deleteButton = fixture.debugElement.nativeElement.querySelector('#btn-delete-course');
+    const editButton = fixture.debugElement.nativeElement.querySelector('#btn-edit-course');
+
+    expect(optionElement.options.length).toEqual(0);
+    expect(deleteButton).toHaveProperty('disabled', true);
+    expect(editButton).toHaveProperty('disabled', true);
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when in EDIT Mode with default fields', () => {
+    component.isDisplayOnly = false;
+    component.formMode = CourseEditFormMode.EDIT;
+    component.formModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
+    fixture.detectChanges();
+
+    const deleteButton = fixture.debugElement.nativeElement.querySelector('#btn-delete-course');
+    const editButton = fixture.debugElement.nativeElement.querySelector('#btn-edit-course');
+
+    expect(deleteButton).toHaveProperty('disabled', true);
+    expect(editButton).toHaveProperty('disabled', true);
     expect(fixture).toMatchSnapshot();
   });
 
