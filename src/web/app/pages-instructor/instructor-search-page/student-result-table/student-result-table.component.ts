@@ -25,7 +25,7 @@ export class StudentResultTableComponent {
   @Input() studentTables: SearchStudentsListRowTable[] = [];
   @Input() isActionButtonsEnabled: boolean = true;
   @Input() isSearchTermsHighlighted: boolean = false;
-  @Input() searchedTerm: string = '';
+  @Input() searchString: string = '';
 
   @Output() removeStudentFromCourseEvent: EventEmitter<StudentListRowModel> = new EventEmitter<StudentListRowModel>();
 

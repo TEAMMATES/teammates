@@ -1,5 +1,5 @@
 <div *ngFor="let course of studentTables" class="card border border-light-blue mb-3 student-course-table">
-  <div class="card-header alert-primary font-weight-bold text-break" [innerHtml]="'[' + course.courseId + ']' | highlighter:searchedTerm:true"></div>
+  <div class="card-header alert-primary font-weight-bold text-break" [innerHtml]="'[' + course.courseId + ']' | highlighter:searchString:true"></div>
   <div class="card-body p-0">
     <tm-student-list
       [courseId]="course.courseId"
@@ -8,7 +8,7 @@
       [enableRemindButton]="false"
       [isActionButtonsEnabled]="isActionButtonsEnabled"
       [tableSortBy]="studentSortBy" [tableSortOrder]="studentSortOrder"
-      [searchedTerm]="searchedTerm"
+      [searchString]="searchString"
       (sortStudentListEvent)="sortStudentList(course.students, $event)"
       (removeStudentFromCourseEvent)="removeStudent(course.students, $event)">
     </tm-student-list>

@@ -2,6 +2,6 @@
 
 <div *tmIsLoading="isSearching">
   <tm-student-result-table *ngIf="studentsListRowTables && studentsListRowTables.length" [studentTables]="studentsListRowTables"
-      [isSearchTermsHighlighted]="true" [searchedTerm]="searchedTerm" (removeStudentFromCourseEvent)="removeStudentFromCourse($event)">
+      [isSearchTermsHighlighted]="true" [searchString]="searchString" (removeStudentFromCourseEvent)="removeStudentFromCourse($event)">
   </tm-student-result-table>
 </div>

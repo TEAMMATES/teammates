@@ -36,7 +36,7 @@ export class StudentListComponent {
   @Input() students: StudentListRowModel[] = [];
   @Input() tableSortBy: SortBy = SortBy.NONE;
   @Input() tableSortOrder: SortOrder = SortOrder.ASC;
-  @Input() searchedTerm: string = '';
+  @Input() searchString: string = '';
 
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
   @Output() sortStudentListEvent: EventEmitter<SortBy> = new EventEmitter();
