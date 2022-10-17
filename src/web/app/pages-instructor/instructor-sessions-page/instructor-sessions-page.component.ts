@@ -27,6 +27,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
@@ -89,19 +90,19 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     feedbackSessionName: '',
     instructions: 'Please answer all the given questions.',
 
-    submissionStartTime: { hour: 23, minute: 59 },
-    submissionStartDate: { year: 0, month: 0, day: 0 },
-    submissionEndTime: { hour: 23, minute: 59 },
-    submissionEndDate: { year: 0, month: 0, day: 0 },
+    submissionStartTime: getLatestTimeFormat(),
+    submissionStartDate: getDefaultDateFormat(),
+    submissionEndTime: getLatestTimeFormat(),
+    submissionEndDate: getDefaultDateFormat(),
     gracePeriod: 15,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: { hour: 23, minute: 59 },
-    customSessionVisibleDate: { year: 0, month: 0, day: 0 },
+    customSessionVisibleTime: getLatestTimeFormat(),
+    customSessionVisibleDate: getDefaultDateFormat(),
 
     responseVisibleSetting: ResponseVisibleSetting.LATER,
-    customResponseVisibleTime: { hour: 23, minute: 59 },
-    customResponseVisibleDate: { year: 0, month: 0, day: 0 },
+    customResponseVisibleTime: getLatestTimeFormat(),
+    customResponseVisibleDate: getDefaultDateFormat(),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

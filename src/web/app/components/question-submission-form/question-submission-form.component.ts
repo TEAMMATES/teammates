@@ -66,6 +66,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.recipientLabelType = this.getSelectionLabelType(model.recipientType);
   }
 
+  @Input()
+  isQuestionCountOne: boolean = false;
+
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 

@@ -6,8 +6,7 @@ import {
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting, SessionVisibleSetting,
 } from '../../../types/api-output';
-import { DateFormat } from '../datepicker/datepicker.component';
-import { TimeFormat } from '../timepicker/timepicker.component';
+import { DateFormat, TimeFormat } from '../../../types/datetime-const';
 
 /**
  * The mode of operation for session edit form.
