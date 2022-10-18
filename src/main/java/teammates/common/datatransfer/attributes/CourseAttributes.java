@@ -164,6 +164,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
     @Override
     public void sanitizeForSaving() {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
+        this.name = SanitizationHelper.sanitizeTitle(name);
     }
 
     @Override
