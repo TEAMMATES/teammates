@@ -117,6 +117,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
     this.perRecipientOverallColumnsData = [
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
+      { header: 'Recipient Email', sortBy: SortBy.RECIPIENT_EMAIL },
       { header: 'Overall Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
       { header: 'Breakdown Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
     ];
@@ -126,6 +127,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       this.perRecipientOverallRowsData.push([
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
+        { value: perRecipientStats.recipientEmail },
         { value: perRecipientStats.weightAverage },
         { value: perRecipientStats.subQuestionWeightAverage.toString() },
       ]);

@@ -138,6 +138,11 @@ export enum SortBy {
     RECIPIENT_NAME,
 
     /**
+     * Email of the recipient of the feedback response.
+     */
+    RECIPIENT_EMAIL,
+
+    /**
      * Average score of the numerical scale question.
      */
     NUMERICAL_SCALE_AVERAGE,
