@@ -225,7 +225,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateResponseDetails_otherAnswerNotChosenButOtherFieldIsNotEmpty_shouldTriggerError() {
+    public void tValidateResponsesDetails_otherAnswerNotChosenButOtherFieldIsNotEmpty_shouldTriggerError() {
         FeedbackMsqQuestionDetails msqQuestionDetails = new FeedbackMsqQuestionDetails();
         msqQuestionDetails.setMsqChoices(Arrays.asList("choiceA", "choiceB"));
         msqQuestionDetails.setOtherEnabled(true);
@@ -248,7 +248,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateResponseDetails_choiceNotInValidChoices_shouldTriggerError() {
+    public void tValidateResponsesDetails_choiceNotInValidChoices_shouldTriggerError() {
         FeedbackMsqQuestionDetails msqQuestionDetails = new FeedbackMsqQuestionDetails();
         msqQuestionDetails.setMsqChoices(Arrays.asList("choiceA", "choiceB"));
         msqQuestionDetails.setOtherEnabled(true);
@@ -289,7 +289,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateResponseDetails_otherDisabledButExists_shouldReturnError() {
+    public void tValidateResponsesDetails_otherDisabledButExists_shouldReturnError() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choiceA", "choiceB"));
         msqDetails.setOtherEnabled(false);
@@ -306,7 +306,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateResponseDetails_otherEnabledButEmpty_shouldReturnError() {
+    public void tValidateResponsesDetails_otherEnabledButEmpty_shouldReturnError() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choiceA", "choiceB", "other"));
         msqDetails.setOtherEnabled(true);
@@ -323,7 +323,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateResponseDetails_choicesMoreThanMax_shouldReturnError() {
+    public void tValidateResponsesDetails_choicesMoreThanMax_shouldReturnError() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choiceA", "choiceB", "choiceC"));
         msqDetails.setMaxSelectableChoices(2);
@@ -342,7 +342,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateResponseDetails_choicesLessThanMin_shouldReturnError() {
+    public void tValidateResponsesDetails_choicesLessThanMin_shouldReturnError() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choiceA", "choiceB", "choiceC"));
         msqDetails.setMinSelectableChoices(2);
@@ -361,7 +361,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateResponseDetails_noneOfTheAboveSelectedWhenMinRestriction_shouldReturnError() {
+    public void tValidateResponsesDetails_noneOfTheAboveSelectedWhenMinRestriction_shouldReturnError() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choiceA", "choiceB", "choiceC"));
         msqDetails.setMinSelectableChoices(2);
@@ -376,7 +376,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateResponseDetails_noneOfTheAboveSelectedButOtherExists_shouldReturnError() {
+    public void tValidateResponsesDetails_noneOfTheAboveSelectedButOtherExists_shouldReturnError() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of(
                 "choiceA",
