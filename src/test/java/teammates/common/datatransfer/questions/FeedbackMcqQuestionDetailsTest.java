@@ -143,7 +143,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqChoices(List.of("choice1", "choice2"));
 
         FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
-        newMcqDetails.setMcqChoices(List.of("choice1", "choice 3"));
+        newMcqDetails.setMcqChoices(List.of("choice1", "choice3"));
 
         assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
     }
