@@ -16,7 +16,7 @@
     <p>To view the profile of Student A from Course B:</p>
     <ol>
       <li>
-        Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+        Go to the <span class="my_tag">Students</span> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
       </li>
       <li>
         Click the
@@ -32,20 +32,20 @@
     </p>
     <ul>
       <li>
-        <b>Section Name</b>: the name of the section you enrolled the student in. This only appears if sections are created for the course.
+        <span class="my_tag">Section Name</span>: the name of the section you enrolled the student in. This only appears if sections are created for the course.
       </li>
       <li>
-        <b>Team Name</b>: the name of the team you enrolled the student in, or <i>NA</i> if the student does not belong to a team.
+        <span class="my_tag">Team Name</span>: the name of the team you enrolled the student in, or <i>NA</i> if the student does not belong to a team.
       </li>
       <li>
-        <b>Official Email</b>: the email address that will be used to contact the student, taken from enrollment information.
+        <span class="my_tag">Official Email</span>: the email address that will be used to contact the student, taken from enrollment information.
       </li>
       <li>
-        <b>Comments</b>: additional student information you entered in the Comments column during enrollment.
+        <span class="my_tag">Comments</span>: additional student information you entered in the Comments column during enrollment.
       </li>
     </ul>
     <p>
-      Below this is the <b>More Info</b> section containing a personal description given by the student, if any.
+      Below this is the <span class="my_tag">More Info</span> section containing a personal description given by the student, if any.
       <br> You can press the <span class="text-muted fas fa-expand-arrows-alt cursor-pointer"></span> button in the top-right corner to display the information in a lightbox for better readability.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
@@ -63,7 +63,7 @@
     </p>
     <ol>
       <li>
-        Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in Course B.
+        Go to the <span class="my_tag">Students</span> page and click the panel heading for Course B. You will see a list of students enrolled in Course B.
       </li>
       <li>
         Click the
@@ -96,7 +96,7 @@
     </p>
     <ol>
       <li>
-        Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+        Go to the <span class="my_tag">Students</span> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
       </li>
       <li>
         Click
@@ -111,7 +111,7 @@
                             headerText="How do I search for a student in my course?"
                             [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
     <p>
-      You can search for students from the <b>Search</b> page. Click the <b>Search</b> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
+      You can search for students from the <span class="my_tag">Search</span> page. Click the <span class="my_tag">Search</span> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim><tm-instructor-search-bar></tm-instructor-search-bar></tm-example-box>
     <p>
