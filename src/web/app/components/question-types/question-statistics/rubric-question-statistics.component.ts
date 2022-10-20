@@ -118,6 +118,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
       { header: 'Recipient Email', sortBy: SortBy.RECIPIENT_EMAIL },
+      ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
       { header: 'Overall Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
       { header: 'Breakdown Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
     ];
