@@ -127,6 +127,11 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
         { value: perRecipientStats.recipientEmail },
+        ...this.choices.map((_: string, choiceIndex: number) => {
+                    return {
+                      value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`,
+                    };
+                  }),
       ]);
     });
   }

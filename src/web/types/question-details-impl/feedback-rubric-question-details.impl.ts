@@ -129,6 +129,9 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
           perRecipientStats.recipientTeam,
           perRecipientStats.recipientName,
           perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
+          ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
+                          return `${perRecipientStats.percentagesAverage[choiceIndex]}%`;
+                        }),
         ]);
       });
 
