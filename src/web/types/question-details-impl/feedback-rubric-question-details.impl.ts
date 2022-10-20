@@ -118,6 +118,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
       'Team',
       'Recipient Name',
       "Recipient's Email",
+      ...statsCalculation.choices,
       'Average',
       'Breakdown',
     ]);
