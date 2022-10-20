@@ -119,8 +119,6 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
       'Recipient Name',
       "Recipient's Email",
       ...statsCalculation.choices,
-      'Average',
-      'Breakdown',
     ]);
 
     Object.values(statsCalculation.perRecipientStatsMap)
@@ -131,8 +129,6 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
           perRecipientStats.recipientTeam,
           perRecipientStats.recipientName,
           perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
-          String(perRecipientStats.weightAverage),
-          perRecipientStats.subQuestionWeightAverage.toString(),
         ]);
       });
 

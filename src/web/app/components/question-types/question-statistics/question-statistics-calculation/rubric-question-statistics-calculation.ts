@@ -17,7 +17,6 @@ export interface PerRecipientStats {
   percentages: number[][];
   subQuestionTotalChosenWeight: number[];
   subQuestionWeightAverage: number[];
-  weightAverage: number;
 }
 
 /**
@@ -120,11 +119,6 @@ export class RubricQuestionStatisticsCalculation
       perRecipientStats.percentages = this.calculatePercentages(perRecipientStats.answers);
       perRecipientStats.subQuestionWeightAverage =
           this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
-
-      const weightAgg: number =
-        perRecipientStats.subQuestionWeightAverage.reduce((sum: number, curr: number) => sum + curr, 0);
-      const totalQuestions: number = perRecipientStats.subQuestionWeightAverage.length;
-      perRecipientStats.weightAverage = +((weightAgg / totalQuestions).toFixed(2));
     }
   }
 
