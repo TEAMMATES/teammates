@@ -34,7 +34,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 export class AdminSearchPageComponent {
 
   searchQuery: string = '';
-  searchedTerm: string = '';
+  searchString: string = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
@@ -96,7 +96,7 @@ export class AdminSearchPageComponent {
             but there may be more results not shown. Consider searching with more specific terms.`);
       }
 
-      this.searchedTerm = this.searchQuery;
+      this.searchString = this.searchQuery;
 
     }, (resp: ErrorMessageOutput) => {
       this.instructors = [];
