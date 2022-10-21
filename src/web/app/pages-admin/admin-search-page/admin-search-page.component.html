@@ -37,7 +37,7 @@
         <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
             <td class="text-break">
-              <span class="ngb-tooltip-class" [ngClass]="{'text-course-deleted': instructor.isCourseDeleted}" [ngbTooltip]="instructor.courseName" [innerHtml]="instructor.courseId | highlighter:searchedTerm:true"></span>
+              <span class="ngb-tooltip-class" [ngClass]="{'text-course-deleted': instructor.isCourseDeleted}" [ngbTooltip]="instructor.courseName" [innerHtml]="instructor.courseId | highlighter:searchString:true"></span>
               <i *ngIf="instructor.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px bin-icon" [ngbTooltip]="'This course is in the recycle bin.'"></i>
               <br>
               <div class="col-sm-1">
@@ -49,11 +49,11 @@
                 </button>
               </div>
             </td>
-            <td [innerHtml]="instructor.name | highlighter:searchedTerm:true"></td>
-            <td><a href="{{ instructor.homePageLink }}" (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="instructor.googleId | highlighter:searchedTerm:true">
+            <td [innerHtml]="instructor.name | highlighter:searchString:true"></td>
+            <td><a href="{{ instructor.homePageLink }}" (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="instructor.googleId | highlighter:searchString:true">
               </a>
             </td>
-            <td [innerHtml]="instructor.institute | highlighter:searchedTerm:true"></td>
+            <td [innerHtml]="instructor.institute | highlighter:searchString:true"></td>
             <td>
               <a href="{{ instructor.manageAccountLink }}" *ngIf="instructor.manageAccountLink"
                  (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
@@ -129,7 +129,7 @@
           <tr (click)="student.showLinks = !student.showLinks">
             <td>
               <span class="text-break ngb-tooltip-class" [ngClass]="{'text-course-deleted': student.isCourseDeleted}" [ngbTooltip]="student.courseName"
-              [innerHtml]="student.courseId + ' [' + student.section + '] (' + student.team + ')' | highlighter:searchedTerm:true"></span>
+              [innerHtml]="student.courseId + ' [' + student.section + '] (' + student.team + ')' | highlighter:searchString:true"></span>
               <i *ngIf="student.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px bin-icon" [ngbTooltip]="'This course is in the recycle bin.'"></i>
               <br>
               <div class="col-sm-1">
@@ -142,13 +142,13 @@
               </div>
             </td>
             <td><a href="{{ student.profilePageLink }}"
-                   (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.name | highlighter:searchedTerm:true">
+                   (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.name | highlighter:searchString:true">
               </a></td>
             <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId"
-                   (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.googleId | highlighter:searchedTerm:true">
+                   (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.googleId | highlighter:searchString:true">
               </a></td>
-            <td [innerHtml]="student.institute | highlighter:searchedTerm:true"></td>
-            <td [innerHtml]="student.comments | highlighter:searchedTerm:true"></td>
+            <td [innerHtml]="student.institute | highlighter:searchString:true"></td>
+            <td [innerHtml]="student.comments | highlighter:searchString:true"></td>
             <td>
               <a href="{{ student.manageAccountLink }}" *ngIf="student.googleId && student.manageAccountLink"
                  (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
@@ -227,7 +227,7 @@
       <tbody>
         <ng-container *ngFor="let accountRequest of accountRequests; let i = index">
           <tr (click)="accountRequest.showLinks = !accountRequest.showLinks">
-            <td [innerHtml]="accountRequest.name | highlighter:searchedTerm:true">
+            <td [innerHtml]="accountRequest.name | highlighter:searchString:true">
               <br>
               <div class="col-sm-1">
                 <button *ngIf="!accountRequest.showLinks" class="btn">
@@ -238,8 +238,8 @@
                 </button>
               </div>
             </td>
-            <td [innerHtml]="accountRequest.email | highlighter:searchedTerm:true">{{ accountRequest.email }}</td>
-            <td [innerHtml]="accountRequest.institute | highlighter:searchedTerm:true">{{ accountRequest.institute }}</td>
+            <td [innerHtml]="accountRequest.email | highlighter:searchString:true">{{ accountRequest.email }}</td>
+            <td [innerHtml]="accountRequest.institute | highlighter:searchString:true">{{ accountRequest.institute }}</td>
             <td>{{ accountRequest.createdAtText }}</td>
             <td>{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
             <td>
