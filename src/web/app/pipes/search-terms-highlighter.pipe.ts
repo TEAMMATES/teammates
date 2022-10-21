@@ -9,26 +9,26 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
      * Transforms text to add highlighting styling.
      *
      * @param value text to be transformed if it contains search terms
-     * @param args search terms entered by user in the search bar
-     * @param partial optional argument, true when text should be highlighted on a partial match,
+     * @param searchStr search terms entered by user in the search bar
+     * @param isPartialMatch optional argument, true when text should be highlighted on a partial match,
      *                by default, text is only highlighted on a full word match
      * @returns transformed text with styling added if search terms were found
      */
-    transform(value: string, args: string, partial?: boolean): string {
-        if (!args) {
+    transform(value: string, searchStr: string, isPartialMatch?: boolean): string {
+        if (!searchStr) {
             return value;
         }
-        const exactPhrases: string = this.findAllExactPhrases(args).map((str) => {
-            return partial ? `${str}` : `\\b${str}\\b`;
+        const exactPhrases: string = this.findAllExactPhrases(searchStr).map((str) => {
+            return isPartialMatch ? `${str}` : `\\b${str}\\b`;
         })
         .filter((str) => str !== '\\b\\b').join('|');
-        const searchTerms: string = this.removeAllExactPhrases(args);
+        const searchTerms: string = this.removeAllExactPhrases(searchStr);
 
         let result: string = value;
 
         if (searchTerms.trim() !== '') {
             const combinedSearchTerms = searchTerms.split(' ').map((str) => {
-                return partial ? `${str}` : `\\b${str}\\b`;
+                return isPartialMatch ? `${str}` : `\\b${str}\\b`;
             })
             .filter((str) => str !== '\\b\\b').join('|');
             const partialMatchRe = new RegExp(combinedSearchTerms, 'igm');
