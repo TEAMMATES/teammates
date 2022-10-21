@@ -83,3 +83,5 @@ datastore-dev/datastore/*
 # Docs
 docs/_site/*
 docs/_markbind/logs/*
+.stylelintcache
+.eslintcache
