@@ -1,4 +1,4 @@
-<div>
+<div xmlns="http://www.w3.org/1999/html">
   <div class="section-header d-flex align-items-center">
     <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Questions</h2>
     <div class="ml-2 mb-1" (click)="changeBrowserUrl(Sections.questions)">
@@ -44,7 +44,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
     <p>
       Multiple-choice (single answer) questions allow respondents to choose one answer from your list of answer options.<br>
-      Other than manually specifying options, TEAMMATES also supports <span class="my_tag">generating options</span> based on the list of students, teams and instructors in the course.
+      Other than manually specifying options, TEAMMATES also supports <span class="ui-text">generating options</span> based on the list of students, teams and instructors in the course.
     </p>
     <p>
       To set up a multiple choice (single answer) question:
@@ -186,7 +186,7 @@
         List all the answer options from which students can choose.
       </li>
       <li>
-        Choose the number of points students will get to split among the options — you can also choose to specify <span class="my_tag">points to distribute X number of options</span>, which gives students a total of <code>(specified points) x (number of options)</code> points.
+        Choose the number of points students will get to split among the options — you can also choose to specify <span class="ui-text">points to distribute X number of options</span>, which gives students a total of <code>(specified points) x (number of options)</code> points.
       </li>
       <li>
         Specify the feedback path that should be used to generate the appropriate feedback recipients.
@@ -234,7 +234,7 @@
         (Optional) Add a description for the question.
       </li>
       <li>
-        Choose the number of points students will get to split among the options — you can also choose to specify <span class="my_tag">points to distribute X number of options</span>, which gives students a total of <code>(specified points) x (number of options)</code> points.
+        Choose the number of points students will get to split among the options — you can also choose to specify <span class="ui-text">points to distribute X number of options</span>, which gives students a total of <code>(specified points) x (number of options)</code> points.
       </li>
       <li>
         Specify the feedback path that should be used to generate the appropriate feedback recipients.
@@ -465,20 +465,20 @@
     </p>
     <ul>
       <li>
-        <span class="my_tag">E (Equal share)</span>: a relative measure of work done. e.g. For a 3-person team, an 'Equal share' means 'a third of the total work done'.
+        <b>E (Equal share)</b>: a relative measure of work done. e.g. For a 3-person team, an 'Equal share' means 'a third of the total work done'.
       </li>
       <li>
-        <span class="my_tag">CC (Claimed Contribution)</span>: This is what the student claimed he contributed.
+        <b>CC (Claimed Contribution)</b>: This is what the student claimed he contributed.
       </li>
       <li>
-        <span class="my_tag">Ratings Received </span>: These are the peer opinions as to how much the student contributed. These values have been adjusted to neutralize any attempts by students to boost their own standing by rating others low.
+        <b>Ratings Received </b>: These are the peer opinions as to how much the student contributed. These values have been adjusted to neutralize any attempts by students to boost their own standing by rating others low.
       </li>
       <li>
-        <span class="my_tag">PC (Perceived Contribution)</span>: This is the average value of the 'Ratings Received'. This can be considered as the
+        <b>PC (Perceived Contribution)</b>: This is the average value of the 'Ratings Received'. This can be considered as the
         <i>team's perception of how much the student contributed</i>.
       </li>
       <li>
-        <span class="my_tag">Diff</span>: The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
+        <span class="ui-text">Diff</span>: The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
       </li>
     </ul>
     <p>
@@ -725,13 +725,13 @@
     </p>
     <ul>
       <li>
-        <span class="my_tag">Ranks received</span>: a list of the ranks which a recipient received from respondents.
+        <b>Ranks received</b>: a list of the ranks which a recipient received from respondents.
       </li>
       <li>
-        <span class="my_tag">Overall rank</span>: the recipient's rank relative to other recipients, as computed by TEAMMATES.
+        <b>Overall rank</b>: the recipient's rank relative to other recipients, as computed by TEAMMATES.
       </li>
       <li>
-        <span class="my_tag">Team rank</span>: the recipient's rank relative to other recipients within their own team only. Applicable only if students rank their teammates.
+        <b>Team rank</b>: the recipient's rank relative to other recipients within their own team only. Applicable only if students rank their teammates.
       </li>
     </ul>
     <p>
@@ -740,17 +740,17 @@
     <ng-template #rankInfoHelp>
       <ul>
         <li>
-          <span class="my_tag">Ranks Received</span> is a list of the actual ranks each recipient received. TEAMMATES processes the original responses, handling ties and unused ranks.
-          For example, if giver A's original response is <code>(1, 3, 3, 5)</code> and Rank 5 is given to recipient B, after the processing, giver A's response will become <code>(1, 2, 2, 4)</code> and recipient B will have a Rank 4 in his/her <span class="my_tag">Ranks Received</span>, instead of the Rank 5 in the original response by giver A.
+          <span class="ui-text">Ranks Received</span> is a list of the actual ranks each recipient received. TEAMMATES processes the original responses, handling ties and unused ranks.
+          For example, if giver A's original response is <code>(1, 3, 3, 5)</code> and Rank 5 is given to recipient B, after the processing, giver A's response will become <code>(1, 2, 2, 4)</code> and recipient B will have a Rank 4 in his/her <span class="ui-text">Ranks Received</span>, instead of the Rank 5 in the original response by giver A.
         </li>
         <li>
-          The <span class="my_tag">Overall Rank</span> ranks the average rank each recipient receives.
-          For example, if recipient A received the ranks <code>(1, 2)</code> and recipient B received the ranks <code>(2, 4, 6)</code>, then recipient A and recipient B's average ranks are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get an <span class="my_tag">Overall Rank</span> of 1 and 2 respectively.
+          The <span class="ui-text">Overall Rank</span> ranks the average rank each recipient receives.
+          For example, if recipient A received the ranks <code>(1, 2)</code> and recipient B received the ranks <code>(2, 4, 6)</code>, then recipient A and recipient B's average ranks are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get an <span class="ui-text">Overall Rank</span> of 1 and 2 respectively.
         </li>
         <li>
-          The <span class="my_tag">Team Rank</span> works in a similar way to <span class="my_tag">Overall Rank</span> as it uses the average rank received to calculate the rank within the team. However, the average rank of the members are only compared to their own team members.
-          For example, if recipient A (who is a part of team X) received the ranks <code>(1, 2)</code> and recipient B (who is a part of team X) received the ranks <code>(2, 4, 6)</code>, then recipient A and recipient B's average ranks are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get a <span class="my_tag">Team Rank</span> of 1 and 2 respectively.
-          If recipient C (who is a part of team Y) received the ranks <code>(1, 1)</code> and recipient D (who is a part of team Y) received the ranks <code>(1, 2)</code>, then recipient C and recipient D's average ranks are 1 and 1.5 respectively. By ranking these two averages, recipient C and D will get a <span class="my_tag">Team Rank</span> of 1 and 2 respectively.
+          The <span class="ui-text">Team Rank</span> works in a similar way to <span class="ui-text">Overall Rank</span> as it uses the average rank received to calculate the rank within the team. However, the average rank of the members are only compared to their own team members.
+          For example, if recipient A (who is a part of team X) received the ranks <code>(1, 2)</code> and recipient B (who is a part of team X) received the ranks <code>(2, 4, 6)</code>, then recipient A and recipient B's average ranks are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get a <span class="ui-text">Team Rank</span> of 1 and 2 respectively.
+          If recipient C (who is a part of team Y) received the ranks <code>(1, 1)</code> and recipient D (who is a part of team Y) received the ranks <code>(1, 2)</code>, then recipient C and recipient D's average ranks are 1 and 1.5 respectively. By ranking these two averages, recipient C and D will get a <span class="ui-text">Team Rank</span> of 1 and 2 respectively.
           Note that both recipient A and recipient C get an average of 1.5 but they get different team ranks as they are in different teams.
         </li>
       </ul>
