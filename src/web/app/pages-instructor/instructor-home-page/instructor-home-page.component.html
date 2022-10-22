@@ -9,7 +9,7 @@
 
 <div class="row mb-3" *tmIsLoading="!hasCoursesLoaded">
   <div class="col-4">
-    <a tmRouterLink="/web/instructor/courses" class="btn btn-success" [queryParams]="{isAddNewCourse: true}">
+    <a tmRouterLink="/web/instructor/courses" class="btn btn-success" (click)="isAddNewCourseFormExpanded = true">
       <i class="fas fa-plus"></i> Add New Course
     </a>
   </div>

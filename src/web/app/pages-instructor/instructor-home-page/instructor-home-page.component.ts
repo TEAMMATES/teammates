@@ -76,6 +76,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
+  isAddNewCourseFormExpanded: boolean = false;
+  isLoading: boolean = false;
 
   constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
