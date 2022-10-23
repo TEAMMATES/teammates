@@ -76,7 +76,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
-  // altered
+  // altered by Albert Yu
   isAddNewCourseFormExpanded: boolean = false;
   isLoading: boolean = false;
 
