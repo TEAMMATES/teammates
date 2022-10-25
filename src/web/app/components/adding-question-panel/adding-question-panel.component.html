@@ -7,13 +7,13 @@
       <ng-container *ngFor="let questionType of FeedbackQuestionType | enumToArray">
         <div *ngIf="questionType !== FeedbackQuestionType.CONSTSUM">
           <div class="d-flex btn-group justify-content-between" role="group">
-              <button class="dropdown-item" *ngIf="questionType !== FeedbackQuestionType.CONSTSUM"
+            <button class="dropdown-item"
               (click)="populateAndShowNewQuestionFormHandler(questionType)">
                     {{ questionType | questionTypeName }}
             </button>
-            <a type="button" class="btn btn-link" *ngIf="!isLinkDisabled" target="_blank" rel="noopener noreferrer" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: questionType | questionTypeId, section: 'questions'}"><i class="fas fa-info-circle"></i></a>
+            <a type="button" class="btn btn-link" *ngIf="!isLinkDisabled" target="_blank" rel="noopener noreferrer" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: questionType | questionTypeHelpPath, section: 'questions'}"><i class="fas fa-info-circle"></i></a>
           </div>
-      </div>
+        </div>
       </ng-container>
     </div>
   </div>

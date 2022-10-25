@@ -8,9 +8,9 @@ import {
  * Pipe to get Question ID from {@code QuestionsSectionQuestions}.
  */
 @Pipe({
-  name: 'questionTypeId',
+  name: 'questionTypeHelpPath',
 })
-export class QuestionTypeIdPipe implements PipeTransform {
+export class QuestionTypeHelpPathPipe implements PipeTransform {
 
   transform(type: FeedbackQuestionType): string {
     switch (type) {
