@@ -1,4 +1,4 @@
-<div xmlns="http://www.w3.org/1999/html">
+<div>
   <div class="section-header d-flex align-items-center">
     <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Questions</h2>
     <div class="ml-2 mb-1" (click)="changeBrowserUrl(Sections.questions)">
@@ -478,7 +478,7 @@
         <i>team's perception of how much the student contributed</i>.
       </li>
       <li>
-        <span class="ui-text">Diff</span>: The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
+        <b>Diff</b>: The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
       </li>
     </ul>
     <p>
