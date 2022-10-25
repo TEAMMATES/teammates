@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { Pipes } from '../../pipes/pipes.module';
 import { InstructorSearchComponentsModule } from './instructor-search-components.module';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 
@@ -27,6 +28,7 @@ const routes: Routes = [
     InstructorSearchComponentsModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
+    Pipes,
   ],
 })
 export class InstructorSearchPageModule { }
