@@ -9,6 +9,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -94,6 +95,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -179,6 +181,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -267,6 +270,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -352,6 +356,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -437,6 +442,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -3036,6 +3042,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}

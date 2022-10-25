@@ -399,6 +399,9 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private WebElement getQuestionResponsesSection(int questionNum) {
+        WebElement question = browser.driver.findElement(By.id("question-" + questionNum + "-responses"));
+        scrollElementToCenter(question);
+        waitUntilAnimationFinish();
         return browser.driver.findElement(By.id("question-" + questionNum + "-responses"));
     }
 

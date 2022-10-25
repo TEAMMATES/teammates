@@ -48,7 +48,8 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                     feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             break;
         case STUDENT_RESULT:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
+            gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
+            break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
@@ -78,10 +79,9 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             break;
         case FULL_DETAIL:
         case INSTRUCTOR_RESULT:
+        case STUDENT_RESULT:
             questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
             break;
-        case STUDENT_RESULT:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
@@ -94,7 +94,7 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         FeedbackQuestionsData response = new FeedbackQuestionsData(questions);
         response.normalizeQuestionNumber();
-        if (intent.equals(Intent.STUDENT_SUBMISSION)) {
+        if (intent.equals(Intent.STUDENT_SUBMISSION) || intent.equals(Intent.STUDENT_RESULT)) {
             for (FeedbackQuestionData questionData : response.getQuestions()) {
                 questionData.hideInformationForStudent();
             }

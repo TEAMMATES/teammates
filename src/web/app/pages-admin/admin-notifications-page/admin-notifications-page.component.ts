@@ -8,6 +8,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import { MessageOutput, Notification, Notifications } from '../../../types/api-output';
 import { NotificationStyle, NotificationTargetUser } from '../../../types/api-request';
+import { getDefaultDateFormat, getDefaultTimeFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -38,10 +39,10 @@ export class AdminNotificationsPageComponent implements OnInit {
     notificationId: '',
     shown: false,
 
-    startTime: { hour: 0, minute: 0 },
-    startDate: { year: 0, month: 0, day: 0 },
-    endTime: { hour: 0, minute: 0 },
-    endDate: { year: 0, month: 0, day: 0 },
+    startTime: getDefaultTimeFormat(),
+    startDate: getDefaultDateFormat(),
+    endTime: getDefaultTimeFormat(),
+    endDate: getDefaultDateFormat(),
 
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
@@ -94,7 +95,7 @@ export class AdminNotificationsPageComponent implements OnInit {
         month: nearFuture.month() + 1, // moment return 0-11 for month
         day: nearFuture.date(),
       },
-      endTime: { hour: 23, minute: 59 },
+      endTime: getLatestTimeFormat(),
       endDate: {
         year: tomorrow.year(),
         month: tomorrow.month() + 1, // moment return 0-11 for month

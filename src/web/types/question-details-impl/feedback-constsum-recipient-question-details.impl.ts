@@ -22,6 +22,8 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
   points: number = 100;
   questionText: string = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
+  minPoint: number | undefined = undefined;
+  maxPoint: number | undefined = undefined;
 
   constructor(apiOutput: FeedbackConstantSumQuestionDetails) {
     super();
@@ -31,6 +33,8 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
     this.distributePointsFor = apiOutput.distributePointsFor;
     this.points = apiOutput.points;
     this.questionText = apiOutput.questionText;
+    this.minPoint = apiOutput.minPoint;
+    this.maxPoint = apiOutput.maxPoint;
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {

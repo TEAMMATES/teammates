@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ResourceEndpoints } from '../types/api-const';
+import { Milliseconds } from '../types/datetime-const';
 import { HttpRequestService } from './http-request.service';
 import { TimezoneService } from './timezone.service';
 
@@ -10,8 +11,6 @@ import { TimezoneService } from './timezone.service';
 describe('TimezoneService', () => {
   let spyHttpRequestService: any;
   let service: TimezoneService;
-
-  const oneHourInMs: number = 60 * 60 * 1000;
 
   beforeEach(() => {
     spyHttpRequestService = {
@@ -94,7 +93,7 @@ describe('TimezoneService', () => {
 
     // Here, the clock has sprung forward and the time does not actually exist in the timezone.
     // It can be resolved to either the next or previous available hour.
-    expect(usTime === baseEpochTime + oneHourInMs || usTime === baseEpochTime).toBeTruthy();
+    expect(usTime === baseEpochTime + Milliseconds.IN_ONE_HOUR || usTime === baseEpochTime).toBeTruthy();
 
     usTime = service.resolveLocalDateTime(
         { year: 2020, month: 3, day: 8 },
@@ -102,14 +101,14 @@ describe('TimezoneService', () => {
 
     // The time here is a legitimate time, but the difference with 1.00AM is just one hour
     // as the 2.00-2.59AM hour mark does not exist.
-    expect(usTime).toEqual(baseEpochTime + oneHourInMs);
+    expect(usTime).toEqual(baseEpochTime + Milliseconds.IN_ONE_HOUR);
 
     usTime = service.resolveLocalDateTime(
         { year: 2020, month: 3, day: 8 },
         { hour: 4, minute: 0 }, 'US/Central');
 
     // After the clock has sprung forward, time should be calculated as per normal.
-    expect(usTime).toEqual(baseEpochTime + 2 * oneHourInMs);
+    expect(usTime).toEqual(baseEpochTime + 2 * Milliseconds.IN_ONE_HOUR);
 
     utcTime = service.resolveLocalDateTime(
         { year: 2020, month: 3, day: 8 },
@@ -142,15 +141,16 @@ describe('TimezoneService', () => {
 
     // Here, the clock has sprung backward and the time exists in duplicate.
     // It can be resolved to either the earlier or the latter hour.
-    expect(usTime === baseEpochTime + oneHourInMs || usTime === baseEpochTime + 2 * oneHourInMs)
-        .toBeTruthy();
+    expect(usTime === baseEpochTime + Milliseconds.IN_ONE_HOUR
+      || usTime === baseEpochTime + 2 * Milliseconds.IN_ONE_HOUR)
+      .toBeTruthy();
 
     usTime = service.resolveLocalDateTime(
         { year: 2020, month: 11, day: 1 },
         { hour: 2, minute: 0 }, 'US/Central');
 
     // After the clock has sprung backward, time should be calculated as per normal.
-    expect(usTime).toEqual(baseEpochTime + 3 * oneHourInMs);
+    expect(usTime).toEqual(baseEpochTime + 3 * Milliseconds.IN_ONE_HOUR);
 
     utcTime = service.resolveLocalDateTime(
         { year: 2020, month: 11, day: 1 },
