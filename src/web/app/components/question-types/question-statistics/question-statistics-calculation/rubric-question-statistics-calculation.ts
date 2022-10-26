@@ -20,6 +20,8 @@ export interface PerRecipientStats {
   weightsAverage: number[];
   subQuestionTotalChosenWeight: number[];
   subQuestionWeightAverage: number[];
+  overallWeightedSum: number;
+  overallWeightAverage: number;
 }
 
 /**
@@ -129,6 +131,10 @@ export class RubricQuestionStatisticsCalculation
       perRecipientStats.subQuestionWeightAverage =
           this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
       perRecipientStats.weightsAverage = this.calculateColumnAverages(this.weights);
+      perRecipientStats.overallWeightedSum = this.calculateWeightedSum(perRecipientStats.percentagesAverage,
+          perRecipientStats.answersSum, perRecipientStats.weightsAverage);
+      perRecipientStats.overallWeightAverage = perRecipientStats.overallWeightedSum /
+          (this.calculateNumResponses(perRecipientStats.answersSum));
     }
   }
 
@@ -183,5 +189,23 @@ export class RubricQuestionStatisticsCalculation
       averages[i] = +(sums[i]/array.length).toFixed(2);
     }
     return averages;
+  }
+
+  // Calculate weighted sum of responses
+  private calculateWeightedSum(percentages: number[], answers: number[], weights: number[]): number {
+    var sum: number = 0;
+    for (let i: number = 0; i < answers.length; i += 1) {
+      sum += ((percentages[i]/100) * answers[i] * weights[i]);
+    }
+    return sum;
+  }
+
+  // Calculate total number of responses
+  private calculateNumResponses(answersSum: number[]): number {
+    var num: number = 0;
+    for (let i = 0; i < answersSum.length; i += 1) {
+      num += answersSum[i];
+    }
+    return num;
   }
 }

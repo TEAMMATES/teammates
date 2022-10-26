@@ -119,6 +119,8 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
       { header: 'Recipient Email', sortBy: SortBy.RECIPIENT_EMAIL },
       ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
+      { header: 'Total', sortBy: SortBy.RUBRIC_OVERALL_TOTAL_WEIGHT },
+      { header: 'Average', sortBy: SortBy.RUBRIC_OVERALL_WEIGHT_AVERAGE },
     ];
 
     this.perRecipientOverallRowsData = [];
@@ -128,12 +130,14 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         { value: perRecipientStats.recipientName },
         { value: perRecipientStats.recipientEmail },
         ...this.choices.map((_: string, choiceIndex: number) => {
-                    return {
-                      value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
-                      + ` (${perRecipientStats.answersSum[choiceIndex]})`
-                      + ` [${perRecipientStats.weightsAverage[choiceIndex]}]`
-                    };
-                  }),
+          return {
+            value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
+                + ` (${perRecipientStats.answersSum[choiceIndex]})`
+                + ` [${perRecipientStats.weightsAverage[choiceIndex]}]`
+          };
+        }),
+        { value: perRecipientStats.overallWeightedSum },
+        { value: perRecipientStats.overallWeightAverage },
       ]);
     });
   }

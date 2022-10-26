@@ -119,6 +119,8 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
       'Recipient Name',
       "Recipient's Email",
       ...statsCalculation.choices,
+      "Total",
+      "Average"
     ]);
 
     Object.values(statsCalculation.perRecipientStatsMap)
@@ -130,10 +132,12 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
           perRecipientStats.recipientName,
           perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
           ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-                          return `${perRecipientStats.percentagesAverage[choiceIndex]}% \
-                          (${perRecipientStats.answersSum[choiceIndex]}) \
-                          [${perRecipientStats.weightsAverage[choiceIndex]}]`;
-                        }),
+          return `${perRecipientStats.percentagesAverage[choiceIndex]}% \
+                  (${perRecipientStats.answersSum[choiceIndex]}) \
+                  [${perRecipientStats.weightsAverage[choiceIndex]}]`;
+          }),
+          String(perRecipientStats.overallWeightedSum),
+          String(perRecipientStats.overallWeightAverage)
         ]);
       });
 
