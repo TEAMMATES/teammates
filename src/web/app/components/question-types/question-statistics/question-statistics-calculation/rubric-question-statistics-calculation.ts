@@ -14,6 +14,7 @@ export interface PerRecipientStats {
   recipientEmail?: string;
   recipientTeam: string;
   answers: number[][];
+  answersSum: number[];
   percentages: number[][];
   percentagesAverage: number[];
   subQuestionTotalChosenWeight: number[];
@@ -35,7 +36,6 @@ export class RubricQuestionStatisticsCalculation
   answers: number[][] = [];
 
   percentages: number[][] = [];
-  percentagesAverage : number[] = [];
   subQuestionWeightAverage: number[] = [];
   answersExcludeSelf: number[][] = [];
   percentagesExcludeSelf: number[][] = [];
@@ -46,7 +46,6 @@ export class RubricQuestionStatisticsCalculation
   calculateStatistics(): void {
     this.answers = [];
     this.percentages = [];
-    this.percentagesAverage = [];
     this.answersExcludeSelf = [];
     this.percentagesExcludeSelf = [];
     this.subQuestionWeightAverage = [];
@@ -84,7 +83,6 @@ export class RubricQuestionStatisticsCalculation
     }
 
     this.percentages = this.calculatePercentages(this.answers);
-    this.percentagesAverage = this.calculatePercentagesAverage(this.percentages);
     this.percentagesExcludeSelf = this.calculatePercentages(this.answersExcludeSelf);
 
     // only apply weights average if applicable
@@ -102,6 +100,7 @@ export class RubricQuestionStatisticsCalculation
         recipientEmail: response.recipientEmail,
         recipientTeam: response.recipientTeam,
         answers: JSON.parse(JSON.stringify(emptyAnswers)),
+        answersSum: [],
         percentages: [],
         percentagesAverage: [],
         subQuestionTotalChosenWeight: this.subQuestions.map(() => 0),
@@ -121,6 +120,7 @@ export class RubricQuestionStatisticsCalculation
     for (const recipient of Object.keys(this.perRecipientStatsMap)) {
       const perRecipientStats: PerRecipientStats = this.perRecipientStatsMap[recipient];
 
+      perRecipientStats.answersSum = this.calculateAnswersSum(perRecipientStats.answers);
       perRecipientStats.percentages = this.calculatePercentages(perRecipientStats.answers);
       perRecipientStats.percentagesAverage =
           this.calculatePercentagesAverage(perRecipientStats.percentages);
@@ -159,6 +159,7 @@ export class RubricQuestionStatisticsCalculation
     return percentages;
   }
 
+  // Calculate the average percentage for each column
   private calculatePercentagesAverage(percentages: number[][]): number[] {
     var sums: number[] = [];
 
@@ -179,4 +180,19 @@ export class RubricQuestionStatisticsCalculation
 //     }
   }
 
+  // Calculate sum of number of answers for each column
+  private calculateAnswersSum(answers: number[][]): number[] {
+    var sums: number[] = [];
+    var numQuestions = answers.length;
+    var numChoices = answers[0].length;
+
+    for (let i: number = 0; i < numChoices; i += 1) {
+      var sum: number = 0;
+      for (let j: number = 0; j < numQuestions; j += 1) {
+        sum += answers[j][i];
+      }
+      sums[i] = sum;
+    }
+     return sums;
+  }
 }

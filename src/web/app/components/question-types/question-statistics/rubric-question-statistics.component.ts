@@ -129,7 +129,8 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         { value: perRecipientStats.recipientEmail },
         ...this.choices.map((_: string, choiceIndex: number) => {
                     return {
-                      value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`,
+                      value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
+                      + ` (${perRecipientStats.answersSum[choiceIndex]})`
                     };
                   }),
       ]);

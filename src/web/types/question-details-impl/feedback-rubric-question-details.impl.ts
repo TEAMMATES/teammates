@@ -130,7 +130,8 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
           perRecipientStats.recipientName,
           perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
           ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
-                          return `${perRecipientStats.percentagesAverage[choiceIndex]}%`;
+                          return `${perRecipientStats.percentagesAverage[choiceIndex]}% \
+                          (${perRecipientStats.answersSum[choiceIndex]})`;
                         }),
         ]);
       });
