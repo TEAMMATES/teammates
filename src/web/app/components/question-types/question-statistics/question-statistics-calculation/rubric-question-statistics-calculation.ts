@@ -17,6 +17,7 @@ export interface PerRecipientStats {
   answersSum: number[];
   percentages: number[][];
   percentagesAverage: number[];
+  weightsAverage: number[];
   subQuestionTotalChosenWeight: number[];
   subQuestionWeightAverage: number[];
 }
@@ -103,6 +104,7 @@ export class RubricQuestionStatisticsCalculation
         answersSum: [],
         percentages: [],
         percentagesAverage: [],
+        weightsAverage: [],
         subQuestionTotalChosenWeight: this.subQuestions.map(() => 0),
         subQuestionWeightAverage: [],
       };
@@ -120,12 +122,13 @@ export class RubricQuestionStatisticsCalculation
     for (const recipient of Object.keys(this.perRecipientStatsMap)) {
       const perRecipientStats: PerRecipientStats = this.perRecipientStatsMap[recipient];
 
-      perRecipientStats.answersSum = this.calculateAnswersSum(perRecipientStats.answers);
+      perRecipientStats.answersSum = this.calculateColumnSums(perRecipientStats.answers);
       perRecipientStats.percentages = this.calculatePercentages(perRecipientStats.answers);
       perRecipientStats.percentagesAverage =
-          this.calculatePercentagesAverage(perRecipientStats.percentages);
+          this.calculateColumnAverages(perRecipientStats.percentages);
       perRecipientStats.subQuestionWeightAverage =
           this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
+      perRecipientStats.weightsAverage = this.calculateColumnAverages(this.weights);
     }
   }
 
@@ -159,40 +162,26 @@ export class RubricQuestionStatisticsCalculation
     return percentages;
   }
 
-  // Calculate the average percentage for each column
-  private calculatePercentagesAverage(percentages: number[][]): number[] {
+  // Calculate sums of columns of 2D array
+  private calculateColumnSums(array: number[][]): number[] {
     var sums: number[] = [];
-
-    for (let i: number = 0; i < percentages[0].length; i += 1) {
-      sums[i] = 0;
-    }
-
-    return sums;
-
-//     var numQuestions: number = percentages.length;
-//     var numChoices: number = percentages[0].length;
-//
-//     for (let i: number = 0; i < numChoices; i += 1) {
-//       for (let j: number = 0; j < numQuestions; j += 1) {
-//         sums[i] = percentages[j][i];
-//       }
-//       sums[i] = sums[i] / numQuestions;
-//     }
-  }
-
-  // Calculate sum of number of answers for each column
-  private calculateAnswersSum(answers: number[][]): number[] {
-    var sums: number[] = [];
-    var numQuestions = answers.length;
-    var numChoices = answers[0].length;
-
-    for (let i: number = 0; i < numChoices; i += 1) {
+    for (let i: number = 0; i < array[0].length; i += 1) {
       var sum: number = 0;
-      for (let j: number = 0; j < numQuestions; j += 1) {
-        sum += answers[j][i];
+      for (let j: number = 0; j < array.length; j += 1) {
+        sum += array[j][i];
       }
       sums[i] = sum;
     }
-     return sums;
+    return sums;
+  }
+
+  // Calculate averages of columns of 2D array
+  private calculateColumnAverages(array: number[][]): number[] {
+    var sums: number[] = this.calculateColumnSums(array);
+    var averages: number[] = [];
+    for (let i: number = 0; i < sums.length; i += 1) {
+      averages[i] = +(sums[i]/array.length).toFixed(2);
+    }
+    return averages;
   }
 }
