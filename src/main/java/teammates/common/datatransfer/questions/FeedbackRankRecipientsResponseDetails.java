@@ -1,7 +1,9 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
@@ -32,51 +34,73 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
         }
 
         FeedbackResponseDetails details;
-        boolean[] isRankUsed = new boolean[maxRank];
+        FeedbackRankRecipientsResponseDetails responseDetails;
+        boolean[] isRankUsed;
+        Set<FeedbackResponseAttributes> updatedResponses = new HashSet<>();
         boolean isUpdateNeeded = false;
-
         int answer;
+        int maxUnusedRank = 0;
+
+        // Checks whether update is needed.
         for (FeedbackResponseAttributes response : responses) {
             details = response.getResponseDetails();
             if (details instanceof FeedbackRankRecipientsResponseDetails) {
-                FeedbackRankRecipientsResponseDetails responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+                responseDetails = (FeedbackRankRecipientsResponseDetails) details;
                 answer = responseDetails.getAnswer();
                 if (answer > maxRank) {
                     isUpdateNeeded = true;
-                } else {
-                    isRankUsed[answer - 1] = true;
+                    break;
                 }
             }
         }
 
-        if (!isUpdateNeeded) {
-            return updateOptions;
-        }
+        // Updates repeatedly, until all responses are consistent.
+        while (isUpdateNeeded) {
+            isUpdateNeeded = false; // will be set to true again once invalid rank appears after update
+            isRankUsed = new boolean[maxRank];
 
-        int maxUnusedRank = 0;
-        FeedbackResponseAttributes.UpdateOptions updateOption;
-
-        for (int i = maxRank - 1; i >= 0; i--) {
-            if (!isRankUsed[i]) {
-                maxUnusedRank = i + 1;
-                break;
-            }
-        }
-
-        assert maxUnusedRank > 0;
-
-        for (FeedbackResponseAttributes response : responses) {
-            details = response.getResponseDetails();
-            if (details instanceof FeedbackRankRecipientsResponseDetails) {
-                FeedbackRankRecipientsResponseDetails responseDetails = (FeedbackRankRecipientsResponseDetails) details;
-                answer = responseDetails.getAnswer();
-                if (answer > maxUnusedRank) {
-                    responseDetails.setAnswer(Math.min(answer - 1, maxRank));
-                    updateOption = FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                            .withFeedbackResponseDetail(responseDetails)
-                            .build();
-                    updateOptions.add(updateOption);
+            // Obtains the largest unused rank.
+            for (FeedbackResponseAttributes response : responses) {
+                details = response.getResponseDetails();
+                if (details instanceof FeedbackRankRecipientsResponseDetails) {
+                    responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+                    answer = responseDetails.getAnswer();
+                    if (answer <= maxRank) {
+                        isRankUsed[answer - 1] = true;
+                    }
                 }
+            }
+            for (int i = maxRank - 1; i >= 0; i--) {
+                if (!isRankUsed[i]) {
+                    maxUnusedRank = i + 1;
+                    break;
+                }
+            }
+            assert maxUnusedRank > 0; // if update is needed, there must be at least one unused rank
+
+            for (FeedbackResponseAttributes response : responses) {
+                details = response.getResponseDetails();
+                if (details instanceof FeedbackRankRecipientsResponseDetails) {
+                    responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+                    answer = responseDetails.getAnswer();
+                    if (answer > maxUnusedRank) {
+                        answer--;
+                        responseDetails.setAnswer(answer);
+                        updatedResponses.add(response);
+                    }
+                    if (answer > maxRank) {
+                        isUpdateNeeded = true; // sets the flag to true if the updated rank is still invalid
+                    }
+                }
+            }
+
+            // Adds the updated responses to the result list.
+            FeedbackResponseAttributes.UpdateOptions updateOption;
+            for (FeedbackResponseAttributes response : updatedResponses) {
+                updateOption = FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                        .withFeedbackResponseDetail(response.getResponseDetails())
+                        .build();
+                updateOptions.add(updateOption);
             }
         }
         return updateOptions;
