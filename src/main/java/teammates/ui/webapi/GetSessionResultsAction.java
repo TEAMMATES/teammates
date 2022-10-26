@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -9,9 +8,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Gets feedback session results including statistics where necessary.
@@ -79,8 +75,6 @@ class GetSessionResultsAction extends Action {
 
             bundle = logic.getSessionResultsForCourse(feedbackSessionName, courseId, instructor.getEmail(),
                     questionId, selectedSection, fetchType);
-//            bundle = new SessionResultsBundle(new HashMap<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new CourseRoster(new ArrayList<>(), new ArrayList<>()));
-
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here
