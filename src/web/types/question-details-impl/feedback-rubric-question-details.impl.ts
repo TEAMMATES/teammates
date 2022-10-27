@@ -83,7 +83,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
     statsRows.push([
       'Team',
       'Recipient Name',
-      "Recipient's Email",
+      "Recipient Email",
       'Sub Question',
       ...statsCalculation.choices,
       'Total',
@@ -117,7 +117,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
     statsRows.push([
       'Team',
       'Recipient Name',
-      'Recipients Email',
+      'Recipient Email',
       ...statsCalculation.choices,
       'Total',
       'Average',
