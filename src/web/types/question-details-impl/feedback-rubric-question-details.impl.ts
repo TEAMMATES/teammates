@@ -117,10 +117,10 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
     statsRows.push([
       'Team',
       'Recipient Name',
-      "Recipient's Email",
+      'Recipients Email',
       ...statsCalculation.choices,
-      "Total",
-      "Average"
+      'Total',
+      'Average',
     ]);
 
     Object.values(statsCalculation.perRecipientStatsMap)
@@ -137,7 +137,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
 [${perRecipientStats.weightsAverage[choiceIndex]}]`;
           }),
           String(perRecipientStats.overallWeightedSum),
-          String(perRecipientStats.overallWeightAverage)
+          String(perRecipientStats.overallWeightAverage),
         ]);
       });
 

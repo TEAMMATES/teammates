@@ -133,7 +133,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
           return {
             value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
                 + ` (${perRecipientStats.answersSum[choiceIndex]})`
-                + ` [${perRecipientStats.weightsAverage[choiceIndex]}]`
+                + ` [${perRecipientStats.weightsAverage[choiceIndex]}]`,
           };
         }),
         { value: perRecipientStats.overallWeightedSum },

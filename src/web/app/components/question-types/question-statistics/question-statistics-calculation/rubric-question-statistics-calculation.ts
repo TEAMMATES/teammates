@@ -134,8 +134,8 @@ export class RubricQuestionStatisticsCalculation
       perRecipientStats.weightsAverage = this.calculateWeightsAverage(this.weights);
       perRecipientStats.overallWeightedSum = this.calculateWeightedSum(perRecipientStats.percentagesAverage,
           perRecipientStats.answersSum, perRecipientStats.weightsAverage);
-      perRecipientStats.overallWeightAverage = +(perRecipientStats.overallWeightedSum /
-          (this.calculateNumResponses(perRecipientStats.answersSum))).toFixed(2);
+      perRecipientStats.overallWeightAverage = +(perRecipientStats.overallWeightedSum
+          / (this.calculateNumResponses(perRecipientStats.answersSum))).toFixed(2);
     }
   }
 
@@ -171,9 +171,9 @@ export class RubricQuestionStatisticsCalculation
 
   // Calculate sum of answers for each column
   private calculateAnswersSum(answers: number[][]): number[] {
-    var sums: number[] = [];
+    const sums: number[] = [];
     for (let i: number = 0; i < answers[0].length; i += 1) {
-      var sum: number = 0;
+      let sum: number = 0;
       for (let j: number = 0; j < answers.length; j += 1) {
         sum += answers[j][i];
       }
@@ -185,11 +185,11 @@ export class RubricQuestionStatisticsCalculation
   // Calculate weight average for each column
   private calculateWeightsAverage(weights: number[][]): number[] {
     // Calculate sum of weights for each column
-    var sums: number[] = this.calculateAnswersSum(weights);
-    var averages: number[] = [];
+    const sums: number[] = this.calculateAnswersSum(weights);
+    const averages: number[] = [];
     // Divide each weight sum by number of weights
     for (let i: number = 0; i < sums.length; i += 1) {
-      averages[i] = +(sums[i]/weights.length).toFixed(2);
+      averages[i] = +(sums[i] / weights.length).toFixed(2);
     }
     return averages;
   }
@@ -197,28 +197,27 @@ export class RubricQuestionStatisticsCalculation
   // Calculate percentage average for each column
   private calculatePercentagesAverage(percentages: number[][], numAnswers: number): number[] {
     // Calculate sum of percentages for each column
-    var sums: number[] = this.calculateAnswersSum(percentages);
-    var averages: number[] = [];
+    const sums: number[] = this.calculateAnswersSum(percentages);
+    const averages: number[] = [];
     // Divide each percentage by the number of answers
     for (let i: number = 0; i < sums.length; i += 1) {
-      averages[i] = numAnswers === 0 ? 0 : +(sums[i]/numAnswers).toFixed(2);
+      averages[i] = numAnswers === 0 ? 0 : +(sums[i] / numAnswers).toFixed(2);
     }
     return averages;
   }
 
-
   // Calculate weighted sum of responses
   private calculateWeightedSum(percentages: number[], answers: number[], weights: number[]): number {
-    var sum: number = 0;
+    let sum: number = 0;
     for (let i: number = 0; i < answers.length; i += 1) {
-      sum += (percentages[i]/100) * answers[i] * weights[i];
+      sum += (percentages[i] / 100) * answers[i] * weights[i];
     }
     return +sum.toFixed(2);
   }
 
   // Calculate total number of responses
   private calculateNumResponses(answersSum: number[]): number {
-    var num: number = 0;
+    let num: number = 0;
     for (let i = 0; i < answersSum.length; i += 1) {
       num += answersSum[i];
     }
