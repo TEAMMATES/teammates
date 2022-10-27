@@ -133,8 +133,8 @@ export class RubricQuestionStatisticsCalculation
       perRecipientStats.weightsAverage = this.calculateColumnAverages(this.weights);
       perRecipientStats.overallWeightedSum = this.calculateWeightedSum(perRecipientStats.percentagesAverage,
           perRecipientStats.answersSum, perRecipientStats.weightsAverage);
-      perRecipientStats.overallWeightAverage = perRecipientStats.overallWeightedSum /
-          (this.calculateNumResponses(perRecipientStats.answersSum));
+      perRecipientStats.overallWeightAverage = +(perRecipientStats.overallWeightedSum /
+          (this.calculateNumResponses(perRecipientStats.answersSum))).toFixed(2);
     }
   }
 
@@ -195,9 +195,9 @@ export class RubricQuestionStatisticsCalculation
   private calculateWeightedSum(percentages: number[], answers: number[], weights: number[]): number {
     var sum: number = 0;
     for (let i: number = 0; i < answers.length; i += 1) {
-      sum += ((percentages[i]/100) * answers[i] * weights[i]);
+      sum += (percentages[i]/100) * answers[i] * weights[i];
     }
-    return sum;
+    return +sum.toFixed(2);
   }
 
   // Calculate total number of responses
