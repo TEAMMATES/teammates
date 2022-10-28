@@ -83,7 +83,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
     statsRows.push([
       'Team',
       'Recipient Name',
-      "Recipient Email",
+      'Recipient Email',
       'Sub Question',
       ...statsCalculation.choices,
       'Total',
