@@ -68,7 +68,7 @@ public final class FeedbackResponsesLogic {
     public Set<String> getGiverSetThatAnswerFeedbackSession(String courseId, String feedbackSessionName) {
         Set<String> giverSet = frDb.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName);
         List<String> instructorSet = instructorsLogic.getInstructorEmailsForCourse(courseId);
-        if (!fqLogic.sessionHasQuestionsForGiverType(feedbackSessionName,courseId,FeedbackParticipantType.INSTRUCTORS)) {
+        if (!fqLogic.sessionHasQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.INSTRUCTORS)) {
             giverSet.addAll(instructorSet);
         }
         return giverSet;

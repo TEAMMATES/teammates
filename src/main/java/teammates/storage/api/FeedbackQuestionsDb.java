@@ -222,7 +222,6 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
                 .filter("giverType =", giverType)
                 .keys()
                 .list().isEmpty();
-                //.size() != 0
     }
 
     @Override
