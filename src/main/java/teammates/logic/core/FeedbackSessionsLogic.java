@@ -255,11 +255,6 @@ public final class FeedbackSessionsLogic {
         }
 
         // if there is no question for instructor, session is attempted
-        //        return !fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
-        if (fqLogic.sessionHasQuestionsForGiverType(fbSN, courseId, FeedbackParticipantType.GIVER)) {
-            return true;
-        }
-        fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
         return !fqLogic.sessionHasQuestionsForGiverType(fbSN, courseId, FeedbackParticipantType.INSTRUCTORS);
     }
 
