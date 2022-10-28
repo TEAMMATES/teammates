@@ -253,7 +253,10 @@ public final class FeedbackSessionsLogic {
         }
 
         // if there is no question for instructor, session is attempted
-        return !fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
+//        return !fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
+        fqLogic.hasFeedbackQuestionsForInstructors(fsa,fsa.isCreator(userEmail));
+        return  !fqLogic.sessionHasQuestionsForGiverType(fsa.getFeedbackSessionName(),fsa.getCourseId(),FeedbackParticipantType.INSTRUCTORS)
+                || !fqLogic.sessionHasQuestionsForGiverType(fsa.getFeedbackSessionName(),fsa.getCourseId(),FeedbackParticipantType.SELF);
     }
 
     /**
