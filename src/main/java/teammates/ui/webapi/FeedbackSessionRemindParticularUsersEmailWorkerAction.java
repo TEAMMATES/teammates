@@ -39,15 +39,27 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
                     : null;
 
             for (String userEmail : usersToRemind) {
-                StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);
-                if (student != null) {
-                    studentsToRemindList.add(student);
-                }
 
                 InstructorAttributes instructor = logic.getInstructorForEmail(courseId, userEmail);
                 if (instructor != null) {
                     instructorsToRemindList.add(instructor);
                 }
+
+                StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);
+
+                if (student != null) {
+                    boolean notInstructor = true;
+                    for (InstructorAttributes ins : instructorsToRemindList) {
+                        if (ins.getGoogleId().equals(student.getGoogleId())) {
+                            notInstructor = false;
+                            break;
+                        }
+                    }
+                    if (notInstructor) {
+                        studentsToRemindList.add(student);
+                    }
+                }
+
             }
 
             List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
