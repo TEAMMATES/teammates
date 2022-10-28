@@ -216,13 +216,13 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
 
     private boolean hasFeedbackQuestionEntitiesForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
-        return load()
+        return !load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("giverType =", giverType)
                 .keys()
-                .list()
-                .size() != 0;
+                .list().isEmpty();
+                //.size() != 0
     }
 
     @Override

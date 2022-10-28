@@ -248,15 +248,19 @@ public final class FeedbackSessionsLogic {
      * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
      */
     public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSessionAttributes fsa, String userEmail) {
-        if (frLogic.hasGiverRespondedForSession(userEmail, fsa.getFeedbackSessionName(), fsa.getCourseId())) {
+        String fbSN = fsa.getFeedbackSessionName();
+        String courseId = fsa.getCourseId();
+        if (frLogic.hasGiverRespondedForSession(userEmail, fbSN, courseId)) {
             return true;
         }
 
         // if there is no question for instructor, session is attempted
-//        return !fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
-        fqLogic.hasFeedbackQuestionsForInstructors(fsa,fsa.isCreator(userEmail));
-        return  !fqLogic.sessionHasQuestionsForGiverType(fsa.getFeedbackSessionName(),fsa.getCourseId(),FeedbackParticipantType.INSTRUCTORS)
-                || !fqLogic.sessionHasQuestionsForGiverType(fsa.getFeedbackSessionName(),fsa.getCourseId(),FeedbackParticipantType.SELF);
+        //        return !fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
+        if (fqLogic.sessionHasQuestionsForGiverType(fbSN, courseId, FeedbackParticipantType.GIVER)) {
+            return true;
+        }
+        fqLogic.hasFeedbackQuestionsForInstructors(fsa, fsa.isCreator(userEmail));
+        return !fqLogic.sessionHasQuestionsForGiverType(fbSN, courseId, FeedbackParticipantType.INSTRUCTORS);
     }
 
     /**

@@ -66,7 +66,12 @@ public final class FeedbackResponsesLogic {
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
     public Set<String> getGiverSetThatAnswerFeedbackSession(String courseId, String feedbackSessionName) {
-        return frDb.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName);
+        Set<String> giverSet = frDb.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName);
+        List<String> instructorSet = instructorsLogic.getInstructorEmailsForCourse(courseId);
+        if (!fqLogic.sessionHasQuestionsForGiverType(feedbackSessionName,courseId,FeedbackParticipantType.INSTRUCTORS)) {
+            giverSet.addAll(instructorSet);
+        }
+        return giverSet;
     }
 
     /**
