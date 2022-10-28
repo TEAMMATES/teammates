@@ -125,11 +125,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyCanAccess(submissionParams);
     }
 
-    /***
+    /**
      * Test if the feedback is submitted or not, if it is submitted, student can not modify the feedback again.
-     *
      * @author Zeyu Li
-     * @throws Exception
      */
     @Test
     public void testAccessControl_studentAlreadySubmit_shouldAllowIfNotSubmit() throws Exception {
@@ -150,7 +148,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        if (session1InCourse1.isPublished()){
+        if (session1InCourse1.isPublished()) {
             ______TS("Feedback is already submitted, submit feedback failed");
             verifyCannotAccess(submissionParams);
         }
@@ -160,26 +158,18 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .withStudentDeadlines(newStudentSubmission)
                 .build());
 
-        if (session1InCourse1.isPublished()){
+        if (session1InCourse1.isPublished()) {
             ______TS("Feedback is already submitted, submit feedback failed");
             verifyCannotAccess(submissionParams);
-        }
-        else {
+        } else {
             ______TS("Feedback is not submitted yet, submit feedback successfully");
             verifyCanAccess(submissionParams);
         }
-
-
-
-
-
     }
 
-    /***
+    /**
      * Test if the feedback is submitted or not, if it is submitted, instructor can not modify the feedback again.
-     *
      * @author Zeyu Li
-     * @throws Exception
      */
     @Test
     public void testAccessControl_instructorAlreadySubmit_shouldAllowIfNotSubmit() throws Exception {
@@ -201,7 +191,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn4InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        if (session1InCourse1.isPublished()){
+        if (session1InCourse1.isPublished()) {
             ______TS("Feedback is already submitted, submit feedback failed");
             verifyCannotAccess(submissionParams);
         }
@@ -211,20 +201,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .withInstructorDeadlines(newInstructorSubmission)
                 .build());
 
-
-        if (session1InCourse1.isPublished()){
+        if (session1InCourse1.isPublished()) {
             ______TS("Feedback is already submitted, submit feedback failed");
             verifyCannotAccess(submissionParams);
-        }
-        else {
+        } else {
             ______TS("Feedback is not submitted yet, submit feedback successfully");
             verifyCanAccess(submissionParams);
         }
-
-
-
-
-
-
     }
 }
