@@ -139,6 +139,11 @@ export class PageComponent {
    * Method that checks if current page has active modals and close them.
    */
   closeModal(): void {
+    /**
+    * Method to toggle dark mode
+    */
+    toggleDarkTheme(): void{
+      document.body.classList.toggle('dark-theme');}
 
     if (this.ngbModal.hasOpenModals()) {
       this.ngbModal.dismissAll();
