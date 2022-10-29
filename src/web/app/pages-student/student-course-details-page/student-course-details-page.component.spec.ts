@@ -419,7 +419,7 @@ describe('StudentCourseDetailsPageComponent', () => {
     expect(component.teammateProfiles[2].institute).toEqual('nyu');
   });
 
-  it('should sort teammate profiles by institute nationality', () => {
+  it('should sort teammate profiles by nationality', () => {
     const student: Student = {
       courseId: '1.1.c-demo2',
       email: '1@1.com',
