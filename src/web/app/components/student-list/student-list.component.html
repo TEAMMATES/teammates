@@ -55,11 +55,11 @@
         <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId"
                                [useViewPhotoBtn]="true"></tm-view-photo-popover>
       </td>
-      <td *ngIf="hasSection()" [innerHtml]="studentModel.student.sectionName | highlighter:searchString"></td>
-      <td [innerHtml]="studentModel.student.teamName | highlighter:searchString"></td>
-      <td [innerHtml]="studentModel.student.name | highlighter:searchString"></td>
+      <td *ngIf="hasSection()">{{studentModel.student.sectionName}}</td>
+      <td>{{studentModel.student.teamName}}</td>
+      <td>{{studentModel.student.name}}</td>
       <td>{{studentModel.student.joinState | joinState}}</td>
-      <td [innerHtml]="studentModel.student.email | highlighter:searchString"></td>
+      <td>{{studentModel.student.email}}</td>
       <td class="no-print align-center">
         <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name" let-id="id"
                      let-tmRouterLink="tmRouterLink" let-queryParams="queryParams">

@@ -47,7 +47,6 @@ class CreateCourseAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
-        courseCreateRequest.setCourseId(courseCreateRequest.getCourseId().trim());
 
         String newCourseTimeZone = courseCreateRequest.getTimeZone();
 

@@ -497,13 +497,13 @@ public class FieldValidatorTest extends BaseTestCase {
         String untrimmedCourseId = " $cs1101-sem1.2_ ";
         assertEquals("Invalid Course ID (untrimmed) should return appropriate error string",
                      FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
-                        "${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME),
+                        "${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForCourseId(untrimmedCourseId));
 
         String whitespaceOnlyCourseId = "    ";
         assertEquals("Invalid Course ID (whitespace only) should return appropriate error string",
                      FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
-                        "${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME),
+                        "${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
 
         String tooLongCourseId = StringHelperExtension.generateStringOfLength(

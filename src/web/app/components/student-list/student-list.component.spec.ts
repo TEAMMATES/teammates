@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JoinState } from '../../../types/api-output';
-import { Pipes } from '../../pipes/pipes.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { JoinStatePipe } from './join-state.pipe';
@@ -22,7 +21,6 @@ describe('StudentListComponent', () => {
         RouterTestingModule,
         NgbModule,
         TeammatesCommonModule,
-        Pipes,
       ],
     })
     .compileComponents();
