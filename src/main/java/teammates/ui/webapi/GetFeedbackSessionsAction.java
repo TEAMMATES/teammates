@@ -89,7 +89,7 @@ class GetFeedbackSessionsAction extends Action {
             } else if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
-                instructors = logic.getInstructorsForGoogleId(userInfo.getId(), true);
+                instructors = logic.getInstructorsForGoogleId(userInfo.getId());
 
                 if (isInRecycleBin) {
                     feedbackSessionAttributes = logic.getSoftDeletedFeedbackSessionsListForInstructors(instructors);

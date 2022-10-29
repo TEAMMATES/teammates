@@ -253,54 +253,6 @@
     </ol>
   </tm-instructor-help-panel>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(13, 16)">Archiving Courses</h4>
-  <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ARCHIVE)"
-                            [id]="CoursesSectionQuestions.COURSE_ARCHIVE"
-                            [section]="Sections.courses"
-                            headerText="How do I archive a course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]">
-    <p>
-      When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
-    </p>
-    <p>
-      In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it.<br>
-      Click on the <button class="btn btn-primary btn-sm dropdown-toggle" type="button">Course</button> button on the card heading of the course you want to archive.<br>
-      Then select <b>Archive</b> in the drop-down menu and click <b>Yes</b> to confirm.
-    </p>
-    <p>
-      You can also archive a course from the <b>Courses</b> page.<br>
-      Under 'Active Courses', click on the <button class="btn btn-light btn-sm dropdown-toggle" type="button">Other Actions</button> button in the row corresponding to the course you want to archive.<br>
-      Then select <b>Archive</b> in the drop-down menu.
-    </p>
-  </tm-instructor-help-panel>
-  <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED)"
-                            [id]="CoursesSectionQuestions.COURSE_VIEW_ARCHIVED"
-                            [section]="Sections.courses"
-                            headerText="How do I view courses I have archived?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]">
-    <p>
-      You can view all your archived courses by navigating to the <b>Courses</b> page.<br>
-      Scroll to the <b>Archived courses</b> heading.
-    </p>
-    <p>
-      The courses you have previously archived are listed here.
-      In order to access information in an archived course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_UNARCHIVE); questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE] = true" [tmRouterLink]="">unarchive the course</a>.
-    </p>
-  </tm-instructor-help-panel>
-  <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_UNARCHIVE)"
-                            [id]="CoursesSectionQuestions.COURSE_UNARCHIVE"
-                            [section]="Sections.courses"
-                            headerText="How do I unarchive an archived course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
-    <p>
-      To unarchive a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = true" [tmRouterLink]="">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
-      Then, click on the <button class="btn btn-light btn-sm" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
-    </p>
-  </tm-instructor-help-panel>
-  <!-- Section -->
   <h4 *ngIf="displaySubsection(16, 20)">Restoring Deleted Courses</h4>
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_DELETED)"

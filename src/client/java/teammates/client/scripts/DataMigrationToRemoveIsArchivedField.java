@@ -7,12 +7,12 @@ import com.googlecode.objectify.cmd.Query;
 import teammates.storage.entity.Instructor;
 
 /**
- * Script to change all null value to false in the isArchived field for Instructor entity.
+ * Script to remove the isArchived field for Instructor entity.
  */
-public class DataMigrationForInstructorNullIsArchivedField extends DataMigrationEntitiesBaseScript<Instructor> {
+public class DataMigrationToRemoveIsArchivedField extends DataMigrationEntitiesBaseScript<Instructor> {
 
     public static void main(String[] args) {
-        new DataMigrationForInstructorNullIsArchivedField().doOperationRemotely();
+        new DataMigrationToRemoveIsArchivedField().doOperationRemotely();
     }
 
     @Override
@@ -30,17 +30,14 @@ public class DataMigrationForInstructorNullIsArchivedField extends DataMigration
         try {
             Field isArchivedField = instructor.getClass().getDeclaredField("isArchived");
             isArchivedField.setAccessible(true);
-            return isArchivedField.get(instructor) == null;
+            return isArchivedField.get(instructor) != null;
         } catch (ReflectiveOperationException e) {
-            return true;
+            return false;
         }
     }
 
     @Override
     protected void migrateEntity(Instructor instructor) {
-        instructor.setIsArchived(instructor.getIsArchived());
-
         saveEntityDeferred(instructor);
     }
-
 }

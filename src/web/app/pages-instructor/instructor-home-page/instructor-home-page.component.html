@@ -64,10 +64,6 @@
             <span ngbDropdown>
               <button id="btn-course" class="btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                <a id="btn-archive-course" class="btn btn-light btn-sm dropdown-item"
-                   ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                   (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
-                </a>
                 <a class="btn btn-light btn-sm dropdown-item"
                    tmRouterLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>

@@ -66,10 +66,10 @@
       "email": "iwosc@yahoo.tmt",
       "readNotifications": {}
     },
-    "instructorOfArchivedCourse": {
-      "googleId": "idOfInstructorOfArchivedCourse",
-      "name": "InstructorOfArchiveCourse name",
-      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
+    "instructorOfNoQuestionsCourse": {
+      "googleId": "idOfInstructorOfNoQuestionsCourse",
+      "name": "InstructorOfNoQuestionsCourse name",
+      "email": "instructorOfNoQuestionsCourse@noQuestionsCourse.tmt",
       "readNotifications": {}
     },
     "student1InCourse1": {
@@ -84,9 +84,9 @@
       "email": "student2InCourse1@gmail.tmt",
       "readNotifications": {}
     },
-    "student1InArchivedCourse": {
-      "googleId": "student1InArchivedCourse",
-      "name": "Student in Archived Course",
+    "student1InNoQuestionsCourse": {
+      "googleId": "student1InNoQuestionsCourse",
+      "name": "Student in No Questions Course",
       "email": "student1InCourse1@gmail.tmt",
       "readNotifications": {}
     }
@@ -125,16 +125,16 @@
       "institute": "TEAMMATES Test Institute 7",
       "timeZone": "UTC"
     },
-    "archivedCourse": {
-      "id": "idOfArchivedCourse",
-      "name": "Archived Course",
-      "institute": "TEAMMATES Test Institute 5",
-      "timeZone": "UTC"
-    },
     "unregisteredCourse": {
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
       "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "UTC"
+    },
+    "noQuestionsCourse": {
+      "id": "idOfNoQuestionsCourse",
+      "name": "No Questions Course",
+      "institute": "TEAMMATES Test Institute 5",
       "timeZone": "UTC"
     }
   },
@@ -190,7 +190,6 @@
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor3 Course1",
       "email": "instructor3@course1.tmt",
-      "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -351,7 +350,6 @@
       "courseId": "idOfCourseNoEvals",
       "name": "Instructor4 name",
       "email": "instructor4@courseNoEvals.tmt",
-      "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -416,12 +414,11 @@
         "sessionLevel": {}
       }
     },
-    "instructorOfArchivedCourse": {
-      "googleId": "idOfInstructorOfArchivedCourse",
-      "courseId": "idOfArchivedCourse",
-      "name": "InstructorOfArchiveCourse name",
-      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
-      "isArchived": true,
+    "instructorOfNoQuestionsCourse": {
+      "googleId": "idOfInstructorOfNoQuestionsCourse",
+      "courseId": "idOfNoQuestionsCourse",
+      "name": "InstructorOfNoQuestionsCourse name",
+      "email": "instructorOfNoQuestionsCourse@noQuestionsCourse.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -563,10 +560,10 @@
       "team": "Team 2",
       "section": "Section 2"
     },
-    "student1InArchivedCourse": {
-      "googleId": "student1InArchivedCourse",
-      "email": "student1InArchivedCourse@gmail.tmt",
-      "course": "idOfArchivedCourse",
+    "student1InNoQuestionsCourse": {
+      "googleId": "student1InNoQuestionsCourse",
+      "email": "student1InNoQuestionsCourse@gmail.tmt",
+      "course": "idOfNoQuestionsCourse",
       "name": "student1 In Course1",
       "comments": "",
       "team": "Team 2.1",
@@ -720,9 +717,9 @@
       "studentDeadlines": {},
       "instructorDeadlines": {}
     },
-    "archiveCourse.session1": {
+    "sessionWithoutStudentQuestions": {
       "feedbackSessionName": "session without student questions",
-      "courseId": "idOfArchivedCourse",
+      "courseId": "idOfNoQuestionsCourse",
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-01-20T23:00:00Z",
@@ -1090,27 +1087,6 @@
         "RECEIVER"
       ]
     },
-    "qn1InSessionInArchivedCourse": {
-      "feedbackSessionName": "session without student questions",
-      "courseId": "idOfArchivedCourse",
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Give feedback to students"
-      },
-      "questionNumber": 1,
-      "giverType": "INSTRUCTORS",
-      "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 4,
-      "showResponsesTo": [
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER"
-      ]
-    },
     "qn1InSession1InCourse2": {
       "feedbackSessionName": "Instructor feedback session",
       "courseId": "idOfTypicalCourse2",
@@ -1142,6 +1118,27 @@
       "showResponsesTo": [],
       "showGiverNameTo": [],
       "showRecipientNameTo": []
+    },
+    "qn1InSessionInNoQuestionsCourse": {
+      "feedbackSessionName": "session without student questions",
+      "courseId": "idOfNoQuestionsCourse",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to students"
+      },
+      "questionNumber": 1,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 4,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {
@@ -1368,10 +1365,10 @@
     },
     "response1ForNVSQ1": {
       "feedbackSessionName": "session without student questions",
-      "courseId": "idOfArchivedCourse",
+      "courseId": "idOfNoQuestionsCourse",
       "feedbackQuestionId": "1",
-      "giver": "instructorOfArchiveCourse@archiveCourse.tmt",
-      "recipient": "student1InArchivedCourse@gmail.tmt",
+      "giver": "instructorOfNoQuestionsCourse@noQuestionsCourse.tmt",
+      "recipient": "student1InNoQuestionsCourse@gmail.tmt",
       "giverSection": "None",
       "recipientSection": "Section 1",
       "responseDetails": {

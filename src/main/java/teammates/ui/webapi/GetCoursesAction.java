@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -13,7 +12,7 @@ import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 
 /**
- * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
+ * Gets all courses for the instructor, and filtered by active and soft-deleted.
  * Or gets all courses for the student he belongs to.
  */
 class GetCoursesAction extends Action {
@@ -59,14 +58,7 @@ class GetCoursesAction extends Action {
         List<InstructorAttributes> instructors;
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
-            instructors = logic.getInstructorsForGoogleId(userInfo.id, true);
-            courses = getCourse(instructors);
-            break;
-        case Const.CourseStatus.ARCHIVED:
-            instructors = logic.getInstructorsForGoogleId(userInfo.id)
-                    .stream()
-                    .filter(InstructorAttributes::isArchived)
-                    .collect(Collectors.toList());
+            instructors = logic.getInstructorsForGoogleId(userInfo.id);
             courses = getCourse(instructors);
             break;
         case Const.CourseStatus.SOFT_DELETED:

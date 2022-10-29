@@ -157,13 +157,11 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
 
     /**
      * Gets all instructors associated with a googleId.
-     *
-     * @param omitArchived whether archived instructors should be omitted or not
      */
-    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
+    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
         assert googleId != null;
 
-        return makeAttributes(getInstructorEntitiesForGoogleId(googleId, omitArchived));
+        return makeAttributes(getInstructorEntitiesForGoogleId(googleId));
     }
 
     /**
@@ -226,7 +224,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         boolean hasSameAttributes =
                 this.<String>hasSameValue(instructor.getName(), newAttributes.getName())
                 && this.<String>hasSameValue(instructor.getEmail(), newAttributes.getEmail())
-                && this.<Boolean>hasSameValue(instructor.getIsArchived(), newAttributes.isArchived())
                 && this.<String>hasSameValue(instructor.getRole(), newAttributes.getRole())
                 && this.<Boolean>hasSameValue(instructor.isDisplayedToStudents(), newAttributes.isDisplayedToStudents())
                 && this.<String>hasSameValue(instructor.getDisplayedName(), newAttributes.getDisplayedName())
@@ -240,7 +237,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
 
         instructor.setName(newAttributes.getName());
         instructor.setEmail(newAttributes.getEmail());
-        instructor.setIsArchived(newAttributes.isArchived());
         instructor.setRole(newAttributes.getRole());
         instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents());
         instructor.setDisplayedName(newAttributes.getDisplayedName());
@@ -281,7 +277,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         boolean hasSameAttributes =
                 this.<String>hasSameValue(instructor.getName(), newAttributes.getName())
                 && this.<String>hasSameValue(instructor.getGoogleId(), newAttributes.getGoogleId())
-                && this.<Boolean>hasSameValue(instructor.getIsArchived(), newAttributes.isArchived())
                 && this.<String>hasSameValue(instructor.getRole(), newAttributes.getRole())
                 && this.<Boolean>hasSameValue(instructor.isDisplayedToStudents(), newAttributes.isDisplayedToStudents())
                 && this.<String>hasSameValue(instructor.getDisplayedName(), newAttributes.getDisplayedName())
@@ -294,7 +289,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
 
         instructor.setGoogleId(newAttributes.getGoogleId());
         instructor.setName(newAttributes.getName());
-        instructor.setIsArchived(newAttributes.isArchived());
         instructor.setRole(newAttributes.getRole());
         instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents());
         instructor.setDisplayedName(newAttributes.getDisplayedName());
@@ -443,43 +437,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
             return instructorWithGoogleId;
         }
         return load().filter("googleId =", googleId).list();
-    }
-
-    /**
-     * Omits instructors with isArchived == omitArchived.
-     * This means that the corresponding course is archived by the instructor.
-     */
-    private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
-        if (omitArchived) {
-            if (googleId.toLowerCase().contains("@gmail.com")) {
-                List<Instructor> instructorsWithGoogleId = load()
-                        .filter("googleId =", googleId.split("@")[0])
-                        .filter("isArchived =", false)
-                        .list();
-                List<Instructor> instructorsWithEmail = load()
-                        .filter("googleId =", googleId)
-                        .filter("isArchived =", false)
-                        .list();
-                instructorsWithGoogleId.addAll(instructorsWithEmail);
-                return instructorsWithGoogleId;
-            }
-            if (!googleId.toLowerCase().contains("@")) {
-                List<Instructor> instructorsWithGoogleId = load()
-                        .filter("googleId =", googleId)
-                        .filter("isArchived =", false)
-                        .list();
-                List<Instructor> instructorsWithEmail = load()
-                        .filter("googleId =", googleId.concat("@gmail.com"))
-                        .filter("isArchived =", false)
-                        .list();
-                instructorsWithGoogleId.addAll(instructorsWithEmail);
-                return instructorsWithGoogleId;
-            }
-            return load().filter("googleId =", googleId)
-                    .filter("isArchived =", false)
-                    .list();
-        }
-        return getInstructorEntitiesForGoogleId(googleId);
     }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {

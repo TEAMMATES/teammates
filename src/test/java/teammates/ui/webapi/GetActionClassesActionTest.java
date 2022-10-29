@@ -57,7 +57,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateInstructorAction.class,
                 GetInstructorAction.class,
                 UpdateInstructorAction.class,
-                ArchiveCourseAction.class,
                 InstructorCourseJoinEmailWorkerAction.class,
                 DeleteStudentAction.class,
                 GetStudentAction.class,

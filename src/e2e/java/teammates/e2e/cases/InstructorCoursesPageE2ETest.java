@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCoursesPage;
-import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSES_PAGE}.
@@ -79,12 +78,10 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorId);
 
         ______TS("verify loaded data");
-        CourseAttributes[] activeCourses = { courses[0], courses[3] };
-        CourseAttributes[] archivedCourses = { courses[1] };
+        CourseAttributes[] activeCourses = { courses[1], courses[0], courses[3] };
         CourseAttributes[] deletedCourses = { courses[2] };
 
         coursesPage.verifyActiveCoursesDetails(activeCourses);
-        coursesPage.verifyArchivedCoursesDetails(archivedCourses);
         coursesPage.verifyDeletedCoursesDetails(deletedCourses);
 
         ______TS("verify statistics");
@@ -94,7 +91,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNotModifiable(courses[0].getId());
 
         ______TS("add new course");
-        CourseAttributes[] activeCoursesWithNewCourse = { courses[0], courses[3], newCourse };
+        CourseAttributes[] activeCoursesWithNewCourse = { courses[0], courses[3], courses[1], newCourse };
         coursesPage.addCourse(newCourse);
 
         coursesPage.verifyStatusMessage("The course has been added.");
@@ -103,7 +100,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(newCourse);
 
         ______TS("copy course");
-        CourseAttributes[] activeCoursesWithCopyCourse = { courses[0], courses[3], newCourse, copyCourse };
+        CourseAttributes[] activeCoursesWithCopyCourse = { courses[0], courses[3], courses[1], newCourse, copyCourse };
         coursesPage.copyCourse(courses[3].getId(), copyCourse);
 
         coursesPage.verifyStatusMessage("The course has been added.");
@@ -112,26 +109,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(copyCourse);
         verifyPresentInDatabase(copySession);
 
-        ______TS("archive course");
-        CourseAttributes[] archivedCoursesWithNewCourse = { newCourse, courses[1] };
-        coursesPage.archiveCourse(newCourse.getId());
-
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been archived. "
-                + "It will not appear on the home page anymore.");
-        coursesPage.verifyNumActiveCourses(3);
-        coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
-        verifyCourseArchivedInDatabase(instructorId, newCourse);
-
-        ______TS("unarchive course");
-        CourseAttributes[] activeCoursesWithNewCourseSortedByName = { copyCourse, courses[3], newCourse, courses[0] };
-        coursesPage.unarchiveCourse(newCourse.getId());
-
-        coursesPage.verifyStatusMessage("The course has been unarchived.");
-        coursesPage.verifyNumArchivedCourses(1);
-        coursesPage.sortByCourseName();
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByName);
-        verifyCourseNotArchivedInDatabase(instructorId, newCourse);
-
         ______TS("move active course to recycle bin");
         newCourse.setDeletedAt(Instant.now());
         CourseAttributes[] deletedCoursesWithNewCourse = { newCourse, courses[2] };
@@ -139,14 +116,14 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
-        coursesPage.verifyNumActiveCourses(3);
+        coursesPage.verifyNumActiveCourses(4);
         coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
         assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore active course");
         newCourse.setDeletedAt(null);
         CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate =
-                { copyCourse, newCourse, courses[0], courses[3] };
+                { copyCourse, newCourse, courses[1], courses[0], courses[3] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
@@ -156,30 +133,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByCreationDate);
         assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
-        ______TS("move archived course to recycle bin");
-        coursesPage.archiveCourse(newCourse.getId());
-        newCourse.setDeletedAt(Instant.now());
-        coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
-
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
-                + "You can restore it from the Recycle Bin manually.");
-        coursesPage.verifyNumArchivedCourses(1);
-        coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
-        assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
-
-        ______TS("restore archived course");
-        newCourse.setDeletedAt(null);
-        coursesPage.restoreCourse(newCourse.getId());
-
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
-        coursesPage.waitForPageToLoad();
-        coursesPage.verifyNumDeletedCourses(1);
-        coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
-        assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
-        verifyCourseArchivedInDatabase(instructorId, newCourse);
-
         ______TS("permanently delete course");
-        coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
+        coursesPage.moveCourseToRecycleBin(newCourse.getId());
         coursesPage.deleteCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId()
@@ -187,30 +142,12 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNumDeletedCourses(1);
         verifyAbsentInDatabase(newCourse);
 
-        ______TS("restore all");
-        coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
-        CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[3], courses[2], copyCourse };
-        coursesPage.restoreAllCourses();
-
-        coursesPage.verifyStatusMessage("All courses have been restored.");
-        coursesPage.waitForPageToLoad();
-        coursesPage.sortByCourseId();
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
-        coursesPage.verifyArchivedCoursesDetails(archivedCourses);
-        coursesPage.verifyNumDeletedCourses(0);
-        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[1].getId()));
-        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[2].getId()));
-
         ______TS("permanently delete all");
-        coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
-        coursesPage.moveCourseToRecycleBin(courses[2].getId());
         coursesPage.deleteAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been permanently deleted.");
-        coursesPage.verifyNumActiveCourses(3);
-        coursesPage.verifyNumArchivedCourses(0);
+        coursesPage.verifyNumActiveCourses(4);
         coursesPage.verifyNumDeletedCourses(0);
-        verifyAbsentInDatabase(courses[1]);
         verifyAbsentInDatabase(courses[2]);
     }
 
@@ -241,27 +178,5 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         }
         coursesPage.verifyActiveCourseStatistics(course, Integer.toString(numSections), Integer.toString(numTeams),
                 Integer.toString(numStudents), Integer.toString(numUnregistered));
-    }
-
-    private void verifyCourseArchivedInDatabase(String instructorId, CourseAttributes course) {
-        int retryLimit = 5;
-        CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
-        while (actual == null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(1000);
-            actual = getArchivedCourse(instructorId, course.getId());
-        }
-        assertEquals(actual, course);
-    }
-
-    private void verifyCourseNotArchivedInDatabase(String instructorId, CourseAttributes course) {
-        int retryLimit = 5;
-        CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
-        while (actual != null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(1000);
-            actual = getArchivedCourse(instructorId, course.getId());
-        }
-        assertNull(actual);
     }
 }

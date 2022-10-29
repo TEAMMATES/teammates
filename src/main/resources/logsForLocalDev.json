@@ -1353,8 +1353,7 @@
         "sec-fetch-dest": "empty"
       },
       "requestParams": {
-        "entitytype": "instructor",
-        "coursestatus": "archived"
+        "entitytype": "instructor"
       }
     },
     "resourceIdentifier": {

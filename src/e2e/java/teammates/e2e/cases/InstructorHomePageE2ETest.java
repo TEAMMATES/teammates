@@ -176,19 +176,10 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyStatusMessage("The feedback session has been deleted. "
                 + "You can restore it from the 'Sessions' tab.");
         homePage.sortCoursesByCreationDate();
-        courseIndex = 1;
         otherCourseIndex = 0;
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessions);
         assertNotNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
                 instructor.getGoogleId()));
-
-        ______TS("archive course");
-        homePage.archiveCourse(courseIndex);
-
-        homePage.verifyStatusMessage("The course " + course.getId() + " has been archived. "
-                + "You can retrieve it from the Courses page.");
-        homePage.verifyNumCourses(1);
-        verifyCourseArchivedInDatabase(instructor.getGoogleId(), course);
 
         ______TS("delete course");
         otherCourseIndex = 0;
@@ -196,7 +187,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.verifyStatusMessage("The course " + otherCourse.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
-        homePage.verifyNumCourses(0);
+        homePage.verifyNumCourses(1);
         assertTrue(BACKDOOR.isCourseInRecycleBin(otherCourse.getId()));
     }
 
@@ -236,16 +227,5 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                     feedbackSession.getFeedbackSessionName());
         }
         assertEquals(actual.isPublished(), state);
-    }
-
-    private void verifyCourseArchivedInDatabase(String instructorId, CourseAttributes course) {
-        int retryLimit = 5;
-        CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
-        while (actual == null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(1000);
-            actual = getArchivedCourse(instructorId, course.getId());
-        }
-        assertEquals(actual, course);
     }
 }

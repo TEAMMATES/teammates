@@ -420,27 +420,6 @@ public class AccountsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteAccountCascade_instructorArchivedAsLastInstructor_shouldDeleteCourseAlso() throws Exception {
-        InstructorAttributes instructor5 = dataBundle.instructors.get("instructor5");
-
-        assertNotNull(instructor5.getGoogleId());
-        instructorsLogic.setArchiveStatusOfInstructor(instructor5.getGoogleId(), instructor5.getCourseId(), true);
-
-        // verify the instructor is the last instructor of a course
-        assertEquals(1, instructorsLogic.getInstructorsForCourse(instructor5.getCourseId()).size());
-
-        assertTrue(
-                instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived());
-
-        accountsLogic.deleteAccountCascade(instructor5.getGoogleId());
-
-        // the archived instructor is also deleted
-        assertNull(instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()));
-        // the course is also deleted
-        assertNull(coursesLogic.getCourse(instructor5.getCourseId()));
-    }
-
-    @Test
     public void testDeleteAccountCascade_nonExistentAccount_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 

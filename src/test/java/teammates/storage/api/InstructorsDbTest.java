@@ -37,14 +37,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         }
     }
 
-    private void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus) throws Exception {
-        instructorsDb.updateInstructorByGoogleId(
-                InstructorAttributes.updateOptionsWithGoogleIdBuilder(courseId, googleId)
-                        .withIsArchived(archiveStatus)
-                        .build()
-        );
-    }
-
     @Test
     public void testCreateInstructor() throws Exception {
 
@@ -217,7 +209,7 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         String googleId = "idOfInstructor3";
 
-        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId, false);
+        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId);
         assertEquals(2, retrieved.size());
 
         InstructorAttributes instructor1 = retrieved.get(0);
@@ -226,22 +218,15 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals("idOfTypicalCourse1", instructor1.getCourseId());
         assertEquals("idOfTypicalCourse2", instructor2.getCourseId());
 
-        ______TS("Success: get instructors with specific googleId, with 1 archived course.");
-
-        setArchiveStatusOfInstructor(googleId, instructor1.getCourseId(), true);
-        retrieved = instructorsDb.getInstructorsForGoogleId(googleId, true);
-        assertEquals(1, retrieved.size());
-        setArchiveStatusOfInstructor(googleId, instructor1.getCourseId(), false);
-
         ______TS("Failure: instructor does not exist");
 
-        retrieved = instructorsDb.getInstructorsForGoogleId("non-exist-id", false);
+        retrieved = instructorsDb.getInstructorsForGoogleId("non-exist-id");
         assertEquals(0, retrieved.size());
 
         ______TS("Failure: null parameters");
 
         assertThrows(AssertionError.class,
-                () -> instructorsDb.getInstructorsForGoogleId(null, false));
+                () -> instructorsDb.getInstructorsForGoogleId(null));
 
     }
 
@@ -341,7 +326,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         instructorToEdit.setName("New Name");
         instructorToEdit.setEmail("InstrDbT.new-email@email.tmt");
-        instructorToEdit.setArchived(true);
         instructorToEdit.setRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         instructorToEdit.setDisplayedToStudents(false);
         instructorToEdit.setDisplayedName("New Displayed Name");
@@ -353,7 +337,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                                 instructorToEdit.getGoogleId())
                         .withName(instructorToEdit.getName())
                         .withEmail(instructorToEdit.getEmail())
-                        .withIsArchived(instructorToEdit.isArchived())
                         .withRole(instructorToEdit.getRole())
                         .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents())
                         .withDisplayedName(instructorToEdit.getDisplayedName())
@@ -366,8 +349,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals(instructorToEdit.getName(), updatedInstructor.getName());
         assertEquals(instructorToEdit.getEmail(), actualInstructor.getEmail());
         assertEquals(instructorToEdit.getEmail(), updatedInstructor.getEmail());
-        assertTrue(actualInstructor.isArchived());
-        assertTrue(updatedInstructor.isArchived());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, actualInstructor.getRole());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, updatedInstructor.getRole());
         assertFalse(actualInstructor.isDisplayedToStudents());
@@ -441,7 +422,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         instructorToEdit.getCourseId(), instructorToEdit.getGoogleId())
                         .withName(instructorToEdit.getName())
                         .withEmail(instructorToEdit.getEmail())
-                        .withIsArchived(instructorToEdit.isArchived())
                         .withRole(instructorToEdit.getRole())
                         .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents())
                         .withDisplayedName(instructorToEdit.getDisplayedName())
@@ -481,16 +461,8 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals("testName", updatedInstructor.getName());
         assertEquals("testName", actualInstructor.getName());
 
-        assertFalse(actualInstructor.isArchived());
-        updatedInstructor = instructorsDb.updateInstructorByGoogleId(
-                InstructorAttributes
-                        .updateOptionsWithGoogleIdBuilder(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId())
-                        .withIsArchived(true)
-                        .build());
         actualInstructor =
                 instructorsDb.getInstructorForGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId());
-        assertTrue(updatedInstructor.isArchived());
-        assertTrue(actualInstructor.isArchived());
 
         assertNotEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, actualInstructor.getRole());
         updatedInstructor = instructorsDb.updateInstructorByGoogleId(
@@ -564,7 +536,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         instructorToEdit.getCourseId(), instructorToEdit.getEmail())
                         .withName(instructorToEdit.getName())
                         .withGoogleId(instructorToEdit.getGoogleId())
-                        .withIsArchived(instructorToEdit.isArchived())
                         .withRole(instructorToEdit.getRole())
                         .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents())
                         .withDisplayedName(instructorToEdit.getDisplayedName())
@@ -604,16 +575,8 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals("testName", updatedInstructor.getName());
         assertEquals("testName", actualInstructor.getName());
 
-        assertFalse(actualInstructor.isArchived());
-        updatedInstructor = instructorsDb.updateInstructorByEmail(
-                InstructorAttributes
-                        .updateOptionsWithEmailBuilder(typicalInstructor.getCourseId(), typicalInstructor.getEmail())
-                        .withIsArchived(true)
-                        .build());
         actualInstructor =
                 instructorsDb.getInstructorForEmail(typicalInstructor.getCourseId(), typicalInstructor.getEmail());
-        assertTrue(updatedInstructor.isArchived());
-        assertTrue(actualInstructor.isArchived());
 
         assertNotEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, actualInstructor.getRole());
         updatedInstructor = instructorsDb.updateInstructorByEmail(
@@ -678,7 +641,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         instructorToEdit.setGoogleId("new-id");
         instructorToEdit.setName("New Name");
-        instructorToEdit.setArchived(true);
         instructorToEdit.setRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         instructorToEdit.setDisplayedToStudents(false);
         instructorToEdit.setDisplayedName("New Displayed Name");
@@ -690,7 +652,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                                 instructorToEdit.getEmail())
                         .withGoogleId(instructorToEdit.getGoogleId())
                         .withName(instructorToEdit.getName())
-                        .withIsArchived(instructorToEdit.isArchived())
                         .withRole(instructorToEdit.getRole())
                         .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents())
                         .withDisplayedName(instructorToEdit.getDisplayedName())
@@ -703,8 +664,6 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         assertEquals("new-id", updatedInstructor.getGoogleId());
         assertEquals("New Name", actualInstructor.getName());
         assertEquals("New Name", updatedInstructor.getName());
-        assertTrue(actualInstructor.isArchived());
-        assertTrue(updatedInstructor.isArchived());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, actualInstructor.getRole());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, updatedInstructor.getRole());
         assertFalse(actualInstructor.isDisplayedToStudents());
@@ -801,7 +760,7 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("Success: delete instructors of a specific course");
 
-        String courseId = "idOfArchivedCourse";
+        String courseId = "idOfNoQuestionsCourse";
         instructorsDb.deleteInstructors(AttributesDeletionQuery.builder()
                 .withCourseId(courseId)
                 .build());

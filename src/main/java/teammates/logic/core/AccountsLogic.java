@@ -250,7 +250,7 @@ public final class AccountsLogic {
 
         // to prevent orphan course
         List<InstructorAttributes> instructorsToDelete =
-                instructorsLogic.getInstructorsForGoogleId(googleId, false);
+                instructorsLogic.getInstructorsForGoogleId(googleId);
         for (InstructorAttributes instructorToDelete : instructorsToDelete) {
             if (instructorsLogic.getInstructorsForCourse(instructorToDelete.getCourseId()).size() <= 1) {
                 // the instructor is the last instructor in the course

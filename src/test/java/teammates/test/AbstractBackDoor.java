@@ -49,7 +49,6 @@ import teammates.common.util.TimeHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.CoursesData;
 import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
@@ -344,50 +343,6 @@ public abstract class AbstractBackDoor {
      */
     public CourseAttributes getCourse(String courseId) {
         CourseData courseData = getCourseData(courseId);
-        if (courseData == null) {
-            return null;
-        }
-        return CourseAttributes.builder(courseData.getCourseId())
-                .withName(courseData.getCourseName())
-                .withTimezone(courseData.getTimeZone())
-                .withInstitute(courseData.getInstitute())
-                .build();
-    }
-
-    /**
-     * Gets archived course data from the database.
-     */
-    public CourseData getArchivedCourseData(String instructorId, String courseId) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.USER_ID, instructorId);
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
-        params.put(Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ARCHIVED);
-
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSES, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-
-        CoursesData coursesData = JsonUtils.fromJson(response.responseBody, CoursesData.class);
-        CourseData courseData = coursesData.getCourses()
-                .stream()
-                .filter(cd -> cd.getCourseId().equals(courseId))
-                .findFirst()
-                .orElse(null);
-
-        if (courseData == null) {
-            return null;
-        }
-
-        return courseData;
-    }
-
-    /**
-     * Gets a archived course from the database.
-     */
-    public CourseAttributes getArchivedCourse(String instructorId, String courseId) {
-        CourseData courseData = getArchivedCourseData(instructorId, courseId);
         if (courseData == null) {
             return null;
         }

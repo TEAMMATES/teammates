@@ -89,19 +89,6 @@ public final class InstructorsLogic {
     }
 
     /**
-     * Sets the archive status of an instructor (i.e. whether the instructor
-     * decides to archive the associated course or not).
-     */
-    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        instructorsDb.updateInstructorByGoogleId(
-                InstructorAttributes.updateOptionsWithGoogleIdBuilder(courseId, googleId)
-                        .withIsArchived(archiveStatus)
-                        .build()
-        );
-    }
-
-    /**
      * Checks if all the given instructors exist in the given course.
      *
      * @throws EntityDoesNotExistException If some instructor does not exist in the course.
@@ -164,19 +151,10 @@ public final class InstructorsLogic {
     }
 
     /**
-     * Gets all non-archived instructors associated with a googleId.
+     * Gets all instructors associated with a googleId.
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
-        return getInstructorsForGoogleId(googleId, false);
-    }
-
-    /**
-     * Gets all instructors associated with a googleId.
-     *
-     * @param omitArchived whether archived instructors should be omitted or not
-     */
-    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
-        return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
+        return instructorsDb.getInstructorsForGoogleId(googleId);
     }
 
     /**
@@ -332,7 +310,7 @@ public final class InstructorsLogic {
      * deadline extensions and comments.
      */
     public void deleteInstructorsForGoogleIdCascade(String googleId) {
-        List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
+        List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId);
 
         // cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
