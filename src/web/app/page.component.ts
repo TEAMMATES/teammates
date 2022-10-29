@@ -134,11 +134,6 @@ export class PageComponent {
       this.isCollapsed = !this.isCollapsed;
     }
   }
-   /**
-   * Method to toggle dark mode
-   */
-   toggleDarkTheme(): void{
-     document.body.classList.toggle('dark-theme');}
 
   /**
    * Method that checks if current page has active modals and close them.
