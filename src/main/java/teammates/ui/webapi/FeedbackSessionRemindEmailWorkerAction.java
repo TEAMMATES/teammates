@@ -35,9 +35,9 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
             ).collect(Collectors.toList());
 
             List<InstructorAttributes> instructorsToRemindList = instructorList.stream().filter(instructor ->
-                    !logic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())&&
-                            !(logic.getFeedbackQuestionsForInstructors(session.getFeedbackSessionName(),
-                                    session.getCourseId(),instructor.getEmail()).isEmpty())
+                    !logic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())
+                            && !(logic.getFeedbackQuestionsForInstructors(session.getFeedbackSessionName(),
+                                    session.getCourseId(), instructor.getEmail()).isEmpty())
             ).collect(Collectors.toList());
 
             List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
