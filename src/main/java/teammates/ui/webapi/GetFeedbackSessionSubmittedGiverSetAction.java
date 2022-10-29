@@ -5,6 +5,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 
+import java.util.List;
+
 /**
  * Get a set of givers that has given at least one response in the feedback session.
  */
@@ -35,6 +37,12 @@ class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         FeedbackSessionSubmittedGiverSet output =
                 new FeedbackSessionSubmittedGiverSet(
                         logic.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName));
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        for (InstructorAttributes instructor : instructors){
+            if (logic.getFeedbackQuestionsForInstructors(feedbackSessionName,courseId,instructor.getEmail()).isEmpty()){
+                output.getGiverIdentifiers().add(instructor.getEmail());
+            }
+        }
 
         return new JsonResult(output);
     }
