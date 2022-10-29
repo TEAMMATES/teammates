@@ -12,6 +12,8 @@
 node_modules/
 npm-debug.log
 coverage/*
+.eslintcache
+.stylelintcache
 
 # Gradle
 .gradle
