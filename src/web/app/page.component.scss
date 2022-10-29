@@ -110,3 +110,74 @@ nav {
   border: 1px solid rgba(255, 255, 255, .3);
   margin: .5rem 15px;
 }
+
+//Transforming checkbox
+label {
+  width:50px;
+  height:20px;
+  position: relative;
+  top:5px;
+  display: block;
+  background: rgba(235, 235, 235, 1);
+  border-radius: 180px;
+  box-shadow: inset 0px 5px 15px, rgba(0, 0, 0, 1), inset 0px -5px 15px, rgba(255, 255, 255, 1);
+  cursor: pointer;
+}
+
+label:after {
+  content: "";
+  width:18px;
+  height:18px;
+  position: absolute;
+  top:1px;
+  left:1px;
+  background: linear-gradient(180deg,rgba(255, 204, 137, 1),rgba(216, 134, 11, 1));
+  border-radius: 180px;
+}
+input {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+//Set toggle animation
+input:checked + label {
+  background: rgba(36, 36, 36, 1);
+}
+input:checked + label:after {
+  left:49px;
+  transform: translateX(-100%);
+  background: linear-gradient(180deg,rgba(119, 119, 119, 1),rgba(58, 58, 58, 1));
+}
+label, label:after {
+  transition: 0.3s
+}
+label:active:after{
+  width: 26px;
+}
+
+//Set icon of light and dark modes
+label svg {
+  position: absolute;
+  width: 16px;
+  top:40;
+  z-index: 100;
+}
+label svg.light {
+  left:1px;
+  top:2px;
+  fill:rgba(255,255,255,1);
+  transition:0.3s;
+}
+label svg.dark {
+  left:32px;
+  top: 2px;
+  fill:rgba(126,126,126,1);
+  transition: 0.3s;
+}
+input:checked + label svg.light {
+  fill: rgba(126,126,126,1);
+}
+input:checked + label svg.dark {
+  fill:rgba(255,255,255,1);
+}

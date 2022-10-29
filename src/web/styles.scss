@@ -272,3 +272,36 @@ h6,
 .handsontable .valid-row {
   background: white;
 }
+
+//Define global background and text colour
+body {
+  --text-color: rgba(34, 34, 34, 1);
+  --bkg-color: rgba(255, 255, 255, 1);
+  --btn-txt-color: white;
+  --btn-bg-color: rgba(11,88,160,1);
+}
+body.dark-theme {
+  --text-color: rgba(164, 164, 164, 1);
+  --bkg-color: rgba(37, 34, 34, 1);
+  --btn-txt-color: rgba(46,43,43,1);
+  --btn-bg-color: rgba(20,211,195,1);
+}
+
+body {
+  background: var(--bkg-color);
+}
+h1 {
+  color: var(--text-color);
+}
+ol {
+  color: var(--text-color);
+}
+ul {
+  color: var(--text-color);
+}
+P {
+  color: var(--text-color);
+}
+div {
+  color: var(--text-color);
+}
