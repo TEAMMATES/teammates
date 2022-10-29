@@ -111,7 +111,6 @@ nav {
   margin: .5rem 15px;
 }
 
-//Transforming checkbox
 label {
   width:50px;
   height:20px;
@@ -134,13 +133,13 @@ label:after {
   background: linear-gradient(180deg,rgba(255, 204, 137, 1),rgba(216, 134, 11, 1));
   border-radius: 180px;
 }
+
 input {
   width: 0;
   height: 0;
   visibility: hidden;
 }
 
-//Set toggle animation
 input:checked + label {
   background: rgba(36, 36, 36, 1);
 }
@@ -156,28 +155,31 @@ label:active:after{
   width: 26px;
 }
 
-//Set icon of light and dark modes
 label svg {
   position: absolute;
   width: 16px;
   top:40;
   z-index: 100;
 }
+
 label svg.light {
   left:1px;
   top:2px;
   fill:rgba(255,255,255,1);
   transition:0.3s;
 }
+
 label svg.dark {
   left:32px;
   top: 2px;
   fill:rgba(126,126,126,1);
   transition: 0.3s;
 }
+
 input:checked + label svg.light {
   fill: rgba(126,126,126,1);
 }
+
 input:checked + label svg.dark {
   fill:rgba(255,255,255,1);
 }
