@@ -61,7 +61,6 @@ export class FeedbackPathPanelComponent {
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
-    isSaved: false,
   };
 
   @Input()

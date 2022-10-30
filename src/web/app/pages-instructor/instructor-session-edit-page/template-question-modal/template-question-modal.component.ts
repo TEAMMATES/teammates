@@ -61,7 +61,6 @@ export class TemplateQuestionModalComponent {
             isVisibilityChanged: false,
             isFeedbackPathChanged: false,
             isQuestionDetailsChanged: false,
-            isSaved: false,
           },
         }));
   }
@@ -95,8 +94,6 @@ export class TemplateQuestionModalComponent {
               showResponsesTo: model.showResponsesTo,
               showGiverNameTo: model.showGiverNameTo,
               showRecipientNameTo: model.showRecipientNameTo,
-
-              isSaved: false,
             }));
   }
 }

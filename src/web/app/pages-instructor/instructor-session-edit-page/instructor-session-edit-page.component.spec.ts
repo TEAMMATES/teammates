@@ -108,7 +108,6 @@ describe('InstructorSessionEditPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    isSaved: false,
   };
 
   const testFeedbackQuestion2: FeedbackQuestion = {

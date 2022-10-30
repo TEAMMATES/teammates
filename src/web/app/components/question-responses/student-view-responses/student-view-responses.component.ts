@@ -36,7 +36,6 @@ export class StudentViewResponsesComponent implements OnInit {
     showResponsesTo: [],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    isSaved: false,
   };
   @Input() responses: ResponseOutput[] = [];
   @Input() statistics: string = '';

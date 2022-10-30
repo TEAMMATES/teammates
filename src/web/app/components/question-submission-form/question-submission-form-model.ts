@@ -50,7 +50,6 @@ export interface QuestionSubmissionFormModel {
 
   isLoading: boolean;
   isLoaded: boolean;
-  isSaved: boolean;
 }
 
 /**

@@ -460,7 +460,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             const model: QuestionSubmissionFormModel = {
               isLoading: false,
               isLoaded: false,
-              isSaved: feedbackQuestion.isSaved,
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
               questionNumber: feedbackQuestion.questionNumber,
@@ -548,6 +547,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       } else {
         this.loadFeedbackResponses(model);
       }
+
+      console.log(
+        `>>> loadFeedbackQuestionRecipientsForQuestion ${JSON.stringify(model)}`
+      );
     }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
