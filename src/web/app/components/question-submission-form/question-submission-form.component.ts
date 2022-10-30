@@ -78,7 +78,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   model: QuestionSubmissionFormModel = {
     isLoading: false,
     isLoaded: false,
-    isSaved: false,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -333,7 +332,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   saveFeedbackResponses(): void {
     this.isSaved = true;
-    this.model.isSaved = true;
     this.responsesSave.emit(this.model);
   }
 
