@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TimeFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 
 /**
  * Time picker with fixed time to pick.
@@ -14,7 +15,7 @@ export class TimepickerComponent {
   isDisabled: boolean = false;
 
   @Input()
-  time: TimeFormat = { hour: 0, minute: 0 };
+  time: TimeFormat = getDefaultTimeFormat();
 
   @Output()
   timeChange: EventEmitter<TimeFormat> = new EventEmitter();
@@ -62,12 +63,4 @@ export class TimepickerComponent {
   addLeadingZeros(n: number, i: number): string {
     return ('0'.repeat(n) + i).slice(-n);
   }
-}
-
-/**
- * The output format of the time picker.
- */
-export interface TimeFormat {
-  hour: number;
-  minute: number;
 }

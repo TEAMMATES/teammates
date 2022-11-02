@@ -3,10 +3,16 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
-import { DateFormat } from '../../../components/datepicker/datepicker.component';
+import {
+  DateFormat,
+  TimeFormat,
+  getDefaultDateFormat,
+  getLatestTimeFormat,
+  Hours,
+  Milliseconds,
+} from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
-import { TimeFormat } from '../../../components/timepicker/timepicker.component';
 
 export enum RadioOptions {
   EXTEND_TO = 1,
@@ -50,21 +56,18 @@ export class IndividualExtensionDateModalComponent {
 
   extendByDeadlineKey: String = '';
   extendByDeadlineOptions: Map<String, Number> = new Map([
-    ['12 hours', 12],
-    ['1 day', 24],
-    ['3 days', 72],
-    ['1 week', 168],
-    ['Customize', 0],
+    ['12 hours', Hours.TWELVE],
+    ['1 day', Hours.IN_ONE_DAY],
+    ['3 days', Hours.IN_THREE_DAYS],
+    ['1 week', Hours.IN_ONE_WEEK],
+    ['Customize', Hours.ZERO],
   ]);
   extendByDatePicker = { hours: 0, days: 0 };
 
-  ONE_MINUTE_IN_MILLISECONDS = 60 * 1000;
-  ONE_HOUR_IN_MILLISECONDS = 60 * this.ONE_MINUTE_IN_MILLISECONDS;
-  ONE_DAY_IN_MILLISECONDS = 24 * this.ONE_HOUR_IN_MILLISECONDS;
   MAX_EPOCH_TIME_IN_DAYS = 100000000;
-  MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * this.ONE_DAY_IN_MILLISECONDS;
-  extendToDatePicker: DateFormat = { year: 0, month: 0, day: 0 };
-  extendToTimePicker: TimeFormat = { hour: 23, minute: 59 };
+  MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * Milliseconds.IN_ONE_DAY;
+  extendToDatePicker: DateFormat = getDefaultDateFormat();
+  extendToTimePicker: TimeFormat = getLatestTimeFormat();
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
 
   sortMapByOriginalOrder = (): number => 0;
@@ -136,7 +139,7 @@ export class IndividualExtensionDateModalComponent {
   }
 
   private addTime(timestamp: number, hours: number, days: number): number {
-    return timestamp + hours * this.ONE_HOUR_IN_MILLISECONDS + days * this.ONE_DAY_IN_MILLISECONDS;
+    return timestamp + hours * Milliseconds.IN_ONE_HOUR + days * Milliseconds.IN_ONE_DAY;
   }
 
   private adjustToFeedbackSessionTimeZone(time: number): string {

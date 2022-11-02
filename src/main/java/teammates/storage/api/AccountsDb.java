@@ -103,16 +103,6 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     private Account getAccountEntity(String googleId) {
-        if (googleId.toLowerCase().contains("@gmail.com")) {
-            Account accountWithGoogleId = load().id(googleId.split("@")[0]).now();
-            Account accountWithEmail = load().id(googleId).now();
-            return accountWithGoogleId == null ? accountWithEmail : accountWithGoogleId;
-        }
-        if (!googleId.toLowerCase().contains("@")) {
-            Account accountWithGoogleId = load().id(googleId).now();
-            Account accountWithEmail = load().id(googleId.concat("@gmail.com")).now();
-            return accountWithGoogleId == null ? accountWithEmail : accountWithGoogleId;
-        }
         return load().id(googleId).now();
     }
 

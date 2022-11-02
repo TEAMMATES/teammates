@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { DateTimeService } from '../../../services/datetime.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import {
   CommonVisibilitySetting,
@@ -44,11 +44,11 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
-import { DateFormat } from '../../components/datepicker/datepicker.component';
 import {
   ExtensionConfirmModalComponent,
   ExtensionModalType,
@@ -62,7 +62,6 @@ import {
   SessionEditFormModel,
 } from '../../components/session-edit-form/session-edit-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import {
@@ -107,19 +106,19 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     feedbackSessionName: '',
     instructions: '',
 
-    submissionStartTime: { hour: 23, minute: 59 },
-    submissionStartDate: { year: 0, month: 0, day: 0 },
-    submissionEndTime: { hour: 23, minute: 59 },
-    submissionEndDate: { year: 0, month: 0, day: 0 },
+    submissionStartTime: getLatestTimeFormat(),
+    submissionStartDate: getDefaultDateFormat(),
+    submissionEndTime: getLatestTimeFormat(),
+    submissionEndDate: getDefaultDateFormat(),
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: { hour: 23, minute: 59 },
-    customSessionVisibleDate: { year: 0, month: 0, day: 0 },
+    customSessionVisibleTime: getLatestTimeFormat(),
+    customSessionVisibleDate: getDefaultDateFormat(),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: { hour: 23, minute: 59 },
-    customResponseVisibleDate: { year: 0, month: 0, day: 0 },
+    customResponseVisibleTime: getLatestTimeFormat(),
+    customResponseVisibleDate: getDefaultDateFormat(),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -212,6 +211,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
               feedbackSessionActionsService: FeedbackSessionActionsService,
+              private datetimeService: DateTimeService,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
@@ -317,10 +317,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable: boolean = false): SessionEditFormModel {
     const submissionStart: { date: DateFormat, time: TimeFormat } =
-        this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, true);
+        this.datetimeService.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp,
+          feedbackSession.timeZone, true);
 
     const submissionEnd: { date: DateFormat, time: TimeFormat } =
-        this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, true);
+        this.datetimeService.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp,
+          feedbackSession.timeZone, true);
 
     const model: SessionEditFormModel = {
       isEditable,
@@ -337,12 +339,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       gracePeriod: feedbackSession.gracePeriod,
 
       sessionVisibleSetting: feedbackSession.sessionVisibleSetting,
-      customSessionVisibleTime: { hour: 23, minute: 59 },
-      customSessionVisibleDate: { year: 0, month: 0, day: 0 },
+      customSessionVisibleTime: getLatestTimeFormat(),
+      customSessionVisibleDate: getDefaultDateFormat(),
 
       responseVisibleSetting: feedbackSession.responseVisibleSetting,
-      customResponseVisibleTime: { hour: 23, minute: 59 },
-      customResponseVisibleDate: { year: 0, month: 0, day: 0 },
+      customResponseVisibleTime: getLatestTimeFormat(),
+      customResponseVisibleDate: getDefaultDateFormat(),
 
       submissionStatus: feedbackSession.submissionStatus,
       publishStatus: feedbackSession.publishStatus,
@@ -365,43 +367,21 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     if (feedbackSession.customSessionVisibleTimestamp) {
       const customSessionVisible: { date: DateFormat, time: TimeFormat } =
-          this.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp, feedbackSession.timeZone, true);
+          this.datetimeService.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp,
+              feedbackSession.timeZone, true);
       model.customSessionVisibleTime = customSessionVisible.time;
       model.customSessionVisibleDate = customSessionVisible.date;
     }
 
     if (feedbackSession.customResponseVisibleTimestamp) {
       const customResponseVisible: { date: DateFormat, time: TimeFormat } =
-          this.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp, feedbackSession.timeZone, true);
+          this.datetimeService.getDateTimeAtTimezone(feedbackSession.customResponseVisibleTimestamp,
+              feedbackSession.timeZone, true);
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
 
     return model;
-  }
-
-  /**
-   * Get the local date and time of timezone from timestamp.
-   */
-  private getDateTimeAtTimezone(timestamp: number, timeZone: string, resolveMidnightTo2359: boolean):
-      { date: DateFormat, time: TimeFormat } {
-    let momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
-    if (resolveMidnightTo2359 && momentInstance.hour() === 0 && momentInstance.minute() === 0) {
-      momentInstance = momentInstance.subtract(1, 'minute');
-    }
-    const date: DateFormat = {
-      year: momentInstance.year(),
-      month: momentInstance.month() + 1, // moment return 0-11 for month
-      day: momentInstance.date(),
-    };
-    const time: TimeFormat = {
-      minute: momentInstance.minute(),
-      hour: momentInstance.hour(),
-    };
-    return {
-      date,
-      time,
-    };
   }
 
   /**
