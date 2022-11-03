@@ -91,8 +91,7 @@ public abstract class Action {
      */
     public void checkAccessControl() throws UnauthorizedAccessException {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && !userInfo.isAdmin
-                && !userInfo.id.replaceFirst("@gmail.com$", "").equals(userParam.replaceFirst("@gmail.com$", ""))) {
+        if (userInfo != null && userParam != null && !userInfo.isAdmin && !userInfo.id.equals(userParam)) {
             throw new UnauthorizedAccessException("User " + userInfo.id
                     + " is trying to masquerade as " + userParam + " without admin permission.");
         }
