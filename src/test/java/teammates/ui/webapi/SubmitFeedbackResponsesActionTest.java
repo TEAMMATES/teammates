@@ -103,9 +103,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         };
 
         ______TS("No selective deadline; should fail.");
-
         verifyCannotAccess(submissionParams);
-
         ______TS("After selective deadline; should fail.");
 
         Map<String, Instant> newStudentDeadlines = Map.of(
@@ -114,9 +112,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .withStudentDeadlines(newStudentDeadlines)
                 .build());
         verifyCannotAccess(submissionParams);
-
         ______TS("Before selective deadline; should pass.");
-
         newStudentDeadlines = Map.of(
                 student1InCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(1));
         logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
@@ -125,11 +121,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verifyCanAccess(submissionParams);
     }
 
-    /***
+    /**
      * Test if the feedback is submitted or not, if it is submitted, student can not modify the feedback again.
-     *
      * @author Zeyu Li
-     * @throws Exception
      */
     @Test
     public void testAccessControl_studentAlreadySubmit_shouldAllowIfNotSubmit() throws Exception {
@@ -150,7 +144,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        if (session1InCourse1.isPublished()){
+        if (session1InCourse1.isPublished()) {
             ______TS("Feedback is already submitted, submit feedback failed");
             verifyCannotAccess(submissionParams);
         }
@@ -160,32 +154,23 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .withStudentDeadlines(newStudentSubmission)
                 .build());
 
-        if (session1InCourse1.isPublished()){
+        if (session1InCourse1.isPublished()) {
             ______TS("Feedback is already submitted, submit feedback failed");
             verifyCannotAccess(submissionParams);
-        }
-        else {
+        } else {
             ______TS("Feedback is not submitted yet, submit feedback successfully");
             verifyCanAccess(submissionParams);
         }
-
-
-
-
-
     }
 
-    /***
+    /**
      * Test if the feedback is submitted or not, if it is submitted, instructor can not modify the feedback again.
-     *
      * @author Zeyu Li
-     * @throws Exception
      */
     @Test
     public void testAccessControl_instructorAlreadySubmit_shouldAllowIfNotSubmit() throws Exception {
         int questionNumber = 4;
         FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-
         String feedbackSessionName = session1InCourse1.getFeedbackSessionName();
         String courseId = session1InCourse1.getCourseId();
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -201,7 +186,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn4InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        if (session1InCourse1.isPublished()){
+        if (session1InCourse1.isPublished()) {
             ______TS("Feedback is already submitted, submit feedback failed");
             verifyCannotAccess(submissionParams);
         }
@@ -211,20 +196,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .withInstructorDeadlines(newInstructorSubmission)
                 .build());
 
-
-        if (session1InCourse1.isPublished()){
+        if (session1InCourse1.isPublished()) {
             ______TS("Feedback is already submitted, submit feedback failed");
             verifyCannotAccess(submissionParams);
-        }
-        else {
+        } else {
             ______TS("Feedback is not submitted yet, submit feedback successfully");
             verifyCanAccess(submissionParams);
         }
-
-
-
-
-
-
     }
 }
