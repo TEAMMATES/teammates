@@ -103,9 +103,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         };
 
         ______TS("No selective deadline; should fail.");
-
         verifyCannotAccess(submissionParams);
-
         ______TS("After selective deadline; should fail.");
 
         Map<String, Instant> newStudentDeadlines = Map.of(
@@ -114,9 +112,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .withStudentDeadlines(newStudentDeadlines)
                 .build());
         verifyCannotAccess(submissionParams);
-
         ______TS("Before selective deadline; should pass.");
-
         newStudentDeadlines = Map.of(
                 student1InCourse1.getEmail(), TimeHelper.getInstantDaysOffsetFromNow(1));
         logic.updateFeedbackSession(FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
@@ -175,7 +171,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     public void testAccessControl_instructorAlreadySubmit_shouldAllowIfNotSubmit() throws Exception {
         int questionNumber = 4;
         FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
-
         String feedbackSessionName = session1InCourse1.getFeedbackSessionName();
         String courseId = session1InCourse1.getCourseId();
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
