@@ -57,8 +57,7 @@ class GetRegkeyValidityAction extends Action {
                 isUsed = true;
                 // If the registration key has been used to register, the logged in user needs to match
                 // Block access to not logged in user and mismatched user
-                isAllowedAccess = userInfo != null && googleId.replaceFirst("@gmail.com$", "")
-                        .equals(userInfo.id.replaceFirst("@gmail.com$", ""));
+                isAllowedAccess = userInfo != null && googleId.equals(userInfo.id);
             }
         }
 
