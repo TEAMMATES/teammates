@@ -25,7 +25,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
      * @param maxRank the maximum rank in each response
      * @return a list of {@code UpdateOptions} that contains the updates for the responses, if any
      */
-    public static List<FeedbackResponseAttributes.UpdateOptions> makeConsistencyUpdateForOneQuestionFromOneGiver(
+    public static List<FeedbackResponseAttributes.UpdateOptions> getUpdateOptionsForRankRecipientQuestions(
             List<FeedbackResponseAttributes> responses, int maxRank) {
         List<FeedbackResponseAttributes.UpdateOptions> updateOptions = new ArrayList<>();
 
@@ -44,13 +44,14 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
         // Checks whether update is needed.
         for (FeedbackResponseAttributes response : responses) {
             details = response.getResponseDetails();
-            if (details instanceof FeedbackRankRecipientsResponseDetails) {
-                responseDetails = (FeedbackRankRecipientsResponseDetails) details;
-                answer = responseDetails.getAnswer();
-                if (answer > maxRank) {
-                    isUpdateNeeded = true;
-                    break;
-                }
+            if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
+                continue;
+            }
+            responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+            answer = responseDetails.getAnswer();
+            if (answer > maxRank) {
+                isUpdateNeeded = true;
+                break;
             }
         }
 
@@ -62,12 +63,13 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
             // Obtains the largest unused rank.
             for (FeedbackResponseAttributes response : responses) {
                 details = response.getResponseDetails();
-                if (details instanceof FeedbackRankRecipientsResponseDetails) {
-                    responseDetails = (FeedbackRankRecipientsResponseDetails) details;
-                    answer = responseDetails.getAnswer();
-                    if (answer <= maxRank) {
-                        isRankUsed[answer - 1] = true;
-                    }
+                if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
+                    continue;
+                }
+                responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+                answer = responseDetails.getAnswer();
+                if (answer <= maxRank) {
+                    isRankUsed[answer - 1] = true;
                 }
             }
             for (int i = maxRank - 1; i >= 0; i--) {
@@ -98,7 +100,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
             FeedbackResponseAttributes.UpdateOptions updateOption;
             for (FeedbackResponseAttributes response : updatedResponses) {
                 updateOption = FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                        .withFeedbackResponseDetail(response.getResponseDetails())
+                        .withFeedbackResponseDetails(response.getResponseDetails())
                         .build();
                 updateOptions.add(updateOption);
             }

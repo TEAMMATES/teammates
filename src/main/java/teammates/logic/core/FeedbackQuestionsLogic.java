@@ -514,7 +514,7 @@ public final class FeedbackQuestionsLogic {
      * @param courseRoster roster of all students and instructors
      * @return a list of giver identifier
      */
-    public List<String> getPossibleGivers(
+    private List<String> getPossibleGivers(
             FeedbackQuestionAttributes fqa, CourseRoster courseRoster) {
         FeedbackParticipantType giverType = fqa.getGiverType();
         List<String> possibleGivers = new ArrayList<>();

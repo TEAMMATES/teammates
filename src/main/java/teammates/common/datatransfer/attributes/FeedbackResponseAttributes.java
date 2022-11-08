@@ -362,7 +362,7 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
                 return thisBuilder;
             }
 
-            public Builder withFeedbackResponseDetail(FeedbackResponseDetails responseDetails) {
+            public Builder withFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
                 assert responseDetails != null;
 
                 updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails);

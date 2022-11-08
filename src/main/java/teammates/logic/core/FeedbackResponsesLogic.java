@@ -826,7 +826,7 @@ public final class FeedbackResponsesLogic {
                         fqLogic.getRecipientsOfQuestion(question, instructor, null, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail());
                 updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .makeConsistencyUpdateForOneQuestionFromOneGiver(responses, numberOfRecipients));
+                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
             }
             break;
         case TEAMS:
@@ -842,7 +842,7 @@ public final class FeedbackResponsesLogic {
                 responses =
                         getFeedbackResponsesFromTeamForQuestion(question.getId(), question.getCourseId(), team, roster);
                 updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .makeConsistencyUpdateForOneQuestionFromOneGiver(responses, numberOfRecipients));
+                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
             }
             break;
         default:
@@ -851,7 +851,7 @@ public final class FeedbackResponsesLogic {
                         fqLogic.getRecipientsOfQuestion(question, null, student, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
                 updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .makeConsistencyUpdateForOneQuestionFromOneGiver(responses, numberOfRecipients));
+                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
             }
             break;
         }
