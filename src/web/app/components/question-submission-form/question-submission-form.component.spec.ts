@@ -93,7 +93,7 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   isLoaded: true,
 };
 
-describe('QuestionSubmissionFormComponent', () => {
+fdescribe('QuestionSubmissionFormComponent', () => {
   let component: QuestionSubmissionFormComponent;
   let fixture: ComponentFixture<QuestionSubmissionFormComponent>;
 
@@ -131,7 +131,7 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set model', () => {
+  fit('should set model', () => {
     const model: QuestionSubmissionFormModel = testNumscaleQuestionSubmissionForm;
     component.formModel = model;
 
