@@ -131,7 +131,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
     const indexes: Map<String, number> = new Map();
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
-      indexes.set(recipient.recipientIdentifier, index+1);
+      indexes.set(recipient.recipientIdentifier, index + 1);
     });
 
     this.model.recipientSubmissionForms.sort((firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
