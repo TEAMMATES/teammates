@@ -1,9 +1,16 @@
 package teammates.logic.core;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import net.bytebuddy.description.annotation.AnnotationValue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -317,13 +324,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 giverResponseMap.put(student.getEmail(), responsesFromStudent);
             }
         }
-//        System.out.println(numStudents);
-//        for (String s : giverResponseMap.keySet()) {
-//            System.out.println("Giver: Student " + s);
-//            for (FeedbackResponseAttributes r : giverResponseMap.get(s)) {
-//                System.out.println("Recipient: " + r.getRecipient() + " Rank: " + r.getResponseDetails().getAnswerString());
-//            }
-//        }
 
         refreshTestData();
         FeedbackQuestionAttributes nonDistinctRankQuestion =
@@ -349,14 +349,13 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         }
     }
 
-//    private Map<String, List<FeedbackResponseAttributes>> buildStudentResponsesMapForQuestion
-
     private boolean areRankResponsesConsistent(List<FeedbackResponseAttributes> responses, int maxRank) {
         for (FeedbackResponseAttributes response : responses) {
             if (!response.getFeedbackQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS)) {
                 return false;
             }
-            FeedbackRankRecipientsResponseDetails responseDetails = (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
+            FeedbackRankRecipientsResponseDetails responseDetails =
+                    (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
             if (responseDetails.getAnswer() > maxRank) {
                 return false;
             }
@@ -373,10 +372,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
      */
     private boolean areRankResponsesInSameOrder(List<FeedbackResponseAttributes> responses,
                                                 List<FeedbackResponseAttributes> modifiedResponses) {
-        if (responses.size() == 0) {
-            return modifiedResponses.size() == 0;
+        if (responses.isEmpty()) {
+            return modifiedResponses.isEmpty();
         }
-        if (modifiedResponses.size() == 0) {
+        if (modifiedResponses.isEmpty()) {
             return true;
         }
 
@@ -392,20 +391,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 response -> ((FeedbackRankRecipientsResponseDetails) response.getResponseDetails()).getAnswer()));
         modifiedResponses.sort(Comparator.comparing(
                 response -> ((FeedbackRankRecipientsResponseDetails) response.getResponseDetails()).getAnswer()));
-        System.out.println("abc");
-        for (FeedbackResponseAttributes r : responses) {
-            System.out.println(r.getGiver());
-            System.out.println(r.getRecipient());
-            System.out.println(r.getResponseDetails().getAnswerString());
-            System.out.println();
-        }
-        System.out.println("def");
-        for (FeedbackResponseAttributes r : modifiedResponses) {
-            System.out.println(r.getGiver());
-            System.out.println(r.getRecipient());
-            System.out.println(r.getResponseDetails().getAnswerString());
-            System.out.println();
-        }
 
         int pointer1 = 0;
         int pointer2 = 0;
