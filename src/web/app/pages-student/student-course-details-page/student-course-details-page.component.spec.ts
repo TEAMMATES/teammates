@@ -8,6 +8,36 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentCourseDetailsPageComponent, StudentProfileWithPicture } from './student-course-details-page.component';
 
+const student: Student = {
+  courseId: '1.1.c-demo2',
+  email: '1@1.com',
+  name: '1',
+  comments: '',
+  joinState: JoinState.NOT_JOINED,
+  sectionName: 'Tutorial Group 2',
+  teamName: 'Team 2',
+};
+
+const instructorDetails: Instructor[] = [{
+  googleId: '',
+  courseId: '1.1.c-demo2',
+  displayedToStudentsAs: 'Instructor',
+  isDisplayedToStudents: true,
+  email: '1@1.com',
+  name: '1',
+  joinState: JoinState.JOINED,
+  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+}];
+
+const course: Course = {
+  courseId: '1.1.c-demo2',
+  courseName: 'Sample Course 101',
+  institute: 'Test Institute',
+  creationTimestamp: 1552472130000,
+  deletionTimestamp: 0,
+  timeZone: 'UTC',
+};
+
 describe('StudentCourseDetailsPageComponent', () => {
   let component: StudentCourseDetailsPageComponent;
   let fixture: ComponentFixture<StudentCourseDetailsPageComponent>;
@@ -46,36 +76,6 @@ describe('StudentCourseDetailsPageComponent', () => {
   });
 
   it('should snap with populated fields', () => {
-    const student: Student = {
-      courseId: '1.1.c-demo2',
-      email: '1@1.com',
-      name: '1',
-      comments: '',
-      joinState: JoinState.NOT_JOINED,
-      sectionName: 'Tutorial Group 2',
-      teamName: 'Team 2',
-    };
-
-    const instructorDetails: Instructor[] = [{
-      googleId: '',
-      courseId: '1.1.c-demo2',
-      displayedToStudentsAs: 'Instructor',
-      isDisplayedToStudents: true,
-      email: '1@1.com',
-      name: '1',
-      joinState: JoinState.JOINED,
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    }];
-
-    const course: Course = {
-      courseId: '1.1.c-demo2',
-      courseName: 'Sample Course 101',
-      institute: 'Test Institute',
-      creationTimestamp: 1552472130000,
-      deletionTimestamp: 0,
-      timeZone: 'UTC',
-    };
-
     const teammateProfiles: StudentProfileWithPicture[] = [
       {
         photoUrl: '/assets/images/profile_picture_default.png',
@@ -113,36 +113,6 @@ describe('StudentCourseDetailsPageComponent', () => {
   });
 
   it('should sort teammate profiles by name after clicking on "name"', () => {
-    const student: Student = {
-      courseId: '1.1.c-demo2',
-      email: '1@1.com',
-      name: 'belly',
-      comments: '',
-      joinState: JoinState.NOT_JOINED,
-      sectionName: 'Tutorial Group 2',
-      teamName: 'Team 2',
-    };
-
-    const instructorDetails: Instructor[] = [{
-      googleId: '',
-      courseId: '1.1.c-demo2',
-      displayedToStudentsAs: 'Instructor',
-      isDisplayedToStudents: true,
-      email: '1@1.com',
-      name: '1',
-      joinState: JoinState.JOINED,
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    }];
-
-    const course: Course = {
-      courseId: '1.1.c-demo2',
-      courseName: 'Sample Course 101',
-      institute: 'Test Institute',
-      creationTimestamp: 1552472130000,
-      deletionTimestamp: 0,
-      timeZone: 'UTC',
-    };
-
     const teammateProfiles: StudentProfileWithPicture[] = [
       {
         photoUrl: '/assets/images/profile_picture_default.png',
@@ -192,36 +162,6 @@ describe('StudentCourseDetailsPageComponent', () => {
   });
 
   it('should sort teammate profiles by email correctly', () => {
-    const student: Student = {
-      courseId: '1.1.c-demo2',
-      email: '1@1.com',
-      name: 'belly',
-      comments: '',
-      joinState: JoinState.NOT_JOINED,
-      sectionName: 'Tutorial Group 2',
-      teamName: 'Team 2',
-    };
-
-    const instructorDetails: Instructor[] = [{
-      googleId: '',
-      courseId: '1.1.c-demo2',
-      displayedToStudentsAs: 'Instructor',
-      isDisplayedToStudents: true,
-      email: '1@1.com',
-      name: '1',
-      joinState: JoinState.JOINED,
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    }];
-
-    const course: Course = {
-      courseId: '1.1.c-demo2',
-      courseName: 'Sample Course 101',
-      institute: 'Test Institute',
-      creationTimestamp: 1552472130000,
-      deletionTimestamp: 0,
-      timeZone: 'UTC',
-    };
-
     const teammateProfiles: StudentProfileWithPicture[] = [
       {
         photoUrl: '/assets/images/profile_picture_default.png',
@@ -268,36 +208,6 @@ describe('StudentCourseDetailsPageComponent', () => {
   });
 
   it('should sort teammate profiles by gender correctly', () => {
-    const student: Student = {
-      courseId: '1.1.c-demo2',
-      email: '1@1.com',
-      name: 'belly',
-      comments: '',
-      joinState: JoinState.NOT_JOINED,
-      sectionName: 'Tutorial Group 2',
-      teamName: 'Team 2',
-    };
-
-    const instructorDetails: Instructor[] = [{
-      googleId: '',
-      courseId: '1.1.c-demo2',
-      displayedToStudentsAs: 'Instructor',
-      isDisplayedToStudents: true,
-      email: '1@1.com',
-      name: '1',
-      joinState: JoinState.JOINED,
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    }];
-
-    const course: Course = {
-      courseId: '1.1.c-demo2',
-      courseName: 'Sample Course 101',
-      institute: 'Test Institute',
-      creationTimestamp: 1552472130000,
-      deletionTimestamp: 0,
-      timeZone: 'UTC',
-    };
-
     const teammateProfiles: StudentProfileWithPicture[] = [
       {
         photoUrl: '/assets/images/profile_picture_default.png',
@@ -344,36 +254,6 @@ describe('StudentCourseDetailsPageComponent', () => {
   });
 
   it('should sort teammate profiles by institute correctly', () => {
-    const student: Student = {
-      courseId: '1.1.c-demo2',
-      email: '1@1.com',
-      name: 'belly',
-      comments: '',
-      joinState: JoinState.NOT_JOINED,
-      sectionName: 'Tutorial Group 2',
-      teamName: 'Team 2',
-    };
-
-    const instructorDetails: Instructor[] = [{
-      googleId: '',
-      courseId: '1.1.c-demo2',
-      displayedToStudentsAs: 'Instructor',
-      isDisplayedToStudents: true,
-      email: '1@1.com',
-      name: '1',
-      joinState: JoinState.JOINED,
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    }];
-
-    const course: Course = {
-      courseId: '1.1.c-demo2',
-      courseName: 'Sample Course 101',
-      institute: 'Test Institute',
-      creationTimestamp: 1552472130000,
-      deletionTimestamp: 0,
-      timeZone: 'UTC',
-    };
-
     const teammateProfiles: StudentProfileWithPicture[] = [
       {
         photoUrl: '/assets/images/profile_picture_default.png',
@@ -420,36 +300,6 @@ describe('StudentCourseDetailsPageComponent', () => {
   });
 
   it('should sort teammate profiles by nationality', () => {
-    const student: Student = {
-      courseId: '1.1.c-demo2',
-      email: '1@1.com',
-      name: 'belly',
-      comments: '',
-      joinState: JoinState.NOT_JOINED,
-      sectionName: 'Tutorial Group 2',
-      teamName: 'Team 2',
-    };
-
-    const instructorDetails: Instructor[] = [{
-      googleId: '',
-      courseId: '1.1.c-demo2',
-      displayedToStudentsAs: 'Instructor',
-      isDisplayedToStudents: true,
-      email: '1@1.com',
-      name: '1',
-      joinState: JoinState.JOINED,
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    }];
-
-    const course: Course = {
-      courseId: '1.1.c-demo2',
-      courseName: 'Sample Course 101',
-      institute: 'Test Institute',
-      creationTimestamp: 1552472130000,
-      deletionTimestamp: 0,
-      timeZone: 'UTC',
-    };
-
     const teammateProfiles: StudentProfileWithPicture[] = [
       {
         photoUrl: '/assets/images/profile_picture_default.png',
