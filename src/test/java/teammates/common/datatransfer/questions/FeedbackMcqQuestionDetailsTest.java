@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.test.BaseTestCase;
 
 /**
@@ -99,6 +100,32 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testValidateQuestionDetails_emptyMcqOption_errorReturned() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", ""));
+
+        List<String> errors = mcqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_EMPTY_MCQ_OPTION, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_negativeOtherWeight_errorReturned() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
+        mcqDetails.setMcqWeights(List.of(1.22, 1.33));
+        mcqDetails.setMcqOtherWeight(-1.22);
+        mcqDetails.setHasAssignedWeights(true);
+        mcqDetails.setOtherEnabled(true);
+
+        List<String> errors = mcqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+    }
+
+    @Test
     public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
         assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
@@ -110,4 +137,98 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
 
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentMqcChoices_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of("choice1", "choice2"));
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setMcqChoices(List.of("choice1", "choice3"));
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentGenerateOptionsFor_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_differentOtherEnabled_shouldReturnTrue() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setOtherEnabled(true);
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setOtherEnabled(false);
+
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_sameQuestionsDifferentOrder_shouldReturnFalse() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of("choice1", "choice2", "choice3"));
+        mcqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        mcqDetails.setOtherEnabled(false);
+
+        FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
+        newMcqDetails.setMcqChoices(List.of("choice2", "choice3", "choice1"));
+        newMcqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        newMcqDetails.setOtherEnabled(false);
+
+        assertFalse(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+    }
+
+    @Test
+    public void testValidateResponsesDetails_answerNotPartOfMcq_shouldReturnError() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of("choice1", "choice2"));
+
+        FeedbackMcqResponseDetails response = new FeedbackMcqResponseDetails();
+        response.setAnswer("choice3");
+        response.setOther(false);
+        List<FeedbackResponseDetails> responses = List.of(response);
+
+        List<String> errors = mcqDetails.validateResponsesDetails(responses, 1);
+
+        assertEquals(1, errors.size());
+        assertEquals(response.getAnswerString() + " " + FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_OPTION, errors.get(0));
+    }
+
+    @Test
+    public void testValidateResponsesDetails_otherOptionNoText_shouldReturnError() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of("choice1", "choice2"));
+
+        FeedbackMcqResponseDetails response = new FeedbackMcqResponseDetails();
+        response.setAnswer("");
+        response.setOther(true);
+        List<FeedbackResponseDetails> responses = List.of(response);
+
+        List<String> errors = mcqDetails.validateResponsesDetails(responses, 1);
+
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED, errors.get(0));
+    }
+
+    @Test
+    public void testValidateResponsesDetails_noValidationError_errorListShouldBeEmpty() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setMcqChoices(List.of("choice1", "choice2"));
+
+        FeedbackMcqResponseDetails response = new FeedbackMcqResponseDetails();
+        response.setAnswer("choice1");
+        response.setOther(false);
+        List<FeedbackResponseDetails> responses = List.of(response);
+
+        List<String> errors = mcqDetails.validateResponsesDetails(responses, 1);
+
+        assertEquals(0, errors.size());
+    }
 }
