@@ -547,10 +547,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       } else {
         this.loadFeedbackResponses(model);
       }
-
-      console.log(
-        `>>> loadFeedbackQuestionRecipientsForQuestion ${JSON.stringify(model)}`
-      );
     }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 

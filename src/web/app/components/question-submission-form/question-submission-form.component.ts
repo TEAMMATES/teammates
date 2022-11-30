@@ -37,6 +37,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   isMCQDropDownEnabled: boolean = false;
+  isSaved: boolean = false;
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -112,7 +113,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
   isEveryRecipientSorted: boolean = false;
-  isSaved: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
