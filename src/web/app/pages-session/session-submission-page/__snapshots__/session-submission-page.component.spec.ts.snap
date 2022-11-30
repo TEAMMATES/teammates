@@ -884,9 +884,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -1135,9 +1132,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -1362,9 +1356,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -1647,9 +1638,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -1822,9 +1810,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -2011,9 +1996,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -2429,9 +2411,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -2708,9 +2687,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -2945,9 +2921,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -3348,9 +3321,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -3604,9 +3574,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -3831,9 +3798,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -4122,9 +4086,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -4298,9 +4259,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -4488,9 +4446,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -4907,9 +4862,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -5195,9 +5147,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
@@ -5433,9 +5382,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header bg-success"
           >
-            <i
-              class="fas fa-check mr-2"
-            />
             <span
               id="question-details"
             >
