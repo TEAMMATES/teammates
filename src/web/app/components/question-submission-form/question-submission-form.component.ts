@@ -138,6 +138,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (this.model.isLoaded && !this.isEveryRecipientSorted) {
       this.sortRecipientsByName();
     }
+
+    if (this.model.recipientSubmissionForms.some(response => response.responseId.length > 0)) {
+      this.isSaved = true;
+    }
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,
