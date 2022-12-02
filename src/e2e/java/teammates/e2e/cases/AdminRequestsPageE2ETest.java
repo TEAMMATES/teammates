@@ -158,6 +158,7 @@ public class AdminRequestsPageE2ETest extends BaseE2ETestCase {
 
         verifyAbsentInDatabase(accountRequest);
         requestsPage.verifyDisplayedStatusForNewlyDeletedAccountRequest(panelIdentifier);
+        requestsPage.waitForPageToLoad();
 
         ______TS("filter by submission time");
 
