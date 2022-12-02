@@ -3,7 +3,7 @@ package teammates.common.datatransfer.logs;
 /**
  * Represents the parameters used for querying logs.
  */
-public class QueryLogsParams {
+public final class QueryLogsParams {
     private LogSeverity severity;
     private LogSeverity minSeverity;
     private long startTime;

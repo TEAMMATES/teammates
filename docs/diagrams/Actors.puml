@@ -1,0 +1,14 @@
+@startuml
+!include style.puml
+skinparam actorBackgroundColor #transparent
+
+actor Evaluator #line.dotted;text:gray
+actor Student #line.bold;line:orange;text:orange
+actor Instructor #line.bold;line:blue;text:blue
+actor Admin #line.bold;line:red;text:red
+
+Student <|-- Admin #line:orange
+Instructor <|-- Admin #line:blue
+Evaluator <|-- Admin #line:grey
+
+@enduml

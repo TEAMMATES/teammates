@@ -25,6 +25,11 @@ import { FeedbackSessionCreateRequest } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
+import {
+  CourseAddFormModel,
+  CourseEditFormMode,
+  DEFAULT_COURSE_ADD_FORM_MODEL,
+} from '../../components/course-edit-form/course-edit-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -53,6 +58,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   allCoursesList: Course[] = [];
   activeCoursesList: Course[] = [];
   courseStats: Record<string, Record<string, number>> = {};
+  courseFormModel: CourseAddFormModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+  resetCourseForm: EventEmitter<void> = new EventEmitter();
 
   activeTableSortOrder: SortOrder = SortOrder.ASC;
   activeTableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
@@ -64,6 +71,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
+  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
   isLoading: boolean = false;
   hasLoadingFailed: boolean = false;
@@ -98,6 +106,11 @@ export class InstructorCoursesPageComponent implements OnInit {
       }
       this.loadInstructorCourses();
     });
+  }
+
+  setIsCopyingCourse(value: boolean): void {
+    this.isCopyingCourse = value;
+    this.courseFormModel.isCopying = value;
   }
 
   /**
@@ -180,6 +193,9 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
+
+    this.courseFormModel.activeCourses = this.activeCoursesList;
+    this.courseFormModel.allCourses = this.allCoursesList;
   }
 
   /**
@@ -262,6 +278,28 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
+   * Creates new course
+   */
+  createNewCourse(): void {
+    this.courseFormModel.isSaving = true;
+    this.courseService.createCourse(this.courseFormModel.course.institute, {
+      courseName: this.courseFormModel.course.courseName,
+      timeZone: this.courseFormModel.course.timeZone,
+      courseId: this.courseFormModel.course.courseId,
+    }).pipe(finalize(() => {
+      this.courseFormModel.isSaving = false;
+    })).subscribe(() => {
+      this.statusMessageService.showSuccessToast('The course has been added.');
+      this.courseFormModel.course.courseId = '';
+      this.courseFormModel.course.courseName = '';
+      this.resetCourseForm.emit();
+      this.loadInstructorCourses();
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
+
+  /**
    * Finds and returns a course from the target course list.
    */
   findCourse(targetList: CourseModel[], courseId: string): CourseModel | undefined {
@@ -296,7 +334,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       modalRef.componentInstance.newTimeZone = timeZone;
       modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
       modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
-      modalRef.result.then((result: CopyCourseModalResult) => this.createCourse(result), () => {});
+      modalRef.result.then((result: CopyCourseModalResult) => this.createCopiedCourse(result), () => {});
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -305,8 +343,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Creates a new course with the selected feedback sessions
    */
-  createCourse(result: CopyCourseModalResult): void {
-    this.isCopyingCourse = true;
+  createCopiedCourse(result: CopyCourseModalResult): void {
+    this.setIsCopyingCourse(true);
     this.numberOfSessionsCopied = 0;
     this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
     this.copyProgressPercentage = 0;
@@ -319,6 +357,13 @@ export class InstructorCoursesPageComponent implements OnInit {
     .subscribe(() => {
       // Wrap in a Promise to wait for all feedback sessions to be copied
       const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
+        if (result.selectedFeedbackSessionList.size === 0) {
+          this.progressBarService.updateProgress(100);
+          resolve();
+
+          return;
+        }
+
         result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
           this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
             .pipe(finalize(() => {
@@ -326,6 +371,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               this.copyProgressPercentage =
                 Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
               this.progressBarService.updateProgress(this.copyProgressPercentage);
+
               if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
                 resolve();
               }
@@ -342,13 +388,13 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.activeCoursesList.push(course);
             this.allCoursesList.push(course);
             this.activeCoursesDefaultSort();
-            this.isCopyingCourse = false;
+            this.setIsCopyingCourse(false);
             this.statusMessageService.showSuccessToast('The course has been added.');
           });
       });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
-      this.isCopyingCourse = false;
+      this.setIsCopyingCourse(false);
       this.hasLoadingFailed = true;
     });
   }
@@ -455,14 +501,39 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return Promise.resolve();
     }
+
+    const institute: string = this.allCoursesList.find(
+      (course: Course) => course.courseId === courseId)?.institute ?? '';
+    const numTotalCourses: number = this.allCoursesList.length;
+    const numCoursesFromSameInstitute: number = this.allCoursesList.filter(
+      (course: Course) => course.institute === institute).length;
+
     const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
-        This operation will delete all students and sessions in these courses.
-        All instructors of these courses will not be able to access them hereafter as well.`;
+      This operation will delete all students and sessions in these courses.
+      All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
+      `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
+
     return modalRef.result.then(() => {
+     if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
+        const finalConfModalContent = numTotalCourses === 1
+          ? `This is your last course on TEAMMATES for which you have instructor access. 
+            Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
+            Are you sure you want to delete the course <strong>${courseId}</strong>?`
+          : `If you delete all courses of institute <strong>${institute}</strong>, 
+            you will <mark><strong>lose instructor access</strong></mark> 
+            to TEAMMATES under the institution <strong>${institute}</strong>. 
+            To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
+            Are you sure you want to delete the course <strong>${courseId}</strong> in institution
+            <strong>${institute}</strong>?`;
+        return this.simpleModalService.openConfirmationModal(
+          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+          SimpleModalType.DANGER, finalConfModalContent).result;
+      }
+      return Promise.resolve();
+    }).then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
         this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
         this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
@@ -499,9 +570,24 @@ export class InstructorCoursesPageComponent implements OnInit {
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
+    const lastCourseRemaining: boolean = this.allCoursesList.length === this.softDeletedCourses.length;
+
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+      'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+
     modalRef.result.then(() => {
+      if (lastCourseRemaining) {
+        const modalContentCnf: string =
+          `These are your last courses registered on TEAMMATES for which you have instructor access. 
+          Deleting these courses will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
+          Are you sure you want to permanently delete these courses?`;
+
+        return this.simpleModalService.openConfirmationModal(
+          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+          SimpleModalType.DANGER, modalContentCnf).result;
+      }
+      return Promise.resolve();
+    }).then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
         deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
@@ -516,7 +602,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-
     }).catch(() => {});
   }
 

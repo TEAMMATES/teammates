@@ -16,7 +16,7 @@ import teammates.storage.entity.FeedbackResponse;
 /**
  * The data transfer object for {@link FeedbackResponse} entities.
  */
-public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
+public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
 
     private String feedbackQuestionId;
     /**
@@ -359,6 +359,13 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
                 assert recipient != null;
 
                 updateOptions.recipientOption = UpdateOption.of(recipient);
+                return thisBuilder;
+            }
+
+            public Builder withFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+                assert responseDetails != null;
+
+                updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails);
                 return thisBuilder;
             }
 

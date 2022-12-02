@@ -80,7 +80,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         FeedbackContributionQuestionDetails feedbackContributionQuestionDetails =
                 new FeedbackContributionQuestionDetails();
         feedbackContributionQuestionDetails.setNotSureAllowed(false);
-        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails("");
+        FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
         newDetails.setNotSureAllowed(true);
         assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
@@ -476,8 +476,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testValidateResponsesDetails() {
-        FeedbackContributionQuestionDetails feedbackContributionQuestionDetails =
-                new FeedbackContributionQuestionDetails("");
+        FeedbackContributionQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
         List<FeedbackResponseDetails> responses = new ArrayList<>();
         List<String> expectedResponsesValidationResults = new ArrayList<>();
 

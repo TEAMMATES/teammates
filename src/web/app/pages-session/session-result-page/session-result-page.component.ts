@@ -6,6 +6,7 @@ import { finalize, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
@@ -16,18 +17,33 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
   Course,
+  FeedbackQuestion,
+  FeedbackQuestions,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
-  QuestionOutput, RegkeyValidity,
+  RegkeyValidity,
+  ResponseOutput,
   ResponseVisibleSetting,
-  SessionResults,
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
+
+export interface FeedbackQuestionModel {
+  feedbackQuestion: FeedbackQuestion;
+  questionStatistics: string;
+  allResponses: ResponseOutput[];
+  responsesToSelf: ResponseOutput[];
+  responsesFromSelf: ResponseOutput[];
+  otherResponses: ResponseOutput[][];
+  isLoading: boolean;
+  isLoaded: boolean;
+  hasResponse: boolean;
+  errorMessage?: string;
+}
 
 /**
  * Feedback session result page.
@@ -60,7 +76,7 @@ export class SessionResultPageComponent implements OnInit {
     studentDeadlines: {},
     instructorDeadlines: {},
   };
-  questions: QuestionOutput[] = [];
+  questions: FeedbackQuestionModel[] = [];
   courseName: string = '';
   courseInstitute: string = '';
   formattedSessionOpeningTime: string = '';
@@ -87,7 +103,8 @@ export class SessionResultPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private feedbackSessionsService: FeedbackSessionsService,
+  constructor(private feedbackQuestionsService: FeedbackQuestionsService,
+              private feedbackSessionsService: FeedbackSessionsService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
               private navigationService: NavigationService,
@@ -103,10 +120,10 @@ export class SessionResultPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.pipe(
-        tap((data: any) => {
-          this.intent = data.intent;
-        }),
-        switchMap(() => this.route.queryParams),
+      tap((data: any) => {
+        this.intent = data.intent;
+      }),
+      switchMap(() => this.route.queryParams),
     ).subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
@@ -136,8 +153,8 @@ export class SessionResultPageComponent implements OnInit {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
                 this.navigationService.navigateByURLWithParamEncoding(
-                    `/web/${this.entityType}/sessions/result`,
-                    { courseid: this.courseId, fsname: this.feedbackSessionName });
+                  `/web/${this.entityType}/sessions/result`,
+                  { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // Valid, unused registration key; load information based on the key
                 this.loadCourseInfo();
@@ -149,7 +166,7 @@ export class SessionResultPageComponent implements OnInit {
               if (this.loggedInUser) {
                 // Registration key belongs to another user who is not the logged in user
                 this.navigationService.navigateWithErrorMessage('/web/front',
-                    `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
+                  `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
                     is not linked to this TEAMMATES account. If you used a different Google account to
                     join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
                     cannot remember which Google account you used before, please email us at
@@ -166,11 +183,11 @@ export class SessionResultPageComponent implements OnInit {
             } else {
               // The registration key is invalid
               this.navigationService.navigateWithErrorMessage('/web/front',
-                  'You are not authorized to view this page.');
+                'You are not authorized to view this page.');
             }
           }, () => {
             this.navigationService.navigateWithErrorMessage('/web/front',
-                'You are not authorized to view this page.');
+              'You are not authorized to view this page.');
           });
         } else if (this.loggedInUser) {
           // Load information based on logged in user
@@ -180,11 +197,11 @@ export class SessionResultPageComponent implements OnInit {
           this.loadFeedbackSession();
         } else {
           this.navigationService.navigateWithErrorMessage('/web/front',
-              'You are not authorized to view this page.');
+            'You are not authorized to view this page.');
         }
       }, () => {
         this.navigationService.navigateWithErrorMessage('/web/front',
-            'You are not authorized to view this page.');
+          'You are not authorized to view this page.');
       });
     });
   }
@@ -233,10 +250,10 @@ export class SessionResultPageComponent implements OnInit {
             studentEmail: this.personEmail,
             logType: FeedbackSessionLogType.VIEW_RESULT,
           }).subscribe(
-              () => {
-                // No action needed if log is successfully created.
-              },
-              () => this.statusMessageService.showWarningToast('Failed to log feedback session view'));
+            () => {
+              // No action needed if log is successfully created.
+            },
+            () => this.statusMessageService.showWarningToast('Failed to log feedback session view'));
         });
         break;
       case Intent.INSTRUCTOR_RESULT:
@@ -265,35 +282,49 @@ export class SessionResultPageComponent implements OnInit {
       key: this.regKey,
       previewAs: this.previewAsPerson,
     })
-    .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
-    .subscribe((feedbackSession: FeedbackSession) => {
-      const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
-      this.session = feedbackSession;
-      this.formattedSessionOpeningTime = this.timezoneService
+      .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
+      .subscribe((feedbackSession: FeedbackSession) => {
+        const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
+        this.session = feedbackSession;
+        this.formattedSessionOpeningTime = this.timezoneService
           .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
-      this.formattedSessionClosingTime = this.timezoneService
+        this.formattedSessionClosingTime = this.timezoneService
           .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
-      this.feedbackSessionsService.getFeedbackSessionResults({
-        courseId: this.courseId,
-        feedbackSessionName: this.feedbackSessionName,
-        intent: this.intent,
-        key: this.regKey,
-        previewAs: this.previewAsPerson,
-      })
-          .pipe(finalize(() => {
-            this.isFeedbackSessionResultsLoading = false;
-          }))
-          .subscribe((sessionResults: SessionResults) => {
-            this.questions = sessionResults.questions.sort(
-                (a: QuestionOutput, b: QuestionOutput) =>
-                    a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+        this.feedbackQuestionsService.getFeedbackQuestions({
+          courseId: this.courseId,
+          feedbackSessionName: this.feedbackSessionName,
+          intent: this.intent,
+          key: this.regKey,
+          // TODO: getFeedbackQuestions may not need this param now but this page still needs previewAs
+          // TODO: getQuestion during lazy loading needs previewAs param
+          previewAs: this.previewAsPerson,
+        }).pipe(finalize(() => {
+          this.isFeedbackSessionResultsLoading = false;
+        }))
+          .subscribe((feedbackQuestions: FeedbackQuestions) => {
+            feedbackQuestions.questions.sort(
+              (a: FeedbackQuestion, b: FeedbackQuestion) =>
+                a.questionNumber - b.questionNumber);
+            for (const question of feedbackQuestions.questions) {
+              this.questions.push({
+                feedbackQuestion: question,
+                questionStatistics: '',
+                allResponses: [],
+                responsesToSelf: [],
+                responsesFromSelf: [],
+                otherResponses: [],
+                isLoading: false,
+                isLoaded: false,
+                hasResponse: true,
+              });
+            }
           }, (resp: ErrorMessageOutput) => {
             this.handleError(resp);
           });
-    }, (resp: ErrorMessageOutput) => {
-      this.isFeedbackSessionResultsLoading = false;
-      this.handleError(resp);
-    });
+      }, (resp: ErrorMessageOutput) => {
+        this.isFeedbackSessionResultsLoading = false;
+        this.handleError(resp);
+      });
   }
 
   /**
@@ -305,7 +336,7 @@ export class SessionResultPageComponent implements OnInit {
 
   navigateToSessionReportPage(): void {
     this.navigationService.navigateByURL('/web/instructor/sessions/report',
-        { courseid: this.courseId, fsname: this.feedbackSessionName });
+      { courseid: this.courseId, fsname: this.feedbackSessionName });
   }
 
   retryLoadingFeedbackSessionResults(): void {

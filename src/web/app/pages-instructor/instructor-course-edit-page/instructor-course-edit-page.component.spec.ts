@@ -10,6 +10,7 @@ import { InstructorService } from '../../../services/instructor.service';
 import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
@@ -101,6 +102,7 @@ describe('InstructorCourseEditPageComponent', () => {
         ViewRolePrivilegesModalComponent,
         CustomPrivilegeSettingPanelComponent,
         CopyInstructorsFromOtherCoursesModalComponent,
+        CourseEditFormComponent,
       ],
       imports: [
         NgbModule,
@@ -137,38 +139,38 @@ describe('InstructorCourseEditPageComponent', () => {
 
     component.loadCourseInfo();
 
-    expect(component.course.courseId).toBe('exampleId');
-    expect(component.course.courseName).toBe('Example Course');
-    expect(component.course.timeZone).toBe('UTC (UTC)');
-    expect(component.course.creationTimestamp).toBe(0);
-    expect(component.course.deletionTimestamp).toBe(1000);
+    expect(component.courseFormModel.course.courseId).toBe('exampleId');
+    expect(component.courseFormModel.course.courseName).toBe('Example Course');
+    expect(component.courseFormModel.course.timeZone).toBe('UTC (UTC)');
+    expect(component.courseFormModel.course.creationTimestamp).toBe(0);
+    expect(component.courseFormModel.course.deletionTimestamp).toBe(1000);
     expect(component.hasCourseLoadingFailed).toBeFalsy();
   });
 
   it('should not change course details if CANCEL is requested', () => {
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
-    component.originalCourse = { ...component.course };
+    component.courseFormModel.originalCourse = { ...component.courseFormModel.course };
     fixture.detectChanges();
 
-    component.isEditingCourse = true;
-    component.course.courseName = 'Example Course Changed';
+    component.courseFormModel.isEditing = true;
+    component.courseFormModel.course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-cancel-course');
     button.click();
 
-    expect(component.isEditingCourse).toBeFalsy();
-    expect(component.course.courseName).toBe('Example Course');
+    expect(component.courseFormModel.isEditing).toBeFalsy();
+    expect(component.courseFormModel.course.courseName).toBe('Example Course');
   });
 
   it('should update course details if SAVE is requested', () => {
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
     fixture.detectChanges();
 
-    component.isEditingCourse = true;
-    component.course.courseName = 'Example Course Changed';
+    component.courseFormModel.isEditing = true;
+    component.courseFormModel.course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
     jest.spyOn(courseService, 'updateCourse').mockReturnValue(of({
@@ -184,8 +186,8 @@ describe('InstructorCourseEditPageComponent', () => {
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
     button.click();
 
-    expect(component.isEditingCourse).toBeFalsy();
-    expect(component.course.courseName).toBe('Example Course Changed');
+    expect(component.courseFormModel.isEditing).toBeFalsy();
+    expect(component.courseFormModel.course.courseName).toBe('Example Course Changed');
   });
 
   it('should load correct instructors details for given API output', () => {
@@ -201,7 +203,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should not add instructor if CANCEL is requested', () => {
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
@@ -236,7 +238,7 @@ describe('InstructorCourseEditPageComponent', () => {
         name: params.requestBody.name,
       }));
 
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.courseId = testCourse.courseId;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
@@ -270,7 +272,7 @@ describe('InstructorCourseEditPageComponent', () => {
   it('should re-order if instructor is deleted', () => {
     jest.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({}));
 
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
@@ -303,7 +305,7 @@ describe('InstructorCourseEditPageComponent', () => {
     }));
     jest.spyOn(courseService, 'remindInstructorForJoin').mockImplementation(mockReminderFunction);
 
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
@@ -335,7 +337,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap with course details', () => {
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
 
     fixture.detectChanges();
 
@@ -343,7 +345,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap when editing course details', () => {
-    component.isEditingCourse = true;
+    component.courseFormModel.isEditing = true;
 
     fixture.detectChanges();
 

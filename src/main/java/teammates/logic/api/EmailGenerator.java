@@ -651,7 +651,7 @@ public final class EmailGenerator {
             EmailType emailType, String userEmail, boolean isInstructor) {
         String status;
 
-        switch(emailType) {
+        switch (emailType) {
         case DEADLINE_EXTENSION_GRANTED:
             status = "You have been granted a deadline extension for the following feedback session.";
             break;

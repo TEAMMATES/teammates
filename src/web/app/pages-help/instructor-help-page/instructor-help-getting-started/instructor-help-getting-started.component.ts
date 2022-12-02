@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
 import { QuestionsSectionQuestions } from '../instructor-help-questions-section/questions-section-questions';
 import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
@@ -22,6 +23,7 @@ export class InstructorHelpGettingStartedComponent {
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
   SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
+  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
   Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;

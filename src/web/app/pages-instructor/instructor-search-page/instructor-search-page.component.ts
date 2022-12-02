@@ -25,6 +25,7 @@ export class InstructorSearchPageComponent {
   searchParams: SearchParams = {
     searchKey: '',
   };
+  searchString: string = '';
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching: boolean = false;
 
@@ -42,6 +43,7 @@ export class InstructorSearchPageComponent {
     if (this.searchParams.searchKey === '') {
       return;
     }
+    this.searchString = this.searchParams.searchKey;
     this.isSearching = true;
     this.searchService.searchInstructor(this.searchParams.searchKey).pipe(
         map((res: InstructorSearchResult) => this.getCoursesWithStudents(res.students)),

@@ -10,7 +10,7 @@ import {
   Instructor,
   InstructorPermissionRole,
   JoinState,
-  NumberOfEntitiesToGiveFeedbackToSetting, QuestionOutput,
+  NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -31,6 +31,7 @@ import {
 import {
   SectionTabModel,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/session-result-page.component';
 
 /**
  * Structure of example session edit form model
@@ -264,6 +265,7 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
               '<p>Bad</p>',
             ],
             otherEnabled: false,
+            questionDropdownEnabled: false,
             generateOptionsFor: 'NONE',
             questionType: FeedbackQuestionType.MCQ,
             questionText: 'How well did team member perform?',
@@ -333,7 +335,7 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
 /**
  * Structure of example questions with responses
  */
-export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
+export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
   feedbackQuestion: {
     feedbackQuestionId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw',
     questionNumber: 1,
@@ -414,4 +416,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
     },
   ],
   otherResponses: [],
+  isLoaded: true,
+  isLoading: false,
+  hasResponse: true,
 }];

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -26,7 +26,7 @@ import {
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
 })
-export class QuestionSubmissionFormComponent implements OnInit {
+export class QuestionSubmissionFormComponent implements DoCheck {
 
   // enum
   QuestionSubmissionFormMode: typeof QuestionSubmissionFormMode = QuestionSubmissionFormMode;
@@ -34,6 +34,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
+
+  isMCQDropDownEnabled: boolean = false;
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -62,6 +64,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
         this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
+  @Input()
+  isQuestionCountOne: boolean = false;
+
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
@@ -70,7 +75,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   model: QuestionSubmissionFormModel = {
     isLoading: false,
-    isLoaded: true,
+    isLoaded: false,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -101,6 +106,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
+  isEveryRecipientSorted: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
@@ -109,8 +115,10 @@ export class QuestionSubmissionFormComponent implements OnInit {
             this.model.giverType, this.model.recipientType);
   }
 
-  ngOnInit(): void {
-    this.sortRecipientsByName();
+  ngDoCheck(): void {
+    if (this.model.isLoaded && !this.isEveryRecipientSorted) {
+      this.sortRecipientsByName();
+    }
   }
 
   /**
@@ -133,6 +141,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
       return firstRecipientIndex - secondRecipientIndex;
     });
+    this.isEveryRecipientSorted = true;
   }
 
   /**
@@ -252,6 +261,13 @@ export class QuestionSubmissionFormComponent implements OnInit {
    */
   saveFeedbackResponses(): void {
     this.responsesSave.emit(this.model);
+  }
+
+  /**
+   * Triggers adding a col-12 if MCQ Dropdown is enabled.
+   */
+  refreshCssForDropdownMCQ(add: boolean): void {
+    this.isMCQDropDownEnabled = add;
   }
 
 }
