@@ -75,7 +75,6 @@ class GetSessionResultsAction extends Action {
 
             bundle = logic.getSessionResultsForCourse(feedbackSessionName, courseId, instructor.getEmail(),
                     questionId, selectedSection, fetchType);
-
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here

@@ -57,6 +57,7 @@ import {
   Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { Milliseconds } from '../../../types/datetime-const';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -96,7 +97,7 @@ describe('SessionSubmissionPageComponent', () => {
     timeZone: 'Asia/Singapore',
     instructions: 'Instructions',
     submissionStartTimestamp: 1000000000000,
-    submissionEndTimestamp: Date.now() + 10 * 60 * 1000, // 10 minutes before closing
+    submissionEndTimestamp: Date.now() + Milliseconds.IN_TEN_MINUTES, // 10 minutes before closing
     gracePeriod: 0,
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,

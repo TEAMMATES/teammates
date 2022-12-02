@@ -17,6 +17,7 @@ import {
   SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
+import { Milliseconds } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
 import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
@@ -253,8 +254,10 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(logSpy).toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledWith({
       courseId: testCourse1.courseId,
-      searchFrom: (new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
-      searchUntil: (new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
+      searchFrom: (new Date('2020-12-31T00:00+00:00').getTime()
+        - tzOffset * Milliseconds.IN_ONE_MINUTE).toString(),
+      searchUntil: (new Date('2021-01-01T00:00+00:00').getTime()
+        - tzOffset * Milliseconds.IN_ONE_MINUTE).toString(),
       studentEmail: testStudent.email,
       sessionName: '',
       logType: 'submission',
