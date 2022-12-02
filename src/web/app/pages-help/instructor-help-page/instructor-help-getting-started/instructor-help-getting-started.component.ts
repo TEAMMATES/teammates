@@ -23,7 +23,7 @@ export class InstructorHelpGettingStartedComponent {
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
   SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  CouseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
+  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
   Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;

@@ -6,6 +6,7 @@ import { finalize, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
@@ -16,18 +17,33 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
   Course,
+  FeedbackQuestion,
+  FeedbackQuestions,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
-  QuestionOutput, RegkeyValidity,
+  RegkeyValidity,
+  ResponseOutput,
   ResponseVisibleSetting,
-  SessionResults,
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
+
+export interface FeedbackQuestionModel {
+  feedbackQuestion: FeedbackQuestion;
+  questionStatistics: string;
+  allResponses: ResponseOutput[];
+  responsesToSelf: ResponseOutput[];
+  responsesFromSelf: ResponseOutput[];
+  otherResponses: ResponseOutput[][];
+  isLoading: boolean;
+  isLoaded: boolean;
+  hasResponse: boolean;
+  errorMessage?: string;
+}
 
 /**
  * Feedback session result page.
@@ -60,7 +76,7 @@ export class SessionResultPageComponent implements OnInit {
     studentDeadlines: {},
     instructorDeadlines: {},
   };
-  questions: QuestionOutput[] = [];
+  questions: FeedbackQuestionModel[] = [];
   courseName: string = '';
   courseInstitute: string = '';
   formattedSessionOpeningTime: string = '';
@@ -84,7 +100,8 @@ export class SessionResultPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private feedbackSessionsService: FeedbackSessionsService,
+  constructor(private feedbackQuestionsService: FeedbackQuestionsService,
+              private feedbackSessionsService: FeedbackSessionsService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
               private navigationService: NavigationService,
@@ -251,22 +268,34 @@ export class SessionResultPageComponent implements OnInit {
           .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
       this.formattedSessionClosingTime = this.timezoneService
           .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
-      this.feedbackSessionsService.getFeedbackSessionResults({
+      this.feedbackQuestionsService.getFeedbackQuestions({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
         intent: this.intent,
         key: this.regKey,
-      })
-          .pipe(finalize(() => {
-            this.isFeedbackSessionResultsLoading = false;
-          }))
-          .subscribe((sessionResults: SessionResults) => {
-            this.questions = sessionResults.questions.sort(
-                (a: QuestionOutput, b: QuestionOutput) =>
-                    a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-          }, (resp: ErrorMessageOutput) => {
-            this.handleError(resp);
-          });
+      }).pipe(finalize(() => {
+          this.isFeedbackSessionResultsLoading = false;
+        }))
+        .subscribe((feedbackQuestions: FeedbackQuestions) => {
+            feedbackQuestions.questions.sort(
+                (a: FeedbackQuestion, b: FeedbackQuestion) =>
+                    a.questionNumber - b.questionNumber);
+            for (const question of feedbackQuestions.questions) {
+              this.questions.push({
+                feedbackQuestion: question,
+                questionStatistics: '',
+                allResponses: [],
+                responsesToSelf: [],
+                responsesFromSelf: [],
+                otherResponses: [],
+                isLoading: false,
+                isLoaded: false,
+                hasResponse: true,
+              });
+            }
+        }, (resp: ErrorMessageOutput) => {
+          this.handleError(resp);
+        });
     }, (resp: ErrorMessageOutput) => {
       this.isFeedbackSessionResultsLoading = false;
       this.handleError(resp);

@@ -21,7 +21,7 @@
             </button>
         </ng-container>
         <ng-container *ngIf="isInAddMode">
-            <button id="btn-edit-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse"
+            <button id="btn-copy-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse"
                 (click)="copyCourseHandler()" [disabled]="isCopying || isInstitutesArrayEmpty">
                 <i class="fa fa-copy" aria-hidden="true" *ngIf="!isCopying"></i>
                 <tm-ajax-loading *ngIf="isCopying"></tm-ajax-loading>
