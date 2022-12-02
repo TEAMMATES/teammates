@@ -19,6 +19,7 @@ export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
   mcqOtherWeight: number = 0;
   mcqChoices: string[] = [];
   otherEnabled: boolean = false;
+  questionDropdownEnabled: boolean = false;
   generateOptionsFor: FeedbackParticipantType = FeedbackParticipantType.NONE;
   questionText: string = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.MCQ;
@@ -30,6 +31,7 @@ export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
     this.mcqOtherWeight = apiOutput.mcqOtherWeight;
     this.mcqChoices = apiOutput.mcqChoices;
     this.otherEnabled = apiOutput.otherEnabled;
+    this.questionDropdownEnabled = apiOutput.questionDropdownEnabled;
     this.generateOptionsFor = apiOutput.generateOptionsFor;
     this.questionText = apiOutput.questionText;
   }

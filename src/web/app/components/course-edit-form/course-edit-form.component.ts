@@ -112,7 +112,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   }
 
   get isInputDisabled(): boolean {
-    return (this.isInEditMode && !this.isEditing) || this.isSaving;
+    return this.isDisplayOnly || (this.isInEditMode && !this.isEditing) || this.isSaving;
   }
 
   setIsEditing(value: boolean): void {
