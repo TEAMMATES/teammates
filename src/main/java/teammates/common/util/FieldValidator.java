@@ -376,7 +376,7 @@ public final class FieldValidator {
         }
         if (isUntrimmed(courseId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
-                    COURSE_NAME_FIELD_NAME);
+                    COURSE_ID_FIELD_NAME);
         }
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
             return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME,

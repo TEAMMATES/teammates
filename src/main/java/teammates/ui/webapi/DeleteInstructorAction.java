@@ -50,8 +50,8 @@ class DeleteInstructorAction extends Action {
             return new JsonResult("Instructor is successfully deleted.");
         }
 
-        // Deleting last instructor from the course is not allowed if you're not the admin
-        if (!userInfo.isAdmin && !hasAlternativeInstructor(courseId, instructor.getEmail())) {
+        // Deleting last instructor from the course is not allowed (even by admins)
+        if (!hasAlternativeInstructor(courseId, instructor.getEmail())) {
             throw new InvalidOperationException(
                     "The instructor you are trying to delete is the last instructor in the course. "
                     + "Deleting the last instructor from the course is not allowed.");

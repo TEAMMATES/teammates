@@ -5,9 +5,8 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
-import { DateFormat } from '../../components/datepicker/datepicker.component';
+import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
-import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface OngoingSessionModel {
@@ -42,10 +41,10 @@ export class AdminSessionsPageComponent implements OnInit {
   timezones: string[] = [];
   filterTimezone: string = '';
   tableTimezone: string = '';
-  startDate: DateFormat = { year: 0, month: 0, day: 0 };
-  startTime: TimeFormat = { hour: 23, minute: 59 };
-  endDate: DateFormat = { year: 0, month: 0, day: 0 };
-  endTime: TimeFormat = { hour: 23, minute: 59 };
+  startDate: DateFormat = getDefaultDateFormat();
+  startTime: TimeFormat = getLatestTimeFormat();
+  endDate: DateFormat = getDefaultDateFormat();
+  endTime: TimeFormat = getLatestTimeFormat();
 
   timezoneString: string = '';
   startTimeString: string = '';
