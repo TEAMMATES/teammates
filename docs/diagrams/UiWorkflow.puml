@@ -1,5 +1,5 @@
 @startuml
-!include style.puml
+!include diagrams/style.puml
 
 box Ui UI_COLOR_T1
 participant ":Browser" as Browser UI_COLOR
