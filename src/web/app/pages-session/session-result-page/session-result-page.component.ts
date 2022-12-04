@@ -43,6 +43,8 @@ export interface FeedbackQuestionModel {
   isLoaded: boolean;
   hasResponse: boolean;
   errorMessage?: string;
+  hasResponseButNotVisibleForPreview: boolean;
+  hasCommentNotVisibleForPreview: boolean;
 }
 
 /**
@@ -295,8 +297,6 @@ export class SessionResultPageComponent implements OnInit {
           feedbackSessionName: this.feedbackSessionName,
           intent: this.intent,
           key: this.regKey,
-          // TODO: getFeedbackQuestions may not need this param now but this page still needs previewAs
-          // TODO: getQuestion during lazy loading needs previewAs param
           previewAs: this.previewAsPerson,
         }).pipe(finalize(() => {
           this.isFeedbackSessionResultsLoading = false;
@@ -316,6 +316,8 @@ export class SessionResultPageComponent implements OnInit {
                 isLoading: false,
                 isLoaded: false,
                 hasResponse: true,
+                hasResponseButNotVisibleForPreview: false,
+                hasCommentNotVisibleForPreview: false,
               });
             }
           }, (resp: ErrorMessageOutput) => {
