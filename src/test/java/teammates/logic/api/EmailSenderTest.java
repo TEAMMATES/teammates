@@ -94,7 +94,7 @@ public class EmailSenderTest extends BaseLogicTest {
         assertEquals(wrapper.getBcc(),
                      ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(1).get("Email"));
         assertEquals(wrapper.getReplyTo(),
-                    ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
+                     ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
         assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
         assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
     }
