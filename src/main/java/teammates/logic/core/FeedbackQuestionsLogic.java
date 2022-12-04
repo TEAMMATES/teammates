@@ -122,6 +122,22 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
+    /**
+     * Filters the feedback questions in a course, with specified question type.
+     * @param courseId the course to search from
+     * @param questionType the question type to search on
+     * @return a list of filtered questions
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionForCourseWithType(
+            String courseId, FeedbackQuestionType questionType) {
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackQuestionAttributes> feedbackQuestions = new ArrayList<>();
+        for (FeedbackSessionAttributes session : feedbackSessions) {
+            feedbackQuestions.addAll(getFeedbackQuestionsForSession(session.getFeedbackSessionName(), courseId));
+        }
+        return feedbackQuestions.stream().filter(q -> q.getQuestionType().equals(questionType)).collect(Collectors.toList());
+    }
+
     // TODO can be removed once we are sure that question numbers will be consistent
     private boolean areQuestionNumbersConsistent(List<FeedbackQuestionAttributes> questions) {
         Set<Integer> questionNumbersInSession = new HashSet<>();
