@@ -78,7 +78,8 @@ public class MockLogsProcessor extends LogsProcessor {
             });
         } else if (queryLogsParams.getMinSeverity() != null) {
             generalLogs.forEach(entry -> {
-                if (queryLogsParams.getMinSeverity().getSeverityLevel() <= entry.getSeverity().getSeverityLevel()
+                if (queryLogsParams.getMinSeverity().getSeverityLevel()
+                        <= entry.getSeverity().getSeverityLevel()
                         && entry.getTimestamp() >= queryLogsParams.getStartTime()
                         && entry.getTimestamp() <= queryLogsParams.getEndTime()) {
                     queryResults.add(entry);
