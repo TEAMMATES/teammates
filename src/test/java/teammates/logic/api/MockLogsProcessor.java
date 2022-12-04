@@ -98,7 +98,7 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
-        feedbackSessionLogs = new ArrayList<>();
+        // No-op
     }
 
     @Override

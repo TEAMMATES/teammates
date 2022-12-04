@@ -51,15 +51,6 @@ public class UserProvisionTest extends BaseLogicTest {
         assertFalse(user.isInstructor);
         assertFalse(user.isStudent);
 
-        ______TS("notInstructor");
-
-        InstructorAttributes notInstructor = dataBundle.students.get("student1InCourse1");
-        user = userProvision.getCurrentUser(new UserInfoCookie(notInstructor.getGoogleId()));
-        assertEquals(notInstructor.getGoogleId(), user.id);
-        assertFalse(user.isAdmin);
-        assertFalse(user.isInstructor);
-        assertTrue(user.isStudent);
-
         ______TS("not logged in");
 
         // check for user not logged in
