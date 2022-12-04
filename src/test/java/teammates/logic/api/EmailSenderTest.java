@@ -76,9 +76,7 @@ public class EmailSenderTest extends BaseLogicTest {
             assertEquals(wrapper.getReplyTo(), formData.getField("h:Reply-To").getValue());
             assertEquals(wrapper.getSubject(), formData.getField("subject").getValue());
             assertEquals(wrapper.getContent(), formData.getField("html").getValue());
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
-        }
+        } 
     }
 
     @Test
