@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
+import java.io.IOException;
 
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.resource.Email;
@@ -76,7 +77,7 @@ public class EmailSenderTest extends BaseLogicTest {
             assertEquals(wrapper.getReplyTo(), formData.getField("h:Reply-To").getValue());
             assertEquals(wrapper.getSubject(), formData.getField("subject").getValue());
             assertEquals(wrapper.getContent(), formData.getField("html").getValue());
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Something went wrong.");
         }
     }
