@@ -48,10 +48,13 @@ public final class EmailChecker {
         if (emailContent == null || emailContent.isEmpty()) {
             return false;
         }
-
-        String processedEmailContent = processEmailForExpectedEmailRegeneration(emailContent) + System.lineSeparator();
-        FileHelper.saveFile(filePath, processedEmailContent);
-        return true;
+        try {
+            String processedEmailContent = processEmailForExpectedEmailRegeneration(emailContent) + System.lineSeparator();
+            FileHelper.saveFile(filePath, processedEmailContent);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     /**

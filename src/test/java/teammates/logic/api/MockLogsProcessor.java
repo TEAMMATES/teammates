@@ -78,8 +78,7 @@ public class MockLogsProcessor extends LogsProcessor {
             });
         } else if (queryLogsParams.getMinSeverity() != null) {
             generalLogs.forEach(entry -> {
-                if (queryLogsParams.getMinSeverity().getSeverityLevel()
-                        <= entry.getSeverity().getSeverityLevel()
+                if (queryLogsParams.getMinSeverity().getSeverityLevel() <= entry.getSeverity().getSeverityLevel()
                         && entry.getTimestamp() >= queryLogsParams.getStartTime()
                         && entry.getTimestamp() <= queryLogsParams.getEndTime()) {
                     queryResults.add(entry);
@@ -98,7 +97,7 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
-        // No-op
+        feedbackSessionLogs = new ArrayList<>();
     }
 
     @Override
