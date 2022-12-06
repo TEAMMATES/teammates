@@ -123,6 +123,14 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         List<CourseAttributes> retrieved = coursesDb.getCourses(courseIds);
         assertEquals(1, retrieved.size());
 
+        ______TS("Success: get multiple courses");
+
+        courseIds.add(c.getId());
+        courseIds.add(c.getId());
+        courseIds.add(c.getId());
+        List<CourseAttributes> multipleRetrieved = coursesDb.getCourses(courseIds);
+        assertEquals(3, multipleRetrieved.size());
+
         ______TS("Failure: get a non-existent course");
 
         courseIds.remove(c.getId());

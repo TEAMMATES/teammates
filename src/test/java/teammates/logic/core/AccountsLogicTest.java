@@ -62,6 +62,10 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         accountsLogic.deleteAccountCascade("id");
 
+        ______TS("User entitty does not exist exception case");
+
+        assertThrows(EntityDoesNotExistException.class, () -> accountsLogic.deleteAccountCascade("id"));
+
         ______TS("invalid parameters exception case");
 
         accountToCreate = AccountAttributes.builder("")
