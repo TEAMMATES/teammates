@@ -131,13 +131,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
     const indexes: Map<String, number> = new Map();
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient, index: number) => {
-      indexes.set(recipient.recipientIdentifier, index);
+      indexes.set(recipient.recipientIdentifier, index + 1);
     });
 
     this.model.recipientSubmissionForms.sort((firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
       secondRecipient: FeedbackResponseRecipientSubmissionFormModel) => {
-      const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || 0;
-      const secondRecipientIndex: number = indexes.get(secondRecipient.recipientIdentifier) || 0;
+      const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || Number.MAX_SAFE_INTEGER;
+      const secondRecipientIndex: number = indexes.get(secondRecipient.recipientIdentifier) || Number.MAX_SAFE_INTEGER;
 
       return firstRecipientIndex - secondRecipientIndex;
     });
