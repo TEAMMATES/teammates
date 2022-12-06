@@ -177,13 +177,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.hasSectionsLoadingFailed = false;
     this.hasFeedbackSessionLoadingFailed = false;
     this.isFeedbackSessionLoading = true;
-    console.log('here');
     this.feedbackSessionsService.getFeedbackSession({
       courseId,
       feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
     }).subscribe((feedbackSession: FeedbackSession) => {
-      console.log('success getting feedback session');
       this.session = feedbackSession;
       this.formattedSessionOpeningTime = this.timezoneService
           .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
@@ -208,7 +206,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // load section tabs
       this.courseService.getCourseSectionNames(courseId)
         .subscribe((courseSectionNames: CourseSectionNames) => {
-          console.log('11111111111111111111111');
           this.sectionsModel.None = {
             questions: [],
             hasPopulated: false,
@@ -233,7 +230,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         feedbackSessionName,
         intent: Intent.FULL_DETAIL,
       }).subscribe((feedbackQuestions: FeedbackQuestions) => {
-        console.log('22222222222222222');
         for (const question of feedbackQuestions.questions) {
           this.questionsModel[question.feedbackQuestionId] = {
             question,
@@ -253,7 +249,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       this.studentService.getStudentsFromCourse({
         courseId,
       }).subscribe((allStudents: Students) => {
-        console.log('3333333333333333333333');
         this.allStudentsInCourse = allStudents.students;
 
         // sort the student list based on team name and student name
@@ -282,7 +277,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         courseId: this.courseId,
         intent: Intent.FULL_DETAIL,
       }).subscribe((instructors: Instructors) => {
-          console.log('4444444444444444444444');
           this.allInstructorsInCourse = instructors.instructors;
 
           // sort the instructor list based on name
@@ -301,7 +295,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         courseId,
         intent: Intent.FULL_DETAIL,
       }).subscribe((instructor: Instructor) => {
-        console.log('555555555555555555555');
         this.currInstructorName = instructor.name;
       });
     }, (resp: ErrorMessageOutput) => {
