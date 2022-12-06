@@ -108,16 +108,22 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
         if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            // TODO: CAN_VIEW_STUDENT_IN_SECTIONS may also need to be checked
+
+            String courseId = feedbackSession.getCourseId();
+            InstructorAttributes instructorPreviewer = logic.getInstructorForGoogleId(courseId, userInfo.id);
             // TODO: The key question to address here is instructors with what set of permissions
             // TODO: should be allowed to preview results (i.e., to view results as any student)
             // TODO: [or perform any action using this method?]
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+
+            // previewer should have permission to view the session
+            gateKeeper.verifyAccessible(instructorPreviewer, feedbackSession, student.getSection(),
                     Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            // previewer should have permission to view students' info (debatable!)
+            gateKeeper.verifyAccessible(instructorPreviewer, logic.getCourse(courseId),
+                    Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
-            // TODO: No extra check following the original way of checking access control for STUDENT_RESULT!
+            // TODO: No extra (GoogleID) check following the original way of checking access control for STUDENT_RESULT!
         }
     }
 
@@ -169,6 +175,33 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
                 }
             }
+        }
+    }
+
+    /**
+     * Checks the access control for instructor feedback result.
+     */
+    void checkAccessControlForInstructorFeedbackResult(
+            InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession) throws UnauthorizedAccessException {
+        if (instructor == null) {
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
+        }
+
+        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (!StringHelper.isEmpty(previewAsPerson)) {
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                    feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            // TODO: It may be better to check whether previewAsPerson (instructor) has permission to view session
+            // TODO: if not, return specific error message [i.e., when preview as an instructor without permission]
+        } else {
+            gateKeeper.verifyAccessible(instructor, feedbackSession,
+                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            // TODO: Original GetFeedbackQuestionsAction requires instructor to be logged in for INSTRUCTOR_RESULT
+            // TODO: Original GetSessionResultsAction does not verify feedbackSession, just like for STUDENT_RESULT!
+            // TODO: No extra (GoogleID) check following the original way of checking access control for INSTRUCTOR_RESULT!
+            // TODO: Copy here from the method above if needed!
         }
     }
 

@@ -43,10 +43,8 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
-            // These are not extracted because regardless of previewAs, the same access control check applies
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+            checkAccessControlForInstructorFeedbackResult(instructorAttributes, feedbackSession);
             break;
         case STUDENT_RESULT:
             studentAttributes = getStudentOfCourseFromRequest(courseId);

@@ -26,14 +26,20 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-        case STUDENT_RESULT:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
+        case STUDENT_RESULT:
+            studentAttributes = getStudentOfCourseFromRequest(courseId);
+            checkAccessControlForStudentFeedbackResult(studentAttributes, feedbackSession);
+            break;
         case INSTRUCTOR_SUBMISSION:
-        case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
+            break;
+        case INSTRUCTOR_RESULT:
+            instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+            checkAccessControlForInstructorFeedbackResult(instructorAttributes, feedbackSession);
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
