@@ -353,8 +353,11 @@ public class TeamEvalResultTest extends BaseTestCase {
         assertEquals(6, TeamEvalResult.sum(new double[] {1, 2, 3}), 0.001);
         assertEquals(0, TeamEvalResult.sum(new double[] {}), 0.001);
         assertEquals(6, TeamEvalResult.sum(new double[] {NA, 2, 4}), 0.001);
+        assertEquals(6, TeamEvalResult.sum(new double[] {NA, 2.0, 4.0}), 0.001);
+        assertEquals(6, TeamEvalResult.sum(new double[] {NA, -2, 8}), 0.001);
         assertEquals(0, TeamEvalResult.sum(new double[] {NA, 0, 0}), 0.001);
         assertEquals(NA, TeamEvalResult.sum(new double[] {NA, NA, NA}), 0.001);
+        assertThrows(NumberFormatException.class, () -> TeamEvalResult.sum(new double[] {NA, -2, Double.parseDouble("g")}));
 
     }
 
