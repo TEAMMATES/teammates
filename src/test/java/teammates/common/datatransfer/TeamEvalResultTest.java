@@ -404,6 +404,8 @@ public class TeamEvalResultTest extends BaseTestCase {
         assertTrue(TeamEvalResult.isSanitized(new int[] {1, 2, NA}));
         assertTrue(TeamEvalResult.isSanitized(new int[] {1, NSU, 2, NA}));
         assertFalse(TeamEvalResult.isSanitized(new int[] {NSB, 2, -1}));
+        assertTrue(TeamEvalResult.isSanitized(new int[] {NSU, NSB, NA}));
+        assertFalse(TeamEvalResult.isSanitized(new int[] {-123232323}));
     }
 
     @Test
