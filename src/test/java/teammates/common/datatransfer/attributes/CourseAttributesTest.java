@@ -108,6 +108,21 @@ public class CourseAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testValueOf_withTypicalDataAndInvalidTimezoneStr_shouldGenerateAttributesCorrectly() {
+        Instant typicalInstant = Instant.now();
+        Course course = new Course("testId", "testName", "invalid", "institute", typicalInstant, typicalInstant);
+
+        CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
+
+        assertEquals("testId", courseAttributes.getId());
+        assertEquals("testName", courseAttributes.getName());
+        assertEquals("UTC", courseAttributes.getTimeZone());
+        assertEquals("institute", courseAttributes.getInstitute());
+        assertEquals(typicalInstant, courseAttributes.getCreatedAt());
+        assertEquals(typicalInstant, courseAttributes.getDeletedAt());
+    }
+
+    @Test
     public void testBuilder_withNullArguments_shouldThrowException() {
         assertThrows(AssertionError.class, () -> {
             CourseAttributes
