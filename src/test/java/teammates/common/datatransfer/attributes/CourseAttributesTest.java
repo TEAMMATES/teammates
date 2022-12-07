@@ -90,6 +90,24 @@ public class CourseAttributesTest extends BaseTestCase {
     }
 
     @Test
+    public void testValueOf_withSomeFieldsPopulatedAsNullAndInvalidTimezoneStr_shouldUseDefaultValues() {
+        Course course = new Course("testId", "testName", "invalid", "institute", null, null);
+        course.setCreatedAt(null);
+        course.setDeletedAt(null);
+        assertNull(course.getCreatedAt());
+        assertNull(course.getDeletedAt());
+
+        CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
+
+        assertEquals("testId", courseAttributes.getId());
+        assertEquals("testName", courseAttributes.getName());
+        assertEquals("UTC", courseAttributes.getTimeZone());
+        assertEquals("institute", courseAttributes.getInstitute());
+        assertNotNull(courseAttributes.getCreatedAt());
+        assertNull(courseAttributes.getDeletedAt());
+    }
+
+    @Test
     public void testBuilder_withNullArguments_shouldThrowException() {
         assertThrows(AssertionError.class, () -> {
             CourseAttributes
