@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -91,7 +92,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         }
 
         List<FeedbackResponseAttributes> existingResponses;
-        Map<String, String> recipientsOfTheQuestion;
+        Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
 
         String giverIdentifier;
         String giverSection;

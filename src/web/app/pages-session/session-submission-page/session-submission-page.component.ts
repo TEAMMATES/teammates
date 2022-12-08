@@ -515,6 +515,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         model.recipientList.push({
           recipientIdentifier: recipient.identifier,
           recipientName: recipient.name,
+          recipientSection: recipient.section,
+          recipientTeam: recipient.team,
         });
       });
 
