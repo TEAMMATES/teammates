@@ -241,6 +241,18 @@ describe('SessionResultPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap when previewing results', () => {
+    component.intent = Intent.STUDENT_RESULT;
+    component.regKey = '';
+    component.previewAsPerson = 'alice2@tmt.tmt';
+    component.personName = 'Alice2';
+    component.personEmail = 'alice2@tmt.tmt';
+    component.session = testFeedbackSession;
+    component.questions = [];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should fetch auth info on init', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
 

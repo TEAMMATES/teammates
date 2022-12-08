@@ -1,5 +1,151 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SessionResultPageComponent should snap when previewing results 1`] = `
+<tm-session-result-page
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
+  entityType={[Function String]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
+  isFeedbackSessionResultsLoading="false"
+  isPreviewHintExpanded="false"
+  logService={[Function LogService]}
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personEmail={[Function String]}
+  personName={[Function String]}
+  previewAsPerson={[Function String]}
+  questions={[Function Array]}
+  regKey=""
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
+>
+  <h1>
+     Feedback Session Results
+  </h1><div
+    class="bg-light"
+  >
+    <div
+      class="col-12 text-center text-break"
+    >
+      <h5>
+        You are previewing session results as 
+        <span>
+          student
+        </span>
+         Alice2 (alice2@tmt.tmt) 
+        <button
+          class="btn btn-link no-shadow"
+          type="button"
+        >
+          [More]
+        </button>
+      </h5>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-right"
+        >
+          Course ID:
+        </label>
+        <div
+          class="col-md-7 text-md-left"
+          id="course-id"
+        >
+          CS3281
+        </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-right"
+        >
+          Session:
+        </label>
+        <div
+          class="col-md-7 text-md-left"
+          id="session-name"
+        >
+          Peer Feedback
+        </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-right"
+        >
+          Opening time:
+        </label>
+        <div
+          class="col-md-7 text-md-left"
+          id="opening-time"
+        >
+        </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-right"
+        >
+          Closing time:
+        </label>
+        <div
+          class="col-md-7 text-md-left"
+          id="closing-time"
+        >
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-retry>
+    <div>
+      <div
+        class="mt-4"
+      >
+        <div
+          class="alert alert-primary d-flex align-items-center justify-content-center"
+          role="alert"
+          style="background-color: #D1ECF1;"
+        >
+           Nothing to show. The responses are either not configured to be visible or there are no responses. 
+        </div>
+      </div>
+      <tm-question-response-panel>
+      </tm-question-response-panel>
+    </div>
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
 exports[`SessionResultPageComponent should snap when session results failed to load 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
