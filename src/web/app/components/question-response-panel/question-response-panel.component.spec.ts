@@ -174,6 +174,8 @@ describe('QuestionResponsePanelComponent', () => {
     isLoading: false,
     isLoaded: false,
     hasResponse: true,
+    hasResponseButNotVisibleForPreview: false,
+    hasCommentNotVisibleForPreview: false,
   };
 
   let component: QuestionResponsePanelComponent;
@@ -240,6 +242,8 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponse: true,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
       },
       {
         feedbackQuestion: testQuestion2,
@@ -295,6 +299,8 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponse: true,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
       },
       {
         feedbackQuestion: testQuestion3,
@@ -333,6 +339,8 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponse: true,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
       },
     ];
 
@@ -439,6 +447,8 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponse: true,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
       },
       {
         feedbackQuestion: testQuestionAnonymousResponse2,
@@ -480,6 +490,8 @@ describe('QuestionResponsePanelComponent', () => {
         isLoading: false,
         isLoaded: true,
         hasResponse: true,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
       },
     ];
 
@@ -496,6 +508,8 @@ describe('QuestionResponsePanelComponent', () => {
           feedbackQuestion: testQuestion1,
           questionStatistics: '',
           allResponses: [],
+          hasResponseButNotVisibleForPreview: false,
+          hasCommentNotVisibleForPreview: false,
           responsesToSelf: [],
           responsesFromSelf: [],
           otherResponses: [],
@@ -514,6 +528,7 @@ describe('QuestionResponsePanelComponent', () => {
       feedbackSessionName: 'First Session',
       questionId: testQuestion1.feedbackQuestionId,
       key: '',
+      previewAs: '',
     });
     expect(testFeedbackQuestionModel.isLoading).toBe(false);
     expect(testFeedbackQuestionModel.isLoaded).toBe(true);

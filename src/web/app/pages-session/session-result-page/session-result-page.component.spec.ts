@@ -111,6 +111,7 @@ describe('SessionResultPageComponent', () => {
     courseid: 'CS3281',
     fsname: 'Peer Feedback',
     key: 'reg-key',
+    previewas: '',
   };
 
   beforeEach(waitForAsync(() => {
@@ -379,6 +380,8 @@ describe('SessionResultPageComponent', () => {
       isLoading: false,
       isLoaded: false,
       hasResponse: true,
+      hasResponseButNotVisibleForPreview: false,
+      hasCommentNotVisibleForPreview: false,
     };
 
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
@@ -393,6 +396,7 @@ describe('SessionResultPageComponent', () => {
       feedbackSessionName: testQueryParams.fsname,
       intent: Intent.STUDENT_RESULT,
       key: testQueryParams.key,
+      previewAs: testQueryParams.previewas,
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);

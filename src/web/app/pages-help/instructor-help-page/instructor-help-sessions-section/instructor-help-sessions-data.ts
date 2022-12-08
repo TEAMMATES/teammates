@@ -361,8 +361,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
   },
   questionStatistics: '',
   allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],
-  hasResponseButNotVisibleForPreview: false,
-  hasCommentNotVisibleForPreview: false,
   responsesToSelf: [
     {
       responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
@@ -419,4 +417,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
   isLoaded: true,
   isLoading: false,
   hasResponse: true,
+  hasResponseButNotVisibleForPreview: false,
+  hasCommentNotVisibleForPreview: false,
 }];
