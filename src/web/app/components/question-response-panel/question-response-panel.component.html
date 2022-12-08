@@ -9,10 +9,10 @@
       <div class="card-body">
         <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
         <div id="all-responses" *ngIf="!question.hasResponseButNotVisibleForPreview, else nonViewableForPreview">
+          <div id="non-visible-comment-alert" *ngIf="question.hasCommentNotVisibleForPreview" class="alert alert-warning my-3" role="alert">
+            <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted from this preview because they are not visible to instructors, as per their visibility settings.
+          </div>
           <div id="other-responses" *ngIf="canUserSeeResponses(question), else nonViewableResponse">
-            <div id="non-visible-comment-alert" *ngIf="question.hasCommentNotVisibleForPreview" class="alert alert-warning my-3" role="alert">
-              <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted from this preview because they are not visible to instructors, as per their visibility settings.
-            </div>
             <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
                                   [responses]="question.allResponses"
                                   [statistics]="question.questionStatistics"
