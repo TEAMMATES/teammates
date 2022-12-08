@@ -105,8 +105,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
 
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        boolean isPreview = !StringHelper.isEmpty(previewAsPerson);
 
-        if (!StringHelper.isEmpty(previewAsPerson)) {
+        if (isPreview) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
 
             String courseId = feedbackSession.getCourseId();
@@ -188,8 +189,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
 
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        boolean isPreview = !StringHelper.isEmpty(previewAsPerson);
 
-        if (!StringHelper.isEmpty(previewAsPerson)) {
+        if (isPreview) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
