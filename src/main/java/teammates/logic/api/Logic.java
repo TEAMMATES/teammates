@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
@@ -1023,7 +1024,7 @@ public class Logic {
      *
      * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
      */
-    public Map<String, String> getRecipientsOfQuestion(
+    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver) {
         assert question != null;
