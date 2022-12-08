@@ -228,7 +228,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       this.feedbackQuestionsService.getFeedbackQuestions({
         courseId,
         feedbackSessionName,
-        intent: Intent.FULL_DETAIL,
+        intent: Intent.INSTRUCTOR_RESULT,
       }).subscribe((feedbackQuestions: FeedbackQuestions) => {
         for (const question of feedbackQuestions.questions) {
           this.questionsModel[question.feedbackQuestionId] = {
