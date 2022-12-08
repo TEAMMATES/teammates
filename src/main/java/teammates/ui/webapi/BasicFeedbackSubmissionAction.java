@@ -119,9 +119,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             // previewer should have permission to view the session
             gateKeeper.verifyAccessible(instructorPreviewer, feedbackSession, student.getSection(),
                     Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-            // previewer should have permission to view students' info (debatable!)
-            gateKeeper.verifyAccessible(instructorPreviewer, logic.getCourse(courseId),
-                    Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
+            // previewer should have permission to view students' info [debatable!]
+            // gateKeeper.verifyAccessible(instructorPreviewer, logic.getCourse(courseId),
+            //        Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
             // TODO: No extra (GoogleID) check following the original way of checking access control for STUDENT_RESULT!
