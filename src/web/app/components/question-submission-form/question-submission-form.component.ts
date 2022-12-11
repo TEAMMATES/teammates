@@ -38,6 +38,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
+  hasResponseChanged: boolean = false;
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -142,6 +143,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (this.model.recipientSubmissionForms.some(
       (response) => response.responseId.length > 0)) {
       this.isSaved = true;
+    }
+
+    if (this.hasResponseChanged) {
+      this.isSaved = false;
     }
   }
 
@@ -252,6 +257,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
+    this.hasResponseChanged = true;
+
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
         this.model.recipientSubmissionForms.slice();
     recipientSubmissionForms[index] = {
