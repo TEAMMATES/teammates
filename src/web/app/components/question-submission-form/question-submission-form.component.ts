@@ -155,7 +155,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (this.isSubmitAllClicked) {
       if (this.model.recipientSubmissionForms.some((response) => response.responseId.length > 0)) {
         this.isSaved = true;
-      } else if (this.model.recipientSubmissionForms.every(form => form.responseId.length === 0)) {
+      } else if (this.model.recipientSubmissionForms.every((form) => form.responseId.length === 0)) {
         this.isSaved = false;
       }
     }
