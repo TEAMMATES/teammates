@@ -71,6 +71,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   isQuestionCountOne: boolean = false;
 
+  @Input()
+  isSubmitAllClicked: boolean = false;
+
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
@@ -147,6 +150,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
     if (this.hasResponseChanged) {
       this.isSaved = false;
+    }
+
+    if (this.isSubmitAllClicked) {
+      if (this.model.recipientSubmissionForms.some((response) => response.responseId.length > 0)) {
+        this.isSaved = true;
+      } else if (this.model.recipientSubmissionForms.every(form => form.responseId.length === 0)) {
+        this.isSaved = false;
+      }
     }
   }
 
