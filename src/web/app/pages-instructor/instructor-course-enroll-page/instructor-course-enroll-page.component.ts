@@ -189,7 +189,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }),
     );
 
-    this.progressBarService.updateProgress(0);
+    this.progressBarService.updateProgress(10);
     enrollRequests.pipe(finalize(() => {
       this.isEnrolling = false;
     })).subscribe({
