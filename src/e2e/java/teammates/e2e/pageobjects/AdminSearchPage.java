@@ -138,14 +138,18 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public String removeSpanFromText(String text) {
+        return text.replace("<span class=\"highlighted-text\">", "").replace("</span>", "");
+    }
+
     public WebElement getStudentRow(StudentAttributes student) {
-        String details = String.format("%s [%s] (%s)", student.getCourse(),
-                student.getSection() == null ? Const.DEFAULT_SECTION : student.getSection(), student.getTeam());
+        String details = removeSpanFromText(String.format("%s [%s] (%s)", student.getCourse(),
+                student.getSection() == null ? Const.DEFAULT_SECTION : student.getSection(), student.getTeam()));
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-student tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (columns.get(STUDENT_COL_DETAILS - 1).getAttribute("innerHTML").contains(details)
-                    && columns.get(STUDENT_COL_NAME - 1).getAttribute("innerHTML").contains(student.getName())) {
+            if (removeSpanFromText(columns.get(STUDENT_COL_DETAILS - 1).getAttribute("innerHTML")).contains(details)
+                    && removeSpanFromText(columns.get(STUDENT_COL_NAME - 1).getAttribute("innerHTML")).contains(student.getName())) {
                 return row;
             }
         }
