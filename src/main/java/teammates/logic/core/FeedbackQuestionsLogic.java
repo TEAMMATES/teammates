@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -120,6 +121,22 @@ public final class FeedbackQuestionsLogic {
         }
 
         return questions;
+    }
+
+    /**
+     * Filters the feedback questions in a course, with specified question type.
+     * @param courseId the course to search from
+     * @param questionType the question type to search on
+     * @return a list of filtered questions
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionForCourseWithType(
+            String courseId, FeedbackQuestionType questionType) {
+        List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackQuestionAttributes> feedbackQuestions = new ArrayList<>();
+        for (FeedbackSessionAttributes session : feedbackSessions) {
+            feedbackQuestions.addAll(getFeedbackQuestionsForSession(session.getFeedbackSessionName(), courseId));
+        }
+        return feedbackQuestions.stream().filter(q -> q.getQuestionType().equals(questionType)).collect(Collectors.toList());
     }
 
     // TODO can be removed once we are sure that question numbers will be consistent
@@ -263,21 +280,21 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Gets the recipients of a feedback question.
+     * Gets the recipients of a feedback question including recipient section and team.
      *
      * @param question the feedback question
      * @param instructorGiver can be null for student giver
      * @param studentGiver can be null for instructor giver
      * @param courseRoster if provided, the function can be completed without touching database
-     * @return a map which keys are the identifiers of the recipients and values are the names of the recipients
+     * @return a Map of {@code FeedbackQuestionRecipient} as the value and identifier as the key.
      */
-    public Map<String, String> getRecipientsOfQuestion(
+    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver,
             @Nullable CourseRoster courseRoster) {
         assert instructorGiver != null || studentGiver != null;
 
-        Map<String, String> recipients = new HashMap<>();
+        Map<String, FeedbackQuestionRecipient> recipients = new HashMap<>();
 
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
@@ -301,9 +318,11 @@ public final class FeedbackQuestionsLogic {
         switch (recipientType) {
         case SELF:
             if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
-                recipients.put(giverTeam, giverTeam);
+                recipients.put(giverTeam,
+                       new FeedbackQuestionRecipient(giverTeam, giverTeam));
             } else {
-                recipients.put(giverEmail, USER_NAME_FOR_SELF);
+                recipients.put(giverEmail,
+                        new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail));
             }
             break;
         case STUDENTS:
@@ -338,7 +357,8 @@ public final class FeedbackQuestionsLogic {
                 if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
                     continue;
                 }
-                recipients.put(student.getEmail(), student.getName());
+                recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                        student.getSection(), student.getTeam()));
             }
             break;
         case INSTRUCTORS:
@@ -355,7 +375,8 @@ public final class FeedbackQuestionsLogic {
                 }
                 // Ensure instructor does not evaluate himself
                 if (!giverEmail.equals(instr.getEmail())) {
-                    recipients.put(instr.getEmail(), instr.getName());
+                    recipients.put(instr.getEmail(),
+                            new FeedbackQuestionRecipient(instr.getName(), instr.getEmail()));
                 }
             }
             break;
@@ -396,11 +417,11 @@ public final class FeedbackQuestionsLogic {
                     continue;
                 }
                 // recipientEmail doubles as team name in this case.
-                recipients.put(team.getKey(), team.getKey());
+                recipients.put(team.getKey(), new FeedbackQuestionRecipient(team.getKey(), team.getKey()));
             }
             break;
         case OWN_TEAM:
-            recipients.put(giverTeam, giverTeam);
+            recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam));
             break;
         case OWN_TEAM_MEMBERS:
             List<StudentAttributes> students;
@@ -411,7 +432,8 @@ public final class FeedbackQuestionsLogic {
             }
             for (StudentAttributes student : students) {
                 if (!student.getEmail().equals(giverEmail)) {
-                    recipients.put(student.getEmail(), student.getName());
+                    recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                            student.getSection(), student.getTeam()));
                 }
             }
             break;
@@ -424,11 +446,13 @@ public final class FeedbackQuestionsLogic {
             }
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
-                recipients.put(student.getEmail(), student.getName());
+                recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                        student.getSection(), student.getTeam()));
             }
             break;
         case NONE:
-            recipients.put(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION);
+            recipients.put(Const.GENERAL_QUESTION,
+                    new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
             break;
         default:
             break;

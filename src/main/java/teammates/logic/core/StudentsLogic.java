@@ -447,6 +447,12 @@ public final class StudentsLogic {
         studentsDb.deleteStudent(courseId, studentEmail);
         fsLogic.deleteFeedbackSessionsDeadlinesForStudent(courseId, studentEmail);
         deLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
+
+        updateStudentResponsesAfterDeletion(courseId);
+    }
+
+    private void updateStudentResponsesAfterDeletion(String courseId) {
+        frLogic.updateFeedbackResponsesForDeletingStudent(courseId);
     }
 
     /**
@@ -467,6 +473,7 @@ public final class StudentsLogic {
      */
     public void deleteStudents(AttributesDeletionQuery query) {
         studentsDb.deleteStudents(query);
+        updateStudentResponsesAfterDeletion(query.getCourseId());
     }
 
     /**
