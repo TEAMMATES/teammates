@@ -362,6 +362,13 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
                 return thisBuilder;
             }
 
+            public Builder withFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+                assert responseDetails != null;
+
+                updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails);
+                return thisBuilder;
+            }
+
             @Override
             public UpdateOptions build() {
                 return updateOptions;

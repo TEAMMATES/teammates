@@ -1,0 +1,852 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CourseEditFormComponent should snap when in ADD Mode and is display only 1`] = `
+<tm-course-edit-form
+  CourseEditFormMode={[Function Object]}
+  FormValidator={[Function Object]}
+  addModel="undefined"
+  closeFormEvent={[Function EventEmitter_]}
+  copyCourseEvent={[Function EventEmitter_]}
+  createNewCourseEvent={[Function EventEmitter_]}
+  deleteCourseEvent={[Function EventEmitter_]}
+  editModel="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  form={[Function NgForm]}
+  formMode="0"
+  isDisplayOnly={[Function Boolean]}
+  model={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  resetEventSubscription={[Function Subscription]}
+  resetFormEvent={[Function EventEmitter_]}
+  statusMessageService={[Function Object]}
+  timezoneService={[Function Object]}
+  updateCourseEvent={[Function EventEmitter_]}
+>
+  <div
+    class="card-header bg-primary text-white"
+  >
+    <strong>
+      Create a new Course
+    </strong>
+    <div
+      class="card-header-btn-toolbar"
+    >
+      <button
+        class="btn btn-primary btn-sm"
+        disabled=""
+        id="btn-copy-course"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-copy"
+        />
+         Copy from previous courses 
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        id="btn-close-form"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-times"
+        />
+      </button>
+    </div>
+  </div><div
+    class="card-body fill-plain"
+  >
+    <form
+      class="ng-untouched ng-pristine ng-valid"
+      novalidate=""
+    >
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          Course ID:
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <input
+            class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+            id="course-id"
+            maxlength="64"
+            name="courseId"
+            placeholder="e.g. CS3215-2013Semester1"
+            required=""
+            tabindex="1"
+            type="text"
+          />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course ID should not be empty. 
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          Course Name:
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="course-name"
+            maxlength="80"
+            name="courseName"
+            placeholder="e.g. Software Engineering"
+            required=""
+            tabindex="2"
+            type="text"
+          />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course Name should not be empty. 
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          <span
+            class="ngb-tooltip-class"
+            ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+          >
+             Course institute: 
+          </span>
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <select
+            class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+            id="course-institute"
+            name="institute"
+            required=""
+            type="text"
+          >
+          </select>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-xs-12 col-sm-2 font-weight-bold text-md-right"
+        >
+          <span
+            class="ngb-tooltip-class"
+            ngbtooltip="You should not need to change this as it is auto-detected based on your
+                  device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+          >
+             Time Zone:
+          </span>
+        </label>
+        <div
+          class="col-xs-12 col-sm-9"
+        >
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="time-zone"
+              name="timeZone"
+              required=""
+            >
+            </select>
+            <span
+              class="input-group-btn"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                 Auto-Detect 
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-group m-0"
+      >
+        <div
+          class=" col-sm-12 text-center"
+        >
+          <button
+            class="btn btn-success"
+            disabled=""
+            id="btn-submit-course"
+            type="submit"
+          >
+             Add Course 
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</tm-course-edit-form>
+`;
+
+exports[`CourseEditFormComponent should snap when in ADD Mode with default fields 1`] = `
+<tm-course-edit-form
+  CourseEditFormMode={[Function Object]}
+  FormValidator={[Function Object]}
+  addModel={[Function Object]}
+  closeFormEvent={[Function EventEmitter_]}
+  copyCourseEvent={[Function EventEmitter_]}
+  createNewCourseEvent={[Function EventEmitter_]}
+  deleteCourseEvent={[Function EventEmitter_]}
+  editModel="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  form={[Function NgForm]}
+  formMode="0"
+  isDisplayOnly="false"
+  model={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  resetEventSubscription={[Function Subscriber]}
+  resetFormEvent={[Function EventEmitter_]}
+  statusMessageService={[Function Object]}
+  timezoneService={[Function Object]}
+  updateCourseEvent={[Function EventEmitter_]}
+>
+  <div
+    class="card-header bg-primary text-white"
+  >
+    <strong>
+      Create a new Course
+    </strong>
+    <div
+      class="card-header-btn-toolbar"
+    >
+      <button
+        class="btn btn-primary btn-sm"
+        disabled=""
+        id="btn-copy-course"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-copy"
+        />
+         Copy from previous courses 
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        id="btn-close-form"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-times"
+        />
+      </button>
+    </div>
+  </div><div
+    class="card-body fill-plain"
+  >
+    <form
+      class="ng-untouched ng-pristine ng-valid"
+      novalidate=""
+    >
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          Course ID:
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <input
+            class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+            id="course-id"
+            maxlength="64"
+            name="courseId"
+            placeholder="e.g. CS3215-2013Semester1"
+            required=""
+            tabindex="1"
+            type="text"
+          />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course ID should not be empty. 
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          Course Name:
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="course-name"
+            maxlength="80"
+            name="courseName"
+            placeholder="e.g. Software Engineering"
+            required=""
+            tabindex="2"
+            type="text"
+          />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course Name should not be empty. 
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          <span
+            class="ngb-tooltip-class"
+            ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+          >
+             Course institute: 
+          </span>
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <select
+            class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+            id="course-institute"
+            name="institute"
+            required=""
+            type="text"
+          >
+          </select>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-xs-12 col-sm-2 font-weight-bold text-md-right"
+        >
+          <span
+            class="ngb-tooltip-class"
+            ngbtooltip="You should not need to change this as it is auto-detected based on your
+                  device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+          >
+             Time Zone:
+          </span>
+        </label>
+        <div
+          class="col-xs-12 col-sm-9"
+        >
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="time-zone"
+              name="timeZone"
+              required=""
+            >
+              <option
+                value="GMT"
+              >
+                GMT (UTC +09:30)
+              </option>
+            </select>
+            <span
+              class="input-group-btn"
+            >
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                 Auto-Detect 
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-group m-0"
+      >
+        <div
+          class=" col-sm-12 text-center"
+        >
+          <button
+            class="btn btn-success"
+            disabled=""
+            id="btn-submit-course"
+            type="submit"
+          >
+             Add Course 
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</tm-course-edit-form>
+`;
+
+exports[`CourseEditFormComponent should snap when in EDIT Mode and is display only 1`] = `
+<tm-course-edit-form
+  CourseEditFormMode={[Function Object]}
+  FormValidator={[Function Object]}
+  addModel="undefined"
+  closeFormEvent={[Function EventEmitter_]}
+  copyCourseEvent={[Function EventEmitter_]}
+  createNewCourseEvent={[Function EventEmitter_]}
+  deleteCourseEvent={[Function EventEmitter_]}
+  editModel="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  form={[Function NgForm]}
+  formMode={[Function Number]}
+  isDisplayOnly={[Function Boolean]}
+  model={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  resetEventSubscription={[Function Subscription]}
+  resetFormEvent={[Function EventEmitter_]}
+  statusMessageService={[Function Object]}
+  timezoneService={[Function Object]}
+  updateCourseEvent={[Function EventEmitter_]}
+>
+  <div
+    class="card-header bg-primary text-white"
+  >
+    <strong>
+      Course
+    </strong>
+    <div
+      class="card-header-btn-toolbar"
+    >
+      <button
+        class="btn btn-primary btn-sm"
+        disabled=""
+        id="btn-edit-course"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-pen"
+        />
+         Edit 
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        disabled=""
+        id="btn-delete-course"
+        ngbtooltip="Delete the course and its corresponding students and sessions"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-trash"
+        />
+         Delete 
+      </button>
+    </div>
+  </div><div
+    class="card-body fill-plain"
+  >
+    <form
+      class="ng-untouched ng-pristine ng-valid"
+      novalidate=""
+    >
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          Course ID:
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <input
+            class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+            id="course-id"
+            maxlength="64"
+            name="courseId"
+            placeholder="e.g. CS3215-2013Semester1"
+            required=""
+            tabindex="1"
+            type="text"
+          />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course ID should not be empty. 
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          Course Name:
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="course-name"
+            maxlength="80"
+            name="courseName"
+            placeholder="e.g. Software Engineering"
+            required=""
+            tabindex="2"
+            type="text"
+          />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course Name should not be empty. 
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+           Course institute: 
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <select
+            class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+            id="course-institute"
+            name="institute"
+            required=""
+            type="text"
+          >
+            <option
+              selected=""
+              value=""
+            >
+            </option>
+          </select>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-xs-12 col-sm-2 font-weight-bold text-md-right"
+        >
+          <span
+            class="ngb-tooltip-class"
+            ngbtooltip="You should not need to change this as it is auto-detected based on your
+                  device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+          >
+             Time Zone:
+          </span>
+        </label>
+        <div
+          class="col-xs-12 col-sm-9"
+        >
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="time-zone"
+              name="timeZone"
+              required=""
+            >
+            </select>
+            <span
+              class="input-group-btn"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                 Auto-Detect 
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-group m-0"
+      >
+        <div
+          class=" col-sm-12 text-center"
+        >
+        </div>
+      </div>
+    </form>
+  </div>
+</tm-course-edit-form>
+`;
+
+exports[`CourseEditFormComponent should snap when in EDIT Mode with default fields 1`] = `
+<tm-course-edit-form
+  CourseEditFormMode={[Function Object]}
+  FormValidator={[Function Object]}
+  addModel="undefined"
+  closeFormEvent={[Function EventEmitter_]}
+  copyCourseEvent={[Function EventEmitter_]}
+  createNewCourseEvent={[Function EventEmitter_]}
+  deleteCourseEvent={[Function EventEmitter_]}
+  editModel={[Function Object]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  form={[Function NgForm]}
+  formMode={[Function Number]}
+  isDisplayOnly="false"
+  model={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  resetEventSubscription={[Function Subscriber]}
+  resetFormEvent={[Function EventEmitter_]}
+  statusMessageService={[Function Object]}
+  timezoneService={[Function Object]}
+  updateCourseEvent={[Function EventEmitter_]}
+>
+  <div
+    class="card-header bg-primary text-white"
+  >
+    <strong>
+      Course
+    </strong>
+    <div
+      class="card-header-btn-toolbar"
+    >
+      <button
+        class="btn btn-primary btn-sm"
+        disabled=""
+        id="btn-edit-course"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-pen"
+        />
+         Edit 
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        disabled=""
+        id="btn-delete-course"
+        ngbtooltip="Delete the course and its corresponding students and sessions"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-trash"
+        />
+         Delete 
+      </button>
+    </div>
+  </div><div
+    class="card-body fill-plain"
+  >
+    <form
+      class="ng-untouched ng-pristine ng-valid"
+      novalidate=""
+    >
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          Course ID:
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <input
+            class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+            id="course-id"
+            maxlength="64"
+            name="courseId"
+            placeholder="e.g. CS3215-2013Semester1"
+            required=""
+            tabindex="1"
+            type="text"
+          />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course ID should not be empty. 
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+          Course Name:
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="course-name"
+            maxlength="80"
+            name="courseName"
+            placeholder="e.g. Software Engineering"
+            required=""
+            tabindex="2"
+            type="text"
+          />
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course Name should not be empty. 
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-sm-2 font-weight-bold text-md-right"
+        >
+           Course institute: 
+        </label>
+        <div
+          class="col-sm-9"
+        >
+          <select
+            class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+            id="course-institute"
+            name="institute"
+            required=""
+            type="text"
+          >
+            <option
+              selected=""
+              value=""
+            >
+            </option>
+          </select>
+        </div>
+      </div>
+      <div
+        class="form-row form-group"
+      >
+        <label
+          class="col-xs-12 col-sm-2 font-weight-bold text-md-right"
+        >
+          <span
+            class="ngb-tooltip-class"
+            ngbtooltip="You should not need to change this as it is auto-detected based on your
+                  device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+          >
+             Time Zone:
+          </span>
+        </label>
+        <div
+          class="col-xs-12 col-sm-9"
+        >
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="time-zone"
+              name="timeZone"
+              required=""
+            >
+              <option
+                value="GMT"
+              >
+                GMT (UTC +09:30)
+              </option>
+            </select>
+            <span
+              class="input-group-btn"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                 Auto-Detect 
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="form-group m-0"
+      >
+        <div
+          class=" col-sm-12 text-center"
+        >
+        </div>
+      </div>
+    </form>
+  </div>
+</tm-course-edit-form>
+`;
