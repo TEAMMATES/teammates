@@ -138,6 +138,11 @@ export enum SortBy {
     RECIPIENT_NAME,
 
     /**
+     * Email of the recipient of the feedback response.
+     */
+    RECIPIENT_EMAIL,
+
+    /**
      * Average score of the numerical scale question.
      */
     NUMERICAL_SCALE_AVERAGE,
@@ -321,6 +326,16 @@ export enum SortBy {
      * Total chosen weight.
      */
     RUBRIC_TOTAL_CHOSEN_WEIGHT,
+
+    /**
+     * Overall weight average.
+     */
+    RUBRIC_OVERALL_WEIGHT_AVERAGE,
+
+    /**
+     * Overall total weight.
+     */
+    RUBRIC_OVERALL_TOTAL_WEIGHT,
 
     /**
      * Option to constsum options

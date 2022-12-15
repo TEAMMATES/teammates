@@ -6,24 +6,24 @@ import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StudentService } from '../../../services/student.service';
 import {
-  AuthInfo, FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails,
-  FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails,
+  AuthInfo,
+  FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
-  FeedbackQuestionType, FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
+  FeedbackQuestions,
+  FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails, FeedbackTextResponseDetails,
-  FeedbackVisibilityType,
+  FeedbackSessionSubmissionStatus,
   NumberOfEntitiesToGiveFeedbackToSetting,
-  QuestionOutput,
   RegkeyValidity,
-  ResponseVisibleSetting, SessionResults,
+  ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
@@ -35,7 +35,7 @@ import {
   StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
-import { SessionResultPageComponent } from './session-result-page.component';
+import { FeedbackQuestionModel, SessionResultPageComponent } from './session-result-page.component';
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -68,7 +68,7 @@ describe('SessionResultPageComponent', () => {
     },
   };
 
-  const testQuestion1: FeedbackQuestion = {
+  const testFeedbackQuestion: FeedbackQuestion = {
     feedbackQuestionId: 'feedbackQuestion1',
     questionNumber: 1,
     questionBrief: 'How well did team member perform?',
@@ -98,99 +98,12 @@ describe('SessionResultPageComponent', () => {
     customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
-  const testQuestion2: FeedbackQuestion = {
-    feedbackQuestionId: 'feedbackQuestion2',
-    questionNumber: 2,
-    questionBrief: 'Rate your teammates in contribution',
-    questionDescription: '',
-    questionDetails: {
-      questionType: FeedbackQuestionType.CONTRIB,
-      questionText: 'Rate your teammates in contribution',
-      isNotSureAllowed: false,
-    } as FeedbackContributionQuestionDetails,
-    questionType: FeedbackQuestionType.CONTRIB,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
-    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
-    showResponsesTo: [],
-    showGiverNameTo: [],
-    showRecipientNameTo: [],
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
-  };
-
-  const testQuestion3: FeedbackQuestion = {
-    feedbackQuestionId: 'feedbackQuestion3',
-    questionNumber: 3,
-    questionBrief: 'Rate your teammates proficiency',
-    questionDescription: '',
-    questionDetails: {
-      questionType: FeedbackQuestionType.RUBRIC,
-      questionText: 'Rate your teammates proficiency',
-      hasAssignedWeights: false,
-      rubricWeightsForEachCell: [[]],
-      rubricChoices: ['Poor', 'Average', 'Good'],
-      rubricSubQuestions: [],
-      rubricDescriptions: [[]],
-    } as FeedbackRubricQuestionDetails,
-    questionType: FeedbackQuestionType.RUBRIC,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
-    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
-    showResponsesTo: [],
-    showGiverNameTo: [],
-    showRecipientNameTo: [],
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
-  };
-
-  const testQuestionAnonymousResponse1: FeedbackQuestion = {
-    feedbackQuestionId: 'feedbackQuestionAnonymousResponse1',
-    questionNumber: 1,
-    questionBrief: 'What comments do you have regarding each of your team members? '
-        + '(response is confidential and will only be shown to the instructor).',
-    questionDescription: '',
-    questionDetails: {
-      shouldAllowRichText: true,
-      questionType: FeedbackQuestionType.TEXT,
-      questionText: 'What comments do you have regarding each of your team members? '
-          + '(response is confidential and will only be shown to the instructor).',
-    } as FeedbackTextQuestionDetails,
-    questionType: FeedbackQuestionType.TEXT,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
-    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
-    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS],
-    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
-    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
-  };
-
-  const testQuestionAnonymousResponse2: FeedbackQuestion = {
-    feedbackQuestionId: 'feedbackQuestionAnonymousResponse2',
-    questionNumber: 2,
-    questionBrief: 'How are the team dynamics thus far? '
-        + '(response is confidential and will only be shown to the instructor).',
-    questionDescription: '',
-    questionDetails: {
-      shouldAllowRichText: true,
-      questionType: FeedbackQuestionType.TEXT,
-      questionText: 'How are the team dynamics thus far? '
-          + '(response is confidential and will only be shown to the instructor).',
-    } as FeedbackTextQuestionDetails,
-    questionType: FeedbackQuestionType.TEXT,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.OWN_TEAM,
-    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
-    showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS],
-    showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
-    showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
-  };
-
   let component: SessionResultPageComponent;
   let fixture: ComponentFixture<SessionResultPageComponent>;
   let authService: AuthService;
   let navService: NavigationService;
   let studentService: StudentService;
+  let feedbackQuestionsService: FeedbackQuestionsService;
   let feedbackSessionService: FeedbackSessionsService;
   let logService: LogService;
 
@@ -243,6 +156,7 @@ describe('SessionResultPageComponent', () => {
     authService = TestBed.inject(AuthService);
     navService = TestBed.inject(NavigationService);
     studentService = TestBed.inject(StudentService);
+    feedbackQuestionsService = TestBed.inject(FeedbackQuestionsService);
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
@@ -326,268 +240,6 @@ describe('SessionResultPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with feedback session with questions', () => {
-    component.session = testFeedbackSession;
-    component.questions = [
-      {
-        feedbackQuestion: testQuestion1,
-        questionStatistics: '',
-        allResponses: [],
-        responsesToSelf: [],
-        responsesFromSelf: [
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-1',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient1',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: 'Good',
-              isOther: false,
-              otherFieldContent: '',
-            } as FeedbackMcqResponseDetails,
-            instructorComments: [],
-          },
-        ],
-        otherResponses: [[]],
-      },
-      {
-        feedbackQuestion: testQuestion2,
-        questionStatistics: '',
-        allResponses: [],
-        responsesToSelf: [
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-2',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'giver1',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: 120,
-            } as FeedbackContributionResponseDetails,
-            instructorComments: [],
-          },
-        ],
-        responsesFromSelf: [
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-3',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient2',
-            recipientTeam: 'team2',
-            recipientSection: 'section2',
-            responseDetails: {
-              answer: 110,
-            } as FeedbackContributionResponseDetails,
-            instructorComments: [],
-          },
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-4',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient3',
-            recipientTeam: 'team2',
-            recipientSection: 'section2',
-            responseDetails: {
-              answer: 100,
-            } as FeedbackContributionResponseDetails,
-            instructorComments: [],
-          },
-        ],
-        otherResponses: [[]],
-      },
-      {
-        feedbackQuestion: testQuestion3,
-        questionStatistics: '',
-        allResponses: [],
-        responsesToSelf: [],
-        responsesFromSelf: [
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-5',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient3',
-            recipientTeam: 'team2',
-            recipientSection: 'section2',
-            responseDetails: {
-              answer: [1],
-            } as FeedbackRubricResponseDetails,
-            instructorComments: [
-              {
-                commentGiver: 'comment-giver-1',
-                lastEditorEmail: 'comment@egeg.com',
-                feedbackResponseCommentId: 1,
-                commentText: 'this is a text',
-                createdAt: 1402775804,
-                lastEditedAt: 1402775804,
-                isVisibilityFollowingFeedbackQuestion: true,
-                showGiverNameTo: [],
-                showCommentTo: [],
-              },
-            ],
-          },
-        ],
-        otherResponses: [[]],
-      },
-    ];
-
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap with feedback session with questions of anonymous responses', () => {
-    component.session = testFeedbackSession;
-    component.questions = [
-      {
-        feedbackQuestion: testQuestionAnonymousResponse1,
-        questionStatistics: '',
-        allResponses: [
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-1',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient1',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: '<p>asdf</p>',
-            } as FeedbackTextResponseDetails,
-            instructorComments: [],
-          },
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-2',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient2',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: '<p>asdf</p>',
-            } as FeedbackTextResponseDetails,
-            instructorComments: [],
-          },
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-3',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient3',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: '<p>asdf</p>',
-            } as FeedbackTextResponseDetails,
-            instructorComments: [],
-          },
-        ],
-        responsesToSelf: [],
-        responsesFromSelf: [
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-1',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient1',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: '<p>asdf</p>',
-            } as FeedbackTextResponseDetails,
-            instructorComments: [],
-          },
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-2',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient2',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: '<p>asdf</p>',
-            } as FeedbackTextResponseDetails,
-            instructorComments: [],
-          },
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-3',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'recipient3',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: '<p>asdf</p>',
-            } as FeedbackTextResponseDetails,
-            instructorComments: [],
-          },
-        ],
-        otherResponses: [],
-      },
-      {
-        feedbackQuestion: testQuestionAnonymousResponse2,
-        questionStatistics: '',
-        allResponses: [
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-4',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'team1',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: '<p>asdf</p>',
-            } as FeedbackTextResponseDetails,
-            instructorComments: [],
-          },
-        ],
-        responsesToSelf: [],
-        responsesFromSelf: [
-          {
-            isMissingResponse: false,
-            responseId: 'resp-id-4',
-            giver: 'giver1',
-            giverTeam: 'team1',
-            giverSection: 'section1',
-            recipient: 'team1',
-            recipientTeam: 'team1',
-            recipientSection: 'section1',
-            responseDetails: {
-              answer: '<p>asdf</p>',
-            } as FeedbackTextResponseDetails,
-            instructorComments: [],
-          },
-        ],
-        otherResponses: [],
-      },
-    ];
-
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should fetch auth info on init', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
 
@@ -639,61 +291,6 @@ describe('SessionResultPageComponent', () => {
     expect(component.personName).toEqual('student-name');
     expect(component.session.courseId).toEqual('CS1231');
     expect(logSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should fetch session results when loading feedback session', () => {
-    const testValidity: RegkeyValidity = {
-      isAllowedAccess: true,
-      isUsed: false,
-      isValid: false,
-    };
-
-    const testFeedbackSessionResult: SessionResults = {
-      questions: [
-        {
-          feedbackQuestion: testQuestion1,
-          questionStatistics: '',
-          allResponses: [],
-          responsesToSelf: [],
-          responsesFromSelf: [],
-          otherResponses: [],
-        },
-        {
-          feedbackQuestion: testQuestion3,
-          questionStatistics: '',
-          allResponses: [],
-          responsesToSelf: [],
-          responsesFromSelf: [],
-          otherResponses: [],
-        },
-        {
-          feedbackQuestion: testQuestion2,
-          questionStatistics: '',
-          allResponses: [],
-          responsesToSelf: [],
-          responsesFromSelf: [],
-          otherResponses: [],
-        },
-      ],
-    };
-
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    const fsSpy: SpyInstance = jest.spyOn(feedbackSessionService, 'getFeedbackSessionResults')
-        .mockReturnValue(of(testFeedbackSessionResult));
-
-    component.ngOnInit();
-
-    expect(fsSpy).toHaveBeenCalledTimes(1);
-    expect(fsSpy).toHaveBeenLastCalledWith({
-      courseId: 'CS3281',
-      feedbackSessionName: 'Peer Feedback',
-      intent: Intent.STUDENT_RESULT,
-      key: 'reg-key',
-    });
-    expect(component.questions.map((question: QuestionOutput) => question.feedbackQuestion.questionNumber))
-        .toEqual([1, 2, 3]);
   });
 
   it('should deny access for reg key not belonging to logged in user', () => {
@@ -761,5 +358,43 @@ describe('SessionResultPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entitytype: 'student', key: 'reg-key' });
+  });
+
+  it('should load feedback questions', () => {
+    const testValidity: RegkeyValidity = {
+      isAllowedAccess: true,
+      isUsed: false,
+      isValid: false,
+    };
+    const testFeedbackQuestions: FeedbackQuestions = {
+      questions: [testFeedbackQuestion],
+    };
+    const testFeedbackQuestionModel: FeedbackQuestionModel = {
+      feedbackQuestion: testFeedbackQuestion,
+      questionStatistics: '',
+      allResponses: [],
+      responsesToSelf: [],
+      responsesFromSelf: [],
+      otherResponses: [],
+      isLoading: false,
+      isLoaded: false,
+      hasResponse: true,
+    };
+
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    const getQuestionsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
+        .mockReturnValue(of(testFeedbackQuestions));
+
+    component.ngOnInit();
+    expect(getQuestionsSpy).toHaveBeenLastCalledWith({
+      courseId: testQueryParams.courseid,
+      feedbackSessionName: testQueryParams.fsname,
+      intent: Intent.STUDENT_RESULT,
+      key: testQueryParams.key,
+    });
+    expect(component.questions.length).toEqual(1);
+    expect(component.questions[0]).toEqual(testFeedbackQuestionModel);
   });
 });

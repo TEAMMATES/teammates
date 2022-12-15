@@ -30,6 +30,12 @@
     <p *ngIf="isAnyPointsNegative" class="text-danger"><span class="fa fa-times"></span>
       Points cannot be negative!</p>
 
+    <p *ngIf="isAnyPointAboveMaximum" class="text-danger"><span class="fa fa-times"></span>
+      Points cannot be above: {{ questionDetails.maxPoint }}</p>
+
+    <p *ngIf="isAnyPointBelowMinimum" class="text-danger"><span class="fa fa-times"></span>
+      Points cannot be below: {{ questionDetails.minPoint }}</p>
+
     <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY && !isAllPointsUneven" class="text-danger"><span class="fa fa-times"></span>
       Multiple options are given same points!</p>
 
