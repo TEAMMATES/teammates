@@ -23,9 +23,13 @@ import { InstructorData, RegisteredInstructorAccountData } from './instructor-da
 export class AdminHomePageComponent {
 
   instructorDetails: string = '';
-  instructorName: string = '';
-  instructorEmail: string = '';
-  instructorInstitution: string = '';
+  formInstructors: InstructorData[] = [{
+    name: '',
+    email: '',
+    institution: '',
+    status: 'PENDING',
+    isCurrentlyBeingEdited: false,
+  }];
 
   instructorsConsolidated: InstructorData[] = [];
   activeRequests: number = 0;
@@ -45,54 +49,43 @@ export class AdminHomePageComponent {
     private statusMessageService: StatusMessageService,
     private linkService: LinkService,
     private ngbModal: NgbModal,
-  ) {}
+  ) { }
 
   /**
    * Validates and adds the instructor details filled with first form.
    */
   validateAndAddInstructorDetails(): void {
-    const invalidLines: string[] = [];
-    for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
-      const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
-      if (instructorDetailSplit.length < 3) {
+    const invalidInstructors: InstructorData[] = [];
+    for (const instructor of this.formInstructors) {
+      if (!instructor.name || !instructor.email || !instructor.institution) {
         // TODO handle error
-        invalidLines.push(instructorDetail);
+        invalidInstructors.push(instructor);
         continue;
       }
-      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
-        // TODO handle error
-        invalidLines.push(instructorDetail);
-        continue;
-      }
-      this.instructorsConsolidated.push({
-        name: instructorDetailSplit[0],
-        email: instructorDetailSplit[1],
-        institution: instructorDetailSplit[2],
+      this.instructorsConsolidated.push(instructor);
+    }
+
+    if (invalidInstructors.length > 0) {
+      this.formInstructors = invalidInstructors;
+    } else {
+      this.formInstructors = [{
+        name: '',
+        email: '',
+        institution: '',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
-      });
+      }]
     }
-    this.instructorDetails = invalidLines.join('\r\n');
   }
 
-  /**
-   * Validates and adds the instructor detail filled with second form.
-   */
-  validateAndAddInstructorDetail(): void {
-    if (!this.instructorName || !this.instructorEmail || !this.instructorInstitution) {
-      // TODO handle error
-      return;
-    }
-    this.instructorsConsolidated.push({
-      name: this.instructorName,
-      email: this.instructorEmail,
-      institution: this.instructorInstitution,
+  addInstructorToForm(): void {
+    this.formInstructors.push({
+      name: '',
+      email: '',
+      institution: '',
       status: 'PENDING',
       isCurrentlyBeingEdited: false,
-    });
-    this.instructorName = '';
-    this.instructorEmail = '';
-    this.instructorInstitution = '';
+    })
   }
 
   /**
@@ -113,20 +106,24 @@ export class AdminHomePageComponent {
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
     })
-        .pipe(finalize(() => {
-          this.isAddingInstructors = false;
-        }))
-        .subscribe((resp: JoinLink) => {
-          instructor.status = 'SUCCESS';
-          instructor.statusCode = 200;
-          instructor.joinLink = resp.joinLink;
-          this.activeRequests -= 1;
-        }, (resp: ErrorMessageOutput) => {
-          instructor.status = 'FAIL';
-          instructor.statusCode = resp.status;
-          instructor.message = resp.error.message;
-          this.activeRequests -= 1;
-        });
+      .pipe(finalize(() => {
+        this.isAddingInstructors = false;
+      }))
+      .subscribe((resp: JoinLink) => {
+        instructor.status = 'SUCCESS';
+        instructor.statusCode = 200;
+        instructor.joinLink = resp.joinLink;
+        this.activeRequests -= 1;
+      }, (resp: ErrorMessageOutput) => {
+        instructor.status = 'FAIL';
+        instructor.statusCode = resp.status;
+        instructor.message = resp.error.message;
+        this.activeRequests -= 1;
+      });
+  }
+
+  removeInstructorFromFrom(i: number): void {
+    this.formInstructors.splice(i, 1);
   }
 
   /**
@@ -237,9 +234,9 @@ export class AdminHomePageComponent {
         <strong>${this.instructorsConsolidated[i].institution}</strong>?
         An email with the account registration link will also be sent to the instructor.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset account request for <strong>${this.instructorsConsolidated[i].name}</strong>?`,
-        SimpleModalType.WARNING,
-        modalContent);
+      `Reset account request for <strong>${this.instructorsConsolidated[i].name}</strong>?`,
+      SimpleModalType.WARNING,
+      modalContent);
 
     modalRef.result.then(() => {
       this.accountService
@@ -258,7 +255,7 @@ export class AdminHomePageComponent {
             this.statusMessageService.showErrorToast(resp.error.message);
           },
         );
-    }, () => {});
+    }, () => { });
   }
 
 }
