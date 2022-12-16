@@ -75,6 +75,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isSubmitAllClicked: boolean = false;
 
   @Output()
+  isSubmitAllClickedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
   @Output()
@@ -144,7 +147,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
 
     if (this.model.recipientSubmissionForms.some(
-      (response) => response.responseId.length > 0)) {
+      (response) => response.responseId.length > 0) && !this.isSaved) {
       this.isSaved = true;
     }
 
@@ -269,6 +272,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
     this.hasResponseChanged = true;
+    this.isSubmitAllClickedChange.emit(false);
 
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
         this.model.recipientSubmissionForms.slice();
@@ -355,6 +359,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   saveFeedbackResponses(): void {
     this.isSaved = true;
+    this.hasResponseChanged = false;
     this.responsesSave.emit(this.model);
   }
 

@@ -99,7 +99,7 @@
                                  [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
                                  (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                  [isQuestionCountOne]="isQuestionCountOne"
-                                 [isSubmitAllClicked]="isSubmitAllClicked"
+                                 [(isSubmitAllClicked)]="isSubmitAllClicked"
     ></tm-question-submission-form>
 
     <div class="row" *ngIf="questionsNeedingSubmission.length === 0">
