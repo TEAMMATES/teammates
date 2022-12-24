@@ -18,6 +18,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AdminSearchPageComponent } from './admin-search-page.component';
+import { AdminSearchPageModule } from './admin-search-page.module';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
@@ -90,13 +91,13 @@ describe('AdminSearchPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [AdminSearchPageComponent],
       imports: [
         FormsModule,
         HttpClientTestingModule,
         NgbTooltipModule,
         BrowserAnimationsModule,
         RouterTestingModule,
+        AdminSearchPageModule,
       ],
       providers: [AccountService, SearchService, StatusMessageService, NgbModal],
     })
