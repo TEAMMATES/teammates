@@ -10,7 +10,7 @@ import { ProgressBarService } from '../../../services/progress-bar.service';
 })
 export class ProgressBarComponent implements OnInit {
 
-  progressPercentage: number = 0;
+  progressPercentage: number = 10;
 
   constructor(private progressBarService: ProgressBarService) { }
 
