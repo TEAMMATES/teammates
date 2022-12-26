@@ -534,6 +534,7 @@
       "username": "pandilladivya"
     },
     {
+      "multiple": true,
       "name": "Dominic Lim",
       "username": "domlimm"
     },
@@ -707,6 +708,9 @@
       "username": "kaixin-hc"
     },
     {
+      "username": "Haoting-Chen"
+    },
+    {
       "name": "Hardik Ruparel",
       "username": "Hardik27"
     },
@@ -736,6 +740,7 @@
       "username": "hiresh"
     },
     {
+      "multiple": true,
       "name": "Hoang Le Tri Cuong",
       "username": "ErnestCuong"
     },
@@ -768,6 +773,10 @@
     {
       "name": "Ihor Malkone",
       "username": "Malkone"
+    },
+    {
+      "name": "Ina Bromuos",
+      "username": "ibrouos"
     },
     {
       "name": "Irene Tenison"
@@ -846,6 +855,11 @@
       "multiple": true,
       "name": "Jiang Yaoxuan",
       "username": "said9999"
+    },
+    {
+      "multiple": true,
+      "name": "Jiang Zhengtao",
+      "username": "zhengtaoJ"
     },
     {
       "name": "Joflesan",
@@ -999,6 +1013,9 @@
     {
       "name": "Kshitij Kulshreshtha",
       "username": "KshitijKythe"
+    },
+    {
+      "username": "kulagaIA"
     },
     {
       "multiple": true,
@@ -1176,6 +1193,10 @@
     {
       "name": "Matthew Cheung",
       "username": "Mcheung7272"
+    },
+    {
+      "name": "Matthew Lim",
+      "username": "mattlim1207"
     },
     {
       "major": true,
@@ -1405,6 +1426,10 @@
       "username": "plucht"
     },
     {
+      "name": "Podugu Rohith Surya",
+      "username": "RohithSurya"
+    },
+    {
       "multiple": true,
       "name": "Pon Heng Wai",
       "username": "freddusya"
@@ -1458,6 +1483,9 @@
     {
       "multiple": true,
       "name": "Qiao Zhengyuan"
+    },
+    {
+      "username": "Qiurui-Xu"
     },
     {
       "multiple": true,
@@ -1808,6 +1836,7 @@
       "username": "junkiattan"
     },
     {
+      "multiple": true,
       "name": "Tan Sze Ying",
       "username": "tsy24"
     },
@@ -1831,6 +1860,7 @@
       "username": "xeia"
     },
     {
+      "multiple": true,
       "name": "Tan Yi Guan",
       "username": "tenebrius1"
     },
@@ -1866,6 +1896,11 @@
       "username": "josephinex"
     },
     {
+      "multiple": true,
+      "name": "Taufiq Bin Abdul Rahman",
+      "username": "tau-bar"
+    },
+    {
       "name": "Tay Yi Hsuen",
       "username": "yhtMinceraft1010X"
     },
@@ -1878,6 +1913,7 @@
       "name": "Teo Yock Swee Terence"
     },
     {
+      "multiple": true,
       "name": "Thikhina Bakmeedeniya",
       "username": "thikhinab"
     },
@@ -1908,6 +1944,9 @@
       "multiple": true,
       "name": "Truong Hoang Phuoc",
       "username": "hoangphuoc25"
+    },
+    {
+      "username": "u6867511"
     },
     {
       "name": "Ujjwal Wahi",
@@ -2086,6 +2125,10 @@
     {
       "multiple": true,
       "name": "Zheng Pingxia"
+    },
+    {
+      "name": "Zhishang Bian",
+      "username": "u7305725"
     },
     {
       "multiple": true,
