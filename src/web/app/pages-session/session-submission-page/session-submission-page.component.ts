@@ -109,6 +109,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   isQuestionCountOne: boolean = false;
+  isSubmitAllClicked: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -515,6 +516,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         model.recipientList.push({
           recipientIdentifier: recipient.identifier,
           recipientName: recipient.name,
+          recipientSection: recipient.section,
+          recipientTeam: recipient.team,
         });
       });
 
@@ -669,6 +672,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * <p>All empty feedback response will be deleted; For non-empty responses, update/create them if necessary.
    */
   saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[]): void {
+    this.isSubmitAllClicked = true;
+
     const notYetAnsweredQuestions: Set<number> = new Set();
     const requestIds: Record<string, string> = {};
     const answers: Record<string, FeedbackResponse[]> = {};

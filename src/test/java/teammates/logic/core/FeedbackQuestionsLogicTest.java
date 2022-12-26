@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -89,7 +90,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         StudentAttributes studentGiver;
         InstructorAttributes instructorGiver;
         CourseRoster courseRoster;
-        Map<String, String> recipients;
+        Map<String, FeedbackQuestionRecipient> recipients;
 
         ______TS("response to students, total 5");
 
@@ -151,11 +152,11 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
         assertEquals(recipients.size(), 1);
         assertTrue(recipients.containsKey(studentGiver.getTeam()));
-        assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
+        assertEquals(recipients.get(studentGiver.getTeam()).getName(), studentGiver.getTeam());
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
         assertEquals(recipients.size(), 1);
         assertTrue(recipients.containsKey(studentGiver.getTeam()));
-        assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
+        assertEquals(recipients.get(studentGiver.getTeam()).getName(), studentGiver.getTeam());
 
         ______TS("response to other teams from instructor");
         question = getQuestionFromDatabase("team.instructor.feedback");
@@ -189,10 +190,10 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
-        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        assertEquals(recipients.get(Const.GENERAL_QUESTION).getName(), Const.GENERAL_QUESTION);
         assertEquals(recipients.size(), 1);
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
-        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        assertEquals(recipients.get(Const.GENERAL_QUESTION).getName(), Const.GENERAL_QUESTION);
         assertEquals(recipients.size(), 1);
 
         ______TS("to self");
@@ -203,10 +204,10 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
-        assertEquals(recipients.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
+        assertEquals(recipients.get(studentGiver.getEmail()).getName(), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
-        assertEquals(recipients.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
+        assertEquals(recipients.get(studentGiver.getEmail()).getName(), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
     }
 

@@ -117,8 +117,10 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
     this.perRecipientOverallColumnsData = [
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
-      { header: 'Overall Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
-      { header: 'Breakdown Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
+      { header: 'Recipient Email', sortBy: SortBy.RECIPIENT_EMAIL },
+      ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
+      { header: 'Total', sortBy: SortBy.RUBRIC_OVERALL_TOTAL_WEIGHT },
+      { header: 'Average', sortBy: SortBy.RUBRIC_OVERALL_WEIGHT_AVERAGE },
     ];
 
     this.perRecipientOverallRowsData = [];
@@ -126,8 +128,16 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       this.perRecipientOverallRowsData.push([
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
-        { value: perRecipientStats.weightAverage },
-        { value: perRecipientStats.subQuestionWeightAverage.toString() },
+        { value: perRecipientStats.recipientEmail },
+        ...this.choices.map((_: string, choiceIndex: number) => {
+          return {
+            value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
+                + ` (${perRecipientStats.answersSum[choiceIndex]})`
+                + ` [${perRecipientStats.weightsAverage[choiceIndex]}]`,
+          };
+        }),
+        { value: perRecipientStats.overallWeightedSum },
+        { value: perRecipientStats.overallWeightAverage },
       ]);
     });
   }
