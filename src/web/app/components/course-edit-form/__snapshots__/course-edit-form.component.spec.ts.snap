@@ -4,7 +4,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -218,7 +218,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   addModel={[Function Object]}
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -436,7 +436,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -645,7 +645,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
 <tm-course-edit-form
   CourseEditFormMode={[Function Object]}
   FormValidator={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
