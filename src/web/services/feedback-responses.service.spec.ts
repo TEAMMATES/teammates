@@ -391,10 +391,10 @@ describe('FeedbackResponsesService', () => {
       moderatedperson: '',
     };
     service.getFeedbackResponse({
-      questionId: paramMap.questionid,
+      questionId: paramMap['questionid'],
       intent: dummyIntent,
-      key: paramMap.key,
-      moderatedPerson: paramMap.moderatedperson,
+      key: paramMap['key'],
+      moderatedPerson: paramMap['moderatedperson'],
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap);
   });
@@ -405,7 +405,7 @@ describe('FeedbackResponsesService', () => {
     };
     const dummyRequest: FeedbackResponsesRequest = { responses: [] };
     const dummyAdditionalParams: { [key: string]: string } = {};
-    service.submitFeedbackResponses(paramMap.questionid, dummyRequest, dummyAdditionalParams);
+    service.submitFeedbackResponses(paramMap['questionid'], dummyRequest, dummyAdditionalParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
 
@@ -420,10 +420,10 @@ describe('FeedbackResponsesService', () => {
     const dummyRequest: FeedbackResponsesRequest = { responses: [] };
     const dummyAdditionalParams: { [key: string]: string } = {
       intent: dummyIntent,
-      key: paramMap.key,
-      moderatedperson: paramMap.moderatedperson,
+      key: paramMap['key'],
+      moderatedperson: paramMap['moderatedperson'],
     };
-    service.submitFeedbackResponses(paramMap.questionid, dummyRequest, dummyAdditionalParams);
+    service.submitFeedbackResponses(paramMap['questionid'], dummyRequest, dummyAdditionalParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
 });

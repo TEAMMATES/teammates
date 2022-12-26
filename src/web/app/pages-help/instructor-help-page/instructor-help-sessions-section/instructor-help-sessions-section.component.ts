@@ -78,10 +78,10 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   readonly exampleStudents: Student[] = EXAMPLE_STUDENTS;
   readonly exampleInstructors: Instructor[] = EXAMPLE_INSTRUCTORS;
   readonly exampleFeedbackSession: FeedbackSession = EXAMPLE_FEEDBACK_SESSION;
-  readonly exampleRecycleBinFeedbackSessions: RecycleBinFeedbackSessionRowModel[]
-    = EXAMPLE_RECYCLE_BIN_FEEDBACK_SESSIONS;
-  readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel>
-    = EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL;
+  readonly exampleRecycleBinFeedbackSessions: RecycleBinFeedbackSessionRowModel[] =
+    EXAMPLE_RECYCLE_BIN_FEEDBACK_SESSIONS;
+  readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel> =
+    EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL;
   readonly exampleGrqResponses: Record<string, SectionTabModel> = EXAMPLE_GRQ_RESPONSES;
   readonly exampleQuestionsWithResponses: FeedbackQuestionModel[] = EXAMPLE_QUESTIONS_WITH_RESPONSES;
 

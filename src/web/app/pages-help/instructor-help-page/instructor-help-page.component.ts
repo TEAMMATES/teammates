@@ -63,10 +63,10 @@ export class InstructorHelpPageComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.route.queryParams.subscribe((queryParam: Params) => {
-      if (queryParam.questionId && queryParam.section) {
-        this.questionIdToExpand = queryParam.questionId;
-        this.section = queryParam.section;
-        this.scrollTo(queryParam.questionId);
+      if (queryParam['questionId'] && queryParam['section']) {
+        this.questionIdToExpand = queryParam['questionId'];
+        this.section = queryParam['section'];
+        this.scrollTo(queryParam['questionId']);
       }
     });
   }

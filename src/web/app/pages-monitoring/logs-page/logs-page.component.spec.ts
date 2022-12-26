@@ -219,7 +219,7 @@ describe('LogsPageComponent', () => {
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
     fixture.debugElement.nativeElement.querySelector('#query-button').click();
-    expect(spy).lastCalledWith('Please fill in Source location file or clear Source location function');
+    expect(spy).toHaveBeenLastCalledWith('Please fill in Source location file or clear Source location function');
   });
 
   it('should disable load button if there is no next page', () => {

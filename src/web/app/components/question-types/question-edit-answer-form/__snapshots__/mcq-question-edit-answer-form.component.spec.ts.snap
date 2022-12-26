@@ -2,6 +2,7 @@
 
 exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEnabled is updated 1`] = `
 <tm-mcq-question-edit-answer-form
+  __ngContext__={[Function LRootView]}
   cssRefresh={[Function EventEmitter_]}
   id=""
   inputTextBoxOther="undefined"
@@ -31,6 +32,7 @@ exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEna
 
 exports[`McqQuestionEditAnswerFormComponent should snap with default view 1`] = `
 <tm-mcq-question-edit-answer-form
+  __ngContext__={[Function LRootView]}
   cssRefresh={[Function EventEmitter_]}
   id=""
   inputTextBoxOther="undefined"

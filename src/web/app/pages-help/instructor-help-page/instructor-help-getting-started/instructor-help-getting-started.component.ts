@@ -47,7 +47,7 @@ export class InstructorHelpGettingStartedComponent {
     if (destination) {
       destination.scrollIntoView();
       // to prevent the navbar from covering the text
-      window.scrollTo(0, window.pageYOffset - 50);
+      window.scrollTo(0, window.scrollY - 50);
     }
     return false;
   }

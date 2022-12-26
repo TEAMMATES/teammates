@@ -33,11 +33,11 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
     this.questionText = apiOutput.questionText;
   }
 
-  getQuestionCsvHeaders(): string[] {
+  override getQuestionCsvHeaders(): string[] {
     return ['Sub Question', 'Choice Value', 'Choice Number'];
   }
 
-  getMissingResponseCsvAnswers(): string[][] {
+  override getMissingResponseCsvAnswers(): string[][] {
     return [['All Sub-Questions', 'No Response']];
   }
 
