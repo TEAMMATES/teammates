@@ -10,12 +10,11 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { DateFormat, getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
+import { DateFormat, TimeFormat, getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import { TimeFormat } from '../timepicker/timepicker.component';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
 /**
