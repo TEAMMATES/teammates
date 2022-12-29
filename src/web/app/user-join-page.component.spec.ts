@@ -117,12 +117,12 @@ describe('UserJoinPageComponent', () => {
 
   it('should show error message if 4xx is returned when joining course', () => {
     const errorMessage = '404 ERROR';
-    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError(() => ({
       error: {
         message: errorMessage,
       },
       status: 404,
-    }));
+    })));
 
     const modalSpy = jest
         .spyOn(simpleModalService, 'openInformationModal')
@@ -138,13 +138,13 @@ describe('UserJoinPageComponent', () => {
   it('should show error message if 5xx is returned when joining course', () => {
     const errorMessage = '502 ERROR';
     const requestId = 'requestId';
-    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError(() => ({
       error: {
         message: errorMessage,
         requestId,
       },
       status: 502,
-    }));
+    })));
 
     const mockModalRef = createMockNgbModalRef();
     const modalSpy = jest
@@ -178,7 +178,7 @@ describe('UserJoinPageComponent', () => {
     expect(courseSpy).toHaveBeenCalledTimes(1);
     expect(courseSpy).toHaveBeenLastCalledWith(...params);
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), `/web/${params[1]}`);
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/${params[1]}`);
   });
 
   it('should redirect user to home page if user is logged in and join URL has been used', () => {
@@ -202,7 +202,7 @@ describe('UserJoinPageComponent', () => {
     expect(component.hasJoined).toBeTruthy();
     expect(component.userId).toEqual('user');
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/student/home');
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/home');
   });
 
   it('should stop loading and show error message if 404 is returned', () => {
@@ -216,9 +216,9 @@ describe('UserJoinPageComponent', () => {
       },
       masquerade: false,
     }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError(() => ({
       status: 404,
-    }));
+    })));
 
     component.ngOnInit();
 
@@ -311,7 +311,7 @@ describe('UserJoinPageComponent creating account', () => {
     expect(accountSpy).toHaveBeenCalledTimes(1);
     expect(accountSpy).toHaveBeenLastCalledWith('key', 'UTC');
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor');
+    expect(navSpy).toHaveBeenLastCalledWith('/web/instructor');
   });
 
   it('should redirect user to home page if user is logged in and URL has been used', () => {
@@ -335,7 +335,7 @@ describe('UserJoinPageComponent creating account', () => {
     expect(component.hasJoined).toBeTruthy();
     expect(component.userId).toEqual('user');
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(expect.anything(), '/web/instructor/home');
+    expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/home');
   });
 
   it('should stop loading and show error message if 404 is returned when creating new account', () => {
@@ -349,9 +349,9 @@ describe('UserJoinPageComponent creating account', () => {
       },
       masquerade: false,
     }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError(() => ({
       status: 404,
-    }));
+    })));
 
     component.ngOnInit();
 

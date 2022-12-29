@@ -96,11 +96,14 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoadingCourse = false;
         }))
-        .subscribe((course: Course) => {
-          this.course = course;
-        }, (resp: ErrorMessageOutput) => {
-          this.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
+        .subscribe({
+          next: (course: Course) => {
+            this.course = course;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.hasLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 
@@ -115,12 +118,15 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoadingStudent = false;
         }))
-        .subscribe((student: Student) => {
-          this.student = student;
-          this.loadTeammates(courseId, student.teamName);
-        }, (resp: ErrorMessageOutput) => {
-          this.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
+        .subscribe({
+          next: (student: Student) => {
+            this.student = student;
+            this.loadTeammates(courseId, student.teamName);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.hasLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 
@@ -134,43 +140,49 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     this.isLoadingTeammates = true;
     this.teammateProfiles = [];
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
-      .subscribe((students: Students) => {
-        // No teammates
-        if (students.students.length === 1 && students.students[0].email === this.student.email) {
-          this.isLoadingTeammates = false;
-        }
-        students.students.forEach((student: Student) => {
-          // filter away current user
-          if (student.email === this.student.email) {
-            return;
+      .subscribe({
+        next: (students: Students) => {
+          // No teammates
+          if (students.students.length === 1 && students.students[0].email === this.student.email) {
+            this.isLoadingTeammates = false;
           }
+          students.students.forEach((student: Student) => {
+            // filter away current user
+            if (student.email === this.student.email) {
+              return;
+            }
 
-          this.studentProfileService.getStudentProfile(student.email, courseId)
+            this.studentProfileService.getStudentProfile(student.email, courseId)
                 .pipe(finalize(() => {
                   this.isLoadingTeammates = false;
                 }))
-                .subscribe((studentProfile: StudentProfile) => {
-                  const newPhotoUrl: string =
-                    `${environment.backendUrl}/webapi/student/profilePic`
-                    + `?courseid=${courseId}&studentemail=${student.email}`;
+                .subscribe({
+                  next: (studentProfile: StudentProfile) => {
+                    const newPhotoUrl: string =
+                        `${environment.backendUrl}/webapi/student/profilePic`
+                        + `?courseid=${courseId}&studentemail=${student.email}`;
 
-                  const newTeammateProfile: StudentProfileWithPicture = {
-                    ...studentProfile,
-                    email: student.email,
-                    name: student.name,
-                    photoUrl: newPhotoUrl,
-                  };
+                    const newTeammateProfile: StudentProfileWithPicture = {
+                      ...studentProfile,
+                      email: student.email,
+                      name: student.name,
+                      photoUrl: newPhotoUrl,
+                    };
 
-                  this.teammateProfiles.push(newTeammateProfile);
-                }, (resp: ErrorMessageOutput) => {
-                  this.hasLoadingFailed = true;
-                  this.statusMessageService.showErrorToast(resp.error.message);
+                    this.teammateProfiles.push(newTeammateProfile);
+                  },
+                  error: (resp: ErrorMessageOutput) => {
+                    this.hasLoadingFailed = true;
+                    this.statusMessageService.showErrorToast(resp.error.message);
+                  },
                 });
-        });
-      }, (resp: ErrorMessageOutput) => {
-        this.isLoadingTeammates = false;
-        this.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.isLoadingTeammates = false;
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
   }
 
@@ -185,11 +197,14 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoadingInstructor = false;
         }))
-        .subscribe((instructors: Instructors) => {
-          this.instructorDetails = instructors.instructors;
-        }, (resp: ErrorMessageOutput) => {
-          this.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
+        .subscribe({
+          next: (instructors: Instructors) => {
+            this.instructorDetails = instructors.instructors;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.hasLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 

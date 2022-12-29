@@ -239,7 +239,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   private prepareEnrollmentResults(enrolledStudents: Student[],
                                    studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
     this.enrollResultPanelList = this.populateEnrollResultPanelList(this.existingStudents,
-        enrolledStudents, Array.from(studentEnrollRequests.values()));
+        enrolledStudents, studentEnrollRequests);
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
@@ -370,7 +370,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
-                                        enrollRequests: StudentEnrollRequest[]): EnrollResultPanel[] {
+                                        enrollRequests: Map<number, StudentEnrollRequest>): EnrollResultPanel[] {
 
     const panels: EnrollResultPanel[] = [];
     const studentLists: Student[][] = [];
@@ -418,7 +418,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     // Identify students that failed to enroll.
-    for (const request of enrollRequests) {
+    for (const request of enrollRequests.values()) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
         return student.email === request.email;
       });
@@ -551,21 +551,24 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
-        (resp: Students) => {
-          if (resp.students.length) {
-            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
-          } else {
-            // Shows a message if there are no existing students. Panel would not be expanded.
-            this.isExistingStudentsPresent = false;
-            this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-          }
-        }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-      this.isAjaxSuccess = false;
-      this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-    }, () => {
-      this.isLoadingExistingStudents = false;
+    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe({
+      next: (resp: Students) => {
+        if (resp.students.length) {
+          this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
+        } else {
+          // Shows a message if there are no existing students. Panel would not be expanded.
+          this.isExistingStudentsPresent = false;
+          this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+        this.isAjaxSuccess = false;
+        this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+      },
+      complete: () => {
+        this.isLoadingExistingStudents = false;
+      },
     });
   }
 
@@ -597,33 +600,40 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.existingStudents = [];
     this.hasLoadingStudentsFailed = false;
     this.isLoadingCourseEnrollPage = true;
-    this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
-      this.coursePresent = true;
-      this.courseId = courseid;
-      if (resp.hasResponsesBySession === undefined) {
-        return;
-      }
-      for (const sessionName of Object.keys(resp.hasResponsesBySession)) {
-        if (resp.hasResponsesBySession[sessionName]) {
-          const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
+    this.courseService.hasResponsesForCourse(courseid).subscribe({
+      next: (resp: HasResponses) => {
+        this.coursePresent = true;
+        this.courseId = courseid;
+        if (resp.hasResponsesBySession === undefined) {
+          return;
+        }
+        for (const sessionName of Object.keys(resp.hasResponsesBySession)) {
+          if (resp.hasResponsesBySession[sessionName]) {
+            const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
           Modifying records of enrolled students will result in some existing responses
           from those modified students to be deleted. You may wish to download the data
           before you make the changes.`;
-          this.simpleModalService.openInformationModal(
-            'Existing feedback responses', SimpleModalType.WARNING, modalContent);
+            this.simpleModalService.openInformationModal(
+                'Existing feedback responses', SimpleModalType.WARNING, modalContent);
+          }
         }
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.coursePresent = false;
-      this.statusMessageService.showErrorToast(resp.error.message);
-    }, () => {
-      this.isLoadingCourseEnrollPage = false;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.coursePresent = false;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+      complete: () => {
+        this.isLoadingCourseEnrollPage = false;
+      },
     });
-    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
-      this.existingStudents = resp.students;
-    }, (resp: ErrorMessageOutput) => {
-      this.hasLoadingStudentsFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe({
+      next: (resp: Students) => {
+        this.existingStudents = resp.students;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasLoadingStudentsFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 

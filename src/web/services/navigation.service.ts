@@ -41,28 +41,27 @@ export class NavigationService {
     this.location.go(newUrl);
   }
 
-  navigateByURL(router: Router, urlWithoutParams: string, params: Record<string, string> = {},
-                                        extras: NavigationExtras = {}): Promise<boolean> {
+  navigateByURL(urlWithoutParams: string, params: Record<string, string> = {},
+                extras: NavigationExtras = {}): Promise<boolean> {
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
-      params.user = masqueradeUser;
+      params['user'] = masqueradeUser;
     }
-    return router.navigateByUrl(`${urlWithoutParams}${this.encodeParams(params)}`, extras);
+    return this.router.navigateByUrl(`${urlWithoutParams}${this.encodeParams(params)}`, extras);
   }
 
   /**
    * Navigates to the selected URL with URL param encoding
    */
-  navigateByURLWithParamEncoding(router: Router,
-    urlWithoutParams: string, params: Record<string, string>): Promise<Boolean> {
-    return this.navigateByURL(router, urlWithoutParams, params);
+  navigateByURLWithParamEncoding(urlWithoutParams: string, params: Record<string, string>): Promise<Boolean> {
+    return this.navigateByURL(urlWithoutParams, params);
   }
 
   /**
    * Navigates to the selected URL and shows an error message afterwards.
    */
-  navigateWithErrorMessage(router: Router, url: string, message: string): void {
-    this.navigateByURL(router, url).then(() => {
+  navigateWithErrorMessage(url: string, message: string): void {
+    this.navigateByURL(url).then(() => {
       this.statusMessageService.showErrorToast(message);
     });
   }
@@ -70,10 +69,9 @@ export class NavigationService {
   /**
    * Navigates to the selected URL and shows a success message afterwards.
    */
-  navigateWithSuccessMessage(router: Router, url: string, message: string, params: Record<string, string> = {}): void {
-    this.navigateByURLWithParamEncoding(router, url, params).then(() => {
+  navigateWithSuccessMessage(url: string, message: string, params: Record<string, string> = {}): void {
+    this.navigateByURLWithParamEncoding(url, params).then(() => {
       this.statusMessageService.showSuccessToast(message);
     });
   }
-
 }

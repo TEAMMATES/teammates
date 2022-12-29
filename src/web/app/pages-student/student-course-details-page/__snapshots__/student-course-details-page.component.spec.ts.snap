@@ -4,6 +4,7 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
 <tm-student-course-details-page
   Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -42,10 +43,55 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
 </tm-student-course-details-page>
 `;
 
+exports[`StudentCourseDetailsPageComponent should snap when it fails to load 1`] = `
+<tm-student-course-details-page
+  Gender={[Function Object]}
+  SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
+  course={[Function Object]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  hasLoadingFailed={[Function Boolean]}
+  instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isLoadingCourse={[Function Boolean]}
+  isLoadingInstructor={[Function Boolean]}
+  isLoadingStudent={[Function Boolean]}
+  isLoadingTeammates="false"
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  teammateProfiles={[Function Array]}
+  teammateProfilesSortBy="0"
+>
+  <tm-loading-retry>
+  </tm-loading-retry><div
+    class="section"
+  >
+    <div
+      class="row top-padded"
+    >
+      <div
+        class="col-md-10"
+      >
+        <table>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</tm-student-course-details-page>
+`;
+
 exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-student-course-details-page
   Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -89,6 +135,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
 <tm-student-course-details-page
   Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}

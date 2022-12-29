@@ -104,7 +104,7 @@ describe('InstructorService', () => {
   it('should send the correct course id', () => {
     spyHttpRequestService.get.mockImplementation((endpoint: string, paramMap: Record<string, string>) => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTORS);
-      const courseid: string = paramMap.courseid;
+      const courseid: string = paramMap['courseid'];
       return of<Instructors>({
         instructors: defaultInstructors.instructors
             .filter((instructor: Instructor) => instructor.courseId === courseid),
@@ -122,7 +122,7 @@ describe('InstructorService', () => {
       courseid: 'CS3281',
     };
 
-    service.loadInstructorPrivilege({ courseId: paramMap.courseid });
+    service.loadInstructorPrivilege({ courseId: paramMap['courseid'] });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
 
@@ -150,8 +150,8 @@ describe('InstructorService', () => {
 
     service.updateInstructorPrivilege({
       requestBody,
-      courseId: paramMap.courseid,
-      instructorEmail: paramMap.instructoremail,
+      courseId: paramMap['courseid'],
+      instructorEmail: paramMap['instructoremail'],
     });
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
         ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, requestBody);

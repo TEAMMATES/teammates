@@ -5,13 +5,13 @@
 </div>
 
 <div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded && !isLoading" @collapseAnim>
-  <tm-add-course-form (courseAdded)="loadInstructorCourses()"
-                      (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
-                      (copyCourseEvent)="createCourse($event)"
-                      [isCopyingCourse]="isCopyingCourse"
-                      [activeCourses]="activeCoursesList"
-                      [allCourses]="allCoursesList"
-  ></tm-add-course-form>
+  <tm-course-edit-form  [formMode]="CourseEditFormMode.ADD"
+                        [(formModel)]="courseFormModel"
+                        [resetFormEvent]="resetCourseForm"
+                        (closeFormEvent)="isAddNewCourseFormExpanded = false"
+                        (createNewCourseEvent)="createNewCourse()"
+                        (copyCourseEvent)="createCopiedCourse($event)">
+  </tm-course-edit-form>
 </div>
 
 <div *ngIf="isCopyingCourse" class="margin-top-30px">
@@ -82,7 +82,7 @@
                 </a>
               </span>
               <span *ngIf="courseStats[course.course.courseId]">
-                {{ courseStats[course.course.courseId].sections }}
+                {{ courseStats[course.course.courseId]['sections'] }}
               </span>
             </td>
             <td>
@@ -92,7 +92,7 @@
                 </a>
               </span>
               <span *ngIf="courseStats[course.course.courseId]">
-                {{ courseStats[course.course.courseId].teams }}
+                {{ courseStats[course.course.courseId]['teams'] }}
               </span>
             </td>
             <td>
@@ -102,7 +102,7 @@
                 </a>
               </span>
               <span *ngIf="courseStats[course.course.courseId]">
-                {{ courseStats[course.course.courseId].students }}
+                {{ courseStats[course.course.courseId]['students'] }}
               </span>
             </td>
             <td>
@@ -112,7 +112,7 @@
                 </a>
               </span>
               <span *ngIf="courseStats[course.course.courseId]">
-                {{ courseStats[course.course.courseId].unregistered }}
+                {{ courseStats[course.course.courseId]['unregistered'] }}
               </span>
             </td>
             <td class="text-center actions-cell">
@@ -146,6 +146,9 @@
                           ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" placement="left" container="body">
                     Archive
                   </button>
+<!--                  <a class="btn btn-primary btn-sm dropdown-item clickable"-->
+<!--                     tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: course.course.courseId}"> View Logs-->
+<!--                  </a>-->
                   <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
                           ngbTooltip="Delete the course and its corresponding students and sessions" placement="left" container="body">
                     Delete

@@ -399,6 +399,9 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private WebElement getQuestionResponsesSection(int questionNum) {
+        WebElement question = browser.driver.findElement(By.id("question-" + questionNum + "-responses"));
+        scrollElementToCenter(question);
+        waitUntilAnimationFinish();
         return browser.driver.findElement(By.id("question-" + questionNum + "-responses"));
     }
 
@@ -461,7 +464,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getAnswerString(FeedbackQuestionAttributes question, FeedbackResponseDetails response) {
-        switch(response.getQuestionType()) {
+        switch (response.getQuestionType()) {
         case TEXT:
         case NUMSCALE:
         case RANK_RECIPIENTS:

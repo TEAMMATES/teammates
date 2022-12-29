@@ -1,0 +1,1562 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorSessionsPageComponent should snap when courses are loading 1`] = `
+<tm-instructor-sessions-page
+  SessionEditFormMode={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
+  courseCandidates={[Function Array]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCourseLoadingFailed="false"
+  hasFeedbackSessionLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  isCopyOtherSessionLoading="false"
+  isCopySessionLoading="false"
+  isCoursesLoading={[Function Boolean]}
+  isFeedbackSessionsLoading={[Function Boolean]}
+  isMoveToRecycleBinLoading="false"
+  isPermanentDeleteLoading="false"
+  isRecycleBinExpanded="false"
+  isRecycleBinLoading={[Function Boolean]}
+  isRestoreFeedbackSessionLoading="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
+  isSessionEditFormExpanded="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  recycleBinFeedbackSessionRowModels={[Function Array]}
+  recycleBinFeedbackSessionRowModelsSortBy="0"
+  recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
+  route={[Function ActivatedRoute]}
+  sessionEditFormModel={[Function Object]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  templateSessions={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <button
+      class="btn btn-success"
+      disabled=""
+      id="btn-add-session"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Feedback Session 
+    </button>
+  </div><tm-loading-retry>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+    <br />
+    <div
+      class="row"
+    >
+      <div
+        class="col-12 text-muted"
+      >
+        <p>
+           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+        </p>
+      </div>
+    </div>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-sessions-page>
+`;
+
+exports[`InstructorSessionsPageComponent should snap when feedback sessions are loading 1`] = `
+<tm-instructor-sessions-page
+  SessionEditFormMode={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
+  courseCandidates={[Function Array]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCourseLoadingFailed="false"
+  hasFeedbackSessionLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  isCopyOtherSessionLoading="false"
+  isCopySessionLoading="false"
+  isCoursesLoading={[Function Boolean]}
+  isFeedbackSessionsLoading={[Function Boolean]}
+  isMoveToRecycleBinLoading="false"
+  isPermanentDeleteLoading="false"
+  isRecycleBinExpanded="false"
+  isRecycleBinLoading={[Function Boolean]}
+  isRestoreFeedbackSessionLoading="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
+  isSessionEditFormExpanded="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  recycleBinFeedbackSessionRowModels={[Function Array]}
+  recycleBinFeedbackSessionRowModelsSortBy="0"
+  recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
+  route={[Function ActivatedRoute]}
+  sessionEditFormModel={[Function Object]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  templateSessions={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <button
+      class="btn btn-success"
+      disabled=""
+      id="btn-add-session"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Feedback Session 
+    </button>
+  </div><tm-loading-retry>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+    <br />
+    <div
+      class="row"
+    >
+      <div
+        class="col-12 text-muted"
+      >
+        <p>
+           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+        </p>
+      </div>
+    </div>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-sessions-page>
+`;
+
+exports[`InstructorSessionsPageComponent should snap when feedback sessions failed to load 1`] = `
+<tm-instructor-sessions-page
+  SessionEditFormMode={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
+  courseCandidates={[Function Array]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCourseLoadingFailed="false"
+  hasFeedbackSessionLoadingFailed={[Function Boolean]}
+  instructorService={[Function InstructorService]}
+  isCopyOtherSessionLoading="false"
+  isCopySessionLoading="false"
+  isCoursesLoading={[Function Boolean]}
+  isFeedbackSessionsLoading={[Function Boolean]}
+  isMoveToRecycleBinLoading="false"
+  isPermanentDeleteLoading="false"
+  isRecycleBinExpanded="false"
+  isRecycleBinLoading={[Function Boolean]}
+  isRestoreFeedbackSessionLoading="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
+  isSessionEditFormExpanded="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  recycleBinFeedbackSessionRowModels={[Function Array]}
+  recycleBinFeedbackSessionRowModelsSortBy="0"
+  recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
+  route={[Function ActivatedRoute]}
+  sessionEditFormModel={[Function Object]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  templateSessions={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <button
+      class="btn btn-success"
+      disabled=""
+      id="btn-add-session"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Feedback Session 
+    </button>
+  </div><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load data
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-sessions-page>
+`;
+
+exports[`InstructorSessionsPageComponent should snap when new session form is expanded 1`] = `
+<tm-instructor-sessions-page
+  SessionEditFormMode={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
+  courseCandidates={[Function Array]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCourseLoadingFailed="false"
+  hasFeedbackSessionLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  isCopyOtherSessionLoading="false"
+  isCopySessionLoading="false"
+  isCoursesLoading="false"
+  isFeedbackSessionsLoading={[Function Boolean]}
+  isMoveToRecycleBinLoading="false"
+  isPermanentDeleteLoading="false"
+  isRecycleBinExpanded="false"
+  isRecycleBinLoading={[Function Boolean]}
+  isRestoreFeedbackSessionLoading="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
+  isSessionEditFormExpanded={[Function Boolean]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  recycleBinFeedbackSessionRowModels={[Function Array]}
+  recycleBinFeedbackSessionRowModelsSortBy="0"
+  recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
+  route={[Function ActivatedRoute]}
+  sessionEditFormModel={[Function Object]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  templateSessions={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="alert alert-warning"
+    role="alert"
+  >
+     You have not created any courses yet, or you have no active courses. Go 
+    <a
+      href="/web/instructor/courses"
+      tmrouterlink="/web/instructor/courses"
+    >
+      here
+    </a>
+     to create or unarchive a course.
+  </div><div>
+    <button
+      class="btn btn-success"
+      disabled=""
+      id="btn-add-session"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Feedback Session 
+    </button>
+  </div><div
+    class="margin-top-30px ng-trigger ng-trigger-collapseAnim ng-animating"
+    id="add-session-section"
+    style=""
+  >
+    <div>
+      <tm-session-edit-form
+        style=""
+      >
+        <div
+          class="card card-plain"
+        >
+          <div
+            class="close-header"
+          >
+            <button
+              aria-label="Close"
+              class="close"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+            </button>
+          </div>
+          <div
+            class="card-body"
+          >
+            <div
+              class="row"
+            >
+              <div
+                class="col-md-7"
+              >
+                <div
+                  class="row align-items-center"
+                >
+                  <div
+                    class="col-md-3"
+                  >
+                    <h5
+                      class="text-right"
+                    >
+                      Create new
+                    </h5>
+                  </div>
+                  <div
+                    class="col-9 col-md-8"
+                  >
+                    <select
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      id="session-type"
+                    >
+                      <option
+                        value="0: session using template: team peer feedback (poi"
+                      >
+                        session using template: team peer feedback (point-based)
+                      </option>
+                      <option
+                        value="1: session using template: team peer feedback (per"
+                      >
+                        session using template: team peer feedback (percentage-based)
+                      </option>
+                      <option
+                        value="2: session with my own questions"
+                      >
+                        session with my own questions
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    class="col-1 col-md-1"
+                  >
+                    <a
+                      class="btn btn-link"
+                      href="/web/instructor/help?questionId=sessions&section=sessions"
+                      target="_blank"
+                      tmrouterlink="/web/instructor/help"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-info-circle"
+                      />
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-md-5"
+              >
+                <div
+                  class="row text-center align-items-center mt-1"
+                >
+                  <div
+                    class="col-md-2"
+                  >
+                    <h5
+                      class="text-md-right"
+                    >
+                      Or: 
+                    </h5>
+                  </div>
+                  <div
+                    class="col-md-10 text-md-left"
+                  >
+                    <button
+                      class="btn btn-info align-row"
+                      id="btn-copy-session"
+                      type="button"
+                    >
+                      <span>
+                        Copy from previous feedback sessions
+                      </span>
+                      <div
+                        class="padding-left-7px"
+                      >
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="card border-primary margin-top-20px"
+            >
+              <div
+                class="card-body"
+              >
+                <div
+                  class="row text-center"
+                >
+                  <div
+                    class="col-md-2 text-md-right font-bold col-form-label"
+                  >
+                    <span
+                      class="ngb-tooltip-class"
+                      ngbtooltip="Course for which the feedback session is for."
+                    >
+                      Course ID
+                    </span>
+                  </div>
+                  <div
+                    class="col-md-auto text-md-left"
+                  >
+                    <div>
+                      <select
+                        class="form-control is-invalid ng-untouched ng-pristine ng-valid"
+                        id="add-course-id"
+                      >
+                      </select>
+                      <div
+                        class="invalid-feedback"
+                      >
+                         There is no un-archived course. 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div
+                  class="row text-center"
+                >
+                  <div
+                    class="col-md-2 text-md-right font-bold col-form-label"
+                  >
+                     Time Zone 
+                  </div>
+                  <div
+                    class="col-md-3 text-md-left col-form-label"
+                    id="time-zone"
+                  >
+                    <span
+                      class="ngb-tooltip-class"
+                      ngbtooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+                    >
+                      UTC
+                    </span>
+                  </div>
+                </div>
+                <br />
+                <div
+                  class="row text-center"
+                >
+                  <div
+                    class="col-md-2 text-md-right font-bold"
+                  >
+                     Course Name 
+                  </div>
+                  <div
+                    class="col-md-10 text-md-left"
+                    id="course-name"
+                  >
+                  </div>
+                </div>
+                <br />
+                <div
+                  class="row text-center"
+                >
+                  <div
+                    class="col-md-2 text-md-right font-bold"
+                  >
+                    <span
+                      class="ngb-tooltip-class"
+                      ngbtooltip="Enter the name of the feedback session e.g. Feedback Session 1."
+                    >
+                      Session Name
+                    </span>
+                  </div>
+                  <div
+                    class="col-md-10 text-md-left"
+                  >
+                    <div>
+                      <input
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        id="add-session-name"
+                        maxlength="64"
+                        placeholder="e.g. Feedback for Project Presentation 1"
+                        type="text"
+                      />
+                      <div>
+                         64 characters left 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div
+                  class="row text-center"
+                >
+                  <div
+                    class="col-md-2 text-md-right font-bold"
+                  >
+                    <span
+                      class="ngb-tooltip-class"
+                      ngbtooltip="Will be displayed at the top of the page when users respond to the session."
+                    >
+                      Instructions
+                    </span>
+                  </div>
+                  <div
+                    class="col-md-10 text-md-left"
+                  >
+                    <tm-rich-text-editor
+                      id="instructions"
+                    >
+                      <div
+                        inviewport=""
+                      >
+                      </div>
+                    </tm-rich-text-editor>
+                  </div>
+                </div>
+                <br />
+              </div>
+            </div>
+            <div
+              class="card border-primary margin-top-20px"
+            >
+              <div
+                class="card-body"
+              >
+                <div
+                  class="row text-center"
+                >
+                  <div
+                    class="col-md-4"
+                  >
+                    <div
+                      class="col-12 text-md-left"
+                    >
+                      <div>
+                        <label
+                          class="ngb-tooltip-class label-control font-bold"
+                          ngbtooltip="Users can start submitting responses."
+                        >
+                           Submission opening time 
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="row text-center align-items-center"
+                    >
+                      <div
+                        class="col-md-7 col-xs-center"
+                        id="submission-start-date"
+                      >
+                        <tm-datepicker>
+                          <div
+                            class="input-group"
+                          >
+                            <input
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              ngbdatepicker=""
+                              readonly=""
+                              type="text"
+                            />
+                            <div
+                              class="input-group-append"
+                            >
+                              <button
+                                class="btn btn-light"
+                                type="button"
+                              >
+                                <i
+                                  class="fas fa-calendar-alt"
+                                />
+                              </button>
+                            </div>
+                          </div>
+                        </tm-datepicker>
+                      </div>
+                      <div
+                        class="col-md-5"
+                      >
+                        <tm-timepicker
+                          id="submission-start-time"
+                        >
+                          <select
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="1: Object"
+                            >
+                               01:00H 
+                            </option>
+                            <option
+                              value="2: Object"
+                            >
+                               02:00H 
+                            </option>
+                            <option
+                              value="3: Object"
+                            >
+                               03:00H 
+                            </option>
+                            <option
+                              value="4: Object"
+                            >
+                               04:00H 
+                            </option>
+                            <option
+                              value="5: Object"
+                            >
+                               05:00H 
+                            </option>
+                            <option
+                              value="6: Object"
+                            >
+                               06:00H 
+                            </option>
+                            <option
+                              value="7: Object"
+                            >
+                               07:00H 
+                            </option>
+                            <option
+                              value="8: Object"
+                            >
+                               08:00H 
+                            </option>
+                            <option
+                              value="9: Object"
+                            >
+                               09:00H 
+                            </option>
+                            <option
+                              value="10: Object"
+                            >
+                               10:00H 
+                            </option>
+                            <option
+                              value="11: Object"
+                            >
+                               11:00H 
+                            </option>
+                            <option
+                              value="12: Object"
+                            >
+                               12:00H 
+                            </option>
+                            <option
+                              value="13: Object"
+                            >
+                               13:00H 
+                            </option>
+                            <option
+                              value="14: Object"
+                            >
+                               14:00H 
+                            </option>
+                            <option
+                              value="15: Object"
+                            >
+                               15:00H 
+                            </option>
+                            <option
+                              value="16: Object"
+                            >
+                               16:00H 
+                            </option>
+                            <option
+                              value="17: Object"
+                            >
+                               17:00H 
+                            </option>
+                            <option
+                              value="18: Object"
+                            >
+                               18:00H 
+                            </option>
+                            <option
+                              value="19: Object"
+                            >
+                               19:00H 
+                            </option>
+                            <option
+                              value="20: Object"
+                            >
+                               20:00H 
+                            </option>
+                            <option
+                              value="21: Object"
+                            >
+                               21:00H 
+                            </option>
+                            <option
+                              value="22: Object"
+                            >
+                               22:00H 
+                            </option>
+                            <option
+                              value="23: Object"
+                            >
+                               23:00H 
+                            </option>
+                            <option
+                              value="0: Object"
+                            >
+                              23:59H
+                            </option>
+                          </select>
+                        </tm-timepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-4 border-left-gray"
+                  >
+                    <div
+                      class="row text-center"
+                    >
+                      <div
+                        class="col-12 text-md-left ml-md-2"
+                      >
+                        <label
+                          class="ngb-tooltip-class label-control font-bold"
+                          ngbtooltip="No more submissions from users."
+                        >
+                           Submission closing time 
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="row align-items-center"
+                    >
+                      <div
+                        class="col-md-7 col-xs-center"
+                        id="submission-end-date"
+                      >
+                        <tm-datepicker>
+                          <div
+                            class="input-group"
+                          >
+                            <input
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              ngbdatepicker=""
+                              readonly=""
+                              type="text"
+                            />
+                            <div
+                              class="input-group-append"
+                            >
+                              <button
+                                class="btn btn-light"
+                                type="button"
+                              >
+                                <i
+                                  class="fas fa-calendar-alt"
+                                />
+                              </button>
+                            </div>
+                          </div>
+                        </tm-datepicker>
+                      </div>
+                      <div
+                        class="col-md-5"
+                      >
+                        <tm-timepicker
+                          id="submission-end-time"
+                        >
+                          <select
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="1: Object"
+                            >
+                               01:00H 
+                            </option>
+                            <option
+                              value="2: Object"
+                            >
+                               02:00H 
+                            </option>
+                            <option
+                              value="3: Object"
+                            >
+                               03:00H 
+                            </option>
+                            <option
+                              value="4: Object"
+                            >
+                               04:00H 
+                            </option>
+                            <option
+                              value="5: Object"
+                            >
+                               05:00H 
+                            </option>
+                            <option
+                              value="6: Object"
+                            >
+                               06:00H 
+                            </option>
+                            <option
+                              value="7: Object"
+                            >
+                               07:00H 
+                            </option>
+                            <option
+                              value="8: Object"
+                            >
+                               08:00H 
+                            </option>
+                            <option
+                              value="9: Object"
+                            >
+                               09:00H 
+                            </option>
+                            <option
+                              value="10: Object"
+                            >
+                               10:00H 
+                            </option>
+                            <option
+                              value="11: Object"
+                            >
+                               11:00H 
+                            </option>
+                            <option
+                              value="12: Object"
+                            >
+                               12:00H 
+                            </option>
+                            <option
+                              value="13: Object"
+                            >
+                               13:00H 
+                            </option>
+                            <option
+                              value="14: Object"
+                            >
+                               14:00H 
+                            </option>
+                            <option
+                              value="15: Object"
+                            >
+                               15:00H 
+                            </option>
+                            <option
+                              value="16: Object"
+                            >
+                               16:00H 
+                            </option>
+                            <option
+                              value="17: Object"
+                            >
+                               17:00H 
+                            </option>
+                            <option
+                              value="18: Object"
+                            >
+                               18:00H 
+                            </option>
+                            <option
+                              value="19: Object"
+                            >
+                               19:00H 
+                            </option>
+                            <option
+                              value="20: Object"
+                            >
+                               20:00H 
+                            </option>
+                            <option
+                              value="21: Object"
+                            >
+                               21:00H 
+                            </option>
+                            <option
+                              value="22: Object"
+                            >
+                               22:00H 
+                            </option>
+                            <option
+                              value="23: Object"
+                            >
+                               23:00H 
+                            </option>
+                            <option
+                              value="0: Object"
+                            >
+                              23:59H
+                            </option>
+                          </select>
+                        </tm-timepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-4 border-left-gray"
+                  >
+                    <div
+                      class="row text-center"
+                    >
+                      <div
+                        class="ngb-tooltip-class col-12 text-md-left ml-md-2"
+                        ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
+                      >
+                        <label
+                          class="control-label font-bold"
+                        >
+                           Grace period 
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="row text-center"
+                    >
+                      <div
+                        class="col-12"
+                      >
+                        <select
+                          class="form-control ng-untouched ng-pristine ng-valid"
+                          id="grace-period"
+                        >
+                          <option
+                            value="0: 0"
+                          >
+                            0 min
+                          </option>
+                          <option
+                            value="1: 5"
+                          >
+                            5 min
+                          </option>
+                          <option
+                            value="2: 10"
+                          >
+                            10 min
+                          </option>
+                          <option
+                            value="3: 15"
+                          >
+                            15 min
+                          </option>
+                          <option
+                            value="4: 20"
+                          >
+                            20 min
+                          </option>
+                          <option
+                            value="5: 25"
+                          >
+                            25 min
+                          </option>
+                          <option
+                            value="6: 30"
+                          >
+                            30 min
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      class="row"
+                    >
+                      <a
+                        class="pl-3 pt-2 disabled-link ngb-tooltip-class"
+                        ngbtooltip="You must save the new session before setting individual deadline extensions"
+                      >
+                         Individual Deadline Extensions 
+                        <i
+                          class="fas fa-edit"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="margin-top-20px"
+            >
+              <span
+                class="text-muted"
+              >
+                Session is visible at submission opening time, responses are only visible when you publish the results.
+              </span>
+              <button
+                class="btn btn-link"
+                id="btn-change-visibility"
+                type="button"
+              >
+                [Change]
+              </button>
+            </div>
+            <div>
+              <span
+                class="text-muted"
+              >
+                Emails are sent when session opens (within 15 minutes), 24 hrs before session closes and when results are published.
+              </span>
+              <button
+                class="btn btn-link"
+                id="btn-change-email"
+                type="button"
+              >
+                [Change]
+              </button>
+            </div>
+            <div
+              class="row margin-top-20px"
+            >
+              <div
+                class="col-12 text-center"
+              >
+                <span
+                  class="loader"
+                />
+                <div>
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="btn-create-session"
+                    type="button"
+                  >
+                    Create Feedback Session 
+                  </button>
+                  <p
+                    class="text-danger margin-top-20px"
+                  >
+                    <b>
+                      You need to have an active(unarchived) course to create a session!
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tm-session-edit-form>
+    </div>
+  </div><tm-loading-retry>
+    <div
+      class="margin-top-30px"
+    >
+      <div>
+        <tm-loading-spinner>
+          <div
+            class="loading-container"
+          >
+            <div
+              class="row spinner-border text-primary"
+              role="status"
+            />
+            <div
+              class="row text-secondary"
+            >
+              Loading...
+            </div>
+          </div>
+        </tm-loading-spinner>
+      </div>
+    </div>
+    <br />
+    <div
+      class="row"
+    >
+      <div
+        class="col-12 text-muted"
+      >
+        <p>
+           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+        </p>
+      </div>
+    </div>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-sessions-page>
+`;
+
+exports[`InstructorSessionsPageComponent should snap when recycle bin section is expanded 1`] = `
+<tm-instructor-sessions-page
+  SessionEditFormMode={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
+  courseCandidates={[Function Array]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCourseLoadingFailed="false"
+  hasFeedbackSessionLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  isCopyOtherSessionLoading="false"
+  isCopySessionLoading="false"
+  isCoursesLoading={[Function Boolean]}
+  isFeedbackSessionsLoading={[Function Boolean]}
+  isMoveToRecycleBinLoading="false"
+  isPermanentDeleteLoading="false"
+  isRecycleBinExpanded={[Function Boolean]}
+  isRecycleBinLoading={[Function Boolean]}
+  isRestoreFeedbackSessionLoading="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
+  isSessionEditFormExpanded="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  recycleBinFeedbackSessionRowModels={[Function Array]}
+  recycleBinFeedbackSessionRowModelsSortBy="0"
+  recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
+  route={[Function ActivatedRoute]}
+  sessionEditFormModel={[Function Object]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  templateSessions={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <button
+      class="btn btn-success"
+      disabled=""
+      id="btn-add-session"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Feedback Session 
+    </button>
+  </div><tm-loading-retry>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+    <br />
+    <div
+      class="row"
+    >
+      <div
+        class="col-12 text-muted"
+      >
+        <p>
+           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+        </p>
+      </div>
+    </div>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-sessions-page>
+`;
+
+exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = `
+<tm-instructor-sessions-page
+  SessionEditFormMode={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
+  courseCandidates={[Function Array]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCourseLoadingFailed="false"
+  hasFeedbackSessionLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  isCopyOtherSessionLoading="false"
+  isCopySessionLoading="false"
+  isCoursesLoading={[Function Boolean]}
+  isFeedbackSessionsLoading="false"
+  isMoveToRecycleBinLoading="false"
+  isPermanentDeleteLoading="false"
+  isRecycleBinExpanded="false"
+  isRecycleBinLoading={[Function Boolean]}
+  isRestoreFeedbackSessionLoading="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
+  isSessionEditFormExpanded="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  recycleBinFeedbackSessionRowModels={[Function Array]}
+  recycleBinFeedbackSessionRowModelsSortBy="0"
+  recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
+  route={[Function ActivatedRoute]}
+  sessionEditFormModel={[Function Object]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  templateSessions={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <button
+      class="btn btn-success"
+      disabled=""
+      id="btn-add-session"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Feedback Session 
+    </button>
+  </div><tm-loading-retry>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+    <br />
+    <div
+      class="row"
+    >
+      <div
+        class="col-12 text-muted"
+      >
+        <p>
+           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+        </p>
+      </div>
+    </div>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-sessions-page>
+`;
+
+exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
+<tm-instructor-sessions-page
+  SessionEditFormMode={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
+  courseCandidates={[Function Array]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCourseLoadingFailed="false"
+  hasFeedbackSessionLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  isCopyOtherSessionLoading="false"
+  isCopySessionLoading="false"
+  isCoursesLoading={[Function Boolean]}
+  isFeedbackSessionsLoading={[Function Boolean]}
+  isMoveToRecycleBinLoading="false"
+  isPermanentDeleteLoading="false"
+  isRecycleBinExpanded="false"
+  isRecycleBinLoading={[Function Boolean]}
+  isRestoreFeedbackSessionLoading="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
+  isSessionEditFormExpanded="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  recycleBinFeedbackSessionRowModels={[Function Array]}
+  recycleBinFeedbackSessionRowModelsSortBy="0"
+  recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
+  route={[Function ActivatedRoute]}
+  sessionEditFormModel={[Function Object]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  templateSessions={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div>
+    <button
+      class="btn btn-success"
+      disabled=""
+      id="btn-add-session"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Feedback Session 
+    </button>
+  </div><tm-loading-retry>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+    <br />
+    <div
+      class="row"
+    >
+      <div
+        class="col-12 text-muted"
+      >
+        <p>
+           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+        </p>
+      </div>
+    </div>
+    <div
+      class="margin-top-30px"
+    >
+      <tm-loading-spinner>
+        <div
+          class="loading-container"
+        >
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
+        </div>
+      </tm-loading-spinner>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-sessions-page>
+`;

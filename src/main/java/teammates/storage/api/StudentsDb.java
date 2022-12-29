@@ -160,9 +160,9 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         assert courseId != null;
 
         CourseStudent student = load()
-                .filter("courseId =", courseId)
-                .filter("googleId =", googleId)
-                .first().now();
+                    .filter("courseId =", courseId)
+                    .filter("googleId =", googleId)
+                    .first().now();
 
         return makeAttributesOrNull(student);
     }

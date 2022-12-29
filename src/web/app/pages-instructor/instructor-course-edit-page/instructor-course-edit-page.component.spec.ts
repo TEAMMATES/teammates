@@ -7,14 +7,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+import {
+  CopyInstructorsFromOtherCoursesModalComponent,
+} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
 import {
   CustomPrivilegeSettingPanelComponent,
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
@@ -88,6 +95,7 @@ describe('InstructorCourseEditPageComponent', () => {
   let fixture: ComponentFixture<InstructorCourseEditPageComponent>;
   let courseService: CourseService;
   let instructorService: InstructorService;
+  let simpleModalService: SimpleModalService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -96,6 +104,8 @@ describe('InstructorCourseEditPageComponent', () => {
         InstructorEditPanelComponent,
         ViewRolePrivilegesModalComponent,
         CustomPrivilegeSettingPanelComponent,
+        CopyInstructorsFromOtherCoursesModalComponent,
+        CourseEditFormComponent,
       ],
       imports: [
         NgbModule,
@@ -109,6 +119,7 @@ describe('InstructorCourseEditPageComponent', () => {
         TeammatesRouterModule,
         SimpleModalModule,
         BrowserAnimationsModule,
+        PanelChevronModule,
       ],
     })
     .compileComponents();
@@ -119,6 +130,7 @@ describe('InstructorCourseEditPageComponent', () => {
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
     instructorService = TestBed.inject(InstructorService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     fixture.detectChanges();
   });
 
@@ -131,38 +143,38 @@ describe('InstructorCourseEditPageComponent', () => {
 
     component.loadCourseInfo();
 
-    expect(component.course.courseId).toBe('exampleId');
-    expect(component.course.courseName).toBe('Example Course');
-    expect(component.course.timeZone).toBe('UTC (UTC)');
-    expect(component.course.creationTimestamp).toBe(0);
-    expect(component.course.deletionTimestamp).toBe(1000);
+    expect(component.courseFormModel.course.courseId).toBe('exampleId');
+    expect(component.courseFormModel.course.courseName).toBe('Example Course');
+    expect(component.courseFormModel.course.timeZone).toBe('UTC (UTC)');
+    expect(component.courseFormModel.course.creationTimestamp).toBe(0);
+    expect(component.courseFormModel.course.deletionTimestamp).toBe(1000);
     expect(component.hasCourseLoadingFailed).toBeFalsy();
   });
 
   it('should not change course details if CANCEL is requested', () => {
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
-    component.originalCourse = { ...component.course };
+    component.courseFormModel.originalCourse = { ...component.courseFormModel.course };
     fixture.detectChanges();
 
-    component.isEditingCourse = true;
-    component.course.courseName = 'Example Course Changed';
+    component.courseFormModel.isEditing = true;
+    component.courseFormModel.course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-cancel-course');
     button.click();
 
-    expect(component.isEditingCourse).toBeFalsy();
-    expect(component.course.courseName).toBe('Example Course');
+    expect(component.courseFormModel.isEditing).toBeFalsy();
+    expect(component.courseFormModel.course.courseName).toBe('Example Course');
   });
 
   it('should update course details if SAVE is requested', () => {
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
     fixture.detectChanges();
 
-    component.isEditingCourse = true;
-    component.course.courseName = 'Example Course Changed';
+    component.courseFormModel.isEditing = true;
+    component.courseFormModel.course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
     jest.spyOn(courseService, 'updateCourse').mockReturnValue(of({
@@ -178,8 +190,8 @@ describe('InstructorCourseEditPageComponent', () => {
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
     button.click();
 
-    expect(component.isEditingCourse).toBeFalsy();
-    expect(component.course.courseName).toBe('Example Course Changed');
+    expect(component.courseFormModel.isEditing).toBeFalsy();
+    expect(component.courseFormModel.course.courseName).toBe('Example Course Changed');
   });
 
   it('should load correct instructors details for given API output', () => {
@@ -195,7 +207,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should not add instructor if CANCEL is requested', () => {
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
@@ -230,7 +242,7 @@ describe('InstructorCourseEditPageComponent', () => {
         name: params.requestBody.name,
       }));
 
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
     component.courseId = testCourse.courseId;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
@@ -261,10 +273,13 @@ describe('InstructorCourseEditPageComponent', () => {
     expect(component.newInstructorPanel).toEqual(emptyInstructorPanel);
   });
 
-  it('should re-order if instructor is deleted', () => {
+  it('should re-order if instructor is deleted', async () => {
     jest.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({}));
 
-    component.course = testCourse;
+    jest.spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef());
+
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
@@ -282,13 +297,10 @@ describe('InstructorCourseEditPageComponent', () => {
     component.deleteInstructor(0);
     fixture.detectChanges();
 
-    // using document instead of fixture as modal gets added into the dom outside the viewRef
-    const button: any = document.getElementsByClassName('modal-btn-ok').item(0);
-    button.click();
-    fixture.detectChanges();
-
-    expect(component.instructorDetailPanels.length).toBe(1);
-    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
+    await fixture.whenStable().then(() => {
+      expect(component.instructorDetailPanels.length).toBe(1);
+      expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
+    });
   });
 
   it('should re-send reminder email for new instructors', () => {
@@ -297,7 +309,10 @@ describe('InstructorCourseEditPageComponent', () => {
     }));
     jest.spyOn(courseService, 'remindInstructorForJoin').mockImplementation(mockReminderFunction);
 
-    component.course = testCourse;
+    jest.spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef());
+
+    component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
     component.instructorDetailPanels = [
       {
@@ -313,15 +328,11 @@ describe('InstructorCourseEditPageComponent', () => {
     ];
     fixture.detectChanges();
 
-    let button: any = fixture.debugElement.nativeElement
+    const button: any = fixture.debugElement.nativeElement
         .querySelector(`#btn-resend-invite-${component.instructorDetailPanels.length}`);
     button.click();
 
-    // using document instead of fixture as modal gets added into the dom outside the viewRef
-    button = document.getElementsByClassName('modal-btn-ok').item(0);
-    button.click();
-
-    expect(mockReminderFunction).toBeCalledWith(testCourse.courseId, testInstructor2.email);
+    expect(mockReminderFunction).toHaveBeenCalledWith(testCourse.courseId, testInstructor2.email);
   });
 
   it('should snap with default fields', () => {
@@ -329,7 +340,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap with course details', () => {
-    component.course = testCourse;
+    component.courseFormModel.course = testCourse;
 
     fixture.detectChanges();
 
@@ -337,7 +348,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap when editing course details', () => {
-    component.isEditingCourse = true;
+    component.courseFormModel.isEditing = true;
 
     fixture.detectChanges();
 

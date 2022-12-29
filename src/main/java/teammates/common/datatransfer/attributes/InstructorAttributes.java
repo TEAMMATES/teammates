@@ -4,8 +4,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Config;
@@ -18,7 +20,7 @@ import teammates.storage.entity.Instructor;
 /**
  * The data transfer class for Instructor entities.
  */
-public class InstructorAttributes extends EntityAttributes<Instructor> {
+public final class InstructorAttributes extends EntityAttributes<Instructor> {
 
     private String courseId;
     private String email;
@@ -356,6 +358,13 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Returns a list of sections this instructor has the specified privilege.
+     */
+    public Map<String, InstructorPermissionSet> getSectionsWithPrivilege(String privilegeName) {
+        return this.privileges.getSectionsWithPrivilege(privilegeName);
     }
 
     /**

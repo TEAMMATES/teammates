@@ -26,22 +26,22 @@
     <ol>
       <li>
         <b>Create a course</b><br>
-        From the <b>Home</b> page, click <button class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Add New Course</button>.<br>
+        From the <span class="ui-text">Home</span> page, click <button class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Add New Course</button>.<br>
         Fill out the following form. Hover your mouse over text to reveal tooltips which tell you what the element does.
         <tm-example-box>
-          <tm-add-course-form [isEnabled]="false"></tm-add-course-form>
+          <tm-course-edit-form [formMode]="CourseEditFormMode.ADD" [isDisplayOnly]="true"></tm-course-edit-form>
         </tm-example-box>
       </li>
       <li>
         <b><a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_STUDENTS, section: Sections.courses}">Enroll students in the course</a></b><br>
-        Go to the <b>Courses</b> page and click the <button class="btn btn-light btn-sm">Enroll</button> button of the corresponding course.<br>
+        Go to the <span class="ui-text">Courses</span> page and click the <button class="btn btn-light btn-sm">Enroll</button> button of the corresponding course.<br>
         Students can be enrolled into teams (e.g., project groups) and sections (e.g., tutorial classes, lecture groups) to facilitate giving feedback in and among these smaller groups.<br>
         TEAMMATES will <b>not</b> automatically notify students that they have been enrolled, as there is nothing for students to do in TEAMMATES until a session opens for submissions.<br>
         TEAMMATES will send an email with access instructions to students only when there is an action for them to perform e.g., when a session opens for submissions.
       </li>
       <li>
         <b><a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">Add instructors to the course</a></b><br>
-        From the <b>Courses</b> page, click the <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button of the course you would like to add instructors to, and select <b>Edit</b> in the drop-down menu. You will be directed to the <b>Edit Course</b> page where you can add a new instructor to your course.
+        From the <span class="ui-text">Courses</span> page, click the <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button of the course you would like to add instructors to, and select <span class="ui-text">Edit</span> in the drop-down menu. You will be directed to the <span class="ui-text">Edit Course</span> page where you can add a new instructor to your course.
         You can specify the <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}">access level</a> of any instructor you add to a course. For more information about how to add an instructor to your course, click <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">here</a>.
       </li>
     </ol>
@@ -60,7 +60,7 @@
     <ol>
       <li>
         <b>Create a session</b><br>
-        Go to the <b>Sessions</b> page and create a session. Choose among:
+        Go to the <span class="ui-text">Sessions</span> page and create a session. Choose among:
       </li>
       <ul>
         <li>Session with my own questions</li>
@@ -125,7 +125,7 @@
       </li>
     </ul>
     <p>
-      You can manually send reminders to students at any time while a session is open. Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button of the session from the <b>Home</b> or <b>Sessions</b> page.<br>
+      You can manually send reminders to students at any time while a session is open. Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button of the session from the <span class="ui-text">Home</span> or <span class="ui-text">Sessions</span> page.<br>
       In addition, you are welcome to (but not required to) use your own email announcements (outside of TEAMMATES) to inform students to look out for these TEAMMATES emails.
     </p>
     <p>
@@ -139,7 +139,7 @@
     </p>
     <ol>
       <li>
-        In the <b>Courses</b> page, click the <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button of the course, and select <b>View</b> in the drop-down menu.
+        In the <span class="ui-text">Courses</span> page, click the <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button of the course, and select <span class="ui-text">View</span> in the drop-down menu.
       </li>
       <li>
         Then, click the <button class="btn btn-sm btn-primary"><i class="fa fa-envelope"></i> Remind Students to Join</button> button, which will send them instructions to 'join' TEAMMATES immediately.
@@ -164,7 +164,7 @@
     </p>
     <ul>
       <li>
-        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_VIEW_RESULTS, section: Sections.sessions}">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_VIEW_RESULTS, section: Sections.sessions}">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <span class="ui-text">Sessions</span> page and click the corresponding <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button.
       </li>
       <li>
         <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.MODERATE_RESPONSE, section: Sections.sessions}">Moderate responses</a>: edit inappropriate responses from respondents before publishing the responses.
@@ -173,7 +173,7 @@
         <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_ADD_COMMENTS, section: Sections.sessions}">Add comments to responses</a>: reply to respondents' answers, or add your own notes on a response. You can make your comment visible to other instructors, the response giver, and/or the response giver's team.
       </li>
       <li>
-        Remind students to submit responses: TEAMMATES automatically sends reminders to students; however, you can also manually send reminder emails to students at any time while a session is open. Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button of the session from the <b>Home</b> or <b>Sessions</b> page.
+        Remind students to submit responses: TEAMMATES automatically sends reminders to students; however, you can also manually send reminder emails to students at any time while a session is open. Use the <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button of the session from the <span class="ui-text">Home</span> or <span class="ui-text">Sessions</span> page.
       </li>
       <li>
         <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SUBMIT_FOR_STUDENT, section: Sections.sessions}">Submit responses for students</a>: if a student has missed the closing time of the session, or is unable to submit the evaluation due to technical problems, you can submit the student's responses on his/her behalf.
@@ -185,7 +185,7 @@
     </p>
     <ul>
       <li>
-        Publish results: make a session's results visible to students. Click the corresponding <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button on the <b>Sessions</b> page, then select <b>Publish Results</b>. Students will not be able to view the session's results until you publish them.
+        Publish results: make a session's results visible to students. Click the corresponding <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button on the <span class="ui-text">Sessions</span> page, then select <span class="ui-text">Publish Results</span>. Students will not be able to view the session's results until you publish them.
       </li>
       <li>
         Download results of a session in spreadsheet format: first view the course-wide results of a session, then click <button class="btn btn-sm btn-primary"><i class="fas fa-file-download"></i> Download Results</button> to download the results of a session as a CSV file.

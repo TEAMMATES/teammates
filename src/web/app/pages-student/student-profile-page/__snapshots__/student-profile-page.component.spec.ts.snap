@@ -3,6 +3,7 @@
 exports[`StudentProfilePageComponent should snap when student profile is still loading 1`] = `
 <tm-student-profile-page
   Gender={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
@@ -39,6 +40,7 @@ exports[`StudentProfilePageComponent should snap when student profile is still l
 exports[`StudentProfilePageComponent should snap with a student field without information 1`] = `
 <tm-student-profile-page
   Gender={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
@@ -252,6 +254,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
 exports[`StudentProfilePageComponent should snap with default fields 1`] = `
 <tm-student-profile-page
   Gender={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
@@ -288,6 +291,7 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
 exports[`StudentProfilePageComponent should snap with values and a profile photo 1`] = `
 <tm-student-profile-page
   Gender={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}

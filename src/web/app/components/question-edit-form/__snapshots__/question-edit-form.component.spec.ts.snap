@@ -8,6 +8,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   NumberOfEntitiesToGiveFeedbackToSetting={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   VisibilityControl={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allowedFeedbackPaths={[Function Map]}
   commonFeedbackPaths={[Function Map]}
   commonFeedbackVisibilitySettings={[Function Array]}
@@ -237,7 +238,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             >
               <button
                 aria-expanded="false"
-                class="btn btn-light white-space-normal dropdown-toggle"
+                class="dropdown-toggle btn btn-light white-space-normal"
                 disabled=""
                 id="btn-feedback-path"
                 ngbdropdowntoggle=""
@@ -351,7 +352,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             >
               <button
                 aria-expanded="false"
-                class="btn btn-light white-space-normal dropdown-toggle"
+                class="dropdown-toggle btn btn-light white-space-normal"
                 disabled=""
                 id="btn-question-visibility"
                 ngbdropdowntoggle=""

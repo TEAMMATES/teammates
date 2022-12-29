@@ -1,0 +1,520 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is false 1`] = `
+<tm-mcq-question-edit-details-form
+  PARTICIPANT_TYPES={[Function Array]}
+  __ngContext__={[Function LRootView]}
+  detailsChange={[Function EventEmitter_]}
+  isEditable={[Function Boolean]}
+  model={[Function Object]}
+  storageModel={[Function Object]}
+>
+  <div
+    class="row"
+  >
+    <br />
+    <div
+      class="col-sm-12"
+    >
+      <div
+        class="form-check"
+      >
+        <label
+          class="bold-label"
+        >
+          <input
+            checked="model.questionDropdownEnabled"
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="make-question-dropdown"
+            type="checkbox"
+          />
+          <b>
+            Show options as a drop-down
+          </b>
+        </label>
+      </div>
+    </div>
+    <div
+      class="col-sm-12"
+    >
+      <div
+        class="form-check"
+      >
+        <label
+          class="form-check-label"
+          container="body"
+          ngbtooltip="Assign weights to the choices for calculating statistics."
+        >
+          <input
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="weights-checkbox"
+            type="checkbox"
+          />
+          <b>
+            Options are weighted
+          </b>
+        </label>
+      </div>
+    </div>
+    <br />
+    <div
+      class="row col-sm-12 row-cols-2 mt-4"
+    >
+      <div
+        class="col-sm-6"
+      >
+        <div>
+          <div
+            cdkdroplist=""
+            class="cdk-drop-list"
+            id="options-section"
+          >
+            <br />
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-sm-6"
+            >
+              <button
+                class="btn btn-primary"
+                id="btn-add-option"
+                name="button"
+                ngdefaultcontrol=""
+              >
+                <i
+                  class="fas fa-plus"
+                />
+                 add more options 
+              </button>
+            </div>
+          </div>
+          <br />
+          <div
+            class="row"
+          >
+            <div
+              class="checkbox col-sm-9 padding-left-35px"
+            >
+              <label
+                class="bold-label"
+              >
+                <input
+                  class="form-check-input ng-untouched ng-pristine ng-valid"
+                  id="other-checkbox"
+                  type="checkbox"
+                />
+                 Add 'Other' option (Allows respondents to type in their own answer) 
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-sm-6"
+      >
+        <label
+          class="form-check-label mb-2"
+        >
+          <input
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="generate-checkbox"
+            type="checkbox"
+          />
+          <b>
+            Or, generate options from the list of all
+          </b>
+        </label>
+        <select
+          class="form-control ng-untouched ng-pristine"
+          disabled=""
+          id="generate-dropdown"
+        >
+          <option
+            value="STUDENTS"
+          >
+            students
+          </option>
+          <option
+            value="STUDENTS_EXCLUDING_SELF"
+          >
+            students (excluding self)
+          </option>
+          <option
+            value="TEAMS"
+          >
+            teams
+          </option>
+          <option
+            value="TEAMS_EXCLUDING_SELF"
+          >
+            teams (excluding own team)
+          </option>
+          <option
+            value="OWN_TEAM_MEMBERS_INCLUDING_SELF"
+          >
+            team members
+          </option>
+          <option
+            value="OWN_TEAM_MEMBERS"
+          >
+            team members (excluding self)
+          </option>
+          <option
+            value="INSTRUCTORS"
+          >
+            instructors
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</tm-mcq-question-edit-details-form>
+`;
+
+exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is true 1`] = `
+<tm-mcq-question-edit-details-form
+  PARTICIPANT_TYPES={[Function Array]}
+  __ngContext__={[Function LRootView]}
+  detailsChange={[Function EventEmitter_]}
+  isEditable={[Function Boolean]}
+  model={[Function Object]}
+  storageModel={[Function Object]}
+>
+  <div
+    class="row"
+  >
+    <br />
+    <div
+      class="col-sm-12"
+    >
+      <div
+        class="form-check"
+      >
+        <label
+          class="bold-label"
+        >
+          <input
+            checked="model.questionDropdownEnabled"
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="make-question-dropdown"
+            type="checkbox"
+          />
+          <b>
+            Show options as a drop-down
+          </b>
+        </label>
+      </div>
+    </div>
+    <div
+      class="col-sm-12"
+    >
+      <div
+        class="form-check"
+      >
+        <label
+          class="form-check-label"
+          container="body"
+          ngbtooltip="Assign weights to the choices for calculating statistics."
+        >
+          <input
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="weights-checkbox"
+            type="checkbox"
+          />
+          <b>
+            Options are weighted
+          </b>
+        </label>
+      </div>
+    </div>
+    <br />
+    <div
+      class="row col-sm-12 row-cols-2 mt-4"
+    >
+      <div
+        class="col-sm-6"
+      >
+        <div>
+          <div
+            cdkdroplist=""
+            class="cdk-drop-list"
+            id="options-section"
+          >
+            <br />
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-sm-6"
+            >
+              <button
+                class="btn btn-primary"
+                id="btn-add-option"
+                name="button"
+                ngdefaultcontrol=""
+              >
+                <i
+                  class="fas fa-plus"
+                />
+                 add more options 
+              </button>
+            </div>
+          </div>
+          <br />
+          <div
+            class="row"
+          >
+            <div
+              class="checkbox col-sm-9 padding-left-35px"
+            >
+              <label
+                class="bold-label"
+              >
+                <input
+                  class="form-check-input ng-untouched ng-pristine ng-valid"
+                  id="other-checkbox"
+                  type="checkbox"
+                />
+                 Add 'Other' option (Allows respondents to type in their own answer) 
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-sm-6"
+      >
+        <label
+          class="form-check-label mb-2"
+        >
+          <input
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="generate-checkbox"
+            type="checkbox"
+          />
+          <b>
+            Or, generate options from the list of all
+          </b>
+        </label>
+        <select
+          class="form-control ng-untouched ng-pristine"
+          disabled=""
+          id="generate-dropdown"
+        >
+          <option
+            value="STUDENTS"
+          >
+            students
+          </option>
+          <option
+            value="STUDENTS_EXCLUDING_SELF"
+          >
+            students (excluding self)
+          </option>
+          <option
+            value="TEAMS"
+          >
+            teams
+          </option>
+          <option
+            value="TEAMS_EXCLUDING_SELF"
+          >
+            teams (excluding own team)
+          </option>
+          <option
+            value="OWN_TEAM_MEMBERS_INCLUDING_SELF"
+          >
+            team members
+          </option>
+          <option
+            value="OWN_TEAM_MEMBERS"
+          >
+            team members (excluding self)
+          </option>
+          <option
+            value="INSTRUCTORS"
+          >
+            instructors
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</tm-mcq-question-edit-details-form>
+`;
+
+exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. Question options are radio buttons 1`] = `
+<tm-mcq-question-edit-details-form
+  PARTICIPANT_TYPES={[Function Array]}
+  __ngContext__={[Function LRootView]}
+  detailsChange={[Function EventEmitter_]}
+  isEditable={[Function Boolean]}
+  model={[Function Object]}
+  storageModel={[Function Object]}
+>
+  <div
+    class="row"
+  >
+    <br />
+    <div
+      class="col-sm-12"
+    >
+      <div
+        class="form-check"
+      >
+        <label
+          class="bold-label"
+        >
+          <input
+            checked="model.questionDropdownEnabled"
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="make-question-dropdown"
+            type="checkbox"
+          />
+          <b>
+            Show options as a drop-down
+          </b>
+        </label>
+      </div>
+    </div>
+    <div
+      class="col-sm-12"
+    >
+      <div
+        class="form-check"
+      >
+        <label
+          class="form-check-label"
+          container="body"
+          ngbtooltip="Assign weights to the choices for calculating statistics."
+        >
+          <input
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="weights-checkbox"
+            type="checkbox"
+          />
+          <b>
+            Options are weighted
+          </b>
+        </label>
+      </div>
+    </div>
+    <br />
+    <div
+      class="row col-sm-12 row-cols-2 mt-4"
+    >
+      <div
+        class="col-sm-6"
+      >
+        <div>
+          <div
+            cdkdroplist=""
+            class="cdk-drop-list"
+            id="options-section"
+          >
+            <br />
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-sm-6"
+            >
+              <button
+                class="btn btn-primary"
+                id="btn-add-option"
+                name="button"
+                ngdefaultcontrol=""
+              >
+                <i
+                  class="fas fa-plus"
+                />
+                 add more options 
+              </button>
+            </div>
+          </div>
+          <br />
+          <div
+            class="row"
+          >
+            <div
+              class="checkbox col-sm-9 padding-left-35px"
+            >
+              <label
+                class="bold-label"
+              >
+                <input
+                  class="form-check-input ng-untouched ng-pristine ng-valid"
+                  id="other-checkbox"
+                  type="checkbox"
+                />
+                 Add 'Other' option (Allows respondents to type in their own answer) 
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-sm-6"
+      >
+        <label
+          class="form-check-label mb-2"
+        >
+          <input
+            class="form-check-input ng-untouched ng-pristine ng-valid"
+            id="generate-checkbox"
+            type="checkbox"
+          />
+          <b>
+            Or, generate options from the list of all
+          </b>
+        </label>
+        <select
+          class="form-control ng-untouched ng-pristine ng-valid"
+          disabled=""
+          id="generate-dropdown"
+        >
+          <option
+            value="STUDENTS"
+          >
+            students
+          </option>
+          <option
+            value="STUDENTS_EXCLUDING_SELF"
+          >
+            students (excluding self)
+          </option>
+          <option
+            value="TEAMS"
+          >
+            teams
+          </option>
+          <option
+            value="TEAMS_EXCLUDING_SELF"
+          >
+            teams (excluding own team)
+          </option>
+          <option
+            value="OWN_TEAM_MEMBERS_INCLUDING_SELF"
+          >
+            team members
+          </option>
+          <option
+            value="OWN_TEAM_MEMBERS"
+          >
+            team members (excluding self)
+          </option>
+          <option
+            value="INSTRUCTORS"
+          >
+            instructors
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</tm-mcq-question-edit-details-form>
+`;

@@ -2,9 +2,9 @@
 
 exports[`SessionSubmissionPageComponent should snap when feedback session questions have failed to load 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -30,8 +30,10 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -46,7 +48,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   regKey={[Function String]}
   retryAttempts="0"
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -91,7 +92,25 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -133,9 +152,9 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -161,8 +180,10 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -177,7 +198,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -222,7 +242,25 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -261,9 +299,9 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 
 exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -289,8 +327,10 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -305,7 +345,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -350,7 +389,25 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -389,9 +446,9 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 
 exports[`SessionSubmissionPageComponent should snap with feedback session and user details 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -417,8 +474,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -433,7 +492,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -479,7 +537,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -616,9 +692,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -644,8 +720,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -660,7 +738,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -705,7 +782,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -797,8 +892,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -848,16 +946,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -882,64 +986,69 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-mcq-question-edit-answer-form>
                       <tr>
                         <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                          <div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 1
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 2
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 3
-                              </span>
-                            </label>
+                                <input
+                                  class="margin-right-15px"
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 3
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </td>
                       </tr>
@@ -1034,8 +1143,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1087,16 +1199,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-text-question-instruction />
             <tm-text-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1121,7 +1239,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-text-question-edit-answer-form>
                       <div
@@ -1212,16 +1330,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1246,8 +1370,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1332,16 +1459,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-msq-question-constraint>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1366,7 +1499,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
                       <tr>
@@ -1504,7 +1637,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 4
+                  </span>
                 </button>
               </div>
             </div>
@@ -1520,8 +1655,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1573,16 +1711,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-num-scale-question-instruction />
             <tm-num-scale-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1607,7 +1751,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
@@ -1668,7 +1812,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 5
+                  </span>
                 </button>
               </div>
             </div>
@@ -1684,8 +1830,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1757,16 +1906,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-constsum-recipients-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1791,7 +1946,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-constsum-recipients-question-edit-answer-form>
                       <div>
@@ -1846,7 +2001,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 6
+                  </span>
                 </button>
               </div>
             </div>
@@ -1862,8 +2019,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1913,18 +2073,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <tm-contribution-question-instruction />
-            <tm-contribution-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <tm-contribution-question-instruction>
+            </tm-contribution-question-instruction>
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1949,14 +2115,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-contribution-question-edit-answer-form>
                       <div
                         class="row"
                       >
                         <div
-                          class="col-lg-3 col-sm-6 col-xs-12"
+                          class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                         >
                           <select
                             class="form-control color-negative ng-untouched ng-pristine ng-valid"
@@ -1965,130 +2131,130 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               value="0: -999"
                             />
                             <option
+                              class="color-positive font-weight-bold"
+                              value="1: 100"
+                            >
+                              Equal share
+                            </option>
+                            <option
                               class="color-positive"
-                              value="1: 200"
+                              value="2: 200"
                             >
                               Equal share + 100%
                             </option>
                             <option
                               class="color-positive"
-                              value="2: 195"
+                              value="3: 195"
                             >
                               Equal share + 95%
                             </option>
                             <option
                               class="color-positive"
-                              value="3: 190"
+                              value="4: 190"
                             >
                               Equal share + 90%
                             </option>
                             <option
                               class="color-positive"
-                              value="4: 185"
+                              value="5: 185"
                             >
                               Equal share + 85%
                             </option>
                             <option
                               class="color-positive"
-                              value="5: 180"
+                              value="6: 180"
                             >
                               Equal share + 80%
                             </option>
                             <option
                               class="color-positive"
-                              value="6: 175"
+                              value="7: 175"
                             >
                               Equal share + 75%
                             </option>
                             <option
                               class="color-positive"
-                              value="7: 170"
+                              value="8: 170"
                             >
                               Equal share + 70%
                             </option>
                             <option
                               class="color-positive"
-                              value="8: 165"
+                              value="9: 165"
                             >
                               Equal share + 65%
                             </option>
                             <option
                               class="color-positive"
-                              value="9: 160"
+                              value="10: 160"
                             >
                               Equal share + 60%
                             </option>
                             <option
                               class="color-positive"
-                              value="10: 155"
+                              value="11: 155"
                             >
                               Equal share + 55%
                             </option>
                             <option
                               class="color-positive"
-                              value="11: 150"
+                              value="12: 150"
                             >
                               Equal share + 50%
                             </option>
                             <option
                               class="color-positive"
-                              value="12: 145"
+                              value="13: 145"
                             >
                               Equal share + 45%
                             </option>
                             <option
                               class="color-positive"
-                              value="13: 140"
+                              value="14: 140"
                             >
                               Equal share + 40%
                             </option>
                             <option
                               class="color-positive"
-                              value="14: 135"
+                              value="15: 135"
                             >
                               Equal share + 35%
                             </option>
                             <option
                               class="color-positive"
-                              value="15: 130"
+                              value="16: 130"
                             >
                               Equal share + 30%
                             </option>
                             <option
                               class="color-positive"
-                              value="16: 125"
+                              value="17: 125"
                             >
                               Equal share + 25%
                             </option>
                             <option
                               class="color-positive"
-                              value="17: 120"
+                              value="18: 120"
                             >
                               Equal share + 20%
                             </option>
                             <option
                               class="color-positive"
-                              value="18: 115"
+                              value="19: 115"
                             >
                               Equal share + 15%
                             </option>
                             <option
                               class="color-positive"
-                              value="19: 110"
+                              value="20: 110"
                             >
                               Equal share + 10%
                             </option>
                             <option
                               class="color-positive"
-                              value="20: 105"
+                              value="21: 105"
                             >
                               Equal share + 5%
-                            </option>
-                            <option
-                              class="color-neutral"
-                              value="21: 100"
-                            >
-                              Equal share
                             </option>
                             <option
                               class="color-negative"
@@ -2213,7 +2379,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </select>
                         </div>
                         <div
-                          class="col-lg-9 col-sm-6 col-xs-12"
+                          class="col-lg-7 col-md-12 col-sm-6 col-xs-12"
                         >
                           <button
                             class="btn btn-link"
@@ -2238,6 +2404,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <div
               class="col-12 constraint-margins"
             >
+              <tm-contribution-question-constraint>
+              </tm-contribution-question-constraint>
             </div>
             <div
               class="row"
@@ -2251,7 +2419,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 7
+                  </span>
                 </button>
               </div>
             </div>
@@ -2267,8 +2437,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2318,16 +2491,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -2352,7 +2531,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
                       <table
@@ -2519,7 +2698,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 8
+                  </span>
                 </button>
               </div>
             </div>
@@ -2535,8 +2716,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2621,16 +2805,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-rank-options-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -2655,7 +2845,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
@@ -2745,7 +2935,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 9
+                  </span>
                 </button>
               </div>
             </div>
@@ -2761,8 +2953,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2847,16 +3042,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-rank-recipients-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -2881,7 +3082,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-recipients-question-edit-answer-form>
                       <div
@@ -2925,7 +3126,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 10
+                  </span>
                 </button>
               </div>
             </div>
@@ -2955,9 +3158,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms when disabled 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -2983,8 +3186,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -2999,7 +3204,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -3044,7 +3248,25 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><div
@@ -3136,8 +3358,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3187,16 +3412,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3221,67 +3452,72 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-mcq-question-edit-answer-form>
                       <tr>
                         <td>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                          <div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 1
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 1
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 2
-                              </span>
-                            </label>
-                          </div>
-                          <div
-                            class="radio"
-                          >
-                            <label
-                              class="margin-right-15px"
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 2
+                                </span>
+                              </label>
+                            </div>
+                            <div
+                              class="radio"
                             >
-                              <input
+                              <label
                                 class="margin-right-15px"
-                                disabled=""
-                                name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                type="radio"
-                              />
-                              <span
-                                class="option-text"
                               >
-                                choice 3
-                              </span>
-                            </label>
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                  type="radio"
+                                />
+                                <span
+                                  class="option-text"
+                                  id="radioOptionSpan"
+                                >
+                                  choice 3
+                                </span>
+                              </label>
+                            </div>
                           </div>
                         </td>
                       </tr>
@@ -3378,8 +3614,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3431,16 +3670,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-text-question-instruction />
             <tm-text-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3465,7 +3710,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-text-question-edit-answer-form>
                       <div
@@ -3556,16 +3801,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3590,8 +3841,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3676,16 +3930,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-msq-question-constraint>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3710,7 +3970,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
                       <tr>
@@ -3854,7 +4114,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 4
+                  </span>
                 </button>
               </div>
             </div>
@@ -3870,8 +4132,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3923,16 +4188,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-num-scale-question-instruction />
             <tm-num-scale-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3957,7 +4228,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
@@ -4019,7 +4290,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 5
+                  </span>
                 </button>
               </div>
             </div>
@@ -4035,8 +4308,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4108,16 +4384,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-constsum-recipients-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -4142,7 +4424,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-constsum-recipients-question-edit-answer-form>
                       <div>
@@ -4198,7 +4480,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 6
+                  </span>
                 </button>
               </div>
             </div>
@@ -4214,8 +4498,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4265,18 +4552,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <tm-contribution-question-instruction />
-            <tm-contribution-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <tm-contribution-question-instruction>
+            </tm-contribution-question-instruction>
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -4301,14 +4594,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-contribution-question-edit-answer-form>
                       <div
                         class="row"
                       >
                         <div
-                          class="col-lg-3 col-sm-6 col-xs-12"
+                          class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                         >
                           <select
                             class="form-control color-negative ng-untouched ng-pristine ng-valid"
@@ -4317,130 +4610,130 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               value="0: -999"
                             />
                             <option
+                              class="color-positive font-weight-bold"
+                              value="1: 100"
+                            >
+                              Equal share
+                            </option>
+                            <option
                               class="color-positive"
-                              value="1: 200"
+                              value="2: 200"
                             >
                               Equal share + 100%
                             </option>
                             <option
                               class="color-positive"
-                              value="2: 195"
+                              value="3: 195"
                             >
                               Equal share + 95%
                             </option>
                             <option
                               class="color-positive"
-                              value="3: 190"
+                              value="4: 190"
                             >
                               Equal share + 90%
                             </option>
                             <option
                               class="color-positive"
-                              value="4: 185"
+                              value="5: 185"
                             >
                               Equal share + 85%
                             </option>
                             <option
                               class="color-positive"
-                              value="5: 180"
+                              value="6: 180"
                             >
                               Equal share + 80%
                             </option>
                             <option
                               class="color-positive"
-                              value="6: 175"
+                              value="7: 175"
                             >
                               Equal share + 75%
                             </option>
                             <option
                               class="color-positive"
-                              value="7: 170"
+                              value="8: 170"
                             >
                               Equal share + 70%
                             </option>
                             <option
                               class="color-positive"
-                              value="8: 165"
+                              value="9: 165"
                             >
                               Equal share + 65%
                             </option>
                             <option
                               class="color-positive"
-                              value="9: 160"
+                              value="10: 160"
                             >
                               Equal share + 60%
                             </option>
                             <option
                               class="color-positive"
-                              value="10: 155"
+                              value="11: 155"
                             >
                               Equal share + 55%
                             </option>
                             <option
                               class="color-positive"
-                              value="11: 150"
+                              value="12: 150"
                             >
                               Equal share + 50%
                             </option>
                             <option
                               class="color-positive"
-                              value="12: 145"
+                              value="13: 145"
                             >
                               Equal share + 45%
                             </option>
                             <option
                               class="color-positive"
-                              value="13: 140"
+                              value="14: 140"
                             >
                               Equal share + 40%
                             </option>
                             <option
                               class="color-positive"
-                              value="14: 135"
+                              value="15: 135"
                             >
                               Equal share + 35%
                             </option>
                             <option
                               class="color-positive"
-                              value="15: 130"
+                              value="16: 130"
                             >
                               Equal share + 30%
                             </option>
                             <option
                               class="color-positive"
-                              value="16: 125"
+                              value="17: 125"
                             >
                               Equal share + 25%
                             </option>
                             <option
                               class="color-positive"
-                              value="17: 120"
+                              value="18: 120"
                             >
                               Equal share + 20%
                             </option>
                             <option
                               class="color-positive"
-                              value="18: 115"
+                              value="19: 115"
                             >
                               Equal share + 15%
                             </option>
                             <option
                               class="color-positive"
-                              value="19: 110"
+                              value="20: 110"
                             >
                               Equal share + 10%
                             </option>
                             <option
                               class="color-positive"
-                              value="20: 105"
+                              value="21: 105"
                             >
                               Equal share + 5%
-                            </option>
-                            <option
-                              class="color-neutral"
-                              value="21: 100"
-                            >
-                              Equal share
                             </option>
                             <option
                               class="color-negative"
@@ -4565,7 +4858,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           </select>
                         </div>
                         <div
-                          class="col-lg-9 col-sm-6 col-xs-12"
+                          class="col-lg-7 col-md-12 col-sm-6 col-xs-12"
                         >
                           <button
                             class="btn btn-link"
@@ -4590,6 +4883,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <div
               class="col-12 constraint-margins"
             >
+              <tm-contribution-question-constraint>
+              </tm-contribution-question-constraint>
             </div>
             <div
               class="row"
@@ -4604,7 +4899,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 7
+                  </span>
                 </button>
               </div>
             </div>
@@ -4620,8 +4917,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4671,16 +4971,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -4705,7 +5011,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
                       <table
@@ -4881,7 +5187,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 8
+                  </span>
                 </button>
               </div>
             </div>
@@ -4897,8 +5205,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4983,16 +5294,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-rank-options-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -5017,7 +5334,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
@@ -5108,7 +5425,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 9
+                  </span>
                 </button>
               </div>
             </div>
@@ -5124,8 +5443,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -5210,16 +5532,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-rank-recipients-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -5244,7 +5572,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     </div>
                   </div>
                   <div
-                    class="col margin-top-20px"
+                    class="margin-top-20px col"
                   >
                     <tm-rank-recipients-question-edit-answer-form>
                       <div
@@ -5289,7 +5617,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
-                  Submit Responses
+                  <span>
+                    Submit Response for Question 10
+                  </span>
                 </button>
               </div>
             </div>
@@ -5320,9 +5650,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with user that is logged in and using session link 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5348,8 +5678,10 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -5364,7 +5696,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -5410,7 +5741,25 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>
@@ -5449,9 +5798,9 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 
 exports[`SessionSubmissionPageComponent should snap with user that is not logged in and using session link 1`] = `
 <tm-session-submission-page
-  FIFTEEN_MINUTES={[Function Number]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5477,8 +5826,10 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
+  isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -5493,7 +5844,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -5539,7 +5889,25 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
         <i
           class="fas fa-exclamation-circle"
         />
-         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+         Notes: 
+        <ul>
+          <li>
+             You can use the 
+            <b>
+              Submit Response for Question _
+            </b>
+             buttons to submit one-response-at-a-time. 
+            <br />
+            Alternatively, you can submit all responses in one go using the 
+            <b>
+              Submit Responses for All Questions
+            </b>
+             button at the bottom of this page. 
+          </li>
+          <li>
+            You may edit your submission any number of times before the closing time of this session.
+          </li>
+        </ul>
       </div>
     </div>
   </div><tm-loading-spinner>

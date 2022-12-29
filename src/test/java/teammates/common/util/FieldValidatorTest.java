@@ -314,11 +314,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForGoogleId_untrimmedGmailDomain_throwException() {
-        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForGoogleId("abc@GMAIL.com"));
-    }
-
-    @Test
     public void testGetInvalidityInfoForGoogleId_valid_returnEmptyString() {
         String typicalId = "valid9.Goo-gle.id_";
         assertEquals("Valid Google ID (typical) should return empty string", "",
@@ -503,13 +498,13 @@ public class FieldValidatorTest extends BaseTestCase {
         String untrimmedCourseId = " $cs1101-sem1.2_ ";
         assertEquals("Invalid Course ID (untrimmed) should return appropriate error string",
                      FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
-                        "${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME),
+                        "${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForCourseId(untrimmedCourseId));
 
         String whitespaceOnlyCourseId = "    ";
         assertEquals("Invalid Course ID (whitespace only) should return appropriate error string",
                      FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
-                        "${fieldName}", FieldValidator.COURSE_NAME_FIELD_NAME),
+                        "${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME),
                      FieldValidator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId));
 
         String tooLongCourseId = StringHelperExtension.generateStringOfLength(

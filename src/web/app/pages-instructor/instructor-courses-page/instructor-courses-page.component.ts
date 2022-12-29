@@ -26,6 +26,11 @@ import { FeedbackSessionCreateRequest } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
+import {
+  CourseAddFormModel,
+  CourseEditFormMode,
+  DEFAULT_COURSE_ADD_FORM_MODEL,
+} from '../../components/course-edit-form/course-edit-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -54,6 +59,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   allCoursesList: Course[] = [];
   activeCoursesList: Course[] = [];
   courseStats: Record<string, Record<string, number>> = {};
+  courseFormModel: CourseAddFormModel = DEFAULT_COURSE_ADD_FORM_MODEL();
+  resetCourseForm: EventEmitter<void> = new EventEmitter();
 
   activeTableSortOrder: SortOrder = SortOrder.ASC;
   activeTableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
@@ -65,6 +72,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
+  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
   isLoading: boolean = false;
   hasLoadingFailed: boolean = false;
@@ -101,6 +109,11 @@ export class InstructorCoursesPageComponent implements OnInit {
     });
   }
 
+  setIsCopyingCourse(value: boolean): void {
+    this.isCopyingCourse = value;
+    this.courseFormModel.isCopying = value;
+  }
+
   /**
    * Loads instructor courses required for this page.
    */
@@ -112,75 +125,87 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.softDeletedCourses = [];
     this.activeCoursesList = [];
     this.allCoursesList = [];
-    this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
-      resp.courses.forEach((course: Course) => {
-        this.allCoursesList.push(course);
-        this.activeCoursesList.push(course);
-        let canModifyCourse: boolean = false;
-        let canModifyStudent: boolean = false;
-        if (course.privileges) {
-          canModifyCourse = course.privileges.canModifyCourse;
-          canModifyStudent = course.privileges.canModifyStudent;
-        }
-        const isLoadingCourseStats: boolean = false;
-        const activeCourse: CourseModel = {
-          course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
-        };
-        this.activeCourses.push(activeCourse);
-      });
-      this.activeCoursesDefaultSort();
-      this.isLoading = false;
-    }, (resp: ErrorMessageOutput) => {
-      this.isLoading = false;
-      this.hasLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.courseService.getAllCoursesAsInstructor('active').subscribe({
+      next: (resp: Courses) => {
+        resp.courses.forEach((course: Course) => {
+          this.allCoursesList.push(course);
+          this.activeCoursesList.push(course);
+          let canModifyCourse: boolean = false;
+          let canModifyStudent: boolean = false;
+          if (course.privileges) {
+            canModifyCourse = course.privileges.canModifyCourse;
+            canModifyStudent = course.privileges.canModifyStudent;
+          }
+          const isLoadingCourseStats: boolean = false;
+          const activeCourse: CourseModel = {
+            course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
+          };
+          this.activeCourses.push(activeCourse);
+        });
+        this.activeCoursesDefaultSort();
+        this.isLoading = false;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.isLoading = false;
+        this.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
 
-    this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
-      for (const course of resp.courses) {
-        this.allCoursesList.push(course);
-        let canModifyCourse: boolean = false;
-        let canModifyStudent: boolean = false;
-        if (course.privileges) {
-          canModifyCourse = course.privileges.canModifyCourse;
-          canModifyStudent = course.privileges.canModifyStudent;
+    this.courseService.getAllCoursesAsInstructor('archived').subscribe({
+      next: (resp: Courses) => {
+        for (const course of resp.courses) {
+          this.allCoursesList.push(course);
+          let canModifyCourse: boolean = false;
+          let canModifyStudent: boolean = false;
+          if (course.privileges) {
+            canModifyCourse = course.privileges.canModifyCourse;
+            canModifyStudent = course.privileges.canModifyStudent;
+          }
+          const isLoadingCourseStats: boolean = false;
+          const archivedCourse: CourseModel = {
+            course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
+          };
+          this.archivedCourses.push(archivedCourse);
+          this.archivedCoursesDefaultSort();
         }
-        const isLoadingCourseStats: boolean = false;
-        const archivedCourse: CourseModel = {
-          course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
-        };
-        this.archivedCourses.push(archivedCourse);
-        this.archivedCoursesDefaultSort();
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.hasLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
 
-    this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe((resp: Courses) => {
-      for (const course of resp.courses) {
-        this.allCoursesList.push(course);
-        let canModifyCourse: boolean = false;
-        let canModifyStudent: boolean = false;
-        if (course.privileges) {
-          canModifyCourse = course.privileges.canModifyCourse;
-          canModifyStudent = course.privileges.canModifyStudent;
+    this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
+      next: (resp: Courses) => {
+        for (const course of resp.courses) {
+          this.allCoursesList.push(course);
+          let canModifyCourse: boolean = false;
+          let canModifyStudent: boolean = false;
+          if (course.privileges) {
+            canModifyCourse = course.privileges.canModifyCourse;
+            canModifyStudent = course.privileges.canModifyStudent;
+          }
+          const isLoadingCourseStats: boolean = false;
+          const softDeletedCourse: CourseModel = {
+            course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
+          };
+          this.softDeletedCourses.push(softDeletedCourse);
+          this.deletedCoursesDefaultSort();
+          if (!softDeletedCourse.canModifyCourse) {
+            this.canDeleteAll = false;
+            this.canRestoreAll = false;
+          }
         }
-        const isLoadingCourseStats: boolean = false;
-        const softDeletedCourse: CourseModel = {
-          course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
-        };
-        this.softDeletedCourses.push(softDeletedCourse);
-        this.deletedCoursesDefaultSort();
-        if (!softDeletedCourse.canModifyCourse) {
-          this.canDeleteAll = false;
-          this.canRestoreAll = false;
-        }
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.hasLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
+
+    this.courseFormModel.activeCourses = this.activeCoursesList;
+    this.courseFormModel.allCourses = this.allCoursesList;
   }
 
   /**
@@ -198,15 +223,19 @@ export class InstructorCoursesPageComponent implements OnInit {
         .pipe(finalize(() => {
           course.isLoadingCourseStats = false;
         }))
-        .subscribe((students: Students) => {
-          this.courseStats[courseId] = {
-            sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
-            teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
-            students: students.students.length,
-            unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
-          };
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
+        .subscribe({
+          next: (students: Students) => {
+            this.courseStats[courseId] = {
+              sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
+              teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
+              students: students.students.length,
+              unregistered: students.students
+                  .filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
+            };
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 
@@ -220,17 +249,20 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     this.courseService.changeArchiveStatus(courseId, {
       archiveStatus: toArchive,
-    }).subscribe((courseArchive: CourseArchive) => {
-      if (courseArchive.isArchived) {
-        this.changeModelFromActiveToArchived(courseId);
-        this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived.
+    }).subscribe({
+      next: (courseArchive: CourseArchive) => {
+        if (courseArchive.isArchived) {
+          this.changeModelFromActiveToArchived(courseId);
+          this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived.
           It will not appear on the home page anymore.`);
-      } else {
-        this.changeModelFromArchivedToActive(courseId);
-        this.statusMessageService.showSuccessToast('The course has been unarchived.');
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+        } else {
+          this.changeModelFromArchivedToActive(courseId);
+          this.statusMessageService.showSuccessToast('The course has been unarchived.');
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -263,6 +295,31 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
+   * Creates new course
+   */
+  createNewCourse(): void {
+    this.courseFormModel.isSaving = true;
+    this.courseService.createCourse(this.courseFormModel.course.institute, {
+      courseName: this.courseFormModel.course.courseName,
+      timeZone: this.courseFormModel.course.timeZone,
+      courseId: this.courseFormModel.course.courseId,
+    }).pipe(finalize(() => {
+      this.courseFormModel.isSaving = false;
+    })).subscribe({
+      next: () => {
+        this.statusMessageService.showSuccessToast('The course has been added.');
+        this.courseFormModel.course.courseId = '';
+        this.courseFormModel.course.courseName = '';
+        this.resetCourseForm.emit();
+        this.loadInstructorCourses();
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+  }
+
+  /**
    * Finds and returns a course from the target course list.
    */
   findCourse(targetList: CourseModel[], courseId: string): CourseModel | undefined {
@@ -289,25 +346,29 @@ export class InstructorCoursesPageComponent implements OnInit {
       return;
     }
 
-    this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
-      const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
-      modalRef.componentInstance.oldCourseId = courseId;
-      modalRef.componentInstance.oldCourseName = courseName;
-      modalRef.componentInstance.allCourses = this.allCoursesList;
-      modalRef.componentInstance.newTimeZone = timeZone;
-      modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
-      modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
-      modalRef.result.then((result: CopyCourseModalResult) => this.createCourse(result), () => {});
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe({
+      next: (response: FeedbackSessions) => {
+        const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+        modalRef.componentInstance.oldCourseId = courseId;
+        modalRef.componentInstance.oldCourseName = courseName;
+        modalRef.componentInstance.allCourses = this.allCoursesList;
+        modalRef.componentInstance.newTimeZone = timeZone;
+        modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
+        modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
+        modalRef.result.then((result: CopyCourseModalResult) => this.createCopiedCourse(result), () => {
+        });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
   /**
    * Creates a new course with the selected feedback sessions
    */
-  createCourse(result: CopyCourseModalResult): void {
-    this.isCopyingCourse = true;
+  createCopiedCourse(result: CopyCourseModalResult): void {
+    this.setIsCopyingCourse(true);
     this.numberOfSessionsCopied = 0;
     this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
     this.copyProgressPercentage = 0;
@@ -317,40 +378,51 @@ export class InstructorCoursesPageComponent implements OnInit {
       timeZone: result.newTimeZone,
       courseId: result.newCourseId,
     })
-    .subscribe(() => {
-      // Wrap in a Promise to wait for all feedback sessions to be copied
-      const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
-        result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-          this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone, result.oldCourseId)
-            .pipe(finalize(() => {
-              this.numberOfSessionsCopied += 1;
-              this.copyProgressPercentage =
-                Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
-              this.progressBarService.updateProgress(this.copyProgressPercentage);
-              if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
-                resolve();
-              }
-            }))
-            .subscribe();
-        });
-      });
+    .subscribe({
+      next: () => {
+        // Wrap in a Promise to wait for all feedback sessions to be copied
+        const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
+          if (result.selectedFeedbackSessionList.size === 0) {
+            this.progressBarService.updateProgress(100);
+            resolve();
 
-      promise.then(() => {
-        this.courseService
-          .getCourseAsInstructor(result.newCourseId)
-          .subscribe((course: Course) => {
-            this.activeCourses.push(this.getCourseModelFromCourse(course));
-            this.activeCoursesList.push(course);
-            this.allCoursesList.push(course);
-            this.activeCoursesDefaultSort();
-            this.isCopyingCourse = false;
-            this.statusMessageService.showSuccessToast('The course has been added.');
+            return;
+          }
+
+          result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
+            this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone, result.oldCourseId)
+                .pipe(finalize(() => {
+                  this.numberOfSessionsCopied += 1;
+                  this.copyProgressPercentage =
+                      Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
+                  this.progressBarService.updateProgress(this.copyProgressPercentage);
+
+                  if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
+                    resolve();
+                  }
+                }))
+                .subscribe();
           });
-      });
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-      this.isCopyingCourse = false;
-      this.hasLoadingFailed = true;
+        });
+
+        promise.then(() => {
+          this.courseService
+              .getCourseAsInstructor(result.newCourseId)
+              .subscribe((course: Course) => {
+                this.activeCourses.push(this.getCourseModelFromCourse(course));
+                this.activeCoursesList.push(course);
+                this.allCoursesList.push(course);
+                this.activeCoursesDefaultSort();
+                this.setIsCopyingCourse(false);
+                this.statusMessageService.showSuccessToast('The course has been added.');
+              });
+        });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+        this.setIsCopyingCourse(false);
+        this.hasLoadingFailed = true;
+      },
     });
   }
 
@@ -447,12 +519,15 @@ export class InstructorCoursesPageComponent implements OnInit {
         'Warning: The course will be moved to the recycle bin.',
         SimpleModalType.WARNING, 'Are you sure you want to continue?');
     return modalRef.result.then(() => {
-      this.courseService.binCourse(courseId).subscribe((course: Course) => {
-        this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
-        this.statusMessageService.showSuccessToast(
-          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      this.courseService.binCourse(courseId).subscribe({
+        next: (course: Course) => {
+          this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
+          this.statusMessageService.showSuccessToast(
+              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }).catch(() => {});
   }
@@ -488,20 +563,48 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return Promise.resolve();
     }
+
+    const institute: string = this.allCoursesList.find(
+      (course: Course) => course.courseId === courseId)?.institute ?? '';
+    const numTotalCourses: number = this.allCoursesList.length;
+    const numCoursesFromSameInstitute: number = this.allCoursesList.filter(
+      (course: Course) => course.institute === institute).length;
+
     const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
-        This operation will delete all students and sessions in these courses.
-        All instructors of these courses will not be able to access them hereafter as well.`;
+      This operation will delete all students and sessions in these courses.
+      All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
+      `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
+
     return modalRef.result.then(() => {
-      this.courseService.deleteCourse(courseId).subscribe(() => {
-        this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
-        this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
-        this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+     if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
+        const finalConfModalContent = numTotalCourses === 1
+          ? `This is your last course on TEAMMATES for which you have instructor access. 
+            Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
+            Are you sure you want to delete the course <strong>${courseId}</strong>?`
+          : `If you delete all courses of institute <strong>${institute}</strong>, 
+            you will <mark><strong>lose instructor access</strong></mark> 
+            to TEAMMATES under the institution <strong>${institute}</strong>. 
+            To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
+            Are you sure you want to delete the course <strong>${courseId}</strong> in institution
+            <strong>${institute}</strong>?`;
+        return this.simpleModalService.openConfirmationModal(
+          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+          SimpleModalType.DANGER, finalConfModalContent).result;
+      }
+      return Promise.resolve();
+    }).then(() => {
+      this.courseService.deleteCourse(courseId).subscribe({
+        next: () => {
+          this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
+          this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
+          this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }).catch(() => {});
   }
@@ -515,11 +618,14 @@ export class InstructorCoursesPageComponent implements OnInit {
       return;
     }
 
-    this.courseService.restoreCourse(courseId).subscribe((resp: MessageOutput) => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessToast(resp.message);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.courseService.restoreCourse(courseId).subscribe({
+      next: (resp: MessageOutput) => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessToast(resp.message);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -532,24 +638,41 @@ export class InstructorCoursesPageComponent implements OnInit {
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
+    const lastCourseRemaining: boolean = this.allCoursesList.length === this.softDeletedCourses.length;
+
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+      'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+
     modalRef.result.then(() => {
+      if (lastCourseRemaining) {
+        const modalContentCnf: string =
+          `These are your last courses registered on TEAMMATES for which you have instructor access. 
+          Deleting these courses will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
+          Are you sure you want to permanently delete these courses?`;
+
+        return this.simpleModalService.openConfirmationModal(
+          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+          SimpleModalType.DANGER, modalContentCnf).result;
+      }
+      return Promise.resolve();
+    }).then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
         deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
       });
 
-      forkJoin(deleteRequests).subscribe(() => {
-        this.softDeletedCourses = [];
-        this.allCoursesList = [];
-        this.allCoursesList.push(...this.activeCourses.map((courseModel: CourseModel) => courseModel.course));
-        this.allCoursesList.push(...this.archivedCourses.map((courseModel: CourseModel) => courseModel.course));
-        this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      forkJoin(deleteRequests).subscribe({
+        next: () => {
+          this.softDeletedCourses = [];
+          this.allCoursesList = [];
+          this.allCoursesList.push(...this.activeCourses.map((courseModel: CourseModel) => courseModel.course));
+          this.allCoursesList.push(...this.archivedCourses.map((courseModel: CourseModel) => courseModel.course));
+          this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
-
     }).catch(() => {});
   }
 
@@ -562,11 +685,14 @@ export class InstructorCoursesPageComponent implements OnInit {
       restoreRequests.push(this.courseService.restoreCourse(courseToRestore.course.courseId));
     });
 
-    forkJoin(restoreRequests).subscribe(() => {
-      this.loadInstructorCourses();
-      this.statusMessageService.showSuccessToast('All courses have been restored.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    forkJoin(restoreRequests).subscribe({
+      next: () => {
+        this.loadInstructorCourses();
+        this.statusMessageService.showSuccessToast('All courses have been restored.');
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 

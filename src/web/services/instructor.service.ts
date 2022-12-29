@@ -25,7 +25,7 @@ export class InstructorService {
     };
 
     if (queryParams.intent) {
-      paramMap.intent = queryParams.intent;
+      paramMap['intent'] = queryParams.intent;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTORS, paramMap);
@@ -47,16 +47,16 @@ export class InstructorService {
       intent: queryParams.intent,
     };
     if (queryParams.feedbackSessionName) {
-      paramMap.fsname = queryParams.feedbackSessionName;
+      paramMap['fsname'] = queryParams.feedbackSessionName;
     }
     if (queryParams.key) {
-      paramMap.key = queryParams.key;
+      paramMap['key'] = queryParams.key;
     }
     if (queryParams.moderatedPerson) {
-      paramMap.moderatedperson = queryParams.moderatedPerson;
+      paramMap['moderatedperson'] = queryParams.moderatedPerson;
     }
     if (queryParams.previewAs) {
-      paramMap.previewas = queryParams.previewAs;
+      paramMap['previewas'] = queryParams.previewAs;
     }
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR, paramMap);
   }
@@ -94,11 +94,11 @@ export class InstructorService {
     };
 
     if (queryParams.instructorEmail) {
-      paramMap.instructoremail = queryParams.instructorEmail;
+      paramMap['instructoremail'] = queryParams.instructorEmail;
     }
 
     if (queryParams.instructorId) {
-      paramMap.instructorid = queryParams.instructorId;
+      paramMap['instructorid'] = queryParams.instructorId;
     }
 
     return this.httpRequestService.delete(ResourceEndpoints.INSTRUCTOR, paramMap);
@@ -118,11 +118,11 @@ export class InstructorService {
     };
 
     if (queryParams.instructorEmail) {
-      paramMap.instructoremail = queryParams.instructorEmail;
+      paramMap['instructoremail'] = queryParams.instructorEmail;
     }
 
     if (queryParams.instructorId) {
-      paramMap.instructorid = queryParams.instructorId;
+      paramMap['instructorid'] = queryParams.instructorId;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);

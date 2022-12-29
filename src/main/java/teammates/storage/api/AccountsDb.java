@@ -103,12 +103,7 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     private Account getAccountEntity(String googleId) {
-        Account account = load().id(googleId).now();
-        if (account == null) {
-            return null;
-        }
-
-        return account;
+        return load().id(googleId).now();
     }
 
     @Override

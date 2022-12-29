@@ -1,0 +1,123 @@
+<h1>Student Activity Logs For {{course.courseName}}</h1>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
+<hr/>
+
+<div *tmIsLoading="isLoading" class="card bg-form no-border">
+  <div class="card-body">
+    <div class="row form-group">
+      <div class="col-4">
+        <div class="col-12">
+          <label for="activity-type-dropdown" class="font-weight-bold">Activity Type</label>
+        </div>
+        <div class="col-12">
+          <select id="activity-type-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
+            <option value="" disabled selected hidden>Select Activity Type</option>
+            <option *ngFor="let logType of LOG_TYPES" [value]="logType.value">
+              {{logType.label}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="col-12 mb-1">
+          <label for="logs-from-datepicker" class="font-weight-bold">Search period from</label>
+        </div>
+        <div class="input-group">
+          <div id="logs-from-datepicker" class="col-md-6 input-group">
+            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="earliestSearchDate" [maxDate]="formModel.logsDateTo" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
+            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+          <div class="col-md-3">
+            <tm-timepicker id="logs-from-timepicker" [(time)]="formModel.logsTimeFrom"></tm-timepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-4">
+        <div class="col-12">
+          <label for="student-name-dropdown" class="font-weight-bold">Student Name (Optional)</label>
+        </div>
+        <div class="col-12">
+          <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
+            <option *ngFor="let student of students" [value]="student.email">
+              {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="col-12 mb-1">
+          <label for="logs-to-datepicker" class="font-weight-bold">Search period until</label>
+        </div>
+        <div class="input-group">
+          <div id="logs-to-datepicker" class="col-md-6 input-group">
+            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="formModel.logsDateFrom" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
+            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+          <div class="col-md-3">
+            <tm-timepicker id="logs-to-timepicker" [(time)]="formModel.logsTimeTo"></tm-timepicker>
+          </div>
+          <div class="col-md-2">
+            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="course.courseId === '' || isSearching">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-5">
+        <div class="col-12">
+          <label for="session-dropdown" class="font-weight-bold">Feedback Session Name (Optional)</label>
+        </div>
+        <div class="col-12">
+          <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
+            <option value=""></option>
+            <option *ngFor="let session of feedbackSessions | keyvalue" [value]="session.key">
+              {{session.key}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-md-1 ml-md-3">
+        <div class="col-12 form-check" style="margin-top: 30px;">
+          <label class="form-check-label">
+            <input id="show-actions" class="form-check-input" type="checkbox" name="showActions" [checked]="formModel.showActions" (click)="triggerModelChange('showActions', $event.target.checked)">
+            Show actions
+          </label>
+          <label class="form-check-label" style="margin-left: 40px;">
+            <input id="show-inactions" class="form-check-input" type="checkbox" name="showInactions" [checked]="formModel.showInactions" (click)="triggerModelChange('showInactions', $event.target.checked)">
+            Show inactions
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="logs-output">
+  <div *tmIsLoading="isSearching">
+    <div *ngFor="let results of searchResults">
+      <div [ngClass]="{ 'alert-success-border': results.logRowsData.length, 'alert-failure-border': !results.logRowsData.length }" class="card mb-3">
+        <div [ngClass]="{ 'alert-success': results.logRowsData.length, 'alert-failure': !results.logRowsData.length}" class="card-header cursor-pointer text-break" (click)="results.isTabExpanded = !results.isTabExpanded">
+          {{results.feedbackSessionName}}
+          <div class="card-header-btn-toolbar">
+            <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
+          </div>
+        </div>
+        <div *ngIf="results.isTabExpanded">
+          <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body">
+            <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+          </div>
+          <ng-template #noActivityTemplate>
+            <div class="no-activity-body">
+              <i>No activity for this feedback session in selected search period</i>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

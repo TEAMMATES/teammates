@@ -7,8 +7,10 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   SEVERITIES={[Function Array]}
+  __ngContext__={[Function LRootView]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
+  datetimeService={[Function DateTimeService]}
   earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
   filterType={[Function String]}
@@ -21,6 +23,7 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   isFiltersExpanded="false"
   isLoading={[Function Boolean]}
   isSearching="false"
+  isSearchingLaterLogs="false"
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"
   logService={[Function LogService]}
@@ -74,8 +77,10 @@ exports[`LogsPageComponent should snap when searching for details in search form
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   SEVERITIES={[Function Array]}
+  __ngContext__={[Function LRootView]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
+  datetimeService={[Function DateTimeService]}
   earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
   filterType={[Function String]}
@@ -88,6 +93,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
   isFiltersExpanded="false"
   isLoading="false"
   isSearching={[Function Boolean]}
+  isSearchingLaterLogs="false"
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"
   logService={[Function LogService]}
@@ -133,7 +139,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
             class="input-group"
           >
             <div
-              class="col-md-6 input-group"
+              class="col-md-7 input-group"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -151,7 +157,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </button>
             </div>
             <div
-              class="col-md-3"
+              class="col-md-5"
               id="logs-from-timepicker"
             >
               <ngb-timepicker
@@ -209,7 +215,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
             class="input-group"
           >
             <div
-              class="col-md-6 input-group"
+              class="col-md-7 input-group"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -227,7 +233,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </button>
             </div>
             <div
-              class="col-md-3"
+              class="col-md-5"
               id="logs-to-timepicker"
             >
               <ngb-timepicker
@@ -452,21 +458,10 @@ exports[`LogsPageComponent should snap when searching for details in search form
         </div>
       </div>
     </tm-loading-spinner>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
+    <div
+      class="center mb-4"
+    >
+    </div>
   </div>
 </tm-logs-page>
 `;
@@ -478,8 +473,10 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
   SEVERITIES={[Function Array]}
+  __ngContext__={[Function LRootView]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
+  datetimeService={[Function DateTimeService]}
   earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
   filterType={[Function String]}
@@ -492,6 +489,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   isFiltersExpanded="false"
   isLoading={[Function Boolean]}
   isSearching="false"
+  isSearchingLaterLogs="false"
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"
   logService={[Function LogService]}

@@ -12,6 +12,8 @@
 node_modules/
 npm-debug.log
 coverage/*
+.eslintcache
+.stylelintcache
 
 # Gradle
 .gradle
@@ -53,6 +55,9 @@ src/lnp/resources/results/*
 src/lnp/resources/tests/*
 !src/lnp/resources/jmeter/bin
 
+# Angular
+.angular/cache
+
 # TEAMMATES
 gradle.properties
 build.properties
@@ -81,3 +86,5 @@ datastore-dev/datastore/*
 # Docs
 docs/_site/*
 docs/_markbind/logs/*
+.stylelintcache
+.eslintcache

@@ -2,41 +2,38 @@
 
 exports[`InstructorCourseEditPageComponent should snap when editing course details 1`] = `
 <tm-instructor-course-edit-page
+  CourseEditFormMode={[Function Object]}
   CoursesSectionQuestions={[Function Object]}
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
-  course={[Function Object]}
+  courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
   currInstructorCoursePrivilege={[Function Object]}
   currInstructorGoogleId=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  form="undefined"
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
   instructorDetailPanels={[Function Array]}
   instructorService={[Function InstructorService]}
   isAddingNewInstructor="false"
+  isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
-  isEditingCourse={[Function Boolean]}
   isInstructorsLoading="false"
-  isSavingCourseEdit="false"
   isSavingNewInstructor="false"
   navigationService={[Function NavigationService]}
   newInstructorPanel={[Function Object]}
   ngbModal={[Function NgbModal]}
-  originalCourse={[Function Object]}
+  resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  timezoneService={[Function TimezoneService]}
-  timezones={[Function Array]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -54,6 +51,7 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
         </div>
       </div>
     </tm-loading-spinner>
+  </tm-loading-retry><tm-loading-retry>
     <div
       class="right top-padded"
     >
@@ -71,19 +69,26 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
          More about configuring access permissions 
       </a>
     </div>
-  </tm-loading-retry><tm-loading-retry>
     <div>
     </div>
   </tm-loading-retry><div
-    class="text-center"
+    class="card-body text-center"
   >
     <button
-      class="btn btn-success"
+      class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
     >
        Add New Instructor 
+    </button>
+    <button
+      class="btn btn-info mx-2 my-1"
+      id="btn-copy-instructor"
+      tabindex="6"
+      type="button"
+    >
+      Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -91,41 +96,38 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
 
 exports[`InstructorCourseEditPageComponent should snap with course details 1`] = `
 <tm-instructor-course-edit-page
+  CourseEditFormMode={[Function Object]}
   CoursesSectionQuestions={[Function Object]}
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
-  course={[Function Object]}
+  courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
   currInstructorCoursePrivilege={[Function Object]}
   currInstructorGoogleId=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  form="undefined"
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
   instructorDetailPanels={[Function Array]}
   instructorService={[Function InstructorService]}
   isAddingNewInstructor="false"
+  isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
-  isEditingCourse="false"
   isInstructorsLoading="false"
-  isSavingCourseEdit="false"
   isSavingNewInstructor="false"
   navigationService={[Function NavigationService]}
   newInstructorPanel={[Function Object]}
   ngbModal={[Function NgbModal]}
-  originalCourse={[Function Object]}
+  resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  timezoneService={[Function TimezoneService]}
-  timezones={[Function Array]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -143,6 +145,7 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
         </div>
       </div>
     </tm-loading-spinner>
+  </tm-loading-retry><tm-loading-retry>
     <div
       class="right top-padded"
     >
@@ -160,19 +163,26 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
          More about configuring access permissions 
       </a>
     </div>
-  </tm-loading-retry><tm-loading-retry>
     <div>
     </div>
   </tm-loading-retry><div
-    class="text-center"
+    class="card-body text-center"
   >
     <button
-      class="btn btn-success"
+      class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
     >
        Add New Instructor 
+    </button>
+    <button
+      class="btn btn-info mx-2 my-1"
+      id="btn-copy-instructor"
+      tabindex="6"
+      type="button"
+    >
+      Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -180,41 +190,38 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
 
 exports[`InstructorCourseEditPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-edit-page
+  CourseEditFormMode={[Function Object]}
   CoursesSectionQuestions={[Function Object]}
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
-  course={[Function Object]}
+  courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
   currInstructorCoursePrivilege={[Function Object]}
   currInstructorGoogleId=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  form="undefined"
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
   instructorDetailPanels={[Function Array]}
   instructorService={[Function InstructorService]}
   isAddingNewInstructor="false"
+  isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
-  isEditingCourse="false"
   isInstructorsLoading="false"
-  isSavingCourseEdit="false"
   isSavingNewInstructor="false"
   navigationService={[Function NavigationService]}
   newInstructorPanel={[Function Object]}
   ngbModal={[Function NgbModal]}
-  originalCourse={[Function Object]}
+  resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  timezoneService={[Function TimezoneService]}
-  timezones={[Function Array]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -232,6 +239,7 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
         </div>
       </div>
     </tm-loading-spinner>
+  </tm-loading-retry><tm-loading-retry>
     <div
       class="right top-padded"
     >
@@ -249,19 +257,26 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
          More about configuring access permissions 
       </a>
     </div>
-  </tm-loading-retry><tm-loading-retry>
     <div>
     </div>
   </tm-loading-retry><div
-    class="text-center"
+    class="card-body text-center"
   >
     <button
-      class="btn btn-success"
+      class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
     >
        Add New Instructor 
+    </button>
+    <button
+      class="btn btn-info mx-2 my-1"
+      id="btn-copy-instructor"
+      tabindex="6"
+      type="button"
+    >
+      Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -269,41 +284,38 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
 
 exports[`InstructorCourseEditPageComponent should snap with some instructor details 1`] = `
 <tm-instructor-course-edit-page
+  CourseEditFormMode={[Function Object]}
   CoursesSectionQuestions={[Function Object]}
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
-  course={[Function Object]}
+  courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
   currInstructorCoursePrivilege={[Function Object]}
   currInstructorGoogleId=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  form="undefined"
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
   instructorDetailPanels={[Function Array]}
   instructorService={[Function InstructorService]}
   isAddingNewInstructor="false"
+  isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
-  isEditingCourse="false"
   isInstructorsLoading="false"
-  isSavingCourseEdit="false"
   isSavingNewInstructor="false"
   navigationService={[Function NavigationService]}
   newInstructorPanel={[Function Object]}
   ngbModal={[Function NgbModal]}
-  originalCourse={[Function Object]}
+  resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  timezoneService={[Function TimezoneService]}
-  timezones={[Function Array]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -321,6 +333,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
         </div>
       </div>
     </tm-loading-spinner>
+  </tm-loading-retry><tm-loading-retry>
     <div
       class="right top-padded"
     >
@@ -338,7 +351,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
          More about configuring access permissions 
       </a>
     </div>
-  </tm-loading-retry><tm-loading-retry>
     <div>
       <tm-instructor-edit-panel>
         <div
@@ -500,15 +512,23 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
       <br />
     </div>
   </tm-loading-retry><div
-    class="text-center"
+    class="card-body text-center"
   >
     <button
-      class="btn btn-success"
+      class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       tabindex="6"
       type="button"
     >
        Add New Instructor 
+    </button>
+    <button
+      class="btn btn-info mx-2 my-1"
+      id="btn-copy-instructor"
+      tabindex="6"
+      type="button"
+    >
+      Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>

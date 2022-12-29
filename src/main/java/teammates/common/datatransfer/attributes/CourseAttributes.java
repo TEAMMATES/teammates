@@ -17,7 +17,7 @@ import teammates.storage.entity.Course;
 /**
  * The data transfer object for {@link Course} entities.
  */
-public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
+public final class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
@@ -164,6 +164,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     @Override
     public void sanitizeForSaving() {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
+        this.name = SanitizationHelper.sanitizeName(name);
     }
 
     @Override

@@ -33,11 +33,11 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
     this.questionText = apiOutput.questionText;
   }
 
-  getQuestionCsvHeaders(): string[] {
+  override getQuestionCsvHeaders(): string[] {
     return ['Sub Question', 'Choice Value', 'Choice Number'];
   }
 
-  getMissingResponseCsvAnswers(): string[][] {
+  override getMissingResponseCsvAnswers(): string[][] {
     return [['All Sub-Questions', 'No Response']];
   }
 
@@ -83,7 +83,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
     statsRows.push([
       'Team',
       'Recipient Name',
-      "Recipient's Email",
+      'Recipient Email',
       'Sub Question',
       ...statsCalculation.choices,
       'Total',
@@ -117,9 +117,10 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
     statsRows.push([
       'Team',
       'Recipient Name',
-      "Recipient's Email",
+      'Recipient Email',
+      ...statsCalculation.choices,
+      'Total',
       'Average',
-      'Breakdown',
     ]);
 
     Object.values(statsCalculation.perRecipientStatsMap)
@@ -130,8 +131,13 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
           perRecipientStats.recipientTeam,
           perRecipientStats.recipientName,
           perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
-          String(perRecipientStats.weightAverage),
-          perRecipientStats.subQuestionWeightAverage.toString(),
+          ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
+          return `${perRecipientStats.percentagesAverage[choiceIndex]}% \
+(${perRecipientStats.answersSum[choiceIndex]}) \
+[${perRecipientStats.weightsAverage[choiceIndex]}]`;
+          }),
+          String(perRecipientStats.overallWeightedSum),
+          String(perRecipientStats.overallWeightAverage),
         ]);
       });
 

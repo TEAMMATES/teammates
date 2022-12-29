@@ -38,6 +38,11 @@ export enum SortBy {
     INSTRUCTOR_PERMISSION_ROLE,
 
     /**
+     * The instructor text displayed to students.
+     */
+    INSTRUCTOR_DISPLAYED_TEXT,
+
+    /**
      * Institution.
      */
     INSTITUTION,
@@ -131,6 +136,11 @@ export enum SortBy {
      * Name of the recipient of the feedback response.
      */
     RECIPIENT_NAME,
+
+    /**
+     * Email of the recipient of the feedback response.
+     */
+    RECIPIENT_EMAIL,
 
     /**
      * Average score of the numerical scale question.
@@ -316,6 +326,16 @@ export enum SortBy {
      * Total chosen weight.
      */
     RUBRIC_TOTAL_CHOSEN_WEIGHT,
+
+    /**
+     * Overall weight average.
+     */
+    RUBRIC_OVERALL_WEIGHT_AVERAGE,
+
+    /**
+     * Overall total weight.
+     */
+    RUBRIC_OVERALL_TOTAL_WEIGHT,
 
     /**
      * Option to constsum options

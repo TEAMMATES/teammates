@@ -10,7 +10,13 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { Course, FeedbackSession, Instructors, Students } from '../../../types/api-output';
+import {
+  Course,
+  FeedbackSession,
+  FeedbackSessionSubmittedGiverSet,
+  Instructors,
+  Students,
+} from '../../../types/api-output';
 import {
   FeedbackSessionBasicRequest,
   FeedbackSessionUpdateRequest,
@@ -56,6 +62,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseId: string = '';
   courseName: string = '';
   feedbackSessionName: string = '';
+  isPreSelectingNonSubmitters: boolean = false;
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
@@ -84,6 +91,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.isPreSelectingNonSubmitters = queryParams.preselectnonsubmitters === 'true';
       this.loadFeedbackSessionAndIndividuals();
     });
   }
@@ -123,18 +131,18 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         this.isLoadingAllStudents = false;
         this.isLoadingAllInstructors = false;
       }))
-      .subscribe(
-        ([course, feedbackSession]: [Course, FeedbackSession]) => {
+      .subscribe({
+        next: ([course, feedbackSession]: [Course, FeedbackSession]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
         },
-        (resp: ErrorMessageOutput) => {
+        error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
           this.hasLoadingFeedbackSessionFailed = true;
         },
-      );
+      });
   }
 
   /**
@@ -146,16 +154,19 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .pipe(map(({ students }: Students) => DeadlineExtensionHelper
         .mapStudentsToStudentModels(students, this.studentDeadlines, this.feedbackSessionEndingTimestamp)),
       )
-      .subscribe(
-        (studentModels: StudentExtensionTableColumnModel[]) => {
+      .subscribe({
+        next: (studentModels: StudentExtensionTableColumnModel[]) => {
           this.studentsOfCourse = studentModels;
           this.initialSortOfStudents();
+          if (this.isPreSelectingNonSubmitters) {
+            this.selectNonSubmitterStudents();
+          }
         },
-        (resp: ErrorMessageOutput) => {
+        error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
           this.hasLoadedAllStudentsFailed = true;
         },
-      );
+      });
   }
 
   private setFeedbackSessionDetails(feedbackSession: FeedbackSession): void {
@@ -183,6 +194,25 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SESSION_END_DATE));
   }
 
+  private selectNonSubmitterStudents(): void {
+    this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+    }).subscribe({
+      next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+        this.studentsOfCourse
+            .filter((studentColumnModel: StudentExtensionTableColumnModel) =>
+                !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(studentColumnModel.email))
+            .forEach((studentColumnModel: StudentExtensionTableColumnModel) => {
+              studentColumnModel.isSelected = true;
+            });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+  }
+
   /**
    * Loads the instructors in the course
    */
@@ -191,14 +221,16 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .loadInstructors({ courseId: this.courseId, intent: Intent.FULL_DETAIL })
       .pipe(map(({ instructors }: Instructors) => DeadlineExtensionHelper
         .mapInstructorsToInstructorModels(instructors, this.instructorDeadlines, this.feedbackSessionEndingTimestamp)))
-      .subscribe((instructorModels: InstructorExtensionTableColumnModel[]) => {
-        this.instructorsOfCourse = instructorModels;
-        this.initialSortOfInstructors();
-      }, (resp: ErrorMessageOutput) => {
+      .subscribe({
+        next: (instructorModels: InstructorExtensionTableColumnModel[]) => {
+          this.instructorsOfCourse = instructorModels;
+          this.initialSortOfInstructors();
+        },
+        error: (resp: ErrorMessageOutput) => {
           this.hasLoadedAllInstructorsFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-      );
+      });
   }
 
   private initialSortOfInstructors(): void {
@@ -215,7 +247,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.numInstructors = this.getNumberOfSelectedInstructors();
     modalRef.componentInstance.feedbackSessionEndingTimestamp = this.feedbackSessionEndingTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
-    modalRef.componentInstance.onConfirmCallBack.subscribe((extensionTimestamp: number) => {
+    modalRef.componentInstance.confirmCallbackEvent.subscribe((extensionTimestamp: number) => {
       this.onConfirmExtension(extensionTimestamp);
       modalRef.close();
     });
@@ -234,7 +266,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.extensionTimestamp = extensionTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
+    modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe((isNotifyDeadlines: boolean) => {
       this.handleCreateDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines, extensionTimestamp);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
@@ -254,7 +286,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     modalRef.componentInstance.extensionTimestamp = this.feedbackSessionEndingTimestamp;
     modalRef.componentInstance.feedbackSessionTimeZone = this.feedbackSessionTimeZone;
 
-    modalRef.componentInstance.onConfirmExtensionCallBack.subscribe((isNotifyDeadlines: boolean) => {
+    modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe((isNotifyDeadlines: boolean) => {
       this.handleDeleteDeadlines(selectedStudents, selectedInstructors, isNotifyDeadlines);
       modalRef.componentInstance.isSubmitting = false;
       modalRef.close();
@@ -304,14 +336,15 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.feedbackSessionsService
       .updateFeedbackSession(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
-      .subscribe(() => {
+      .subscribe({
+        next: () => {
           this.loadFeedbackSessionAndIndividuals();
           this.showSuccessToast(actionForToast, numStudentsUpdated, numInstructorsUpdated);
         },
-        (resp: ErrorMessageOutput) => {
+        error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-      );
+      });
   }
 
   private getUpdatedDeadlinesForCreation(selectedStudents: StudentExtensionTableColumnModel[],

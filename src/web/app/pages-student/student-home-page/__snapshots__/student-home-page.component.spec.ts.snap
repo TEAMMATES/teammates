@@ -3,6 +3,7 @@
 exports[`StudentHomePageComponent should snap when courses are still loading 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -47,6 +48,7 @@ exports[`StudentHomePageComponent should snap when courses are still loading 1`]
 exports[`StudentHomePageComponent should snap when there is course loading failed 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -94,6 +96,7 @@ exports[`StudentHomePageComponent should snap when there is course loading faile
 exports[`StudentHomePageComponent should snap with all feedback sessions over 2 courses 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -447,6 +450,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
 exports[`StudentHomePageComponent should snap with default fields 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -491,6 +495,7 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
 exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -700,6 +705,7 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
 exports[`StudentHomePageComponent should snap with no course 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -742,6 +748,7 @@ exports[`StudentHomePageComponent should snap with no course 1`] = `
 exports[`StudentHomePageComponent should snap with no feedback session over 2 courses 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
@@ -895,6 +902,7 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
 exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allStudentFeedbackSessionsNotReturned={[Function String]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
