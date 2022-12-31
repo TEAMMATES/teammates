@@ -243,6 +243,8 @@ public final class FieldValidator {
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
             + "Did you mean to use \"Self\" instead?";
 
+    public static final String NOT_EXACT_HOUR_ERROR_MESSAGE = "The %s for this feedback session must be at exact hour mark.";
+
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
     ///////////////////////////////////////
@@ -669,12 +671,6 @@ public final class FieldValidator {
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForNewStartTime(Instant startTime, String timeZone) {
-        // Timezone offsets are usually a whole number of hours, but a few zones are offset by
-        // an additional 30 or 45 minutes, such as in India, South Australia and Nepal.
-        boolean isExactHour = LocalDateTime.ofInstant(startTime, ZoneId.of(timeZone)).getMinute() == 0;
-        if (!isExactHour) {
-            return "The start time for this feedback session must be at exact hour mark.";
-        }
         Instant threeHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-3);
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 threeHoursBeforeNow, startTime, SESSION_NAME,
@@ -684,6 +680,7 @@ public final class FieldValidator {
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
             return earlierThanThreeHoursBeforeNowError;
         }
+
         Instant ninetyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(90);
         String laterThanNinetyDaysFromNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 ninetyDaysFromNow, startTime, SESSION_NAME,
@@ -693,6 +690,12 @@ public final class FieldValidator {
         if (!laterThanNinetyDaysFromNowError.isEmpty()) {
             return laterThanNinetyDaysFromNowError;
         }
+
+        String notExactHourError = getInvalidityInfoForExactHourTime(startTime, timeZone, "start time");
+        if (!notExactHourError.isEmpty()) {
+            return notExactHourError;
+        }
+
         return "";
     }
 
@@ -704,12 +707,6 @@ public final class FieldValidator {
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForNewEndTime(Instant endTime, String timeZone) {
-        // Timezone offsets are usually a whole number of hours, but a few zones are offset by
-        // an additional 30 or 45 minutes, such as in India, South Australia and Nepal.
-        boolean isExactHour = LocalDateTime.ofInstant(endTime, ZoneId.of(timeZone)).getMinute() == 0;
-        if (!isExactHour) {
-            return "The end time for this feedback session must be at exact hour mark.";
-        }
         Instant threeHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-3);
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 threeHoursBeforeNow, endTime, SESSION_NAME,
@@ -719,6 +716,7 @@ public final class FieldValidator {
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
             return earlierThanThreeHoursBeforeNowError;
         }
+
         Instant oneHundredEightyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(180);
         String laterThanOneHundredEightyDaysError = getInvalidityInfoForFirstTimeComparedToSecondTime(
                 oneHundredEightyDaysFromNow, endTime, SESSION_NAME,
@@ -728,6 +726,12 @@ public final class FieldValidator {
         if (!laterThanOneHundredEightyDaysError.isEmpty()) {
             return laterThanOneHundredEightyDaysError;
         }
+
+        String notExactHourError = getInvalidityInfoForExactHourTime(endTime, timeZone, "end time");
+        if (!notExactHourError.isEmpty()) {
+            return notExactHourError;
+        }
+
         return "";
     }
 
@@ -753,15 +757,13 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code visibilityStart} is before {@code sessionStart}.
-     * Returns an empty string if {@code visibilityStart} is before {@code sessionStart}, or an error message otherwise.
+     * Checks if the {@code visibilityStart} is valid to be used as a session visible start time.
+     * Returns an empty string if it is valid, or an error message otherwise.
      *
-     * <p>If {@code isFullValidationRequired} is true, {@code visibilityStart} is also checked if it is less than
-     * 30 days before {@code sessionStart}.
+     * <p>The {@code visibilityStart} is valid if it is less than 30 days before {@code sessionStart}.
      */
-    public static String getInvalidityInfoForTimeForNewVisibilityStartAndSessionStart(
-            Instant visibilityStart, Instant sessionStart) {
-        Instant visibilityStartThirtyDaysBeforeSessionStart = TimeHelper.getInstantDaysOffsetBeforeNow(30);
+    public static String getInvalidityInfoForTimeForNewVisibilityStart(Instant visibilityStart, Instant sessionStart) {
+        Instant visibilityStartThirtyDaysBeforeSessionStart = sessionStart.minus(Duration.ofDays(30));
         String visibilityStartMoreThanThirtyDaysBeforeSessionStartError =
                 getInvalidityInfoForFirstTimeComparedToSecondTime(
                         visibilityStartThirtyDaysBeforeSessionStart, visibilityStart, SESSION_NAME,
@@ -770,11 +772,6 @@ public final class FieldValidator {
                         "The %s for this %s cannot be earlier than %s.");
         if (!visibilityStartMoreThanThirtyDaysBeforeSessionStartError.isEmpty()) {
             return visibilityStartMoreThanThirtyDaysBeforeSessionStartError;
-        }
-        String visibilityStartAfterSessionStartError = getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart,
-                sessionStart, SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
-        if (!visibilityStartAfterSessionStartError.isEmpty()) {
-            return visibilityStartAfterSessionStartError;
         }
         return "";
     }
@@ -848,6 +845,16 @@ public final class FieldValidator {
             return String.format(invalidityInfoTemplate, laterTimeFieldName, entityName, earlierTimeFieldName);
         }
 
+        return "";
+    }
+
+    private static String getInvalidityInfoForExactHourTime(Instant time, String timeZone, String timeName) {
+        // Timezone offsets are usually a whole number of hours, but a few zones are offset by
+        // an additional 30 or 45 minutes, such as in India, South Australia and Nepal.
+        boolean isExactHour = LocalDateTime.ofInstant(time, ZoneId.of(timeZone)).getMinute() == 0;
+        if (!isExactHour) {
+            return String.format(NOT_EXACT_HOUR_ERROR_MESSAGE, timeName);
+        }
         return "";
     }
 

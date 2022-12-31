@@ -63,9 +63,9 @@ class CreateFeedbackSessionAction extends Action {
         Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 createRequest.getSessionVisibleFromTime(), timeZone, true);
         String visibilityStartAndSessionStartTimeError =
-                FieldValidator.getInvalidityInfoForTimeForNewVisibilityStartAndSessionStart(sessionVisibleTime, startTime);
+                FieldValidator.getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
         if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
-            throw new InvalidHttpRequestBodyException("Invalid session visible time or submission opening time: "
+            throw new InvalidHttpRequestBodyException("Invalid session visible time: "
                     + visibilityStartAndSessionStartTimeError);
         }
         Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(

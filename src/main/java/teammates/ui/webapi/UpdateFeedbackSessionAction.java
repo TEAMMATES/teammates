@@ -100,9 +100,9 @@ class UpdateFeedbackSessionAction extends Action {
                 updateRequest.getSessionVisibleFromTime(), timeZone, true);
         if (!updateRequest.getSessionVisibleFromTime().equals(feedbackSession.getSessionVisibleFromTime())) {
             String visibilityStartAndSessionStartTimeError = FieldValidator
-                    .getInvalidityInfoForTimeForNewVisibilityStartAndSessionStart(sessionVisibleTime, startTime);
+                    .getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
             if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
-                throw new InvalidHttpRequestBodyException("Invalid session visible time or submission opening time: "
+                throw new InvalidHttpRequestBodyException("Invalid session visible time: "
                         + visibilityStartAndSessionStartTimeError);
             }
         }
