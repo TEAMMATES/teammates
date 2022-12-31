@@ -139,14 +139,16 @@
             </div>
             <div class="row text-center align-items-center">
               <div id="submission-start-date" class="col-md-7 col-xs-center">
-                <tm-datepicker [disabled]="!model.isEditable" (dateChangeCallback)="triggerSubmissionStartDateChange($event)"
-                               [minDate]="minDateForSessionOpen" [maxDate]="maxDateForSessionOpen"
+                <tm-datepicker [disabled]="!model.isEditable" (dateChangeCallback)="triggerModelChange('submissionStartDate', $event)"
+                               [minDate]="minDateForSubmissionStart" [maxDate]="maxDateForSubmissionStart"
                                [date]="model.submissionStartDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
                 <tm-timepicker id="submission-start-time" [isDisabled]="!model.isEditable" (timeChange)="triggerModelChange('submissionStartTime', $event)"
-                               [minDate]="minDateForSessionOpen" [date]="model.submissionStartDate"
-                               [minTime]="minTimeForSessionOpen" [time]="model.submissionStartTime"></tm-timepicker>
+                               [minDate]="minDateForSubmissionStart" [maxDate]="maxDateForSubmissionStart"
+                               [date]="model.submissionStartDate"
+                               [minTime]="minTimeForSubmissionStart" [maxTime]="maxTimeForSubmissionStart"
+                               [time]="model.submissionStartTime"></tm-timepicker>
               </div>
             </div>
           </div>
@@ -161,13 +163,15 @@
             <div class="row align-items-center">
               <div id="submission-end-date" class="col-md-7 col-xs-center">
                 <tm-datepicker [disabled]="!model.isEditable" (dateChangeCallback)="triggerModelChange('submissionEndDate', $event)"
-                               [minDate]="model.submissionStartDate" [maxDate]="maxDateForSessionClose"
+                               [minDate]="minDateForSubmissionEnd" [maxDate]="maxDateForSubmissionEnd"
                                [date]="model.submissionEndDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
                 <tm-timepicker id="submission-end-time" [isDisabled]="!model.isEditable" (timeChange)="triggerModelChange('submissionEndTime', $event)"
-                               [minDate]="model.submissionStartDate" [date]="model.submissionEndDate"
-                               [minTime]="model.submissionStartTime" [time]="model.submissionEndTime"></tm-timepicker>
+                               [minDate]="minDateForSubmissionEnd" [maxDate]="maxDateForSubmissionEnd"
+                               [date]="model.submissionEndDate"
+                               [minTime]="minTimeForSubmissionEnd" [maxTime]="maxTimeForSubmissionEnd"
+                               [time]="model.submissionEndTime"></tm-timepicker>
               </div>
             </div>
           </div>
@@ -236,8 +240,10 @@
               </div>
               <div class="col-md-4">
                 <tm-timepicker id="session-visibility-time" [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable" (timeChange)="triggerModelChange('customSessionVisibleTime', $event)"
-                               [maxDate]="maxDateForSessionVisible" [date]="model.customSessionVisibleDate"
-                               [maxTime]="maxTimeForSessionVisible" [time]="model.customSessionVisibleTime" ></tm-timepicker>
+                               [minDate]="minDateForSessionVisible" [maxDate]="maxDateForSessionVisible"
+                               [date]="model.customSessionVisibleDate"
+                               [minTime]="minTimeForSessionVisible" [maxTime]="maxTimeForSessionVisible"
+                               [time]="model.customSessionVisibleTime" ></tm-timepicker>
               </div>
             </div>
             <div class="row mt-md-1 ml-md-3">
