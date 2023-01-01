@@ -187,6 +187,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         this.sessionsTableRowModels.map((model: SessionsTableRowModel) => model.feedbackSession);
 
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
+      this.coursesOfModifiedSession = new Set();
       this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
         result.fromFeedbackSession.courseId)
           .pipe(finalize(() => {
@@ -194,9 +195,16 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           }))
           .subscribe({
             next: (createdFeedbackSession: FeedbackSession) => {
-              this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
-                  'The feedback session has been copied. Please modify settings/questions as necessary.',
-                  { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
+              if (this.coursesOfModifiedSession.size > 0) {
+                this.navigationService.navigateWithWarningMessage(
+                    '/web/instructor/sessions/edit',
+                    this.getCopyWarningMessage(),
+                    { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
+              } else {
+                this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
+                    'The feedback session has been copied. Please modify settings/questions as necessary.',
+                    { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
+              }
             },
             error: (resp: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(
@@ -510,6 +518,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   copySessionEventHandler(result: CopySessionResult): void {
     this.isCopySessionLoading = true;
     this.failedToCopySessions = {};
+    this.coursesOfModifiedSession = new Set();
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {

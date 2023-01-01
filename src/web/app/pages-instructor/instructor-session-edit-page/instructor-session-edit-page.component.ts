@@ -284,6 +284,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       }))
       .subscribe((courses: Courses) => {
         this.failedToCopySessions = {};
+        this.coursesOfModifiedSession = new Set();
         const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
         modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
         modalRef.componentInstance.courseCandidates = courses.courses;

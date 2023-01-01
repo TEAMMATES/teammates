@@ -355,6 +355,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
     this.isCopyLoading = true;
     this.failedToCopySessions = {};
+    this.coursesOfModifiedSession = new Set();
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
