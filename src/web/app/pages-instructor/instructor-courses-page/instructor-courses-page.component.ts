@@ -18,7 +18,9 @@ import {
   FeedbackSession,
   FeedbackSessions,
   JoinState,
-  MessageOutput, SessionVisibleSetting,
+  MessageOutput,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -86,6 +88,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   copyProgressPercentage: number = 0;
   totalNumberOfSessionsToCopy: number = 0;
   numberOfSessionsCopied: number = 0;
+
+  protected modifiedSession: Set<string> = new Set();
 
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
@@ -369,6 +373,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   createCopiedCourse(result: CopyCourseModalResult): void {
     this.setIsCopyingCourse(true);
+    this.modifiedSession = new Set();
     this.numberOfSessionsCopied = 0;
     this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
     this.copyProgressPercentage = 0;
@@ -414,7 +419,13 @@ export class InstructorCoursesPageComponent implements OnInit {
                 this.allCoursesList.push(course);
                 this.activeCoursesDefaultSort();
                 this.setIsCopyingCourse(false);
-                this.statusMessageService.showSuccessToast('The course has been added.');
+                if (this.modifiedSession.size > 0) {
+                  this.statusMessageService.showWarningToast(`The course has been added. However, changes are 
+                      made to some session timestamps due to timestamp constraints in these sessions: 
+                      ${Array.from(this.modifiedSession).join(', ')}. Please modify the timestamps as necessary.`);
+                } else {
+                  this.statusMessageService.showSuccessToast('The course has been added.');
+                }
               });
         });
       },
@@ -454,57 +465,73 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, newTimeZone: string,
                                          oldCourseId: string): FeedbackSessionCreateRequest {
+    // Local constants
+    const threeHoursBeforeNow = moment().tz(newTimeZone).subtract(3, 'hour').valueOf();
+    const twoDaysFromNowRoundedUp = moment().tz(newTimeZone).add(2, 'days').startOf('hour')
+        .valueOf();
+    const sevenDaysFromNowRoundedUp = moment().tz(newTimeZone).add(7, 'days').startOf('hour')
+        .valueOf();
+    const ninetyDaysFromNow = moment().tz(newTimeZone).add(90, 'day')
+        .valueOf();
+    const oneHundredAndEightyDaysFromNow = moment().tz(newTimeZone).add(180, 'day')
+        .valueOf();
+
+    // Preprocess timestamps to adhere to feedback session timestamps constraints
+    let isModified: boolean = false;
+    let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
+    if (copiedSubmissionStartTimestamp < threeHoursBeforeNow || copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
+      copiedSubmissionStartTimestamp = twoDaysFromNowRoundedUp;
+      isModified = true;
+    }
+    let copiedSubmissionEndTimestamp = fromFeedbackSession.submissionEndTimestamp;
+    if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp
+        || copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
+      copiedSubmissionEndTimestamp = sevenDaysFromNowRoundedUp;
+      isModified = true;
+    }
+    let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
+    const copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
+    const thirtyDaysFromSubmissionStart = moment(copiedSubmissionStartTimestamp)
+        .tz(newTimeZone).subtract(30, 'day').valueOf();
+    if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM
+        && (copiedCustomSessionVisibleTimestamp < thirtyDaysFromSubmissionStart
+            || copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp)) {
+      copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
+      isModified = true;
+    }
+    let copiedResponseVisibleSetting = fromFeedbackSession.responseVisibleSetting;
+    const copiedCustomResponseVisibleTimestamp = fromFeedbackSession.customResponseVisibleTimestamp!;
+    if (copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM
+        && ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+            && copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp)
+            || copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)) {
+      copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
+      isModified = true;
+    }
+
+    if (isModified) {
+      this.modifiedSession.add(fromFeedbackSession.feedbackSessionName);
+    }
+
     return {
       feedbackSessionName: fromFeedbackSession.feedbackSessionName,
       toCopyCourseId: oldCourseId,
       toCopySessionName: fromFeedbackSession.feedbackSessionName,
       instructions: fromFeedbackSession.instructions,
 
-      submissionStartTimestamp: this.copySubmissionStartTimestamp(fromFeedbackSession.submissionStartTimestamp,
-          newTimeZone),
-      submissionEndTimestamp: this.copySubmissionEndTimestamp(fromFeedbackSession.submissionEndTimestamp, newTimeZone),
+      submissionStartTimestamp: copiedSubmissionStartTimestamp,
+      submissionEndTimestamp: copiedSubmissionEndTimestamp,
       gracePeriod: fromFeedbackSession.gracePeriod,
 
-      sessionVisibleSetting: this.copySessionVisibilitySetting(fromFeedbackSession.sessionVisibleSetting,
-          fromFeedbackSession.customSessionVisibleTimestamp,
-          this.copySubmissionStartTimestamp(fromFeedbackSession.submissionStartTimestamp, newTimeZone),
-          newTimeZone),
+      sessionVisibleSetting: copiedSessionVisibleSetting,
       customSessionVisibleTimestamp: fromFeedbackSession.customSessionVisibleTimestamp,
 
-      responseVisibleSetting: fromFeedbackSession.responseVisibleSetting,
+      responseVisibleSetting: copiedResponseVisibleSetting,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
     };
-  }
-
-  private copySubmissionStartTimestamp(startTime: number, timeZone: string): number {
-    if (startTime > moment().tz(timeZone).subtract(3, 'hour').valueOf()
-        && startTime < moment().tz(timeZone).add(90, 'day').valueOf()) {
-      return startTime;
-    }
-    return moment().tz(timeZone).add(2, 'hours').startOf('hour')
-        .valueOf();
-  }
-
-  private copySubmissionEndTimestamp(endTime: number, timeZone: string): number {
-    if (endTime > moment().tz(timeZone).subtract(3, 'hour').valueOf()
-        && endTime < moment().tz(timeZone).add(180, 'day').valueOf()) {
-      return endTime;
-    }
-    return moment().tz(timeZone).add(2, 'days').startOf('day')
-        .valueOf();
-  }
-
-  private copySessionVisibilitySetting(visibilitySetting: SessionVisibleSetting, visibilityStart: number | undefined,
-                                       startTime: number, timeZone: string): SessionVisibleSetting {
-    if (visibilitySetting === SessionVisibleSetting.CUSTOM
-        && visibilityStart! > moment(startTime).tz(timeZone).subtract(30, 'day').valueOf()
-        && visibilityStart! < moment(startTime).tz(timeZone).valueOf()) {
-      return visibilitySetting;
-    }
-    return SessionVisibleSetting.AT_OPEN;
   }
 
   /**
