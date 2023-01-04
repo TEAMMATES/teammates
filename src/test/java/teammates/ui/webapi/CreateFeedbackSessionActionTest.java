@@ -82,30 +82,19 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         assertEquals("new feedback session", response.getFeedbackSessionName());
         assertEquals("instructions", response.getInstructions());
-        assertEquals(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, createdSession.getTimeZone())
-                        .toEpochMilli(),
-                response.getSubmissionStartTimestamp());
-        assertEquals(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(1, createdSession.getTimeZone())
-                        .toEpochMilli(),
-                response.getSubmissionEndTimestamp()
-        );
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, createdSession.getTimeZone()).toEpochMilli(), response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, createdSession.getTimeZone()).toEpochMilli(), response.getSubmissionEndTimestamp());
         assertEquals(5, response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-        assertEquals(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, createdSession.getTimeZone())
-                        .toEpochMilli(),
-                response.getCustomSessionVisibleTimestamp().longValue()
-        );
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, createdSession.getTimeZone()).toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
 
         assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-        assertEquals(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, createdSession.getTimeZone())
-                        .toEpochMilli(),
-                response.getCustomResponseVisibleTimestamp().longValue()
-        );
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, createdSession.getTimeZone()).toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
         assertFalse(response.getIsClosingEmailEnabled());
         assertFalse(response.getIsPublishedEmailEnabled());
@@ -176,14 +165,14 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertEquals("copied feedback session", response.getFeedbackSessionName());
         assertEquals(copiedSession.getInstructions(), toCopySession.getInstructions());
         assertEquals(copiedSession.getStartTime(),
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, toCopySession.getTimeZone()));
+                TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(2, toCopySession.getTimeZone()));
         assertEquals(copiedSession.getEndTime(),
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(1, toCopySession.getTimeZone()));
+                TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(7, toCopySession.getTimeZone()));
         assertEquals(copiedSession.getGracePeriodMinutes(), toCopySession.getGracePeriodMinutes());
         assertEquals(copiedSession.getSessionVisibleFromTime(),
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, toCopySession.getTimeZone()));
+                TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(2, toCopySession.getTimeZone()));
         assertEquals(copiedSession.getResultsVisibleFromTime(),
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, toCopySession.getTimeZone()));
+                TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(7, toCopySession.getTimeZone()));
         assertEquals(copiedSession.isOpeningEmailEnabled(), toCopySession.isOpeningEmailEnabled());
         assertEquals(copiedSession.isClosingEmailEnabled(), toCopySession.isClosingEmailEnabled());
         assertEquals(copiedSession.isPublishedEmailEnabled(), toCopySession.isPublishedEmailEnabled());
@@ -226,23 +215,20 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         createRequest.setFeedbackSessionName("new feedback session");
         createRequest.setInstructions("instructions");
 
-        createRequest.setSubmissionStartTimestamp(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, "Africa/Johannesburg")
-                        .toEpochMilli());
-        createRequest.setSubmissionEndTimestamp(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(1, "Africa/Johannesburg")
-                        .toEpochMilli());
+        // Preprocess session timings to adhere stricter checks
+        createRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Africa/Johannesburg").toEpochMilli());
+        createRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli());
         createRequest.setGracePeriod(5);
 
         createRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
-        createRequest.setCustomSessionVisibleTimestamp(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, "Africa/Johannesburg")
-                        .toEpochMilli());
+        createRequest.setCustomSessionVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Africa/Johannesburg").toEpochMilli());
 
         createRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
-        createRequest.setCustomResponseVisibleTimestamp(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, "Africa/Johannesburg")
-                        .toEpochMilli());
+        createRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli());
 
         createRequest.setClosingEmailEnabled(false);
         createRequest.setPublishedEmailEnabled(false);
@@ -257,25 +243,20 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         createRequest.setToCopySessionName(toCopySession.getFeedbackSessionName());
         createRequest.setInstructions(toCopySession.getInstructions());
 
-        // Pre-process submissionStartTimestamp, submissionEndTimestamp, customSessionVisibleTimestamp
-        // and customResponseVisibleTimestamp to adhere to full validity checks
-        createRequest.setSubmissionStartTimestamp(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, toCopySession.getTimeZone())
-                        .toEpochMilli());
-        createRequest.setSubmissionEndTimestamp(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(1, toCopySession.getTimeZone())
-                        .toEpochMilli());
+        // Preprocess session timings preprocessing to adhere stricter checks
+        createRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, toCopySession.getTimeZone()).toEpochMilli());
+        createRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, toCopySession.getTimeZone()).toEpochMilli());
         createRequest.setGracePeriod(toCopySession.getGracePeriodMinutes());
 
         createRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
-        createRequest.setCustomSessionVisibleTimestamp(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, toCopySession.getTimeZone())
-                        .toEpochMilli());
+        createRequest.setCustomSessionVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, toCopySession.getTimeZone()).toEpochMilli());
 
         createRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
-        createRequest.setCustomResponseVisibleTimestamp(
-                TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(0, toCopySession.getTimeZone())
-                        .toEpochMilli());
+        createRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, toCopySession.getTimeZone()).toEpochMilli());
 
         createRequest.setClosingEmailEnabled(toCopySession.isClosingEmailEnabled());
         createRequest.setPublishedEmailEnabled(toCopySession.isPublishedEmailEnabled());

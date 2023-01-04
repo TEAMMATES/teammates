@@ -110,19 +110,19 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertNull(session.getDeletedTime());
 
         assertEquals("instructions", response.getInstructions());
-        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                0, "Africa/Johannesburg").toEpochMilli(), response.getSubmissionStartTimestamp());
-        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                1, "Africa/Johannesburg").toEpochMilli(), response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Africa/Johannesburg").toEpochMilli(), response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli(), response.getSubmissionEndTimestamp());
         assertEquals(5, response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                0, "Africa/Johannesburg").toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Africa/Johannesburg").toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
 
         assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                0, "Africa/Johannesburg").toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
         assertFalse(response.getIsClosingEmailEnabled());
         assertFalse(response.getIsPublishedEmailEnabled());
@@ -339,7 +339,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newEndTime = updateRequest.getSubmissionEndTime();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
-        newStudentDeadlines.put(studentAEmailAddress, newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
+        newStudentDeadlines.put(studentAEmailAddress, newEndTime.plus(Duration.ofDays(-1)).toEpochMilli());
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         verifyHttpRequestBodyFailure(updateRequest, param);
@@ -550,7 +550,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest = getTypicalFeedbackSessionUpdateRequest();
         newEndTime = updateRequest.getSubmissionEndTime();
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
-        newInstructorDeadlines.put(instructorAEmailAddress, newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
+        newInstructorDeadlines.put(instructorAEmailAddress, newEndTime.plus(Duration.ofDays(-1)).toEpochMilli());
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         verifyHttpRequestBodyFailure(updateRequest, param);
@@ -577,8 +577,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 updateRequest.getSubmissionStartTime().plusSeconds(10).toEpochMilli());
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, param);
-        assertEquals("Invalid session visible time or submission opening time: The start time for this feedback "
-                + "session cannot be earlier than the time when the session will be visible.", ihrbe.getMessage());
+        assertEquals("The start time for this feedback session cannot be "
+                + "earlier than the time when the session will be visible.", ihrbe.getMessage());
     }
 
     @Test
@@ -603,10 +603,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
-        updateRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                0, "Asia/Kathmandu").toEpochMilli());
-        updateRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                1, "Asia/Kathmandu").toEpochMilli());
+        updateRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Asia/Kathmandu").toEpochMilli());
+        updateRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Asia/Kathmandu").toEpochMilli());
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
@@ -637,8 +637,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(Const.TIME_REPRESENTS_FOLLOW_OPENING, session.getSessionVisibleFromTime());
-        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                0, "Africa/Johannesburg").toEpochMilli(), session.getResultsVisibleFromTime().toEpochMilli());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli(),
+                session.getResultsVisibleFromTime().toEpochMilli());
     }
 
     @Test
@@ -683,19 +684,19 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
         updateRequest.setInstructions("instructions");
 
-        updateRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                0, "Africa/Johannesburg").toEpochMilli());
-        updateRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                1, "Africa/Johannesburg").toEpochMilli());
+        updateRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Africa/Johannesburg").toEpochMilli());
+        updateRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli());
         updateRequest.setGracePeriod(5);
 
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
-        updateRequest.setCustomSessionVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                0, "Africa/Johannesburg").toEpochMilli());
+        updateRequest.setCustomSessionVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Africa/Johannesburg").toEpochMilli());
 
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
-        updateRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedHoursOffsetFromNow(
-                0, "Africa/Johannesburg").toEpochMilli());
+        updateRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli());
 
         updateRequest.setClosingEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);

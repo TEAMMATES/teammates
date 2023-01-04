@@ -1002,10 +1002,10 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse")
                 .withCreatorEmail("valid@email.tmt")
-                .withSessionVisibleFromTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
-                .withStartTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
-                .withEndTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(2))
-                .withResultsVisibleFromTime(TimeHelperExtension.getInstantTruncatedHoursOffsetFromNow(1))
+                .withSessionVisibleFromTime(TimeHelperExtension.getInstantTruncatedDaysOffsetFromNow(2))
+                .withStartTime(TimeHelperExtension.getInstantTruncatedDaysOffsetFromNow(2))
+                .withEndTime(TimeHelperExtension.getInstantTruncatedDaysOffsetFromNow(7))
+                .withResultsVisibleFromTime(TimeHelperExtension.getInstantTruncatedDaysOffsetFromNow(7))
                 .withGracePeriod(Duration.ofMinutes(5))
                 .withInstructions("Give feedback.")
                 .build();
