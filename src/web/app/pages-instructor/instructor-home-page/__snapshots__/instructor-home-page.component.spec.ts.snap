@@ -8,6 +8,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -73,6 +74,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -138,6 +140,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -281,6 +284,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -799,6 +803,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1479,6 +1484,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1724,6 +1730,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1993,6 +2000,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}

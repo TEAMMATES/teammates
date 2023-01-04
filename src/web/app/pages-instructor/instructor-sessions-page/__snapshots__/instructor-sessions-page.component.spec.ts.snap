@@ -11,6 +11,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -126,6 +127,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -241,6 +243,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -324,6 +327,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1227,6 +1231,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1342,6 +1347,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1457,6 +1463,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Set]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}

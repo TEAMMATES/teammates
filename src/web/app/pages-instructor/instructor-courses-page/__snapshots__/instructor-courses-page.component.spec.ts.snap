@@ -30,6 +30,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  modifiedSession={[Function Set]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -281,6 +282,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  modifiedSession={[Function Set]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -354,6 +356,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  modifiedSession={[Function Set]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -801,6 +804,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  modifiedSession={[Function Set]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1092,6 +1096,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  modifiedSession={[Function Set]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1543,6 +1548,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  modifiedSession={[Function Set]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1616,6 +1622,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  modifiedSession={[Function Set]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
