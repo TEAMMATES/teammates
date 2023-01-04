@@ -27,7 +27,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     private CourseAttributes[] courses = new CourseAttributes[4];
     private CourseAttributes newCourse;
     private CourseAttributes copyCourse;
+    private CourseAttributes copyCourse2;
     private FeedbackSessionAttributes copySession;
+    private FeedbackSessionAttributes copySession2;
 
     @Override
     protected void prepareTestData() {
@@ -53,20 +55,40 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
+        copyCourse2 = CourseAttributes.builder("tm.e2e.ICs.CS6000")
+                .withName("Copy Course 2")
+                .withTimezone("Asia/Singapore")
+                .withInstitute("TEAMMATES Test Institute 1")
+                .build();
+
         copySession = FeedbackSessionAttributes
                 .builder("Second Session", copyCourse.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(ZonedDateTime.now(ZoneId.of("Asia/Singapore")).plus(Duration.ofHours(2))
+                .withStartTime(ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone())).plus(Duration.ofDays(2))
                         .truncatedTo(ChronoUnit.HOURS).toInstant())
-                .withEndTime(ZonedDateTime.now(ZoneId.of("Asia/Singapore")).plus(Duration.ofDays(2))
-                        .truncatedTo(ChronoUnit.DAYS).toInstant())
+                .withEndTime(ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone())).plus(Duration.ofDays(7))
+                        .truncatedTo(ChronoUnit.HOURS).toInstant())
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
-                .withResultsVisibleFromTime(session.getResultsVisibleFromTime())
+                .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(Duration.ofMinutes(session.getGracePeriodMinutes()))
                 .withInstructions(session.getInstructions())
                 .withTimeZone(copyCourse.getTimeZone())
                 .withIsClosingEmailEnabled(session.isClosingEmailEnabled())
                 .withIsPublishedEmailEnabled(session.isPublishedEmailEnabled())
+                .build();
+
+        copySession2 = FeedbackSessionAttributes
+                .builder("Second Session", copyCourse2.getId())
+                .withCreatorEmail(instructor.getEmail())
+                .withStartTime(copySession.getStartTime())
+                .withEndTime(copySession.getEndTime())
+                .withSessionVisibleFromTime(copySession.getSessionVisibleFromTime())
+                .withResultsVisibleFromTime(copySession.getResultsVisibleFromTime())
+                .withGracePeriod(Duration.ofMinutes(copySession.getGracePeriodMinutes()))
+                .withInstructions(copySession.getInstructions())
+                .withTimeZone(copyCourse2.getTimeZone())
+                .withIsClosingEmailEnabled(copySession.isClosingEmailEnabled())
+                .withIsPublishedEmailEnabled(copySession.isPublishedEmailEnabled())
                 .build();
     }
 
@@ -74,6 +96,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     public void classSetup() {
         BACKDOOR.deleteCourse(newCourse.getId());
         BACKDOOR.deleteCourse(copyCourse.getId());
+        BACKDOOR.deleteCourse(copyCourse2.getId());
     }
 
     @Test
@@ -107,15 +130,26 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
         verifyPresentInDatabase(newCourse);
 
-        ______TS("copy course");
+        ______TS("copy course with session of tweaked timings");
         CourseAttributes[] activeCoursesWithCopyCourse = { courses[0], courses[3], newCourse, copyCourse };
         coursesPage.copyCourse(courses[3].getId(), copyCourse);
 
-        coursesPage.verifyStatusMessage("The course has been added.");
+        coursesPage.verifyStatusMessage("The course has been added. However, changes are made to some "
+                + "session timestamps due to timestamp constraints in these sessions: "
+                + copySession.getFeedbackSessionName() + ". Please modify the timestamps as necessary.");
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithCopyCourse);
         verifyPresentInDatabase(copyCourse);
         verifyPresentInDatabase(copySession);
+
+        ______TS("copy course with session of same timings");
+        CourseAttributes[] activeCoursesWithCopyCourse2 = { courses[0], courses[3], newCourse, copyCourse, copyCourse2 };
+        coursesPage.copyCourse(copyCourse.getId(), copyCourse2);
+        coursesPage.verifyStatusMessage("The course has been added.");
+        coursesPage.sortByCourseId();
+        coursesPage.verifyActiveCoursesDetails(activeCoursesWithCopyCourse2);
+        verifyPresentInDatabase(copyCourse2);
+        verifyPresentInDatabase(copySession2);
 
         ______TS("archive course");
         CourseAttributes[] archivedCoursesWithNewCourse = { newCourse, courses[1] };
@@ -123,12 +157,13 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been archived. "
                 + "It will not appear on the home page anymore.");
-        coursesPage.verifyNumActiveCourses(3);
+        coursesPage.verifyNumActiveCourses(4);
         coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
         verifyCourseArchivedInDatabase(instructorId, newCourse);
 
         ______TS("unarchive course");
-        CourseAttributes[] activeCoursesWithNewCourseSortedByName = { copyCourse, courses[3], newCourse, courses[0] };
+        CourseAttributes[] activeCoursesWithNewCourseSortedByName = { copyCourse, copyCourse2, courses[3], newCourse,
+                courses[0] };
         coursesPage.unarchiveCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course has been unarchived.");
@@ -144,14 +179,14 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
-        coursesPage.verifyNumActiveCourses(3);
+        coursesPage.verifyNumActiveCourses(4);
         coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
         assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore active course");
         newCourse.setDeletedAt(null);
         CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate =
-                { copyCourse, newCourse, courses[0], courses[3] };
+                { copyCourse2, copyCourse, newCourse, courses[0], courses[3] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
@@ -194,7 +229,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore all");
         coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
-        CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[3], courses[2], copyCourse };
+        CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[3], courses[2], copyCourse, copyCourse2 };
         coursesPage.restoreAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been restored.");
@@ -212,7 +247,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.deleteAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been permanently deleted.");
-        coursesPage.verifyNumActiveCourses(3);
+        coursesPage.verifyNumActiveCourses(4);
         coursesPage.verifyNumArchivedCourses(0);
         coursesPage.verifyNumDeletedCourses(0);
         verifyAbsentInDatabase(courses[1]);

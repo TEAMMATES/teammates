@@ -93,23 +93,25 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
             homePage.verifyResponseRate(courseIndex, i, getExpectedResponseRate(courseSessions[i]));
         }
 
-        ______TS("copy session");
+        ______TS("copy session with tweaked session timings");
         int sessionIndex = 1;
         String newName = "Copied Name";
         FeedbackSessionAttributes copiedSession = feedbackSessionAwaiting.getCopy();
         copiedSession.setCourseId(otherCourse.getId());
         copiedSession.setFeedbackSessionName(newName);
         copiedSession.setCreatedTime(Instant.now());
-        copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofHours(2))
+        copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(2))
                 .truncatedTo(ChronoUnit.HOURS).toInstant());
-        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(2))
-                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(7))
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         copiedSession.setTimeZone(otherCourse.getTimeZone());
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
 
-        homePage.verifyStatusMessage("The feedback session has been copied. "
-                + "Please modify settings/questions as necessary.");
+        homePage.verifyStatusMessage("The feedback session has been copied to all course(s). "
+                + "However, changes are made to some session timestamps due to timestamp constraints in these "
+                + "courses: " + otherCourse.getId() + ". Please modify the timestamps as necessary.");
         homePage = getNewPageInstance(url, InstructorHomePage.class);
         homePage.sortCoursesByName();
         // flip index after sorting
@@ -118,6 +120,22 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         FeedbackSessionAttributes[] otherCourseSessionsWithCopy = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopy);
         verifyPresentInDatabase(copiedSession);
+
+        ______TS("copy session with same session timings");
+        sessionIndex = 0;
+        newName = "Copied Name 2";
+        FeedbackSessionAttributes copiedSession2 = copiedSession.getCopy();
+        copiedSession2.setFeedbackSessionName(newName);
+        copiedSession2.setCreatedTime(Instant.now());
+        homePage.copySession(otherCourseIndex, sessionIndex, otherCourse, newName);
+
+        homePage.verifyStatusMessage("The feedback session has been copied. "
+                + "Please modify settings/questions as necessary.");
+        homePage = getNewPageInstance(url, InstructorHomePage.class);
+        homePage.sortCoursesByName();
+        FeedbackSessionAttributes[] otherCourseSessionsWithTwoCopies = { copiedSession2, copiedSession, otherCourseSession };
+        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithTwoCopies);
+        verifyPresentInDatabase(copiedSession2);
 
         ______TS("publish results");
         sessionIndex = 0;
@@ -179,6 +197,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         verifyDownloadedFile(fileName, expectedContent);
 
         ______TS("soft delete session");
+        sessionIndex = 1;
         copiedSession.setDeletedTime(Instant.now());
         homePage.deleteSession(otherCourseIndex, sessionIndex);
 
@@ -187,7 +206,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.sortCoursesByCreationDate();
         courseIndex = 1;
         otherCourseIndex = 0;
-        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessions);
+        FeedbackSessionAttributes[] otherCourseSessionsWithCopy2 = { copiedSession2, otherCourseSession };
+        homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopy2);
         assertNotNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
                 instructor.getGoogleId()));
 

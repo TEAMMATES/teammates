@@ -55,10 +55,10 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("edit session details");
         feedbackSession.setInstructions("<p><strong>new instructions</strong></p>");
-        feedbackSession.setStartTime(ZonedDateTime.now(ZoneId.of(feedbackSession.getTimeZone())).plus(Duration.ofHours(1))
-                .truncatedTo(ChronoUnit.HOURS).toInstant());
-        feedbackSession.setEndTime(ZonedDateTime.now(ZoneId.of(feedbackSession.getTimeZone())).plus(Duration.ofHours(2))
-                .truncatedTo(ChronoUnit.HOURS).toInstant());
+        feedbackSession.setStartTime(ZonedDateTime.now(ZoneId.of(feedbackSession.getTimeZone())).plus(Duration.ofDays(2))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        feedbackSession.setEndTime(ZonedDateTime.now(ZoneId.of(feedbackSession.getTimeZone())).plus(Duration.ofDays(7))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
         feedbackSession.setGracePeriodMinutes(30);
         feedbackSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         feedbackSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);

@@ -54,10 +54,10 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         newSession = FeedbackSessionAttributes
                 .builder("New Session", course.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofHours(1))
-                        .truncatedTo(ChronoUnit.HOURS).toInstant())
-                .withEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofHours(2))
-                        .truncatedTo(ChronoUnit.HOURS).toInstant())
+                .withStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(2))
+                        .truncatedTo(ChronoUnit.DAYS).toInstant())
+                .withEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
+                        .truncatedTo(ChronoUnit.DAYS).toInstant())
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(Duration.ZERO)
@@ -110,15 +110,16 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession.setCourseId(course.getId());
         copiedSession.setFeedbackSessionName(newName);
         copiedSession.setCreatedTime(Instant.now());
-        copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofHours(2))
+        copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(2))
                 .truncatedTo(ChronoUnit.HOURS).toInstant());
-        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(2))
-                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(7))
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
 
-        feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
-                        + "Please modify settings/questions as necessary.");
+        feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied to all course(s). "
+                        + "However, changes are made to some session timestamps due to timestamp constraints in these "
+                        + "courses: " + course.getId() + ". Please modify the timestamps as necessary.");
         feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.verifySessionDetails(copiedSession);
@@ -126,16 +127,10 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("copy session");
         newName = "Copied Name 2";
-        FeedbackSessionAttributes copiedSession2 = openSession.getCopy();
-        copiedSession2.setCourseId(course.getId());
+        FeedbackSessionAttributes copiedSession2 = copiedSession.getCopy();
         copiedSession2.setFeedbackSessionName(newName);
         copiedSession2.setCreatedTime(Instant.now());
-        copiedSession2.setStartTime(ZonedDateTime.now(ZoneId.of(copiedSession2.getTimeZone())).plus(Duration.ofHours(2))
-                .truncatedTo(ChronoUnit.HOURS).toInstant());
-        copiedSession2.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession2.getTimeZone())).plus(Duration.ofDays(2))
-                .truncatedTo(ChronoUnit.DAYS).toInstant());
-        copiedSession2.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        feedbackSessionsPage.copySession(openSession, course, newName);
+        feedbackSessionsPage.copySession(copiedSession, course, newName);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
