@@ -362,7 +362,6 @@ public final class Const {
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
         public static final String TIMEZONE = URI_PREFIX + "/timezone";
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
-        public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String LOGS = URI_PREFIX + "/logs/query";

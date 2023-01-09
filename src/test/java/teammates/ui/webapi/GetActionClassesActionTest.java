@@ -47,7 +47,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GenerateEmailAction.class,
                 GetFeedbackQuestionsAction.class,
                 GetOngoingSessionsAction.class,
-                GetNationalitiesAction.class,
                 AdminExceptionTestAction.class,
                 GetUserCookieAction.class,
                 RemindFeedbackSessionResultAction.class,

@@ -218,26 +218,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForNationality_invalid_returnSpecificErrorString() {
-        String invalidNationality = "{ Invalid Char Nationality";
-        String actual = FieldValidator.getInvalidityInfoForNationality(invalidNationality);
-        assertEquals("Invalid nationality (invalid char) should return error string that is specific to nationality",
-                     String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
-
-        invalidNationality = "<script> alert('hi!'); </script>";
-        actual = FieldValidator.getInvalidityInfoForNationality(invalidNationality);
-        assertEquals("Unsanitized, invalid nationality should return sanitized error string",
-                     String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
-    }
-
-    @Test
-    public void testGetInvalidityInfoForNationality_valid_returnEmptyString() {
-        String validNationality = "New Zealander";
-        String actual = FieldValidator.getInvalidityInfoForNationality(validNationality);
-        assertEquals("Valid nationality should return empty string", "", actual);
-    }
-
-    @Test
     public void testGetInvalidityInfoForTeamName_invalid_returnSpecificErrorString() {
         String invalidTeamName = "";
         String actual = FieldValidator.getInvalidityInfoForTeamName(invalidTeamName);
