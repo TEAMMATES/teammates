@@ -1,21 +1,8 @@
-import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
+import { JoinState, Student } from '../../../../types/api-output';
 import {
   SearchStudentsListRowTable,
 } from '../../../pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 
-/**
- * Structure of example of student profile.
- */
-export const EXAMPLE_STUDENT_PROFILE: StudentProfile = {
-  name: 'Alice Betsy',
-  shortName: 'Alice',
-  email: 'alice@email.com',
-  institute: 'National University of Singapore',
-  nationality: 'American',
-  gender: Gender.FEMALE,
-  moreInfo: 'Hi I am Alice Betsy! I am from Colorado, America. I am a programming and gaming enthusiast. '
-    + 'Aspiring to become a Software Architect in a well reputed organization.',
-};
 /**
  * Structure of example of student attributes.
  */

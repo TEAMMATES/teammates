@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RouterTestingModule } from '@angular/router/testing';
-import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { CourseRelatedInfoComponent } from './course-related-info.component';
 
 describe('CourseRelatedInfoComponent', () => {

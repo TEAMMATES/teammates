@@ -1,25 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
-  Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile, Students,
+  Course, Instructor, Instructors, JoinState, Student, Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-/**
- * A student profile which also has the profile picture URL
- */
-export interface StudentProfileWithPicture extends StudentProfile {
-  photoUrl: string;
-}
 
 /**
  * Student course details page.
@@ -31,7 +22,6 @@ export interface StudentProfileWithPicture extends StudentProfile {
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
   // enum
-  Gender: typeof Gender = Gender;
   SortBy: typeof SortBy = SortBy;
   teammateProfilesSortBy: SortBy = SortBy.NONE;
 
@@ -57,7 +47,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   courseId: string = '';
   instructorDetails: Instructor[] = [];
-  teammateProfiles: StudentProfileWithPicture[] = [];
+  teammateProfiles: Student[] = [];
 
   isLoadingCourse: boolean = false;
   isLoadingStudent: boolean = false;
@@ -68,7 +58,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   constructor(private tableComparatorService: TableComparatorService,
               private route: ActivatedRoute,
               private instructorService: InstructorService,
-              private studentProfileService: StudentProfileService,
               private studentService: StudentService,
               private courseService: CourseService,
               private statusMessageService: StatusMessageService) { }
@@ -151,32 +140,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
             if (student.email === this.student.email) {
               return;
             }
-
-            this.studentProfileService.getStudentProfile(student.email, courseId)
-                .pipe(finalize(() => {
-                  this.isLoadingTeammates = false;
-                }))
-                .subscribe({
-                  next: (studentProfile: StudentProfile) => {
-                    const newPhotoUrl: string =
-                        `${environment.backendUrl}/webapi/student/profilePic`
-                        + `?courseid=${courseId}&studentemail=${student.email}`;
-
-                    const newTeammateProfile: StudentProfileWithPicture = {
-                      ...studentProfile,
-                      email: student.email,
-                      name: student.name,
-                      photoUrl: newPhotoUrl,
-                    };
-
-                    this.teammateProfiles.push(newTeammateProfile);
-                  },
-                  error: (resp: ErrorMessageOutput) => {
-                    this.hasLoadingFailed = true;
-                    this.statusMessageService.showErrorToast(resp.error.message);
-                  },
-                });
+            this.teammateProfiles.push(student);
           });
+          this.isLoadingTeammates = false;
         },
         error: (resp: ErrorMessageOutput) => {
           this.isLoadingTeammates = false;
@@ -209,13 +175,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   }
 
   /**
-   * Sets the profile picture of a student as the default image
-   */
-  setDefaultPic(teammateProfile: StudentProfileWithPicture): void {
-    teammateProfile.photoUrl = '/assets/images/profile_picture_default.png';
-  }
-
-  /**
    * Checks the option selected to sort teammates.
    *
    * @param sortOption option for sorting
@@ -243,8 +202,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param sortOption option for sorting
    */
   sortPanelsBy(sortOption: SortBy):
-      ((a: StudentProfile, b: StudentProfile) => number) {
-    return ((a: StudentProfile, b: StudentProfile): number => {
+      ((a: Student, b: Student) => number) {
+    return ((a: Student, b: Student): number => {
       let strA: string;
       let strB: string;
       switch (sortOption) {
@@ -255,18 +214,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         case SortBy.RESPONDENT_EMAIL:
           strA = a.email;
           strB = b.email;
-          break;
-        case SortBy.STUDENT_GENDER:
-          strA = a.gender;
-          strB = b.gender;
-          break;
-        case SortBy.INSTITUTION:
-          strA = a.institute;
-          strB = b.institute;
-          break;
-        case SortBy.NATIONALITY:
-          strA = a.nationality;
-          strB = b.nationality;
           break;
         default:
           strA = '';

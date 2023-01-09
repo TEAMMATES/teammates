@@ -1,24 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, map, mergeMap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
   FeedbackSessions,
-  Gender,
   Instructor,
   QuestionOutput,
   ResponseOutput,
   SessionResults,
   Student,
-  StudentProfile,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -52,27 +48,14 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   studentTeam: string = '';
   studentSection: string = '';
 
-  studentProfile: StudentProfile = {
-    name: '',
-    shortName: '',
-    email: '',
-    institute: '',
-    nationality: '',
-    gender: Gender.OTHER,
-    moreInfo: '',
-  };
   sessionTabs: SessionTab[] = [];
-  photoUrl: string = '';
 
   isStudentLoading: boolean = false;
   hasStudentLoadingFailed: boolean = false;
-  isStudentProfileLoading: boolean = false;
-  hasStudentProfileLoadingFailed: boolean = false;
   isStudentResultsLoading: boolean = false;
   hasStudentResultsLoadingFailed: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
               private studentService: StudentService,
               private instructorService: InstructorService,
@@ -92,8 +75,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
 
         this.loadStudentRecords();
         this.loadStudentResults();
-        this.photoUrl = `${environment.backendUrl}/webapi/student/profilePic?`
-            + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
         this.instructorService.getInstructor({
           courseId: queryParams.courseid,
           intent: Intent.FULL_DETAIL,
@@ -112,9 +93,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    */
   loadStudentRecords(): void {
     this.hasStudentLoadingFailed = false;
-    this.hasStudentProfileLoadingFailed = false;
     this.isStudentLoading = true;
-    this.isStudentProfileLoading = true;
     this.studentService.getStudent(
         this.courseId, this.studentEmail,
     ).pipe(finalize(() => {
@@ -127,19 +106,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       },
       error: (resp: ErrorMessageOutput) => {
         this.hasStudentLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
-    this.studentProfileService.getStudentProfile(
-        this.studentEmail, this.courseId,
-    ).pipe(finalize(() => {
-      this.isStudentProfileLoading = false;
-    })).subscribe({
-      next: (resp: StudentProfile) => {
-        this.studentProfile = resp;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.hasStudentProfileLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });

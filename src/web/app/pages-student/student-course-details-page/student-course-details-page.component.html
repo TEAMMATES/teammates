@@ -85,9 +85,6 @@
       <div class="btn-group" data-toggle="buttons">
         <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_NAME)" (click)="sortTeammatesBy(SortBy.RESPONDENT_NAME)">Name</button>
         <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_EMAIL)" (click)="sortTeammatesBy(SortBy.RESPONDENT_EMAIL)">Email</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_GENDER)" (click)="sortTeammatesBy(SortBy.STUDENT_GENDER)">Gender</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION)" (click)="sortTeammatesBy(SortBy.INSTITUTION)">Institution</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NATIONALITY)" (click)="sortTeammatesBy(SortBy.NATIONALITY)">Nationality</button>
       </div>
     </div>
   </div>
@@ -102,24 +99,12 @@
       <table>
         <tbody>
         <tr *ngFor="let teammateProfile of teammateProfiles; let i = index">
-          <td class="team-member-photo-cell">
-            <img src="{{ teammateProfile.photoUrl }}" class="profile-pic" (error)="setDefaultPic(teammateProfile)">
-          </td>
           <td class="team-member-profile-cell" id="teammates-details-{{ i }}">
             <div>
               <label>Name:</label> {{ teammateProfile.name }}
             </div>
             <div>
               <label>Email:</label>&nbsp;<a href="mailto:{{ teammateProfile.email }}">{{ teammateProfile.email }}</a>
-            </div>
-            <div *ngIf="teammateProfile.gender">
-              <label>Gender:</label> {{ teammateProfile.gender | genderFormat }}
-            </div>
-            <div *ngIf="teammateProfile.nationality">
-              <label>Nationality:</label> {{ teammateProfile.nationality }}
-            </div>
-            <div *ngIf="teammateProfile.institute">
-              <label>Institute:</label> {{ teammateProfile.institute }}
             </div>
           </td>
         </tr>
