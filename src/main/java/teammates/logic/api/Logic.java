@@ -24,7 +24,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -43,7 +42,6 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.NotificationsLogic;
-import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.UsageStatisticsLogic;
 
@@ -68,7 +66,6 @@ public class Logic {
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
-    final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     Logic() {
@@ -190,24 +187,7 @@ public class Logic {
     }
 
     /**
-     * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
-     *
-     * <br/> Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return updated student profile
-     * @throws InvalidParametersException if attributes to update are not valid
-     */
-    public StudentProfileAttributes updateOrCreateStudentProfile(StudentProfileAttributes.UpdateOptions updateOptions)
-            throws InvalidParametersException {
-
-        assert updateOptions != null;
-
-        return profilesLogic.updateOrCreateStudentProfile(updateOptions);
-    }
-
-    /**
-     * Deletes both instructor and student privileges, as well as the account and associated student profile.
+     * Deletes both instructor and student privileges, as well as the account.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
@@ -643,19 +623,6 @@ public class Logic {
         assert googleId != null;
 
         return studentsLogic.getStudentForCourseIdAndGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets student profile associated with the {@code googleId}.
-     *
-     * <br/> Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return null if no match found.
-     */
-    public StudentProfileAttributes getStudentProfile(String googleId) {
-        assert googleId != null;
-        return profilesLogic.getStudentProfile(googleId);
     }
 
     /**
