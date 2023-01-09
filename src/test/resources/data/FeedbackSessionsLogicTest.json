@@ -1487,16 +1487,5 @@
       "createdAt": "2030-04-28T20:00:00Z",
       "updatedAt": "2030-04-28T20:00:00Z"
     }
-  },
-  "profiles": {
-    "student1InCourse1": {
-      "googleId": "student1InCourse1",
-      "shortName": "Stud1",
-      "email": "i.m.stud1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 3",
-      "nationality": "American",
-      "gender": "MALE",
-      "moreInfo": "I am just a student :P"
-    }
   }
 }

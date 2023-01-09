@@ -63,16 +63,5 @@
   "feedbackSessions": {},
   "feedbackQuestions": {},
   "feedbackResponses": {},
-  "feedbackResponseComments": {},
-  "profiles": {
-    "ICSDet.jose.tmms": {
-      "googleId": "tm.e2e.ICSDet.jose.tmms",
-      "shortName": "José",
-      "email": "jose@e.tmt",
-      "institute": "TEAMMATES Test Institute 7",
-      "nationality": "Laotian",
-      "gender": "MALE",
-      "moreInfo": "This is a lot of info..."
-    }
-  }
+  "feedbackResponseComments": {}
 }
