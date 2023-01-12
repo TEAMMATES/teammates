@@ -74,48 +74,57 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     ]).pipe(finalize(() => {
       this.isSendReminderLoading = false;
     }))
-      .subscribe((result: any[]) => {
-        const students: Student[] = (result[0] as Students).students;
-        const instructors: Instructor[] = (result[1] as Instructors).instructors;
+      .subscribe({
+        next: (result: any[]) => {
+          const students: Student[] = (result[0] as Students).students;
+          const instructors: Instructor[] = (result[1] as Instructors).instructors;
 
-        const modalRef: NgbModalRef = this.ngbModal.open(ResendResultsLinkToRespondentModalComponent);
+          const modalRef: NgbModalRef = this.ngbModal.open(ResendResultsLinkToRespondentModalComponent);
 
-        modalRef.componentInstance.courseId = courseId;
-        modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-        modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
-          email: student.email,
-          name: student.name,
-          teamName: student.teamName,
-          sectionName: student.sectionName,
+          modalRef.componentInstance.courseId = courseId;
+          modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
+          modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
+            email: student.email,
+            name: student.name,
+            teamName: student.teamName,
+            sectionName: student.sectionName,
 
-          hasSubmittedSession: false,
+            hasSubmittedSession: false,
 
-          isSelected: false,
-        } as StudentListInfoTableRowModel));
-        modalRef.componentInstance.instructorListInfoTableRowModels =
-            instructors.map((instructor: Instructor) => ({
-              email: instructor.email,
-              name: instructor.name,
+            isSelected: false,
+          } as StudentListInfoTableRowModel));
+          modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map((instructor: Instructor) => ({
+            email: instructor.email,
+            name: instructor.name,
 
-              hasSubmittedSession: false,
+            hasSubmittedSession: false,
 
-              isSelected: false,
-            } as InstructorListInfoTableRowModel));
+            isSelected: false,
+          } as InstructorListInfoTableRowModel));
 
-        modalRef.result.then((respondentsToRemind: any[]) => {
-          this.isSendReminderLoading = true;
-          this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
-            usersToRemind: respondentsToRemind.map((m: any) => m.email), isSendingCopyToInstructor: true,
-          }).pipe(finalize(() => {
-            this.isSendReminderLoading = false;
-          }))
-            .subscribe(() => {
-              this.statusMessageService.showSuccessToast(
-                  'Session published notification emails have been resent to those students and instructors. '
-                  + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-            }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-        }, () => {});
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+          modalRef.result.then((respondentsToRemind: any[]) => {
+            this.isSendReminderLoading = true;
+            this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
+              usersToRemind: respondentsToRemind.map((m: any) => m.email), isSendingCopyToInstructor: true,
+            }).pipe(finalize(() => {
+              this.isSendReminderLoading = false;
+            }))
+            .subscribe({
+              next: () => {
+                  this.statusMessageService.showSuccessToast(
+                      'Session published notification emails have been resent to those students and instructors. '
+                      + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+              },
+              error: (resp: ErrorMessageOutput) => {
+                this.statusMessageService.showErrorToast(resp.error.message);
+              },
+            });
+          }, () => {});
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -132,8 +141,8 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
       this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
     ]).pipe(finalize(() => {
       this.isSendReminderLoading = false;
-    }))
-      .subscribe((result: any[]) => {
+    })).subscribe({
+      next: (result: any[]) => {
         const students: Student[] = (result[0] as Students).students;
         const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
         const instructors: Instructor[] = (result[2] as Instructors).instructors;
@@ -152,15 +161,14 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
           isSelected: selectAllRespondents && !giverSet.has(student.email),
         } as StudentListInfoTableRowModel));
-        modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map(
-            (instructor: Instructor) => ({
-              email: instructor.email,
-              name: instructor.name,
+        modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map((instructor: Instructor) => ({
+          email: instructor.email,
+          name: instructor.name,
 
-              hasSubmittedSession: giverSet.has(instructor.email),
+          hasSubmittedSession: giverSet.has(instructor.email),
 
-              isSelected: selectAllRespondents && !giverSet.has(instructor.email),
-            } as InstructorListInfoTableRowModel));
+          isSelected: selectAllRespondents && !giverSet.has(instructor.email),
+        } as InstructorListInfoTableRowModel));
 
         modalRef.result.then((reminderResponse: ReminderResponseModel) => {
           this.isSendReminderLoading = true;
@@ -169,13 +177,21 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
             isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
           }).pipe(finalize(() => {
             this.isSendReminderLoading = false;
-          }))
-            .subscribe(() => {
+          })).subscribe({
+            next: () => {
               this.statusMessageService.showSuccessToast(
                   'Reminder e-mails have been sent out to those students and instructors. '
                   + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-            }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
         }, () => {});
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 }

@@ -58,6 +58,8 @@ export interface QuestionSubmissionFormModel {
 export interface FeedbackResponseRecipient {
   recipientIdentifier: string;
   recipientName: string;
+  recipientSection?: string;
+  recipientTeam?: string;
 }
 
 /**
@@ -72,4 +74,13 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
 
   // comment by giver
   commentByGiver?: CommentRowModel;
+}
+
+export enum FeedbackRecipientLabelType {
+  // show section, team and name
+  INCLUDE_SECTION,
+  // show team and name
+  INCLUDE_TEAM,
+  // show name
+  INCLUDE_NAME,
 }

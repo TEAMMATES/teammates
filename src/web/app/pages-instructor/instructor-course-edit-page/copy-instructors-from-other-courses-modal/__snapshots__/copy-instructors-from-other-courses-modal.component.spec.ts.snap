@@ -5,6 +5,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -147,6 +148,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -396,6 +398,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -535,6 +538,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -683,6 +687,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}

@@ -57,6 +57,7 @@ import {
   Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { Milliseconds } from '../../../types/datetime-const';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -96,7 +97,7 @@ describe('SessionSubmissionPageComponent', () => {
     timeZone: 'Asia/Singapore',
     instructions: 'Instructions',
     submissionStartTimestamp: 1000000000000,
-    submissionEndTimestamp: Date.now() + 10 * 60 * 1000, // 10 minutes before closing
+    submissionEndTimestamp: Date.now() + Milliseconds.IN_TEN_MINUTES, // 10 minutes before closing
     gracePeriod: 0,
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -770,10 +771,10 @@ describe('SessionSubmissionPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         `You are trying to access TEAMMATES using the Google account user-id, which
-                    is not linked to this TEAMMATES account. If you used a different Google account to
-                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                    cannot remember which Google account you used before, please email us at
-                    ${environment.supportEmail} for help.`);
+                        is not linked to this TEAMMATES account. If you used a different Google account to
+                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                        cannot remember which Google account you used before, please email us at
+                        ${environment.supportEmail} for help.`);
   });
 
   it('should deny unallowed access with invalid reg key', () => {
@@ -874,25 +875,25 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should show session not found modal when loading non-existent feedback session', () => {
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: { message: 'This is an error' },
       status: 404,
-    }));
+    })));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
     component.loadFeedbackSession(false, testInfo);
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-        'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
+        'The session does not exist (most likely deleted by an instructor after the submission link was sent).',
         { onClosed: expect.any(Function) }, { backdrop: 'static' });
   });
 
   it('should show session not visible modal when loading non-viewable feedback session', () => {
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: { message: 'This is an error' },
       status: 403,
-    }));
+    })));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
     component.loadFeedbackSession(false, testInfo);
@@ -1048,7 +1049,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
-    expect(responseSpy).toBeCalledTimes(2);
+    expect(responseSpy).toHaveBeenCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
       responses: [{
         recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
@@ -1105,7 +1106,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
-    expect(responseSpy).toBeCalledTimes(1);
+    expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(1, testQuestionSubmissionForm1.feedbackQuestionId, {
       responses: [{
         recipient: testMcqRecipientSubmissionForm.recipientIdentifier,

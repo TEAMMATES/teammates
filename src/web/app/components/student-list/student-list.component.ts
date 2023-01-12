@@ -36,6 +36,7 @@ export class StudentListComponent {
   @Input() students: StudentListRowModel[] = [];
   @Input() tableSortBy: SortBy = SortBy.NONE;
   @Input() tableSortOrder: SortOrder = SortOrder.ASC;
+  @Input() searchString: string = '';
 
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
   @Output() sortStudentListEvent: EventEmitter<SortBy> = new EventEmitter();
@@ -97,10 +98,13 @@ export class StudentListComponent {
    */
   remindStudentFromCourse(studentEmail: string): void {
     this.courseService.remindStudentForJoin(this.courseId, studentEmail)
-      .subscribe((resp: MessageOutput) => {
-        this.statusMessageService.showSuccessToast(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      .subscribe({
+        next: (resp: MessageOutput) => {
+          this.statusMessageService.showSuccessToast(resp.message);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
   }
 

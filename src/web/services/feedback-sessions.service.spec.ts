@@ -131,8 +131,8 @@ describe('FeedbackSessionsService', () => {
     };
 
     service.getFeedbackSessionResults({
-      courseId: paramMap.courseid,
-      feedbackSessionName: paramMap.fsname,
+      courseId: paramMap['courseid'],
+      feedbackSessionName: paramMap['fsname'],
       intent: Intent.FULL_DETAIL,
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.RESULT, paramMap);
@@ -144,7 +144,7 @@ describe('FeedbackSessionsService', () => {
       fsname: 'test feedback session',
     };
 
-    service.moveSessionToRecycleBin(paramMap.courseid, paramMap.fsname);
+    service.moveSessionToRecycleBin(paramMap['courseid'], paramMap['fsname']);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 
@@ -154,7 +154,7 @@ describe('FeedbackSessionsService', () => {
       fsname: 'test feedback session',
     };
 
-    service.deleteSessionFromRecycleBin(paramMap.courseid, paramMap.fsname);
+    service.deleteSessionFromRecycleBin(paramMap['courseid'], paramMap['fsname']);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 
@@ -164,7 +164,7 @@ describe('FeedbackSessionsService', () => {
       fsname: 'test feedback session',
     };
 
-    service.deleteFeedbackSession(paramMap.courseid, paramMap.fsname);
+    service.deleteFeedbackSession(paramMap['courseid'], paramMap['fsname']);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION, paramMap);
   });
 

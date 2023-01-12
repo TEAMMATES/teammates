@@ -35,7 +35,7 @@ export class MsqQuestionStatisticsCalculation
       this.answerFrequency[answer] = 0;
     }
     if (this.question.otherEnabled) {
-      this.answerFrequency.Other = 0;
+      this.answerFrequency['Other'] = 0;
     }
     for (const response of this.responses) {
       this.updateResponseCountPerOptionForResponse(response.responseDetails, this.answerFrequency);
@@ -54,7 +54,7 @@ export class MsqQuestionStatisticsCalculation
         this.weightPerOption[option] = weight;
       }
       if (this.question.otherEnabled) {
-        this.weightPerOption.Other = this.question.msqOtherWeight;
+        this.weightPerOption['Other'] = this.question.msqOtherWeight;
       }
 
       let totalWeightedResponseCount: number = 0;
@@ -91,7 +91,7 @@ export class MsqQuestionStatisticsCalculation
         perRecipientResponse[response.recipient][choice] = 0;
       }
       if (this.question.otherEnabled) {
-        perRecipientResponse[response.recipient].Other = 0;
+        perRecipientResponse[response.recipient]['Other'] = 0;
       }
       recipientToTeam[response.recipient] = response.recipientTeam;
     }
@@ -128,7 +128,7 @@ export class MsqQuestionStatisticsCalculation
   private updateResponseCountPerOptionForResponse(responseDetails: FeedbackMsqResponseDetails,
                                                   responseCountPerOption: Record<string, number>): void {
     if (responseDetails.isOther) {
-      responseCountPerOption.Other = (responseCountPerOption.Other || 0) + 1;
+      responseCountPerOption['Other'] = (responseCountPerOption['Other'] || 0) + 1;
     }
 
     for (const answer of responseDetails.answers) {

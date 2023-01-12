@@ -10,4 +10,5 @@ module.exports = {
   setupFiles: [
     './jest-setup.ts',
   ],
+  globalSetup: 'jest-preset-angular/global-setup',
 };

@@ -77,31 +77,35 @@ export class InstructorStudentListPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoadingCourses = false;
         }))
-        .subscribe((courses: Courses) => {
-          courses.courses.forEach((course: Course) => {
-            const courseTab: CourseTab = {
-              course,
-              studentList: [],
-              studentSortBy: SortBy.NONE,
-              studentSortOrder: SortOrder.ASC,
-              hasTabExpanded: false,
-              hasStudentLoaded: false,
-              hasLoadingFailed: false,
-              isAbleToViewStudents: true,
-              stats: {
-                numOfSections: 0,
-                numOfStudents: 0,
-                numOfTeams: 0,
-              },
-            };
+        .subscribe({
+          next: (courses: Courses) => {
+            courses.courses.forEach((course: Course) => {
+              const courseTab: CourseTab = {
+                course,
+                studentList: [],
+                studentSortBy: SortBy.NONE,
+                studentSortOrder: SortOrder.ASC,
+                hasTabExpanded: false,
+                hasStudentLoaded: false,
+                hasLoadingFailed: false,
+                isAbleToViewStudents: true,
+                stats: {
+                  numOfSections: 0,
+                  numOfStudents: 0,
+                  numOfTeams: 0,
+                },
+              };
 
-            this.courseTabList.push(courseTab);
-          });
-        }, (resp: ErrorMessageOutput) => {
-          this.courseTabList = [];
-          this.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        }, () => this.sortCourses(this.coursesSortBy));
+              this.courseTabList.push(courseTab);
+            });
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.courseTabList = [];
+            this.hasLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+          complete: () => this.sortCourses(this.coursesSortBy),
+        });
   }
 
   /**
@@ -121,56 +125,62 @@ export class InstructorStudentListPageComponent implements OnInit {
     courseTab.hasLoadingFailed = false;
     courseTab.hasStudentLoaded = false;
     this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
-        .subscribe((students: Students) => {
-          courseTab.studentList = []; // Reset the list of students for the course
-          const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
-            const term: string = x.sectionName;
-            (acc[term] = acc[term] || []).push(x);
-            return acc;
-          }, {});
+        .subscribe({
+          next: (students: Students) => {
+            courseTab.studentList = []; // Reset the list of students for the course
+            const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
+              const term: string = x.sectionName;
+              (acc[term] = acc[term] || []).push(x);
+              return acc;
+            }, {});
 
-          this.instructorService.loadInstructorPrivilege({
-            courseId: courseTab.course.courseId,
-          })
-          .pipe(finalize(() => {
-            courseTab.hasStudentLoaded = true;
-          }))
-          .subscribe((instructorPrivilege: InstructorPrivilege) => {
-            const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
+            this.instructorService.loadInstructorPrivilege({
+              courseId: courseTab.course.courseId,
+            })
+                .pipe(finalize(() => {
+                  courseTab.hasStudentLoaded = true;
+                }))
+                .subscribe({
+                  next: (instructorPrivilege: InstructorPrivilege) => {
+                    const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
 
-            Object.keys(sections).forEach((sectionName: string) => {
-              const sectionLevelPrivilege: InstructorPermissionSet =
-                  instructorPrivilege.privileges.sectionLevel[sectionName] || courseLevelPrivilege;
+                    Object.keys(sections).forEach((sectionName: string) => {
+                      const sectionLevelPrivilege: InstructorPermissionSet =
+                          instructorPrivilege.privileges.sectionLevel[sectionName] || courseLevelPrivilege;
 
-              const studentsInSection: Student[] = sections[sectionName];
-              const studentModels: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
-                return {
-                  student: studentInSection,
-                  isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudentInSections,
-                  isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
-                };
-              });
+                      const studentsInSection: Student[] = sections[sectionName];
+                      const studentModels: StudentListRowModel[] = studentsInSection.map((stuInSection: Student) => {
+                        return {
+                          student: stuInSection,
+                          isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudentInSections,
+                          isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
+                        };
+                      });
 
-              courseTab.studentList.push(...studentModels);
-              courseTab.studentList.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
-            });
+                      courseTab.studentList.push(...studentModels);
+                      courseTab.studentList.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
+                    });
 
-            courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
+                    courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
 
-          }, (resp: ErrorMessageOutput) => {
-            courseTab.hasLoadingFailed = true;
+                  },
+                  error: (resp: ErrorMessageOutput) => {
+                    courseTab.hasLoadingFailed = true;
+                    courseTab.studentList = [];
+                    this.statusMessageService.showErrorToast(resp.error.message);
+                  },
+                });
+          },
+          error: (resp: ErrorMessageOutput) => {
+            if (resp.status === HttpStatusCode.Forbidden) {
+              courseTab.isAbleToViewStudents = false;
+              courseTab.hasStudentLoaded = true;
+            } else {
+              courseTab.hasLoadingFailed = true;
+            }
             courseTab.studentList = [];
             this.statusMessageService.showErrorToast(resp.error.message);
-          });
-        }, (resp: ErrorMessageOutput) => {
-          if (resp.status === HttpStatusCode.Forbidden) {
-            courseTab.isAbleToViewStudents = false;
-            courseTab.hasStudentLoaded = true;
-          } else {
-            courseTab.hasLoadingFailed = true;
-          }
-          courseTab.studentList = [];
-          this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 
@@ -178,19 +188,22 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Removes the student from course and update the course statistics.
    */
   removeStudentFromCourse(courseTab: CourseTab, studentEmail: string): void {
-    this.courseService.removeStudentFromCourse(courseTab.course.courseId, studentEmail).subscribe(() => {
-      courseTab.studentList =
-          courseTab.studentList.filter(
-              (studentModel: StudentListRowModel) => studentModel.student.email !== studentEmail);
+    this.courseService.removeStudentFromCourse(courseTab.course.courseId, studentEmail).subscribe({
+      next: () => {
+        courseTab.studentList =
+            courseTab.studentList.filter(
+                (studentModel: StudentListRowModel) => studentModel.student.email !== studentEmail);
 
-      const students: Student[] =
-          courseTab.studentList.map((studentModel: StudentListRowModel) => studentModel.student);
-      courseTab.stats = this.courseService.calculateCourseStatistics(students);
+        const students: Student[] =
+            courseTab.studentList.map((studentModel: StudentListRowModel) => studentModel.student);
+        courseTab.stats = this.courseService.calculateCourseStatistics(students);
 
-      this.statusMessageService
-          .showSuccessToast(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+        this.statusMessageService
+            .showSuccessToast(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 

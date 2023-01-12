@@ -7,6 +7,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
@@ -93,6 +95,7 @@ describe('InstructorCourseEditPageComponent', () => {
   let fixture: ComponentFixture<InstructorCourseEditPageComponent>;
   let courseService: CourseService;
   let instructorService: InstructorService;
+  let simpleModalService: SimpleModalService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -127,6 +130,7 @@ describe('InstructorCourseEditPageComponent', () => {
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
     instructorService = TestBed.inject(InstructorService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     fixture.detectChanges();
   });
 
@@ -269,8 +273,11 @@ describe('InstructorCourseEditPageComponent', () => {
     expect(component.newInstructorPanel).toEqual(emptyInstructorPanel);
   });
 
-  it('should re-order if instructor is deleted', () => {
+  it('should re-order if instructor is deleted', async () => {
     jest.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({}));
+
+    jest.spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef());
 
     component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
@@ -290,13 +297,10 @@ describe('InstructorCourseEditPageComponent', () => {
     component.deleteInstructor(0);
     fixture.detectChanges();
 
-    // using document instead of fixture as modal gets added into the dom outside the viewRef
-    const button: any = document.getElementsByClassName('modal-btn-ok').item(0);
-    button.click();
-    fixture.detectChanges();
-
-    expect(component.instructorDetailPanels.length).toBe(1);
-    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
+    await fixture.whenStable().then(() => {
+      expect(component.instructorDetailPanels.length).toBe(1);
+      expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
+    });
   });
 
   it('should re-send reminder email for new instructors', () => {
@@ -304,6 +308,9 @@ describe('InstructorCourseEditPageComponent', () => {
       message: `An email has been sent to ${email}`,
     }));
     jest.spyOn(courseService, 'remindInstructorForJoin').mockImplementation(mockReminderFunction);
+
+    jest.spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef());
 
     component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
@@ -321,15 +328,11 @@ describe('InstructorCourseEditPageComponent', () => {
     ];
     fixture.detectChanges();
 
-    let button: any = fixture.debugElement.nativeElement
+    const button: any = fixture.debugElement.nativeElement
         .querySelector(`#btn-resend-invite-${component.instructorDetailPanels.length}`);
     button.click();
 
-    // using document instead of fixture as modal gets added into the dom outside the viewRef
-    button = document.getElementsByClassName('modal-btn-ok').item(0);
-    button.click();
-
-    expect(mockReminderFunction).toBeCalledWith(testCourse.courseId, testInstructor2.email);
+    expect(mockReminderFunction).toHaveBeenCalledWith(testCourse.courseId, testInstructor2.email);
   });
 
   it('should snap with default fields', () => {
