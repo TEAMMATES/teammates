@@ -19,15 +19,19 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: '0'
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - uses: actions/setup-node@v3
         with:
-          java-version: 11
+          node-version: 16
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -36,7 +40,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Cache eslint
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ./.eslintcache
@@ -44,7 +48,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-eslint-
       - name: Cache stylelint
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ./.stylelintcache
@@ -64,13 +68,17 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          java-version: 11
+          node-version: 16
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches

@@ -21,7 +21,7 @@
       "username": "EmberCS15"
     },
     {
-      "name": "Abhishek Chaudary",
+      "name": "Abhishek Chaudhary",
       "username": "AbhishekChd"
     },
     {
@@ -139,7 +139,7 @@
       "username": "drblaui"
     },
     {
-      "name": "Alexandr Kolymago",
+      "name": "Alexandr Kalymaha",
       "username": "justtimki"
     },
     {
@@ -181,10 +181,6 @@
     {
       "name": "Andrew Hunter",
       "username": "iamhunter"
-    },
-    {
-      "name": "Andrew Jefferson",
-      "username": "iamarkadyt"
     },
     {
       "name": "Andrew Levit",
@@ -232,7 +228,7 @@
     },
     {
       "name": "Anthony Schneider",
-      "username": "Br35Ba56"
+      "username": "tony-schndr"
     },
     {
       "multiple": true,
@@ -256,6 +252,10 @@
     {
       "name": "Arjun Suri",
       "username": "arjunsuri"
+    },
+    {
+      "name": "Arkady Titenko",
+      "username": "iamarkadyt"
     },
     {
       "multiple": true,
@@ -328,11 +328,12 @@
       "username": "BillyZafack"
     },
     {
-      "name": "Bjarke S.",
+      "name": "Bjarke G. R.",
       "username": "Wimpzer"
     },
     {
       "multiple": true,
+      "name": "Boaz Wu",
       "username": "BoazWu"
     },
     {
@@ -534,6 +535,7 @@
       "username": "pandilladivya"
     },
     {
+      "multiple": true,
       "name": "Dominic Lim",
       "username": "domlimm"
     },
@@ -594,7 +596,7 @@
     },
     {
       "multiple": true,
-      "name": "Fazil",
+      "name": "Fazil Uruniyengal",
       "username": "halfdreamer"
     },
     {
@@ -627,7 +629,7 @@
     {
       "multiple": true,
       "name": "Gan Sie Huai",
-      "username": "huai99"
+      "username": "gun99-dev"
     },
     {
       "name": "Garrett Pement",
@@ -654,6 +656,7 @@
       "username": "gthd"
     },
     {
+      "name": "Gilman Huang",
       "username": "Gily-H"
     },
     {
@@ -707,6 +710,9 @@
       "username": "kaixin-hc"
     },
     {
+      "username": "Haoting-Chen"
+    },
+    {
       "name": "Hardik Ruparel",
       "username": "Hardik27"
     },
@@ -736,6 +742,7 @@
       "username": "hiresh"
     },
     {
+      "multiple": true,
       "name": "Hoang Le Tri Cuong",
       "username": "ErnestCuong"
     },
@@ -766,8 +773,12 @@
       "name": "Huynh Van Quang"
     },
     {
-      "name": "Ihor Malkone",
-      "username": "Malkone"
+      "name": "Ihor Klyusko",
+      "username": "aihorko"
+    },
+    {
+      "name": "Ina Bromuos",
+      "username": "ibrouos"
     },
     {
       "name": "Irene Tenison"
@@ -848,8 +859,9 @@
       "username": "said9999"
     },
     {
-      "name": "Joflesan",
-      "username": "josflesan"
+      "multiple": true,
+      "name": "Jiang Zhengtao",
+      "username": "zhengtaoJ"
     },
     {
       "name": "John Svanberg",
@@ -901,11 +913,15 @@
       "username": "josiahkhoo"
     },
     {
+      "name": "Josué Fleitas",
+      "username": "josflesan"
+    },
+    {
       "name": "Jovyn Tan",
       "username": "jovyntls"
     },
     {
-      "name": "João Victor",
+      "name": "João Victor Sierra",
       "username": "Jvsierra"
     },
     {
@@ -971,7 +987,7 @@
     },
     {
       "name": "Klaudia Rozgonyiova",
-      "username": "EffingKay"
+      "username": "klaudiaroz"
     },
     {
       "multiple": true,
@@ -999,6 +1015,9 @@
     {
       "name": "Kshitij Kulshreshtha",
       "username": "KshitijKythe"
+    },
+    {
+      "username": "kulagaIA"
     },
     {
       "multiple": true,
@@ -1064,11 +1083,6 @@
     {
       "name": "Liew Ken Hua",
       "username": "kenhua-l"
-    },
-    {
-      "multiple": true,
-      "name": "Liew Xin Yi",
-      "username": "xyliew25"
     },
     {
       "name": "Lim Jia Yee",
@@ -1176,6 +1190,10 @@
     {
       "name": "Matthew Cheung",
       "username": "Mcheung7272"
+    },
+    {
+      "name": "Matthew Lim",
+      "username": "mattlim1207"
     },
     {
       "major": true,
@@ -1385,7 +1403,7 @@
     {
       "multiple": true,
       "name": "Peh Shao Hong",
-      "username": "sh-ao"
+      "username": "sha0h0ng"
     },
     {
       "multiple": true,
@@ -1403,6 +1421,10 @@
     },
     {
       "username": "plucht"
+    },
+    {
+      "name": "Podugu Rohith Surya",
+      "username": "RohithSurya"
     },
     {
       "multiple": true,
@@ -1450,7 +1472,7 @@
     },
     {
       "name": "Progyan Bhattacharya",
-      "username": "Progyan1997"
+      "username": "0xTheProDev"
     },
     {
       "name": "Pulasthi Harasgama"
@@ -1458,6 +1480,9 @@
     {
       "multiple": true,
       "name": "Qiao Zhengyuan"
+    },
+    {
+      "username": "Qiurui-Xu"
     },
     {
       "multiple": true,
@@ -1559,7 +1584,7 @@
     },
     {
       "name": "Sanjeev Kumar",
-      "username": "sanjeevbitx"
+      "username": "sanj33vk"
     },
     {
       "name": "Sanket",
@@ -1614,7 +1639,7 @@
     },
     {
       "multiple": true,
-      "name": "Shiluka Dharmasena",
+      "name": "Shiluka Raveen Dharmasena",
       "username": "shiluka"
     },
     {
@@ -1808,6 +1833,7 @@
       "username": "junkiattan"
     },
     {
+      "multiple": true,
       "name": "Tan Sze Ying",
       "username": "tsy24"
     },
@@ -1831,6 +1857,7 @@
       "username": "xeia"
     },
     {
+      "multiple": true,
       "name": "Tan Yi Guan",
       "username": "tenebrius1"
     },
@@ -1866,6 +1893,11 @@
       "username": "josephinex"
     },
     {
+      "multiple": true,
+      "name": "Taufiq Bin Abdul Rahman",
+      "username": "tau-bar"
+    },
+    {
       "name": "Tay Yi Hsuen",
       "username": "yhtMinceraft1010X"
     },
@@ -1878,6 +1910,7 @@
       "name": "Teo Yock Swee Terence"
     },
     {
+      "multiple": true,
       "name": "Thikhina Bakmeedeniya",
       "username": "thikhinab"
     },
@@ -1891,7 +1924,7 @@
     },
     {
       "name": "Tom Elliott",
-      "username": "tomelliott1988"
+      "username": "tomell88"
     },
     {
       "multiple": true,
@@ -1908,6 +1941,9 @@
       "multiple": true,
       "name": "Truong Hoang Phuoc",
       "username": "hoangphuoc25"
+    },
+    {
+      "username": "u6867511"
     },
     {
       "name": "Ujjwal Wahi",
@@ -1935,7 +1971,7 @@
       "name": "Vaibhav Desai"
     },
     {
-      "name": "Vairon",
+      "name": "Vairon Mendoza",
       "username": "Vaironl"
     },
     {
@@ -2011,7 +2047,7 @@
       "username": "swxsw"
     },
     {
-      "name": "Yaroslav Gnatyuk",
+      "name": "Yaroslav Hnatiuk",
       "username": "yaroslav-hnatiuk"
     },
     {
@@ -2057,7 +2093,7 @@
       "username": "yook0530"
     },
     {
-      "multiple": true,
+      "major": true,
       "name": "Yu Shufan",
       "username": "fans2619"
     },
@@ -2088,6 +2124,10 @@
       "name": "Zheng Pingxia"
     },
     {
+      "name": "Zhishang Bian",
+      "username": "u7305725"
+    },
+    {
       "multiple": true,
       "name": "Zhu Liang",
       "username": "paradite"
@@ -2098,6 +2138,11 @@
     }
   ],
   "committers": [
+    {
+      "name": "Liew Xin Yi",
+      "username": "xyliew25",
+      "startPeriod": "May 2022"
+    },
     {
       "name": "Fergus Mok",
       "username": "FergusMok",
@@ -2114,39 +2159,15 @@
       "startPeriod": "Feb 2022"
     },
     {
-      "name": "Nicolas Chang Weng Yew",
-      "username": "NicolasCwy",
-      "startPeriod": "Feb 2022"
-    },
-    {
-      "name": "Zhang Ziqing",
-      "username": "ziqing26",
-      "startPeriod": "Feb 2022"
-    },
-    {
-      "name": "Zhao Jingjing",
-      "username": "zhaojj2209",
-      "startPeriod": "Feb 2022"
-    },
-    {
-      "name": "Samuel Fang",
-      "username": "samuelfangjw",
-      "startPeriod": "Jan 2022"
+      "name": "Dao Ngoc Hieu",
+      "username": "daongochieu2810",
+      "startPeriod": "Feb 2021"
     },
     {
       "name": "Yen Pinhsuan",
       "username": "ypinhsuan",
-      "startPeriod": "May 2021"
-    },
-    {
-      "name": "Wu Qirui",
-      "username": "hhdqirui",
-      "startPeriod": "May 2021"
-    },
-    {
-      "name": "Dao Ngoc Hieu",
-      "username": "daongochieu2810",
-      "startPeriod": "Feb 2021"
+      "startPeriod": "May 2021",
+      "endPeriod": "Dec 2022"
     },
     {
       "name": "Derek Zhuang",
@@ -2348,10 +2369,61 @@
       ]
     },
     {
+      "name": "Li Jianhan",
+      "username": "jianhandev",
+      "currentPosition": "Project Lead (Jan 2023 - )",
+      "pastPositions": [
+        "Snr Developer (Jan 2022 - Dec 2022)",
+        "Committer (Feb 2021 - Dec 2021)"
+      ]
+    },
+    {
+      "name": "Samuel Fang",
+      "username": "samuelfangjw",
+      "currentPosition": "Project Lead (Jan 2023 - )",
+      "pastPositions": [
+        "Snr Developer (Aug 2022 - Dec 2022)",
+        "Committer (Jan 2022 - Jul 2022)"
+      ]
+    },
+    {
+      "name": "Zhao Jingjing",
+      "username": "zhaojj2209",
+      "currentPosition": "Project Lead (Jan 2023 - )",
+      "pastPositions": [
+        "Snr Developer (Aug 2022 - Dec 2022)",
+        "Committer (Feb 2022 - Jul 2022)"
+      ]
+    },
+    {
+      "name": "Wu Qirui",
+      "username": "hhdqirui",
+      "currentPosition": "Snr Developer (Aug 2022 - )",
+      "pastPositions": [
+        "Committer (May 2021 - Jul 2022)"
+      ]
+    },
+    {
+      "name": "Nicolas Chang Weng Yew",
+      "username": "NicolasCwy",
+      "currentPosition": "Snr Developer (Aug 2022 - )",
+      "pastPositions": [
+        "Committer (Feb 2022 - Jul 2022)"
+      ]
+    },
+    {
+      "name": "Zhang Ziqing",
+      "username": "ziqing26",
+      "currentPosition": "Snr Developer (Aug 2022 - )",
+      "pastPositions": [
+        "Committer (Feb 2022 - Jul 2022)"
+      ]
+    },
+    {
       "name": "Ahmed Bahajjaj",
       "username": "madanalogy",
-      "currentPosition": "Project Lead (Aug 2020 - )",
       "pastPositions": [
+        "Project Lead (Aug 2020 - May 2022)",
         "Snr Developer (May 2020 - Jul 2020)",
         "Committer (Jan 2020 - May 2020)"
       ]
@@ -2359,32 +2431,24 @@
     {
       "name": "Tan Chee Peng",
       "username": "t-cheepeng",
-      "currentPosition": "Snr Developer (Aug 2020 - )",
       "pastPositions": [
+        "Snr Developer (Aug 2020 - May 2022)",
         "Committer (May 2020 - Jul 2020)"
-      ]
-    },
-    {
-      "name": "Li Jianhan",
-      "username": "jianhandev",
-      "currentPosition": "Snr Developer (Jan 2022 - )",
-      "pastPositions": [
-        "Committer (Feb 2021 - Dec 2021)"
       ]
     },
     {
       "name": "Lim Zi Wei",
       "username": "halfwhole",
-      "currentPosition": "Snr Developer (Jan 2022 - )",
       "pastPositions": [
+        "Snr Developer (Jan 2022 - May 2022)",
         "Committer (Feb 2021 - Dec 2021)"
       ]
     },
     {
       "name": "Mo Zongran",
       "username": "moziliar",
-      "currentPosition": "Snr Developer (Jan 2022 - )",
       "pastPositions": [
+        "Snr Developer (Jan 2022 - May 2022)",
         "Committer (Aug 2020 - Dec 2021)"
       ]
     },

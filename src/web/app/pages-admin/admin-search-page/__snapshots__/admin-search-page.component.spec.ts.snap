@@ -2,6 +2,7 @@
 
 exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 <tm-admin-search-page
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -10,6 +11,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
   searchService={[Function SearchService]}
+  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -137,7 +139,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                 ins-google-id
+                ins-google-id
               </a>
             </td>
             <td>
@@ -265,7 +267,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                 student
+                student
               </a>
             </td>
             <td>
@@ -274,7 +276,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                 student-google-id
+                student-google-id
               </a>
             </td>
             <td>
@@ -328,6 +330,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 
 exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -336,6 +339,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
   loadingBarService={[Function LoadingBarService]}
   searchQuery={[Function String]}
   searchService={[Function SearchService]}
+  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -378,6 +382,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 
 exports[`AdminSearchPageComponent should snap with an expanded account requests table 1`] = `
 <tm-admin-search-page
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -386,6 +391,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
   searchService={[Function SearchService]}
+  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -483,20 +489,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
         <tbody>
           <tr>
             <td>
-               name 
-              <br />
-              <div
-                class="col-sm-1"
-              >
-                <button
-                  class="btn"
-                >
-                  <i
-                    class="fas fa-chevron-circle-up"
-                    style="color: blue;"
-                  />
-                </button>
-              </div>
+              name
             </td>
             <td>
               email
@@ -554,6 +547,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
 
 exports[`AdminSearchPageComponent should snap with an expanded instructor table 1`] = `
 <tm-admin-search-page
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -562,6 +556,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
   searchService={[Function SearchService]}
+  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -686,7 +681,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                 instructor-google-id
+                instructor-google-id
               </a>
             </td>
             <td>
@@ -807,6 +802,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 
 exports[`AdminSearchPageComponent should snap with an expanded student table 1`] = `
 <tm-admin-search-page
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -815,6 +811,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
   searchService={[Function SearchService]}
+  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -937,7 +934,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                 Alice Betsy
+                Alice Betsy
               </a>
             </td>
             <td>
@@ -946,7 +943,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                 student-google-id
+                student-google-id
               </a>
             </td>
             <td>
@@ -1110,6 +1107,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 
 exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -1118,6 +1116,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
   loadingBarService={[Function LoadingBarService]}
   searchQuery=""
   searchService={[Function SearchService]}
+  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}

@@ -98,10 +98,13 @@ export class StudentListComponent {
    */
   remindStudentFromCourse(studentEmail: string): void {
     this.courseService.remindStudentForJoin(this.courseId, studentEmail)
-      .subscribe((resp: MessageOutput) => {
-        this.statusMessageService.showSuccessToast(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      .subscribe({
+        next: (resp: MessageOutput) => {
+          this.statusMessageService.showSuccessToast(resp.message);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
   }
 

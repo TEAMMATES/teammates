@@ -108,8 +108,8 @@ describe('NotificationBannerComponent', () => {
     expect(component.isShown).toBeTruthy();
     const button = fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement;
     button.click();
-    expect(apiSpy).toBeCalledTimes(1);
-    expect(messageSpy).toBeCalledTimes(1);
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(messageSpy).toHaveBeenCalledTimes(1);
     expect(component.isShown).toBeFalsy();
   });
 

@@ -4,6 +4,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
 <tm-usage-statistics-page
   AggregationType={[Function Object]}
   StatisticsType={[Function Object]}
+  __ngContext__={[Function LRootView]}
   dataToDraw={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}

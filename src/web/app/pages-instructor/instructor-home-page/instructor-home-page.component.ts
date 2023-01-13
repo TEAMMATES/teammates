@@ -128,14 +128,17 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     modalRef.result.then(() => {
       this.courseService.changeArchiveStatus(courseId, {
         archiveStatus: true,
-      }).subscribe((courseArchive: CourseArchive) => {
-        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-          return model.course.courseId !== courseId;
-        });
-        this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
+      }).subscribe({
+        next: (courseArchive: CourseArchive) => {
+          this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+            return model.course.courseId !== courseId;
+          });
+          this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
             You can retrieve it from the Courses page.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }, () => {});
   }
@@ -150,14 +153,17 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Move course <strong>${courseId}</strong> to Recycle Bin`, SimpleModalType.WARNING, modalContent);
     modalRef.result.then(() => {
-      this.courseService.binCourse(courseId).subscribe((course: Course) => {
-        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-          return model.course.courseId !== courseId;
-        });
-        this.statusMessageService.showSuccessToast(
-            `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      this.courseService.binCourse(courseId).subscribe({
+        next: (course: Course) => {
+          this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+            return model.course.courseId !== courseId;
+          });
+          this.statusMessageService.showSuccessToast(
+              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
     }, () => {});
   }
@@ -169,31 +175,34 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.hasCoursesLoadingFailed = false;
     this.courseTabModels = [];
     this.courseService.getInstructorCoursesThatAreActive()
-      .pipe(finalize(() => {
-        this.hasCoursesLoaded = true;
-      })).subscribe((courses: Courses) => {
-        courses.courses.forEach((course: Course) => {
-          const model: CourseTabModel = {
-            course,
-            instructorPrivilege: course.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
-            sessionsTableRowModels: [],
-            isTabExpanded: false,
-            isAjaxSuccess: true,
-            hasPopulated: false,
-            hasLoadingFailed: false,
-            sessionsTableRowModelsSortBy: SortBy.NONE,
-            sessionsTableRowModelsSortOrder: SortOrder.ASC,
-          };
+        .pipe(finalize(() => {
+          this.hasCoursesLoaded = true;
+        }))
+        .subscribe({
+          next: (courses: Courses) => {
+            courses.courses.forEach((course: Course) => {
+              const model: CourseTabModel = {
+                course,
+                instructorPrivilege: course.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
+                sessionsTableRowModels: [],
+                isTabExpanded: false,
+                isAjaxSuccess: true,
+                hasPopulated: false,
+                hasLoadingFailed: false,
+                sessionsTableRowModelsSortBy: SortBy.NONE,
+                sessionsTableRowModelsSortOrder: SortOrder.ASC,
+              };
 
-          this.courseTabModels.push(model);
+              this.courseTabModels.push(model);
+            });
+            this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
+            this.sortCoursesBy(this.instructorCoursesSortBy);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.hasCoursesLoadingFailed = true;
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
-        this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
-        this.sortCoursesBy(this.instructorCoursesSortBy);
-      }, (resp: ErrorMessageOutput) => {
-        this.hasCoursesLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-
-      });
   }
 
   /**
@@ -204,24 +213,28 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     model.hasLoadingFailed = false;
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
-          .subscribe((response: FeedbackSessions) => {
-            response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
-              const m: SessionsTableRowModel = {
-                feedbackSession,
-                responseRate: '',
-                isLoadingResponseRate: false,
-                instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
-              };
-              model.sessionsTableRowModels.push(m);
-            });
-            model.hasPopulated = true;
-            if (!model.isAjaxSuccess) {
-              model.isAjaxSuccess = true;
-            }
-          }, (resp: ErrorMessageOutput) => {
-            model.hasLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          }, () => this.sortSessionsTableRowModelsEvent(index, SortBy.SESSION_END_DATE));
+          .subscribe({
+            next: (response: FeedbackSessions) => {
+              response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+                const m: SessionsTableRowModel = {
+                  feedbackSession,
+                  responseRate: '',
+                  isLoadingResponseRate: false,
+                  instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
+                };
+                model.sessionsTableRowModels.push(m);
+              });
+              model.hasPopulated = true;
+              if (!model.isAjaxSuccess) {
+                model.isAjaxSuccess = true;
+              }
+            },
+            error: (resp: ErrorMessageOutput) => {
+              model.hasLoadingFailed = true;
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+            complete: () => this.sortSessionsTableRowModelsEvent(index, SortBy.SESSION_END_DATE),
+          });
     }
   }
 
@@ -323,12 +336,17 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
-        .subscribe(() => {
-          this.courseTabModels[tabIndex].sessionsTableRowModels.splice(
-              this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model), 1);
-          this.statusMessageService.showSuccessToast(
-              "The feedback session has been deleted. You can restore it from the 'Sessions' tab.");
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        .subscribe({
+          next: () => {
+            this.courseTabModels[tabIndex].sessionsTableRowModels.splice(
+                this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model), 1);
+            this.statusMessageService.showSuccessToast(
+                "The feedback session has been deleted. You can restore it from the 'Sessions' tab.");
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
   }
 
   /**

@@ -549,15 +549,15 @@ export class FeedbackQuestionsService {
     };
 
     if (queryParams.key) {
-      paramMap.key = queryParams.key;
+      paramMap['key'] = queryParams.key;
     }
 
     if (queryParams.moderatedPerson) {
-      paramMap.moderatedperson = queryParams.moderatedPerson;
+      paramMap['moderatedperson'] = queryParams.moderatedPerson;
     }
 
     if (queryParams.previewAs) {
-      paramMap.previewas = queryParams.previewAs;
+      paramMap['previewas'] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.QUESTIONS, paramMap);

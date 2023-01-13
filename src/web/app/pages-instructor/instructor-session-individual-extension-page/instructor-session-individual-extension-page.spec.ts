@@ -216,10 +216,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should stop loading if student service returns 404', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
-      throwError({
+      throwError(() => ({
         status: 404,
         error: { message: 'This is a test message' },
-      }),
+      })),
     );
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
@@ -235,7 +235,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
     fixture.detectChanges();
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
   });
 
@@ -244,10 +244,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(
-      throwError({
+      throwError(() => ({
         status: 404,
         error: { message: 'This is a test message' },
-      }),
+      })),
     );
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
@@ -260,7 +260,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
     fixture.detectChanges();
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
   });
 
@@ -268,10 +268,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
-      throwError({
+      throwError(() => ({
         status: 404,
         error: { message: 'This is a test message' },
-      }),
+      })),
     );
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
@@ -285,17 +285,17 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
     fixture.detectChanges();
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should stop loading if course service returns 404', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(
-      throwError({
+      throwError(() => ({
         status: 404,
         error: { message: 'This is a test message' },
-      }),
+      })),
     );
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
@@ -311,7 +311,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
     fixture.detectChanges();
-    expect(spyStatusMessageService).toBeCalled();
+    expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
   });
 

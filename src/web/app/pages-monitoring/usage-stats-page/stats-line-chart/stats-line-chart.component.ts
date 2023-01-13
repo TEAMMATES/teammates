@@ -37,7 +37,7 @@ export class StatsLineChartComponent implements OnChanges {
   constructor(private chartElem: ElementRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.data && this.data && this.timeRange) {
+    if (changes['data'] && this.data && this.timeRange) {
       this.initializeChart();
       this.drawChart();
 

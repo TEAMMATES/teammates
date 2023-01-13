@@ -117,12 +117,12 @@ describe('UserJoinPageComponent', () => {
 
   it('should show error message if 4xx is returned when joining course', () => {
     const errorMessage = '404 ERROR';
-    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError(() => ({
       error: {
         message: errorMessage,
       },
       status: 404,
-    }));
+    })));
 
     const modalSpy = jest
         .spyOn(simpleModalService, 'openInformationModal')
@@ -138,13 +138,13 @@ describe('UserJoinPageComponent', () => {
   it('should show error message if 5xx is returned when joining course', () => {
     const errorMessage = '502 ERROR';
     const requestId = 'requestId';
-    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError({
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError(() => ({
       error: {
         message: errorMessage,
         requestId,
       },
       status: 502,
-    }));
+    })));
 
     const mockModalRef = createMockNgbModalRef();
     const modalSpy = jest
@@ -216,9 +216,9 @@ describe('UserJoinPageComponent', () => {
       },
       masquerade: false,
     }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError(() => ({
       status: 404,
-    }));
+    })));
 
     component.ngOnInit();
 
@@ -349,9 +349,9 @@ describe('UserJoinPageComponent creating account', () => {
       },
       masquerade: false,
     }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError({
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError(() => ({
       status: 404,
-    }));
+    })));
 
     component.ngOnInit();
 

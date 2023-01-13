@@ -24,10 +24,10 @@ export class AuthService {
   getAuthUser(user?: string, nextUrl?: string): Observable<AuthInfo> {
     const params: Record<string, string> = { frontendUrl: this.frontendUrl };
     if (user) {
-      params.user = user;
+      params['user'] = user;
     }
     if (nextUrl) {
-      params.nextUrl = nextUrl;
+      params['nextUrl'] = nextUrl;
     }
     return this.httpRequestService.get(ResourceEndpoints.AUTH, params);
   }

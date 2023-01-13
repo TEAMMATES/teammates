@@ -377,11 +377,11 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should display error message when feedback session failed to load', () => {
     component.hasLoadingFeedbackSessionFailed = false;
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -389,7 +389,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.loadFeedbackSession();
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
     expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
   });
 
@@ -408,11 +408,11 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should display error message when feedback question failed to load', () => {
     component.hasLoadingFeedbackQuestionsFailed = false;
-    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(throwError({
+    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -420,7 +420,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.loadFeedbackQuestions();
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
     expect(component.hasLoadingFeedbackQuestionsFailed).toBeTruthy();
   });
 
@@ -452,11 +452,11 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should display error message when failed to get student', () => {
-    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError({
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -464,7 +464,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.getAllStudentsOfCourse();
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should get all instructors of the course', () => {
@@ -492,11 +492,11 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should display error message when failed to get instructor', () => {
-    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(throwError({
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -504,7 +504,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.getAllInstructors();
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should collapse all questions', () => {
@@ -653,7 +653,7 @@ describe('InstructorSessionEditPageComponent', () => {
     await promise;
 
     expect(ngbModal.open).toHaveBeenCalledWith(TemplateQuestionModalComponent, { windowClass: 'modal-large' });
-    expect(feedbackQuestionSpy).toBeCalledTimes(1);
+    expect(feedbackQuestionSpy).toHaveBeenCalledTimes(1);
     expect(component.questionEditFormModels[0].feedbackQuestionId).toEqual(testFeedbackQuestion1.feedbackQuestionId);
     expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId))
       .toEqual(testFeedbackQuestion1);

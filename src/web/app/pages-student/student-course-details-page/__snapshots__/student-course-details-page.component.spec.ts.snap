@@ -4,6 +4,7 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
 <tm-student-course-details-page
   Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -46,6 +47,7 @@ exports[`StudentCourseDetailsPageComponent should snap when it fails to load 1`]
 <tm-student-course-details-page
   Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -89,6 +91,7 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
 <tm-student-course-details-page
   Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -132,6 +135,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
 <tm-student-course-details-page
   Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
