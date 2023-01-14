@@ -210,21 +210,20 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
-                                                                          long startTime, long endTime, String fsName) {
-        if (courseId == null) {
-            List<FeedbackSessionLogEntryAttributes> logEntries = new ArrayList<>();
+    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(
+            String courseId, String email, long startTime, long endTime, String fsName) {
+        List<FeedbackSessionLogEntryAttributes> logEntries = new ArrayList<>();
 
+        if (courseId == null) {
             for (Map.Entry<String, List<FeedbackSessionLogEntryAttributes>> entry
                     : FEEDBACK_SESSION_LOG_ENTRIES.entrySet()) {
                 logEntries.addAll(entry.getValue());
             }
-
-            return logEntries;
+        } else {
+            logEntries = FEEDBACK_SESSION_LOG_ENTRIES.getOrDefault(courseId, new ArrayList<>());
         }
 
-        return FEEDBACK_SESSION_LOG_ENTRIES
-                .getOrDefault(courseId, new ArrayList<>())
+        return logEntries
                 .stream()
                 .filter(log -> email == null || log.getStudentEmail().equals(email))
                 .filter(log -> fsName == null || log.getFeedbackSessionName().equals(fsName))

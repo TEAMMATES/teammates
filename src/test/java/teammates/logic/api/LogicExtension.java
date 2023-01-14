@@ -34,4 +34,5 @@ public class LogicExtension extends Logic {
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
         return feedbackResponsesLogic.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
+
 }

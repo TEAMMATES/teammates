@@ -3,6 +3,7 @@ package teammates.e2e.cases;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 
 import org.testng.annotations.Test;
 
@@ -10,7 +11,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -28,7 +28,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     private FeedbackSessionAttributes feedbackSession;
     private FeedbackQuestionAttributes feedbackQuestion;
     private StudentAttributes student;
-    private FeedbackSessionLogEntryAttributes logEntry;
 
     @Override
     protected void prepareTestData() {
@@ -40,7 +39,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         student = testData.students.get("alice.tmms@ISActLogs.CS2104");
         feedbackQuestion = testData.feedbackQuestions.get("qn1");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        logEntry = testData.feedbackSessionLogEntries.get("logEntry");
     }
 
     @Test
@@ -86,6 +84,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
 
         studentSubmissionPage.fillTextResponse(1, receiver.getName(), response);
         studentSubmissionPage.clickSubmitQuestionButton(1);
+        // Manually trigger the log update cron job
+        BACKDOOR.executeGetRequest(Const.CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_UPDATE, new HashMap<>());
 
         logout();
         studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class,
@@ -93,7 +93,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentActivityLogsPage.setActivityType("session access and submission");
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
-        studentActivityLogsPage.addLogEntry(logEntry.getFeedbackSessionName());
 
         assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }

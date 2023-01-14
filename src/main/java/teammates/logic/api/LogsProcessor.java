@@ -54,8 +54,8 @@ public class LogsProcessor {
      * Gets the feedback session logs as filtered by the given parameters.
      * @param email Can be null
      */
-    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
-                                                                          long startTime, long endTime, String fsName) {
+    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(
+            String courseId, String email, long startTime, long endTime, String fsName) {
         return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 

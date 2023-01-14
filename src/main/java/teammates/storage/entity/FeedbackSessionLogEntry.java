@@ -26,6 +26,8 @@ public class FeedbackSessionLogEntry extends BaseEntity {
 
     private String feedbackSessionLogType;
 
+    private String remarks;
+
     private long timestamp;
 
     @Translate(InstantTranslatorFactory.class)
@@ -81,6 +83,14 @@ public class FeedbackSessionLogEntry extends BaseEntity {
 
     public void setFeedbackSessionLogType(String feedbackSessionLogType) {
         this.feedbackSessionLogType = feedbackSessionLogType;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public long getTimestamp() {

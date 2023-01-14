@@ -201,6 +201,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
             List<FeedbackSessionLogEntryData> outputEntries,
             List<FeedbackSessionLogEntryAttributes> inputEntries
     ) {
+        assertEquals(inputEntries.size(), outputEntries.size());
+
         for (FeedbackSessionLogEntryData entryData : outputEntries) {
             String logType = entryData.getFeedbackSessionLogType().getLabel();
 

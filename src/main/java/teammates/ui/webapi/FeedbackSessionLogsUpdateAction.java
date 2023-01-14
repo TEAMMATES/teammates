@@ -67,10 +67,10 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
                     if (currLog.getTimestamp() - startLog.getTimestamp() <= MIN_WINDOW_PERIOD) {
                         windowSize++;
-
                         // If the window size exceeds the max value
                         // we only take the first log of the window.
                         if (windowSize == MAX_WINDOW_SIZE) {
+                            startLog.setRemarks("This window has " + windowSize + " log(s)");
                             validLogEntries.add(startLog);
                             windowStartIndex = i + 1;
                         }
