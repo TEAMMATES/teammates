@@ -73,8 +73,8 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(0.5, 0.5)));
 
         List<String> errors = rubricDetails.validateQuestionDetails();
-        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_NOT_ENOUGH_CHOICES 
-                + FeedbackRubricQuestionDetails.RUBRIC_MIN_NUM_OF_CHOICES, 
+        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_NOT_ENOUGH_CHOICES
+                + FeedbackRubricQuestionDetails.RUBRIC_MIN_NUM_OF_CHOICES,
                 errors.get(0));
     }
 
