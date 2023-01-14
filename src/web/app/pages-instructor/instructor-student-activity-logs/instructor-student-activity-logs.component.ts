@@ -306,13 +306,14 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           .map((student: Student) => {
             let status: string;
             let dataStyle: string = 'font-family:monospace; white-space:pre;';
-            const statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
+            let statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
             const studentKey = this.getStudentKey(log, student.email);
 
             if (studentKey in this.studentToLog) {
               const entry: FeedbackSessionLogEntry = this.studentToLog[studentKey];
               const timestamp: string = this.timezoneService.formatToString(
                   entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+              statusPrefix = this.logTypeToActivityDisplay(entry.feedbackSessionLogType);
               status = `${statusPrefix} at ${timestamp}`;
             } else {
               const timestamp: string = this.timezoneService.formatToString(
