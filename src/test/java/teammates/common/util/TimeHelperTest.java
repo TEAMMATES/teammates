@@ -70,6 +70,28 @@ public class TimeHelperTest extends BaseTestCase {
         forwardAdjusted = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2359, wrongTimeZone, true);
         assertEquals("Sun, 29 Nov 2015, 11:59 PM UTC",
                 TimeHelper.formatInstant(forwardAdjusted, zoneId, DATETIME_DISPLAY_FORMAT));
+
+
+        instantAt0000 = LocalDateTime.of(2023, Month.JANUARY, 15, 0, 0).atZone(ZoneId.of(zoneId)).toInstant();
+
+        backwardAdjusted = TimeHelper.getMidnightAdjustedInstantBasedOnZone(null, "UTC", false);
+        assertEquals(null,
+                TimeHelper.formatInstant(backwardAdjusted, zoneId, DATETIME_DISPLAY_FORMAT));
+
+        forwardAdjusted = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt0000, "UTC", true);
+        assertEquals("Sun, 15 Jan 2023, 12:00 AM UTC",
+                TimeHelper.formatInstant(forwardAdjusted, zoneId, DATETIME_DISPLAY_FORMAT));
+
+        backwardAdjusted = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2359, "UTC", false);
+        assertEquals("Sun, 15 Jan 2023, 11:59 PM UTC",
+                TimeHelper.formatInstant(backwardAdjusted, zoneId, DATETIME_DISPLAY_FORMAT));
+
+        instantAt2359 = LocalDateTime.of(2023, Month.JANUARY, 15, 23, 59).atZone(ZoneId.of(zoneId)).toInstant();
+
+        backwardAdjusted = TimeHelper.getMidnightAdjustedInstantBasedOnZone(instantAt2359, "UTC", true);
+        assertEquals("Sun, 15 Jan 2023, 12:00 AM UTC",
+                TimeHelper.formatInstant(backwardAdjusted, zoneId, DATETIME_DISPLAY_FORMAT));
+
     }
 
     @Test
