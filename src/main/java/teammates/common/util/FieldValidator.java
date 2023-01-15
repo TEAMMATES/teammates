@@ -667,14 +667,14 @@ public final class FieldValidator {
      * Checks if the {@code startTime} is valid to be used as a session start time.
      * Returns an empty string if it is valid, or an error message otherwise.
      *
-     * <p>The {@code startTime} is valid if it is after 3 hours before now, before 90 days from now
+     * <p>The {@code startTime} is valid if it is after 2 hours before now, before 90 days from now
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForNewStartTime(Instant startTime, String timeZone) {
-        Instant threeHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-3);
+        Instant twoHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-2);
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
-                threeHoursBeforeNow, startTime, SESSION_NAME,
-                "3 hours before now", SESSION_START_TIME_FIELD_NAME,
+                twoHoursBeforeNow, startTime, SESSION_NAME,
+                "2 hours before now", SESSION_START_TIME_FIELD_NAME,
                 (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
                 "The %s for this %s cannot be earlier than %s.");
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
@@ -703,14 +703,14 @@ public final class FieldValidator {
      * Checks if the {@code endTime} is valid to be used as a session end time.
      * Returns an empty string if it is valid, or an error message otherwise.
      *
-     * <p>The {@code endTime} is valid if it is after 3 hours before now, before 180 days from now
+     * <p>The {@code endTime} is valid if it is after 1 hour before now, before 180 days from now
      * and at exact hour mark.
      */
     public static String getInvalidityInfoForNewEndTime(Instant endTime, String timeZone) {
-        Instant threeHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-3);
+        Instant oneHourBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-1);
         String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
-                threeHoursBeforeNow, endTime, SESSION_NAME,
-                "3 hours before now", SESSION_END_TIME_FIELD_NAME,
+                oneHourBeforeNow, endTime, SESSION_NAME,
+                "1 hour before now", SESSION_END_TIME_FIELD_NAME,
                 (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
                 "The %s for this %s cannot be earlier than %s.");
         if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {

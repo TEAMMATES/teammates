@@ -155,21 +155,21 @@ export class SessionEditFormComponent {
   /**
    * Gets the minimum date for a session to be opened.
    *
-   * <p> The minimum session opening datetime is 3 hours before now.
+   * <p> The minimum session opening datetime is 2 hours before now.
    */
   get minDateForSubmissionStart(): DateFormat {
-    const threeHoursBeforeNow = moment().tz(this.model.timeZone).subtract(3, 'hours');
-    return this.datetimeService.getDateInstance(threeHoursBeforeNow);
+    const twoHoursBeforeNow = moment().tz(this.model.timeZone).subtract(2, 'hours');
+    return this.datetimeService.getDateInstance(twoHoursBeforeNow);
   }
 
   /**
    * Gets the minimum time for a session to be opened.
    *
-   * <p> The minimum session opening datetime is 3 hours before now.
+   * <p> The minimum session opening datetime is 2 hours before now.
    */
   get minTimeForSubmissionStart(): TimeFormat {
-    const threeHoursBeforeNow = moment().tz(this.model.timeZone).subtract(3, 'hours');
-    return this.datetimeService.getTimeInstance(threeHoursBeforeNow);
+    const twoHoursBeforeNow = moment().tz(this.model.timeZone).subtract(2, 'hours');
+    return this.datetimeService.getTimeInstance(twoHoursBeforeNow);
   }
 
   /**
@@ -194,22 +194,22 @@ export class SessionEditFormComponent {
   /**
    * Gets the minimum date for a session to be closed.
    *
-   * <p> The minimum session closing datetime is on session opening datetime or 3 hours before now, whichever is later.
+   * <p> The minimum session closing datetime is on session opening datetime or 1 hour before now, whichever is later.
    */
   get minDateForSubmissionEnd(): DateFormat {
     const submissionStartDate: moment.Moment =
         this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
-    const threeHoursBeforeNow = moment().tz(this.model.timeZone).subtract(3, 'hours');
+    const oneHourBeforeNow = moment().tz(this.model.timeZone).subtract(1, 'hours');
 
-    return submissionStartDate.isAfter(threeHoursBeforeNow)
+    return submissionStartDate.isAfter(oneHourBeforeNow)
         ? this.model.submissionStartDate
-        : this.datetimeService.getDateInstance(threeHoursBeforeNow);
+        : this.datetimeService.getDateInstance(oneHourBeforeNow);
   }
 
   /**
    * Gets the minimum time for a session to be closed.
    *
-   * <p> The minimum session closing datetime is on session opening datetime or 3 hours before now, whichever is later.
+   * <p> The minimum session closing datetime is on session opening datetime or 1 hour before now, whichever is later.
    */
   get minTimeForSubmissionEnd(): TimeFormat {
     const submissionStartDate: moment.Moment =
@@ -218,12 +218,12 @@ export class SessionEditFormComponent {
         this.datetimeService.getMomentInstanceFromTime(this.model.submissionStartTime);
     const submissionStartDateTime: moment.Moment = submissionStartDate
         .add(submissionStartTime.hour()).add(submissionStartTime.minute());
-    const threeHoursBeforeNow = moment().tz(this.model.timeZone).subtract(3, 'hours');
+    const oneHourBeforeNow = moment().tz(this.model.timeZone).subtract(1, 'hours');
 
-    if (submissionStartDateTime.isAfter(threeHoursBeforeNow)) {
+    if (submissionStartDateTime.isAfter(oneHourBeforeNow)) {
       return this.datetimeService.getTimeInstance(submissionStartDateTime);
     }
-    return this.datetimeService.getTimeInstance(threeHoursBeforeNow);
+    return this.datetimeService.getTimeInstance(oneHourBeforeNow);
   }
 
   /**
