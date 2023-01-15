@@ -161,6 +161,30 @@ public class InstructorAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testValueOf_withCreatedAtAndUpdatedAtAsNull_shouldUseDefaultValues() {
+        Instructor instructor = new Instructor("valid.google.id", "valid-course-id", false,
+            "valid name", "valid@email.com", null,true, null, null);
+        instructor.setCreatedAt(null);
+        InstructorAttributes instructorAttributes = InstructorAttributes.valueOf(instructor);
+
+        assertEquals(instructor.getGoogleId(), instructorAttributes.getGoogleId());
+        assertEquals(instructor.getCourseId(), instructorAttributes.getCourseId());
+        assertEquals(instructor.getIsArchived(), instructorAttributes.isArchived());
+        assertEquals(instructor.getName(), instructorAttributes.getName());
+        assertEquals(instructor.getEmail(), instructorAttributes.getEmail());
+        assertEquals(instructor.getRegistrationKey(), instructorAttributes.getKey());
+        assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructorAttributes.getRole());
+        assertEquals(instructor.isDisplayedToStudents(), instructorAttributes.isDisplayedToStudents());
+        assertEquals(Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, instructorAttributes.getDisplayedName());
+        assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
+                instructorAttributes.getPrivileges());
+
+        // Default CreatedAt and UpdatedAt
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, instructorAttributes.getCreatedAt());
+        assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, instructorAttributes.getUpdatedAt());
+    }
+
+    @Test
     public void testIsRegistered() {
         InstructorAttributes instructor = InstructorAttributes
                 .builder("valid-course-id", "valid@email.com")
