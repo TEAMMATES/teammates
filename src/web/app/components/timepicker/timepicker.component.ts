@@ -18,19 +18,19 @@ export class TimepickerComponent {
   time: TimeFormat = getDefaultTimeFormat();
 
   @Input()
-  minTime: TimeFormat | undefined;
+  minTime?: TimeFormat;
 
   @Input()
-  maxTime: TimeFormat | undefined;
+  maxTime?: TimeFormat;
 
   @Input()
   date: DateFormat = getDefaultDateFormat();
 
   @Input()
-  minDate: DateFormat | undefined;
+  minDate?: DateFormat;
 
   @Input()
-  maxDate: DateFormat | undefined;
+  maxDate?: DateFormat;
 
   @Output()
   timeChange: EventEmitter<TimeFormat> = new EventEmitter();
