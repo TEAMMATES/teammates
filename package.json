@@ -35,7 +35,7 @@
     "file-saver": "^2.0.5",
     "handsontable": "^7.4.2",
     "intersection-observer": "^0.12.2",
-    "moment-timezone": "^0.5.34",
+    "moment-timezone": "^0.5.40",
     "ng-dynamic-component": "~10.1.0",
     "ng-in-viewport": "^6.1.5",
     "ngx-captcha": "^11.0.0",
