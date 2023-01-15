@@ -48,7 +48,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
+        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest(course.getTimeZone());
 
         CreateFeedbackSessionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
@@ -104,23 +104,23 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         ______TS("Error: try to add the same session again");
 
-        verifyInvalidOperation(getTypicalCreateRequest(), params);
+        verifyInvalidOperation(getTypicalCreateRequest(course.getTimeZone()), params);
 
         ______TS("Error: Invalid parameters (invalid session name > 64 characters)");
 
-        FeedbackSessionCreateRequest request = getTypicalCreateRequest();
+        FeedbackSessionCreateRequest request = getTypicalCreateRequest(course.getTimeZone());
         request.setFeedbackSessionName(StringHelperExtension.generateStringOfLength(65));
         verifyHttpRequestBodyFailure(request, params);
 
         ______TS("Unsuccessful case: test null session name");
 
-        request = getTypicalCreateRequest();
+        request = getTypicalCreateRequest(course.getTimeZone());
         request.setFeedbackSessionName(null);
         verifyHttpRequestBodyFailure(request, params);
 
         ______TS("Add course with extra space (in middle and trailing)");
 
-        createRequest = getTypicalCreateRequest();
+        createRequest = getTypicalCreateRequest(course.getTimeZone());
         createRequest.setFeedbackSessionName("Name with extra  space ");
 
         a = getAction(createRequest, params);
@@ -203,13 +203,13 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         };
         params = addUserIdToParams(instructor1ofCourse1.getGoogleId(), params);
 
-        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
+        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest(course.getTimeZone());
 
         CreateFeedbackSessionAction a = getAction(createRequest, params);
         getJsonResult(a);
     }
 
-    private FeedbackSessionCreateRequest getTypicalCreateRequest() {
+    private FeedbackSessionCreateRequest getTypicalCreateRequest(String timeZone) {
         FeedbackSessionCreateRequest createRequest =
                 new FeedbackSessionCreateRequest();
         createRequest.setFeedbackSessionName("new feedback session");
@@ -217,18 +217,18 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         // Preprocess session timings to adhere stricter checks
         createRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
-                2, "Africa/Johannesburg").toEpochMilli());
+                2, timeZone).toEpochMilli());
         createRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
-                7, "Africa/Johannesburg").toEpochMilli());
+                7, timeZone).toEpochMilli());
         createRequest.setGracePeriod(5);
 
         createRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
         createRequest.setCustomSessionVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
-                2, "Africa/Johannesburg").toEpochMilli());
+                2, timeZone).toEpochMilli());
 
         createRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
         createRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
-                7, "Africa/Johannesburg").toEpochMilli());
+                7, timeZone).toEpochMilli());
 
         createRequest.setClosingEmailEnabled(false);
         createRequest.setPublishedEmailEnabled(false);
