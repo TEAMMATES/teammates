@@ -466,39 +466,61 @@ export class InstructorCoursesPageComponent implements OnInit {
   private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, newTimeZone: string,
                                          oldCourseId: string): FeedbackSessionCreateRequest {
     // Local constants
-    const threeHoursBeforeNow = moment().tz(newTimeZone).subtract(3, 'hour').valueOf();
+    const twoHoursBeforeNow = moment().tz(newTimeZone).subtract(2, 'hours')
+        .valueOf();
     const twoDaysFromNowRoundedUp = moment().tz(newTimeZone).add(2, 'days').startOf('hour')
         .valueOf();
     const sevenDaysFromNowRoundedUp = moment().tz(newTimeZone).add(7, 'days').startOf('hour')
         .valueOf();
-    const ninetyDaysFromNow = moment().tz(newTimeZone).add(90, 'day')
+    const ninetyDaysFromNow = moment().tz(newTimeZone).add(90, 'days')
         .valueOf();
-    const oneHundredAndEightyDaysFromNow = moment().tz(newTimeZone).add(180, 'day')
+    const ninetyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(90, 'days').startOf('hour')
+        .valueOf();
+    const oneHundredAndEightyDaysFromNow = moment().tz(newTimeZone).add(180, 'days')
+        .valueOf();
+    const oneHundredAndEightyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(180, 'days')
+        .startOf('hour')
         .valueOf();
 
     // Preprocess timestamps to adhere to feedback session timestamps constraints
     let isModified: boolean = false;
+
     let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
-    if (copiedSubmissionStartTimestamp < threeHoursBeforeNow || copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
+    if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {
       copiedSubmissionStartTimestamp = twoDaysFromNowRoundedUp;
       isModified = true;
+    } else if (copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
+      copiedSubmissionStartTimestamp = ninetyDaysFromNowRoundedUp;
+      isModified = true;
     }
+
     let copiedSubmissionEndTimestamp = fromFeedbackSession.submissionEndTimestamp;
-    if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp
-        || copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
+    if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp) {
       copiedSubmissionEndTimestamp = sevenDaysFromNowRoundedUp;
       isModified = true;
-    }
-    let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
-    const copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
-    const thirtyDaysFromSubmissionStart = moment(copiedSubmissionStartTimestamp)
-        .tz(newTimeZone).subtract(30, 'day').valueOf();
-    if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM
-        && (copiedCustomSessionVisibleTimestamp < thirtyDaysFromSubmissionStart
-            || copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp)) {
-      copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
+    } else if (copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
+      copiedSubmissionEndTimestamp = oneHundredAndEightyDaysFromNowRoundedUp;
       isModified = true;
     }
+
+    let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
+    let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
+    const thirtyDaysFromSubmissionStart = moment(copiedSubmissionStartTimestamp)
+        .tz(newTimeZone).subtract(30, 'days')
+        .valueOf();
+    const thirtyDaysFromSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
+        .tz(newTimeZone).subtract(30, 'days').startOf('hour')
+        .valueOf();
+    if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
+      if (copiedCustomSessionVisibleTimestamp < thirtyDaysFromSubmissionStart) {
+        copiedCustomSessionVisibleTimestamp = thirtyDaysFromSubmissionStartRoundedUp;
+        isModified = true;
+      } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
+        copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
+        isModified = true;
+      }
+    }
+
     let copiedResponseVisibleSetting = fromFeedbackSession.responseVisibleSetting;
     const copiedCustomResponseVisibleTimestamp = fromFeedbackSession.customResponseVisibleTimestamp!;
     if (copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM
@@ -524,7 +546,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       gracePeriod: fromFeedbackSession.gracePeriod,
 
       sessionVisibleSetting: copiedSessionVisibleSetting,
-      customSessionVisibleTimestamp: fromFeedbackSession.customSessionVisibleTimestamp,
+      customSessionVisibleTimestamp: copiedCustomSessionVisibleTimestamp,
 
       responseVisibleSetting: copiedResponseVisibleSetting,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,

@@ -50,6 +50,9 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedCourse = testData.courses.get("course2");
 
         openSession = testData.feedbackSessions.get("openSession");
+        // To ensure the openSession is always open
+        openSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedCourse.getTimeZone())).plus(Duration.ofDays(182))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
         closedSession = testData.feedbackSessions.get("closedSession");
         newSession = FeedbackSessionAttributes
                 .builder("New Session", course.getId())
@@ -112,7 +115,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession.setCreatedTime(Instant.now());
         copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(2))
                 .truncatedTo(ChronoUnit.HOURS).toInstant());
-        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(7))
+        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(180))
                 .truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
