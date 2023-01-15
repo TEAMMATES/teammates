@@ -163,8 +163,11 @@ public class InstructorAttributesTest extends BaseAttributesTest {
     @Test
     public void testValueOf_withCreatedAtAndUpdatedAtAsNull_shouldUseDefaultValues() {
         Instructor instructor = new Instructor("valid.google.id", "valid-course-id", false,
-            "valid name", "valid@email.com", null,true, null, null);
+                "valid name", "valid@email.com", null,
+                true, null, null);
+
         instructor.setCreatedAt(null);
+
         InstructorAttributes instructorAttributes = InstructorAttributes.valueOf(instructor);
 
         assertEquals(instructor.getGoogleId(), instructorAttributes.getGoogleId());
@@ -179,7 +182,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
                 instructorAttributes.getPrivileges());
 
-        // Default CreatedAt and UpdatedAt
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, instructorAttributes.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, instructorAttributes.getUpdatedAt());
     }
