@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
+import teammates.common.util.TimeHelper;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -10,12 +12,24 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.e2e.pageobjects.InstructorHomePage;
 import teammates.storage.entity.Instructor;
 
 /**
  * SUT: {@link InstructorAttributes}.
  */
 public class InstructorAttributesTest extends BaseAttributesTest {
+
+        Instant instant3DaysAgo = TimeHelper.getInstantDaysOffsetFromNow(-3);
+        Instant instantTomorrow = TimeHelper.getInstantDaysOffsetFromNow(1);
+        Instant instant3DaysLater = TimeHelper.getInstantDaysOffsetFromNow(3);
+        Instant instantNextWeek = TimeHelper.getInstantDaysOffsetFromNow(7);
+        Instant instant10DaysLater = TimeHelper.getInstantDaysOffsetFromNow(10);
+        private Instant instantNow = TimeHelper.getInstantDaysOffsetFromNow(0);
+
+        String[] detalhes = new String[5]; 
+        String feedbackSessionName = "feedbackName";
+        String courseId = "123";
 
     @Test
     public void testBuilder_buildNothing_shouldUseDefaultValues() {
@@ -524,4 +538,113 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertFalse(instructor.hashCode() == instructorDifferent.hashCode());
     }
+
+
+    //Caso de teste t1
+    @Test
+    public void testExpectedSessionDetailsT1(){
+        
+        FeedbackSessionAttributes feedback = FeedbackSessionAttributes.builder(feedbackSessionName, courseId)
+        .withEndTime(instant3DaysAgo)
+        .withResultsVisibleFromTime(instant3DaysAgo)
+        .build();
+        
+        detalhes[0] = feedback.getFeedbackSessionName();
+        detalhes[1] = feedback.getStartTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+        detalhes[2] = feedback.getEndTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+        
+        assertEquals(feedback.isClosed(),true);
+        assertEquals(feedback.isPublished(),true);
+        
+    }
+        //Caso de teste t2
+    @Test
+    public void testExpectedSessionDetailsT2(){
+        FeedbackSessionAttributes feedback = FeedbackSessionAttributes.builder(feedbackSessionName, courseId)
+        .withEndTime(instantNextWeek)
+        .withResultsVisibleFromTime(instantTomorrow)
+        .build();
+        
+        detalhes[0] = feedback.getFeedbackSessionName();
+        detalhes[1] = feedback.getStartTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+        detalhes[2] = feedback.getEndTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+        
+        assertEquals(feedback.isClosed(),true);
+        assertEquals(feedback.isPublished(),false);
+        
+    }
+
+     //Caso de teste t3
+     @Test
+     public void testExpectedSessionDetailsT3(){
+         FeedbackSessionAttributes feedback = FeedbackSessionAttributes.builder(feedbackSessionName, courseId)
+         .withEndTime(instantNextWeek)
+         .withResultsVisibleFromTime(instant3DaysAgo)
+         .withSessionVisibleFromTime(instant3DaysAgo)
+         .build();
+         
+         detalhes[0] = feedback.getFeedbackSessionName();
+         detalhes[1] = feedback.getStartTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+         detalhes[2] = feedback.getEndTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+         
+         assertEquals(feedback.isClosed(),true);
+         assertEquals(feedback.isPublished(),true);
+         assertEquals(feedback.isVisible(),false);
+     }
+
+     //Caso de teste t4
+     @Test
+     public void testExpectedSessionDetailsT4(){
+         FeedbackSessionAttributes feedback = FeedbackSessionAttributes.builder(feedbackSessionName, courseId)
+         .withEndTime(instantNextWeek)
+         .withResultsVisibleFromTime(instantTomorrow)
+         .withSessionVisibleFromTime(instant3DaysAgo)
+         .build();
+         
+         detalhes[0] = feedback.getFeedbackSessionName();
+         detalhes[1] = feedback.getStartTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+         detalhes[2] = feedback.getEndTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+         
+         assertEquals(feedback.isClosed(),true);
+         assertEquals(feedback.isPublished(),false);
+         assertEquals(feedback.isVisible(),false);
+     }
+
+     //Caso de teste t5
+     @Test
+     public void testExpectedSessionDetailsT5(){
+         FeedbackSessionAttributes feedback = FeedbackSessionAttributes.builder(feedbackSessionName, courseId)
+         .withEndTime(instantNextWeek)
+         .withResultsVisibleFromTime(instantNow)
+         .withSessionVisibleFromTime(instantNow)
+         .build();
+         
+         detalhes[0] = feedback.getFeedbackSessionName();
+         detalhes[1] = feedback.getStartTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+         detalhes[2] = feedback.getEndTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+         
+         assertEquals(feedback.isClosed(),false);
+         assertEquals(feedback.isPublished(),true);
+         assertEquals(feedback.isVisible(),true);
+     }
+
+          //Caso de teste t6
+          @Test
+          public void testExpectedSessionDetailsT6(){
+              FeedbackSessionAttributes feedback = FeedbackSessionAttributes.builder(feedbackSessionName, courseId)
+              .withEndTime(instantNextWeek)
+              .withResultsVisibleFromTime(instant3DaysLater)
+              .withSessionVisibleFromTime(instantNow)
+              .build();
+              
+              detalhes[0] = feedback.getFeedbackSessionName();
+              detalhes[1] = feedback.getStartTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+              detalhes[2] = feedback.getEndTime().toString()+feedback.getTimeZone().toString()+"d MMM h:mm a";
+              
+              assertEquals(feedback.isClosed(),true);
+              assertEquals(feedback.isPublished(),false);
+              assertEquals(feedback.isVisible(),false);
+          }
+
+    
 }
