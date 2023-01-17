@@ -11,23 +11,17 @@ import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
+import teammates.logic.external.LocalLoggingService;
+import teammates.logic.external.LogService;
 
 /**
  * Allows mocking of {@link LogsProcessor}.
  */
 public class MockLogsProcessor extends LogsProcessor {
 
-    private List<FeedbackSessionLogEntryAttributes> feedbackSessionLogs = new ArrayList<>();
-    private List<GeneralLogEntry> generalLogs = new ArrayList<>();
+    private final LogService service = new LocalLoggingService();
 
-    /**
-     * Simulates insertion of feedback session logs.
-     */
-    public void insertFeedbackSessionLog(String studentEmail, String courseId, String feedbackSessionName,
-            String fslType, long timestamp) {
-        feedbackSessionLogs.add(new FeedbackSessionLogEntryAttributes(studentEmail, courseId,
-                feedbackSessionName, fslType, timestamp));
-    }
+    private List<GeneralLogEntry> generalLogs = new ArrayList<>();
 
     /**
      * Simulates insertion of general INFO logs.
@@ -99,7 +93,7 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
-        // No-op
+        service.createFeedbackSessionLog(courseId, email, fsName, fslType);
     }
 
     /**
@@ -108,7 +102,7 @@ public class MockLogsProcessor extends LogsProcessor {
     @Override
     public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) {
-        return feedbackSessionLogs;
+        return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 
 }

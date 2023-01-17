@@ -26,7 +26,7 @@ public class FeedbackSessionLogEntry extends BaseEntity {
 
     private String feedbackSessionLogType;
 
-    private String remarks;
+    private int windowSize;
 
     private long timestamp;
 
@@ -47,6 +47,7 @@ public class FeedbackSessionLogEntry extends BaseEntity {
         this.setFeedbackSessionLogType(feedbackSessionLogType);
         this.setTimestamp(timestamp);
         this.setCreatedAt(Instant.now());
+        this.setWindowSize(1);
     }
 
     public String getFeedbackSessionLogEntryId() {
@@ -85,12 +86,12 @@ public class FeedbackSessionLogEntry extends BaseEntity {
         this.feedbackSessionLogType = feedbackSessionLogType;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public void setWindowSize(int windowSize) {
+        this.windowSize = windowSize;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public int getWindowSize() {
+        return windowSize;
     }
 
     public long getTimestamp() {

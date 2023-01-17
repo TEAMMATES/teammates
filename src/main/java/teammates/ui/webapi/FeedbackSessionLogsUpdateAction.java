@@ -18,7 +18,7 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
     private static final int MIN_WINDOW_PERIOD = 2 * 1000;
-    private static final int MAX_WINDOW_SIZE = 4;
+    private static final int MAX_WINDOW_SIZE = 1;
 
     @Override
     public ActionResult execute() {
@@ -37,13 +37,8 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
             Map<String, List<FeedbackSessionLogEntryAttributes>> studentLog =
                     studentToLogs.getOrDefault(studentEmail, new HashMap<>());
 
-            List<FeedbackSessionLogEntryAttributes> currList;
-
-            if (studentLog.containsKey(logType)) {
-                currList = studentLog.get(logType);
-            } else {
-                currList = new ArrayList<>();
-            }
+            List<FeedbackSessionLogEntryAttributes> currList =
+                    studentLog.getOrDefault(logType, new ArrayList<>());
 
             currList.add(logEntry);
             studentLog.put(logType, currList);
@@ -54,32 +49,34 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
                 studentToLog : studentToLogs.entrySet()) {
             Map<String, List<FeedbackSessionLogEntryAttributes>> studentLog =
                     studentToLog.getValue();
-
-            int windowStartIndex = 0;
             int windowSize = 0;
+
             for (Map.Entry<String, List<FeedbackSessionLogEntryAttributes>>
                     logEntries : studentLog.entrySet()) {
                 List<FeedbackSessionLogEntryAttributes> logs = logEntries.getValue();
+                FeedbackSessionLogEntryAttributes startLog = logs.get(0);
 
-                for (int i = 0; i < logs.size(); i++) {
-                    FeedbackSessionLogEntryAttributes startLog = logs.get(windowStartIndex);
-                    FeedbackSessionLogEntryAttributes currLog = logs.get(i);
-
-                    if (currLog.getTimestamp() - startLog.getTimestamp() <= MIN_WINDOW_PERIOD) {
+                for (FeedbackSessionLogEntryAttributes currLog : logs) {
+                    if (currLog.getTimestamp() - startLog.getTimestamp() < MIN_WINDOW_PERIOD) {
                         windowSize++;
-                        // If the window size exceeds the max value
-                        // we only take the first log of the window.
-                        if (windowSize == MAX_WINDOW_SIZE) {
-                            startLog.setRemarks("This window has " + windowSize + " log(s)");
-                            validLogEntries.add(startLog);
-                            windowStartIndex = i + 1;
-                        }
                     } else {
+                        // Take the first log of the window.
+                        if (windowSize > MAX_WINDOW_SIZE) {
+                            startLog.setWindowSize(windowSize);
+                        }
+
                         windowSize = 1;
-                        validLogEntries.add(logs.get(windowStartIndex));
-                        windowStartIndex++;
+                        validLogEntries.add(startLog);
+                        startLog = currLog;
                     }
                 }
+
+                // this is the last window
+                if (windowSize > MAX_WINDOW_SIZE) {
+                    startLog.setWindowSize(windowSize);
+                }
+
+                validLogEntries.add(startLog);
             }
         }
 
