@@ -17,8 +17,10 @@ import teammates.test.ThreadHelper;
 public class FeedbackSessionLogsUpdateActionTest
         extends BaseActionTest<FeedbackSessionLogsUpdateAction> {
 
-    private static final int MIN_WINDOW_PERIOD = 2 * 1000;
-    private static final int ISOLATION_PERIOD = 5 * 1000;
+    private static final int MIN_WINDOW_PERIOD =
+            FeedbackSessionLogsUpdateAction.MIN_WINDOW_PERIOD;
+    private static final int ISOLATION_PERIOD = MIN_WINDOW_PERIOD * 2;
+    private static final int WORKING_WINDOW_IN_SECONDS = MIN_WINDOW_PERIOD / 1000 + 1;
 
     @Override
     protected String getActionUri() {
@@ -43,11 +45,10 @@ public class FeedbackSessionLogsUpdateActionTest
 
         ______TS("creating 2 logs in the same window should return only 1 log");
 
-        // create a window exceeding max size
         for (int i = 0; i < 2; i++) {
             mockLogsProcessor.createFeedbackSessionLog("idOfTypicalCourse1",
                     "student1InCourse1@gmail.tmt", "First feedback session", FeedbackSessionLogType.ACCESS.getLabel());
-            ThreadHelper.waitFor(MIN_WINDOW_PERIOD/2);
+            ThreadHelper.waitFor(MIN_WINDOW_PERIOD / 2);
         }
 
         action.execute();
@@ -55,11 +56,11 @@ public class FeedbackSessionLogsUpdateActionTest
         Instant currentTime = Instant.now();
         List<FeedbackSessionLogEntryAttributes> allLogEntries = mockLogsProcessor.getFeedbackSessionLogs(
                 "idOfTypicalCourse1", "student1InCourse1@gmail.tmt",
-                currentTime.minus(MIN_WINDOW_PERIOD/1000 + 1, ChronoUnit.SECONDS).toEpochMilli(),
+                currentTime.minus(WORKING_WINDOW_IN_SECONDS, ChronoUnit.SECONDS).toEpochMilli(),
                 currentTime.toEpochMilli(), null);
         List<FeedbackSessionLogEntryAttributes> logs = logic.getFeedbackSessionLogs(
                 "idOfTypicalCourse1", null,
-                currentTime.minus(MIN_WINDOW_PERIOD/1000 + 1, ChronoUnit.SECONDS).toEpochMilli(),
+                currentTime.minus(WORKING_WINDOW_IN_SECONDS, ChronoUnit.SECONDS).toEpochMilli(),
                 currentTime.toEpochMilli(), null);
 
         assertEquals(1, logs.size());
@@ -79,7 +80,7 @@ public class FeedbackSessionLogsUpdateActionTest
         assertEquals("First feedback session", firstLog.getFeedbackSessionName());
         assertEquals(FeedbackSessionLogType.ACCESS.getLabel(), firstLog.getFeedbackSessionLogType());
 
-        // wait 5s to isolate the previous log window
+        // wait to isolate the previous log window
         ThreadHelper.waitFor(ISOLATION_PERIOD);
 
         ______TS("creating 2 logs of different types in the same window should return both logs");
@@ -93,7 +94,7 @@ public class FeedbackSessionLogsUpdateActionTest
 
         currentTime = Instant.now();
         logs = logic.getFeedbackSessionLogs("idOfTypicalCourse1", null,
-                currentTime.minus(MIN_WINDOW_PERIOD/1000, ChronoUnit.SECONDS).toEpochMilli(),
+                currentTime.minus(WORKING_WINDOW_IN_SECONDS, ChronoUnit.SECONDS).toEpochMilli(),
                 currentTime.toEpochMilli(), null);
 
         assertEquals(2, logs.size());
@@ -125,13 +126,15 @@ public class FeedbackSessionLogsUpdateActionTest
 
         currentTime = Instant.now();
         logs = logic.getFeedbackSessionLogs("idOfTypicalCourse1", null,
-                currentTime.minus(MIN_WINDOW_PERIOD/1000 + 1, ChronoUnit.SECONDS).toEpochMilli(),
+                currentTime.minus(WORKING_WINDOW_IN_SECONDS, ChronoUnit.SECONDS).toEpochMilli(),
                 currentTime.toEpochMilli(), null);
 
         assertEquals(2, logs.size());
 
         FeedbackSessionLogEntryAttributes accessLog1 = logs.get(0);
         FeedbackSessionLogEntryAttributes accessLog2 = logs.get(1);
+
+        assertTrue(accessLog2.getTimestamp() - accessLog1.getTimestamp() > MIN_WINDOW_PERIOD);
 
         assertEquals("student1InCourse1@gmail.tmt", accessLog1.getStudentEmail());
         assertEquals("First feedback session", accessLog1.getFeedbackSessionName());

@@ -12,12 +12,15 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 
 /**
- * Action: Sync feedback session logs from GCloud logging service.
+ * Cron job: Sync feedback session logs from GCloud logging service.
  */
 public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
+    /**
+     * Minimum gap period between 2 logs.
+      */
+    protected static final int MIN_WINDOW_PERIOD = 2 * 1000;
     private static final Logger log = Logger.getLogger();
-    private static final int MIN_WINDOW_PERIOD = 2 * 1000;
 
     @Override
     public ActionResult execute() {
