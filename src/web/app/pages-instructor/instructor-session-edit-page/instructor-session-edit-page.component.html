@@ -18,7 +18,8 @@
                              (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
                              (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
                              (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
-                             [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
+                             [(formModel)]="questionEditFormModels[i]"
+                             [isQuestionPublished]="sessionEditFormModel.publishStatus === FeedbackSessionPublishStatus.PUBLISHED"></tm-question-edit-form>
     </div>
     <a class="d-block text-right cursor-pointer" (click)="scrollToTopOfPage()">
       Back to Top <i class="fas fa-arrow-up"></i>
