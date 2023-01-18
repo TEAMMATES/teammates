@@ -51,7 +51,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateQuestionDetails_invalidDescriptionSize() {
+    public void testValidateQuestionDetails_invalidDescriptionSize_errorReturned() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
         rubricDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("A", "B")));
         rubricDetails.setHasAssignedWeights(false);
