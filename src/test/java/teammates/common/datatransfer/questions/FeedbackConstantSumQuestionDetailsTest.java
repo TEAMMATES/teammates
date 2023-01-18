@@ -164,6 +164,17 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testShouldChangesRequireResponseDeletion_sameConstantSumOptionsDifferentOrder_shouldReturnFalse() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setConstSumOptions(Arrays.asList("c", "b", "a"));
+
+        FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        newFeedbackQuestionDetails.setConstSumOptions(Arrays.asList("a", "b", "c"));
+
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+    }
+
+    @Test
     public void testShouldChangesRequireResponseDeletion_differentDistributeToRecipients_shouldReturnTrue() {
         FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         feedbackQuestionDetails.setDistributeToRecipients(true);
@@ -172,6 +183,17 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         newFeedbackQuestionDetails.setDistributeToRecipients(false);
 
         assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_sameDistributeToRecipients_shouldReturnFalse() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setDistributeToRecipients(true);
+
+        FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        newFeedbackQuestionDetails.setDistributeToRecipients(true);
+
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -186,6 +208,17 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testShouldChangesRequireResponseDeletion_samePoints_shouldReturnFalse() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setPoints(100);
+
+        FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        newFeedbackQuestionDetails.setPoints(100);
+
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+    }
+
+    @Test
     public void testShouldChangesRequireResponseDeletion_differentPointsPerOption_shouldReturnTrue() {
         FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         feedbackQuestionDetails.setPointsPerOption(true);
@@ -194,6 +227,17 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         newFeedbackQuestionDetails.setPointsPerOption(false);
 
         assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_samePointsPerOption_shouldReturnFalse() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setPointsPerOption(true);
+
+        FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        newFeedbackQuestionDetails.setPointsPerOption(true);
+
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -208,6 +252,17 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testShouldChangesRequireResponseDeletion_sameForceUnevenDistribution_shouldReturnFalse() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setForceUnevenDistribution(true);
+
+        FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        newFeedbackQuestionDetails.setForceUnevenDistribution(true);
+
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+    }
+
+    @Test
     public void testShouldChangesRequireResponseDeletion_differentMaxPoint_shouldReturnTrue() {
         FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         feedbackQuestionDetails.setMaxPoint(50);
@@ -219,6 +274,17 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testShouldChangesRequireResponseDeletion_sameMaxPoint_shouldReturnFalse() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setMaxPoint(50);
+
+        FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        newFeedbackQuestionDetails.setMaxPoint(50);
+
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+    }
+
+    @Test
     public void testShouldChangesRequireResponseDeletion_differentMinPoint_shouldReturnTrue() {
         FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         feedbackQuestionDetails.setMinPoint(10);
@@ -227,6 +293,17 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         newFeedbackQuestionDetails.setMinPoint(20);
 
         assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_sameMinPoint_shouldReturnFalse() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setMinPoint(10);
+
+        FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        newFeedbackQuestionDetails.setMinPoint(10);
+
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -243,12 +320,14 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testShouldChangesRequireResponseDeletion_sameQuestionDifferentOrder_shouldReturnFalse() {
+    public void testShouldChangesRequireResponseDeletion_sameDistributePointsFor_shouldReturnFalse() {
         FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
-        feedbackQuestionDetails.setConstSumOptions(Arrays.asList("c", "b", "a"));
+        feedbackQuestionDetails.setDistributePointsFor(
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
 
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
-        newFeedbackQuestionDetails.setConstSumOptions(Arrays.asList("a", "b", "c"));
+        newFeedbackQuestionDetails.setDistributePointsFor(
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
 
         assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
