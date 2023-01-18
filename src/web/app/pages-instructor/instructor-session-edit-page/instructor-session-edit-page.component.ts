@@ -211,15 +211,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
               feedbackSessionActionsService: FeedbackSessionActionsService,
+              timezoneService: TimezoneService,
               private datetimeService: DateTimeService,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
-              private timezoneService: TimezoneService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
-        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService);
+        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService);
   }
 
   ngOnInit(): void {
@@ -285,6 +285,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       .subscribe((courses: Courses) => {
         this.failedToCopySessions = {};
         this.coursesOfModifiedSession = new Set();
+        this.modifiedTimestamps = [];
         const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
         modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
         modalRef.componentInstance.courseCandidates = courses.courses;

@@ -74,13 +74,4 @@ export class NavigationService {
       this.statusMessageService.showSuccessToast(message);
     });
   }
-
-  /**
-   * Navigates to the selected URL and shows a warning message afterwards.
-   */
-  navigateWithWarningMessage(url: string, message: string, params: Record<string, string> = {}): void {
-    this.navigateByURLWithParamEncoding(url, params).then(() => {
-      this.statusMessageService.showWarningToast(message);
-    });
-  }
 }

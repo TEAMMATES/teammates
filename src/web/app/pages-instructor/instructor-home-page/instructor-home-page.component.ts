@@ -13,6 +13,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseArchive,
@@ -88,10 +89,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
               feedbackSessionActionsService: FeedbackSessionActionsService,
+              timezoneService: TimezoneService,
               private courseService: CourseService) {
     super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModal, simpleModalService,
-        progressBarService, feedbackSessionActionsService, studentService);
+        progressBarService, feedbackSessionActionsService, timezoneService, studentService);
   }
 
   ngOnInit(): void {
@@ -356,6 +358,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.isCopyLoading = true;
     this.failedToCopySessions = {};
     this.coursesOfModifiedSession = new Set();
+    this.modifiedTimestamps = [];
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {

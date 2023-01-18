@@ -11,6 +11,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseArchive,
@@ -89,7 +90,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   totalNumberOfSessionsToCopy: number = 0;
   numberOfSessionsCopied: number = 0;
 
-  protected modifiedSession: Set<string> = new Set();
+  protected modifiedSessions: Record<string, Array<string>> = {};
 
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
@@ -102,7 +103,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               private tableComparatorService: TableComparatorService,
               private feedbackSessionsService: FeedbackSessionsService,
               private progressBarService: ProgressBarService,
-              ) {}
+              private timezoneService: TimezoneService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -373,7 +374,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   createCopiedCourse(result: CopyCourseModalResult): void {
     this.setIsCopyingCourse(true);
-    this.modifiedSession = new Set();
+    this.modifiedSessions = {};
     this.numberOfSessionsCopied = 0;
     this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
     this.copyProgressPercentage = 0;
@@ -419,10 +420,9 @@ export class InstructorCoursesPageComponent implements OnInit {
                 this.allCoursesList.push(course);
                 this.activeCoursesDefaultSort();
                 this.setIsCopyingCourse(false);
-                if (this.modifiedSession.size > 0) {
-                  this.statusMessageService.showWarningToast(`The course has been added. However, changes are 
-                      made to some session timestamps due to timestamp constraints in these sessions: 
-                      ${Array.from(this.modifiedSession).join(', ')}. Please modify the timestamps as necessary.`);
+                if (Object.keys(this.modifiedSessions).length > 0) {
+                  this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
+                      SimpleModalType.WARNING, this.getTimestampsTweakedWarningMessage());
                 } else {
                   this.statusMessageService.showSuccessToast('The course has been added.');
                 }
@@ -435,6 +435,16 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.hasLoadingFailed = true;
       },
     });
+  }
+
+  private getTimestampsTweakedWarningMessage(): string {
+    return `<p>The course has been added. However, changes are made to some session timestamps due to timestamp 
+            constraints as follows:</p>
+            ${Object.keys(this.modifiedSessions).reduce((prevSession, currSession) => `${prevSession}
+              <p>For ${currSession},<uL>
+                ${this.modifiedSessions[currSession].reduce((prevChange, currChange) => `${prevChange}
+                  <li>${currChange}</li>`, '')}</uL></p>`, '')}
+            <p>Please modify the timestamps as necessary.</p>`;
   }
 
   /**
@@ -483,24 +493,32 @@ export class InstructorCoursesPageComponent implements OnInit {
         .valueOf();
 
     // Preprocess timestamps to adhere to feedback session timestamps constraints
-    let isModified: boolean = false;
+    this.modifiedSessions[fromFeedbackSession.feedbackSessionName] = [];
 
     let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
     if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {
+      this.modifiedSessions[fromFeedbackSession.feedbackSessionName].push(`The submission opening time has been 
+      modified from ${this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone)} to 
+      ${this.formatTimestamp(twoDaysFromNowRoundedUp, fromFeedbackSession.timeZone)}.`);
       copiedSubmissionStartTimestamp = twoDaysFromNowRoundedUp;
-      isModified = true;
     } else if (copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
+      this.modifiedSessions[fromFeedbackSession.feedbackSessionName].push(`The submission opening time has been 
+      modified from ${this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone)} to
+      ${this.formatTimestamp(ninetyDaysFromNowRoundedUp, fromFeedbackSession.timeZone)}.`);
       copiedSubmissionStartTimestamp = ninetyDaysFromNowRoundedUp;
-      isModified = true;
     }
 
     let copiedSubmissionEndTimestamp = fromFeedbackSession.submissionEndTimestamp;
     if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp) {
+      this.modifiedSessions[fromFeedbackSession.feedbackSessionName].push(`The submission closing time has been 
+      modified from ${this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone)} to
+      ${this.formatTimestamp(sevenDaysFromNowRoundedUp, fromFeedbackSession.timeZone)}.`);
       copiedSubmissionEndTimestamp = sevenDaysFromNowRoundedUp;
-      isModified = true;
     } else if (copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
+      this.modifiedSessions[fromFeedbackSession.feedbackSessionName].push(`The submission closing time has been 
+      modified from ${this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone)} to
+      ${this.formatTimestamp(oneHundredAndEightyDaysFromNowRoundedUp, fromFeedbackSession.timeZone)}.`);
       copiedSubmissionEndTimestamp = oneHundredAndEightyDaysFromNowRoundedUp;
-      isModified = true;
     }
 
     let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
@@ -513,11 +531,15 @@ export class InstructorCoursesPageComponent implements OnInit {
         .valueOf();
     if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       if (copiedCustomSessionVisibleTimestamp < thirtyDaysFromSubmissionStart) {
+        this.modifiedSessions[fromFeedbackSession.feedbackSessionName].push(`The session visible time has been 
+        modified from ${this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone)} to
+        ${this.formatTimestamp(thirtyDaysFromSubmissionStartRoundedUp, fromFeedbackSession.timeZone)}.`);
         copiedCustomSessionVisibleTimestamp = thirtyDaysFromSubmissionStartRoundedUp;
-        isModified = true;
       } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
+        this.modifiedSessions[fromFeedbackSession.feedbackSessionName].push(`The session visible time has been 
+        modified from ${this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone)} to
+        session visible time.`);
         copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
-        isModified = true;
       }
     }
 
@@ -527,12 +549,14 @@ export class InstructorCoursesPageComponent implements OnInit {
         && ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
             && copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp)
             || copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)) {
+      this.modifiedSessions[fromFeedbackSession.feedbackSessionName].push(`The session visible time has been 
+      modified from ${this.formatTimestamp(copiedCustomResponseVisibleTimestamp, fromFeedbackSession.timeZone)} to 
+      later.`);
       copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
-      isModified = true;
     }
 
-    if (isModified) {
-      this.modifiedSession.add(fromFeedbackSession.feedbackSessionName);
+    if (this.modifiedSessions[fromFeedbackSession.feedbackSessionName].length === 0) {
+      delete this.modifiedSessions[fromFeedbackSession.feedbackSessionName];
     }
 
     return {
@@ -554,6 +578,10 @@ export class InstructorCoursesPageComponent implements OnInit {
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
     };
+  }
+
+  private formatTimestamp(timestamp: number, timeZone: string): string {
+    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM h:mm A');
   }
 
   /**
