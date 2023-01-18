@@ -18,7 +18,6 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
     private static final int MIN_WINDOW_PERIOD = 2 * 1000;
-    private static final int MAX_WINDOW_SIZE = 1;
 
     @Override
     public ActionResult execute() {
@@ -60,22 +59,16 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
                     if (currLog.getTimestamp() - startLog.getTimestamp() < MIN_WINDOW_PERIOD) {
                         windowSize++;
                     } else {
-                        // Take the first log of the window.
-                        if (windowSize > MAX_WINDOW_SIZE) {
-                            startLog.setWindowSize(windowSize);
-                        }
-
+                        startLog.setWindowSize(windowSize);
                         windowSize = 1;
+
                         validLogEntries.add(startLog);
                         startLog = currLog;
                     }
                 }
 
                 // this is the last window
-                if (windowSize > MAX_WINDOW_SIZE) {
-                    startLog.setWindowSize(windowSize);
-                }
-
+                startLog.setWindowSize(windowSize);
                 validLogEntries.add(startLog);
             }
         }
