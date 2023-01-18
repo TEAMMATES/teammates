@@ -31,6 +31,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedTimestamps={[Function Array]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -147,6 +148,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedTimestamps={[Function Array]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -263,6 +265,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedTimestamps={[Function Array]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -347,6 +350,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded={[Function Boolean]}
+  modifiedTimestamps={[Function Array]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1251,6 +1255,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedTimestamps={[Function Array]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1367,6 +1372,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedTimestamps={[Function Array]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1483,6 +1489,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedTimestamps={[Function Array]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}

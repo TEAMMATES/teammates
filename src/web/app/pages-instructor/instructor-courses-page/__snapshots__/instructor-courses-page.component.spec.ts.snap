@@ -30,7 +30,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
-  modifiedSession={[Function Set]}
+  modifiedSessions={[Function Object]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -41,6 +41,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -282,7 +283,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
-  modifiedSession={[Function Set]}
+  modifiedSessions={[Function Object]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -293,6 +294,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -356,7 +358,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
-  modifiedSession={[Function Set]}
+  modifiedSessions={[Function Object]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -367,6 +369,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -804,7 +807,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
-  modifiedSession={[Function Set]}
+  modifiedSessions={[Function Object]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -815,6 +818,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -1096,7 +1100,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
-  modifiedSession={[Function Set]}
+  modifiedSessions={[Function Object]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1107,6 +1111,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -1548,7 +1553,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
-  modifiedSession={[Function Set]}
+  modifiedSessions={[Function Object]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1559,6 +1564,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -1622,7 +1628,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
-  modifiedSession={[Function Set]}
+  modifiedSessions={[Function Object]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1633,6 +1639,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
