@@ -296,9 +296,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           return true;
         });
 
-    let logRowsData: SortableTableCellData[][] = filteredStudents.map((student: Student) => {
+    const logRowsData: SortableTableCellData[][] = filteredStudents.map((student: Student) => {
       let status: string;
-      let entry: FeedbackSessionLogEntry | undefined = undefined;
+      let entry;
       let dataStyle: string = 'font-family:monospace; white-space:pre;';
       let statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
       const studentKey = this.getStudentKey(log, student.email);
@@ -328,7 +328,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     });
 
     if (this.formModel.logType === 'access,submission') {
-      let additionalRowsData: SortableTableCellData[][] = [];
+      const additionalRowsData: SortableTableCellData[][] = [];
 
       for (const row of logRowsData) {
         const wordsInStatus = row[0].value.split(' ');
@@ -354,12 +354,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           additionalRowsData.push([
             {
               value: status,
-              style: dataStyle
+              style: dataStyle,
             },
             { value: student.name },
             { value: student.email },
             { value: student.sectionName },
-            { value: student.teamName }
+            { value: student.teamName },
           ]);
         } else if (activityType === 'Submitted') {
           const accessLogs = log.feedbackSessionLogEntries.filter((fsLog: FeedbackSessionLogEntry) =>
@@ -380,12 +380,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           additionalRowsData.push([
             {
               value: status,
-              style: dataStyle
+              style: dataStyle,
             },
             { value: student.name },
             { value: student.email },
             { value: student.sectionName },
-            { value: student.teamName }
+            { value: student.teamName },
           ]);
         }
       }
