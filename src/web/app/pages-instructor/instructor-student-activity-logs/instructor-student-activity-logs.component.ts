@@ -12,6 +12,7 @@ import { ApiConst } from '../../../types/api-const';
 import {
   Course, FeedbackSession,
   FeedbackSessionLog, FeedbackSessionLogEntry,
+  FeedbackSessionLogType,
   FeedbackSessionLogs, FeedbackSessions,
   Student,
 } from '../../../types/api-output';
@@ -268,6 +269,130 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     const publishedDate: Date = new Date(publishedTime);
     const notViewedSince = publishedDate.getTime();
 
+    const filteredStudents = this.students
+        .filter((student: Student) => {
+          if (student.email === '') {
+            return false;
+          }
+
+          if (this.formModel.studentEmail !== '' && student.email !== this.formModel.studentEmail) {
+            return false;
+          }
+
+          if (this.formModel.showInactions && this.formModel.showActions) {
+            return true;
+          }
+
+          const studentKey = this.getStudentKey(log, student.email);
+
+          if (studentKey in this.studentToLog) {
+            if (this.formModel.showInactions) {
+              return false;
+            }
+          } else if (this.formModel.showActions) {
+            return false;
+          }
+
+          return true;
+        });
+
+    let logRowsData: SortableTableCellData[][] = filteredStudents.map((student: Student) => {
+      let status: string;
+      let entry: FeedbackSessionLogEntry | undefined = undefined;
+      let dataStyle: string = 'font-family:monospace; white-space:pre;';
+      let statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
+      const studentKey = this.getStudentKey(log, student.email);
+
+      if (studentKey in this.studentToLog) {
+        entry = this.studentToLog[studentKey];
+        const timestamp: string = this.timezoneService.formatToString(
+            entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+        statusPrefix = this.logTypeToActivityDisplay(entry.feedbackSessionLogType);
+        status = `${statusPrefix} at ${timestamp}`;
+      } else {
+        const timestamp: string = this.timezoneService.formatToString(
+            notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+        status = `Not ${statusPrefix.toLowerCase()} since ${timestamp}`;
+        dataStyle += 'color:red;';
+      }
+      return [
+        {
+          value: status,
+          style: dataStyle,
+        },
+        { value: student.name },
+        { value: student.email },
+        { value: student.sectionName },
+        { value: student.teamName },
+      ];
+    });
+
+    if (this.formModel.logType === 'access,submission') {
+      let additionalRowsData: SortableTableCellData[][] = [];
+
+      for (const row of logRowsData) {
+        const wordsInStatus = row[0].value.split(' ');
+        const activityType = wordsInStatus[0];
+        const dataStyle: string = 'font-family:monospace; white-space:pre;';
+
+        if (activityType === 'Viewed') {
+          const submittedLogs = log.feedbackSessionLogEntries.filter((fsLog: FeedbackSessionLogEntry) =>
+              fsLog.feedbackSessionLogType === FeedbackSessionLogType.SUBMISSION.toUpperCase());
+          const size = submittedLogs.length;
+
+          if (size === 0) {
+            break;
+          }
+
+          const latestLog = submittedLogs[size - 1];
+          const student: Student = latestLog.studentData;
+          const timestamp: string = this.timezoneService.formatToString(
+            latestLog.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+          const statusPrefix: string = this.logTypeToActivityDisplay(latestLog.feedbackSessionLogType);
+          const status: string = `${statusPrefix} at ${timestamp}`;
+
+          additionalRowsData.push([
+            {
+              value: status,
+              style: dataStyle
+            },
+            { value: student.name },
+            { value: student.email },
+            { value: student.sectionName },
+            { value: student.teamName }
+          ]);
+        } else if (activityType === 'Submitted') {
+          const accessLogs = log.feedbackSessionLogEntries.filter((fsLog: FeedbackSessionLogEntry) =>
+              fsLog.feedbackSessionLogType === FeedbackSessionLogType.ACCESS.toUpperCase());
+          const size = accessLogs.length;
+
+          if (size === 0) {
+            break;
+          }
+
+          const latestLog = accessLogs[size - 1];
+          const student: Student = latestLog.studentData;
+          const timestamp: string = this.timezoneService.formatToString(
+            latestLog.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
+          const statusPrefix: string = this.logTypeToActivityDisplay(latestLog.feedbackSessionLogType);
+          const status: string = `${statusPrefix} at ${timestamp}`;
+
+          additionalRowsData.push([
+            {
+              value: status,
+              style: dataStyle
+            },
+            { value: student.name },
+            { value: student.email },
+            { value: student.sectionName },
+            { value: student.teamName }
+          ]);
+        }
+      }
+
+      additionalRowsData.forEach((newLog: SortableTableCellData[]) => logRowsData.push(newLog));
+    }
+
     return {
       feedbackSessionName: fsName,
       logColumnsData: [
@@ -277,61 +402,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         { header: 'Section', sortBy: SortBy.SECTION_NAME },
         { header: 'Team', sortBy: SortBy.TEAM_NAME },
       ],
-      logRowsData: this.students
-          .filter((student: Student) => {
-            if (student.email === '') {
-              return false;
-            }
-
-            if (this.formModel.studentEmail !== '' && student.email !== this.formModel.studentEmail) {
-              return false;
-            }
-
-            if (this.formModel.showInactions && this.formModel.showActions) {
-              return true;
-            }
-
-            const studentKey = this.getStudentKey(log, student.email);
-
-            if (studentKey in this.studentToLog) {
-              if (this.formModel.showInactions) {
-                return false;
-              }
-            } else if (this.formModel.showActions) {
-              return false;
-            }
-
-            return true;
-          })
-          .map((student: Student) => {
-            let status: string;
-            let dataStyle: string = 'font-family:monospace; white-space:pre;';
-            let statusPrefix = this.logTypeToActivityDisplay(this.formModel.logType);
-            const studentKey = this.getStudentKey(log, student.email);
-
-            if (studentKey in this.studentToLog) {
-              const entry: FeedbackSessionLogEntry = this.studentToLog[studentKey];
-              const timestamp: string = this.timezoneService.formatToString(
-                  entry.timestamp, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              statusPrefix = this.logTypeToActivityDisplay(entry.feedbackSessionLogType);
-              status = `${statusPrefix} at ${timestamp}`;
-            } else {
-              const timestamp: string = this.timezoneService.formatToString(
-                  notViewedSince, log.feedbackSessionData.timeZone, this.LOGS_DATE_TIME_FORMAT);
-              status = `Not ${statusPrefix.toLowerCase()} since ${timestamp}`;
-              dataStyle += 'color:red;';
-            }
-            return [
-              {
-                value: status,
-                style: dataStyle,
-              },
-              { value: student.name },
-              { value: student.email },
-              { value: student.sectionName },
-              { value: student.teamName },
-            ];
-          }),
+      logRowsData,
       isTabExpanded: (log.feedbackSessionLogEntries.length !== 0 && this.formModel.showActions)
           || (log.feedbackSessionLogEntries.length === 0 && this.formModel.showInactions),
     };
