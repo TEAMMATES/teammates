@@ -125,9 +125,14 @@ export abstract class InstructorSessionBasePageComponent {
         .pipe(finalize(() => {
           model.isLoadingResponseRate = false;
         }))
-        .subscribe((resp: FeedbackSessionStats) => {
-          model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        .subscribe({
+          next: (resp: FeedbackSessionStats) => {
+            model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
   }
 
   /**
@@ -186,16 +191,21 @@ export abstract class InstructorSessionBasePageComponent {
    * Submits a single copy session request.
    */
   copySingleSession(copySessionRequest: Observable<FeedbackSession>): void {
-    copySessionRequest.subscribe((createdSession: FeedbackSession) => {
-      if (Object.keys(this.failedToCopySessions).length === 0) {
-        this.navigationService.navigateWithSuccessMessage(
-            '/web/instructor/sessions/edit',
-            'The feedback session has been copied. Please modify settings/questions as necessary.',
-            { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
-      } else {
-        this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
-      }
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+    copySessionRequest.subscribe({
+      next: (createdSession: FeedbackSession) => {
+        if (Object.keys(this.failedToCopySessions).length === 0) {
+          this.navigationService.navigateWithSuccessMessage(
+              '/web/instructor/sessions/edit',
+              'The feedback session has been copied. Please modify settings/questions as necessary.',
+              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
+        } else {
+          this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   showCopyStatusMessage(): void {
@@ -262,19 +272,22 @@ export abstract class InstructorSessionBasePageComponent {
         .pipe(finalize(() => {
           this.isResultActionLoading = false;
         }))
-        .subscribe((feedbackSession: FeedbackSession) => {
-          model.feedbackSession = feedbackSession;
-          model.responseRate = '';
+        .subscribe({
+          next: (feedbackSession: FeedbackSession) => {
+            model.feedbackSession = feedbackSession;
+            model.responseRate = '';
 
-          this.statusMessageService.showSuccessToast('The feedback session has been published. '
-              + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          if (this.publishUnpublishRetryAttempts) {
-            this.publishUnpublishRetryAttempts -= 1;
-          } else {
-            this.openErrorReportModal(resp);
-          }
+            this.statusMessageService.showSuccessToast('The feedback session has been published. '
+                + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            if (this.publishUnpublishRetryAttempts) {
+              this.publishUnpublishRetryAttempts -= 1;
+            } else {
+              this.openErrorReportModal(resp);
+            }
+          },
         });
   }
 
@@ -290,18 +303,21 @@ export abstract class InstructorSessionBasePageComponent {
         .pipe(finalize(() => {
           this.isResultActionLoading = false;
         }))
-        .subscribe((feedbackSession: FeedbackSession) => {
-          model.feedbackSession = feedbackSession;
-          model.responseRate = '';
+        .subscribe({
+          next: (feedbackSession: FeedbackSession) => {
+            model.feedbackSession = feedbackSession;
+            model.responseRate = '';
 
-          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          if (this.publishUnpublishRetryAttempts) {
-            this.publishUnpublishRetryAttempts -= 1;
-          } else {
-            this.openErrorReportModal(resp);
-          }
+            this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            if (this.publishUnpublishRetryAttempts) {
+              this.publishUnpublishRetryAttempts -= 1;
+            } else {
+              this.openErrorReportModal(resp);
+            }
+          },
         });
   }
 

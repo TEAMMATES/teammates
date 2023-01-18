@@ -45,7 +45,7 @@ export class NavigationService {
                 extras: NavigationExtras = {}): Promise<boolean> {
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
-      params.user = masqueradeUser;
+      params['user'] = masqueradeUser;
     }
     return this.router.navigateByUrl(`${urlWithoutParams}${this.encodeParams(params)}`, extras);
   }

@@ -308,10 +308,10 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         `You are trying to access TEAMMATES using the Google account user-id, which
-                    is not linked to this TEAMMATES account. If you used a different Google account to
-                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                    cannot remember which Google account you used before, please email us at
-                    ${environment.supportEmail} for help.`);
+                        is not linked to this TEAMMATES account. If you used a different Google account to
+                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                        cannot remember which Google account you used before, please email us at
+                        ${environment.supportEmail} for help.`);
   });
 
   it('should deny access for invalid reg key', () => {
@@ -332,9 +332,9 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should navigate away when error occurs', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(throwError({
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(throwError(() => ({
       error: { message: 'This is error' },
-    }));
+    })));
     const navSpy: SpyInstance = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
 
     fixture.detectChanges();
@@ -389,10 +389,10 @@ describe('SessionResultPageComponent', () => {
 
     component.ngOnInit();
     expect(getQuestionsSpy).toHaveBeenLastCalledWith({
-      courseId: testQueryParams.courseid,
-      feedbackSessionName: testQueryParams.fsname,
+      courseId: testQueryParams['courseid'],
+      feedbackSessionName: testQueryParams['fsname'],
       intent: Intent.STUDENT_RESULT,
-      key: testQueryParams.key,
+      key: testQueryParams['key'],
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);

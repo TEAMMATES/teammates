@@ -5,6 +5,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
@@ -255,6 +256,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
@@ -505,6 +507,7 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"

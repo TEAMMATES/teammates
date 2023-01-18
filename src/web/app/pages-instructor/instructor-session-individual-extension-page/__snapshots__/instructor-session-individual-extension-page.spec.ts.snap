@@ -4,6 +4,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -477,6 +478,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -950,6 +952,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -1204,6 +1207,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -1626,6 +1630,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -2013,6 +2018,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -2488,6 +2494,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -2756,6 +2763,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -3012,6 +3020,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -3269,6 +3278,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName=""
   courseService={[Function CourseService]}
@@ -3526,6 +3536,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -3886,6 +3897,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}

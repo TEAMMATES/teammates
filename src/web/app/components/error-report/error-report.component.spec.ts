@@ -60,11 +60,11 @@ describe('ErrorReportComponent', () => {
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
 
-    jest.spyOn(httpRequestService, 'post').mockReturnValue(throwError({
+    jest.spyOn(httpRequestService, 'post').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message',
       },
-    }));
+    })));
     fixture.nativeElement.querySelector('button').click();
     fixture.detectChanges();
 

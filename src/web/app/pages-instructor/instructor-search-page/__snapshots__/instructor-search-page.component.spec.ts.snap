@@ -2,6 +2,7 @@
 
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
+  __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   instructorService={[Function InstructorService]}
   isSearching="false"
@@ -74,6 +75,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
+  __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   instructorService={[Function InstructorService]}
   isSearching="false"
@@ -243,7 +245,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     <td>
                       <tm-view-photo-popover>
                         <a
-                          href="/"
                           queryparamshandling="preserve"
                           role="button"
                         >
@@ -310,7 +311,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     <td>
                       <tm-view-photo-popover>
                         <a
-                          href="/"
                           queryparamshandling="preserve"
                           role="button"
                         >
@@ -377,7 +377,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     <td>
                       <tm-view-photo-popover>
                         <a
-                          href="/"
                           queryparamshandling="preserve"
                           role="button"
                         >
@@ -444,7 +443,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     <td>
                       <tm-view-photo-popover>
                         <a
-                          href="/"
                           queryparamshandling="preserve"
                           role="button"
                         >
@@ -518,6 +516,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
+  __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   instructorService={[Function InstructorService]}
   isSearching="false"
