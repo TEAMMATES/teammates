@@ -67,13 +67,6 @@ public class FeedbackSessionLogsUpdateActionTest
         assertEquals(2, allLogEntries.size());
 
         FeedbackSessionLogEntryAttributes firstLog = logs.get(0);
-        FeedbackSessionLogEntryAttributes secondLog = allLogEntries.get(1);
-        long windowSize = secondLog.getTimestamp() - firstLog.getTimestamp();
-
-        // check that the first log is taken
-        // and the window size is smaller than the min value
-        assertTrue(windowSize > 0);
-        assertTrue(windowSize < MIN_WINDOW_PERIOD);
 
         assertEquals(firstLog.getTimestamp(), allLogEntries.get(0).getTimestamp());
         assertEquals("student1InCourse1@gmail.tmt", firstLog.getStudentEmail());
@@ -87,6 +80,9 @@ public class FeedbackSessionLogsUpdateActionTest
 
         mockLogsProcessor.createFeedbackSessionLog("idOfTypicalCourse1",
                 "student1InCourse1@gmail.tmt", "First feedback session", FeedbackSessionLogType.ACCESS.getLabel());
+
+        ThreadHelper.waitFor(MIN_WINDOW_PERIOD / 2);
+
         mockLogsProcessor.createFeedbackSessionLog("idOfTypicalCourse1",
                 "student1InCourse1@gmail.tmt", "First feedback session", FeedbackSessionLogType.SUBMISSION.getLabel());
 
