@@ -632,7 +632,9 @@ public final class FeedbackResponsesLogic {
                 || !isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (studentsEmailInTeam != null && !isInstructor) {
-            if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
+            if ((relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
+                    || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION
+                    || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_EXCLUDING_SELF)
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.getRecipient().equals(student.getTeam())) {
                 isVisibleResponse = true;
