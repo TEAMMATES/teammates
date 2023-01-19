@@ -1583,9 +1583,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         Map<String, List<FeedbackResponseAttributes>> questionResponseMapByReceiver =
                 frLogic.getSessionResultsForCourse(
-                        session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                        null, sectionToTest, FeedbackResultFetchType.RECEIVER)
-                        .getQuestionResponseMap();
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, sectionToTest, FeedbackResultFetchType.RECEIVER)
+                .getQuestionResponseMap();
         questionResponseMapByReceiver.forEach((key, responses) -> {
             responses.forEach(resp -> {
                 assertEquals(sectionToTest, resp.getRecipientSection());
