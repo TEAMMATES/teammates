@@ -93,7 +93,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
             homePage.verifyResponseRate(courseIndex, i, getExpectedResponseRate(courseSessions[i]));
         }
 
-        ______TS("copy session with tweaked session timings");
+        ______TS("copy session with modified session timings");
         int sessionIndex = 1;
         String newName = "Copied Name";
         FeedbackSessionAttributes copiedSession = feedbackSessionAwaiting.getCopy();

@@ -34,6 +34,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -49,7 +50,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -124,6 +124,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -139,7 +140,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -214,6 +214,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -229,7 +230,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <tm-loading-retry>
     <div
@@ -307,6 +307,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -322,7 +323,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -397,6 +397,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -412,7 +413,6 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -487,6 +487,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   isLoadingFeedbackSession="false"
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -502,7 +503,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <tm-loading-retry>
     <tm-session-edit-form>
@@ -2901,6 +2901,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   isLoadingFeedbackSession="false"
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -2916,7 +2917,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <tm-loading-retry>
     <tm-session-edit-form>

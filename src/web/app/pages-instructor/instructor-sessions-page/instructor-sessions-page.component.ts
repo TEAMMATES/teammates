@@ -143,7 +143,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   hasCourseLoadingFailed: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
-  @ViewChild('tweakedTimestampsModal') tweakedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
   constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
@@ -201,7 +201,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             next: (createdFeedbackSession: FeedbackSession) => {
               if (this.coursesOfModifiedSession.length > 0) {
                 this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
-                    SimpleModalType.WARNING, this.tweakedTimestampsModal,
+                    SimpleModalType.WARNING, this.modifiedTimestampsModal,
                     {
                       onClosed: () => this.navigationService.navigateByURLWithParamEncoding(
                           '/web/instructor/sessions/edit',
@@ -533,7 +533,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0], this.tweakedTimestampsModal);
+      this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
@@ -551,7 +551,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               this.sessionsTableRowModels.push(model);
             });
           }
-          this.showCopyStatusMessage(this.tweakedTimestampsModal);
+          this.showCopyStatusMessage(this.modifiedTimestampsModal);
         });
     }
   }

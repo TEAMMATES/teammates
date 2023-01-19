@@ -94,7 +94,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
-  @ViewChild('tweakedTimestampsModal') tweakedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
   constructor(private ngbModal: NgbModal,
               private route: ActivatedRoute,
@@ -423,8 +423,8 @@ export class InstructorCoursesPageComponent implements OnInit {
                 this.activeCoursesDefaultSort();
                 this.setIsCopyingCourse(false);
                 if (Object.keys(this.modifiedSessions).length > 0) {
-                  this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
-                      SimpleModalType.WARNING, this.tweakedTimestampsModal);
+                  this.simpleModalService.openInformationModal('Note On Modified Session Timings',
+                      SimpleModalType.WARNING, this.modifiedTimestampsModal);
                 } else {
                   this.statusMessageService.showSuccessToast('The course has been added.');
                 }
@@ -507,15 +507,15 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
     let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
-    const thirtyDaysFromSubmissionStart = moment(copiedSubmissionStartTimestamp)
+    const thirtyDaysBeforeSubmissionStart = moment(copiedSubmissionStartTimestamp)
         .tz(newTimeZone).subtract(30, 'days')
         .valueOf();
-    const thirtyDaysFromSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
+    const thirtyDaysBeforeSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
         .tz(newTimeZone).subtract(30, 'days').startOf('hour')
         .valueOf();
     if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      if (copiedCustomSessionVisibleTimestamp < thirtyDaysFromSubmissionStart) {
-        copiedCustomSessionVisibleTimestamp = thirtyDaysFromSubmissionStartRoundedUp;
+      if (copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart) {
+        copiedCustomSessionVisibleTimestamp = thirtyDaysBeforeSubmissionStartRoundedUp;
         isModified = true;
       } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
         copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
@@ -560,7 +560,7 @@ export class InstructorCoursesPageComponent implements OnInit {
             'On session visible time';
       } else if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.LATER) {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
-            'Later';
+            'Not now (publish manually)';
       } else {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
             this.formatTimestamp(fromFeedbackSession.customResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
@@ -571,7 +571,7 @@ export class InstructorCoursesPageComponent implements OnInit {
             'On session visible time';
       } else if (copiedResponseVisibleSetting === ResponseVisibleSetting.LATER) {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
-            'Later';
+            'Not now (publish manually)';
       } else {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
             this.formatTimestamp(copiedCustomResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
@@ -600,7 +600,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   private formatTimestamp(timestamp: number, timeZone: string): string {
-    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM h:mm A');
+    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM YYYY h:mm A');
   }
 
   /**

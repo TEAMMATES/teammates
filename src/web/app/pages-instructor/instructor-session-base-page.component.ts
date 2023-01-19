@@ -100,15 +100,15 @@ export abstract class InstructorSessionBasePageComponent {
 
     let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
     let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
-    const thirtyDaysFromSubmissionStart = moment(copiedSubmissionStartTimestamp)
+    const thirtyDaysBeforeSubmissionStart = moment(copiedSubmissionStartTimestamp)
         .tz(fromFeedbackSession.timeZone).subtract(30, 'days')
         .valueOf();
-    const thirtyDaysFromSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
+    const thirtyDaysBeforeSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
         .tz(fromFeedbackSession.timeZone).subtract(30, 'days').startOf('hour')
         .valueOf();
     if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      if (copiedCustomSessionVisibleTimestamp < thirtyDaysFromSubmissionStart) {
-        copiedCustomSessionVisibleTimestamp = thirtyDaysFromSubmissionStartRoundedUp;
+      if (copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart) {
+        copiedCustomSessionVisibleTimestamp = thirtyDaysBeforeSubmissionStartRoundedUp;
         isModified = true;
       } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
         copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
@@ -155,7 +155,7 @@ export abstract class InstructorSessionBasePageComponent {
             'On session visible time';
       } else if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.LATER) {
         this.modifiedSession[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
-            'Later';
+            'Not now (publish manually)';
       } else {
         this.modifiedSession[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
             this.formatTimestamp(fromFeedbackSession.customResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
@@ -166,7 +166,7 @@ export abstract class InstructorSessionBasePageComponent {
             'On session visible time';
       } else if (copiedResponseVisibleSetting === ResponseVisibleSetting.LATER) {
         this.modifiedSession[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
-            'Later';
+            'Not now (publish manually)';
       } else {
         this.modifiedSession[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
             this.formatTimestamp(copiedCustomResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
@@ -196,7 +196,7 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   private formatTimestamp(timestamp: number, timeZone: string): string {
-    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM h:mm A');
+    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM YYYY h:mm A');
   }
 
   /**
@@ -317,14 +317,14 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Submits a single copy session request.
    */
-  copySingleSession(copySessionRequest: Observable<FeedbackSession>, tweakedTimestampsModal: TemplateRef<any>): void {
+  copySingleSession(copySessionRequest: Observable<FeedbackSession>, modifiedTimestampsModal: TemplateRef<any>): void {
     copySessionRequest.subscribe({
       next: (createdSession: FeedbackSession) => {
         if (Object.keys(this.failedToCopySessions).length > 0) {
           this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
         } else if (this.coursesOfModifiedSession.length > 0) {
-          this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
-              SimpleModalType.WARNING, tweakedTimestampsModal,
+          this.simpleModalService.openInformationModal('Note On Modified Session Timings',
+              SimpleModalType.WARNING, modifiedTimestampsModal,
               {
                 onClosed: () => this.navigationService.navigateByURLWithParamEncoding(
                     '/web/instructor/sessions/edit',
@@ -343,12 +343,12 @@ export abstract class InstructorSessionBasePageComponent {
     });
   }
 
-  showCopyStatusMessage(tweakedTimestampsModal: TemplateRef<any>): void {
+  showCopyStatusMessage(modifiedTimestampsModal: TemplateRef<any>): void {
     if (Object.keys(this.failedToCopySessions).length > 0) {
       this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
     } else if (this.coursesOfModifiedSession.length > 0) {
-      this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
-          SimpleModalType.WARNING, tweakedTimestampsModal);
+      this.simpleModalService.openInformationModal('Note On Modified Session Timings',
+          SimpleModalType.WARNING, modifiedTimestampsModal);
     } else {
       this.statusMessageService.showSuccessToast('Feedback session copied successfully to all courses.');
     }

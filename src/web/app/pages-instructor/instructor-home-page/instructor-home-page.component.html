@@ -108,16 +108,17 @@
   </div>
 </tm-loading-retry>
 
-<ng-template #tweakedTimestampsModal>
+<ng-template #modifiedTimestampsModal>
   <p>
-    The feedback session has been copied to all courses. However, changes are made to some session timestamps as the existing timestamps are
-    no longer valid in these courses: {{ this.coursesOfModifiedSession.join(', ') }}. The changes are as follows:
+    The feedback session has been copied to all courses. However, changes are made to some session timings as the
+    existing timings are no longer valid in these courses: {{ this.coursesOfModifiedSession.join(', ') }}.
+    The changes are as follows:
   </p>
   <table class="table table-bordered">
     <thead>
       <tr>
         <th>Session Name</th>
-        <th>Timestamps</th>
+        <th>Timings</th>
         <th>Existing</th>
         <th>Modified</th>
       </tr>
@@ -148,7 +149,8 @@
       </ng-container>
     </tbody>
   </table>
+  <br>
   <p>
-    Please modify the timestamps as necessary.
+    Please modify the timings as necessary.
   </p>
 </ng-template>

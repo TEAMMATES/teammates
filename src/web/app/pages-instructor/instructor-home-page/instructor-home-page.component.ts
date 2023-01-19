@@ -78,7 +78,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
 
-  @ViewChild('tweakedTimestampsModal') tweakedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
   constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
@@ -364,7 +364,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0], this.tweakedTimestampsModal);
+      this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
@@ -386,7 +386,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               }
             });
           }
-          this.showCopyStatusMessage(this.tweakedTimestampsModal);
+          this.showCopyStatusMessage(this.modifiedTimestampsModal);
         });
     }
   }

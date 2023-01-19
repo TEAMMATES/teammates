@@ -22,6 +22,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   isResultActionLoading="false"
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -31,7 +32,6 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <h1>
     Home
@@ -91,6 +91,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   isResultActionLoading="false"
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -100,7 +101,6 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <h1>
     Home
@@ -160,6 +160,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   isResultActionLoading="false"
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -169,7 +170,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <h1>
     Home
@@ -307,6 +307,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   isResultActionLoading="false"
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -316,7 +317,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <h1>
     Home
@@ -829,6 +829,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   isResultActionLoading="false"
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -838,7 +839,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <h1>
     Home
@@ -1513,6 +1513,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   isResultActionLoading="false"
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1522,7 +1523,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <h1>
     Home
@@ -1762,6 +1762,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   isResultActionLoading="false"
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1771,7 +1772,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <h1>
     Home
@@ -2035,6 +2035,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   isResultActionLoading="false"
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -2044,7 +2045,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
-  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <h1>
     Home

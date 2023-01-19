@@ -201,7 +201,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  @ViewChild('tweakedTimestampsModal') tweakedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
   constructor(instructorService: InstructorService,
               statusMessageService: StatusMessageService,
@@ -300,7 +300,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           if (requestList.length === 1) {
             this.copySingleSession(requestList[0].pipe(finalize(() => {
               this.sessionEditFormModel.isCopying = false;
-            })), this.tweakedTimestampsModal);
+            })), this.modifiedTimestampsModal);
           }
           if (requestList.length > 1) {
             forkJoin(requestList)
@@ -308,7 +308,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               this.sessionEditFormModel.isCopying = false;
             }))
             .subscribe(() => {
-              this.showCopyStatusMessage(this.tweakedTimestampsModal);
+              this.showCopyStatusMessage(this.modifiedTimestampsModal);
             });
           }
         }, (resp: ErrorMessageOutput) => {

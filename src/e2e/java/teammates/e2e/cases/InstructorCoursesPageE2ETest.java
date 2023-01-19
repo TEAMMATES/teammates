@@ -131,7 +131,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
         verifyPresentInDatabase(newCourse);
 
-        ______TS("copy course with session of tweaked timings");
+        ______TS("copy course with session of modified timings");
         CourseAttributes[] activeCoursesWithCopyCourse = { courses[0], courses[3], newCourse, copyCourse };
         coursesPage.copyCourse(courses[3].getId(), copyCourse);
 
