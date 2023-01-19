@@ -43,6 +43,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -296,6 +297,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -371,6 +373,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -820,6 +823,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -1113,6 +1117,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -1566,6 +1571,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -1641,6 +1647,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button

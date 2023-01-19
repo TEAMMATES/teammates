@@ -68,7 +68,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                         .truncatedTo(ChronoUnit.HOURS).toInstant())
                 .withEndTime(ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone())).plus(Duration.ofDays(7))
                         .truncatedTo(ChronoUnit.HOURS).toInstant())
-                .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
+                .withSessionVisibleFromTime(ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone())).minus(Duration.ofDays(28))
+                        .truncatedTo(ChronoUnit.HOURS).toInstant())
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(Duration.ofMinutes(session.getGracePeriodMinutes()))
                 .withInstructions(session.getInstructions())
@@ -134,9 +135,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         CourseAttributes[] activeCoursesWithCopyCourse = { courses[0], courses[3], newCourse, copyCourse };
         coursesPage.copyCourse(courses[3].getId(), copyCourse);
 
-        coursesPage.verifyStatusMessage("The course has been added. However, changes are made to some "
-                + "session timestamps due to timestamp constraints in these sessions: "
-                + copySession.getFeedbackSessionName() + ". Please modify the timestamps as necessary.");
+        coursesPage.waitForConfirmationModalAndClickOk();
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithCopyCourse);
         verifyPresentInDatabase(copyCourse);

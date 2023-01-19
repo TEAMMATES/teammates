@@ -104,14 +104,13 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 .truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(7))
                 .truncatedTo(ChronoUnit.HOURS).toInstant());
-        copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        copiedSession.setSessionVisibleFromTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone()))
+                .minus(Duration.ofDays(28)).truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         copiedSession.setTimeZone(otherCourse.getTimeZone());
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
 
-        homePage.verifyStatusMessage("The feedback session has been copied to all course(s). "
-                + "However, changes are made to some session timestamps due to timestamp constraints in these "
-                + "courses: " + otherCourse.getId() + ". Please modify the timestamps as necessary.");
+        homePage.waitForConfirmationModalAndClickOk();
         homePage = getNewPageInstance(url, InstructorHomePage.class);
         homePage.sortCoursesByName();
         // flip index after sorting

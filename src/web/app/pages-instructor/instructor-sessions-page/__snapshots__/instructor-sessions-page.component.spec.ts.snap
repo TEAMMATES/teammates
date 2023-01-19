@@ -11,7 +11,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
-  coursesOfModifiedSession={[Function Set]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -31,7 +31,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
-  modifiedTimestamps={[Function Array]}
+  modifiedSession={[Function Object]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -50,6 +50,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   tableComparatorService={[Function TableComparatorService]}
   templateSessions={[Function Array]}
   timezoneService={[Function TimezoneService]}
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -128,7 +129,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
-  coursesOfModifiedSession={[Function Set]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -148,7 +149,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
-  modifiedTimestamps={[Function Array]}
+  modifiedSession={[Function Object]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -167,6 +168,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   tableComparatorService={[Function TableComparatorService]}
   templateSessions={[Function Array]}
   timezoneService={[Function TimezoneService]}
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -245,7 +247,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
-  coursesOfModifiedSession={[Function Set]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -265,7 +267,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
-  modifiedTimestamps={[Function Array]}
+  modifiedSession={[Function Object]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -284,6 +286,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   tableComparatorService={[Function TableComparatorService]}
   templateSessions={[Function Array]}
   timezoneService={[Function TimezoneService]}
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -330,7 +333,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
-  coursesOfModifiedSession={[Function Set]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -350,7 +353,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded={[Function Boolean]}
-  modifiedTimestamps={[Function Array]}
+  modifiedSession={[Function Object]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -369,6 +372,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   tableComparatorService={[Function TableComparatorService]}
   templateSessions={[Function Array]}
   timezoneService={[Function TimezoneService]}
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div
     class="alert alert-warning"
@@ -1235,7 +1239,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
-  coursesOfModifiedSession={[Function Set]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1255,7 +1259,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
-  modifiedTimestamps={[Function Array]}
+  modifiedSession={[Function Object]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1274,6 +1278,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   tableComparatorService={[Function TableComparatorService]}
   templateSessions={[Function Array]}
   timezoneService={[Function TimezoneService]}
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -1352,7 +1357,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
-  coursesOfModifiedSession={[Function Set]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1372,7 +1377,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
-  modifiedTimestamps={[Function Array]}
+  modifiedSession={[Function Object]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1391,6 +1396,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   tableComparatorService={[Function TableComparatorService]}
   templateSessions={[Function Array]}
   timezoneService={[Function TimezoneService]}
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
@@ -1469,7 +1475,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
-  coursesOfModifiedSession={[Function Set]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1489,7 +1495,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
-  modifiedTimestamps={[Function Array]}
+  modifiedSession={[Function Object]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1508,6 +1514,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   tableComparatorService={[Function TableComparatorService]}
   templateSessions={[Function Array]}
   timezoneService={[Function TimezoneService]}
+  tweakedTimestampsModal={[Function TemplateRef2]}
 >
   <div>
     <button
