@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -201,6 +201,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
+  @ViewChild('tweakedTimestampsModal') tweakedTimestampsModal!: TemplateRef<any>;
+
   constructor(instructorService: InstructorService,
               statusMessageService: StatusMessageService,
               navigationService: NavigationService,
@@ -284,8 +286,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       }))
       .subscribe((courses: Courses) => {
         this.failedToCopySessions = {};
-        this.coursesOfModifiedSession = new Set();
-        this.modifiedTimestamps = [];
+        this.coursesOfModifiedSession = [];
+        this.modifiedSession = {};
         const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
         modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
         modalRef.componentInstance.courseCandidates = courses.courses;
@@ -298,7 +300,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           if (requestList.length === 1) {
             this.copySingleSession(requestList[0].pipe(finalize(() => {
               this.sessionEditFormModel.isCopying = false;
-            })));
+            })), this.tweakedTimestampsModal);
           }
           if (requestList.length > 1) {
             forkJoin(requestList)
@@ -306,7 +308,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               this.sessionEditFormModel.isCopying = false;
             }))
             .subscribe(() => {
-              this.showCopyStatusMessage();
+              this.showCopyStatusMessage(this.tweakedTimestampsModal);
             });
           }
         }, (resp: ErrorMessageOutput) => {

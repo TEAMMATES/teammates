@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -77,6 +77,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
+
+  @ViewChild('tweakedTimestampsModal') tweakedTimestampsModal!: TemplateRef<any>;
 
   constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
@@ -357,12 +359,12 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
     this.isCopyLoading = true;
     this.failedToCopySessions = {};
-    this.coursesOfModifiedSession = new Set();
-    this.modifiedTimestamps = [];
+    this.coursesOfModifiedSession = [];
+    this.modifiedSession = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0]);
+      this.copySingleSession(requestList[0], this.tweakedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
@@ -384,7 +386,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               }
             });
           }
-          this.showCopyStatusMessage();
+          this.showCopyStatusMessage(this.tweakedTimestampsModal);
         });
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -143,6 +143,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   hasCourseLoadingFailed: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
+  @ViewChild('tweakedTimestampsModal') tweakedTimestampsModal!: TemplateRef<any>;
+
   constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
@@ -188,8 +190,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         this.sessionsTableRowModels.map((model: SessionsTableRowModel) => model.feedbackSession);
 
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
-      this.coursesOfModifiedSession = new Set();
-      this.modifiedTimestamps = [];
+      this.coursesOfModifiedSession = [];
+      this.modifiedSession = {};
       this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
         result.fromFeedbackSession.courseId)
           .pipe(finalize(() => {
@@ -197,9 +199,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           }))
           .subscribe({
             next: (createdFeedbackSession: FeedbackSession) => {
-              if (this.coursesOfModifiedSession.size > 0) {
+              if (this.coursesOfModifiedSession.length > 0) {
                 this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
-                    SimpleModalType.WARNING, this.getTimestampsTweakedWarningMessage(),
+                    SimpleModalType.WARNING, this.tweakedTimestampsModal,
                     {
                       onClosed: () => this.navigationService.navigateByURLWithParamEncoding(
                           '/web/instructor/sessions/edit',
@@ -526,12 +528,12 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   copySessionEventHandler(result: CopySessionResult): void {
     this.isCopySessionLoading = true;
     this.failedToCopySessions = {};
-    this.coursesOfModifiedSession = new Set();
-    this.modifiedTimestamps = [];
+    this.coursesOfModifiedSession = [];
+    this.modifiedSession = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0]);
+      this.copySingleSession(requestList[0], this.tweakedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
@@ -549,7 +551,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               this.sessionsTableRowModels.push(model);
             });
           }
-          this.showCopyStatusMessage();
+          this.showCopyStatusMessage(this.tweakedTimestampsModal);
         });
     }
   }

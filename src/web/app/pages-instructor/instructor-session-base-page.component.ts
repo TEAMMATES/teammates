@@ -1,3 +1,4 @@
+import { TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { Observable, of } from 'rxjs';
@@ -37,8 +38,8 @@ export abstract class InstructorSessionBasePageComponent {
   isResultActionLoading: boolean = false;
 
   protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
-  protected coursesOfModifiedSession: Set<string> = new Set();
-  protected modifiedTimestamps: Array<string> = [];
+  coursesOfModifiedSession: Array<string> = [];
+  modifiedSession: Record<string, TweakedTimestampData> = {};
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
@@ -81,32 +82,20 @@ export abstract class InstructorSessionBasePageComponent {
 
     let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
     if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {
-      this.modifiedTimestamps.push(`The submission opening time has been modified from 
-      ${this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone)} to 
-      ${this.formatTimestamp(twoDaysFromNowRoundedUp, fromFeedbackSession.timeZone)}.`);
-      isModified = true;
       copiedSubmissionStartTimestamp = twoDaysFromNowRoundedUp;
-    } else if (copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
-      this.modifiedTimestamps.push(`The submission opening time has been modified from 
-      ${this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone)} to 
-      ${this.formatTimestamp(ninetyDaysFromNowRoundedUp, fromFeedbackSession.timeZone)}.`);
       isModified = true;
+    } else if (copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
       copiedSubmissionStartTimestamp = ninetyDaysFromNowRoundedUp;
+      isModified = true;
     }
 
     let copiedSubmissionEndTimestamp = fromFeedbackSession.submissionEndTimestamp;
     if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp) {
-      this.modifiedTimestamps.push(`The submission closing time has been modified from 
-      ${this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone)} to 
-      ${this.formatTimestamp(sevenDaysFromNowRoundedUp, fromFeedbackSession.timeZone)}.`);
-      isModified = true;
       copiedSubmissionEndTimestamp = sevenDaysFromNowRoundedUp;
-    } else if (copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
-      this.modifiedTimestamps.push(`The submission closing time has been modified from 
-      ${this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone)} to 
-      ${this.formatTimestamp(oneHundredAndEightyDaysFromNowRoundedUp, fromFeedbackSession.timeZone)}.`);
       isModified = true;
+    } else if (copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
       copiedSubmissionEndTimestamp = oneHundredAndEightyDaysFromNowRoundedUp;
+      isModified = true;
     }
 
     let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
@@ -119,17 +108,11 @@ export abstract class InstructorSessionBasePageComponent {
         .valueOf();
     if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       if (copiedCustomSessionVisibleTimestamp < thirtyDaysFromSubmissionStart) {
-        this.modifiedTimestamps.push(`The session visible time has been modified from 
-        ${this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone)} to 
-        ${this.formatTimestamp(thirtyDaysFromSubmissionStartRoundedUp, fromFeedbackSession.timeZone)}.`);
-        isModified = true;
         copiedCustomSessionVisibleTimestamp = thirtyDaysFromSubmissionStartRoundedUp;
-      } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
-        this.modifiedTimestamps.push(`The session visible time has been modified from 
-        ${this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone)} to 
-        session visible time.`);
         isModified = true;
+      } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
         copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
+        isModified = true;
       }
     }
 
@@ -139,14 +122,56 @@ export abstract class InstructorSessionBasePageComponent {
         && ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
                 && copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp)
             || copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)) {
-      this.modifiedTimestamps.push(`The session visible time has been modified from 
-      ${this.formatTimestamp(copiedCustomResponseVisibleTimestamp, fromFeedbackSession.timeZone)} to later.`);
-      isModified = true;
       copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
+      isModified = true;
     }
 
     if (isModified) {
-      this.coursesOfModifiedSession.add(newCourseId);
+      this.coursesOfModifiedSession.push(newCourseId);
+
+      this.modifiedSession[fromFeedbackSession.feedbackSessionName] = {
+        oldTimestamp: {
+          submissionStartTimestamp: this.formatTimestamp(fromFeedbackSession.submissionStartTimestamp,
+              fromFeedbackSession.timeZone),
+          submissionEndTimestamp: this.formatTimestamp(fromFeedbackSession.submissionEndTimestamp,
+              fromFeedbackSession.timeZone),
+          sessionVisibleTimestamp: fromFeedbackSession.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+              ? 'On submission opening time'
+              : this.formatTimestamp(fromFeedbackSession.customSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
+          responseVisibleTimestamp: '',
+        },
+        newTimestamp: {
+          submissionStartTimestamp: this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone),
+          submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
+          sessionVisibleTimestamp: copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+              ? 'On submission opening time'
+              : this.formatTimestamp(copiedCustomSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
+          responseVisibleTimestamp: '',
+        },
+      };
+
+      if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
+        this.modifiedSession[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
+            'On session visible time';
+      } else if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.LATER) {
+        this.modifiedSession[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
+            'Later';
+      } else {
+        this.modifiedSession[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
+            this.formatTimestamp(fromFeedbackSession.customResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
+      }
+
+      if (copiedResponseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
+        this.modifiedSession[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
+            'On session visible time';
+      } else if (copiedResponseVisibleSetting === ResponseVisibleSetting.LATER) {
+        this.modifiedSession[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
+            'Later';
+      } else {
+        this.modifiedSession[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
+            this.formatTimestamp(copiedCustomResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
+      }
+
     }
 
     return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
@@ -292,14 +317,14 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Submits a single copy session request.
    */
-  copySingleSession(copySessionRequest: Observable<FeedbackSession>): void {
+  copySingleSession(copySessionRequest: Observable<FeedbackSession>, tweakedTimestampsModal: TemplateRef<any>): void {
     copySessionRequest.subscribe({
       next: (createdSession: FeedbackSession) => {
         if (Object.keys(this.failedToCopySessions).length > 0) {
           this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
-        } else if (this.coursesOfModifiedSession.size > 0) {
+        } else if (this.coursesOfModifiedSession.length > 0) {
           this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
-              SimpleModalType.WARNING, this.getTimestampsTweakedWarningMessage(),
+              SimpleModalType.WARNING, tweakedTimestampsModal,
               {
                 onClosed: () => this.navigationService.navigateByURLWithParamEncoding(
                     '/web/instructor/sessions/edit',
@@ -318,12 +343,12 @@ export abstract class InstructorSessionBasePageComponent {
     });
   }
 
-  showCopyStatusMessage(): void {
+  showCopyStatusMessage(tweakedTimestampsModal: TemplateRef<any>): void {
     if (Object.keys(this.failedToCopySessions).length > 0) {
       this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
-    } else if (this.coursesOfModifiedSession.size > 0) {
+    } else if (this.coursesOfModifiedSession.length > 0) {
       this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
-          SimpleModalType.WARNING, this.getTimestampsTweakedWarningMessage());
+          SimpleModalType.WARNING, tweakedTimestampsModal);
     } else {
       this.statusMessageService.showSuccessToast('Feedback session copied successfully to all courses.');
     }
@@ -334,15 +359,6 @@ export abstract class InstructorSessionBasePageComponent {
         `Error copying to ${key}: ${this.failedToCopySessions[key]}`).join(' ')).concat(
         ` Tip: If you can't find such a session in that course, also check the 'Recycle bin'
          (shown at the bottom of the 'Sessions' page).`);
-  }
-
-  getTimestampsTweakedWarningMessage(): string {
-    return `<p>The feedback session has been copied to all course(s). However, changes are made to some session 
-            timestamps due to timestamp constraints in these courses: 
-            ${Array.from(this.coursesOfModifiedSession).join(', ')}.</p>
-            <p><ul>${this.modifiedTimestamps.reduce((prevChange, currChange) => `${prevChange}
-            <li>${currChange}</li>`, '')}</ul></p>
-            <p>Please modify the timestamps as necessary.</p>`;
   }
 
   /**
@@ -448,4 +464,16 @@ export abstract class InstructorSessionBasePageComponent {
     modal.componentInstance.requestId = resp.error.requestId;
     modal.componentInstance.errorMessage = resp.error.message;
   }
+}
+
+interface SessionTimestampData {
+  submissionStartTimestamp: string;
+  submissionEndTimestamp: string;
+  sessionVisibleTimestamp: string;
+  responseVisibleTimestamp: string;
+}
+
+interface TweakedTimestampData {
+  oldTimestamp: SessionTimestampData;
+  newTimestamp: SessionTimestampData;
 }
