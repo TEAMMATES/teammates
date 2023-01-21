@@ -16,6 +16,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.TimeHelperExtension;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
@@ -58,7 +59,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         ______TS("Not enough parameters");
 
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
 
         verifyHttpParameterFailure(updateRequest);
         verifyHttpParameterFailure(updateRequest,
@@ -109,15 +110,19 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertNull(session.getDeletedTime());
 
         assertEquals("instructions", response.getInstructions());
-        assertEquals(1444003051000L, response.getSubmissionStartTimestamp());
-        assertEquals(1546003051000L, response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Africa/Johannesburg").toEpochMilli(), response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli(), response.getSubmissionEndTimestamp());
         assertEquals(5, response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-        assertEquals(1440003051000L, response.getCustomSessionVisibleTimestamp().longValue());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, "Africa/Johannesburg").toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
 
         assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-        assertEquals(1547003051000L, response.getCustomResponseVisibleTimestamp().longValue());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "Africa/Johannesburg").toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
         assertFalse(response.getIsClosingEmailEnabled());
         assertFalse(response.getIsPublishedEmailEnabled());
@@ -160,7 +165,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         assertNull(expectedStudentDeadlines.get(studentAEmailAddress));
 
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         Map<String, Long> newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
         newStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
@@ -180,7 +185,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         assertNotEquals(endTimePlus2Days, expectedStudentDeadlines.get(studentAEmailAddress));
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
         newStudentDeadlines.put(studentAEmailAddress, endTimePlus2Days);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
@@ -201,7 +206,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertNotNull(expectedStudentDeadlines.get(studentAEmailAddress));
 
         // The typical update request does not contain the course 1 student 1's email.
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
 
         a = getAction(updateRequest, param);
         r = getJsonResult(a);
@@ -229,7 +234,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(true),
         };
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
         newStudentDeadlines.put(studentAEmailAddress, endTimePlus1Day);
         newStudentDeadlines.put(studentBEmailAddress, endTimePlus2Days);
@@ -306,7 +311,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         ______TS("change deadline extension for non-existent student; should throw EntityNotFoundException");
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
         newStudentDeadlines.put("nonExistentStudent@gmail.tmt", endTimePlus1Day);
         updateRequest.setStudentDeadlines(newStudentDeadlines);
@@ -318,7 +323,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         ______TS("change deadline extension for student to the same time as the end time; "
                 + "should throw InvalidHttpRequestBodyException");
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         Instant newEndTime = updateRequest.getSubmissionEndTime();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
         newStudentDeadlines.put(studentAEmailAddress, newEndTime.toEpochMilli());
@@ -331,10 +336,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         ______TS("change deadline extension for student to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         newEndTime = updateRequest.getSubmissionEndTime();
         newStudentDeadlines = convertDeadlinesToLong(updateRequest.getStudentDeadlines());
-        newStudentDeadlines.put(studentAEmailAddress, newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
+        newStudentDeadlines.put(studentAEmailAddress, newEndTime.plus(Duration.ofDays(-1)).toEpochMilli());
         updateRequest.setStudentDeadlines(newStudentDeadlines);
 
         verifyHttpRequestBodyFailure(updateRequest, param);
@@ -370,7 +375,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         assertNull(expectedInstructorDeadlines.get(instructorAEmailAddress));
 
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         Map<String, Long> newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
         newInstructorDeadlines.put(instructorAEmailAddress, endTimePlus1Day);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
@@ -390,7 +395,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get(instructorAEmailAddress));
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
         newInstructorDeadlines.put(instructorAEmailAddress, endTimePlus2Days);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
@@ -411,7 +416,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertNotNull(expectedInstructorDeadlines.get(instructorAEmailAddress));
 
         // The typical update request does not contain the course 1 helper instructor's email.
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
 
         a = getAction(updateRequest, param);
         r = getJsonResult(a);
@@ -439,7 +444,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         assertNotEquals(endTimePlus2Days, expectedInstructorDeadlines.get(instructorBEmailAddress));
         assertNotNull(expectedInstructorDeadlines.get(instructorCEmailAddress));
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
         newInstructorDeadlines.put(instructorAEmailAddress, endTimePlus1Day);
         newInstructorDeadlines.put(instructorBEmailAddress, endTimePlus2Days);
@@ -517,7 +522,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         ______TS("change deadline extension for non-existent instructor; "
                 + "should throw EntityNotFoundException");
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
         newInstructorDeadlines.put("nonExistentInstructor@gmail.tmt", endTimePlus1Day);
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
@@ -529,7 +534,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         ______TS("change deadline extension for instructor to the same time as the end time; "
                 + "should throw InvalidHttpRequestBodyException");
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         Instant newEndTime = updateRequest.getSubmissionEndTime();
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
         newInstructorDeadlines.put(instructorAEmailAddress, newEndTime.toEpochMilli());
@@ -542,10 +547,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         ______TS("change deadline extension for instructor to before end time; "
                 + "should throw InvalidHttpRequestBodyException");
 
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         newEndTime = updateRequest.getSubmissionEndTime();
         newInstructorDeadlines = convertDeadlinesToLong(updateRequest.getInstructorDeadlines());
-        newInstructorDeadlines.put(instructorAEmailAddress, newEndTime.plus(Duration.ofMillis(-1)).toEpochMilli());
+        newInstructorDeadlines.put(instructorAEmailAddress, newEndTime.plus(Duration.ofDays(-1)).toEpochMilli());
         updateRequest.setInstructorDeadlines(newInstructorDeadlines);
 
         verifyHttpRequestBodyFailure(updateRequest, param);
@@ -567,7 +572,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         updateRequest.setCustomSessionVisibleTimestamp(
                 updateRequest.getSubmissionStartTime().plusSeconds(10).toEpochMilli());
 
@@ -597,7 +602,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest("Asia/Kathmandu");
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
@@ -620,7 +625,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
-        updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        updateRequest = getTypicalFeedbackSessionUpdateRequest("UTC");
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
 
         a = getAction(updateRequest, param);
@@ -628,7 +633,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(Const.TIME_REPRESENTS_FOLLOW_OPENING, session.getSessionVisibleFromTime());
-        assertEquals(1547003051000L, session.getResultsVisibleFromTime().toEpochMilli());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, "UTC").toEpochMilli(), session.getResultsVisibleFromTime().toEpochMilli());
     }
 
     @Test
@@ -644,7 +650,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
         param = addUserIdToParams(instructor1ofCourse1.getGoogleId(), param);
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
@@ -663,25 +669,29 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(session.getTimeZone());
         updateRequest.setInstructions(null);
 
         verifyHttpRequestBodyFailure(updateRequest, param);
     }
 
-    private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest() {
+    private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest(String timeZone) {
         FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
         updateRequest.setInstructions("instructions");
 
-        updateRequest.setSubmissionStartTimestamp(1444003051000L);
-        updateRequest.setSubmissionEndTimestamp(1546003051000L);
+        updateRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, timeZone).toEpochMilli());
+        updateRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, timeZone).toEpochMilli());
         updateRequest.setGracePeriod(5);
 
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
-        updateRequest.setCustomSessionVisibleTimestamp(1440003051000L);
+        updateRequest.setCustomSessionVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, timeZone).toEpochMilli());
 
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
-        updateRequest.setCustomResponseVisibleTimestamp(1547003051000L);
+        updateRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, timeZone).toEpochMilli());
 
         updateRequest.setClosingEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);
