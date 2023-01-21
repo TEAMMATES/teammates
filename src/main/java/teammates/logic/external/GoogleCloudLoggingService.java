@@ -88,7 +88,10 @@ public class GoogleCloudLoggingService implements LogService {
         return new QueryLogsResults(logEntries, hasNextPage);
     }
 
-    private LogSeverity convertSeverity(Severity severity) {
+    /**
+     * Convert Severity to LogSeverity.
+     */
+    protected LogSeverity convertSeverity(Severity severity) {
         if (severity == Severity.ERROR) {
             return LogSeverity.ERROR;
         }
