@@ -242,6 +242,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return getErrors(givenPoints, totalPoints);
     }
 
+    /**
+    * Takes a list of integers and returns a list of errors for integers above or below the value.
+    * @param answers List of integers
+    * @return errors List of integers
+    */
     protected List<String> getMinMaxPointErrors(List<Integer> answers) {
         List<String> errors = new ArrayList<>();
 

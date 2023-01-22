@@ -344,6 +344,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
+
     @Test
     public void testGetMinMaxPointErrorsMinMaxPointNull_returnsNoError() {
         FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
