@@ -11,6 +11,7 @@ import { SimpleModalService } from '../../services/simple-modal.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
+import { TimezoneService } from '../../services/timezone.service';
 import {
   FeedbackSessionSubmittedGiverSet, Instructor, Instructors,
   Student, Students,
@@ -54,10 +55,11 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         simpleModalService: SimpleModalService,
                         progressBarService: ProgressBarService,
                         feedbackSessionActionsService: FeedbackSessionActionsService,
+                        timezoneService: TimezoneService,
                         protected studentService: StudentService) {
     super(instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
-        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService);
+        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService);
   }
 
   /**

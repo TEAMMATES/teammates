@@ -10,5 +10,8 @@ module.exports = {
   setupFiles: [
     './jest-setup.ts',
   ],
+  moduleNameMapper: {
+    d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
+  },
   globalSetup: 'jest-preset-angular/global-setup',
 };

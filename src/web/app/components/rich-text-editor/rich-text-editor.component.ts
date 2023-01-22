@@ -31,7 +31,7 @@ export class RichTextEditorComponent implements OnInit {
 
   render: boolean = false;
 
-  defaultToolbar: string = 'styleselect | forecolor backcolor '
+  defaultToolbar: string = 'styles | forecolor backcolor '
       + '| bold italic underline strikethrough subscript superscript '
       + '| alignleft aligncenter alignright alignjustify '
       + '| bullist numlist | link image charmap emoticons';
@@ -54,10 +54,10 @@ export class RichTextEditorComponent implements OnInit {
       remove_linebreaks: false,
       placeholder: this.placeholderText,
       plugins: [
-        'advlist autolink autoresize lists link image charmap hr anchor',
-        'searchreplace wordcount visualblocks visualchars code',
-        'insertdatetime nonbreaking save table directionality',
-        'emoticons paste textpattern',
+        'advlist', 'autolink', 'autoresize', 'lists', 'link', 'image', 'charmap', 'anchor',
+        'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code',
+        'insertdatetime', 'nonbreaking', 'save', 'table', 'directionality',
+        'emoticons',
       ],
       menubar: false,
       autoresize_bottom_margin: 50,

@@ -50,6 +50,16 @@ public final class TimeHelper {
     }
 
     /**
+     * Returns an Instant that is offset by a number of hours from now.
+     *
+     * @param offsetInHours integer number of hours to offset by
+     * @return an Instant offset by {@code offsetInHours} hours
+     */
+    public static Instant getInstantHoursOffsetFromNow(long offsetInHours) {
+        return Instant.now().plus(Duration.ofHours(offsetInHours));
+    }
+
+    /**
      * Formats a datetime stamp from an {@code instant} using a formatting pattern.
      *
      * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.

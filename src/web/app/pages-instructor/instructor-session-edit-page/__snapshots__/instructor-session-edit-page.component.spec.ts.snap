@@ -10,6 +10,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
@@ -32,6 +33,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -97,6 +100,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
@@ -119,6 +123,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -184,6 +190,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
@@ -206,6 +213,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -274,6 +283,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
@@ -296,6 +306,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -361,6 +373,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
@@ -383,6 +396,8 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -448,6 +463,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
@@ -470,6 +486,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   isLoadingFeedbackQuestions="false"
   isLoadingFeedbackSession="false"
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -2859,6 +2877,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
@@ -2881,6 +2900,8 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   isLoadingFeedbackQuestions="false"
   isLoadingFeedbackSession="false"
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}

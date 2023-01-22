@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseArchive,
@@ -77,6 +78,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
 
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+
   constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
@@ -88,10 +91,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
               feedbackSessionActionsService: FeedbackSessionActionsService,
+              timezoneService: TimezoneService,
               private courseService: CourseService) {
     super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModal, simpleModalService,
-        progressBarService, feedbackSessionActionsService, studentService);
+        progressBarService, feedbackSessionActionsService, timezoneService, studentService);
   }
 
   ngOnInit(): void {
@@ -355,10 +359,12 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
     this.isCopyLoading = true;
     this.failedToCopySessions = {};
+    this.coursesOfModifiedSession = [];
+    this.modifiedSession = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0]);
+      this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
@@ -380,7 +386,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               }
             });
           }
-          this.showCopyStatusMessage();
+          this.showCopyStatusMessage(this.modifiedTimestampsModal);
         });
     }
   }

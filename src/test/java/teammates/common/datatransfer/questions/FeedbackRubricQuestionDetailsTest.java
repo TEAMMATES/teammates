@@ -51,6 +51,60 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testValidateQuestionDetails_invalidDescriptionSize_errorReturned() {
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("A", "B")));
+        rubricDetails.setHasAssignedWeights(false);
+        rubricDetails.setRubricSubQuestions(Arrays.asList("SubQn-1", "SubQn-2", "SubQn-3"));
+        rubricDetails.setRubricChoices(Arrays.asList("Choice-1", "Choice-2"));
+        rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(3.0, 3.0)));
+
+        List<String> errors = rubricDetails.validateQuestionDetails();
+        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_DESC_INVALID_SIZE, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_invalidChoicesSize_shouldBe2MinChoices() {
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("")));
+        rubricDetails.setHasAssignedWeights(false);
+        rubricDetails.setRubricSubQuestions(Arrays.asList("SubQn-1"));
+        rubricDetails.setRubricChoices(Arrays.asList("Choice-1"));
+        rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(0.5, 0.5)));
+
+        List<String> errors = rubricDetails.validateQuestionDetails();
+        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_NOT_ENOUGH_CHOICES
+                + FeedbackRubricQuestionDetails.RUBRIC_MIN_NUM_OF_CHOICES,
+                errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_invalidSubQuestionSize_shouldBe2MinSubQuestion() {
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("", "")));
+        rubricDetails.setHasAssignedWeights(false);
+        rubricDetails.setRubricSubQuestions(Arrays.asList());
+        rubricDetails.setRubricChoices(Arrays.asList("Choice-1", "Choice-2"));
+        rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(0.5, 0.5)));
+        List<String> errors = rubricDetails.validateQuestionDetails();
+        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS
+                + FeedbackRubricQuestionDetails.RUBRIC_MIN_NUM_OF_SUB_QUESTIONS,
+                errors.get(1));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_invalidBeNotEmptySubQuestionSize_shouldBeNotEmptySubQuestion() {
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("", "")));
+        rubricDetails.setHasAssignedWeights(false);
+        rubricDetails.setRubricSubQuestions(Arrays.asList(" "));
+        rubricDetails.setRubricChoices(Arrays.asList("Choice-1", "Choice-2"));
+        rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(0.5, 0.5)));
+        List<String> errors = rubricDetails.validateQuestionDetails();
+        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_EMPTY_SUB_QUESTION, errors.get(0));
+    }
+
+    @Test
     public void testValidateResponseDetails_validAnswer_shouldReturnEmptyErrorList() {
         FeedbackRubricQuestionDetails rubricQuestionDetails = new FeedbackRubricQuestionDetails();
         rubricQuestionDetails.setHasAssignedWeights(false);
