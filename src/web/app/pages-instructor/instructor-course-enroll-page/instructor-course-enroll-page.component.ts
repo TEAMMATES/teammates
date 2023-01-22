@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
+import { DetailedSettings } from 'handsontable/plugins/contextMenu';
 import { concat, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -57,19 +58,24 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   @Input() isExistingStudentsPanelCollapsed: boolean = true;
 
   colHeaders: string[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
-  contextMenuOptions: String[] | Object[] =
-    ['row_above',
-      'row_below',
-      'remove_row',
-      'undo',
-      'redo',
-      {
+  contextMenuOptions: DetailedSettings = {
+    items: {
+      row_above: {},
+      row_below: {},
+      remove_row: {},
+      undo: {},
+      redo: {},
+      cut: {},
+      copy: {},
+      paste: {
         key: 'paste',
         name: 'Paste',
         callback: this.pasteClick,
       },
-      'make_read_only',
-      'alignment'];
+      make_read_only: {},
+      alignment: {},
+    },
+  };
 
   hotRegisterer: HotTableRegisterer = new HotTableRegisterer();
   newStudentsHOT: string = 'newStudentsHOT';
@@ -481,7 +487,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   addRows(numOfRows: number): void {
     this.hotRegisterer.getInstance(this.newStudentsHOT).alter(
-        'insert_row', [], numOfRows);
+        'insert_row_below', [], numOfRows);
   }
 
   /**

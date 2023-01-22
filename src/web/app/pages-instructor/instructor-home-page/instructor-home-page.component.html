@@ -107,3 +107,50 @@
     </div>
   </div>
 </tm-loading-retry>
+
+<ng-template #modifiedTimestampsModal>
+  <p>
+    The feedback session has been copied to all courses. However, changes are made to some session timings as the
+    existing timings are no longer valid in these courses: {{ this.coursesOfModifiedSession.join(', ') }}.
+    The changes are as follows:
+  </p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Session Name</th>
+        <th>Timings</th>
+        <th>Existing</th>
+        <th>Modified</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let session of this.modifiedSession | keyvalue">
+        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionStartTimestamp === session.value.newTimestamp.submissionStartTimestamp}">
+          <td rowspan="4">{{ session.key }}</td>
+          <td>Submission opening time</td>
+          <td>{{ session.value.oldTimestamp.submissionStartTimestamp }}</td>
+          <td>{{ session.value.newTimestamp.submissionStartTimestamp }}</td>
+        </tr>
+        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionEndTimestamp === session.value.newTimestamp.submissionEndTimestamp}">
+          <td>Submission closing time</td>
+          <td>{{ session.value.oldTimestamp.submissionEndTimestamp }}</td>
+          <td>{{ session.value.newTimestamp.submissionEndTimestamp }}</td>
+        </tr>
+        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.sessionVisibleTimestamp === session.value.newTimestamp.sessionVisibleTimestamp}">
+          <td>Session visible time</td>
+          <td>{{ session.value.oldTimestamp.sessionVisibleTimestamp }}</td>
+          <td>{{ session.value.newTimestamp.sessionVisibleTimestamp }}</td>
+        </tr>
+        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.responseVisibleTimestamp === session.value.newTimestamp.responseVisibleTimestamp}">
+          <td>Response visible time</td>
+          <td>{{ session.value.oldTimestamp.responseVisibleTimestamp }}</td>
+          <td>{{ session.value.newTimestamp.responseVisibleTimestamp }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <br>
+  <p>
+    Please modify the timings as necessary.
+  </p>
+</ng-template>

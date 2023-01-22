@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -201,6 +201,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+
   constructor(instructorService: InstructorService,
               statusMessageService: StatusMessageService,
               navigationService: NavigationService,
@@ -211,15 +213,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
               feedbackSessionActionsService: FeedbackSessionActionsService,
+              timezoneService: TimezoneService,
               private datetimeService: DateTimeService,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
-              private timezoneService: TimezoneService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
-        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService);
+        ngbModal, simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService);
   }
 
   ngOnInit(): void {
@@ -284,6 +286,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       }))
       .subscribe((courses: Courses) => {
         this.failedToCopySessions = {};
+        this.coursesOfModifiedSession = [];
+        this.modifiedSession = {};
         const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
         modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
         modalRef.componentInstance.courseCandidates = courses.courses;
@@ -296,7 +300,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           if (requestList.length === 1) {
             this.copySingleSession(requestList[0].pipe(finalize(() => {
               this.sessionEditFormModel.isCopying = false;
-            })));
+            })), this.modifiedTimestampsModal);
           }
           if (requestList.length > 1) {
             forkJoin(requestList)
@@ -304,7 +308,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               this.sessionEditFormModel.isCopying = false;
             }))
             .subscribe(() => {
-              this.showCopyStatusMessage();
+              this.showCopyStatusMessage(this.modifiedTimestampsModal);
             });
           }
         }, (resp: ErrorMessageOutput) => {

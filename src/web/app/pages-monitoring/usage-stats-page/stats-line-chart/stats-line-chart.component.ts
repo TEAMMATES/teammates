@@ -64,8 +64,8 @@ export class StatsLineChartComponent implements OnChanges {
     this.yScale = d3
       .scaleLinear()
       .domain([
-          d3.max(this.data, (d: DataPoint) => d.value) + 1,
-          d3.min(this.data, (d: DataPoint) => d.value) - 1,
+          (d3.max(this.data, (d: DataPoint) => d.value) || 0) + 1,
+          (d3.min(this.data, (d: DataPoint) => d.value) || 0) - 1,
       ])
       .range([0, this.height - 2 * this.margin]);
 
@@ -101,7 +101,7 @@ export class StatsLineChartComponent implements OnChanges {
     const xAxis = d3
       .axisBottom(this.xScale)
       .ticks(10)
-      .tickFormat(d3.timeFormat('%b %d, %H:%M'));
+      .tickFormat((dt) => d3.timeFormat('%b %d, %H:%M')(dt as Date));
 
     this.xAxis.call(xAxis);
 
@@ -129,16 +129,16 @@ export class StatsLineChartComponent implements OnChanges {
       .enter()
       .append('circle')
       .attr('r', 3)
-      .attr('cx', (d: any) => this.xScale(new Date(d.date)))
-      .attr('cy', (d: any) => this.yScale(d.value))
+      .attr('cx', (d: DataPoint) => this.xScale(new Date(d.date)))
+      .attr('cy', (d: DataPoint) => this.yScale(d.value))
       .attr('fill', '#FFC107')
-      .on('mouseover', (d: any) => {
+      .on('mouseover', (event: any, d: DataPoint) => {
         div.transition()
           .duration(200)
           .style('opacity', 0.9);
         div.html(`Time: ${new Date(d.date).toString()}<br>New ${this.dataName} count: ${d.value}`)
-          .style('left', `${d3.event.pageX}px`)
-          .style('top', `${d3.event.pageY - 32}px`);
+          .style('left', `${event.pageX}px`)
+          .style('top', `${event.pageY - 32}px`);
       })
       .on('mouseout', () => {
         div.transition()

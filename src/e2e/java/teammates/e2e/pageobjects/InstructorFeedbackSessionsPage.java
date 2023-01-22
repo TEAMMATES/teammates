@@ -185,6 +185,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         selectSessionToCopy(sessionToCopy.getCourseId(), sessionToCopy.getFeedbackSessionName());
 
         clickConfirmCopySessionButton();
+        waitForConfirmationModalAndClickOk();
         waitForSessionEditPage();
     }
 
