@@ -23,6 +23,111 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         assertTrue(rubricDetails.getRubricWeights().isEmpty());
     }
 
+    //V
+    @Test 
+    void testShouldChangesRequireResponseDeletion_EmptyRubricChoices_shouldReturnTrue(){
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        
+        FeedbackRubricQuestionDetails newrubricDetails = new FeedbackRubricQuestionDetails();
+
+        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newrubricDetails));
+    }
+
+    //F FFF
+    @Test 
+    void testShouldChangesRequireResponseDeletion_EqualSizeSubQuestions_shouldReturnFalse(){
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        rubricDetails.setRubricSubQuestions(Arrays.asList("Q1","Q2","Q3","Q4"));
+        
+        FeedbackRubricQuestionDetails newrubricDetails = new FeedbackRubricQuestionDetails();
+        newrubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        newrubricDetails.setRubricSubQuestions(Arrays.asList("Q1","Q2","Q3","Q4"));
+
+        assertEquals(rubricDetails.getRubricChoices(), newrubricDetails.getRubricChoices());
+        assertEquals(rubricDetails.getRubricSubQuestions().size(),newrubricDetails.getRubricSubQuestions().size());
+        assertTrue(rubricDetails.getRubricSubQuestions().containsAll(newrubricDetails.getRubricSubQuestions()));
+        assertTrue(newrubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
+
+        assertFalse(rubricDetails.shouldChangesRequireResponseDeletion(newrubricDetails));
+    }
+
+    //F VFV
+    @Test 
+    void testShouldChangesRequireResponseDeletion_DifferentSizeSubQuestions_shouldReturnTrue(){
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        rubricDetails.setRubricSubQuestions(Arrays.asList("Q1","Q2","Q3","Q4","Q5"));
+        
+        FeedbackRubricQuestionDetails newrubricDetails = new FeedbackRubricQuestionDetails();
+        newrubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        newrubricDetails.setRubricSubQuestions(Arrays.asList("Q1","Q2","Q3","Q4"));
+
+        assertEquals(rubricDetails.getRubricChoices(), newrubricDetails.getRubricChoices());
+        assertNotEquals(rubricDetails.getRubricSubQuestions().size(),newrubricDetails.getRubricSubQuestions().size());
+
+        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newrubricDetails));
+    }
+
+    //F VVF
+    @Test 
+    void testShouldChangesRequireResponseDeletion_DifferentListSubQuestions1_shouldReturnTrue(){
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        rubricDetails.setRubricSubQuestions(Arrays.asList("Q1","Q2","Q3","Q4"));
+        
+        FeedbackRubricQuestionDetails newrubricDetails = new FeedbackRubricQuestionDetails();
+        newrubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        newrubricDetails.setRubricSubQuestions(Arrays.asList("Q1","Q2","Q3","Q4","Q5"));
+
+        assertEquals(rubricDetails.getRubricChoices(), newrubricDetails.getRubricChoices());
+        assertNotEquals(rubricDetails.getRubricSubQuestions().size(),newrubricDetails.getRubricSubQuestions().size());
+
+        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newrubricDetails));
+    }
+
+    //F FVV
+    @Test
+    void testShouldChangesRequireResponseDeletion_DifferentListSubQuestions2_shouldReturnTrue(){
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        rubricDetails.setRubricSubQuestions(Arrays.asList("Q5","Q2","Q3","Q4"));
+        
+        FeedbackRubricQuestionDetails newrubricDetails = new FeedbackRubricQuestionDetails();
+        newrubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        newrubricDetails.setRubricSubQuestions(Arrays.asList("Q1","Q2","Q3","Q4"));
+
+        assertEquals(rubricDetails.getRubricChoices(), newrubricDetails.getRubricChoices());
+        assertEquals(rubricDetails.getRubricSubQuestions().size(),newrubricDetails.getRubricSubQuestions().size());
+        assertFalse(rubricDetails.getRubricSubQuestions().containsAll(newrubricDetails.getRubricSubQuestions()));
+        assertFalse(newrubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
+
+        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newrubricDetails));
+    }
+
+    //F VVV
+    @Test
+    void testShouldChangesRequireResponseDeletion_DifferentListSubQuestions3_shouldReturnTrue(){
+        FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
+        rubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        rubricDetails.setRubricSubQuestions(Arrays.asList("Q5","Q2","Q3","Q4","Q6","Q9"));
+        
+        FeedbackRubricQuestionDetails newrubricDetails = new FeedbackRubricQuestionDetails();
+        newrubricDetails.setRubricChoices(Arrays.asList("test-1","test-2"));
+        newrubricDetails.setRubricSubQuestions(Arrays.asList("Q1","Q2","Q3","Q4"));
+
+        assertEquals(rubricDetails.getRubricChoices(), newrubricDetails.getRubricChoices());
+        assertNotEquals(rubricDetails.getRubricSubQuestions().size(),newrubricDetails.getRubricSubQuestions().size());
+        assertFalse(rubricDetails.getRubricSubQuestions().containsAll(newrubricDetails.getRubricSubQuestions()));
+        assertFalse(newrubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
+
+        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newrubricDetails));
+    }
+
+
+
+
     @Test
     public void testValidateQuestionDetails_invalidWeightListSize_errorReturned() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
