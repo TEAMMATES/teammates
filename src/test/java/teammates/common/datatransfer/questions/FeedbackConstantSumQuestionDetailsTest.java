@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -161,5 +162,42 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
+    }
+    @Test
+    public void testGetMinMaxPointErrorsMinMaxPointNull_returnsNoError() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        List<Integer> answers = Arrays.asList(1, 2, 3, 4);
+        List<String> errors = feedbackQuestionDetails.getMinMaxPointErrors(answers);
+        assertTrue(errors.isEmpty());
+    }
+
+    @Test
+    public void testGetMinMaxPointErrors_answerBelowMinPoint_returnsError() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setMinPoint(5);
+        List<Integer> answers = Arrays.asList(1, 2, 3, 4);
+        List<String> errors = feedbackQuestionDetails.getMinMaxPointErrors(answers);
+        assertEquals(errors.size(), 4);
+        assertEquals(errors.get(0), "An answer cannot be smaller than the minimum number of points: 5");
+    }
+
+    @Test
+    public void testGetMinMaxPointErrors_answerAboveMaxPoint_returnsError() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setMaxPoint(10);
+        List<Integer> answers = Arrays.asList(11, 12, 13, 14);
+        List<String> errors = feedbackQuestionDetails.getMinMaxPointErrors(answers);
+        assertEquals(errors.size(), 4);
+        assertEquals(errors.get(0), "An answer cannot be greater than the maximum number of points: 10");
+    }
+
+    @Test
+    public void testGetMinMaxPointErrors_answerWithinMinMax_returnsNoError() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setMinPoint(5);
+        feedbackQuestionDetails.setMaxPoint(10);
+        List<Integer> answers = Arrays.asList(5, 6, 7, 8, 9, 10);
+        List<String> errors = feedbackQuestionDetails.getMinMaxPointErrors(answers);
+        assertTrue(errors.isEmpty());
     }
 }

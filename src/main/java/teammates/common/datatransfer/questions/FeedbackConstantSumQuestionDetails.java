@@ -242,7 +242,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return getErrors(givenPoints, totalPoints);
     }
 
-    private List<String> getMinMaxPointErrors(List<Integer> answers) {
+    protected List<String> getMinMaxPointErrors(List<Integer> answers) {
         List<String> errors = new ArrayList<>();
 
         for (int answer : answers) {
