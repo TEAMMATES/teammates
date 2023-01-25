@@ -12,7 +12,7 @@ import {
 })
 export class QuestionTypeHelpPathPipe implements PipeTransform {
 
-  transform(type: FeedbackQuestionType): string {
+  transform(type: FeedbackQuestionType): string | Error {
     switch (type) {
       case FeedbackQuestionType.MCQ:
         return QuestionsSectionQuestions.SINGLE_ANSWER_MCQ;
@@ -35,12 +35,7 @@ export class QuestionTypeHelpPathPipe implements PipeTransform {
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return QuestionsSectionQuestions.RANK_OPTIONS;
       default:
-        /* eslint-disable */
-        console.assert(false, "Invalid Question Type")
-        /* eslint-enable */
-
-        // SectionID
-        return 'questions';
+        throw new Error('Invalid Question Type');
     }
   }
 
