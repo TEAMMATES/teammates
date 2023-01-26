@@ -1,25 +1,25 @@
-import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { PageScrollService } from 'ngx-page-scroll-core';
-import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { AuthService } from '../../../services/auth.service';
-import { CourseService } from '../../../services/course.service';
-import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
-import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { InstructorService } from '../../../services/instructor.service';
-import { LogService } from '../../../services/log.service';
-import { NavigationService } from '../../../services/navigation.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentService } from '../../../services/student.service';
-import { TimezoneService } from '../../../services/timezone.service';
+import {DOCUMENT} from '@angular/common';
+import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {PageScrollService} from 'ngx-page-scroll-core';
+import {forkJoin, Observable, of} from 'rxjs';
+import {catchError, finalize, switchMap, tap} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
+import {AuthService} from '../../../services/auth.service';
+import {CourseService} from '../../../services/course.service';
+import {DeadlineExtensionHelper} from '../../../services/deadline-extension-helper';
+import {FeedbackQuestionsService} from '../../../services/feedback-questions.service';
+import {FeedbackResponseCommentService} from '../../../services/feedback-response-comment.service';
+import {FeedbackResponsesResponse, FeedbackResponsesService} from '../../../services/feedback-responses.service';
+import {FeedbackSessionsService} from '../../../services/feedback-sessions.service';
+import {InstructorService} from '../../../services/instructor.service';
+import {LogService} from '../../../services/log.service';
+import {NavigationService} from '../../../services/navigation.service';
+import {SimpleModalService} from '../../../services/simple-modal.service';
+import {StatusMessageService} from '../../../services/status-message.service';
+import {StudentService} from '../../../services/student.service';
+import {TimezoneService} from '../../../services/timezone.service';
 import {
   AuthInfo,
   Course,
@@ -27,6 +27,7 @@ import {
   FeedbackQuestion,
   FeedbackQuestionRecipient,
   FeedbackQuestionRecipients,
+  FeedbackQuestionType,
   FeedbackResponse,
   FeedbackResponseComment,
   FeedbackResponses,
@@ -38,20 +39,20 @@ import {
   RegkeyValidity,
   Student,
 } from '../../../types/api-output';
-import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
-import { Milliseconds } from '../../../types/datetime-const';
-import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
-import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
-import { ErrorReportComponent } from '../../components/error-report/error-report.component';
+import {FeedbackResponseRequest, Intent} from '../../../types/api-request';
+import {Milliseconds} from '../../../types/datetime-const';
+import {DEFAULT_NUMBER_OF_RETRY_ATTEMPTS} from '../../../types/default-retry-attempts';
+import {CommentRowModel} from '../../components/comment-box/comment-row/comment-row.component';
+import {ErrorReportComponent} from '../../components/error-report/error-report.component';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
+import {SimpleModalType} from '../../components/simple-modal/simple-modal-type';
+import {ErrorMessageOutput} from '../../error-message-output';
+import {SavingCompleteModalComponent} from './saving-complete-modal/saving-complete-modal.component';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -110,6 +111,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   isQuestionCountOne: boolean = false;
   isSubmitAllClicked: boolean = false;
+
+  areQuestionsGroupedByRecipient: boolean = false;
+  hasLoadedAllRecipients: boolean = false;
+  recipientQuestionMap: Map<string, any[]> = new Map<string, any[]>()
 
   private backendUrl: string = environment.backendUrl;
 
@@ -538,6 +543,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             recipientSection: recipient.section,
             recipientTeam: recipient.team,
           });
+          this.addQuestionForRecipient(recipient.identifier, model.questionNumber);
         });
 
         if (this.previewAsPerson) {
@@ -565,6 +571,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           model.isLoading = false;
           model.isLoaded = true;
         } else {
+          console.log('loading feedback responses');
           this.loadFeedbackResponses(model);
         }
       },
@@ -954,5 +961,64 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private isFeedbackEndingLessThanFifteenMinutes(feedbackSession: FeedbackSession): boolean {
     const userSessionEndingTime = DeadlineExtensionHelper.getOngoingUserFeedbackSessionEndingTimestamp(feedbackSession);
     return (userSessionEndingTime - Date.now()) < Milliseconds.IN_FIFTEEN_MINUTES;
+  }
+
+  private addQuestionForRecipient(recipientId: string, questionId: any): void {
+    if (this.recipientQuestionMap.has(recipientId)) {
+      this.recipientQuestionMap.get(recipientId)!.push(questionId);
+    } else {
+      let feedbackQuestionIds: any[] = [];
+      feedbackQuestionIds.push(questionId);
+      this.recipientQuestionMap.set(recipientId, feedbackQuestionIds);
+    }
+  }
+
+  groupQuestionsByRecipient(): void {
+    this.areQuestionsGroupedByRecipient = !this.areQuestionsGroupedByRecipient;
+    console.log(this.areQuestionsGroupedByRecipient);
+    if (!this.hasLoadedAllRecipients) {
+      let affectedQuestions: QuestionSubmissionFormModel[] = [];
+      this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
+        if (!model.isLoading && !model.isLoaded
+            && this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT
+            && model.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS
+            && model.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
+            && model.questionType !== FeedbackQuestionType.CONTRIB) {
+          affectedQuestions.push(model);
+        }
+      });
+
+      let recipientsObservable: Observable<FeedbackQuestionRecipients>[] = [];
+      affectedQuestions.forEach((model: QuestionSubmissionFormModel) => {
+        if (!model.isLoading && !model.isLoaded) {
+          recipientsObservable.push(this.feedbackQuestionsService.loadFeedbackQuestionRecipients({
+            questionId: model.feedbackQuestionId,
+            intent: this.intent,
+            key: this.regKey,
+            moderatedPerson: this.moderatedPerson,
+            previewAs: this.previewAsPerson,
+          }));
+        }
+      });
+      forkJoin(recipientsObservable)
+          .pipe(finalize(() => {
+            this.hasLoadedAllRecipients = true;
+            console.log(this.recipientQuestionMap);
+          }))
+          .subscribe({next: (recipients: FeedbackQuestionRecipients[]) => {
+                  console.log(recipients);
+                  for (let i = 0; i < recipients.length; i++) {
+                    for (let j = 0; j < recipients[i].recipients.length; j++) {
+                      let recipient: FeedbackQuestionRecipient = recipients[i].recipients[j];
+                      this.addQuestionForRecipient(recipient.identifier, affectedQuestions[i].questionNumber);
+                    }
+                  }
+                },
+                error: (msg: ErrorMessageOutput) => {console.log(msg)}
+              }
+          );
+    }
+
+    console.log('finish!!!!!!!!!!');
   }
 }

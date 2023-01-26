@@ -89,19 +89,29 @@
   </div>
 </div>
 
+<button id="btn-group-by-recipient" type="submit" class="btn btn-info"
+        ngbTooltip="You can group the questions by recipient."
+        (click)="groupQuestionsByRecipient()"
+>Group Questions by Recipients</button>
+
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
   <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
-    <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
-                                 [attr.id]="questionSubmissionForm.feedbackQuestionId"
-                                 inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
-                                 [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
-                                 [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                 [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
-                                 (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-                                 [isQuestionCountOne]="isQuestionCountOne"
-                                 [(isSubmitAllClicked)]="isSubmitAllClicked"
-    ></tm-question-submission-form>
+    <ng-container *ngIf="areQuestionsGroupedByRecipient">
 
+    </ng-container>
+    <ng-container>
+      <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
+                                   [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                   inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
+                                   [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                                   [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                   [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
+                                   (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                                   [isQuestionCountOne]="isQuestionCountOne"
+                                   [(isSubmitAllClicked)]="isSubmitAllClicked"
+                                   [areQuestionsGroupedByRecipient]="areQuestionsGroupedByRecipient"
+      ></tm-question-submission-form>
+    </ng-container>
     <div class="row" *ngIf="questionsNeedingSubmission.length === 0">
       <div class="col-12 text-center">
         <div class="alert alert-info" role="alert">

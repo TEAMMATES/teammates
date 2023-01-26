@@ -74,6 +74,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   isSubmitAllClicked: boolean = false;
 
+  @Input()
+  areQuestionsGroupedByRecipient: boolean = false;
+
   @Output()
   isSubmitAllClickedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
