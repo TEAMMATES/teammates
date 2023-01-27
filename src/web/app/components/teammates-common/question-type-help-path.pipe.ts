@@ -33,7 +33,7 @@ export class QuestionTypeHelpPathPipe implements PipeTransform {
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         return QuestionsSectionQuestions.POINTS_OPTIONS;
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        return QuestionsSectionQuestions.RANK_OPTIONS;
+        return QuestionsSectionQuestions.POINTS_RECIPIENTS;
       default:
         throw new Error('Invalid Question Type');
     }
