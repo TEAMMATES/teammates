@@ -543,7 +543,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             recipientSection: recipient.section,
             recipientTeam: recipient.team,
           });
-          this.addQuestionForRecipient(recipient.identifier, model.questionNumber);
+          if (!this.hasLoadedAllRecipients) {
+            this.addQuestionForRecipient(recipient.identifier, model.questionNumber);
+          }
         });
 
         if (this.previewAsPerson) {
