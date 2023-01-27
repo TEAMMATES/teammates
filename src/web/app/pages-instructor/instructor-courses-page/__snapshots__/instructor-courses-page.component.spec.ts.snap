@@ -5,6 +5,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -29,6 +30,8 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  modifiedSessions={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -39,6 +42,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -255,6 +259,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -279,6 +284,8 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  modifiedSessions={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -289,6 +296,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -327,6 +335,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -351,6 +360,8 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  modifiedSessions={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -361,6 +372,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -512,7 +524,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       aria-expanded="false"
-                      class="btn btn-light btn-sm dropdown-toggle"
+                      class="dropdown-toggle btn btn-light btn-sm"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -623,7 +635,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       aria-expanded="false"
-                      class="btn btn-light btn-sm dropdown-toggle"
+                      class="dropdown-toggle btn btn-light btn-sm"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >
@@ -773,6 +785,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -797,6 +810,8 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  modifiedSessions={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -807,6 +822,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -840,7 +856,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
           <button
             class="btn btn-primary btn-sm"
             disabled=""
-            id="btn-edit-course"
+            id="btn-copy-course"
             style=""
           >
             <i
@@ -1029,7 +1045,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             class="form-group m-0"
           >
             <div
-              class=" col-sm-12 text-center"
+              class="col-sm-12 text-center"
             >
               <button
                 class="btn btn-success"
@@ -1063,6 +1079,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1087,6 +1104,8 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  modifiedSessions={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1097,6 +1116,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -1248,7 +1268,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       aria-expanded="false"
-                      class="btn btn-light btn-sm dropdown-toggle"
+                      class="dropdown-toggle btn btn-light btn-sm"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -1359,7 +1379,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       aria-expanded="false"
-                      class="btn btn-light btn-sm dropdown-toggle"
+                      class="dropdown-toggle btn btn-light btn-sm"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >
@@ -1513,6 +1533,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1537,6 +1558,8 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  modifiedSessions={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1547,6 +1570,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -1585,6 +1609,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1609,6 +1634,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  modifiedSessions={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1619,6 +1646,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -1734,9 +1762,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
                 <td>
                   <span>
-                    <a
-                      href="null"
-                    >
+                    <a>
                        Show 
                     </a>
                   </span>
@@ -1744,7 +1770,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <td>
                   <span>
                     <a
-                      href="null"
                       id="show-statistics-0"
                     >
                        Show 
@@ -1753,18 +1778,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
                 <td>
                   <span>
-                    <a
-                      href="null"
-                    >
+                    <a>
                        Show 
                     </a>
                   </span>
                 </td>
                 <td>
                   <span>
-                    <a
-                      href="null"
-                    >
+                    <a>
                        Show 
                     </a>
                   </span>
@@ -1787,7 +1808,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       aria-expanded="false"
-                      class="btn btn-light btn-sm dropdown-toggle"
+                      class="dropdown-toggle btn btn-light btn-sm"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -1865,9 +1886,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
                 <td>
                   <span>
-                    <a
-                      href="null"
-                    >
+                    <a>
                        Show 
                     </a>
                   </span>
@@ -1875,7 +1894,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <td>
                   <span>
                     <a
-                      href="null"
                       id="show-statistics-1"
                     >
                        Show 
@@ -1884,18 +1902,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
                 <td>
                   <span>
-                    <a
-                      href="null"
-                    >
+                    <a>
                        Show 
                     </a>
                   </span>
                 </td>
                 <td>
                   <span>
-                    <a
-                      href="null"
-                    >
+                    <a>
                        Show 
                     </a>
                   </span>
@@ -1915,7 +1929,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       aria-expanded="false"
-                      class="btn btn-light btn-sm dropdown-toggle"
+                      class="dropdown-toggle btn btn-light btn-sm"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >

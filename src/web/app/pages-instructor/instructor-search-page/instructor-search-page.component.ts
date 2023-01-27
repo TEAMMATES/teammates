@@ -25,6 +25,7 @@ export class InstructorSearchPageComponent {
   searchParams: SearchParams = {
     searchKey: '',
   };
+  searchString: string = '';
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching: boolean = false;
 
@@ -42,6 +43,7 @@ export class InstructorSearchPageComponent {
     if (this.searchParams.searchKey === '') {
       return;
     }
+    this.searchString = this.searchParams.searchKey;
     this.isSearching = true;
     this.searchService.searchInstructor(this.searchParams.searchKey).pipe(
         map((res: InstructorSearchResult) => this.getCoursesWithStudents(res.students)),
@@ -55,28 +57,31 @@ export class InstructorSearchPageComponent {
         finalize(() => {
           this.isSearching = false;
         }),
-    ).subscribe((resp: TransformedInstructorSearchResult) => {
-      const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
-      const hasStudents: boolean = !!(
-          searchStudentsTable && searchStudentsTable.length
-      );
+    ).subscribe({
+      next: (resp: TransformedInstructorSearchResult) => {
+        const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
+        const hasStudents: boolean = !!(
+            searchStudentsTable && searchStudentsTable.length
+        );
 
-      if (hasStudents) {
-        this.studentsListRowTables = searchStudentsTable;
-        if (searchStudentsTable.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
-          this.statusMessageService.showWarningToast(
-              `${ApiConst.SEARCH_QUERY_SIZE_LIMIT} results have been shown on this page
+        if (hasStudents) {
+          this.studentsListRowTables = searchStudentsTable;
+          if (searchStudentsTable.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
+            this.statusMessageService.showWarningToast(
+                `${ApiConst.SEARCH_QUERY_SIZE_LIMIT} results have been shown on this page
               but there may be more results not shown. Consider searching with more specific terms.`);
+          }
+        } else {
+          this.studentsListRowTables = [];
         }
-      } else {
+        if (!hasStudents) {
+          this.statusMessageService.showWarningToast('No results found.');
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
         this.studentsListRowTables = [];
-      }
-      if (!hasStudents) {
-        this.statusMessageService.showWarningToast('No results found.');
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.studentsListRowTables = [];
-      this.statusMessageService.showErrorToast(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -160,18 +165,21 @@ export class InstructorSearchPageComponent {
     const courseId: string = studentRow.student.courseId;
     const studentEmail: string = studentRow.student.email;
 
-    this.courseService.removeStudentFromCourse(courseId, studentEmail).subscribe(() => {
-      const affectedTable: SearchStudentsListRowTable | undefined =
-          this.studentsListRowTables.find((table: SearchStudentsListRowTable) => table.courseId === courseId);
-      if (affectedTable) {
-        affectedTable.students = affectedTable.students
-            .filter((student: StudentListRowModel) => student.student.email !== studentEmail);
-      }
+    this.courseService.removeStudentFromCourse(courseId, studentEmail).subscribe({
+      next: () => {
+        const affectedTable: SearchStudentsListRowTable | undefined =
+            this.studentsListRowTables.find((table: SearchStudentsListRowTable) => table.courseId === courseId);
+        if (affectedTable) {
+          affectedTable.students = affectedTable.students
+              .filter((student: StudentListRowModel) => student.student.email !== studentEmail);
+        }
 
-      this.statusMessageService
-          .showSuccessToast(`Student "${studentRow.student.name}" is successfully deleted from course "${courseId}"`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+        this.statusMessageService
+            .showSuccessToast(`Student "${studentRow.student.name}" is successfully deleted from course "${courseId}"`);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 

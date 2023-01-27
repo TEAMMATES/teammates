@@ -4,6 +4,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -32,6 +33,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -152,6 +154,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -180,6 +183,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -297,6 +301,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -325,6 +330,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -442,6 +448,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -470,6 +477,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -686,6 +694,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -714,6 +723,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -882,8 +892,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -933,16 +946,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1124,8 +1143,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1177,16 +1199,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-text-question-instruction />
             <tm-text-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1302,16 +1330,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1336,8 +1370,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1422,16 +1459,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-msq-question-constraint>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1612,8 +1655,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1665,16 +1711,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-num-scale-question-instruction />
             <tm-num-scale-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1778,8 +1830,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1851,16 +1906,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-constsum-recipients-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -1958,8 +2019,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2011,16 +2075,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-contribution-question-instruction>
             </tm-contribution-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -2367,8 +2437,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2418,16 +2491,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -2637,8 +2716,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2723,16 +2805,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-rank-options-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -2865,8 +2953,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2951,16 +3042,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-rank-recipients-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3063,6 +3160,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -3091,6 +3189,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -3259,8 +3358,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3310,16 +3412,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3506,8 +3614,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3559,16 +3670,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-text-question-instruction />
             <tm-text-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3684,16 +3801,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -3718,8 +3841,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3804,16 +3930,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-msq-question-constraint>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -4000,8 +4132,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4053,16 +4188,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-num-scale-question-instruction />
             <tm-num-scale-question-constraint />
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -4167,8 +4308,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4240,16 +4384,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-constsum-recipients-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -4348,8 +4498,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4401,16 +4554,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </div>
             <tm-contribution-question-instruction>
             </tm-contribution-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -4758,8 +4917,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4809,16 +4971,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </li>
               </ul>
             </div>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -5037,8 +5205,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -5123,16 +5294,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-rank-options-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -5266,8 +5443,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -5352,16 +5532,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </p>
               </div>
             </tm-rank-recipients-question-instruction>
-            <p
-              class="margin-top-30px margin-bottom-0px"
+            <div
+              class="form-row margin-top-30px margin-bottom-0px"
             >
-              <span
-                class="ngb-tooltip-class font-bold"
-                ngbtooltip="The party being evaluated or given feedback to"
+              <div
+                class="col-2"
               >
-                Evaluee/Recipient
-              </span>
-            </p>
+                <p>
+                  <span
+                    class="ngb-tooltip-class font-bold"
+                    ngbtooltip="The party being evaluated or given feedback to"
+                  >
+                    Evaluee/Recipient
+                  </span>
+                </p>
+              </div>
+            </div>
             <div
               class="row"
             >
@@ -5466,6 +5652,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5494,6 +5681,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -5612,6 +5800,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5640,6 +5829,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""

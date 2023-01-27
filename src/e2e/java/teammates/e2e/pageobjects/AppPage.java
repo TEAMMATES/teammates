@@ -213,6 +213,7 @@ public abstract class AppPage {
      */
     public void waitForConfirmationModalAndClickOk() {
         waitForModalShown();
+        waitForElementVisibility(By.className("modal-btn-ok"));
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
         clickDismissModalButtonAndWaitForModalHidden(okayButton);

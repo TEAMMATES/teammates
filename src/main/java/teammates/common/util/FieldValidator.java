@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
@@ -242,6 +243,8 @@ public final class FieldValidator {
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
             + "Did you mean to use \"Self\" instead?";
 
+    public static final String NOT_EXACT_HOUR_ERROR_MESSAGE = "The %s for this feedback session must be at exact hour mark.";
+
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
     ///////////////////////////////////////
@@ -363,7 +366,7 @@ public final class FieldValidator {
         }
         if (isUntrimmed(courseId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
-                    COURSE_NAME_FIELD_NAME);
+                    COURSE_ID_FIELD_NAME);
         }
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
             return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME,
@@ -661,6 +664,78 @@ public final class FieldValidator {
     }
 
     /**
+     * Checks if the {@code startTime} is valid to be used as a session start time.
+     * Returns an empty string if it is valid, or an error message otherwise.
+     *
+     * <p>The {@code startTime} is valid if it is after 2 hours before now, before 90 days from now
+     * and at exact hour mark.
+     */
+    public static String getInvalidityInfoForNewStartTime(Instant startTime, String timeZone) {
+        Instant twoHoursBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-2);
+        String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                twoHoursBeforeNow, startTime, SESSION_NAME,
+                "2 hours before now", SESSION_START_TIME_FIELD_NAME,
+                (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                "The %s for this %s cannot be earlier than %s.");
+        if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
+            return earlierThanThreeHoursBeforeNowError;
+        }
+
+        Instant ninetyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(90);
+        String laterThanNinetyDaysFromNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                ninetyDaysFromNow, startTime, SESSION_NAME,
+                "90 days from now", SESSION_START_TIME_FIELD_NAME,
+                (firstTime, secondTime) -> firstTime.isAfter(secondTime) || firstTime.equals(secondTime),
+                "The %s for this %s cannot be later than %s.");
+        if (!laterThanNinetyDaysFromNowError.isEmpty()) {
+            return laterThanNinetyDaysFromNowError;
+        }
+
+        String notExactHourError = getInvalidityInfoForExactHourTime(startTime, timeZone, "start time");
+        if (!notExactHourError.isEmpty()) {
+            return notExactHourError;
+        }
+
+        return "";
+    }
+
+    /**
+     * Checks if the {@code endTime} is valid to be used as a session end time.
+     * Returns an empty string if it is valid, or an error message otherwise.
+     *
+     * <p>The {@code endTime} is valid if it is after 1 hour before now, before 180 days from now
+     * and at exact hour mark.
+     */
+    public static String getInvalidityInfoForNewEndTime(Instant endTime, String timeZone) {
+        Instant oneHourBeforeNow = TimeHelper.getInstantHoursOffsetFromNow(-1);
+        String earlierThanThreeHoursBeforeNowError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                oneHourBeforeNow, endTime, SESSION_NAME,
+                "1 hour before now", SESSION_END_TIME_FIELD_NAME,
+                (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                "The %s for this %s cannot be earlier than %s.");
+        if (!earlierThanThreeHoursBeforeNowError.isEmpty()) {
+            return earlierThanThreeHoursBeforeNowError;
+        }
+
+        Instant oneHundredEightyDaysFromNow = TimeHelper.getInstantDaysOffsetFromNow(180);
+        String laterThanOneHundredEightyDaysError = getInvalidityInfoForFirstTimeComparedToSecondTime(
+                oneHundredEightyDaysFromNow, endTime, SESSION_NAME,
+                "180 days from now", SESSION_END_TIME_FIELD_NAME,
+                (firstTime, secondTime) -> firstTime.isAfter(secondTime) || firstTime.equals(secondTime),
+                "The %s for this %s cannot be later than %s.");
+        if (!laterThanOneHundredEightyDaysError.isEmpty()) {
+            return laterThanOneHundredEightyDaysError;
+        }
+
+        String notExactHourError = getInvalidityInfoForExactHourTime(endTime, timeZone, "end time");
+        if (!notExactHourError.isEmpty()) {
+            return notExactHourError;
+        }
+
+        return "";
+    }
+
+    /**
      * Checks if Session Start Time is before Session End Time.
      * @return Error string if {@code sessionStart} is before {@code sessionEnd}
      *         Empty string if {@code sessionStart} is after {@code sessionEnd}
@@ -679,6 +754,26 @@ public final class FieldValidator {
             Instant visibilityStart, Instant sessionStart) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(visibilityStart, sessionStart,
                 SESSION_NAME, SESSION_VISIBLE_TIME_FIELD_NAME, SESSION_START_TIME_FIELD_NAME);
+    }
+
+    /**
+     * Checks if the {@code visibilityStart} is valid to be used as a session visible start time.
+     * Returns an empty string if it is valid, or an error message otherwise.
+     *
+     * <p>The {@code visibilityStart} is valid if it is less than 30 days before {@code sessionStart}.
+     */
+    public static String getInvalidityInfoForTimeForNewVisibilityStart(Instant visibilityStart, Instant sessionStart) {
+        Instant visibilityStartThirtyDaysBeforeSessionStart = sessionStart.minus(Duration.ofDays(30));
+        String visibilityStartMoreThanThirtyDaysBeforeSessionStartError =
+                getInvalidityInfoForFirstTimeComparedToSecondTime(
+                        visibilityStartThirtyDaysBeforeSessionStart, visibilityStart, SESSION_NAME,
+                        "30 days before start time", SESSION_VISIBLE_TIME_FIELD_NAME,
+                        (firstTime, secondTime) -> firstTime.isBefore(secondTime) || firstTime.equals(secondTime),
+                        "The %s for this %s cannot be earlier than %s.");
+        if (!visibilityStartMoreThanThirtyDaysBeforeSessionStartError.isEmpty()) {
+            return visibilityStartMoreThanThirtyDaysBeforeSessionStartError;
+        }
+        return "";
     }
 
     /**
@@ -750,6 +845,16 @@ public final class FieldValidator {
             return String.format(invalidityInfoTemplate, laterTimeFieldName, entityName, earlierTimeFieldName);
         }
 
+        return "";
+    }
+
+    private static String getInvalidityInfoForExactHourTime(Instant time, String timeZone, String timeName) {
+        // Timezone offsets are usually a whole number of hours, but a few zones are offset by
+        // an additional 30 or 45 minutes, such as in India, South Australia and Nepal.
+        boolean isExactHour = LocalDateTime.ofInstant(time, ZoneId.of(timeZone)).getMinute() == 0;
+        if (!isExactHour) {
+            return String.format(NOT_EXACT_HOUR_ERROR_MESSAGE, timeName);
+        }
         return "";
     }
 

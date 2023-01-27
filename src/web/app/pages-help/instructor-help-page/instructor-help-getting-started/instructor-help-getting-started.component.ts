@@ -23,7 +23,7 @@ export class InstructorHelpGettingStartedComponent {
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
   SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  CouseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
+  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
   Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;
@@ -47,7 +47,7 @@ export class InstructorHelpGettingStartedComponent {
     if (destination) {
       destination.scrollIntoView();
       // to prevent the navbar from covering the text
-      window.scrollTo(0, window.pageYOffset - 50);
+      window.scrollTo(0, window.scrollY - 50);
     }
     return false;
   }

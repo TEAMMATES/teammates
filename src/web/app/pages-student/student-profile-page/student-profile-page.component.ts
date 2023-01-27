@@ -81,18 +81,21 @@ export class StudentProfilePageComponent implements OnInit {
             .pipe(finalize(() => {
               this.isLoadingStudentProfile = false;
             }))
-            .subscribe((response: StudentProfile) => {
-              if (response) {
-                this.student = response;
-                this.name = response.name;
-                this.initStudentProfileForm(this.student);
-              } else {
+            .subscribe({
+              next: (response: StudentProfile) => {
+                if (response) {
+                  this.student = response;
+                  this.name = response.name;
+                  this.initStudentProfileForm(this.student);
+                } else {
+                  this.hasLoadingStudentProfileFailed = true;
+                  this.statusMessageService.showErrorToast('Error retrieving student profile');
+                }
+              },
+              error: (response: ErrorMessageOutput) => {
                 this.hasLoadingStudentProfileFailed = true;
-                this.statusMessageService.showErrorToast('Error retrieving student profile');
-              }
-            }, (response: ErrorMessageOutput) => {
-              this.hasLoadingStudentProfileFailed = true;
-              this.statusMessageService.showErrorToast(response.error.message);
+                this.statusMessageService.showErrorToast(response.error.message);
+              },
             });
       }
     });
@@ -139,31 +142,34 @@ export class StudentProfilePageComponent implements OnInit {
               return from(modalRef.result);
             }),
             // If no image is uploaded, throw an error
-            catchError(() => throwError({
+            catchError(() => throwError(() => ({
               error: {
                 message: 'No image uploaded',
               },
               status: NO_IMAGE_UPLOADED,
-            })),
+            }))),
             // Post the form data
             switchMap((formData: FormData) => {
               return this.studentProfileService.postProfilePicture(formData);
             }),
         )
         // Display message status
-        .subscribe(() => {
-          this.statusMessageService.showSuccessToast('Your profile picture has been saved successfully');
+        .subscribe({
+          next: () => {
+            this.statusMessageService.showSuccessToast('Your profile picture has been saved successfully');
 
-          // Force reload
-          const timestamp: number = (new Date()).getTime();
-          this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=${this.id}`;
-        }, (response: ErrorMessageOutput) => {
-          // If the error was due to not image uploaded, do nothing
-          if (response.status === NO_IMAGE_UPLOADED) {
-            return;
-          }
+            // Force reload
+            const timestamp: number = (new Date()).getTime();
+            this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?${timestamp}&user=${this.id}`;
+          },
+          error: (response: ErrorMessageOutput) => {
+            // If the error was due to not image uploaded, do nothing
+            if (response.status === NO_IMAGE_UPLOADED) {
+              return;
+            }
 
-          this.statusMessageService.showErrorToast(response.error.message);
+            this.statusMessageService.showErrorToast(response.error.message);
+          },
         });
   }
 
@@ -173,21 +179,24 @@ export class StudentProfilePageComponent implements OnInit {
   submitEditForm(): void {
     this.isSavingProfileEdit = true;
     this.studentProfileService.updateStudentProfile(this.id, {
-      shortName: this.editForm.controls.studentshortname.value,
-      email: this.editForm.controls.studentprofileemail.value,
-      institute: this.editForm.controls.studentprofileinstitute.value,
-      nationality: this.editForm.controls.studentnationality.value,
-      gender: this.editForm.controls.studentgender.value,
-      moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
-      existingNationality: this.editForm.controls.existingNationality.value,
+      shortName: this.editForm.controls['studentshortname'].value,
+      email: this.editForm.controls['studentprofileemail'].value,
+      institute: this.editForm.controls['studentprofileinstitute'].value,
+      nationality: this.editForm.controls['studentnationality'].value,
+      gender: this.editForm.controls['studentgender'].value,
+      moreInfo: this.editForm.controls['studentprofilemoreinfo'].value,
+      existingNationality: this.editForm.controls['existingNationality'].value,
     }).pipe(finalize(() => {
       this.isSavingProfileEdit = false;
-    })).subscribe((response: MessageOutput) => {
-      if (response) {
-        this.statusMessageService.showSuccessToast(response.message);
-      }
-    }, (response: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(`Could not save your profile! ${response.error.message}`);
+    })).subscribe({
+      next: (response: MessageOutput) => {
+        if (response) {
+          this.statusMessageService.showSuccessToast(response.message);
+        }
+      },
+      error: (response: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(`Could not save your profile! ${response.error.message}`);
+      },
     });
   }
 
@@ -211,14 +220,17 @@ export class StudentProfilePageComponent implements OnInit {
       googleid: this.id,
     };
     this.studentProfileService.deleteProfilePicture(paramMap)
-        .subscribe((response: MessageOutput) => {
-          if (response) {
-            this.statusMessageService.showSuccessToast(response.message);
-            this.profilePicLink = '/assets/images/profile_picture_default.png';
-          }
-        }, (response: ErrorMessageOutput) => {
-          this.statusMessageService
-            .showErrorToast(`Could not delete your profile picture! ${response.error.message}`);
+        .subscribe({
+          next: (response: MessageOutput) => {
+            if (response) {
+              this.statusMessageService.showSuccessToast(response.message);
+              this.profilePicLink = '/assets/images/profile_picture_default.png';
+            }
+          },
+          error: (response: ErrorMessageOutput) => {
+            this.statusMessageService
+                .showErrorToast(`Could not delete your profile picture! ${response.error.message}`);
+          },
         });
   }
 

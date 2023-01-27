@@ -33,7 +33,6 @@
                   [licenseKey]="'non-commercial-and-evaluation'"
                   [hotId]="existingStudentsHOT"
                   [readOnly]="true"
-                  [height]="400"
                   [autoWrapRow]="true"
                   [preventOverflow]="'horizontal'"
                   [manualColumnResize]="true"
@@ -46,6 +45,7 @@
                   [maxCols]="5"
                   [autoRowSize]="true"
                   [stretchH]="'all'"
+                  [renderAllRows]="true"
                   [hidden]="isExistingStudentsPanelCollapsed" @collapseAnim>
               </hot-table>
             </div>
@@ -67,7 +67,6 @@
               <hot-table
                   [licenseKey]="'non-commercial-and-evaluation'"
                   [hotId]="newStudentsHOT"
-                  [height]="500"
                   [autoWrapRow]="true"
                   [preventOverflow]="'horizontal'"
                   [manualColumnResize]="true"
@@ -81,6 +80,7 @@
                   [autoRowSize]="true"
                   [stretchH]="'all'"
                   [minSpareRows]="1"
+                  [renderAllRows]="true"
                   [contextMenu]="contextMenuOptions"
                   [hidden]="isNewStudentsPanelCollapsed">
               </hot-table>

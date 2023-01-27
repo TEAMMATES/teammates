@@ -79,23 +79,23 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
   readonly exampleEssayQuestionModel: QuestionEditFormModel = EXAMPLE_ESSAY_QUESTION_MODEL;
   readonly exampleNumericalScaleQuestionModel: QuestionEditFormModel = EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL;
-  readonly exampleNumericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[]
-    = EXAMPLE_NUMERICAL_SCALE_RESPONSES;
+  readonly exampleNumericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[] =
+    EXAMPLE_NUMERICAL_SCALE_RESPONSES;
   readonly exampleNumericalScaleResponseOutput: ResponseOutput[] = EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT;
   readonly exampleNumericalScaleQuestionTabModel: QuestionTabModel = EXAMPLE_NUMERICAL_SCALE_QUESTION_TAB_MODEL;
   readonly exampleNumericalScaleQuestions: Record<string, QuestionTabModel> = EXAMPLE_NUMERICAL_SCALE_QUESTIONS;
-  readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel>
-    = EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL;
+  readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel> =
+    EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL;
   readonly exampleFeedbackSession: FeedbackSession = EXAMPLE_FEEDBACK_SESSION;
-  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails
-    = EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL;
+  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails =
+    EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL;
   readonly exampleDistributedPointOptionModel: QuestionEditFormModel = EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL;
-  readonly exampleDistributePointOptionResponseOutput: ResponseOutput[]
-    = EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT;
-  readonly exampleDistributePointOptionQuestionTabModel: QuestionTabModel
-    = EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_TAB_MODEL;
-  readonly exampleDistributePointOptionQuestions: Record<string, QuestionTabModel>
-    = EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTIONS;
+  readonly exampleDistributePointOptionResponseOutput: ResponseOutput[] =
+    EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT;
+  readonly exampleDistributePointOptionQuestionTabModel: QuestionTabModel =
+    EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_TAB_MODEL;
+  readonly exampleDistributePointOptionQuestions: Record<string, QuestionTabModel> =
+    EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTIONS;
   readonly exampleDistributedPointRecipientModel: QuestionEditFormModel = EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL;
   readonly exampleTeamContributionQuestionModel: QuestionEditFormModel = EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL;
   readonly exampleTeamContributionResponseOutput: ResponseOutput[] = EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT;
@@ -113,8 +113,8 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   readonly exampleRankOptionQuestionModel: QuestionEditFormModel = EXAMPLE_RANK_OPTION_QUESTION_MODEL;
   readonly exampleMCQQuestionWithoutWeightsModel: QuestionEditFormModel = EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL;
   readonly exampleMCQQuestionWithWeightsModel: QuestionEditFormModel = EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL;
-  readonly exampleResponderRubricSubmissionFormModel: QuestionSubmissionFormModel
-    = EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL;
+  readonly exampleResponderRubricSubmissionFormModel: QuestionSubmissionFormModel =
+    EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL;
 
   readonly questionsOrder: string[] = [
     QuestionsSectionQuestions.ESSAY,
