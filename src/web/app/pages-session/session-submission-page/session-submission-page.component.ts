@@ -1,25 +1,25 @@
-import {DOCUMENT} from '@angular/common';
-import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {PageScrollService} from 'ngx-page-scroll-core';
-import {forkJoin, Observable, of} from 'rxjs';
-import {catchError, finalize, switchMap, tap} from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
-import {AuthService} from '../../../services/auth.service';
-import {CourseService} from '../../../services/course.service';
-import {DeadlineExtensionHelper} from '../../../services/deadline-extension-helper';
-import {FeedbackQuestionsService} from '../../../services/feedback-questions.service';
-import {FeedbackResponseCommentService} from '../../../services/feedback-response-comment.service';
-import {FeedbackResponsesResponse, FeedbackResponsesService} from '../../../services/feedback-responses.service';
-import {FeedbackSessionsService} from '../../../services/feedback-sessions.service';
-import {InstructorService} from '../../../services/instructor.service';
-import {LogService} from '../../../services/log.service';
-import {NavigationService} from '../../../services/navigation.service';
-import {SimpleModalService} from '../../../services/simple-modal.service';
-import {StatusMessageService} from '../../../services/status-message.service';
-import {StudentService} from '../../../services/student.service';
-import {TimezoneService} from '../../../services/timezone.service';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { PageScrollService } from 'ngx-page-scroll-core';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../../services/auth.service';
+import { CourseService } from '../../../services/course.service';
+import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
+import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorService } from '../../../services/instructor.service';
+import { LogService } from '../../../services/log.service';
+import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
   Course,
@@ -39,20 +39,20 @@ import {
   RegkeyValidity,
   Student,
 } from '../../../types/api-output';
-import {FeedbackResponseRequest, Intent} from '../../../types/api-request';
-import {Milliseconds} from '../../../types/datetime-const';
-import {DEFAULT_NUMBER_OF_RETRY_ATTEMPTS} from '../../../types/default-retry-attempts';
-import {CommentRowModel} from '../../components/comment-box/comment-row/comment-row.component';
-import {ErrorReportComponent} from '../../components/error-report/error-report.component';
+import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
+import { Milliseconds } from '../../../types/datetime-const';
+import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
+import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
-import {SimpleModalType} from '../../components/simple-modal/simple-modal-type';
-import {ErrorMessageOutput} from '../../error-message-output';
-import {SavingCompleteModalComponent} from './saving-complete-modal/saving-complete-modal.component';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { ErrorMessageOutput } from '../../error-message-output';
+import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
