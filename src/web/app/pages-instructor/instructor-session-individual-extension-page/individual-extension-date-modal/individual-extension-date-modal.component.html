@@ -8,10 +8,10 @@
   Extending the feedback session for <b>{{ numStudents }}</b> student(s) and <b>{{ numInstructors }}</b> instructor(s):
 </div>
 
-<div class="container ml-1">
+<div class="container ms-1">
 
-  <div class="row pl-3">
-    <label class="mr-2"><input id="extend-deadline-by" type="radio" name="optradio" [value]="RadioOptions.EXTEND_BY" [(ngModel)]="radioOption">
+  <div class="row ps-3">
+    <label class="me-2"><input id="extend-deadline-by" type="radio" name="optradio" [value]="RadioOptions.EXTEND_BY" [(ngModel)]="radioOption">
       Extend deadline by
     </label>
     <label><input id="extend-deadline-to" type="radio" name="optradio" [(ngModel)]="radioOption" [value]="RadioOptions.EXTEND_TO">
@@ -57,7 +57,7 @@
   <div *ngIf="isCustomize()">
     <form class="container">
       <div class="row">
-        <div class="col-sm pl-0">
+        <div class="col-sm ps-0">
           <small>Hours</small>
           <input class="form-control" id="form-hours" name="form-hours" type="number" placeholder="Hours"
             [(ngModel)]="extendByDatePicker.hours">

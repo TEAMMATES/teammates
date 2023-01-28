@@ -8,7 +8,7 @@
     <b>Question {{ questionNumber }}:&nbsp;</b>
   </span>
   <span id="question-text" class="col-auto">&nbsp;{{ questionDetails.questionText }}</span>
-  <a id="additional-info-link" class="info-font-size ml-1" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [tmRouterLink]="" queryParamsHandling="merge">
+  <a id="additional-info-link" class="info-font-size ms-1" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [tmRouterLink]="" queryParamsHandling="merge">
     [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
   </a>
 </span>

@@ -9,7 +9,7 @@
     <div class="row form-group">
       <div class="col-6">
         <div class="col-12 mb-1">
-          <label for="logs-from-datepicker" class="font-weight-bold">Search period from</label>
+          <label for="logs-from-datepicker" class="fw-bold">Search period from</label>
         </div>
         <div class="input-group">
           <div class="col-md-7 input-group">
@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="col-12 mb-1 mt-4">
-          <label for="logs-to-datepicker" class="font-weight-bold">Search period until</label>
+          <label for="logs-to-datepicker" class="fw-bold">Search period until</label>
         </div>
         <div class="input-group">
           <div class="col-md-7 input-group">
@@ -39,7 +39,7 @@
       </div>
       <div class="col-4" *ngIf="isTableView">
         <div class="col-12">
-          <label for="log-severity-radio" class="font-weight-bold">Log severity level / event</label>
+          <label for="log-severity-radio" class="fw-bold">Log severity level / event</label>
         </div>
         <div class="form-check">
           <label class="form-check-label" id="log-severity-radio">
@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="col-1 mt-4">
-        <button id="query-button" class="float-right btn btn-primary" (click)="searchForLogs()">Query</button>
+        <button id="query-button" class="float-end btn btn-primary" (click)="searchForLogs()">Query</button>
       </div>
     </div>
     <div class="row form-group" *ngIf="isTableView">
@@ -87,19 +87,19 @@
       <div class="row form-group mt-2">
         <div class="col-5">
           <div class="col-12">
-            <label for="trace-id" class="font-weight-bold">Trace ID</label>
+            <label for="trace-id" class="fw-bold">Trace ID</label>
             <input id="trace-id" class="form-control" [(ngModel)]="formModel.filters.traceId">
           </div>
           <div class="col-12 mt-2">
-            <label for="source-file" class="font-weight-bold">Source location file</label>
+            <label for="source-file" class="fw-bold">Source location file</label>
             <input id="source-file" class="form-control col-12" [(ngModel)]="formModel.filters.sourceLocation!.file">
           </div>
           <div class="col-12 mt-2">
-            <label for="source-function" class="font-weight-bold">Source location function</label>
+            <label for="source-function" class="fw-bold">Source location function</label>
             <input id="source-function" class="form-control col-12" [(ngModel)]="formModel.filters.sourceLocation!.function">
           </div>
           <div class="col-12 mt-2">
-            <label for="action-class" class="font-weight-bold">Action class</label>
+            <label for="action-class" class="fw-bold">Action class</label>
             <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.filters.actionClass">
               <option [value]=""></option>
               <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
@@ -110,19 +110,19 @@
         </div>
         <div class="col-5">
           <div class="col-12">
-            <label for="google-id" class="font-weight-bold">User Google ID</label>
+            <label for="google-id" class="fw-bold">User Google ID</label>
             <input id="google-id" class="form-control" [(ngModel)]="formModel.filters.userInfoParams!.googleId" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-2">
-            <label for="regkey" class="font-weight-bold">User Registration Key</label>
+            <label for="regkey" class="fw-bold">User Registration Key</label>
             <input id="regkey" class="form-control" [(ngModel)]="formModel.filters.userInfoParams!.regkey" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-2">
-            <label for="email" class="font-weight-bold">User Email</label>
+            <label for="email" class="fw-bold">User Email</label>
             <input id="email" class="form-control" [(ngModel)]="formModel.filters.userInfoParams!.email" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-2">
-            <label for="exception-class" class="font-weight-bold">Exception/Error class</label>
+            <label for="exception-class" class="fw-bold">Exception/Error class</label>
             <input id="exception-class" class="form-control" [(ngModel)]="formModel.filters.exceptionClass">
           </div>
         </div>
@@ -133,19 +133,19 @@
       <div class="row form-group mt-2">
         <div class="col-4">
           <div class="col-12">
-            <label for="latency" class="font-weight-bold">Latency (e.g. >=60000; unit is in ms)</label>
+            <label for="latency" class="fw-bold">Latency (e.g. >=60000; unit is in ms)</label>
             <input id="latency" class="form-control" [(ngModel)]="formModel.filters.latency">
           </div>
         </div>
         <div class="col-4">
           <div class="col-12">
-            <label for="status" class="font-weight-bold">HTTP status (200, 400, 404, 500, etc.)</label>
+            <label for="status" class="fw-bold">HTTP status (200, 400, 404, 500, etc.)</label>
             <input id="status" class="form-control" [(ngModel)]="formModel.filters.status">
           </div>
         </div>
         <div class="col-2">
           <div class="col-12">
-            <label for="version" class="font-weight-bold">Version</label>
+            <label for="version" class="fw-bold">Version</label>
             <input id="version" class="form-control" [(ngModel)]="formModel.filters.version">
           </div>
         </div>
@@ -153,7 +153,7 @@
       <div class="row form-group mt-2">
         <div class="col-10">
           <div class="col-12">
-            <label for="extra-filters" class="font-weight-bold">Extra filters</label>
+            <label for="extra-filters" class="fw-bold">Extra filters</label>
             <textarea id="extra-filters" class="form-control" [(ngModel)]="formModel.filters.extraFilters" [disabled]="!isAdmin"></textarea>
           </div>
         </div>
