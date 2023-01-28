@@ -129,7 +129,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="logs-from-datepicker"
             >
               Search period from
@@ -205,7 +205,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
             class="col-12 mb-1 mt-4"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="logs-to-datepicker"
             >
               Search period until
@@ -285,7 +285,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
             class="col-12"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="log-severity-radio"
             >
               Log severity level / event
@@ -311,7 +311,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
                   severity = 
                 </label>
                 <select
-                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                  class="form-control form-select inline ng-untouched ng-pristine ng-valid"
                 >
                   <option
                     value="INFO"
@@ -344,7 +344,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
                   severity &gt;= 
                 </label>
                 <select
-                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                  class="form-control form-select inline ng-untouched ng-pristine ng-valid"
                 >
                   <option
                     value="INFO"
@@ -377,7 +377,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
                   All event logs  
                 </label>
                 <select
-                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                  class="form-control form-select inline ng-untouched ng-pristine ng-valid"
                 >
                   <option
                     value="REQUEST_LOG"
@@ -414,7 +414,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
           class="col-1 mt-4"
         >
           <button
-            class="float-right btn btn-primary"
+            class="float-end btn btn-primary"
             id="query-button"
           >
             Query

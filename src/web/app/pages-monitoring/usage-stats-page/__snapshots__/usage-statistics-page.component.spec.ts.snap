@@ -37,7 +37,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="search-from-datepicker"
             >
               Search period from
@@ -116,7 +116,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="search-to-datepicker"
             >
               Search period until
@@ -195,14 +195,14 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="data-to-display"
             >
               Data to display:
             </label>
           </div>
           <select
-            class="form-control col-12 ng-untouched ng-pristine ng-valid"
+            class="form-control form-select col-12 ng-untouched ng-pristine ng-valid"
             id="data-to-display"
           >
             <option
@@ -249,14 +249,14 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="data-aggregation"
             >
               Data aggregation:
             </label>
           </div>
           <select
-            class="form-control col-12 ng-untouched ng-pristine ng-valid"
+            class="form-control form-select col-12 ng-untouched ng-pristine ng-valid"
             id="data-aggregation"
           >
             <option
@@ -275,7 +275,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
           class="col-1 mt-4"
         >
           <button
-            class="float-right btn btn-primary"
+            class="float-end btn btn-primary"
             id="query-button"
           >
             Query

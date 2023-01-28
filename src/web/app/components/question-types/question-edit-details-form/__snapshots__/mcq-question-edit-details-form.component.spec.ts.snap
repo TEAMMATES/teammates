@@ -127,7 +127,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
           </b>
         </label>
         <select
-          class="form-control ng-untouched ng-pristine"
+          class="form-control form-select ng-untouched ng-pristine"
           disabled=""
           id="generate-dropdown"
         >
@@ -300,7 +300,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
           </b>
         </label>
         <select
-          class="form-control ng-untouched ng-pristine"
+          class="form-control form-select ng-untouched ng-pristine"
           disabled=""
           id="generate-dropdown"
         >
@@ -473,7 +473,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. 
           </b>
         </label>
         <select
-          class="form-control ng-untouched ng-pristine ng-valid"
+          class="form-control form-select ng-untouched ng-pristine ng-valid"
           disabled=""
           id="generate-dropdown"
         >
