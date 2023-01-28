@@ -105,7 +105,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
         class="card border-primary"
       >
         <div
-          class="card-body fill-plain text-sm-left"
+          class="card-body fill-plain text-sm-start"
         >
           <form
             class="form form-horizontal ng-untouched ng-pristine ng-valid"

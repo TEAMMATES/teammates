@@ -25,22 +25,16 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       id="btn-close-modal"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-instructor-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"
@@ -168,22 +162,16 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       id="btn-close-modal"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-instructor-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"
@@ -357,7 +345,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                   </tbody>
                 </table>
                 <button
-                  class="btn btn-secondary float-right mt-2 mb-3"
+                  class="btn btn-secondary float-end mt-2 mb-3"
                 >
                   <i
                     aria-hidden="true"
@@ -418,22 +406,16 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       id="btn-close-modal"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-instructor-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"
@@ -558,22 +540,16 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       id="btn-close-modal"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-instructor-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"
@@ -707,16 +683,10 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       id="btn-close-modal"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-instructor-modal"

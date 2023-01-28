@@ -57,15 +57,9 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
         >
           <button
             aria-label="Close"
-            class="close"
+            class="btn-close float-end"
             type="button"
-          >
-            <span
-              aria-hidden="true"
-            >
-              ×
-            </span>
-          </button>
+          />
         </div>
         <div
           class="card-body"
@@ -80,7 +74,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                 class="row text-center"
               >
                 <div
-                  class="col-md-2 text-md-right font-weight-bold"
+                  class="col-md-2 text-md-end fw-bold"
                 >
                   <span
                     class="ngb-tooltip-class"
@@ -90,10 +84,10 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   </span>
                 </div>
                 <div
-                  class="col-md-auto text-md-left"
+                  class="col-md-auto text-md-start"
                 >
                   <select
-                    class="form-control ng-untouched ng-pristine ng-valid"
+                    class="form-control form-select ng-untouched ng-pristine ng-valid"
                     id="notification-target-user"
                   >
                     <option
@@ -119,7 +113,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                 class="row text-center"
               >
                 <div
-                  class="col-md-2 text-md-right font-weight-bold"
+                  class="col-md-2 text-md-end fw-bold"
                 >
                   <span
                     class="ngb-tooltip-class"
@@ -129,10 +123,10 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   </span>
                 </div>
                 <div
-                  class="col-md-auto text-md-left"
+                  class="col-md-auto text-md-start"
                 >
                   <select
-                    class="form-control ng-untouched ng-pristine ng-valid"
+                    class="form-control form-select ng-untouched ng-pristine ng-valid"
                     id="notification-style"
                   >
                     <option
@@ -192,7 +186,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                 class="row text-center"
               >
                 <div
-                  class="col-md-2 text-md-right font-weight-bold"
+                  class="col-md-2 text-md-end fw-bold"
                 >
                   <span
                     class="ngb-tooltip-class"
@@ -202,7 +196,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   </span>
                 </div>
                 <div
-                  class="col-md-10 text-md-left"
+                  class="col-md-10 text-md-start"
                 >
                   <input
                     class="form-control ng-untouched ng-pristine ng-valid"
@@ -221,7 +215,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                 class="row text-center"
               >
                 <div
-                  class="col-md-2 text-md-right font-weight-bold"
+                  class="col-md-2 text-md-end fw-bold"
                 >
                   <span
                     class="ngb-tooltip-class"
@@ -231,7 +225,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   </span>
                 </div>
                 <div
-                  class="col-md-10 text-md-left"
+                  class="col-md-10 text-md-start"
                 >
                   <tm-rich-text-editor
                     id="notification-message"
@@ -256,7 +250,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                 class="row text-center"
               >
                 <div
-                  class="col-md-2 text-md-right font-weight-bold"
+                  class="col-md-2 text-md-end fw-bold"
                 >
                   <span
                     class="ngb-tooltip-class"
@@ -266,7 +260,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   </span>
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-4 text-md-start"
                   id="submission-status"
                 >
                    UTC 
@@ -279,11 +273,11 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   class="col-md-6"
                 >
                   <div
-                    class="col-12 text-md-left"
+                    class="col-12 text-md-start"
                   >
                     <div>
                       <label
-                        class="ngb-tooltip-class label-control font-weight-bold"
+                        class="ngb-tooltip-class label-control fw-bold"
                         ngbtooltip="Users will be able to see the notification."
                       >
                          Notification start time 
@@ -307,18 +301,14 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                             readonly=""
                             type="text"
                           />
-                          <div
-                            class="input-group-append"
+                          <button
+                            class="btn btn-light input-group-text"
+                            type="button"
                           >
-                            <button
-                              class="btn btn-light"
-                              type="button"
-                            >
-                              <i
-                                class="fas fa-calendar-alt"
-                              />
-                            </button>
-                          </div>
+                            <i
+                              class="fas fa-calendar-alt"
+                            />
+                          </button>
                         </div>
                       </tm-datepicker>
                     </div>
@@ -329,7 +319,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                         id="notification-start-time"
                       >
                         <select
-                          class="form-control ng-untouched ng-pristine ng-valid"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
                             value="1: Object"
@@ -463,10 +453,10 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                     class="row text-center"
                   >
                     <div
-                      class="col-12 text-md-left ml-md-2"
+                      class="col-12 text-md-start ms-md-2"
                     >
                       <label
-                        class="ngb-tooltip-class label-control font-weight-bold"
+                        class="ngb-tooltip-class label-control fw-bold"
                         ngbtooltip="Notification will be hidden from users."
                       >
                          Notification end time 
@@ -490,18 +480,14 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                             readonly=""
                             type="text"
                           />
-                          <div
-                            class="input-group-append"
+                          <button
+                            class="btn btn-light input-group-text"
+                            type="button"
                           >
-                            <button
-                              class="btn btn-light"
-                              type="button"
-                            >
-                              <i
-                                class="fas fa-calendar-alt"
-                              />
-                            </button>
-                          </div>
+                            <i
+                              class="fas fa-calendar-alt"
+                            />
+                          </button>
                         </div>
                       </tm-datepicker>
                     </div>
@@ -512,7 +498,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                         id="notification-end-time"
                       >
                         <select
-                          class="form-control ng-untouched ng-pristine ng-valid"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
                             value="1: Object"

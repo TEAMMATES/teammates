@@ -113,7 +113,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             class="col-12"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="activity-type-dropdown"
             >
               Activity Type
@@ -123,7 +123,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             class="col-12"
           >
             <select
-              class="form-control col-12 ng-untouched ng-pristine ng-valid"
+              class="form-control form-select col-12 ng-untouched ng-pristine ng-valid"
               id="activity-type-dropdown"
             >
               <option
@@ -164,7 +164,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="logs-from-datepicker"
             >
               Search period from
@@ -199,7 +199,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
                 id="logs-from-timepicker"
               >
                 <select
-                  class="form-control ng-untouched ng-pristine ng-valid"
+                  class="form-control form-select ng-untouched ng-pristine ng-valid"
                 >
                   <option
                     value="1: Object"
@@ -337,7 +337,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             class="col-12"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="student-name-dropdown"
             >
               Student Name (Optional)
@@ -347,7 +347,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             class="col-12"
           >
             <select
-              class="form-control col-12 ng-untouched ng-pristine ng-valid"
+              class="form-control form-select col-12 ng-untouched ng-pristine ng-valid"
               id="student-name-dropdown"
             >
               <option
@@ -365,7 +365,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="logs-to-datepicker"
             >
               Search period until
@@ -400,7 +400,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
                 id="logs-to-timepicker"
               >
                 <select
-                  class="form-control ng-untouched ng-pristine ng-valid"
+                  class="form-control form-select ng-untouched ng-pristine ng-valid"
                 >
                   <option
                     value="1: Object"
@@ -529,7 +529,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               class="col-md-2"
             >
               <button
-                class="float-right btn btn-primary"
+                class="float-end btn btn-primary"
                 disabled=""
                 id="search-button"
               >
@@ -549,7 +549,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             class="col-12"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="session-dropdown"
             >
               Feedback Session Name (Optional)
@@ -559,7 +559,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             class="col-12"
           >
             <select
-              class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
+              class="form-control form-select col-md-12 ng-untouched ng-pristine ng-valid"
               id="session-dropdown"
             >
               <option
@@ -569,7 +569,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
           </div>
         </div>
         <div
-          class="row mt-md-1 ml-md-3"
+          class="row mt-md-1 ms-md-3"
         >
           <div
             class="col-12 form-check"
@@ -737,7 +737,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             class="col-12"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="activity-type-dropdown"
             >
               Activity Type
@@ -747,7 +747,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             class="col-12"
           >
             <select
-              class="form-control col-12 ng-untouched ng-pristine ng-valid"
+              class="form-control form-select col-12 ng-untouched ng-pristine ng-valid"
               id="activity-type-dropdown"
             >
               <option
@@ -788,7 +788,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="logs-from-datepicker"
             >
               Search period from
@@ -823,7 +823,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                 id="logs-from-timepicker"
               >
                 <select
-                  class="form-control ng-untouched ng-pristine ng-valid"
+                  class="form-control form-select ng-untouched ng-pristine ng-valid"
                 >
                   <option
                     value="1: Object"
@@ -961,7 +961,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             class="col-12"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="student-name-dropdown"
             >
               Student Name (Optional)
@@ -971,7 +971,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             class="col-12"
           >
             <select
-              class="form-control col-12 ng-untouched ng-pristine ng-valid"
+              class="form-control form-select col-12 ng-untouched ng-pristine ng-valid"
               id="student-name-dropdown"
             >
             </select>
@@ -984,7 +984,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             class="col-12 mb-1"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="logs-to-datepicker"
             >
               Search period until
@@ -1019,7 +1019,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                 id="logs-to-timepicker"
               >
                 <select
-                  class="form-control ng-untouched ng-pristine ng-valid"
+                  class="form-control form-select ng-untouched ng-pristine ng-valid"
                 >
                   <option
                     value="1: Object"
@@ -1148,7 +1148,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               class="col-md-2"
             >
               <button
-                class="float-right btn btn-primary"
+                class="float-end btn btn-primary"
                 disabled=""
                 id="search-button"
               >
@@ -1168,7 +1168,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             class="col-12"
           >
             <label
-              class="font-weight-bold"
+              class="fw-bold"
               for="session-dropdown"
             >
               Feedback Session Name (Optional)
@@ -1178,7 +1178,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             class="col-12"
           >
             <select
-              class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
+              class="form-control form-select col-md-12 ng-untouched ng-pristine ng-valid"
               id="session-dropdown"
             >
               <option
@@ -1188,7 +1188,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
           </div>
         </div>
         <div
-          class="row mt-md-1 ml-md-3"
+          class="row mt-md-1 ms-md-3"
         >
           <div
             class="col-12 form-check"
