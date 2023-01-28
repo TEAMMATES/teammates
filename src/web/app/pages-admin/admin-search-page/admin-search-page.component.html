@@ -6,9 +6,7 @@
 
     <div class="input-group">
       <input id="search-box" type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
-        <div class="input-group-append">
-          <button id="search-button" class="btn btn-primary" (click)="search()">Search</button>
-        </div>
+      <button id="search-button" class="btn btn-primary input-group-text" (click)="search()">Search</button>
     </div>
   </div>
 </div>
