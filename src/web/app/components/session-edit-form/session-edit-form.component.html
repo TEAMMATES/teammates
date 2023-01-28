@@ -9,7 +9,7 @@
       <div class="col-md-7">
         <div class="row align-items-center">
           <div class="col-md-3">
-            <h5 class="text-right">Create new</h5>
+            <h5 class="text-end">Create new</h5>
           </div>
           <div class="col-9 col-md-8">
             <select id="session-type" class="form-control" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
@@ -24,9 +24,9 @@
       <div class="col-md-5">
         <div class="row text-center align-items-center mt-1">
           <div class="col-md-2">
-            <h5 class="text-md-right">Or: </h5>
+            <h5 class="text-md-end">Or: </h5>
           </div>
-          <div class="col-md-10 text-md-left">
+          <div class="col-md-10 text-md-start">
             <button id="btn-copy-session" type="button" class="btn btn-info align-row" (click)="copyOthersHandler()">
               <span>Copy from previous feedback sessions</span>
               <div class="padding-left-7px">
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="row" *ngIf="formMode === SessionEditFormMode.EDIT">
-      <div class="col-12 text-center text-md-right session-form-buttons">
+      <div class="col-12 text-center text-md-end session-form-buttons">
         <button id="btn-fs-edit" type="button" class="btn btn-primary" (click)="triggerModelChange('isEditable', true)" *ngIf="formMode === SessionEditFormMode.EDIT && !model.isEditable && !model.isSaving"><i class="fas fa-pencil-alt"></i> Edit</button>
         <button id="btn-fs-save" type="button" class="btn btn-primary" (click)="submitFormHandler()" [disabled]="model.isSaving" *ngIf="model.isEditable || model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> <i class="fas fa-check"></i> Save</button>
         <button type="button" class="btn btn-primary" ngbTooltip="Discard changes to the feedback session" (click)="cancelHandler()" *ngIf="model.isEditable" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel</button>
@@ -50,10 +50,10 @@
     <div class="card border-primary margin-top-20px">
       <div class="card-body">
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
+          <div class="col-md-2 text-md-end font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             <span class="ngb-tooltip-class" ngbTooltip="Course for which the feedback session is for.">Course ID</span>
           </div>
-          <div class="col-md-auto text-md-left">
+          <div class="col-md-auto text-md-start">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
               <select id="add-course-id" class="form-control" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
                 <option *ngFor="let course of courseCandidates" [ngValue]="course.courseId">{{ course.courseId }}</option>
@@ -67,29 +67,29 @@
         </div>
         <br/>
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
+          <div class="col-md-2 text-md-end font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             Time Zone
           </div>
-          <div id="time-zone" class="col-md-3 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
+          <div id="time-zone" class="col-md-3 text-md-start" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             <span class="ngb-tooltip-class" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">{{ model.timeZone }}</span>
           </div>
         </div>
         <br/>
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-bold">
+          <div class="col-md-2 text-md-end font-bold">
             Course Name
           </div>
-          <div id="course-name" class="col-md-10 text-md-left">
+          <div id="course-name" class="col-md-10 text-md-start">
             {{ model.courseName }}
           </div>
         </div>
         <br/>
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-bold">
+          <div class="col-md-2 text-md-end font-bold">
             <span *ngIf="formMode === SessionEditFormMode.ADD" class="ngb-tooltip-class" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name</span>
             <span *ngIf="formMode !== SessionEditFormMode.ADD">Session Name</span>
           </div>
-          <div class="col-md-10 text-md-left">
+          <div class="col-md-10 text-md-start">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
               <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="64" />
               <div>
@@ -101,25 +101,25 @@
         </div>
         <br/>
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-bold">
+          <div class="col-md-2 text-md-end font-bold">
             <span class="ngb-tooltip-class" ngbTooltip="Will be displayed at the top of the page when users respond to the session.">Instructions</span>
           </div>
-          <div class="col-md-10 text-md-left">
+          <div class="col-md-10 text-md-start">
             <tm-rich-text-editor id="instructions" [richText]="model.instructions" (richTextChange)="triggerModelChange('instructions', $event)" [isDisabled]="!model.isEditable"></tm-rich-text-editor>
           </div>
         </div>
         <br/>
         <div class="row text-center" *ngIf="formMode === SessionEditFormMode.EDIT">
-          <div class="col-md-2 text-md-right font-bold">
+          <div class="col-md-2 text-md-end font-bold">
             Submission Status
           </div>
-          <div id="submission-status" class="col-md-4 text-md-left">
+          <div id="submission-status" class="col-md-4 text-md-start">
             {{ model.submissionStatus | submissionStatusName }}
           </div>
-          <div class="col-md-2 text-md-right font-bold mt-3 mt-md-0">
+          <div class="col-md-2 text-md-end font-bold mt-3 mt-md-0">
             Published Status
           </div>
-          <div id="published-status" class="col-md-4 text-md-left">
+          <div id="published-status" class="col-md-4 text-md-start">
             {{ model.publishStatus | publishStatusName }}
           </div>
         </div>
@@ -130,7 +130,7 @@
       <div class="card-body">
         <div class="row text-center">
           <div class="col-md-4">
-            <div class="col-12 text-md-left">
+            <div class="col-12 text-md-start">
               <div>
                 <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="Users can start submitting responses.">
                   Submission opening time
@@ -154,7 +154,7 @@
           </div>
           <div class="col-md-4 border-left-gray">
             <div class="row text-center">
-              <div class="col-12 text-md-left ml-md-2">
+              <div class="col-12 text-md-start ms-md-2">
                 <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="No more submissions from users.">
                   Submission closing time
                 </label>
@@ -177,7 +177,7 @@
           </div>
           <div class="col-md-4 border-left-gray">
             <div class="row text-center">
-              <div class="ngb-tooltip-class col-12 text-md-left ml-md-2" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
+              <div class="ngb-tooltip-class col-12 text-md-start ms-md-2" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
                 <label class="control-label font-bold">
                   Grace period
                 </label>
@@ -191,14 +191,14 @@
               </div>
             </div>
             <div class="row">
-              <a class="pl-3 pt-2"
+              <a class="ps-3 pt-2"
                 *ngIf="formMode !== SessionEditFormMode.ADD"
                 tmRouterLink="/web/instructor/sessions/individual-extension"
                 [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName, preselectnonsubmitters: false }">
                 Individual Deadline Extensions
                 <i class="fas fa-edit"></i>
               </a>
-              <a class="pl-3 pt-2 disabled-link ngb-tooltip-class"
+              <a class="ps-3 pt-2 disabled-link ngb-tooltip-class"
                 *ngIf="formMode === SessionEditFormMode.ADD"
                 ngbTooltip="You must save the new session before setting individual deadline extensions">
                 Individual Deadline Extensions
@@ -217,13 +217,13 @@
     <div class="card border-primary margin-top-20px" *ngIf="model.hasVisibleSettingsPanelExpanded" @collapseAnim>
       <div class="card-body">
         <div class="row align-items-start">
-          <div class="col-md-6 text-center text-md-left">
-            <div class="row ml-md-1">
+          <div class="col-md-6 text-center text-md-start">
+            <div class="row ms-md-1">
               <div class="col-12">
                 <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="Session can be visible before it is open for submissions so that users can preview the questions.">Make session visible </label>
               </div>
             </div>
-            <div class="row mt-md-2 ml-md-1">
+            <div class="row mt-md-2 ms-md-1">
               <div class="col-md-2 mt-md-1">
                 <div class="form-check">
                   <label class="form-check-label">
@@ -246,7 +246,7 @@
                                [time]="model.customSessionVisibleTime" ></tm-timepicker>
               </div>
             </div>
-            <div class="row mt-md-1 ml-md-3">
+            <div class="row mt-md-1 ms-md-3">
               <div class="col-12 form-check">
                 <label class="form-check-label">
                   <input id="session-visibility-at-open" class="form-check-input" type="radio" name="sessionVisibleRadio" [value]="SessionVisibleSetting.AT_OPEN" [ngModel]="model.sessionVisibleSetting" (ngModelChange)="triggerModelChange('sessionVisibleSetting', $event)" [disabled]="!model.isEditable">
@@ -255,13 +255,13 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 sessionVisibleRadio border-left-gray text-center text-md-left">
-            <div class="row ml-md-1">
+          <div class="col-md-6 sessionVisibleRadio border-left-gray text-center text-md-start">
+            <div class="row ms-md-1">
               <div class="col-12">
                 <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="Make responses for the feedback session visible to designated recipients.">Make response visible </label>
               </div>
             </div>
-            <div class="row mt-md-2 ml-md-1">
+            <div class="row mt-md-2 ms-md-1">
                 <div class="col-md-2 mt-md-1">
                   <div class="form-check">
                     <label class="form-check-label">
@@ -281,7 +281,7 @@
                                  [minTime]="minTimeForResponseVisible" [time]="model.customResponseVisibleTime" ></tm-timepicker>
                 </div>
             </div>
-            <div class="row mt-md-2 ml-md-1">
+            <div class="row mt-md-2 ms-md-1">
               <div class="col-12">
                 <div class="form-check">
                   <label class="ngb-tooltip-class form-check-label" ngbTooltip="Same time as when the session becomes visible to users.">
@@ -291,7 +291,7 @@
                 </div>
               </div>
             </div>
-            <div class="row mt-md-2 ml-md-1">
+            <div class="row mt-md-2 ms-md-1">
               <div class="col-12">
                 <div class="form-check">
                   <label class="ngb-tooltip-class form-check-label" ngbTooltip="Remember to manually publish the responses for this session later on.">
@@ -314,7 +314,7 @@
         <div class="col-12 font-bold">
           Send emails for
         </div>
-        <div class="row ml-md-1 mt-md-3">
+        <div class="row ms-md-1 mt-md-3">
           <div class="col-md-4">
             <div class="form-check form-check-inline">
               <label class="ngb-tooltip-class form-check-label" ngbTooltip="Notify students when the session is open for submission.">

@@ -4,7 +4,7 @@
   </button>
   <h5>{{ notifications[0].title }}</h5>
   <div class="banner-text" [innerHTML]="notifications[0].message"></div>
-  <div class="d-flex flex-row-reverse mt-3 mr-2">
+  <div class="d-flex flex-row-reverse mt-3 me-2">
     <button id="btn-mark-as-read" type="button" [ngClass]="getButtonClass(notifications[0])" (click)="markNotificationAsRead(notifications[0])">
       Mark as Read
     </button>

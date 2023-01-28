@@ -1,7 +1,7 @@
 <tm-loading-retry [shouldShowRetry]="hasStudentLoadingFailed" [message]="'Failed to load student'" (retryEvent)="loadStudentEditDetails(courseId, studentEmail)">
   <div *tmIsLoading="isStudentLoading">
     <div *ngIf="student" class="card border-primary">
-      <div class="card-body fill-plain text-sm-left">
+      <div class="card-body fill-plain text-sm-start">
         <form
           id="instructor-student-edit-form"
           class="form form-horizontal"

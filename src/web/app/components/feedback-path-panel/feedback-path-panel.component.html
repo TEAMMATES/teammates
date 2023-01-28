@@ -13,7 +13,7 @@
       <li class="dropdown-header">Common feedback path combinations</li>
       <li class="dropdown-item" *ngFor="let path of commonFeedbackPaths | keyvalue">
         <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
-          <span ngbDropdownAnchor class="float-right invisible"></span>
+          <span ngbDropdownAnchor class="float-end invisible"></span>
           {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
           <ul ngbDropdownMenu>
             <li class="dropdown-item" *ngFor="let recipient of path.value"
@@ -60,7 +60,7 @@
        || model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION || model.recipientType === FeedbackParticipantType.TEAMS
        || model.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF || model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION
        || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
-    <div class="offset-1 col-md-4 text-md-right">
+    <div class="offset-1 col-md-4 text-md-end">
       The maximum number of {{ model.recipientType | recipientTypeSimplifiedDescription }} each respondent should give feedback to:
     </div>
     <div class="col-md-2">
