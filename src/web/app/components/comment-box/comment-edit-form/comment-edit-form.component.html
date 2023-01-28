@@ -13,9 +13,7 @@
           <i class="fas fa-eye"></i> {{ isVisibilityTableExpanded ? "Hide" : "Show" }} Visibility Options</button>
       </span>
       <span *ngIf="!isVisibilityOptionEnabled" style="margin-left: 10px;">
-        <button *ngIf="!shouldHideClosingButton" type="button" class="close" aria-label="Close" (click)="triggerCloseCommentBoxEvent()">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button *ngIf="!shouldHideClosingButton" type="button" class="btn-close" aria-label="Close" (click)="triggerCloseCommentBoxEvent()"></button>
       </span>
     </div>
   </div>

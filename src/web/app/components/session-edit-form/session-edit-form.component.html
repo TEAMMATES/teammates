@@ -1,8 +1,6 @@
 <div class="card card-plain">
   <div class="close-header" *ngIf="formMode === SessionEditFormMode.ADD">
-    <button type="button" class="close" aria-label="Close" (click)="closeEditFormHandler()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeEditFormHandler()"></button>
   </div>
   <div class="card-body">
     <div class="row" *ngIf="formMode === SessionEditFormMode.ADD">

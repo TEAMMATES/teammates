@@ -17,7 +17,7 @@
       <label for="remindNotSubmittedIns" class="form-check-label">Select all instructors not yet submitted</label>
     </div>
   </div>
-  <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
   <div class="table-responsive" *ngIf="studentListInfoTableRowModels.length > 0; else noRespondentsToRemind">
