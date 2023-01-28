@@ -87,8 +87,8 @@
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
             </div>
-            <div class="col-6">
-              <button class="btn btn-primary btn-block" id="btn-get-sessions" (click)="getFeedbackSessions()">
+            <div class="col-6 d-grid">
+              <button class="btn btn-primary" id="btn-get-sessions" (click)="getFeedbackSessions()">
                 Filter by Range
               </button>
             </div>
