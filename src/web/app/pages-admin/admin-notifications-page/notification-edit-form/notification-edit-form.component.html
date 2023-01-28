@@ -17,7 +17,7 @@
             <span class="ngb-tooltip-class" ngbTooltip="The intended recipients of this notification.">Target user group</span>
           </div>
           <div class="col-md-auto text-md-start">
-            <select id="notification-target-user" class="form-control" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
+            <select id="notification-target-user" class="form-control form-select" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
               <option [ngValue]="NotificationTargetUser.STUDENT">Students</option>
               <option [ngValue]="NotificationTargetUser.INSTRUCTOR">Instructors</option>
               <option [ngValue]="NotificationTargetUser.GENERAL">General (for both students and instructors)</option>
@@ -31,7 +31,7 @@
             <span class="ngb-tooltip-class" ngbTooltip="Different styles correspond to different background colours at display.">Notification style</span>
           </div>
           <div class="col-md-auto text-md-start">
-            <select id="notification-style" class="form-control" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
+            <select id="notification-style" class="form-control form-select" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
               <option *ngFor="let style of NotificationStyle | keyvalue" [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
             </select>
           </div>

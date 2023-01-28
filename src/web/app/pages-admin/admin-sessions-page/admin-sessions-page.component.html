@@ -79,7 +79,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <select id="filter-timezone" class="form-control" [(ngModel)]="filterTimezone">
+              <select id="filter-timezone" class="form-control form-select" [(ngModel)]="filterTimezone">
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
             </div>
@@ -108,7 +108,7 @@
         Display session start/end time in this time zone:
       </div>
       <div class="col-md-7">
-        <select id="table-timezone" class="form-control" [(ngModel)]="tableTimezone" (ngModelChange)="updateDisplayedTimes()">
+        <select id="table-timezone" class="form-control form-select" [(ngModel)]="tableTimezone" (ngModelChange)="updateDisplayedTimes()">
           <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
         </select>
       </div>

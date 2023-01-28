@@ -46,7 +46,7 @@
             <div>
               <input type="radio" class="form-check-input mt-3" name="severity" id="severity" [value]="'SEVERITY'" [(ngModel)]="filterType">
               <label for="severity">severity =&nbsp;</label>
-              <select class="form-control inline" [(ngModel)]="formModel.filters.severity">
+              <select class="form-control form-select inline" [(ngModel)]="formModel.filters.severity">
                 <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
               </select>
             </div>
@@ -54,7 +54,7 @@
             <div>
               <input type="radio" class="form-check-input mt-3" name="severity" id="min-severity" [value]="'MIN_SEVERITY'" [(ngModel)]="filterType">
               <label for="min-severity">severity >=&nbsp;</label>
-              <select class="form-control inline" [(ngModel)]="formModel.filters.minSeverity">
+              <select class="form-control form-select inline" [(ngModel)]="formModel.filters.minSeverity">
                 <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
               </select>
             </div>
@@ -62,7 +62,7 @@
             <div>
               <input type="radio" class="form-check-input mt-3" name="severity" id="event" [value]="'EVENT'" [(ngModel)]="filterType">
               <label for="event">All event logs &nbsp;</label>
-              <select class="form-control inline" [(ngModel)]="formModel.filters.logEvent">
+              <select class="form-control form-select inline" [(ngModel)]="formModel.filters.logEvent">
                 <option *ngFor="let event of EVENTS" [value]="event">{{ event }}</option>
               </select>
             </div>
@@ -100,7 +100,7 @@
           </div>
           <div class="col-12 mt-2">
             <label for="action-class" class="fw-bold">Action class</label>
-            <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.filters.actionClass">
+            <select id="action-class" class="form-control form-select col-12" [(ngModel)]="formModel.filters.actionClass">
               <option [value]=""></option>
               <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
                 {{ actionClass }}

@@ -3,7 +3,7 @@
     <strong>{{ questionDetails.options[i] }}</strong>
   </div>
   <div class="col-md-7 col-xs-12 text-md-start">
-    <select class="form-control" [ngModel]="responseDetails.answers[i]"
+    <select class="form-control form-select" [ngModel]="responseDetails.answers[i]"
             (ngModelChange)="triggerResponse(i, $event)" [disabled]="isDisabled">
       <option [ngValue]="RANK_OPTIONS_ANSWER_NOT_SUBMITTED"></option>
       <option *ngFor="let rank of ranksToBeAssigned" [ngValue]="rank">{{ rank }}</option>

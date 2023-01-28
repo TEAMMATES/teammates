@@ -78,7 +78,7 @@
           <input id="uneven-distribution-checkbox" class="form-check-input" type="checkbox"
                  [ngModel]="model.forceUnevenDistribution"
                  (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable">
-          <select id="uneven-distribution-dropdown" class="form-control" [ngModel]="model.distributePointsFor"
+          <select id="uneven-distribution-dropdown" class="form-control form-select" [ngModel]="model.distributePointsFor"
                   [disabled]="!isEditable || model.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE"
                   (ngModelChange)="triggerModelChange('distributePointsFor', $event)">
             <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">

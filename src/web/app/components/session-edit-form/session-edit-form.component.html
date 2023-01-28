@@ -10,7 +10,7 @@
             <h5 class="text-end">Create new</h5>
           </div>
           <div class="col-9 col-md-8">
-            <select id="session-type" class="form-control" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
+            <select id="session-type" class="form-control form-select" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
               <option *ngFor="let templateSession of templateSessions" [ngValue]="templateSession.name">{{ templateSession.name }}</option>
             </select>
           </div>
@@ -53,7 +53,7 @@
           </div>
           <div class="col-md-auto text-md-start">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
-              <select id="add-course-id" class="form-control" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
+              <select id="add-course-id" class="form-control form-select" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
                 <option *ngFor="let course of courseCandidates" [ngValue]="course.courseId">{{ course.courseId }}</option>
               </select>
               <div class="invalid-feedback" *ngIf="courseCandidates.length === 0">
@@ -183,7 +183,7 @@
             </div>
             <div class="row text-center">
               <div class="col-12">
-                <select id="grace-period" class="form-control" [ngModel]="model.gracePeriod" (ngModelChange)="triggerModelChange('gracePeriod', $event)" [disabled]="!model.isEditable">
+                <select id="grace-period" class="form-control form-select" [ngModel]="model.gracePeriod" (ngModelChange)="triggerModelChange('gracePeriod', $event)" [disabled]="!model.isEditable">
                   <option *ngFor="let graceMinute of [0, 5, 10, 15, 20, 25, 30]" [ngValue]="graceMinute">{{ graceMinute + ' min'}}</option>
                 </select>
               </div>
