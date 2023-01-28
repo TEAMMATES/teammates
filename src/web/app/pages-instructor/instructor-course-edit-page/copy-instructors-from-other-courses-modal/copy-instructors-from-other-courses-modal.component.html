@@ -1,8 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">Copy Instructors</h4>
-  <button id="btn-close-modal" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()" [disabled]="isCopyingSelectedInstructors">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <button id="btn-close-modal" type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()" [disabled]="isCopyingSelectedInstructors"></button>
 </div>
 <div id="copy-instructor-modal" class="modal-body">
   <div class="col-12 mb-3 text-md-end" *ngIf="courses.length > 0">
