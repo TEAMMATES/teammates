@@ -21,7 +21,7 @@
     <small>Extend the feedback session by:</small>
     <div id="submission-start-date">
       <div class="input-group w-75">
-        <select id="extend-by-dropdown" class="form-control" [(ngModel)]="extendByDeadlineKey">
+        <select id="extend-by-dropdown" class="form-control form-select" [(ngModel)]="extendByDeadlineKey">
           <option *ngFor="let deadlineOption of extendByDeadlineOptions | keyvalue: sortMapByOriginalOrder"
             [value]="deadlineOption.key">
             {{ deadlineOption.key }}

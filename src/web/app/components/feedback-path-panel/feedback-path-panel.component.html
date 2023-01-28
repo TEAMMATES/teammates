@@ -34,7 +34,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <select id="giver-type" class="form-control" [ngModel]="model.giverType"  (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
+          <select id="giver-type" class="form-control form-select" [ngModel]="model.giverType"  (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
             <option *ngFor="let path of allowedFeedbackPaths | keyvalue" [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
           </select>
         </div>
@@ -48,7 +48,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <select id="receiver-type" class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
+          <select id="receiver-type" class="form-control form-select" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
             <option *ngFor="let recipientType of allowedFeedbackPaths.get(model.giverType)" [ngValue]="recipientType">{{ recipientType | recipientTypeDescription }}</option>
           </select>
         </div>

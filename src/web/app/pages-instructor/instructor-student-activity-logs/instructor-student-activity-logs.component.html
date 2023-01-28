@@ -10,7 +10,7 @@
           <label for="activity-type-dropdown" class="fw-bold">Activity Type</label>
         </div>
         <div class="col-12">
-          <select id="activity-type-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
+          <select id="activity-type-dropdown" class="form-control form-select col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
             <option value="" disabled selected hidden>Select Activity Type</option>
             <option *ngFor="let logType of LOG_TYPES" [value]="logType.value">
               {{logType.label}}
@@ -41,7 +41,7 @@
           <label for="student-name-dropdown" class="fw-bold">Student Name (Optional)</label>
         </div>
         <div class="col-12">
-          <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
+          <select id="student-name-dropdown" class="form-control form-select col-12" [(ngModel)]="formModel.studentEmail">
             <option *ngFor="let student of students" [value]="student.email">
               {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
             </option>
@@ -74,7 +74,7 @@
           <label for="session-dropdown" class="fw-bold">Feedback Session Name (Optional)</label>
         </div>
         <div class="col-12">
-          <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
+          <select id="session-dropdown" class="form-control form-select col-md-12" [(ngModel)]="formModel.feedbackSessionName">
             <option value=""></option>
             <option *ngFor="let session of feedbackSessions | keyvalue" [value]="session.key">
               {{session.key}}

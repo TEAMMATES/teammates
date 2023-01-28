@@ -82,7 +82,7 @@
               (ngModelChange)="triggerGeneratedOptionsChange($event)">
         <b>Or, generate options from the list of all</b>
       </label>
-      <select id="generate-dropdown" class="form-control" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
+      <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
               [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
         <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option | generatedChoice }}</option>
       </select>

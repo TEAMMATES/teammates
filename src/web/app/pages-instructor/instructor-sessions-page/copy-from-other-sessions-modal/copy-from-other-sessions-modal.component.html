@@ -7,7 +7,7 @@
     <div class="col-12">
       <div class="form-group">
         <label>Create in course</label>
-        <select id="copy-course-id" class="form-control" [(ngModel)]="copyToCourseId">
+        <select id="copy-course-id" class="form-control form-select" [(ngModel)]="copyToCourseId">
           <option *ngFor="let course of courseCandidates"
                   [ngValue]="course.courseId">{{ course.courseId }}</option>
         </select>

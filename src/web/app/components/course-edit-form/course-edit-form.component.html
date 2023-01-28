@@ -75,7 +75,7 @@
                 </ng-template>
             </label>
             <div class="col-sm-9">
-                <select id="course-institute" class="col-xs-12 form-control" type="text" name="institute"
+                <select id="course-institute" class="col-xs-12 form-control form-select" type="text" name="institute"
                     [(ngModel)]="model.course.institute" [disabled]="isInEditMode || isInputDisabled" required>
                     <option *ngIf="isInEditMode" [value]="model.course.institute" selected>{{ model.course.institute }}
                     </option>
@@ -90,7 +90,7 @@
                     Time Zone:</span></label>
             <div class="col-xs-12 col-sm-9">
                 <div class="input-group">
-                    <select id="time-zone" class="form-control" name="timeZone" #timeZone="ngModel"
+                    <select id="time-zone" class="form-control form-select" name="timeZone" #timeZone="ngModel"
                         [(ngModel)]="model.course.timeZone" [disabled]="isInputDisabled" required>
                         <option *ngFor="let timezone of model.timezones" [value]="timezone.id">{{ timezone.id }} ({{
                             timezone.offset }})</option>
