@@ -59,7 +59,7 @@
         <strong>Login Email Sent</strong>
       </div>
       <div class="card-body">
-        <p>A login email with additional instructions was sent to {{formLogin.controls.email.value}}.<br>Check your email to complete login.</p>
+        <p>A login email with additional instructions was sent to {{formLogin.controls['email'].value}}.<br>Check your email to complete login.</p>
         <a href="#" style="text-decoration: underline;" (click)="isTroubleGettingEmail=true; isLoginEmailSent=false;">
           Trouble getting email?
         </a>
