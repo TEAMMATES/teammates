@@ -55,7 +55,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-logging")
     implementation("com.google.cloud:google-cloud-storage")
     implementation("com.google.code.gson:gson:2.9.0")
-    implementation("com.google.firebase:firebase-admin:9.0.0")
+    implementation("com.google.firebase:firebase-admin:9.1.1")
     implementation("com.google.guava:guava:31.1-jre")
     implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20220608.1")
