@@ -113,10 +113,7 @@
     <ng-container *ngIf="areQuestionsGroupedByRecipient">
       <ng-container *ngFor="let entry of recipientQuestionMap | keyvalue">
         <ng-container *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn">
-          <ng-container *ngIf="entry.value.has(questionSubmissionForm.questionNumber)
-                  && (questionSubmissionForm.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
-                  || questionSubmissionForm.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS
-                  || questionSubmissionForm.questionType !== FeedbackQuestionType.CONTRIB)">
+          <ng-container *ngIf="entry.value.has(questionSubmissionForm.questionNumber)">
             <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
                                          inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                          [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
