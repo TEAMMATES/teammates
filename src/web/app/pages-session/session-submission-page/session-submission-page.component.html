@@ -93,34 +93,10 @@
     <div class="card-body">
       Some instructions as to what this form below does
       <div ngbDropdown class="d-inline-block">
-        <button ngbDropdownToggle class="btn btn-primary" id="btn-change-view" type="button">Change View</button>
-        <div ngbDropdownMenu aria-labelledby="btn-change-view">
-          <button ngbDropdownItem>Default</button>
-          <button ngbDropdownItem>Group Questions by Recipients</button>
-        </div>
-      </div>
-      <!-- Directly from https://ng-bootstrap.github.io/releases/11.x/#/components/dropdown/examples#basic -->
-      <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Change View</button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>Default</button>
-          <button ngbDropdownItem>Group Questions by Recipients</button>
-        </div>
-      </div>
-      <!-- From src\web\app\components\adding-question-panel\adding-question-panel.component.html -->
-      <div ngbDropdown class="d-inline-block">
         <button id="btn-new-question" class="btn btn-primary" ngbDropdownToggle>Change View</button>
         <div id="new-question-dropdown" ngbDropdownMenu>
-          <button class="dropdown-item">Choose from template questions</button>
-          <div class="dropdown-divider"></div>
-          <ng-container>
-            <button class="dropdown-item">
-              Default
-            </button>
-            <button class="dropdown-item">
-              Group Questions by Recipients
-            </button>
-          </ng-container>
+          <button class="dropdown-item" >Default View</button>
+          <button class="dropdown-item" >Group Questions by Recipients</button>
         </div>
       </div>
     </div>
