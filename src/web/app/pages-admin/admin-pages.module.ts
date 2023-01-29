@@ -37,6 +37,11 @@ const routes: Routes = [
       pageTitle: 'Ongoing Sessions',
     },
   },
+  { 
+    path: 'support', 
+    loadChildren: () => import('./admin-support-page/admin-support-page.module')
+      .then((m: any) => m.AdminSupportPageModule)
+  },
   {
     path: 'timezone',
     loadChildren: () => import('../pages-monitoring/timezone-page/timezone-page.module')
