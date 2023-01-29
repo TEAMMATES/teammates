@@ -75,7 +75,7 @@ dependencies {
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.3.0")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.8.0")
     testImplementation(testng)
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
