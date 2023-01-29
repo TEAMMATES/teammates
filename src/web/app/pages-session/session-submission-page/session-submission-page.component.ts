@@ -70,6 +70,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   Intent: typeof Intent = Intent;
 
   courseId: string = '';
@@ -114,7 +115,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   areQuestionsGroupedByRecipient: boolean = false;
   hasLoadedAllRecipients: boolean = false;
-  recipientQuestionMap: Map<string, any[]> = new Map<string, any[]>()
+  recipientQuestionMap: Map<string, Set<any>> = new Map<string, Set<any>>()
+  allRecipientIds: string[] = [];
 
   private backendUrl: string = environment.backendUrl;
 
@@ -967,10 +969,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   private addQuestionForRecipient(recipientId: string, questionId: any): void {
     if (this.recipientQuestionMap.has(recipientId)) {
-      this.recipientQuestionMap.get(recipientId)!.push(questionId);
+      this.recipientQuestionMap.get(recipientId)!.add(questionId);
     } else {
-      let feedbackQuestionIds: any[] = [];
-      feedbackQuestionIds.push(questionId);
+      let feedbackQuestionIds: Set<any> = new Set<any>();
+      feedbackQuestionIds.add(questionId);
       this.recipientQuestionMap.set(recipientId, feedbackQuestionIds);
     }
   }
@@ -1005,6 +1007,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       forkJoin(recipientsObservable)
           .pipe(finalize(() => {
             this.hasLoadedAllRecipients = true;
+            this.allRecipientIds = Array.from(this.recipientQuestionMap.keys());
             console.log(this.recipientQuestionMap);
           }))
           .subscribe({next: (recipients: FeedbackQuestionRecipients[]) => {
