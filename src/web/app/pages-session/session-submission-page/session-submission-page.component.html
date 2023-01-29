@@ -56,35 +56,73 @@
   </div>
 </div>
 
-<div class="card card-plain" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
-  <div class="card-body">
-    <div class="row text-center">
-      <label class="col-md-2 text-md-right">Course ID:</label>
-      <div id="course-id" class="col-md-10 text-md-left">{{ courseId }}</div>
+<div class="d-flex flex-row" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
+  <div class="card card-plain w-75 mr-2">
+    <div class="card-body">
+      <div class="row text-center">
+        <label class="col-md-2 text-md-right">Course ID:</label>
+        <div id="course-id" class="col-md-10 text-md-left">{{ courseId }}</div>
+      </div>
+      <div class="row text-center" *ngIf="courseName">
+        <label class="col-md-2 text-md-right">Course name:</label>
+        <div id="course-name" class="col-md-10 text-md-left">{{ courseName }}</div>
+      </div>
+      <div class="row text-center" *ngIf="courseInstitute">
+        <label class="col-md-2 text-md-right">Course institute:</label>
+        <div id="course-institute" class="col-md-10 text-md-left">{{ courseInstitute }}</div>
+      </div>
+      <div class="row text-center">
+        <label class="col-md-2 text-md-right">Session:</label>
+        <div id="fs-name" class="col-md-10 text-md-left">{{ feedbackSessionName }}</div>
+      </div>
+      <div class="row text-center">
+        <label class="col-md-2 text-md-right">Opening time:</label>
+        <div id="opening-time" class="col-md-10 text-md-left">{{ formattedSessionOpeningTime }}</div>
+      </div>
+      <div class="row text-center">
+        <label class="col-md-2 text-md-right">Closing time:</label>
+        <div id="closing-time" class="col-md-10 text-md-left">{{ formattedSessionClosingTime }}</div>
+      </div>
+      <div class="row text-center">
+        <label class="col-md-2 text-md-right">Instructions:</label>
+        <div id="instructions" class="col-md-10 text-md-left" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+      </div>
     </div>
-    <div class="row text-center" *ngIf="courseName">
-      <label class="col-md-2 text-md-right">Course name:</label>
-      <div id="course-name" class="col-md-10 text-md-left">{{ courseName }}</div>
-    </div>
-    <div class="row text-center" *ngIf="courseInstitute">
-      <label class="col-md-2 text-md-right">Course institute:</label>
-      <div id="course-institute" class="col-md-10 text-md-left">{{ courseInstitute }}</div>
-    </div>
-    <div class="row text-center">
-      <label class="col-md-2 text-md-right">Session:</label>
-      <div id="fs-name" class="col-md-10 text-md-left">{{ feedbackSessionName }}</div>
-    </div>
-    <div class="row text-center">
-      <label class="col-md-2 text-md-right">Opening time:</label>
-      <div id="opening-time" class="col-md-10 text-md-left">{{ formattedSessionOpeningTime }}</div>
-    </div>
-    <div class="row text-center">
-      <label class="col-md-2 text-md-right">Closing time:</label>
-      <div id="closing-time" class="col-md-10 text-md-left">{{ formattedSessionClosingTime }}</div>
-    </div>
-    <div class="row text-center">
-      <label class="col-md-2 text-md-right">Instructions:</label>
-      <div id="instructions" class="col-md-10 text-md-left" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+  </div>
+  <div class="card card-plain w-25 ml-2">
+    <div class="card-body">
+      Some instructions as to what this form below does
+      <div ngbDropdown class="d-inline-block">
+        <button ngbDropdownToggle class="btn btn-primary" id="btn-change-view" type="button">Change View</button>
+        <div ngbDropdownMenu aria-labelledby="btn-change-view">
+          <button ngbDropdownItem>Default</button>
+          <button ngbDropdownItem>Group Questions by Recipients</button>
+        </div>
+      </div>
+      <!-- Directly from https://ng-bootstrap.github.io/releases/11.x/#/components/dropdown/examples#basic -->
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Change View</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem>Default</button>
+          <button ngbDropdownItem>Group Questions by Recipients</button>
+        </div>
+      </div>
+      <!-- From src\web\app\components\adding-question-panel\adding-question-panel.component.html -->
+      <div ngbDropdown class="d-inline-block">
+        <button id="btn-new-question" class="btn btn-primary" ngbDropdownToggle>Change View</button>
+        <div id="new-question-dropdown" ngbDropdownMenu>
+          <button class="dropdown-item">Choose from template questions</button>
+          <div class="dropdown-divider"></div>
+          <ng-container>
+            <button class="dropdown-item">
+              Default
+            </button>
+            <button class="dropdown-item">
+              Group Questions by Recipients
+            </button>
+          </ng-container>
+        </div>
+      </div>
     </div>
   </div>
 </div>
