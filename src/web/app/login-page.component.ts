@@ -163,18 +163,21 @@ export class LoginPageComponent implements OnInit {
       captchaResponse: this.captchaResponse,
     }).pipe(finalize(() => {
       this.isLoggingInWithEmail = false;
-    })).subscribe((resp: SendLoginEmailResponse) => {
-      if (resp.isEmailSent) {
-        window.localStorage.setItem('emailForSignIn', loginForm.controls['email'].value);
-        this.isLoginEmailSent = true;
-        this.isLogInWithEmail = false;
-      } else {
-        this.statusMessageService.showErrorToast(resp.message);
+    })).subscribe({
+      next: (resp: SendLoginEmailResponse) => {
+        if (resp.isEmailSent) {
+          window.localStorage.setItem('emailForSignIn', loginForm.controls['email'].value);
+          this.isLoginEmailSent = true;
+          this.isLogInWithEmail = false;
+        } else {
+          this.statusMessageService.showErrorToast(resp.message);
+          this.resetFormGroups();
+        }
+      },
+      error: (response: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(response.error.message);
         this.resetFormGroups();
-      }
-    }, (response: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(response.error.message);
-      this.resetFormGroups();
+      },
     });
   }
 
