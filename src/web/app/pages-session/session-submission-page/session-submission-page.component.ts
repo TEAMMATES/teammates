@@ -116,7 +116,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   areQuestionsGroupedByRecipient: boolean = false;
   hasLoadedAllRecipients: boolean = false;
   recipientQuestionMap: Map<string, Set<any>> = new Map<string, Set<any>>()
-  allRecipientIds: string[] = [];
 
   private backendUrl: string = environment.backendUrl;
 
@@ -1010,7 +1009,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       forkJoin(recipientsObservable)
           .pipe(finalize(() => {
             this.hasLoadedAllRecipients = true;
-            this.allRecipientIds = Array.from(this.recipientQuestionMap.keys());
             console.log(this.recipientQuestionMap);
           }))
           .subscribe({next: (recipients: FeedbackQuestionRecipients[]) => {
