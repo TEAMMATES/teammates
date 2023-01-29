@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } from '../../../types/datetime-const';
 
 /**
  * Time picker with fixed time to pick.
@@ -14,7 +15,22 @@ export class TimepickerComponent {
   isDisabled: boolean = false;
 
   @Input()
-  time: TimeFormat = { hour: 0, minute: 0 };
+  time: TimeFormat = getDefaultTimeFormat();
+
+  @Input()
+  minTime?: TimeFormat;
+
+  @Input()
+  maxTime?: TimeFormat;
+
+  @Input()
+  date: DateFormat = getDefaultDateFormat();
+
+  @Input()
+  minDate?: DateFormat;
+
+  @Input()
+  maxDate?: DateFormat;
 
   @Output()
   timeChange: EventEmitter<TimeFormat> = new EventEmitter();
@@ -47,6 +63,31 @@ export class TimepickerComponent {
   }
 
   /**
+   * Checks whether the time option should be disabled when a minimum datetime and/or a maximum datetime is/are
+   * specified.
+   *
+   * <p> The valid time option is greater or equal than the minimum datetime and smaller or equal than the maximum
+   * datetime.
+   */
+  isOptionDisabled(t: TimeFormat): boolean {
+    if (this.minDate && this.minTime
+        && this.date.year === this.minDate?.year && this.date.month === this.minDate?.month
+        && this.date.day === this.minDate?.day
+        && (t.hour < this.minTime?.hour || t.minute < this.minTime?.minute)) {
+      return true;
+    }
+
+    if (this.maxDate && this.maxTime
+        && this.date.year === this.maxDate?.year && this.date.month === this.maxDate?.month
+        && this.date.day === this.maxDate?.day
+        && (t.hour > this.maxTime?.hour || t.minute > this.maxTime?.minute)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Checks whether the time is in the fixed list to select.
    */
   isInFixedList(time: TimeFormat): boolean {
@@ -62,12 +103,4 @@ export class TimepickerComponent {
   addLeadingZeros(n: number, i: number): string {
     return ('0'.repeat(n) + i).slice(-n);
   }
-}
-
-/**
- * The output format of the time picker.
- */
-export interface TimeFormat {
-  hour: number;
-  minute: number;
 }

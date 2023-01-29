@@ -58,21 +58,27 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
         studentEmail, courseId,
     ).pipe(finalize(() => {
       this.isStudentProfileLoading = false;
-    })).subscribe((studentProfile: StudentProfile) => {
-      this.studentProfile = studentProfile;
-    }, (resp: ErrorMessageOutput) => {
-      this.hasStudentLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    })).subscribe({
+      next: (studentProfile: StudentProfile) => {
+        this.studentProfile = studentProfile;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasStudentLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
     this.studentService.getStudent(
         courseId, studentEmail,
     ).pipe(finalize(() => {
       this.isStudentLoading = false;
-    })).subscribe((student: Student) => {
-      this.student = student;
-    }, (resp: ErrorMessageOutput) => {
-      this.hasStudentProfileLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    })).subscribe({
+      next: (student: Student) => {
+        this.student = student;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasStudentProfileLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 }

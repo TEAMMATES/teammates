@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { expand, finalize, reduce, tap } from 'rxjs/operators';
+import { DateTimeService } from '../../../services/datetime.service';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -16,11 +17,17 @@ import {
   RequestLogUser,
   SourceLocation,
 } from '../../../types/api-output';
-import { DateFormat } from '../../components/datepicker/datepicker.component';
+import {
+  getDefaultDateFormat,
+  getDefaultTimeFormat,
+  DateFormat,
+  TimeFormat,
+  Hours,
+  Milliseconds,
+} from '../../../types/datetime-const';
 import { LogsHistogramDataModel } from '../../components/logs-histogram/logs-histogram-model';
 import { LogsTableRowModel } from '../../components/logs-table/logs-table-model';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
-import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -35,7 +42,6 @@ interface SearchLogsFormModel {
 }
 
 const MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
-const TEN_MINUTES_IN_MILLISECONDS: number = 10 * 60 * 1000;
 const ASCENDING_ORDER: string = 'asc';
 const DESCENDING_ORDER: string = 'desc';
 
@@ -50,7 +56,8 @@ const DESCENDING_ORDER: string = 'desc';
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
-  readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
+  readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number =
+    this.LOGS_RETENTION_PERIOD_IN_DAYS * Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR;
   readonly SEVERITIES: LogSeverity[] = [
     LogSeverity.INFO, LogSeverity.WARNING, LogSeverity.ERROR,
   ];
@@ -63,10 +70,10 @@ export class LogsPageComponent implements OnInit {
   isAdmin: boolean = false;
 
   formModel: SearchLogsFormModel = {
-    logsDateFrom: { year: 0, month: 0, day: 0 },
-    logsTimeFrom: { hour: 0, minute: 0 },
-    logsDateTo: { year: 0, month: 0, day: 0 },
-    logsTimeTo: { hour: 0, minute: 0 },
+    logsDateFrom: getDefaultDateFormat(),
+    logsTimeFrom: getDefaultTimeFormat(),
+    logsDateTo: getDefaultDateFormat(),
+    logsTimeTo: getDefaultTimeFormat(),
     filters: {
       startTime: 0,
       endTime: 0,
@@ -95,8 +102,8 @@ export class LogsPageComponent implements OnInit {
     },
   };
   queryParams: Partial<QueryLogsParams> = { startTime: 0, endTime: 0 };
-  dateToday: DateFormat = { year: 0, month: 0, day: 0 };
-  earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
+  dateToday: DateFormat = getDefaultDateFormat();
+  earliestSearchDate: DateFormat = getDefaultDateFormat();
   searchResults: LogsTableRowModel[] = [];
   histogramResult: LogsHistogramDataModel[] = [];
   isLoading: boolean = false;
@@ -113,7 +120,8 @@ export class LogsPageComponent implements OnInit {
   hasNextPage: boolean = false;
   logsMap: Map<string, number> = new Map<string, number>();
 
-  constructor(private logService: LogService,
+  constructor(private datetimeService: DateTimeService,
+    private logService: LogService,
     private timezoneService: TimezoneService,
     private statusMessageService: StatusMessageService,
     private activatedRoute: ActivatedRoute) { }
@@ -131,7 +139,7 @@ export class LogsPageComponent implements OnInit {
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
     // Start with logs from the past hour
-    const fromDate: Date = new Date(now.getTime() - 60 * 60 * 1000);
+    const fromDate: Date = new Date(now.getTime() - Milliseconds.IN_ONE_HOUR);
 
     this.formModel.logsDateFrom = {
       year: fromDate.getFullYear(),
@@ -139,8 +147,8 @@ export class LogsPageComponent implements OnInit {
       day: fromDate.getDate(),
     };
     this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = { hour: fromDate.getHours(), minute: fromDate.getMinutes() };
-    this.formModel.logsTimeTo = { hour: now.getHours(), minute: now.getMinutes() };
+    this.formModel.logsTimeFrom = this.datetimeService.convertDateToTimeFormat(fromDate);
+    this.formModel.logsTimeTo = this.datetimeService.convertDateToTimeFormat(now);
 
     this.logService.getActionClassList()
       .pipe(finalize(() => {
@@ -194,10 +202,15 @@ export class LogsPageComponent implements OnInit {
           this.isSearching = false;
           this.hasResult = true;
         }))
-      .subscribe((generalLogs: GeneralLogs) => {
-        this.hasPreviousPage = generalLogs.hasNextPage;
-        this.processLogsForTableView(generalLogs, true);
-      }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .subscribe({
+        next: (generalLogs: GeneralLogs) => {
+          this.hasPreviousPage = generalLogs.hasNextPage;
+          this.processLogsForTableView(generalLogs, true);
+        },
+        error: (e: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(e.error.message);
+        },
+      });
   }
 
   private isFormValid(): boolean {
@@ -262,8 +275,10 @@ export class LogsPageComponent implements OnInit {
           this.hasResult = true;
         }),
       )
-      .subscribe((logResults: GeneralLogEntry[]) => this.processLogsForHistogram(logResults),
-        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .subscribe({
+        next: (logResults: GeneralLogEntry[]) => this.processLogsForHistogram(logResults),
+        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+      });
   }
 
   private processLogsForTableView(generalLogs: GeneralLogs, isDescendingOrder: boolean): void {
@@ -422,7 +437,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.queryParams.order = DESCENDING_ORDER;
     this.queryParams.endTime = this.searchStartTime;
-    this.searchStartTime -= TEN_MINUTES_IN_MILLISECONDS;
+    this.searchStartTime -= Milliseconds.IN_TEN_MINUTES;
     this.queryParams.startTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
@@ -431,7 +446,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearchingLaterLogs = true;
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.searchEndTime;
-    this.searchEndTime += TEN_MINUTES_IN_MILLISECONDS;
+    this.searchEndTime += Milliseconds.IN_TEN_MINUTES;
     this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }
@@ -441,10 +456,13 @@ export class LogsPageComponent implements OnInit {
       .pipe(finalize(() => {
         this.isSearching = false;
       }))
-      .subscribe((generalLogs: GeneralLogs) => {
-        this.hasPreviousPage = generalLogs.hasNextPage;
-        this.processLogsForTableView(generalLogs, true);
-      }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .subscribe({
+        next: (generalLogs: GeneralLogs) => {
+          this.hasPreviousPage = generalLogs.hasNextPage;
+          this.processLogsForTableView(generalLogs, true);
+        },
+        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+      });
   }
 
   private searchLaterLogs(): void {
@@ -452,9 +470,12 @@ export class LogsPageComponent implements OnInit {
       .pipe(finalize(() => {
         this.isSearchingLaterLogs = false;
       }))
-      .subscribe((generalLogs: GeneralLogs) => {
-        this.hasNextPage = generalLogs.hasNextPage;
-        this.processLogsForTableView(generalLogs, false);
-      }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .subscribe({
+        next: (generalLogs: GeneralLogs) => {
+          this.hasNextPage = generalLogs.hasNextPage;
+          this.processLogsForTableView(generalLogs, false);
+        },
+        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+      });
   }
 }

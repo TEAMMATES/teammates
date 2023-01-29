@@ -53,15 +53,15 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
       notificationId: notification.notificationId,
       endTimestamp: notification.endTimestamp,
     })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.statusMessageService.showSuccessToast('Notification marked as read.');
           this.closeNotification();
         },
-        (resp: ErrorMessageOutput) => {
+        error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-      );
+      });
   }
 
   closeNotification(): void {

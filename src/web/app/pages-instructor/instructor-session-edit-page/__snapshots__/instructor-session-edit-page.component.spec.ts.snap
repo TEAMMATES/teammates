@@ -5,10 +5,13 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   FeedbackQuestionType={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef_]}
+  __ngContext__={[Function LRootView]}
+  changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -30,6 +33,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -90,10 +95,13 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   FeedbackQuestionType={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef_]}
+  __ngContext__={[Function LRootView]}
+  changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -115,6 +123,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -175,10 +185,13 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   FeedbackQuestionType={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef_]}
+  __ngContext__={[Function LRootView]}
+  changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -200,6 +213,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -263,10 +278,13 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   FeedbackQuestionType={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef_]}
+  __ngContext__={[Function LRootView]}
+  changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -288,6 +306,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -348,10 +368,13 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   FeedbackQuestionType={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef_]}
+  __ngContext__={[Function LRootView]}
+  changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -373,6 +396,8 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   isLoadingFeedbackQuestions={[Function Boolean]}
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -433,10 +458,13 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   FeedbackQuestionType={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef_]}
+  __ngContext__={[Function LRootView]}
+  changeDetectorRef={[Function ViewRef$1]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -458,6 +486,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   isLoadingFeedbackQuestions="false"
   isLoadingFeedbackSession="false"
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -1395,7 +1425,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        class="btn btn-light white-space-normal dropdown-toggle"
+                        class="dropdown-toggle btn btn-light white-space-normal"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
@@ -1430,7 +1460,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              class="float-right invisible dropdown-toggle"
+                              class="dropdown-toggle float-right invisible"
                               ngbdropdownanchor=""
                             />
                              Instructors in this course will give feedback on ... 
@@ -1470,7 +1500,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              class="float-right invisible dropdown-toggle"
+                              class="dropdown-toggle float-right invisible"
                               ngbdropdownanchor=""
                             />
                              Feedback session creator (i.e., me) will give feedback on ... 
@@ -1510,7 +1540,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              class="float-right invisible dropdown-toggle"
+                              class="dropdown-toggle float-right invisible"
                               ngbdropdownanchor=""
                             />
                              Students in this course will give feedback on ... 
@@ -1635,7 +1665,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        class="btn btn-light white-space-normal dropdown-toggle"
+                        class="dropdown-toggle btn btn-light white-space-normal"
                         id="btn-question-visibility"
                         ngbdropdowntoggle=""
                       >
@@ -2143,7 +2173,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        class="btn btn-light white-space-normal dropdown-toggle"
+                        class="dropdown-toggle btn btn-light white-space-normal"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
@@ -2178,7 +2208,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              class="float-right invisible dropdown-toggle"
+                              class="dropdown-toggle float-right invisible"
                               ngbdropdownanchor=""
                             />
                              Instructors in this course will give feedback on ... 
@@ -2218,7 +2248,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              class="float-right invisible dropdown-toggle"
+                              class="dropdown-toggle float-right invisible"
                               ngbdropdownanchor=""
                             />
                              Feedback session creator (i.e., me) will give feedback on ... 
@@ -2258,7 +2288,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           >
                             <span
                               aria-expanded="false"
-                              class="float-right invisible dropdown-toggle"
+                              class="dropdown-toggle float-right invisible"
                               ngbdropdownanchor=""
                             />
                              Students in this course will give feedback on ... 
@@ -2383,7 +2413,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <button
                         aria-expanded="false"
-                        class="btn btn-light white-space-normal dropdown-toggle"
+                        class="dropdown-toggle btn btn-light white-space-normal"
                         id="btn-question-visibility"
                         ngbdropdowntoggle=""
                       >
@@ -2686,7 +2716,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
           >
             <button
               aria-expanded="false"
-              class="btn btn-primary dropdown-toggle"
+              class="dropdown-toggle btn btn-primary"
               id="btn-new-question"
               ngbdropdowntoggle=""
             >
@@ -2842,10 +2872,13 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   FeedbackQuestionType={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef_]}
+  __ngContext__={[Function LRootView]}
+  changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
@@ -2867,6 +2900,8 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   isLoadingFeedbackQuestions="false"
   isLoadingFeedbackSession="false"
   isResultActionLoading="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
@@ -3764,7 +3799,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light white-space-normal dropdown-toggle"
+                    class="dropdown-toggle btn btn-light white-space-normal"
                     id="btn-feedback-path"
                     ngbdropdowntoggle=""
                   >
@@ -3795,7 +3830,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          class="float-right invisible dropdown-toggle"
+                          class="dropdown-toggle float-right invisible"
                           ngbdropdownanchor=""
                         />
                          Instructors in this course will give feedback on ... 
@@ -3835,7 +3870,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          class="float-right invisible dropdown-toggle"
+                          class="dropdown-toggle float-right invisible"
                           ngbdropdownanchor=""
                         />
                          Feedback session creator (i.e., me) will give feedback on ... 
@@ -3875,7 +3910,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       >
                         <span
                           aria-expanded="false"
-                          class="float-right invisible dropdown-toggle"
+                          class="dropdown-toggle float-right invisible"
                           ngbdropdownanchor=""
                         />
                          Students in this course will give feedback on ... 
@@ -4141,7 +4176,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light white-space-normal dropdown-toggle"
+                    class="dropdown-toggle btn btn-light white-space-normal"
                     id="btn-question-visibility"
                     ngbdropdowntoggle=""
                   >

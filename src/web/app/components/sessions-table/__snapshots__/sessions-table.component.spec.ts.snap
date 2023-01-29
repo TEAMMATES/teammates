@@ -8,6 +8,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
@@ -199,7 +200,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="dropdown-toggle btn btn-light btn-sm"
                     id="btn-results-0"
                     ngbdropdowntoggle=""
                   >
@@ -248,7 +249,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="dropdown-toggle btn btn-light btn-sm"
                     id="btn-remind-0"
                     ngbdropdowntoggle=""
                   >
@@ -376,7 +377,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="dropdown-toggle btn btn-light btn-sm"
                     id="btn-results-1"
                     ngbdropdowntoggle=""
                   >
@@ -433,7 +434,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="dropdown-toggle btn btn-light btn-sm"
                     disabled=""
                     id="btn-remind-1"
                     ngbdropdowntoggle=""
@@ -487,6 +488,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
@@ -658,7 +660,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="dropdown-toggle btn btn-light btn-sm"
                     id="btn-results-0"
                     ngbdropdowntoggle=""
                   >
@@ -707,7 +709,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="dropdown-toggle btn btn-light btn-sm"
                     id="btn-remind-0"
                     ngbdropdowntoggle=""
                   >
@@ -826,7 +828,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="dropdown-toggle btn btn-light btn-sm"
                     id="btn-results-1"
                     ngbdropdowntoggle=""
                   >
@@ -883,7 +885,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 >
                   <button
                     aria-expanded="false"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="dropdown-toggle btn btn-light btn-sm"
                     disabled=""
                     id="btn-remind-1"
                     ngbdropdowntoggle=""
@@ -937,6 +939,7 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}

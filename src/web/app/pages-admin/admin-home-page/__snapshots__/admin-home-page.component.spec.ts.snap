@@ -2,6 +2,7 @@
 
 exports[`AdminHomePageComponent should snap with default view 1`] = `
 <tm-admin-home-page
+  __ngContext__={[Function LRootView]}
   accountService={[Function AccountService]}
   activeRequests="0"
   courseService={[Function CourseService]}
@@ -16,7 +17,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   ngbModal={[Function NgbModal]}
   registeredInstructorAccountData={[Function Array]}
   registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef_]}
+  registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -118,6 +119,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
 
 exports[`AdminHomePageComponent should snap with disabled adding instructor button if there are active requests 1`] = `
 <tm-admin-home-page
+  __ngContext__={[Function LRootView]}
   accountService={[Function AccountService]}
   activeRequests={[Function Number]}
   courseService={[Function CourseService]}
@@ -132,7 +134,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   ngbModal={[Function NgbModal]}
   registeredInstructorAccountData={[Function Array]}
   registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef_]}
+  registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -398,6 +400,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
 
 exports[`AdminHomePageComponent should snap with some instructors details 1`] = `
 <tm-admin-home-page
+  __ngContext__={[Function LRootView]}
   accountService={[Function AccountService]}
   activeRequests="0"
   courseService={[Function CourseService]}
@@ -412,7 +415,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   ngbModal={[Function NgbModal]}
   registeredInstructorAccountData={[Function Array]}
   registeredInstructorIndex="0"
-  registeredInstructorModal={[Function TemplateRef_]}
+  registeredInstructorModal={[Function TemplateRef2]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >

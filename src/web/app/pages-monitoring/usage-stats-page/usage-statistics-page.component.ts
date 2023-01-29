@@ -3,8 +3,13 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { UsageStatisticsService } from '../../../services/usage-statistics.service';
 import { UsageStatistics, UsageStatisticsRange } from '../../../types/api-output';
-import { DateFormat } from '../../components/datepicker/datepicker.component';
-import { TimeFormat } from '../../components/timepicker/timepicker.component';
+import {
+  getDefaultDateFormat,
+  DateFormat,
+  TimeFormat,
+  getDefaultTimeFormat,
+  Milliseconds,
+} from '../../../types/datetime-const';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 export enum StatisticsType {
@@ -52,14 +57,14 @@ export class UsageStatisticsPageComponent implements OnInit {
   itemName = 'responses';
 
   formModel: FormQueryModel = {
-    fromDate: { year: 0, month: 0, day: 0 },
-    fromTime: { hour: 0, minute: 0 },
-    toDate: { year: 0, month: 0, day: 0 },
-    toTime: { hour: 0, minute: 0 },
+    fromDate: getDefaultDateFormat(),
+    fromTime: getDefaultTimeFormat(),
+    toDate: getDefaultDateFormat(),
+    toTime: getDefaultTimeFormat(),
     dataType: StatisticsType.NUM_RESPONSES,
     aggregationType: AggregationType.HOURLY,
   };
-  dateToday: DateFormat = { year: 0, month: 0, day: 0 };
+  dateToday: DateFormat = getDefaultDateFormat();
   earliestSearchDate: DateFormat = { year: 2016, month: 1, day: 1 };
   timeRange: { startTime: number, endTime: number } = { startTime: 0, endTime: 0 };
   hasQueried = false;
@@ -83,7 +88,7 @@ export class UsageStatisticsPageComponent implements OnInit {
     this.dateToday.day = now.getDate();
 
     // Start with statistics from the past week
-    const fromDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const fromDate = new Date(now.getTime() - Milliseconds.IN_ONE_WEEK);
 
     this.formModel.fromDate = {
       year: fromDate.getFullYear(),
@@ -104,17 +109,20 @@ export class UsageStatisticsPageComponent implements OnInit {
       this.formModel.toDate, this.formModel.toTime, this.timezone);
     this.usageStatisticsService.getUsageStatistics(
       timestampFrom, timestampUntil,
-    ).subscribe((statsRange: UsageStatisticsRange) => {
-      this.timeRange = {
-        startTime: timestampFrom,
-        endTime: timestampUntil,
-      };
-      this.fetchedData = statsRange.result;
-      this.drawLineChart();
-      this.isLoading = false;
-    }, (e: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(e.error.message);
-      this.isLoading = false;
+    ).subscribe({
+      next: (statsRange: UsageStatisticsRange) => {
+        this.timeRange = {
+          startTime: timestampFrom,
+          endTime: timestampUntil,
+        };
+        this.fetchedData = statsRange.result;
+        this.drawLineChart();
+        this.isLoading = false;
+      },
+      error: (e: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(e.error.message);
+        this.isLoading = false;
+      },
     });
   }
 

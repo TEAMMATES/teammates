@@ -12,7 +12,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromEvent, merge, Observable, of } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
@@ -51,7 +51,6 @@ export class PageComponent {
 
   isCollapsed: boolean = true;
   isUnsupportedBrowser: boolean = false;
-  isUsingIe: boolean = false;
   isCookieDisabled: boolean = false;
   browser: string = '';
   isNetworkOnline$: Observable<boolean>;
@@ -97,8 +96,8 @@ export class PageComponent {
 
     this.isNetworkOnline$ = merge(
         of(navigator.onLine),
-        fromEvent(window, 'online').pipe(mapTo(true)),
-        fromEvent(window, 'offline').pipe(mapTo(false)),
+        fromEvent(window, 'online').pipe(map(() => true)),
+        fromEvent(window, 'offline').pipe(map(() => false)),
     );
 
     // Close open modal(s) when moving backward or forward through history in the browser page
@@ -118,9 +117,6 @@ export class PageComponent {
     this.browser = `${browser.name} ${browser.version}`;
     this.isUnsupportedBrowser = !this.minimumVersions[browser.name]
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
-    if (browser.name === 'IE') {
-      this.isUsingIe = true;
-    }
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
 

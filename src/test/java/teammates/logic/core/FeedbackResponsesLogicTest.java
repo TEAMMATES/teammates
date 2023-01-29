@@ -3,6 +3,8 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,8 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -291,6 +295,121 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertEquals(originalResponseRate, responseRateAfterDeletion);
     }
 
+    @Test
+    public void testUpdateResponsesForDeletingStudent_rankRecipientQuestionResponse_newResponsesShouldBeConsistent()
+            throws Exception {
+
+        FeedbackQuestionAttributes distinctRankQuestion =
+                getQuestionFromDatabase(questionTypeBundle, "qn1InRANKSession");
+        String courseId = distinctRankQuestion.getCourseId();
+        List<StudentAttributes> studentsInCourse = studentsLogic.getStudentsForCourse(courseId);
+        Map<String, List<FeedbackResponseAttributes>> giverResponseMap = new HashMap<>();
+
+        for (StudentAttributes student : studentsInCourse) {
+            giverResponseMap.put(student.getEmail(), frLogic.getFeedbackResponsesFromGiverForQuestion(
+                    distinctRankQuestion.getFeedbackQuestionId(), student.getEmail()));
+        }
+
+        int numStudents;
+        List<FeedbackResponseAttributes> responsesFromStudent;
+        while (!studentsInCourse.isEmpty()) {
+            studentsLogic.deleteStudentCascade(courseId, studentsInCourse.get(0).getEmail());
+            numStudents = studentsLogic.getNumberOfStudentsForCourse(courseId);
+            studentsInCourse = studentsLogic.getStudentsForCourse(courseId);
+            for (StudentAttributes student : studentsInCourse) {
+                responsesFromStudent = frLogic.getFeedbackResponsesFromGiverForQuestion(
+                        distinctRankQuestion.getId(), student.getEmail());
+                assertTrue(areRankResponsesConsistent(responsesFromStudent, numStudents));
+                assertTrue(areRankResponsesInSameOrder(giverResponseMap.get(student.getEmail()), responsesFromStudent));
+                giverResponseMap.put(student.getEmail(), responsesFromStudent);
+            }
+        }
+
+        refreshTestData();
+        FeedbackQuestionAttributes nonDistinctRankQuestion =
+                getQuestionFromDatabase(questionTypeBundle, "qn2InRANKSession");
+
+        for (StudentAttributes student : studentsInCourse) {
+            giverResponseMap.put(student.getEmail(), frLogic.getFeedbackResponsesFromGiverForQuestion(
+                    nonDistinctRankQuestion.getFeedbackQuestionId(), student.getEmail()));
+        }
+
+        int numTeamMembers;
+        while (!studentsInCourse.isEmpty()) {
+            studentsLogic.deleteStudentCascade(courseId, studentsInCourse.get(0).getEmail());
+            studentsInCourse = studentsLogic.getStudentsForCourse(courseId);
+            for (StudentAttributes student : studentsInCourse) {
+                numTeamMembers = studentsLogic.getStudentsForTeam(student.getTeam(), courseId).size();
+                responsesFromStudent = frLogic.getFeedbackResponsesFromGiverForQuestion(
+                        nonDistinctRankQuestion.getId(), student.getEmail());
+                assertTrue(areRankResponsesConsistent(responsesFromStudent, numTeamMembers));
+                assertTrue(areRankResponsesInSameOrder(giverResponseMap.get(student.getEmail()), responsesFromStudent));
+                giverResponseMap.put(student.getEmail(), responsesFromStudent);
+            }
+        }
+    }
+
+    private boolean areRankResponsesConsistent(List<FeedbackResponseAttributes> responses, int maxRank) {
+        for (FeedbackResponseAttributes response : responses) {
+            if (!response.getFeedbackQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS)) {
+                return false;
+            }
+            FeedbackRankRecipientsResponseDetails responseDetails =
+                    (FeedbackRankRecipientsResponseDetails) response.getResponseDetails();
+            if (responseDetails.getAnswer() > maxRank) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks whether two list of responses for 'rank recipient question' have the same order for each recipient.
+     * The recipients of the updated responses should be a subset of that of the original responses.
+     * @param responses the original response list
+     * @param modifiedResponses the updated response list
+     * @return true if the modified response list maintain the original order of the responses
+     */
+    private boolean areRankResponsesInSameOrder(List<FeedbackResponseAttributes> responses,
+                                                List<FeedbackResponseAttributes> modifiedResponses) {
+        if (responses.isEmpty()) {
+            return modifiedResponses.isEmpty();
+        }
+        if (modifiedResponses.isEmpty()) {
+            return true;
+        }
+
+        // Expects responses to rank recipient questions.
+        for (FeedbackResponseAttributes r : responses) {
+            assert r.getFeedbackQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS);
+        }
+        for (FeedbackResponseAttributes r : modifiedResponses) {
+            assert r.getFeedbackQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS);
+        }
+
+        responses.sort(Comparator.comparing(
+                response -> ((FeedbackRankRecipientsResponseDetails) response.getResponseDetails()).getAnswer()));
+        modifiedResponses.sort(Comparator.comparing(
+                response -> ((FeedbackRankRecipientsResponseDetails) response.getResponseDetails()).getAnswer()));
+
+        int pointer1 = 0;
+        int pointer2 = 0;
+        String recipient1Email;
+        String recipient2Email;
+        while (pointer1 < responses.size() && pointer2 < modifiedResponses.size()) {
+            recipient1Email = responses.get(pointer1).getRecipient();
+            recipient2Email = responses.get(pointer2).getRecipient();
+            if (recipient1Email.equals(recipient2Email)) {
+                pointer1++;
+                pointer2++;
+            } else {
+                pointer1++; // Skips one response from first list.
+            }
+        }
+
+        return pointer2 == modifiedResponses.size();
+    }
+
     private int numResponsesFromGiverInSession(String studentEmail, String sessionName, String courseId) {
         int numResponses = 0;
         for (FeedbackResponseAttributes response : questionTypeBundle.feedbackResponses.values()) {
@@ -507,6 +626,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes fq28 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn8InSession2InCourse1");
         // stu -> team in same section : instructors
         FeedbackQuestionAttributes fq29 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn9InSession2InCourse1");
+        // stu -> team excluding self : instructors, receiver
+        FeedbackQuestionAttributes fq30 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn11InSession2InCourse1");
         // ins -> team : instructors
         FeedbackQuestionAttributes fq20 = responseVisibilityBundle.feedbackQuestions.get("FRV.qn10InSession2InCourse1");
 
@@ -556,6 +677,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fr281 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ8S2C1");
         // stu8 -> team1
         FeedbackResponseAttributes fr291 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ9S2C1");
+        // stu1 -> team2
+        FeedbackResponseAttributes fr2111 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ11S2C1");
+        // stu6 -> team1
+        FeedbackResponseAttributes fr2112 = responseVisibilityBundle.feedbackResponses.get("FRV.response2ForQ11S2C1");
+        // stu7 -> team2
+        FeedbackResponseAttributes fr2113 = responseVisibilityBundle.feedbackResponses.get("FRV.response3ForQ11S2C1");
         // ins2 -> team2
         FeedbackResponseAttributes fr201 = responseVisibilityBundle.feedbackResponses.get("FRV.response1ForQ10S2C1");
 
@@ -582,6 +709,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr221, fq22, null));
         assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
                 fr231, fq23, instructor1));
+        assertTrue(frLogic.isResponseVisibleForUser(student1.getEmail(), false, student1, studentsEmailInTeam1,
+                fr2111, fq30, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student6.getEmail(), false, student6, studentsEmailInTeam3,
+                fr2112, fq30, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student7.getEmail(), false, student7, studentsEmailInTeam3,
+                fr2113, fq30, null));
 
         ______TS("test if visible to other students");
 
@@ -630,6 +763,20 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr281, fq28, null));
         assertFalse(frLogic.isResponseVisibleForUser(student5.getEmail(), false, student5, studentsEmailInTeam2,
                 fr201, fq20, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student6.getEmail(), false, student6, studentsEmailInTeam3,
+                fr2111, fq30, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student7.getEmail(), false, student7, studentsEmailInTeam3,
+                fr2111, fq30, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student1.getEmail(), false, student1, studentsEmailInTeam1,
+                fr2112, fq30, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student2.getEmail(), false, student2, studentsEmailInTeam1,
+                fr2112, fq30, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student3.getEmail(), false, student3, studentsEmailInTeam1,
+                fr2112, fq30, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student4.getEmail(), false, student4, studentsEmailInTeam1,
+                fr2112, fq30, null));
+        assertTrue(frLogic.isResponseVisibleForUser(student4.getEmail(), false, student5, studentsEmailInTeam2,
+                fr2113, fq30, null));
 
         ______TS("test if visible to giver's team members");
 
@@ -749,6 +896,45 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 fr191, fq19, instructor6));
         assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
                 fr232, fq23, instructor6));
+
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
+                fr2111, fq30, instructor1));
+        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
+                fr2111, fq30, instructor2));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, studentsEmailEmpty,
+                fr2111, fq30, instructor3));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
+                fr2111, fq30, instructor4));
+        assertTrue(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
+                fr2111, fq30, instructor5));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
+                fr2111, fq30, instructor6));
+
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
+                fr2112, fq30, instructor1));
+        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
+                fr2112, fq30, instructor2));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, studentsEmailEmpty,
+                fr2112, fq30, instructor3));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
+                fr2112, fq30, instructor4));
+        assertTrue(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
+                fr2112, fq30, instructor5));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
+                fr2112, fq30, instructor6));
+
+        assertTrue(frLogic.isResponseVisibleForUser(instructor1.getEmail(), true, null, studentsEmailEmpty,
+                fr2113, fq30, instructor1));
+        assertTrue(frLogic.isResponseVisibleForUser(instructor2.getEmail(), true, null, studentsEmailEmpty,
+                fr2113, fq30, instructor2));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor3.getEmail(), true, null, studentsEmailEmpty,
+                fr2113, fq30, instructor3));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor4.getEmail(), true, null, studentsEmailEmpty,
+                fr2113, fq30, instructor4));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor5.getEmail(), true, null, studentsEmailEmpty,
+                fr2113, fq30, instructor5));
+        assertFalse(frLogic.isResponseVisibleForUser(instructor6.getEmail(), true, null, studentsEmailEmpty,
+                fr2113, fq30, instructor6));
     }
 
     @Test

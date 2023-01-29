@@ -44,7 +44,14 @@
 <div class="row mobile-invisible" *ngIf="feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
-      <i class="fas fa-exclamation-circle"></i> Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session.
+      <i class="fas fa-exclamation-circle"></i> Notes:
+      <ul>
+        <li>
+          You can use the <b>Submit Response for Question _</b> buttons to submit one-response-at-a-time.
+          <br>Alternatively, you can submit all responses in one go using the <b>Submit Responses for All Questions</b> button at the bottom of this page.
+        </li>
+        <li>You may edit your submission any number of times before the closing time of this session.</li>
+      </ul>
     </div>
   </div>
 </div>
@@ -91,6 +98,8 @@
                                  [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
                                  [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
                                  (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                                 [isQuestionCountOne]="isQuestionCountOne"
+                                 [(isSubmitAllClicked)]="isSubmitAllClicked"
     ></tm-question-submission-form>
 
     <div class="row" *ngIf="questionsNeedingSubmission.length === 0">

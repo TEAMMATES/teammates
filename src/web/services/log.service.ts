@@ -57,15 +57,15 @@ export class LogService {
     };
 
     if (queryParams.studentEmail) {
-      paramMap.studentemail = queryParams.studentEmail;
+      paramMap['studentemail'] = queryParams.studentEmail;
     }
 
     if (queryParams.sessionName) {
-      paramMap.fsname = queryParams.sessionName;
+      paramMap['fsname'] = queryParams.sessionName;
     }
 
     if (queryParams.logType) {
-      paramMap.fsltype = queryParams.logType;
+      paramMap['fsltype'] = queryParams.logType;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
@@ -78,71 +78,71 @@ export class LogService {
     };
 
     if (queryParams.order) {
-      paramMap.order = queryParams.order;
+      paramMap['order'] = queryParams.order;
     }
 
     if (queryParams.severity) {
-      paramMap.severity = queryParams.severity;
+      paramMap['severity'] = queryParams.severity;
     }
 
     if (queryParams.minSeverity) {
-      paramMap.minseverity = queryParams.minSeverity;
+      paramMap['minseverity'] = queryParams.minSeverity;
     }
 
     if (queryParams.logEvent) {
-      paramMap.logevent = queryParams.logEvent;
+      paramMap['logevent'] = queryParams.logEvent;
     }
 
     if (queryParams.actionClass) {
-      paramMap.actionclass = queryParams.actionClass;
+      paramMap['actionclass'] = queryParams.actionClass;
     }
 
     if (queryParams.traceId) {
-      paramMap.traceid = queryParams.traceId;
+      paramMap['traceid'] = queryParams.traceId;
     }
 
     if (queryParams.userInfoParams) {
       if (queryParams.userInfoParams.googleId) {
-        paramMap.googleid = queryParams.userInfoParams.googleId;
+        paramMap['googleid'] = queryParams.userInfoParams.googleId;
       }
 
       if (queryParams.userInfoParams.regkey) {
-        paramMap.key = queryParams.userInfoParams.regkey;
+        paramMap['key'] = queryParams.userInfoParams.regkey;
       }
 
       if (queryParams.userInfoParams.email) {
-        paramMap.email = queryParams.userInfoParams.email;
+        paramMap['email'] = queryParams.userInfoParams.email;
       }
     }
 
     if (queryParams.sourceLocation) {
       if (queryParams.sourceLocation.file) {
-        paramMap.sourcelocationfile = queryParams.sourceLocation.file;
+        paramMap['sourcelocationfile'] = queryParams.sourceLocation.file;
       }
 
       if (queryParams.sourceLocation.function) {
-        paramMap.sourcelocationfunction = queryParams.sourceLocation.function;
+        paramMap['sourcelocationfunction'] = queryParams.sourceLocation.function;
       }
     }
 
     if (queryParams.exceptionClass) {
-      paramMap.exceptionclass = queryParams.exceptionClass;
+      paramMap['exceptionclass'] = queryParams.exceptionClass;
     }
 
     if (queryParams.latency) {
-      paramMap.latency = queryParams.latency;
+      paramMap['latency'] = queryParams.latency;
     }
 
     if (queryParams.status) {
-      paramMap.status = queryParams.status;
+      paramMap['status'] = queryParams.status;
     }
 
     if (queryParams.version) {
-      paramMap.version = queryParams.version;
+      paramMap['version'] = queryParams.version;
     }
 
     if (queryParams.extraFilters) {
-      paramMap.extrafilters = queryParams.extraFilters;
+      paramMap['extrafilters'] = queryParams.extraFilters;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);

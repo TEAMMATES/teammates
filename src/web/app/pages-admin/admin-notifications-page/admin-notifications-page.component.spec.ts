@@ -9,6 +9,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
+import { getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
@@ -20,10 +21,10 @@ const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
   shown: false,
 
-  startTime: { hour: 0, minute: 0 },
-  startDate: { year: 0, month: 0, day: 0 },
-  endTime: { hour: 0, minute: 0 },
-  endDate: { year: 0, month: 0, day: 0 },
+  startTime: getDefaultTimeFormat(),
+  startDate: getDefaultDateFormat(),
+  endTime: getDefaultTimeFormat(),
+  endDate: getDefaultDateFormat(),
 
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
@@ -200,11 +201,11 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should display error message when failed to create notification', () => {
     component.notificationEditFormModel = testNotificationEditModel;
-    jest.spyOn(notificationService, 'createNotification').mockReturnValue(throwError({
+    jest.spyOn(notificationService, 'createNotification').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -218,11 +219,11 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should display error message when notification failed to load', () => {
     component.hasNotificationLoadingFailed = false;
-    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(throwError({
+    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -230,7 +231,7 @@ describe('AdminNotificationsPageComponent', () => {
 
     component.loadNotifications();
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
     expect(component.hasNotificationLoadingFailed).toBeTruthy();
   });
 

@@ -446,6 +446,19 @@ public final class InstructorPrivileges {
         return copy;
     }
 
+    /**
+     * Returns the list of sections the instructor has the specified privilege name.
+     */
+    public Map<String, InstructorPermissionSet> getSectionsWithPrivilege(String privilegeName) {
+        Map<String, InstructorPermissionSet> copy = new LinkedHashMap<>();
+        sectionLevel.forEach((key, value) -> {
+            if (isAllowedInSectionLevel(key, privilegeName)) {
+                copy.put(key, value.getCopy());
+            }
+        });
+        return copy;
+    }
+
     @Override
     public boolean equals(Object another) {
         if (!(another instanceof InstructorPrivileges)) {

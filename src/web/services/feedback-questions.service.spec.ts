@@ -39,8 +39,8 @@ describe('FeedbackQuestionsService', () => {
     };
 
     service.getFeedbackQuestions({
-      courseId: paramMap.courseid,
-      feedbackSessionName: paramMap.fsname,
+      courseId: paramMap['courseid'],
+      feedbackSessionName: paramMap['fsname'],
       intent: Intent.FULL_DETAIL,
     });
 
