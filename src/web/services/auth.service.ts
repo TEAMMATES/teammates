@@ -21,7 +21,7 @@ export class AuthService {
   private afAuth?: AngularFireAuth;
 
   constructor(private httpRequestService: HttpRequestService, private injector: Injector) {
-    if (environment.enableFirebaseAuth) {
+    if (environment.firebaseConfig?.projectId) {
       this.afAuth = <AngularFireAuth> this.injector.get(AngularFireAuth);
     }
   }

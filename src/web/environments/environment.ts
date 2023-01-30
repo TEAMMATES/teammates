@@ -13,15 +13,6 @@ export const environment: any = {
   backendUrl: 'http://localhost:8080',
   frontendUrl: 'http://localhost:4200',
   withCredentials: true,
-  firebaseConfig: {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
-    measurementId: '',
-  },
 };
 
 /*

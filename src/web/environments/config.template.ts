@@ -30,6 +30,6 @@ export const config: any = {
    */
   maintenance: false,
 
-  enableFirebaseAuth: false,
+  firebaseConfig: {},
 
 };
