@@ -583,7 +583,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           model.isLoading = false;
           model.isLoaded = true;
         } else {
-          console.log('loading feedback responses');
           this.loadFeedbackResponses(model);
         }
       },
@@ -987,7 +986,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   groupQuestionsByRecipient(): void {
     this.areQuestionsGroupedByRecipient = !this.areQuestionsGroupedByRecipient;
-    console.log(this.areQuestionsGroupedByRecipient);
     if (!this.hasLoadedAllRecipients) {
       // hold the groupable questions loaded synchronously below
       let affectedQuestions: QuestionSubmissionFormModel[] = [];
@@ -1021,10 +1019,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           .pipe(finalize(() => {
             this.ungroupableQuestionsSorted = Array.from(this.ungroupableQuestions).sort();
             this.hasLoadedAllRecipients = true;
-            console.log(this.recipientQuestionMap);
           }))
           .subscribe({next: (recipients: FeedbackQuestionRecipients[]) => {
-                  console.log(recipients);
                   for (let i = 0; i < recipients.length; i++) {
                     for (let j = 0; j < recipients[i].recipients.length; j++) {
                       let recipient: FeedbackQuestionRecipient = recipients[i].recipients[j];
@@ -1032,7 +1028,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     }
                   }
                 },
-                error: (msg: ErrorMessageOutput) => {console.log(msg)}
+                error: (_: ErrorMessageOutput) => {
+                  this.statusMessageService.showWarningToast('Failed to build groupable questions');
+                }
               }
           );
     }
