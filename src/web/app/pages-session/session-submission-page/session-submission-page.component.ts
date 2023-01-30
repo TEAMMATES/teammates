@@ -115,7 +115,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   areQuestionsGroupedByRecipient: boolean = false;
   hasLoadedAllRecipients: boolean = false;
+  // Holds groupable questions
   recipientQuestionMap: Map<string, Set<any>> = new Map<string, Set<any>>();
+  ungroupableQuestions: Set<number> = new Set();
+  ungroupableQuestionsSorted: number[] = [];
 
   private backendUrl: string = environment.backendUrl;
 
@@ -544,11 +547,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             recipientSection: recipient.section,
             recipientTeam: recipient.team,
           });
-          if (!this.hasLoadedAllRecipients
-              && model.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
+          if (!this.hasLoadedAllRecipients) {
+            if (model.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
               && model.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS
               && model.questionType !== FeedbackQuestionType.CONTRIB) {
-            this.addQuestionForRecipient(recipient.identifier, model.questionNumber);
+                this.addQuestionForRecipient(recipient.identifier, model.questionNumber);
+              } else {
+                this.ungroupableQuestions.add(model.questionNumber);
+              }
           }
         });
 
@@ -987,12 +993,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       let affectedQuestions: QuestionSubmissionFormModel[] = [];
 
       this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
-        if (!model.isLoading && !model.isLoaded
-            && this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT
-            && model.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS
-            && model.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
-            && model.questionType !== FeedbackQuestionType.CONTRIB) {
-          affectedQuestions.push(model);
+        if (!model.isLoading && !model.isLoaded) {
+          if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT
+          && model.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS
+          && model.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
+          && model.questionType !== FeedbackQuestionType.CONTRIB) {
+            affectedQuestions.push(model);
+          } else {
+            this.ungroupableQuestions.add(model.questionNumber);
+          }
         }
       });
 
@@ -1010,6 +1019,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       });
       forkJoin(recipientsObservable)
           .pipe(finalize(() => {
+            this.ungroupableQuestionsSorted = Array.from(this.ungroupableQuestions).sort();
             this.hasLoadedAllRecipients = true;
             console.log(this.recipientQuestionMap);
           }))

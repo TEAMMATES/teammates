@@ -134,6 +134,21 @@
           </ng-container>
         </div>
       </ng-container>
+      <h1 class="my-3">Ungrouped Questions</h1>
+      <ng-container *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn">
+        <ng-container *ngIf="ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)">
+          <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                      inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
+                                      [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                                      [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                      [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
+                                      (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                                      [isQuestionCountOne]="isQuestionCountOne"
+                                      [(isSubmitAllClicked)]="isSubmitAllClicked"
+          ></tm-question-submission-form>
+        </ng-container>
+        <!-- TODO: Add submit all responses button -->
+      </ng-container>
     </ng-container>
     <ng-container *ngIf="!areQuestionsGroupedByRecipient">
       <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
