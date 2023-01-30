@@ -112,22 +112,27 @@
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
   <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
     <ng-container *ngIf="areQuestionsGroupedByRecipient">
+      <h1 class="my-3">Grouped Questions</h1>
       <ng-container *ngFor="let entry of recipientQuestionMap | keyvalue">
-        <ng-container *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn">
-          <ng-container *ngIf="entry.value.has(questionSubmissionForm.questionNumber)">
-            <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
-                                         inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
-                                         [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
-                                         [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                         [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
-                                         (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-                                         [isQuestionCountOne]="isQuestionCountOne"
-                                         [(isSubmitAllClicked)]="isSubmitAllClicked"
-                                         [areQuestionsGroupedByRecipient]="areQuestionsGroupedByRecipient"
-                                         [recipientId]="entry.key"
-            ></tm-question-submission-form>
+        <div class="card px-4 ">
+          <h2 class="my-4">{{ entry.key }}</h2>
+          <ng-container *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn">
+            <ng-container *ngIf="entry.value.has(questionSubmissionForm.questionNumber)">
+              <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                          inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
+                                          [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                                          [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                          [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
+                                          (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                                          [isQuestionCountOne]="isQuestionCountOne"
+                                          [(isSubmitAllClicked)]="isSubmitAllClicked"
+                                          [areQuestionsGroupedByRecipient]="areQuestionsGroupedByRecipient"
+                                          [recipientId]="entry.key"
+              ></tm-question-submission-form>
+            </ng-container>
+            <!-- TODO: Add submit all responses button -->
           </ng-container>
-        </ng-container>
+        </div>
       </ng-container>
     </ng-container>
     <ng-container *ngIf="!areQuestionsGroupedByRecipient">
