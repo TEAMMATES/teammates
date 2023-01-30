@@ -15,15 +15,15 @@ import teammates.common.exception.AuthException;
 import teammates.common.util.Logger;
 
 /**
- * Provides Firebase Admin SDK authentication services.
+ * Provides Firebase Admin Auth authentication services.
  * <p>The FirebaseApp instance is initialized here.</p>
- * @see <a href="https://firebase.google.com/docs/reference/admin">Firebase Admin SDK</a>
+ * @see <a href="https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/auth/package-summary">Firebase Admin Auth</a>
  */
-public class FirebaseService implements AuthService {
+public class FirebaseAuthService implements AuthService {
 
     private static final Logger log = Logger.getLogger();
 
-    public FirebaseService() throws AuthException {
+    public FirebaseAuthService() throws AuthException {
         try {
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.getApplicationDefault())

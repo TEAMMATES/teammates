@@ -4,7 +4,7 @@ import teammates.common.exception.AuthException;
 import teammates.common.util.Config;
 import teammates.logic.external.AuthService;
 import teammates.logic.external.EmptyAuthService;
-import teammates.logic.external.FirebaseService;
+import teammates.logic.external.FirebaseAuthService;
 
 /**
  * Provides authentication-related services.
@@ -20,7 +20,7 @@ public class AuthProxy {
             fs = new EmptyAuthService();
         } else {
             try {
-                fs = new FirebaseService();
+                fs = new FirebaseAuthService();
             } catch (AuthException e) {
                 fs = new EmptyAuthService();
             }
