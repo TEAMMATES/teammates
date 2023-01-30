@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.exception.AuthException;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InstructorUpdateException;
@@ -30,10 +29,6 @@ public class InvalidOperationException extends Exception {
     }
 
     public InvalidOperationException(String message, EntityAlreadyExistsException cause) {
-        super(message, cause);
-    }
-
-    public InvalidOperationException(String message, AuthException cause) {
         super(message, cause);
     }
 

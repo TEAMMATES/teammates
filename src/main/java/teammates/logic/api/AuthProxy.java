@@ -44,6 +44,7 @@ public class AuthProxy {
 
     /**
      * Deletes user with the specified {@code userEmail}.
+     * <p>Fails silently if no such user</p>
      * @throws AuthException if error occurs while deleting the user.
      */
     public void deleteUser(String userEmail) throws AuthException {

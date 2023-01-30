@@ -5,19 +5,8 @@ package teammates.common.exception;
  */
 public class AuthException extends Exception {
 
-    private final String errorCode;
-
     public AuthException(Throwable cause) {
-        this(cause, "");
-    }
-
-    public AuthException(Throwable cause, String errorCode) {
         super(cause);
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorCode() {
-        return errorCode;
     }
 
 }

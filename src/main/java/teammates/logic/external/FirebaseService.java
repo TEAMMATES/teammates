@@ -6,6 +6,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.ActionCodeSettings;
+import com.google.firebase.auth.AuthErrorCode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
@@ -56,7 +57,9 @@ public class FirebaseService implements AuthService {
         } catch (IllegalArgumentException e) {
             throw new AuthException(e);
         } catch (FirebaseAuthException e) {
-            throw new AuthException(e, e.getAuthErrorCode().toString());
+            if (!AuthErrorCode.USER_NOT_FOUND.toString().equals(e.getErrorCode().toString())) {
+                throw new AuthException(e);
+            }
         }
     }
 
