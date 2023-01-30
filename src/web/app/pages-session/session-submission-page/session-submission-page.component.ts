@@ -115,7 +115,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   areQuestionsGroupedByRecipient: boolean = false;
   hasLoadedAllRecipients: boolean = false;
-  recipientQuestionMap: Map<string, Set<any>> = new Map<string, Set<any>>()
+  recipientQuestionMap: Map<string, Set<any>> = new Map<string, Set<any>>();
 
   private backendUrl: string = environment.backendUrl;
 
@@ -983,7 +983,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.areQuestionsGroupedByRecipient = !this.areQuestionsGroupedByRecipient;
     console.log(this.areQuestionsGroupedByRecipient);
     if (!this.hasLoadedAllRecipients) {
+      // hold the groupable questions loaded synchronously below
       let affectedQuestions: QuestionSubmissionFormModel[] = [];
+
       this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
         if (!model.isLoading && !model.isLoaded
             && this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT
@@ -1024,7 +1026,5 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               }
           );
     }
-
-    console.log('finish!!!!!!!!!!');
   }
 }
