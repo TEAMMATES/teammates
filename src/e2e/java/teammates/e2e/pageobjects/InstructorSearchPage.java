@@ -92,15 +92,14 @@ public class InstructorSearchPage extends AppPage {
     }
 
     private String[][] getExpectedStudentValues(StudentAttributes[] students) {
-        String[][] expected = new String[students.length][6];
+        String[][] expected = new String[students.length][5];
         for (int i = 0; i < students.length; i++) {
             StudentAttributes student = students[i];
-            expected[i][0] = "View Photo";
-            expected[i][1] = student.getSection();
-            expected[i][2] = student.getTeam();
-            expected[i][3] = student.getName();
-            expected[i][4] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
-            expected[i][5] = student.getEmail();
+            expected[i][0] = student.getSection();
+            expected[i][1] = student.getTeam();
+            expected[i][2] = student.getName();
+            expected[i][3] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
+            expected[i][4] = student.getEmail();
         }
         return expected;
     }
@@ -124,7 +123,7 @@ public class InstructorSearchPage extends AppPage {
         List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));
         for (WebElement studentRow : studentRows) {
             List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));
-            if (studentCells.get(5).getText().equals(studentEmail)) {
+            if (studentCells.get(4).getText().equals(studentEmail)) {
                 return studentRow;
             }
         }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Student } from '../../../../types/api-output';
+import { Student } from '../../../types/api-output';
 
 /**
  * A simple table to show course-related information about a student

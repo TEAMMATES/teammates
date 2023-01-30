@@ -28,6 +28,8 @@ import teammates.logic.api.UserProvision;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * An "action" to be performed by the system.
  * If the requesting user is allowed to perform the requested action,
@@ -41,6 +43,7 @@ public abstract class Action {
     EmailGenerator emailGenerator = EmailGenerator.inst();
     TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
+    @SuppressFBWarnings("URF_UNREAD_FIELD")
     FileStorage fileStorage = FileStorage.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
     LogsProcessor logsProcessor = LogsProcessor.inst();

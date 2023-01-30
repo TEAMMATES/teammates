@@ -10,7 +10,6 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import {
     GrqRgqViewResponsesModule,
 } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
-import { StudentProfileModule } from '../student-profile/student-profile.module';
 import { InstructorStudentRecordsPageComponent } from './instructor-student-records-page.component';
 
 const routes: Routes = [
@@ -32,7 +31,6 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    StudentProfileModule,
     NgbCollapseModule,
     GrqRgqViewResponsesModule,
     RouterModule.forChild(routes),

@@ -24,7 +24,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
@@ -95,11 +94,6 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
         return logic.getAccount(account.getGoogleId());
-    }
-
-    @Override
-    protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
-        return logic.getStudentProfile(studentProfileAttributes.getGoogleId());
     }
 
     @Override
