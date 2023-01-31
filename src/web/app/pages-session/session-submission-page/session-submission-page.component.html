@@ -114,7 +114,7 @@
     <ng-container *ngIf="areQuestionsGroupedByRecipient">
       <h1 class="my-3">Grouped Questions</h1>
       <ng-container *ngFor="let entry of recipientQuestionMap | keyvalue">
-        <div class="card px-4 ">
+        <div class="card px-4">
           <h2 class="my-4">{{ entry.key }}</h2>
           <ng-container *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn">
             <ng-container *ngIf="entry.value.has(questionSubmissionForm.questionNumber)">
@@ -130,8 +130,17 @@
                                           [recipientId]="entry.key"
               ></tm-question-submission-form>
             </ng-container>
-            <!-- TODO: Add submit all responses button -->
           </ng-container>
+          <div class="row mb-4">
+            <div class="col-12 text-center">
+              <!-- TODO: Change line 142 to recipient name -->
+              <button id="btn-submit" type="submit" class="btn btn-success"
+                ngbTooltip="You can save your responses at any time and come back later to continue."
+                (click)="saveFeedbackResponses(questionSubmissionForms)"
+                [disabled]="isSavingResponses || isSubmissionFormsDisabled"><tm-ajax-loading
+                  *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for {{ entry.key }}</button>
+            </div>
+          </div>
         </div>
       </ng-container>
       <h1 class="my-3">Ungrouped Questions</h1>
