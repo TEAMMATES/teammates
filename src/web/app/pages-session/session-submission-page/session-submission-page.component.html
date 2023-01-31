@@ -56,8 +56,8 @@
   </div>
 </div>
 
-<div class="d-flex flex-row" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
-  <div class="card card-plain w-75 mr-2">
+<div class="row" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
+  <div class="card card-plain col-md-8 col-sm-12">
     <div class="card-body">
       <div class="row text-center">
         <label class="col-md-2 text-md-right">Course ID:</label>
@@ -90,7 +90,7 @@
     </div>
   </div>
   <!-- TODO: Should we extract into another component? -->
-  <div class="card card-plain w-25 ml-2">
+  <div class="card card-plain col-md-4 col-sm-12">
     <div class="card-body">
       Customise the questions view of your session
       <div ngbDropdown class="mt-2">
