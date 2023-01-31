@@ -56,8 +56,8 @@
   </div>
 </div>
 
-<div class="row" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
-  <div class="card card-plain col-md-8 col-sm-12">
+<div class="d-flex flex-row contain-left-right" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
+  <div class="card card-plain left">
     <div class="card-body">
       <div class="row text-center">
         <label class="col-md-2 text-md-right">Course ID:</label>
@@ -90,9 +90,9 @@
     </div>
   </div>
   <!-- TODO: Should we extract into another component? -->
-  <div class="card card-plain col-md-4 col-sm-12">
-    <div class="card-body">
-      Customise the questions view of your session
+  <div class="card card-plain right">
+    <div class="card-body text-center">
+      <div class="text-md-left">Customise the questions view of your session</div>
       <div ngbDropdown class="mt-2">
         <button id="btn-new-question" class="btn btn-primary" ngbDropdownToggle>Change View</button>
         <div id="new-question-dropdown" ngbDropdownMenu>
