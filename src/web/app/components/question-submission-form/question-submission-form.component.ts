@@ -3,8 +3,17 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
+  FeedbackConstantSumResponseDetails,
+  FeedbackMcqResponseDetails,
+  FeedbackMsqResponseDetails,
+  FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackResponseDetails, FeedbackTextQuestionDetails,
+  FeedbackQuestionType,
+  FeedbackRankOptionsResponseDetails,
+  FeedbackResponseDetails,
+  FeedbackRubricResponseDetails,
+  FeedbackTextQuestionDetails,
+  FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
@@ -18,6 +27,7 @@ import {
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from './question-submission-form-model';
+import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from "../../../types/feedback-response-details";
 
 /**
  * The question submission form for a question.
@@ -417,5 +427,61 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   refreshCssForDropdownMCQ(add: boolean): void {
     this.isMCQDropDownEnabled = add;
+  }
+
+  /**
+   * Checks whether the response of this question has been saved for this recipient.
+   */
+  isSavedForRecipient(recipientId: string): boolean {
+    switch (this.model.questionType) {
+      case FeedbackQuestionType.TEXT:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                && (form.responseDetails as FeedbackTextResponseDetails).answer !== ""),
+            false);
+      case FeedbackQuestionType.MCQ:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                && (form.responseDetails as FeedbackMcqResponseDetails).answer !== ""),
+            false);
+      case FeedbackQuestionType.MSQ:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                && (form.responseDetails as FeedbackMsqResponseDetails).answers.length !== 0),
+            false);
+      case FeedbackQuestionType.NUMSCALE:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+               result || (form.recipientIdentifier === recipientId
+                  && (form.responseDetails as FeedbackNumericalScaleResponseDetails).answer !== NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED),
+            false);
+      case FeedbackQuestionType.CONSTSUM_OPTIONS:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                && (form.responseDetails as FeedbackConstantSumResponseDetails).answers.length !== 0),
+            false);
+      case FeedbackQuestionType.RUBRIC:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                && (form.responseDetails as FeedbackRubricResponseDetails).answer.length !== 0),
+            false);
+      case FeedbackQuestionType.RANK_OPTIONS:
+        return this.model.recipientSubmissionForms.reduce(
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+                result || (form.recipientIdentifier === recipientId
+                && (form.responseDetails as FeedbackRankOptionsResponseDetails).answers.length !== 0),
+            false);
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+      case FeedbackQuestionType.CONTRIB:
+      case FeedbackQuestionType.RANK_RECIPIENTS:
+        return this.isSaved;
+      default:
+        return false;
+    }
   }
 }

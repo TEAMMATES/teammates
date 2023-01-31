@@ -1,7 +1,7 @@
 <div id="question-submission-form" class="card">
   <div class="card-header bg-primary text-white question-header"
-    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'">
-    <i class="fas fa-check mr-2" *ngIf="isSaved"></i>
+    [ngClass]="areQuestionsGroupedByRecipient ? isSavedForRecipient(recipientId) ? 'bg-success' : 'bg-primary' : isSaved ? 'bg-success' : 'bg-primary'">
+    <i class="fas fa-check mr-2" *ngIf="areQuestionsGroupedByRecipient ? isSavedForRecipient(recipientId) : isSaved"></i>
     <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
@@ -58,12 +58,12 @@
     <div class="row" >
       <div class="evaluee-col col-12">
         <div class="row" *ngFor="let recipientSubmissionFormModel of model.recipientSubmissionForms; let i = index; trackBy: trackRecipientSubmissionFormByFn">
+          <!-- When questions are grouped by recipients, only show the question edit answer form for that particular recipients-->
           <ng-container *ngIf="!areQuestionsGroupedByRecipient || (areQuestionsGroupedByRecipient && recipientId === recipientSubmissionFormModel.recipientIdentifier)">
             <div class="col-md-5 col-xs-12 margin-top-20px" *ngIf="model.recipientType !== FeedbackParticipantType.SELF && model.recipientType !== FeedbackParticipantType.NONE">
               <div id="recipient-name-{{ i }}" *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
                 <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
               </div>
-              asdfasdf
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
                 <select id="recipient-dropdown" class="form-control font-weight-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
                         (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
