@@ -1,10 +1,6 @@
 package teammates.logic.external;
 
-import java.io.IOException;
-
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthErrorCode;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,12 +21,9 @@ public class FirebaseAuthService implements AuthService {
 
     public FirebaseAuthService() throws AuthException {
         try {
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.getApplicationDefault())
-                    .build();
-            FirebaseApp.initializeApp(options);
+            FirebaseApp.initializeApp();
             log.info("Initialized FirebaseApp instance of name " + FirebaseApp.getInstance().getName());
-        } catch (IOException | IllegalStateException e) {
+        } catch (IllegalStateException | IllegalArgumentException e) {
             log.severe("Cannot initialize FirebaseApp: " + e.getMessage());
             throw new AuthException(e);
         }
