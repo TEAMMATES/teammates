@@ -60,7 +60,7 @@ describe('LoginPageComponent', () => {
         });
     fixture.detectChanges();
     await component.handleEmailRedirection();
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should show error toast if login with email is unsuccessful', async () => {
@@ -73,7 +73,7 @@ describe('LoginPageComponent', () => {
         });
     fixture.detectChanges();
     await component.handleEmailRedirection();
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should show error toast if login with Google is unsuccessful', async () => {
@@ -84,7 +84,7 @@ describe('LoginPageComponent', () => {
         });
     fixture.detectChanges();
     await component.handleGoogleRedirection();
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should show error toast if cannot redirect to Google login page', async () => {
@@ -95,7 +95,7 @@ describe('LoginPageComponent', () => {
         });
     fixture.detectChanges();
     await component.logInWithGoogle();
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should show error toast if login form is invalid', () => {
@@ -109,15 +109,15 @@ describe('LoginPageComponent', () => {
         });
     fixture.detectChanges();
     component.logInWithEmail(component.formLogin);
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should show error toast if cannot send login email', () => {
-    jest.spyOn(authService, 'sendLoginEmail').mockReturnValue(throwError({
+    jest.spyOn(authService, 'sendLoginEmail').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
     component.captchaResponse = 'captchaResponse';
     component.formLogin.setValue({
       email: 'abc@gmail.com',
@@ -129,6 +129,6 @@ describe('LoginPageComponent', () => {
         });
     fixture.detectChanges();
     component.logInWithEmail(component.formLogin);
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 });
