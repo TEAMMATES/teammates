@@ -1021,17 +1021,17 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.hasLoadedAllRecipients = true;
           }))
           .subscribe({next: (recipients: FeedbackQuestionRecipients[]) => {
-                  for (let i = 0; i < recipients.length; i++) {
-                    for (let j = 0; j < recipients[i].recipients.length; j++) {
-                      let recipient: FeedbackQuestionRecipient = recipients[i].recipients[j];
-                      this.addQuestionForRecipient(recipient.identifier, affectedQuestions[i].questionNumber);
-                    }
+                for (let i = 0; i < recipients.length; i++) {
+                  for (let j = 0; j < recipients[i].recipients.length; j++) {
+                    let recipient: FeedbackQuestionRecipient = recipients[i].recipients[j];
+                    this.addQuestionForRecipient(recipient.identifier, affectedQuestions[i].questionNumber);
                   }
-                },
-                error: (_: ErrorMessageOutput) => {
-                  this.statusMessageService.showWarningToast('Failed to build groupable questions');
                 }
+              },
+              error: (_: ErrorMessageOutput) => {
+                this.statusMessageService.showWarningToast('Failed to build groupable questions');
               }
+            }
           );
     }
   }
