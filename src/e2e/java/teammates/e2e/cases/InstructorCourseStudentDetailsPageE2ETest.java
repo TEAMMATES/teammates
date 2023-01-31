@@ -3,7 +3,6 @@ package teammates.e2e.cases;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
@@ -22,22 +21,21 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        ______TS("verify loaded details - student with profile");
+        ______TS("verify loaded details");
         StudentAttributes student = testData.students.get("ICSDet.jose.tmms");
-        StudentProfileAttributes studentProfile = testData.profiles.get("ICSDet.jose.tmms");
         AppUrl viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
         InstructorCourseStudentDetailsViewPage viewPage =
                 loginToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class,
                         testData.instructors.get("ICSDet.instr").getGoogleId());
 
-        viewPage.verifyStudentDetails(studentProfile, student);
+        viewPage.verifyStudentDetails(student);
 
-        ______TS("verify loaded details - student without profile");
+        ______TS("verify loaded details - another student");
         student = testData.students.get("ICSDet.benny.c");
         viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
         viewPage = getNewPageInstance(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
 
-        viewPage.verifyStudentDetails(null, student);
+        viewPage.verifyStudentDetails(student);
     }
 
     private AppUrl getStudentDetailsViewPageUrl(String studentEmail) {

@@ -404,9 +404,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 class="thead-gray"
               >
                 <tr>
-                  <th>
-                    Photo
-                  </th>
                   <th
                     class="sortable-header"
                   >
@@ -480,16 +477,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <tr
                   s=""
                 >
-                  <td>
-                    <tm-view-photo-popover>
-                      <a
-                        queryparamshandling="preserve"
-                        role="button"
-                      >
-                         View Photo 
-                      </a>
-                    </tm-view-photo-popover>
-                  </td>
                   <td>
                     Tutorial Group 1
                   </td>

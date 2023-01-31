@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttribute
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
 /**
  * Holds a bundle of *Attributes data transfer objects.
@@ -34,7 +33,6 @@ public class DataBundle {
     public Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
     public Map<String, FeedbackResponseAttributes> feedbackResponses = new LinkedHashMap<>();
     public Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new LinkedHashMap<>();
-    public Map<String, StudentProfileAttributes> profiles = new LinkedHashMap<>();
     public Map<String, NotificationAttributes> notifications = new LinkedHashMap<>();
     public Map<String, FeedbackSessionLogEntryAttributes> feedbackSessionLogEntries = new LinkedHashMap<>();
 }
