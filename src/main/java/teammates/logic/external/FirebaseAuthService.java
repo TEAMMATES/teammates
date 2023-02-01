@@ -9,6 +9,7 @@ import com.google.firebase.auth.UserRecord;
 
 import teammates.common.exception.AuthException;
 import teammates.common.util.Logger;
+import teammates.common.util.LoginLinkOptions;
 
 /**
  * Provides Firebase Admin Auth authentication services.
@@ -30,13 +31,14 @@ public class FirebaseAuthService implements AuthService {
     }
 
     @Override
-    public String generateLoginLink(String userEmail, String continueUrl) {
+    public String generateLoginLink(LoginLinkOptions loginLinkOptions) {
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.builder()
-                .setUrl(continueUrl)
+                .setUrl(loginLinkOptions.getContinueUrl())
                 .setHandleCodeInApp(true)
                 .build();
         try {
-            return FirebaseAuth.getInstance().generateSignInWithEmailLink(userEmail, actionCodeSettings);
+            return FirebaseAuth.getInstance().generateSignInWithEmailLink(loginLinkOptions.getUserEmail(),
+                    actionCodeSettings);
         } catch (IllegalArgumentException | FirebaseAuthException e) {
             return null;
         }

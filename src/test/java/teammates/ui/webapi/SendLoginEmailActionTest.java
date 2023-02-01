@@ -41,12 +41,11 @@ public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailActio
     }
 
     @Test
-    protected void testExecute_validEmailNonNullContinueUrl() {
-        ______TS("Typical case: valid email address and non-null continue URL");
+    protected void testExecute_validEmail() {
+        ______TS("Typical case: valid email address");
 
         String[] loginParams = new String[] {
                 Const.ParamsNames.USER_EMAIL, "test@example.com",
-                Const.ParamsNames.CONTINUE_URL, "http://localhost:4200/continue/url",
         };
 
         SendLoginEmailAction a = getAction(loginParams);

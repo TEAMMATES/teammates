@@ -5,7 +5,9 @@ import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.LoginLinkOptions;
 import teammates.common.util.StringHelper;
+import teammates.logic.external.FirebaseAuthService;
 import teammates.ui.output.SendLoginEmailResponseData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -37,9 +39,13 @@ class SendLoginEmailAction extends Action {
                     + "failed. Please try again."));
         }
 
-        String continueUrl = getNonNullRequestParamValue(Const.ParamsNames.CONTINUE_URL);
-
-        String loginLink = authProxy.generateLoginLink(userEmail, continueUrl);
+        String continueUrl = getRequestParamValue(Const.ParamsNames.CONTINUE_URL);
+        LoginLinkOptions.Builder loginLinkOptionsBuilder = LoginLinkOptions.builder();
+        if (authProxy.getService() instanceof FirebaseAuthService) {
+            loginLinkOptionsBuilder = loginLinkOptionsBuilder.withUserEmail(userEmail).withContinueUrl(continueUrl);
+        }
+        LoginLinkOptions loginLinkOptions = loginLinkOptionsBuilder.build();
+        String loginLink = authProxy.generateLoginLink(loginLinkOptions);
         if (loginLink == null) {
             return new JsonResult(new SendLoginEmailResponseData(false, "An error occurred. "
                     + "The email could not be generated."));
