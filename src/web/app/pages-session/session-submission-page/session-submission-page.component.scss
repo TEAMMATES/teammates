@@ -1,5 +1,5 @@
 .card-plain {
-  background-color: #EAEFF5;
+  background-color: #eaeff5;
   background-image: none;
   border: 0;
   box-shadow: 0 0 0 0;
@@ -15,21 +15,20 @@ label {
   }
 }
 
-
 .left {
-  width: 75%;
+  width: 80%;
   margin-right: 2px;
 }
 
 .right {
-  width: 25%;
+  width: 20%;
   margin-left: 2px;
 }
 
-@media screen and (max-width:768px){
-  .contain-left-right{
-    display:flex;
-    flex-wrap:wrap;
+@media screen and (max-width: 768px) {
+  .contain-left-right {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
   }
 
