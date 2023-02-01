@@ -1,7 +1,10 @@
 <div id="question-submission-form" class="card">
   <div class="card-header bg-primary text-white question-header"
-    [ngClass]="areQuestionsGroupedByRecipient ? isSavedForRecipient(recipientId) ? 'bg-success' : 'bg-primary' : isSaved ? 'bg-success' : 'bg-primary'">
-    <i class="fas fa-check mr-2" *ngIf="areQuestionsGroupedByRecipient ? isSavedForRecipient(recipientId) : isSaved"></i>
+    [ngClass]="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ?
+        isSavedForRecipient(recipientId) ?
+            'bg-success' : 'bg-primary' :
+        isSaved ? 'bg-success' : 'bg-primary'">
+    <i class="fas fa-check mr-2" *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ? isSavedForRecipient(recipientId) : isSaved"></i>
     <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
@@ -59,7 +62,7 @@
       <div class="evaluee-col col-12">
         <div class="row" *ngFor="let recipientSubmissionFormModel of model.recipientSubmissionForms; let i = index; trackBy: trackRecipientSubmissionFormByFn">
           <!-- When questions are grouped by recipients, only show the question edit answer form for that particular recipients-->
-          <ng-container *ngIf="!areQuestionsGroupedByRecipient || (areQuestionsGroupedByRecipient && recipientId === recipientSubmissionFormModel.recipientIdentifier)">
+          <ng-container *ngIf="currentSelectedSessionView === allSessionViews.DEFAULT || (currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS && recipientId === recipientSubmissionFormModel.recipientIdentifier)">
             <div class="col-md-5 col-xs-12 margin-top-20px" *ngIf="model.recipientType !== FeedbackParticipantType.SELF && model.recipientType !== FeedbackParticipantType.NONE">
               <div id="recipient-name-{{ i }}" *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
                 <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
@@ -198,7 +201,7 @@
       <span *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS_EXCLUDING_SELF">This question is for other students in this course and this course doesn't have any other student. Therefore, you will not be able to answer this question.</span>
     </div>
 
-    <div class="row" *ngIf="model.recipientList.length > 0 && !areQuestionsGroupedByRecipient">
+    <div class="row" *ngIf="model.recipientList.length > 0 && currentSelectedSessionView === allSessionViews.DEFAULT">
       <div class="col-12 text-center">
         <button id="btn-submit-qn-{{ model.questionNumber }}" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses for this question at any time and come back later to continue."

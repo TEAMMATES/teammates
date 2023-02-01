@@ -28,6 +28,7 @@ import {
   QuestionSubmissionFormModel,
 } from './question-submission-form-model';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from "../../../types/feedback-response-details";
+import { SESSION_VIEW } from '../../pages-session/session-submission-page/session-submission-page.component';
 
 /**
  * The question submission form for a question.
@@ -91,8 +92,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   isSubmitAllClicked: boolean = false;
 
+  allSessionViews = SESSION_VIEW;
+  
   @Input()
-  areQuestionsGroupedByRecipient: boolean = false;
+  currentSelectedSessionView: SESSION_VIEW = SESSION_VIEW.DEFAULT;
 
   @Input()
   recipientId: string = '';

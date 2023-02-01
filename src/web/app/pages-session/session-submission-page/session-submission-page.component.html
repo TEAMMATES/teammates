@@ -96,8 +96,9 @@
       <div ngbDropdown class="mt-2">
         <button id="btn-new-question" class="btn btn-primary" ngbDropdownToggle>Change View</button>
         <div id="new-question-dropdown" ngbDropdownMenu>
-          <button class="dropdown-item">Default View</button>
-          <button class="dropdown-item">Group Questions by Recipients</button>
+          <ng-container *ngFor="let entry of allSessionViews | keyvalue">
+            <button class="dropdown-item" (click)="toggleViewChange()">{{ entry.value }}</button>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -111,7 +112,7 @@
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
   <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
-    <ng-container *ngIf="areQuestionsGroupedByRecipient">
+    <ng-container *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS">
       <h1 class="my-3">Grouped Questions</h1>
       <ng-container *ngFor="let entry of recipientQuestionMap | keyvalue">
         <div class="card px-4">
@@ -126,7 +127,7 @@
                                           (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                           [isQuestionCountOne]="isQuestionCountOne"
                                           [(isSubmitAllClicked)]="isSubmitAllClicked"
-                                          [areQuestionsGroupedByRecipient]="areQuestionsGroupedByRecipient"
+                                          [currentSelectedSessionView]="currentSelectedSessionView"
                                           [recipientId]="entry.key"
               ></tm-question-submission-form>
             </ng-container>
@@ -159,7 +160,7 @@
         <!-- TODO: Add submit all responses button -->
       </ng-container>
     </ng-container>
-    <ng-container *ngIf="!areQuestionsGroupedByRecipient">
+    <ng-container *ngIf="currentSelectedSessionView === allSessionViews.DEFAULT">
       <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
                                    [attr.id]="questionSubmissionForm.feedbackQuestionId"
                                    inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
@@ -169,7 +170,7 @@
                                    (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                    [isQuestionCountOne]="isQuestionCountOne"
                                    [(isSubmitAllClicked)]="isSubmitAllClicked"
-                                   [areQuestionsGroupedByRecipient]="areQuestionsGroupedByRecipient"
+                                   [currentSelectedSessionView]="currentSelectedSessionView"
       ></tm-question-submission-form>
     </ng-container>
     <div class="row" *ngIf="questionsNeedingSubmission.length === 0">

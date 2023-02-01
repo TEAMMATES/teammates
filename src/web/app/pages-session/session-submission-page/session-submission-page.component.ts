@@ -58,6 +58,12 @@ interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
 }
 
+// To export out
+export enum SESSION_VIEW {
+  DEFAULT = 'Default View',
+  GROUP_RECIPIENTS = 'Group Questions by Recipients',
+}
+
 /**
  * Feedback session submission page.
  */
@@ -113,7 +119,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isQuestionCountOne: boolean = false;
   isSubmitAllClicked: boolean = false;
 
-  areQuestionsGroupedByRecipient: boolean = false;
+  allSessionViews = SESSION_VIEW;
+  currentSelectedSessionView: SESSION_VIEW = SESSION_VIEW.DEFAULT;
   hasLoadedAllRecipients: boolean = false;
   // Holds groupable questions
   recipientQuestionMap: Map<string, Set<any>> = new Map<string, Set<any>>();
@@ -143,6 +150,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    console.log(`>>> ngOnInit ${this.currentSelectedSessionView}`);
+
     this.route.data.pipe(
         tap((data: any) => {
           this.intent = data.intent;
@@ -984,10 +993,20 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
   }
 
+  toggleViewChange(): void {
+    console.log(`[toggleViewChange] previous session view selection ${this.currentSelectedSessionView}`);
+
+    if (this.currentSelectedSessionView === SESSION_VIEW.DEFAULT) {
+      this.currentSelectedSessionView = SESSION_VIEW.GROUP_RECIPIENTS;
+      this.groupQuestionsByRecipient();
+    } else {
+      this.currentSelectedSessionView = SESSION_VIEW.DEFAULT;
+    }
+  }
+
   groupQuestionsByRecipient(): void {
-    this.areQuestionsGroupedByRecipient = !this.areQuestionsGroupedByRecipient;
     if (!this.hasLoadedAllRecipients) {
-      // hold the groupable questions loaded synchronously below
+      // Hold the groupable questions loaded synchronously below
       let affectedQuestions: QuestionSubmissionFormModel[] = [];
 
       this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
