@@ -30,7 +30,6 @@ export class LoginPageComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
 
   private backendUrl: string = environment.backendUrl;
-  private frontendUrl: string = environment.frontendUrl;
 
   isLoginPage: boolean = true;
   isLogInWithEmail: boolean = false;
@@ -159,7 +158,7 @@ export class LoginPageComponent implements OnInit {
 
     this.authService.sendLoginEmail({
       userEmail: loginForm.controls['email'].value,
-      continueUrl: `${this.frontendUrl}/web/login${window.location.search}`,
+      continueUrl: `${this.backendUrl}/web/login${window.location.search}`,
       captchaResponse: this.captchaResponse,
     }).pipe(finalize(() => {
       this.isLoggingInWithEmail = false;
