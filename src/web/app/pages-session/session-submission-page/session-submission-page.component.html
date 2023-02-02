@@ -116,7 +116,7 @@
             <ng-container *ngIf="entry.value.has(questionSubmissionForm.questionNumber)">
               <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
                                           inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
-                                          [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                                          [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                           [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
                                           [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
                                           (deleteCommentEvent)="deleteParticipantComment(i, $event)"
@@ -144,7 +144,7 @@
         <ng-container *ngIf="ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)">
           <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
                                       inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
-                                      [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                                      [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                       [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
                                       [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
                                       (deleteCommentEvent)="deleteParticipantComment(i, $event)"
@@ -159,7 +159,7 @@
       <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
                                    [attr.id]="questionSubmissionForm.feedbackQuestionId"
                                    inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
-                                   [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                                   [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                    [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
                                    [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
                                    (deleteCommentEvent)="deleteParticipantComment(i, $event)"
