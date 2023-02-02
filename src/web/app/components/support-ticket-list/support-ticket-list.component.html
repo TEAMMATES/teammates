@@ -1,6 +1,6 @@
 <div class="table-responsive">
-    <table class="table table-bordered table-striped m-0">
-        <thead>
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="table-light">
             <tr>
                 <th scope="col">Ticket #</th>
                 <th scope="col">Email</th>
@@ -11,6 +11,17 @@
                 <th scope="col">Status</th>
             </tr>
         </thead>
+        <tbody>
+            <tr *ngFor="let req of support_requests">
+                <td>{{ req.trackingId }}</td>
+                <td>{{ req.email }}</td>
+                <td>{{ req.name }}</td>
+                <td>{{ req.enquiry_type }}</td>
+                <td>{{ req.title }}</td>
+                <td>{{ req.initial_msg }}</td>
+                <td>{{ req.status }}</td>
+            </tr>
+        </tbody>
     </table>
   </div>
   

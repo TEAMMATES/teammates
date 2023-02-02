@@ -1,4 +1,4 @@
-{ 
+[{ 
     "trackingId": 1, 
     "email": "user1@gmail.com", 
     "name": "user1",
@@ -6,4 +6,4 @@
     "title": "need help", 
     "initial_msg": "pls help me", 
     "status": "NEW" 
-}
+}]

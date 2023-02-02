@@ -40,7 +40,10 @@ const routes: Routes = [
   { 
     path: 'support', 
     loadChildren: () => import('./admin-support-page/admin-support-page.module')
-      .then((m: any) => m.AdminSupportPageModule)
+      .then((m: any) => m.AdminSupportPageModule), 
+      data: { 
+        pageTitle: 'Support Requests'
+      }
   },
   {
     path: 'timezone',

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import support_requests from '../../../data/support-requests.dummy.json'
+
 /**
  * Admin search page.
  */
@@ -9,6 +11,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-support-page.component.scss']
 })
 export class AdminSupportPageComponent {
+  support_requests = support_requests
+
   constructor(
   ) {}
 }

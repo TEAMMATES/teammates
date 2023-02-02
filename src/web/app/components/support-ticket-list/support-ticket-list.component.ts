@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 // /**
 //  * Model of row of student data containing details about a student and their section.
@@ -19,4 +19,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./support-ticket-list.component.scss'],
 })
 export class SupportListComponent {
+  @Input() support_requests = []; 
 }
