@@ -1054,4 +1054,24 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           );
     }
   }
+
+  /**
+   * Gets recipient name in {@code FIXED_RECIPIENT} mode and in {@code GROUP_RECIPIENTS} view.
+   */
+  getRecipientName(recipientIdentifier: string): string {
+    const question: QuestionSubmissionFormModel | undefined =
+        this.questionSubmissionForms.find((model: QuestionSubmissionFormModel) =>
+            model.questionNumber === this.recipientQuestionMap.get(recipientIdentifier)!.values().next().value);
+
+    if (!question) {
+      this.statusMessageService.showErrorToast('Failed to build groupable questions');
+      return 'Unknown';
+    }
+
+    const recipient: FeedbackResponseRecipient | undefined =
+        question!.recipientList.find(
+            (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
+
+    return recipient ? recipient.recipientName : 'Unknown';
+  }
 }
