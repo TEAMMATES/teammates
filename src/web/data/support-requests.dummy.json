@@ -1,0 +1,9 @@
+{ 
+    "trackingId": 1, 
+    "email": "user1@gmail.com", 
+    "name": "user1",
+    "enquiry_type": "GENERAL_HELP", 
+    "title": "need help", 
+    "initial_msg": "pls help me", 
+    "status": "NEW" 
+}
