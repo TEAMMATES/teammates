@@ -97,7 +97,7 @@
         <button id="btn-new-question" class="btn btn-primary" ngbDropdownToggle>Change View</button>
         <div id="new-question-dropdown" ngbDropdownMenu>
           <ng-container *ngFor="let entry of allSessionViews | keyvalue">
-            <button class="dropdown-item" (click)="toggleViewChange()">{{ entry.value }}</button>
+            <button class="dropdown-item" (click)="toggleViewChange(entry.value)">{{ entry.value }}</button>
           </ng-container>
         </div>
       </div>

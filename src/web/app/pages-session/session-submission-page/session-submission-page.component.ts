@@ -150,8 +150,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log(`>>> ngOnInit ${this.currentSelectedSessionView}`);
-
     this.route.data.pipe(
         tap((data: any) => {
           this.intent = data.intent;
@@ -1006,13 +1004,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleViewChange(): void {
-    console.log(`[toggleViewChange] previous session view selection ${this.currentSelectedSessionView}`);
+  toggleViewChange(selectedView: SESSION_VIEW): void {
+    if (selectedView === SESSION_VIEW.GROUP_RECIPIENTS) {
+      if (this.currentSelectedSessionView == SESSION_VIEW.GROUP_RECIPIENTS) {
+        return;
+      }
 
-    if (this.currentSelectedSessionView === SESSION_VIEW.DEFAULT) {
       this.currentSelectedSessionView = SESSION_VIEW.GROUP_RECIPIENTS;
       this.groupQuestionsByRecipient();
-    } else {
+    } else if (selectedView === SESSION_VIEW.DEFAULT) {
       this.currentSelectedSessionView = SESSION_VIEW.DEFAULT;
     }
   }
