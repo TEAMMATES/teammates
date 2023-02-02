@@ -134,7 +134,7 @@
                 ngbTooltip="You can save your responses at any time and come back later to continue."
                 (click)="saveFeedbackResponses(questionSubmissionForms)"
                 [disabled]="isSavingResponses || isSubmissionFormsDisabled"><tm-ajax-loading
-                  *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for {{ entry.key }}</button>
+                  *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for {{ getRecipientName(entry.key) }}</button>
             </div>
           </div>
         </div>
