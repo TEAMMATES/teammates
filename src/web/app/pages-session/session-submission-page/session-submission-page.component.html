@@ -105,11 +105,6 @@
   </div>
 </div>
 
-<button id="btn-group-by-recipient" type="submit" class="btn btn-info"
-        ngbTooltip="You can group the questions by recipient."
-        (click)="groupQuestionsByRecipient()"
->Group Questions by Recipients</button>
-
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
   <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
     <ng-container *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS">
