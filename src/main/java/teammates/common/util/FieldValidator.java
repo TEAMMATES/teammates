@@ -32,8 +32,6 @@ public final class FieldValidator {
     public static final String PERSON_NAME_FIELD_NAME = "person name";
     public static final int PERSON_NAME_MAX_LENGTH = 100;
 
-    public static final String NATIONALITY_FIELD_NAME = "nationality";
-
     public static final String COURSE_NAME_FIELD_NAME = "course name";
     public static final int COURSE_NAME_MAX_LENGTH = 80;
 
@@ -214,12 +212,6 @@ public final class FieldValidator {
             "The value must be one of the options in the grace period dropdown selector.";
     public static final String GRACE_PERIOD_NEGATIVE_ERROR_MESSAGE = "Grace period should not be negative." + " "
             + HINT_FOR_CORRECT_GRACE_PERIOD;
-
-    public static final String HINT_FOR_CORRECT_NATIONALITY =
-            "The value must be one of the values from the nationality dropdown selector.";
-    public static final String NATIONALITY_ERROR_MESSAGE =
-            "\"%s\" is not an accepted " + NATIONALITY_FIELD_NAME + " to TEAMMATES. "
-            + HINT_FOR_CORRECT_NATIONALITY;
 
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
@@ -443,20 +435,6 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForCourseName(String courseName) {
         return getValidityInfoForAllowedName(COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, courseName);
-    }
-
-    /**
-     * Checks if {@code nationality} is a non-null non-empty string contained in the {@link NationalityHelper}'s
-     * list of nationalities.
-     * @return An explanation of why the {@code nationality} is not acceptable.
-     *         Returns an empty string if the {@code nationality} is acceptable.
-     */
-    public static String getInvalidityInfoForNationality(String nationality) {
-        assert nationality != null;
-        if (!NationalityHelper.getNationalities().contains(nationality)) {
-            return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
-        }
-        return "";
     }
 
     /**

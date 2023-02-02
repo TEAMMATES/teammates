@@ -24,10 +24,6 @@ export class StudentPageComponent implements OnInit {
       display: 'Home',
     },
     {
-      url: '/web/student/profile',
-      display: 'Profile',
-    },
-    {
       url: '/web/student/notifications',
       display: 'Notifications',
     },

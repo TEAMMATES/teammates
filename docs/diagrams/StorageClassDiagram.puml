@@ -11,7 +11,6 @@ class FeedbackQuestion
 class Course
 class Account
 class FeedbackSession
-class StudentProfile
 class Instructor
 
 note "Associations are managed \nusing string references" as note1
@@ -24,6 +23,5 @@ FeedbackQuestion --* "*" FeedbackSession
 FeedbackSession -down--* "*" Course
 Instructor -down--* "*" Course
 Instructor -down--* "1" Account
-StudentProfile -right--* "0..1" Account
 
 @enduml
