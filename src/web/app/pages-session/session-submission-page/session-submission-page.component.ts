@@ -1004,6 +1004,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Group questions by recipients in {@code GROUP_RECIPIENTS} view.
+   */
   groupQuestionsByRecipient(): void {
     if (!this.hasLoadedAllRecipients) {
       // Hold the groupable questions loaded synchronously below
