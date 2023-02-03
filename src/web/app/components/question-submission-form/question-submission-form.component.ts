@@ -17,7 +17,9 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
+import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { SessionView } from '../../pages-session/session-submission-page/session-submission-page.component';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import {
@@ -27,8 +29,6 @@ import {
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from './question-submission-form-model';
-import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from "../../../types/feedback-response-details";
-import { SESSION_VIEW } from '../../pages-session/session-submission-page/session-submission-page.component';
 
 /**
  * The question submission form for a question.
@@ -94,10 +94,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   isSubmitAllClicked: boolean = false;
 
-  allSessionViews = SESSION_VIEW;
-  
+  allSessionViews = SessionView;
+
   @Input()
-  currentSelectedSessionView: SESSION_VIEW = SESSION_VIEW.DEFAULT;
+  currentSelectedSessionView: SessionView = SessionView.DEFAULT;
 
   @Input()
   recipientId: string = '';
@@ -395,7 +395,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.hasResponseChanged = false;
     this.hasResponseChangedForRecipients.forEach((_hasResponseChangedForRecipient: boolean, recipientId: string) => {
       this.hasResponseChangedForRecipients.set(recipientId, false);
-    })
+    });
     this.responsesSave.emit(this.model);
   }
 
@@ -458,44 +458,52 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
-                && !((form.responseDetails as FeedbackTextResponseDetails).answer === "" || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                  && !((form.responseDetails as FeedbackTextResponseDetails).answer === ''
+                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.MCQ:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
-                && !((form.responseDetails as FeedbackMcqResponseDetails).answer === "" || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                  && !((form.responseDetails as FeedbackMcqResponseDetails).answer === ''
+                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.MSQ:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
-                && !((form.responseDetails as FeedbackMsqResponseDetails).answers.length === 0 || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                  && !((form.responseDetails as FeedbackMsqResponseDetails).answers.length === 0
+                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.NUMSCALE:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                result || (form.recipientIdentifier === recipientId
-                  && !((form.responseDetails as FeedbackNumericalScaleResponseDetails).answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                && !((form.responseDetails as FeedbackNumericalScaleResponseDetails)
+                  .answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED
+                || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
-                && !((form.responseDetails as FeedbackConstantSumResponseDetails).answers.length === 0 || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                  && !((form.responseDetails as FeedbackConstantSumResponseDetails)
+                    .answers.length === 0
+                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.RUBRIC:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
-                && !((form.responseDetails as FeedbackRubricResponseDetails).answer.length === 0 || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
-            false);
+                  && !((form.responseDetails as FeedbackRubricResponseDetails)
+                    .answer.length === 0
+                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))), false);
       case FeedbackQuestionType.RANK_OPTIONS:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
-                && !((form.responseDetails as FeedbackRankOptionsResponseDetails).answers.length === 0 || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
-            false);
+                  && !((form.responseDetails as FeedbackRankOptionsResponseDetails).answers.length === 0
+                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))), false);
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
       case FeedbackQuestionType.CONTRIB:
       case FeedbackQuestionType.RANK_RECIPIENTS:

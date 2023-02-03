@@ -59,7 +59,7 @@ interface FeedbackQuestionsResponse {
 }
 
 // To export out
-export enum SESSION_VIEW {
+export enum SessionView {
   DEFAULT = 'Default View',
   GROUP_RECIPIENTS = 'Group Questions by Recipients',
 }
@@ -119,8 +119,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isQuestionCountOne: boolean = false;
   isSubmitAllClicked: boolean = false;
 
-  allSessionViews = SESSION_VIEW;
-  currentSelectedSessionView: SESSION_VIEW = SESSION_VIEW.DEFAULT;
+  allSessionViews = SessionView;
+  currentSelectedSessionView: SessionView = SessionView.DEFAULT;
   hasLoadedAllRecipients: boolean = false;
   // Records the recipient to groupable questions mapping used in grouping questions by recipients view
   recipientQuestionMap: Map<string, Set<any>> = new Map<string, Set<any>>();
@@ -565,7 +565,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               && model.questionType !== FeedbackQuestionType.CONTRIB) {
             model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
               this.addQuestionForRecipient(recipient.recipientIdentifier, model.questionNumber);
-            })
+            });
           } else {
             this.ungroupableQuestions.add(model.questionNumber);
           }
@@ -606,7 +606,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   /**
    * Gets the form mode of the question submission form.
    */
-  getQuestionSubmissionFormMode(model: QuestionSubmissionFormModel, recipientListLength: number): QuestionSubmissionFormMode {
+  getQuestionSubmissionFormMode(model: QuestionSubmissionFormModel, recipientListLength: number):
+    QuestionSubmissionFormMode {
     const isNumberOfEntitiesToGiveFeedbackToSettingLimited: boolean =
         (model.recipientType === FeedbackParticipantType.STUDENTS
             || model.recipientType === FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
@@ -666,7 +667,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             });
           }
 
-          if (this.getQuestionSubmissionFormModeInDefaultView(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
+          if (this.getQuestionSubmissionFormModeInDefaultView(model)
+            === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
             // need to generate limited number of submission forms
             let numberOfRecipientSubmissionFormsNeeded: number =
                 model.customNumberOfEntitiesToGiveFeedbackTo - existingResponses.responses.length;
@@ -999,7 +1001,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * when grouped session view is toggled and save the responses after.
    */
   saveResponsesForSelectedRecipientQuestions(recipientId: string,
-    questionSubmissionForms: QuestionSubmissionFormModel[]) {
+    questionSubmissionForms: QuestionSubmissionFormModel[]): void {
     const questionsToRecipient: Set<number> = this.recipientQuestionMap.get(recipientId) || new Set();
     const recipientQSForms = questionSubmissionForms
       .filter((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
@@ -1012,22 +1014,22 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     if (this.recipientQuestionMap.has(recipientId)) {
       this.recipientQuestionMap.get(recipientId)!.add(questionId);
     } else {
-      let feedbackQuestionIds: Set<any> = new Set<any>();
+      const feedbackQuestionIds: Set<any> = new Set<any>();
       feedbackQuestionIds.add(questionId);
       this.recipientQuestionMap.set(recipientId, feedbackQuestionIds);
     }
   }
 
-  toggleViewChange(selectedView: SESSION_VIEW): void {
-    if (selectedView === SESSION_VIEW.GROUP_RECIPIENTS) {
-      if (this.currentSelectedSessionView == SESSION_VIEW.GROUP_RECIPIENTS) {
+  toggleViewChange(selectedView: SessionView): void {
+    if (selectedView === SessionView.GROUP_RECIPIENTS) {
+      if (this.currentSelectedSessionView === SessionView.GROUP_RECIPIENTS) {
         return;
       }
 
-      this.currentSelectedSessionView = SESSION_VIEW.GROUP_RECIPIENTS;
+      this.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
       this.groupQuestionsByRecipient();
-    } else if (selectedView === SESSION_VIEW.DEFAULT) {
-      this.currentSelectedSessionView = SESSION_VIEW.DEFAULT;
+    } else if (selectedView === SessionView.DEFAULT) {
+      this.currentSelectedSessionView = SessionView.DEFAULT;
     }
   }
 
@@ -1039,8 +1041,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       // We first need to load the recipient for all the questions. This is because questions with
       // FIXED_RECIPIENT question submission mode are ungroupable and to know whether the question
       // submission mode of a question, we need to load the recipient list first.
-      let recipientsObservables: Observable<FeedbackQuestionRecipients>[] = [];
-      let questionsToBeLoaded: QuestionSubmissionFormModel[] = [];
+      const recipientsObservables: Observable<FeedbackQuestionRecipients>[] = [];
+      const questionsToBeLoaded: QuestionSubmissionFormModel[] = [];
 
       this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
         if (!model.isLoading && !model.isLoaded) {
@@ -1061,9 +1063,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.ungroupableQuestionsSorted = Array.from(this.ungroupableQuestions).sort();
             this.hasLoadedAllRecipients = true;
           }))
-          .subscribe({next: (recipients: FeedbackQuestionRecipients[]) => {
-                for (let i = 0; i < recipients.length; i++) {
-                  let question: QuestionSubmissionFormModel = questionsToBeLoaded[i];
+          .subscribe({
+            next: (recipients: FeedbackQuestionRecipients[]) => {
+                for (let i = 0; i < recipients.length; i += 1) {
+                  const question: QuestionSubmissionFormModel = questionsToBeLoaded[i];
                   // Only questions with question submission form mode being FIXED_RECIPIENT and with question type
                   // not being CONSTSUM_RECIPIENTS, RANK_RECIPIENTS, and CONTRIB, are the groupable questions.
                   if (this.getQuestionSubmissionFormMode(question, recipients[i].recipients.length)
@@ -1072,8 +1075,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       && question.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
                       && question.questionType !== FeedbackQuestionType.CONTRIB) {
 
-                    for (let j = 0; j < recipients[i].recipients.length; j++) {
-                      let recipient: FeedbackQuestionRecipient = recipients[i].recipients[j];
+                    for (let j = 0; j < recipients[i].recipients.length; j += 1) {
+                      const recipient: FeedbackQuestionRecipient = recipients[i].recipients[j];
                       this.addQuestionForRecipient(recipient.identifier, question.questionNumber);
                     }
                   } else {
@@ -1081,10 +1084,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                   }
                 }
               },
-              error: (_: ErrorMessageOutput) => {
+              error: () => {
                 this.statusMessageService.showWarningToast('Failed to build groupable questions');
-              }
-            }
+              },
+            },
           );
     }
   }
