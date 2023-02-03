@@ -96,25 +96,5 @@
   "feedbackSessions": {},
   "feedbackQuestions": {},
   "feedbackResponses": {},
-  "feedbackResponseComments": {},
-  "profiles": {
-    "SCDet.benny": {
-      "googleId": "tm.e2e.SCDet.benny",
-      "shortName": "Benny",
-      "email": "SCDet.benny@gmail.tmt",
-      "institute": "inst",
-      "nationality": "American",
-      "gender": "OTHER",
-      "moreInfo": "I am just a student :P"
-    },
-    "SCDet.charlie": {
-      "googleId": "tm.e2e.SCDet.charlie",
-      "shortName": "Charlie",
-      "email": "SCDet.charlie@gmail.tmt",
-      "institute": "inst",
-      "nationality": "Singaporean",
-      "gender": "OTHER",
-      "moreInfo": "I am also a student :P"
-    }
-  }
+  "feedbackResponseComments": {}
 }

@@ -1,5 +1,7 @@
 <div id="question-submission-form" class="card">
-  <div class="card-header bg-primary text-white question-header">
+  <div class="card-header bg-primary text-white question-header"
+    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'">
+    <i class="fas fa-check mr-2" *ngIf="isSaved"></i>
     <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
@@ -199,7 +201,7 @@
                 ngbTooltip="You can save your responses for this question at any time and come back later to continue."
                 (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionDisabled">
           <tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>
-          <span>{{isQuestionCountOne ? "Submit Response" : "Submit Response for Question " + model.questionNumber }}</span>
+          <span>{{ isQuestionCountOne ? "Submit Response" : "Submit Response for Question " + model.questionNumber }}</span>
         </button>
       </div>
     </div>

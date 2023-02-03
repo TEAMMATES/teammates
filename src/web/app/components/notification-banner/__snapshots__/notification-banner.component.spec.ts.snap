@@ -2,6 +2,7 @@
 
 exports[`NotificationBannerComponent should snap with 1 unread notification 1`] = `
 <tm-notification-banner
+  __ngContext__={[Function LRootView]}
   isShown={[Function Boolean]}
   notificationService={[Function NotificationService]}
   notificationTargetUser={[Function String]}
@@ -10,7 +11,7 @@ exports[`NotificationBannerComponent should snap with 1 unread notification 1`] 
   url=""
 >
   <div
-    class="banner alert alert-success ng-trigger ng-trigger-collapseAnim ng-animating"
+    class="banner ng-trigger ng-trigger-collapseAnim alert alert-success ng-animating"
     id="notification-banner"
     style=""
   >
@@ -51,6 +52,7 @@ exports[`NotificationBannerComponent should snap with 1 unread notification 1`] 
 
 exports[`NotificationBannerComponent should snap with multiple unread notifications 1`] = `
 <tm-notification-banner
+  __ngContext__={[Function LRootView]}
   isShown={[Function Boolean]}
   notificationService={[Function NotificationService]}
   notificationTargetUser={[Function String]}
@@ -59,7 +61,7 @@ exports[`NotificationBannerComponent should snap with multiple unread notificati
   url=""
 >
   <div
-    class="banner alert alert-success ng-trigger ng-trigger-collapseAnim ng-animating"
+    class="banner ng-trigger ng-trigger-collapseAnim alert alert-success ng-animating"
     id="notification-banner"
     style=""
   >
@@ -100,6 +102,7 @@ exports[`NotificationBannerComponent should snap with multiple unread notificati
 
 exports[`NotificationBannerComponent should snap with no unread notifications 1`] = `
 <tm-notification-banner
+  __ngContext__={[Function LRootView]}
   isShown={[Function Boolean]}
   notificationService={[Function NotificationService]}
   notificationTargetUser={[Function String]}

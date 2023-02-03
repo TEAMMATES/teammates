@@ -6,6 +6,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -65,6 +66,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -628,6 +630,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -687,6 +690,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
+  __ngContext__={[Function LRootView]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -1340,34 +1344,22 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                   </thead>
                   <tbody>
                     <tr>
-                      <td
-                        style=""
-                      >
+                      <td>
                         15 January 2021
                       </td>
-                      <td
-                        style=""
-                      >
+                      <td>
                         Doe John
                       </td>
-                      <td
-                        style=""
-                      >
+                      <td>
                         Viewed the submission page
                       </td>
-                      <td
-                        style=""
-                      >
+                      <td>
                         doejohn@email.com
                       </td>
-                      <td
-                        style=""
-                      >
+                      <td>
                         section 1
                       </td>
-                      <td
-                        style=""
-                      >
+                      <td>
                         team 1
                       </td>
                     </tr>

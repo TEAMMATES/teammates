@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TimeFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
+import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } from '../../../types/datetime-const';
 
 /**
  * Time picker with fixed time to pick.
@@ -16,6 +16,21 @@ export class TimepickerComponent {
 
   @Input()
   time: TimeFormat = getDefaultTimeFormat();
+
+  @Input()
+  minTime?: TimeFormat;
+
+  @Input()
+  maxTime?: TimeFormat;
+
+  @Input()
+  date: DateFormat = getDefaultDateFormat();
+
+  @Input()
+  minDate?: DateFormat;
+
+  @Input()
+  maxDate?: DateFormat;
 
   @Output()
   timeChange: EventEmitter<TimeFormat> = new EventEmitter();
@@ -45,6 +60,31 @@ export class TimepickerComponent {
    */
   timeCompareFn(t1: TimeFormat, t2: TimeFormat): boolean {
     return t1 && t2 && t1.hour === t2.hour && t1.minute === t2.minute;
+  }
+
+  /**
+   * Checks whether the time option should be disabled when a minimum datetime and/or a maximum datetime is/are
+   * specified.
+   *
+   * <p> The valid time option is greater or equal than the minimum datetime and smaller or equal than the maximum
+   * datetime.
+   */
+  isOptionDisabled(t: TimeFormat): boolean {
+    if (this.minDate && this.minTime
+        && this.date.year === this.minDate?.year && this.date.month === this.minDate?.month
+        && this.date.day === this.minDate?.day
+        && (t.hour < this.minTime?.hour || t.minute < this.minTime?.minute)) {
+      return true;
+    }
+
+    if (this.maxDate && this.maxTime
+        && this.date.year === this.maxDate?.year && this.date.month === this.maxDate?.month
+        && this.date.day === this.maxDate?.day
+        && (t.hour > this.maxTime?.hour || t.minute > this.maxTime?.minute)) {
+      return true;
+    }
+
+    return false;
   }
 
   /**

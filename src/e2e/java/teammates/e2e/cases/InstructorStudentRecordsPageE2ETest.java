@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
@@ -28,7 +27,6 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
 
         InstructorAttributes instructor = testData.instructors.get("teammates.test.CS2104");
         StudentAttributes student = testData.students.get("benny.c.tmms@ISR.CS2104");
-        StudentProfileAttributes studentProfile = testData.profiles.get("benny.c.tmms@ISR.CS2104");
 
         String instructorId = instructor.getGoogleId();
         String courseId = instructor.getCourseId();
@@ -41,7 +39,7 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
         InstructorStudentRecordsPage recordsPage =
                 loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class, instructorId);
 
-        recordsPage.verifyStudentDetails(studentProfile, student);
+        recordsPage.verifyStudentDetails(student);
 
         // TODO add tests for feedback responses
 

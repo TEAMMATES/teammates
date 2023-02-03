@@ -37,10 +37,7 @@
     <div id="user-header" class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       <div>
         {{ isGrq ? 'From' : 'To' }}:
-        <tm-student-name-with-photo [name]="userInfo"
-                         [email]="userToEmail[userInfo]"
-                         [courseId]="session.courseId"
-        ></tm-student-name-with-photo>
+        {{ userInfo === '-' ? 'No Specific User' : userInfo }}
         {{ usersToTeams[userInfo] !== ''
           ? '('
             + (usersToTeams[userInfo] === '-' ? 'No Specific Team' : usersToTeams[userInfo])

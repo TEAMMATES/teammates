@@ -17,7 +17,6 @@ component Storage {
         rectangle CourseStudent
         rectangle DeadlineExtension
         rectangle Instructor
-        rectangle StudentProfile
         rectangle FeedbackResponse
         rectangle FeedbackQuestion
         rectangle FeedbackSession

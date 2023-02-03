@@ -1,28 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, map, mergeMap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
   FeedbackSessions,
-  Gender,
   Instructor,
   QuestionOutput,
   ResponseOutput,
   SessionResults,
   Student,
-  StudentProfile,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
@@ -52,29 +47,15 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   studentEmail: string = '';
   studentTeam: string = '';
   studentSection: string = '';
-  instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
-  studentProfile: StudentProfile = {
-    name: '',
-    shortName: '',
-    email: '',
-    institute: '',
-    nationality: '',
-    gender: Gender.OTHER,
-    moreInfo: '',
-  };
   sessionTabs: SessionTab[] = [];
-  photoUrl: string = '';
 
   isStudentLoading: boolean = false;
   hasStudentLoadingFailed: boolean = false;
-  isStudentProfileLoading: boolean = false;
-  hasStudentProfileLoadingFailed: boolean = false;
   isStudentResultsLoading: boolean = false;
   hasStudentResultsLoadingFailed: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
               private studentService: StudentService,
               private instructorService: InstructorService,
@@ -87,22 +68,23 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.studentEmail = queryParams.studentemail;
+    this.route.queryParams.subscribe({
+      next: (queryParams: any) => {
+        this.courseId = queryParams.courseid;
+        this.studentEmail = queryParams.studentemail;
 
-      this.loadStudentRecords();
-      this.loadStudentResults();
-      this.photoUrl = `${environment.backendUrl}/webapi/student/profilePic?`
-          + `courseid=${this.courseId}&studentemail=${this.studentEmail}`;
-      this.instructorService.getInstructor({
-        courseId: queryParams.courseid,
-        intent: Intent.FULL_DETAIL,
-      }).subscribe((instructor: Instructor) => {
-        this.currInstructorName = instructor.name;
-      });
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+        this.loadStudentRecords();
+        this.loadStudentResults();
+        this.instructorService.getInstructor({
+          courseId: queryParams.courseid,
+          intent: Intent.FULL_DETAIL,
+        }).subscribe((instructor: Instructor) => {
+          this.currInstructorName = instructor.name;
+        });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -111,30 +93,21 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    */
   loadStudentRecords(): void {
     this.hasStudentLoadingFailed = false;
-    this.hasStudentProfileLoadingFailed = false;
     this.isStudentLoading = true;
-    this.isStudentProfileLoading = true;
     this.studentService.getStudent(
         this.courseId, this.studentEmail,
     ).pipe(finalize(() => {
       this.isStudentLoading = false;
-    })).subscribe((resp: Student) => {
-      this.studentName = resp.name;
-      this.studentTeam = resp.teamName;
-      this.studentSection = resp.sectionName;
-    }, (resp: ErrorMessageOutput) => {
-      this.hasStudentLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
-    this.studentProfileService.getStudentProfile(
-        this.studentEmail, this.courseId,
-    ).pipe(finalize(() => {
-      this.isStudentProfileLoading = false;
-    })).subscribe((resp: StudentProfile) => {
-      this.studentProfile = resp;
-    }, (resp: ErrorMessageOutput) => {
-      this.hasStudentProfileLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    })).subscribe({
+      next: (resp: Student) => {
+        this.studentName = resp.name;
+        this.studentTeam = resp.teamName;
+        this.studentSection = resp.sectionName;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasStudentLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -163,35 +136,38 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         finalize(() => {
           this.isStudentResultsLoading = false;
         }),
-    ).subscribe(
-        ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
-          const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
-          giverQuestions.forEach((questions: QuestionOutput) => {
-            questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-                !response.isMissingResponse && response.giverEmail === this.studentEmail);
-          });
-          const responsesGivenByStudent: QuestionOutput[] =
-              giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+    ).subscribe({
+      next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
+        const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+        giverQuestions.forEach((questions: QuestionOutput) => {
+          questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+              !response.isMissingResponse && response.giverEmail === this.studentEmail);
+        });
+        const responsesGivenByStudent: QuestionOutput[] =
+            giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
 
-          const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
-          recipientQuestions.forEach((questions: QuestionOutput) => {
-            questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-                !response.isMissingResponse && response.recipientEmail === this.studentEmail);
-          });
-          const responsesReceivedByStudent: QuestionOutput[] =
-              recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+        const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+        recipientQuestions.forEach((questions: QuestionOutput) => {
+          questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+              !response.isMissingResponse && response.recipientEmail === this.studentEmail);
+        });
+        const responsesReceivedByStudent: QuestionOutput[] =
+            recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
 
-          this.sessionTabs.push({
-            feedbackSession,
-            responsesGivenByStudent,
-            responsesReceivedByStudent,
-            isCollapsed: false,
-          });
-          results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
-        }, (errorMessageOutput: ErrorMessageOutput) => {
-          this.hasStudentResultsLoadingFailed = true;
-          this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
-        }, () => this.sortFeedbackSessions());
+        this.sessionTabs.push({
+          feedbackSession,
+          responsesGivenByStudent,
+          responsesReceivedByStudent,
+          isCollapsed: false,
+        });
+        results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
+      },
+      error: (errorMessageOutput: ErrorMessageOutput) => {
+        this.hasStudentResultsLoadingFailed = true;
+        this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
+      },
+      complete: () => this.sortFeedbackSessions(),
+    });
   }
 
   /**

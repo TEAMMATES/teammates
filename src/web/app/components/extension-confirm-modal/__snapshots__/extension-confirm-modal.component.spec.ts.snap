@@ -4,13 +4,14 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
+  confirmExtensionCallbackEvent={[Function EventEmitter_]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
   isNotifyDeadlines="false"
   isSubmitting="false"
   modalType="0"
-  onConfirmExtensionCallBack={[Function EventEmitter_]}
   selectedInstructors={[Function Array]}
   selectedStudents={[Function Array]}
   sortInstructorOrder="0"

@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentCourseDetailsPage;
@@ -34,13 +33,11 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
                 testData.instructors.get("SCDet.instr2") };
         StudentAttributes[] teammates = { testData.students.get("SCDet.benny"),
                 testData.students.get("SCDet.charlie") };
-        StudentProfileAttributes[] teammatesProfiles = { testData.profiles.get("SCDet.benny"),
-                testData.profiles.get("SCDet.charlie") };
 
         detailsPage.verifyCourseDetails(testData.courses.get("SCDet.CS2104"));
         detailsPage.verifyInstructorsDetails(instructors);
         detailsPage.verifyStudentDetails(testData.students.get("SCDet.alice"));
         detailsPage.sortTeammatesByName();
-        detailsPage.verifyTeammatesDetails(teammates, teammatesProfiles);
+        detailsPage.verifyTeammatesDetails(teammates);
     }
 }

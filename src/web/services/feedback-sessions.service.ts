@@ -78,15 +78,15 @@ export class FeedbackSessionsService {
     };
 
     if (queryParams.key) {
-      paramMap.key = queryParams.key;
+      paramMap['key'] = queryParams.key;
     }
 
     if (queryParams.moderatedPerson) {
-      paramMap.moderatedperson = queryParams.moderatedPerson;
+      paramMap['moderatedperson'] = queryParams.moderatedPerson;
     }
 
     if (queryParams.previewAs) {
-      paramMap.previewas = queryParams.previewAs;
+      paramMap['previewas'] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
@@ -381,19 +381,19 @@ export class FeedbackSessionsService {
     };
 
     if (queryParams.questionId) {
-      paramMap.questionid = queryParams.questionId;
+      paramMap['questionid'] = queryParams.questionId;
     }
 
     if (queryParams.groupBySection) {
-      paramMap.frgroupbysection = queryParams.groupBySection;
+      paramMap['frgroupbysection'] = queryParams.groupBySection;
     }
 
     if (queryParams.key) {
-      paramMap.key = queryParams.key;
+      paramMap['key'] = queryParams.key;
     }
 
     if (queryParams.sectionByGiverReceiver) {
-      paramMap.sectionByGiverReceiver = queryParams.sectionByGiverReceiver;
+      paramMap['sectionByGiverReceiver'] = queryParams.sectionByGiverReceiver;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.RESULT, paramMap);

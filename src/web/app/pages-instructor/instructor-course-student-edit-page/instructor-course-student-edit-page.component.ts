@@ -90,12 +90,15 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         courseId, studentEmail,
     ).pipe(finalize(() => {
       this.isStudentLoading = false;
-    })).subscribe((student: Student) => {
-      this.student = student;
-      this.initEditForm();
-    }, (resp: ErrorMessageOutput) => {
-      this.hasStudentLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    })).subscribe({
+      next: (student: Student) => {
+        this.student = student;
+        this.initEditForm();
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasStudentLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -202,11 +205,14 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       .pipe(finalize(() => {
         this.isFormSaving = false;
       }))
-      .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details',
-            resp.message, { courseid: this.courseId });
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      .subscribe({
+        next: (resp: MessageOutput) => {
+          this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details',
+              resp.message, { courseid: this.courseId });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
   }
 }

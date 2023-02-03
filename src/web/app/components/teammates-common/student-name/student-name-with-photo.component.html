@@ -1,9 +1,0 @@
-<span *ngIf="email; else noPhoto">
-  <tm-view-photo-popover [photoUrl]="email | formatPhotoUrl: courseId" (showPhotoEvent)="clearTooltipTimer()">
-    <i class="fa-user" [ngClass]="iconClass" (mouseover)="handleMouseover(t)" (mouseout)="handleMouseout(t)" triggers="manual" #t="ngbTooltip" ngbTooltip="Click to view student's profile picture"></i>
-  </tm-view-photo-popover>
-  {{ name === '-' ? 'No Specific User' : name}}
-</span>
-<ng-template #noPhoto>
-  {{ name === '-' ? 'No Specific User' : name}}
-</ng-template>
