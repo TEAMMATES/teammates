@@ -79,6 +79,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
     this.recipientLabelType = this.getSelectionLabelType(model.recipientType);
 
+    // Initialise the hasResponseChanged variable for a recipient when the recipients of
+    // the questions is not loaded.
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
       if (!this.hasResponseChangedForRecipients.has(recipient.recipientIdentifier)) {
         this.hasResponseChangedForRecipients.set(recipient.recipientIdentifier, false);
@@ -187,6 +189,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       } else if (this.model.recipientSubmissionForms.every((form) => form.responseId.length === 0)) {
         this.isSaved = false;
       }
+
+      this.hasResponseChangedForRecipients.forEach((_hasResponseChanged: boolean, recipientId: string) => {
+        this.hasResponseChangedForRecipients.set(recipientId, false);
+      });
     }
   }
 
