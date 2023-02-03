@@ -22,4 +22,9 @@ describe('LoadingSpinnerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('should show a loading message if it exceeds 3 seconds', () => {
+  //   expect (component.tmIsLoading>3000).toBe(true);
+  // });
 });
+
