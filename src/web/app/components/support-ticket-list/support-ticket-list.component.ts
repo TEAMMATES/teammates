@@ -1,14 +1,6 @@
-import { Component, Input } from '@angular/core';
-
-// /**
-//  * Model of row of student data containing details about a student and their section.
-//  */
-// export interface StudentListRowModel {
-//   student: Student;
-//   photoUrl?: string;
-//   isAllowedToViewStudentInSection: boolean;
-//   isAllowedToModifyStudent: boolean;
-// }
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SupportRequest } from 'src/web/types/support-req-types';
 
 /**
  * A table displaying a list of support ticket items
@@ -19,5 +11,17 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./support-ticket-list.component.scss'],
 })
 export class SupportListComponent {
-  @Input() support_requests = []; 
+  @Input() supportRequests: SupportRequest[] = []; 
+  @Input() tableSortBy: SortBy = SortBy.NONE;
+  @Input() tableSortOrder: SortOrder = SortOrder.DESC;
+
+  @Output() sortSupportTicketListEvent: EventEmitter<SortBy> = new EventEmitter();
+
+  // enum
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
+
+  sortSupportTicketList(sortBy: SortBy) {
+    this.sortSupportTicketListEvent.emit(sortBy)
+  }
 }

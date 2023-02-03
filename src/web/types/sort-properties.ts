@@ -401,6 +401,17 @@ export enum SortBy {
      * The style of notification
      */
     NOTIFICATION_STYLE,
+    
+    /**
+     * Columns for support requests table 
+     */
+    SUPPORT_REQ_TRACKING_ID, 
+    SUPPORT_REQ_EMAIL, 
+    SUPPORT_REQ_NAME, 
+    SUPPORT_REQ_ENQUIRY_TYPE, 
+    SUPPORT_REQ_TITLE, 
+    SUPPORT_REQ_MSG, 
+    SUPPORT_REQ_STATUS
 }
 
 /**

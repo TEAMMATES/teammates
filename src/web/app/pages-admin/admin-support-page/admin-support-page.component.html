@@ -1,3 +1,8 @@
-<tm-support-ticket-list [support_requests]="support_requests"></tm-support-ticket-list>
+<tm-support-ticket-list 
+    [tableSortBy]="supportReqSortBy"
+    [tableSortOrder]="supportReqSortOrder"
+    [supportRequests]="supportRequests"
+    (sortSupportTicketListEvent)=(sortSupportRequestsList($event))
+    ></tm-support-ticket-list>
 
   

@@ -2,17 +2,67 @@
     <table class="table table-bordered table-hover table-striped">
         <thead class="table-light">
             <tr>
-                <th scope="col">Ticket #</th>
-                <th scope="col">Email</th>
-                <th scope="col">Name</th>
-                <th scope="col">Enquiry Type</th>
-                <th scope="col">Title</th>
-                <th scope="col">Message</th>
-                <th scope="col">Status</th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_TRACKING_ID)">
+                    Ticket #
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_TRACKING_ID && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_TRACKING_ID && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                      </span>
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_EMAIL)">
+                    Email
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                      </span>
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_NAME)">
+                    Name
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                      </span>
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_ENQUIRY_TYPE)">
+                    Enquiry Type
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_ENQUIRY_TYPE && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_ENQUIRY_TYPE && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_TITLE)">
+                    Title
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_TITLE && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_TITLE && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                    </span>
+                </th>
+                <th scope="col"> 
+                <!-- <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_MSG)"> -->
+                    Message
+                    <!-- <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_MSG && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_MSG && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                      </span> -->
+                </th>
+                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_STATUS)">
+                    Status
+                    <span class="fa-stack">
+                        <i class="fas fa-sort"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                    </span>
+                </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let req of support_requests">
+            <tr *ngFor="let req of supportRequests">
                 <td>{{ req.trackingId }}</td>
                 <td>{{ req.email }}</td>
                 <td>{{ req.name }}</td>

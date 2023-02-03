@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import moment from 'moment-timezone';
 import { InstructorPermissionRole } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
+import { SupportReqEnquiryType, SupportReqStatus } from '../types/support-req-types';
 
 /**
  * Handles comparison logic between sortable table elements
@@ -110,6 +111,24 @@ export class TableComparatorService {
     return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numB - numA);
   }
 
+  compareSupportReqStatuses(statusA: string, statusB: string, order: SortOrder) {
+    const supportReqOrder = Object.values(SupportReqStatus)
+    if (order === SortOrder.ASC) {
+      return supportReqOrder.indexOf(statusA) - supportReqOrder.indexOf(statusB)
+    } else {
+      return supportReqOrder.indexOf(statusB) - supportReqOrder.indexOf(statusA)
+    }
+  }
+
+  compareSupportReqEnquiryTypes(enqTypeA: string, enqTypeB: string, order: SortOrder) {
+    const supportReqOrder = Object.values(SupportReqEnquiryType)
+    if (order === SortOrder.ASC) {
+      return supportReqOrder.indexOf(enqTypeA) - supportReqOrder.indexOf(enqTypeB)
+    } else {
+      return supportReqOrder.indexOf(enqTypeB) - supportReqOrder.indexOf(enqTypeA)
+    }
+  }
+
   /**
    * Compares two strings depending on element to sort by and the order given.
    */
@@ -131,6 +150,10 @@ export class TableComparatorService {
       case SortBy.GIVER_TEAM:
       case SortBy.RECIPIENT_TEAM:
       case SortBy.INSTRUCTOR_DISPLAYED_TEXT:
+      case SortBy.SUPPORT_REQ_TRACKING_ID:
+      case SortBy.SUPPORT_REQ_EMAIL:
+      case SortBy.SUPPORT_REQ_NAME:
+      case SortBy.SUPPORT_REQ_TITLE:
         return this.compareNaturally(strA, strB, order);
       case SortBy.CONSTSUM_OPTIONS_OPTION:
       case SortBy.CONTRIBUTION_RECIPIENT:
@@ -195,6 +218,10 @@ export class TableComparatorService {
         return this.compareChronologically(strA, strB, order);
       case SortBy.INSTRUCTOR_PERMISSION_ROLE:
         return this.compareRoles(strA, strB, order);
+      case SortBy.SUPPORT_REQ_STATUS:
+        return this.compareSupportReqStatuses(strA, strB, order)
+      case SortBy.SUPPORT_REQ_ENQUIRY_TYPE: 
+        return this.compareSupportReqEnquiryTypes(strA, strB, order)
       default:
         return 0;
     }
