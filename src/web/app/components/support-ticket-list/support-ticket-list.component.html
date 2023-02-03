@@ -1,4 +1,14 @@
 <div class="table-responsive">
+
+    <form>
+        <div class="mb-3 row">
+            <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+            <div class="col-xs-3 col-sm-auto">
+                <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter" />
+            </div>
+        </div>
+    </form>
+
     <table class="table table-bordered table-hover table-striped">
         <thead
             [ngClass]="{'thead-gray': useGrayHeading, 'alert-primary font-weight-bold': !useGrayHeading}"
@@ -59,13 +69,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let req of supportRequests">
-                <td>{{ req.trackingId }}</td>
-                <td>{{ req.status }}</td>
-                <td>{{ req.enquiry_type }}</td>
-                <td>{{ req.title }}</td>
-                <td>{{ req.email }}</td>
-                <td>{{ req.name }}</td>
+            <tr *ngFor="let req of supportReqRowsInPage">
+                <td>
+                    <ngb-highlight [result]="req.trackingId" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="req.status" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="req.enquiry_type" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="req.title" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="req.email" [term]="filter.value"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="req.name" [term]="filter.value"></ngb-highlight>
+                </td>
                 <td class="no-print align-center">
                     <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name" let-id="id"
                         let-tmRouterLink="tmRouterLink" let-queryParams="queryParams">
@@ -96,5 +118,21 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+            [collectionSize]="collectionSize"
+            [(page)]="page"
+            [pageSize]="pageSize"
+            (pageChange)="refreshSupportReqPage()"
+        >
+        </ngb-pagination>
+
+        <select class="btn btn-outline-primary" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshSupportReqPage()">
+            <option [ngValue]="5">5 items per page</option>
+            <option [ngValue]="10">10 items per page</option>
+            <option [ngValue]="20">20 items per page</option>
+        </select>
+    </div>
   </div>
   

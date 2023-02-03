@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SupportRequest } from 'src/web/types/support-req-types';
 import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 /**
  * A table displaying a list of support ticket items
@@ -13,6 +15,7 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
   templateUrl: './support-ticket-list.component.html',
   styleUrls: ['./support-ticket-list.component.scss'],
 })
+
 export class SupportListComponent {
   @Input() supportRequests: SupportRequest[] = []; 
   @Input() tableSortBy: SortBy = SortBy.NONE;
@@ -23,8 +26,60 @@ export class SupportListComponent {
 
   @Output() sortSupportTicketListEvent: EventEmitter<SortBy> = new EventEmitter();
 
-  constructor(private simpleModalService: SimpleModalService) {
+  collectionSize: number = this.supportRequests.length
+  supportRequestRows: SupportRequest[] = this.supportRequests
+  supportReqRowsInPage: SupportRequest[] = this.supportRequestRows
+  page: number = 1;
+  pageSize: number = 10;
+  filter = new FormControl('')
 
+  constructor(private simpleModalService: SimpleModalService) {
+    this.supportReqRowsInPage = this.supportRequestRows
+    this.collectionSize = this.supportRequests.length
+  }
+
+  ngOnInit() {
+    this.onFilterChange(); 
+  }
+
+  onFilterChange() {
+    this.filter.valueChanges.pipe(debounceTime(400), distinctUntilChanged()).subscribe(searchFilter => {
+      this.paginateAndFilter(searchFilter), 1000
+    })
+  }
+
+  ngOnChanges(_changes: SimpleChanges) {
+    this.collectionSize = this.supportRequests.length;
+    this.supportRequestRows = this.supportRequests
+    this.supportReqRowsInPage = this.supportRequestRows
+  }
+
+  refreshSupportReqPage() {
+		this.paginateAndFilter()
+	}
+
+  paginateAndFilter(searchFilter = this.filter.value) {
+    this.supportReqRowsInPage = this.supportRequests.map((req, i) => ({ id: i + 1, ...req })).slice(
+			(this.page - 1) * this.pageSize,
+			(this.page - 1) * this.pageSize + this.pageSize,
+		)
+    this.supportReqRowsInPage = this.matches(searchFilter, this.supportReqRowsInPage)
+  }
+
+  matches(text: string, rows: SupportRequest[]): SupportRequest[] {
+    console.log('matching')
+    return text === '' || text === null ? rows : rows.filter((row) => {
+      const term = text.toLowerCase(); 
+  
+      return (
+        row.trackingId.toString().toLowerCase().includes(term) || 
+        row.name.toString().toLowerCase().includes(term) || 
+        row.email.toString().toLowerCase().includes(term) || 
+        row.status.toString().toLowerCase().includes(term) || 
+        row.enquiry_type.toString().toLowerCase().includes(term) || 
+        row.title.toString().toLowerCase().includes(term)
+      )
+    })
   }
 
   // enum

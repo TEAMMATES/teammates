@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { Pipes } from '../../pipes/pipes.module';
+import { NgbDropdownModule, NgbPaginationModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
-// import { JoinStatePipe } from './join-state.pipe';
 import { SupportListComponent } from './support-ticket-list.component';
 
 /**
@@ -14,7 +13,6 @@ import { SupportListComponent } from './support-ticket-list.component';
  */
 @NgModule({
   declarations: [
-    // JoinStatePipe,
     SupportListComponent,
   ],
   exports: [
@@ -26,7 +24,11 @@ import { SupportListComponent } from './support-ticket-list.component';
     RouterModule,
     TeammatesCommonModule,
     TeammatesRouterModule,
-    Pipes,
-  ],
+    NgbPaginationModule,
+    NgbTypeaheadModule,
+    NgbDropdownModule,  
+    ReactiveFormsModule, 
+    FormsModule
+  ]
 })
 export class SupportTicketListModule { }
