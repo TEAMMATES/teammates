@@ -26,36 +26,36 @@ describe('IndexPageComponent', () => {
   
 });
 
-// describe('BackToTopButtonComponent', () => {
-//   let component: BackToTopButtonComponent;
-//   let fixture: ComponentFixture<BackToTopButtonComponent>;
-//   component= new BackToTopButtonComponent;
-//   let x = component;
-//   x.scrollToTop;
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ BackToTopButtonComponent ]
-//     })
-//     .compileComponents();
+describe('BackToTopButtonComponent', () => {
+  let component: BackToTopButtonComponent;
+  let fixture: ComponentFixture<BackToTopButtonComponent>;
+  component= new BackToTopButtonComponent;
+  let x = component;
+  x.scrollToTop;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ BackToTopButtonComponent ]
+    })
+    .compileComponents();
 
-//     fixture = TestBed.createComponent(BackToTopButtonComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    fixture = TestBed.createComponent(BackToTopButtonComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   it('scrolls to the top of the page when clicked', () => {
-//     spyOn(window, 'scrollTo').and.callFake(() => {});
+  it('scrolls to the top of the page when clicked', () => {
+    spyOn(window, 'scrollTo').and.callFake(() => {});
 
-//     const buttonElement = fixture.debugElement.nativeElement.querySelector('button');
-//     buttonElement.click();
+    const buttonElement = fixture.debugElement.nativeElement.querySelector('button');
+    buttonElement.click();
 
-//     expect(window.scrollTo).toHaveBeenCalledWith({
-//       top: 0,
-//       left: 0,
-//       behavior: 'smooth'
-//     });
-//   });
-// });
+    expect(window.scrollTo).toHaveBeenCalledWith({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  });
+});
 
 
 
