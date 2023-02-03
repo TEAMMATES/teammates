@@ -15,11 +15,6 @@ const routes: Routes = [
     },
   },
   {
-    path: 'profile',
-    loadChildren: () => import('./student-profile-page/student-profile-page.module')
-        .then((m: any) => m.StudentProfilePageModule),
-  },
-  {
     path: 'course',
     loadChildren: () => import('./student-course-details-page/student-course-details-page.module')
         .then((m: any) => m.StudentCourseDetailsPageModule),

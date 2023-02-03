@@ -19,7 +19,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
-import teammates.logic.api.FileStorage;
 import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
@@ -41,7 +40,6 @@ public abstract class Action {
     EmailGenerator emailGenerator = EmailGenerator.inst();
     TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
-    FileStorage fileStorage = FileStorage.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
     LogsProcessor logsProcessor = LogsProcessor.inst();
 
@@ -72,10 +70,6 @@ public abstract class Action {
 
     public void setEmailSender(EmailSender emailSender) {
         this.emailSender = emailSender;
-    }
-
-    public void setFileStorage(FileStorage fileStorage) {
-        this.fileStorage = fileStorage;
     }
 
     public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {

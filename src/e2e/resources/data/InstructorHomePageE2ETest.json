@@ -175,10 +175,10 @@
       "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
-      "startTime": "2027-03-29T15:00:00Z",
-      "endTime": "2027-04-30T04:00:00Z",
+      "startTime": "2012-03-29T15:00:00Z",
+      "endTime": "2012-05-01T04:00:00Z",
       "sessionVisibleFromTime": "2012-03-28T16:00:00Z",
-      "resultsVisibleFromTime": "2027-05-01T16:00:00Z",
+      "resultsVisibleFromTime": "2012-05-01T16:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "sentOpenEmail": false,
@@ -325,7 +325,6 @@
     }
   },
   "feedbackResponseComments": {},
-  "profiles": {},
   "notifications": {
     "notification1": {
       "notificationId": "notification1",

@@ -117,7 +117,7 @@ export class LinkService {
       courseid: courseId,
     };
     if (isInstructor) {
-      params.entitytype = 'instructor';
+      params['entitytype'] = 'instructor';
     }
 
     this.filterEmptyParams(params);
@@ -140,7 +140,7 @@ export class LinkService {
       courseid: courseId,
     };
     if (isInstructor) {
-      params.entitytype = 'instructor';
+      params['entitytype'] = 'instructor';
     }
 
     this.filterEmptyParams(params);

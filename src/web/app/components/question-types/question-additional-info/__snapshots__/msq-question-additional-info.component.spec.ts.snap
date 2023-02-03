@@ -3,6 +3,7 @@
 exports[`MsqQuestionAdditionalInfoComponent should show generated option message when generateOptionFor is enabled 1`] = `
 <tm-msq-question-additional-info
   FeedbackParticipantType={[Function Object]}
+  __ngContext__={[Function LRootView]}
   questionDetails={[Function Object]}
 >
   Multiple-choice (multiple answers) question options:
@@ -15,6 +16,7 @@ exports[`MsqQuestionAdditionalInfoComponent should show generated option message
 exports[`MsqQuestionAdditionalInfoComponent should show msq options 1`] = `
 <tm-msq-question-additional-info
   FeedbackParticipantType={[Function Object]}
+  __ngContext__={[Function LRootView]}
   questionDetails={[Function Object]}
 >
   Multiple-choice (multiple answers) question options:
@@ -35,6 +37,7 @@ exports[`MsqQuestionAdditionalInfoComponent should show msq options 1`] = `
 exports[`MsqQuestionAdditionalInfoComponent should show other when "other" option is enabled 1`] = `
 <tm-msq-question-additional-info
   FeedbackParticipantType={[Function Object]}
+  __ngContext__={[Function LRootView]}
   questionDetails={[Function Object]}
 >
   Multiple-choice (multiple answers) question options:
@@ -58,6 +61,7 @@ exports[`MsqQuestionAdditionalInfoComponent should show other when "other" optio
 exports[`MsqQuestionAdditionalInfoComponent should snap with default view 1`] = `
 <tm-msq-question-additional-info
   FeedbackParticipantType={[Function Object]}
+  __ngContext__={[Function LRootView]}
   questionDetails={[Function Object]}
 >
   Multiple-choice (multiple answers) question options:

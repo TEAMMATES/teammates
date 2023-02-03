@@ -38,7 +38,7 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
     this.maxPoint = apiOutput.maxPoint;
   }
 
-  getQuestionCsvHeaders(): string[] {
+  override getQuestionCsvHeaders(): string[] {
     return ['Feedback', ...this.constSumOptions];
   }
 

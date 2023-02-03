@@ -37,6 +37,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   isMCQDropDownEnabled: boolean = false;
+  isSaved: boolean = false;
+  hasResponseChanged: boolean = false;
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -68,6 +70,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   @Input()
   isQuestionCountOne: boolean = false;
+
+  @Input()
+  isSubmitAllClicked: boolean = false;
+
+  @Output()
+  isSubmitAllClickedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
@@ -136,6 +144,23 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   ngDoCheck(): void {
     if (this.model.isLoaded && !this.isEveryRecipientSorted) {
       this.sortRecipientsByName();
+    }
+
+    if (this.model.recipientSubmissionForms.some(
+      (response) => response.responseId.length > 0) && !this.isSaved) {
+      this.isSaved = true;
+    }
+
+    if (this.hasResponseChanged) {
+      this.isSaved = false;
+    }
+
+    if (this.isSubmitAllClicked) {
+      if (this.model.recipientSubmissionForms.some((response) => response.responseId.length > 0)) {
+        this.isSaved = true;
+      } else if (this.model.recipientSubmissionForms.every((form) => form.responseId.length === 0)) {
+        this.isSaved = false;
+      }
     }
   }
 
@@ -246,6 +271,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
+    this.hasResponseChanged = true;
+    this.isSubmitAllClickedChange.emit(false);
+
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
         this.model.recipientSubmissionForms.slice();
     recipientSubmissionForms[index] = {
@@ -330,6 +358,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
+    this.isSaved = true;
+    this.hasResponseChanged = false;
     this.responsesSave.emit(this.model);
   }
 

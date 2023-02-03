@@ -4,6 +4,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -32,6 +33,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -152,6 +154,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -180,6 +183,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -297,6 +301,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -325,6 +330,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -442,6 +448,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -470,6 +477,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -686,6 +694,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -714,6 +723,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -882,8 +892,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1130,8 +1143,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1354,8 +1370,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1636,8 +1655,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1808,8 +1830,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -1994,8 +2019,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2409,8 +2437,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2685,8 +2716,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -2919,8 +2953,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3123,6 +3160,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -3151,6 +3189,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -3319,8 +3358,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3572,8 +3614,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -3796,8 +3841,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4084,8 +4132,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4257,8 +4308,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4444,8 +4498,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -4860,8 +4917,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -5145,8 +5205,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -5380,8 +5443,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <div
-            class="card-header bg-primary text-white question-header"
+            class="card-header bg-primary text-white question-header bg-success"
           >
+            <i
+              class="fas fa-check mr-2"
+            />
             <span
               id="question-details"
             >
@@ -5586,6 +5652,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5614,6 +5681,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -5732,6 +5800,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
+  __ngContext__={[Function LRootView]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5760,6 +5829,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""

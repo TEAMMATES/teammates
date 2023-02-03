@@ -2,16 +2,13 @@
 
 exports[`InstructorCourseStudentDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-details-page
+  __ngContext__={[Function LRootView]}
   courseId="undefined"
   hasStudentLoadingFailed="false"
-  hasStudentProfileLoadingFailed="false"
   isStudentLoading={[Function Boolean]}
-  isStudentProfileLoading={[Function Boolean]}
-  photoUrl={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail="undefined"
-  studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
@@ -36,18 +33,14 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
 
 exports[`InstructorCourseStudentDetailsPageComponent should snap with populated student 1`] = `
 <tm-instructor-course-student-details-page
+  __ngContext__={[Function LRootView]}
   courseId="undefined"
   hasStudentLoadingFailed="false"
-  hasStudentProfileLoadingFailed="false"
   isStudentLoading={[Function Boolean]}
-  isStudentProfileLoading={[Function Boolean]}
-  photoUrl={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentEmail="undefined"
-  studentProfile={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>

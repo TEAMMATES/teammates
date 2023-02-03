@@ -24,10 +24,6 @@ export class StudentPageComponent implements OnInit {
       display: 'Home',
     },
     {
-      url: '/web/student/profile',
-      display: 'Profile',
-    },
-    {
       url: '/web/student/notifications',
       display: 'Notifications',
     },
@@ -46,26 +42,29 @@ export class StudentPageComponent implements OnInit {
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
-        if (res.user) {
-          this.user = res.user.id;
-          if (res.masquerade) {
-            this.user += ' (M)';
+      this.authService.getAuthUser(queryParams.user).subscribe({
+        next: (res: AuthInfo) => {
+          if (res.user) {
+            this.user = res.user.id;
+            if (res.masquerade) {
+              this.user += ' (M)';
+            }
+            this.isInstructor = res.user.isInstructor;
+            this.isStudent = res.user.isStudent;
+            this.isAdmin = res.user.isAdmin;
+            this.isMaintainer = res.user.isMaintainer;
+          } else {
+            window.location.href = `${this.backendUrl}${res.studentLoginUrl}`;
           }
-          this.isInstructor = res.user.isInstructor;
-          this.isStudent = res.user.isStudent;
-          this.isAdmin = res.user.isAdmin;
-          this.isMaintainer = res.user.isMaintainer;
-        } else {
-          window.location.href = `${this.backendUrl}${res.studentLoginUrl}`;
-        }
-        this.isFetchingAuthDetails = false;
-      }, () => {
-        this.isInstructor = false;
-        this.isStudent = false;
-        this.isAdmin = false;
-        this.isMaintainer = false;
-        this.isFetchingAuthDetails = false;
+          this.isFetchingAuthDetails = false;
+        },
+        error: () => {
+          this.isInstructor = false;
+          this.isStudent = false;
+          this.isAdmin = false;
+          this.isMaintainer = false;
+          this.isFetchingAuthDetails = false;
+        },
       });
     });
   }
