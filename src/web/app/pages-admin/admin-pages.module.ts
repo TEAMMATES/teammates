@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./admin-home-page/admin-home-page.module')
-        .then((m: any) => m.AdminHomePageModule),
+      .then((m: any) => m.AdminHomePageModule),
     data: {
       pageTitle: 'Add New Instructor',
     },
@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'accounts',
     loadChildren: () => import('./admin-accounts-page/admin-accounts-page.module')
-        .then((m: any) => m.AdminAccountsPageModule),
+      .then((m: any) => m.AdminAccountsPageModule),
     data: {
       pageTitle: 'Account Details',
     },
@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./admin-search-page/admin-search-page.module')
-        .then((m: any) => m.AdminSearchPageModule),
+      .then((m: any) => m.AdminSearchPageModule),
     data: {
       pageTitle: 'Admin Search',
     },
@@ -32,28 +32,36 @@ const routes: Routes = [
   {
     path: 'sessions',
     loadChildren: () => import('./admin-sessions-page/admin-sessions-page.module')
-        .then((m: any) => m.AdminSessionsPageModule),
+      .then((m: any) => m.AdminSessionsPageModule),
     data: {
       pageTitle: 'Ongoing Sessions',
     },
   },
-  { 
-    path: 'support', 
+  {
+    path: 'support',
     loadChildren: () => import('./admin-support-page/admin-support-page.module')
-      .then((m: any) => m.AdminSupportPageModule), 
-      data: { 
-        pageTitle: 'Support Requests'
-      }
+      .then((m: any) => m.AdminSupportPageModule),
+    data: {
+      pageTitle: 'Support Requests'
+    }
+  },
+  {
+    path: 'support/:id',
+    loadChildren: () => import('./admin-support-view-page/admin-support-view-page.module')
+      .then((m: any) => m.AdminSupportViewPageModule),
+    data: {
+      pageTitle: 'Support Request'
+    }
   },
   {
     path: 'timezone',
     loadChildren: () => import('../pages-monitoring/timezone-page/timezone-page.module')
-        .then((m: any) => m.TimezonePageModule),
+      .then((m: any) => m.TimezonePageModule),
   },
   {
     path: 'notifications',
     loadChildren: () => import('./admin-notifications-page/admin-notifications-page.module')
-        .then((m: any) => m.AdminNotificationsPageModule),
+      .then((m: any) => m.AdminNotificationsPageModule),
   },
   {
     path: 'logs',
@@ -61,12 +69,12 @@ const routes: Routes = [
       isAdmin: true,
     },
     loadChildren: () => import('../pages-monitoring/logs-page/logs-page.module')
-        .then((m: any) => m.LogsPageModule),
+      .then((m: any) => m.LogsPageModule),
   },
   {
     path: 'stats',
     loadChildren: () => import('../pages-monitoring/usage-stats-page/usage-statistics-page.module')
-        .then((m: any) => m.UsageStatisticsPageModule),
+      .then((m: any) => m.UsageStatisticsPageModule),
     data: {
       pageTitle: 'Usage Statistics',
     },
@@ -93,4 +101,4 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
 })
-export class AdminPagesModule {}
+export class AdminPagesModule { }
