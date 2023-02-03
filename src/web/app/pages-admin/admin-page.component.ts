@@ -31,6 +31,10 @@ export class AdminPageComponent implements OnInit {
       url: '/web/admin/sessions',
       display: 'Sessions',
     },
+    { 
+      url: '/web/admin/support', 
+      display: 'Support',
+    },
     {
       url: '/web/admin/notifications',
       display: 'Notifications',

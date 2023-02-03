@@ -1,4 +1,4 @@
-{ 
+[{ 
     "trackingId": 1, 
     "email": "user1@gmail.com", 
     "name": "user1",
@@ -6,4 +6,14 @@
     "title": "need help", 
     "initial_msg": "pls help me", 
     "status": "NEW" 
+}, 
+{ 
+    "trackingId": 2, 
+    "email": "user2@gmail.com", 
+    "name": "user2",
+    "enquiry_type": "NEW_ACCOUNT", 
+    "title": "need help!!", 
+    "initial_msg": "pls help me", 
+    "status": "RESOLVED" 
 }
+]

@@ -1,0 +1,59 @@
+<div class="card border-primary">
+  <div class="card-body fill-plain">
+    <div class="form form-horizontal text-center">
+      <div class="form-group">
+        <div class="col-sm-12 text-md-left">
+          <h4 class="font-weight-bold">Ticket Details</h4>
+        </div>
+      </div>
+      <div class="form-group ticket-info-row row">
+        <div class="col-md-2 text-md-right">
+          <label>Title</label>
+        </div>
+        <div id="tracking-id" class="col-md-9 text-md-left">
+          <span>{{supportRequest.title}}</span>
+        </div>
+      </div>
+      <div class="form-group ticket-info-row row">
+        <div class="col-md-2 text-md-right">
+          <label>Enquiry Type</label>
+        </div>
+        <div id="enquiry-type" class="col-md-9 text-md-left">
+          <span>{{supportRequest.enquiry_type}}</span>
+        </div>
+      </div>
+      <div class="form-group ticket-info-row row">
+        <div class="col-md-2 text-md-right">
+          <label>Email</label>
+        </div>
+        <div id="email" class="col-md-9 text-md-left">
+          <span>{{supportRequest.email}}</span>
+        </div>
+      </div>
+      <div class="form-group ticket-info-row row">
+        <div class="col-md-2 text-md-right">
+          <label>Name</label>
+        </div>
+        <div id="name" class="col-md-9 text-md-left">
+          <span>{{supportRequest.name}}</span>
+        </div>
+      </div>
+      <div class="form-group ticket-info-row row">
+        <div class="col-md-2 text-md-right">
+          <label>Status</label>
+        </div>
+        <div id="status" class="col-md-9 text-md-left">
+          <span>{{supportRequest.status}}</span>
+        </div>
+      </div>
+      <div class="form-group ticket-info-row row">
+        <div class="col-md-2 text-md-right">
+          <label>Message</label>
+        </div>
+        <div id="message" class="col-md-9 text-md-left">
+          <span>{{supportRequest.initial_msg}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
