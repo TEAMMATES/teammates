@@ -1,0 +1,38 @@
+<div class="card bg-light top-padded padded">
+  <label class="control-label">
+    <strong>Name:</strong>
+  </label>
+  <input id="add-contact-name" type="text" class="form-control" [(ngModel)]="model.name" placeholder="Enter your name"
+    maxlength="64" required />
+  <br />
+  <label class="control-label">
+    <strong>Email:</strong>
+  </label>
+  <input id="add-contact-email" type="email" email="true" class="form-control" [(ngModel)]="model.email"
+    placeholder="Enter your email" maxlength="64" required />
+  <br />
+  <label class="control-label">
+    <strong>Enquiry Type:</strong>
+  </label>
+  <select id="grace-period" class="form-control" [(ngModel)]="model.enquiryType" placeholder="Select enquiry Type">
+    <!-- TODO: Pipe and format enquiry type -->
+    <option *ngFor="let enquiryType of ENQUIRY_TYPES" [ngValue]="enquiryType">{{ SupportReqEnquiryType[enquiryType] }}
+    </option>
+  </select>
+  <br />
+  <label class="control-label">
+    <strong>Title:</strong>
+  </label>
+  <input id="add-contact-email" class="form-control" [(ngModel)]="model.title" placeholder="Enter a title"
+    maxlength="64" required />
+  <br />
+  <label class="control-label">
+    <strong>Enquiry:</strong>
+  </label>
+  <tm-rich-text-editor id="message" [(richText)]="model.message" required></tm-rich-text-editor>
+  <br />
+  <button class="btn btn-primary" type="submit" [disabled]="isFormSubmitting" (click)="handleSubmitEnquiry()">
+    <tm-ajax-loading *ngIf="isFormSubmitting"></tm-ajax-loading>
+    <span>Submit Enquiry</span>
+  </button>
+</div>
