@@ -131,7 +131,7 @@
             <div class="col-12 text-center">
               <button id="btn-submit-by-recipient" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses at any time and come back later to continue."
-                (click)="saveFeedbackResponses(questionSubmissionForms)"
+                (click)="saveResponsesForSelectedRecipientQuestions(entry.key, questionSubmissionForms)"
                 [disabled]="isSavingResponses || isSubmissionFormsDisabled"><tm-ajax-loading
                   *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for {{ getRecipientName(entry.key) }}</button>
             </div>
