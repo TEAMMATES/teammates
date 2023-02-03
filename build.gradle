@@ -6,6 +6,7 @@ apply plugin: "pmd"
 apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
+apply plugin: "org.liquibase.gradle"
 
 def checkstyleVersion = "10.3.2"
 def pmdVersion = "6.48.0"
@@ -26,6 +27,7 @@ buildscript {
             exclude group: "org.gradle"
         }
         classpath "com.google.guava:guava:31.1-jre"
+        classpath "org.liquibase:liquibase-gradle-plugin:2.1.1"
     }
 }
 
@@ -90,6 +92,10 @@ dependencies {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
+    liquibaseRuntime("org.liquibase:liquibase-core:4.19.0")
+    liquibaseRuntime("info.picocli:picocli:4.7.1")
+    liquibaseRuntime("org.postgresql:postgresql:42.5.2")
+    liquibaseRuntime(sourceSets.main.output)
 }
 
 sourceSets {
@@ -117,6 +123,18 @@ sourceSets {
             srcDir "src/lnp/resources"
             srcDir "src/client/resources"
             exclude "**/*.java"
+        }
+    }
+}
+
+liquibase {
+    activities {
+        main {
+            searchPath "${projectDir}"
+            changeLogFile "src/main/resources/db/changelog/db.changelog-root.xml"
+            url project.properties['liquibaseDbUrl']
+            username project.properties['liquibaseUsername']
+            password project.properties['liquibasePassword']
         }
     }
 }
