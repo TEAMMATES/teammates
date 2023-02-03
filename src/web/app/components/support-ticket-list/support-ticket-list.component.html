@@ -82,8 +82,9 @@
                         id: 'btn-view-records', 
                         isEnabled: isActionButtonsEnabled, 
                         tooltip: 'View message history', 
-                        name: 'View',
-                        tmRouterLink: '/web/admin/support/:{{ req.trackingId }}'}">
+                        name: 'View messages',
+                        tmRouterLink: ['/web/admin/support/', req.trackingId] 
+                    }">
                     </ng-container>
                     <button id="btn-delete" class="btn btn-light btn-sm btn-margin-right"
                         [ngbTooltip]="'Delete this support request'"
