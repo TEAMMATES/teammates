@@ -2,9 +2,11 @@
 
 exports[`SessionSubmissionPageComponent should snap when feedback session questions have failed to load 1`] = `
 <tm-session-submission-page
+  FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   __ngContext__={[Function LRootView]}
+  allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -12,6 +14,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
+  currentSelectedSessionView={[Function String]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -24,6 +27,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
+  hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -45,6 +49,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts="0"
   route={[Function Object]}
@@ -52,6 +57,8 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  ungroupableQuestions={[Function Set]}
+  ungroupableQuestionsSorted={[Function Array]}
 >
   <div
     class="row"
@@ -152,9 +159,11 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = `
 <tm-session-submission-page
+  FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   __ngContext__={[Function LRootView]}
+  allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -162,6 +171,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
+  currentSelectedSessionView={[Function String]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -174,6 +184,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
+  hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -195,6 +206,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
@@ -202,6 +214,8 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  ungroupableQuestions={[Function Set]}
+  ungroupableQuestionsSorted={[Function Array]}
 >
   <div
     class="row"
@@ -299,9 +313,11 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 
 exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
+  FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   __ngContext__={[Function LRootView]}
+  allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -309,6 +325,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
+  currentSelectedSessionView={[Function String]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -321,6 +338,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
+  hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -342,6 +360,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
@@ -349,6 +368,8 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  ungroupableQuestions={[Function Set]}
+  ungroupableQuestionsSorted={[Function Array]}
 >
   <div
     class="row"
@@ -446,9 +467,11 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 
 exports[`SessionSubmissionPageComponent should snap with feedback session and user details 1`] = `
 <tm-session-submission-page
+  FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   __ngContext__={[Function LRootView]}
+  allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -456,6 +479,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   courseInstitute={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
+  currentSelectedSessionView={[Function String]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -468,6 +492,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   formattedSessionClosingTime={[Function String]}
   formattedSessionOpeningTime={[Function String]}
   hasFeedbackSessionQuestionsLoadingFailed="false"
+  hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -489,6 +514,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
@@ -496,6 +522,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  ungroupableQuestions={[Function Set]}
+  ungroupableQuestionsSorted={[Function Array]}
 >
   <div
     class="row"
@@ -559,114 +587,158 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
       </div>
     </div>
   </div><div
-    class="card card-plain"
+    class="d-flex flex-row contain-left-right"
   >
     <div
-      class="card-body"
+      class="card card-plain left"
     >
       <div
-        class="row text-center"
+        class="card-body"
       >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Course ID:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="course-id"
+          class="row text-center"
         >
-          test.exa-demo
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Course ID:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-id"
+          >
+            test.exa-demo
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Course name:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-name"
+          >
+            Course name
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Course institute:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-institute"
+          >
+            Test institute
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Session:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="fs-name"
+          >
+            First team feedback session
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Opening time:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="opening-time"
+          >
+            Sun, 01 Apr, 2012, 11:59 PM +08
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Closing time:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="closing-time"
+          >
+            Mon, 02 Apr, 2012, 11:59 PM +08
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Instructions:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="instructions"
+          >
+            Please give your feedback based on the following questions.
+          </div>
         </div>
       </div>
+    </div>
+    <div
+      class="card card-plain right"
+    >
       <div
-        class="row text-center"
+        class="card-body text-center"
       >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Course name:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="course-name"
+          class="text-center"
         >
-          Course name
+          Customise the questions view of your session
         </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Course institute:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="course-institute"
+          class="mt-2"
+          ngbdropdown=""
         >
-          Test institute
-        </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Session:
-        </label>
-        <div
-          class="col-md-10 text-md-left"
-          id="fs-name"
-        >
-          First team feedback session
-        </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Opening time:
-        </label>
-        <div
-          class="col-md-10 text-md-left"
-          id="opening-time"
-        >
-          Sun, 01 Apr, 2012, 11:59 PM +08
-        </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Closing time:
-        </label>
-        <div
-          class="col-md-10 text-md-left"
-          id="closing-time"
-        >
-          Mon, 02 Apr, 2012, 11:59 PM +08
-        </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Instructions:
-        </label>
-        <div
-          class="col-md-10 text-md-left"
-          id="instructions"
-        >
-          Please give your feedback based on the following questions.
+          <button
+            class="btn btn-primary"
+            id="btn-new-question"
+            ngbdropdowntoggle=""
+          >
+            Change View
+          </button>
+          <div
+            id="new-question-dropdown"
+            ngbdropdownmenu=""
+          >
+            <button
+              class="dropdown-item"
+            >
+              Default View
+            </button>
+            <button
+              class="dropdown-item"
+            >
+              Group Questions by Recipients
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -692,9 +764,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms 1`] = `
 <tm-session-submission-page
+  FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   __ngContext__={[Function LRootView]}
+  allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -702,6 +776,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
+  currentSelectedSessionView={[Function String]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -714,6 +789,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
+  hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -735,6 +811,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
@@ -742,6 +819,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  ungroupableQuestions={[Function Set]}
+  ungroupableQuestionsSorted={[Function Array]}
 >
   <div
     class="row"
@@ -804,81 +883,125 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </div>
     </div>
   </div><div
-    class="card card-plain"
+    class="d-flex flex-row contain-left-right"
   >
     <div
-      class="card-body"
+      class="card card-plain left"
     >
       <div
-        class="row text-center"
+        class="card-body"
       >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Course ID:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="course-id"
+          class="row text-center"
         >
-          CS3281
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Course ID:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-id"
+          >
+            CS3281
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Session:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="fs-name"
+          >
+            Feedback Session Name
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Opening time:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="opening-time"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Closing time:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="closing-time"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Instructions:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="instructions"
+          />
         </div>
       </div>
+    </div>
+    <div
+      class="card card-plain right"
+    >
       <div
-        class="row text-center"
+        class="card-body text-center"
       >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Session:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="fs-name"
+          class="text-center"
         >
-          Feedback Session Name
+          Customise the questions view of your session
         </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Opening time:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="opening-time"
+          class="mt-2"
+          ngbdropdown=""
         >
+          <button
+            class="btn btn-primary"
+            id="btn-new-question"
+            ngbdropdowntoggle=""
+          >
+            Change View
+          </button>
+          <div
+            id="new-question-dropdown"
+            ngbdropdownmenu=""
+          >
+            <button
+              class="dropdown-item"
+            >
+              Default View
+            </button>
+            <button
+              class="dropdown-item"
+            >
+              Group Questions by Recipients
+            </button>
+          </div>
         </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Closing time:
-        </label>
-        <div
-          class="col-md-10 text-md-left"
-          id="closing-time"
-        >
-        </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Instructions:
-        </label>
-        <div
-          class="col-md-10 text-md-left"
-          id="instructions"
-        />
       </div>
     </div>
   </div><tm-loading-retry>
@@ -3158,9 +3281,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms when disabled 1`] = `
 <tm-session-submission-page
+  FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   __ngContext__={[Function LRootView]}
+  allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -3168,6 +3293,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
+  currentSelectedSessionView={[Function String]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -3180,6 +3306,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
+  hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -3201,6 +3328,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
@@ -3208,6 +3336,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  ungroupableQuestions={[Function Set]}
+  ungroupableQuestionsSorted={[Function Array]}
 >
   <div
     class="row"
@@ -3270,81 +3400,125 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </div>
     </div>
   </div><div
-    class="card card-plain"
+    class="d-flex flex-row contain-left-right"
   >
     <div
-      class="card-body"
+      class="card card-plain left"
     >
       <div
-        class="row text-center"
+        class="card-body"
       >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Course ID:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="course-id"
+          class="row text-center"
         >
-          CS3281
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Course ID:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="course-id"
+          >
+            CS3281
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Session:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="fs-name"
+          >
+            Feedback Session Name
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Opening time:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="opening-time"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Closing time:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="closing-time"
+          >
+          </div>
+        </div>
+        <div
+          class="row text-center"
+        >
+          <label
+            class="col-md-2 text-md-right"
+          >
+            Instructions:
+          </label>
+          <div
+            class="col-md-10 text-md-left"
+            id="instructions"
+          />
         </div>
       </div>
+    </div>
+    <div
+      class="card card-plain right"
+    >
       <div
-        class="row text-center"
+        class="card-body text-center"
       >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Session:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="fs-name"
+          class="text-center"
         >
-          Feedback Session Name
+          Customise the questions view of your session
         </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Opening time:
-        </label>
         <div
-          class="col-md-10 text-md-left"
-          id="opening-time"
+          class="mt-2"
+          ngbdropdown=""
         >
+          <button
+            class="btn btn-primary"
+            id="btn-new-question"
+            ngbdropdowntoggle=""
+          >
+            Change View
+          </button>
+          <div
+            id="new-question-dropdown"
+            ngbdropdownmenu=""
+          >
+            <button
+              class="dropdown-item"
+            >
+              Default View
+            </button>
+            <button
+              class="dropdown-item"
+            >
+              Group Questions by Recipients
+            </button>
+          </div>
         </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Closing time:
-        </label>
-        <div
-          class="col-md-10 text-md-left"
-          id="closing-time"
-        >
-        </div>
-      </div>
-      <div
-        class="row text-center"
-      >
-        <label
-          class="col-md-2 text-md-right"
-        >
-          Instructions:
-        </label>
-        <div
-          class="col-md-10 text-md-left"
-          id="instructions"
-        />
       </div>
     </div>
   </div><tm-loading-retry>
@@ -5650,9 +5824,11 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with user that is logged in and using session link 1`] = `
 <tm-session-submission-page
+  FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   __ngContext__={[Function LRootView]}
+  allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5660,6 +5836,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
+  currentSelectedSessionView={[Function String]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -5672,6 +5849,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
+  hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -5693,6 +5871,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
@@ -5700,6 +5879,8 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  ungroupableQuestions={[Function Set]}
+  ungroupableQuestionsSorted={[Function Array]}
 >
   <div
     class="row"
@@ -5798,9 +5979,11 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 
 exports[`SessionSubmissionPageComponent should snap with user that is not logged in and using session link 1`] = `
 <tm-session-submission-page
+  FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   __ngContext__={[Function LRootView]}
+  allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5808,6 +5991,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
+  currentSelectedSessionView={[Function String]}
   document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
@@ -5820,6 +6004,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
+  hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -5841,6 +6026,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
   route={[Function Object]}
@@ -5848,6 +6034,8 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  ungroupableQuestions={[Function Set]}
+  ungroupableQuestionsSorted={[Function Array]}
 >
   <div
     class="row"
