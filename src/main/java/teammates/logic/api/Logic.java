@@ -24,6 +24,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.SupportRequestAttributes;
 import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -43,6 +44,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.NotificationsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.logic.core.SupportRequestsLogic;
 import teammates.logic.core.UsageStatisticsLogic;
 
 /**
@@ -58,6 +60,7 @@ public class Logic {
     final AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
+    final SupportRequestsLogic supportRequestsLogic = SupportRequestsLogic.inst();
     final StudentsLogic studentsLogic = StudentsLogic.inst();
     final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -185,6 +188,67 @@ public class Logic {
 
         notificationsLogic.deleteNotification(notificationId);
     }
+
+    public List<SupportRequestAttributes> getAllSupportRequests() {
+        return supportRequestsLogic.getAllSupportRequests();
+    }
+
+    /**
+     * Gets a support request by ID.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return Null if no match found.
+     */
+    public SupportRequestAttributes getSupportRequest(String id) {
+        return supportRequestsLogic.getSupportRequest(id);
+    }
+
+    /**
+     * Creates a support request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return created support request
+     * @throws InvalidParametersException if the support request is not valid
+     * @throws EntityAlreadyExistsException if the support request exists in the database
+     */
+    public SupportRequestAttributes createSupportRequest(SupportRequestAttributes supportRequest) throws
+            InvalidParametersException, EntityAlreadyExistsException {
+        return supportRequestsLogic.createSupportRequest(supportRequest);
+    }
+
+    /**
+     * Updates a support request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     * @return updated support request
+     * @throws InvalidParametersException if the support request is not valid
+     * @throws EntityDoesNotExistException if the support request does not exist in the database
+     */
+    public SupportRequestAttributes updateSupportRequest(SupportRequestAttributes.UpdateOptions updateOptions) throws
+            InvalidParametersException, EntityDoesNotExistException {
+        return supportRequestsLogic.updateSupportRequest(updateOptions);
+    }
+
+    /**
+     * Deletes support request by ID.
+     *
+     * <ul>
+     * <li>Fails silently if no such support request.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     */
+    public void deleteSupportRequest(String id) {
+        assert id != null;
+
+        supportRequestsLogic.deleteSupportRequest(id);
+    }    
 
     /**
      * Deletes both instructor and student privileges, as well as the account.
