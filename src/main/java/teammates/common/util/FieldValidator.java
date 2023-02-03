@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.SupportRequestType;
+import teammates.common.datatransfer.SupportRequestStatus;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -60,6 +62,14 @@ public final class FieldValidator {
     public static final String NOTIFICATION_STYLE_FIELD_NAME = "notification style";
     public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
     public static final int NOTIFICATION_TITLE_MAX_LENGTH = 80;
+
+    // support request-related
+    public static final String SUPPORT_REQUEST_NAME = "support request";
+    public static final String SUPPORT_REQUEST_CREATED_AT_FIELD_NAME = "time that support request is created";
+    public static final String SUPPORT_REQUEST_UPDATED_AT_FIELD_NAME = "time that support request is updated";
+    public static final String SUPPORT_REQUEST_MESSAGE_FIELD_NAME = "support request message";
+    public static final String SUPPORT_REQUEST_TYPE_FIELD_NAME = "support request type";
+    public static final String SUPPORT_REQUEST_STATUS_FIELD_NAME = "support request status";
 
     public static final List<String> NOTIFICATION_STYLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
@@ -615,6 +625,37 @@ public final class FieldValidator {
         return "";
     }
 
+    public static String getInvalidityInfoForSupportRequestMessage(String supportRequestMessage) {
+
+        assert supportRequestMessage != null : "Non-null value expected for support request message";
+
+        if (supportRequestMessage.isEmpty()) {
+            return getPopulatedEmptyStringErrorMessage(EMPTY_STRING_ERROR_INFO, SUPPORT_REQUEST_MESSAGE_FIELD_NAME, 0);
+        }
+
+        return "";
+    }
+
+    public static String getInvalidityInfoForSupportRequestType(String type) {
+        assert type != null;
+        try {
+            SupportRequestType.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            return String.format(SUPPORT_REQUEST_TYPE_FIELD_NAME, type);
+        }
+        return "";
+    }
+
+    public static String getInvalidityInfoForSupportRequestStatus(String status) {
+        assert status != null;
+        try {
+            SupportRequestStatus.valueOf(status);
+        } catch (IllegalArgumentException e) {
+            return String.format(SUPPORT_REQUEST_STATUS_FIELD_NAME, status);
+        }
+        return "";
+    }
+
     /**
      * Checks if the given string is a non-null string no longer than
      * the specified length {@code maxLength}. However, this string can be empty.
@@ -789,6 +830,12 @@ public final class FieldValidator {
             Instant notificationStart, Instant notificationExpiry) {
         return getInvalidityInfoForFirstTimeIsBeforeSecondTime(notificationStart, notificationExpiry,
                 NOTIFICATION_NAME, NOTIFICATION_VISIBLE_TIME_FIELD_NAME, NOTIFICATION_EXPIRY_TIME_FIELD_NAME);
+    }
+
+    public static String getInvalidityInfoForTimeForSupportRequestCreatedAndUpdated(
+            Instant createdAt, Instant updatedAt) {
+        return getInvalidityInfoForFirstTimeIsBeforeSecondTime(createdAt, updatedAt, 
+                SUPPORT_REQUEST_NAME, SUPPORT_REQUEST_CREATED_AT_FIELD_NAME, SUPPORT_REQUEST_UPDATED_AT_FIELD_NAME);
     }
 
     private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(Instant earlierTime, Instant laterTime,
