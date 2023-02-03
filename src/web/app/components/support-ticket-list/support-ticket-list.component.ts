@@ -67,7 +67,6 @@ export class SupportListComponent {
   }
 
   matches(text: string, rows: SupportRequest[]): SupportRequest[] {
-    console.log('matching')
     return text === '' || text === null ? rows : rows.filter((row) => {
       const term = text.toLowerCase(); 
   
@@ -94,9 +93,9 @@ export class SupportListComponent {
    * Open the delete student confirmation modal.
    */
     openDeleteModal(supportRequest: SupportRequest): void {
-      const modalContent: string = `Are you sure you want to remove support request ID <strong>${supportRequest.trackingId}</strong>?`;
+      const modalContent: string = `Are you sure you want to remove support request with ID <strong>${supportRequest.trackingId}</strong>?`;
       const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-          `Delete support request ID <strong>${supportRequest.trackingId}</strong>?`, SimpleModalType.DANGER, modalContent);
+          `Delete support request with ID <strong>${supportRequest.trackingId}</strong>?`, SimpleModalType.DANGER, modalContent);
       modalRef.result.then(() => {
         console.log("Deleting Support Request" + supportRequest.trackingId)
       }, () => {});
