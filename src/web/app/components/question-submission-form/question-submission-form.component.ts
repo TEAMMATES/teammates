@@ -394,8 +394,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   saveFeedbackResponses(): void {
     this.isSaved = true;
     this.hasResponseChanged = false;
-    this.model.hasResponseChangedForRecipients.forEach((_hasResponseChangedForRecipient: boolean, recipientId: string) => {
-      this.model.hasResponseChangedForRecipients.set(recipientId, false);
+    this.model.hasResponseChangedForRecipients.forEach(
+        (_hasResponseChangedForRecipient: boolean, recipientId: string) => {
+        this.model.hasResponseChangedForRecipients.set(recipientId, false);
     });
     this.responsesSave.emit(this.model);
   }
@@ -457,15 +458,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     switch (this.model.questionType) {
       case FeedbackQuestionType.TEXT:
         return this.model.recipientSubmissionForms.reduce(
-            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) => {
-              if (form.recipientIdentifier === recipientId) {
-                console.log(`${recipientId}, ${(form.responseDetails as FeedbackTextResponseDetails).answer}`);
-                console.log(this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier));
-              }
-              return result || (form.recipientIdentifier === recipientId
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
+              result || (form.recipientIdentifier === recipientId
                   && !((form.responseDetails as FeedbackTextResponseDetails).answer === ''
-                      || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier)))
-            },
+                      || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.MCQ:
         return this.model.recipientSubmissionForms.reduce(

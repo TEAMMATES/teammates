@@ -1570,6 +1570,6 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
   } as FeedbackRubricQuestionDetails,
   hasResponseChangedForRecipients: new Map<string, boolean>([
     ['alice', false],
-    ['bob', false]
+    ['bob', false],
   ]),
 };
