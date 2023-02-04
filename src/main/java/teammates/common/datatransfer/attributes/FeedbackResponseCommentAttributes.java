@@ -51,6 +51,10 @@ public final class FeedbackResponseCommentAttributes extends EntityAttributes<Fe
         isCommentFromFeedbackParticipant = false;
     }
 
+    public FeedbackResponseCommentAttributes(String string, String string2, String string3, String string4,
+            String string5) {
+    }
+
     /**
      * Gets the {@link FeedbackResponseCommentAttributes} instance of the given {@link FeedbackResponseComment}.
      */
