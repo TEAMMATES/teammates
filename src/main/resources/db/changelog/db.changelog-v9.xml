@@ -1,0 +1,82 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="samfang (generated)" id="1675509892429-1">
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50"
+            maxValue="9223372036854775807" minValue="1" sequenceName="feedback_sessions_seq"
+            startValue="1" />
+    </changeSet>
+    <changeSet author="samfang (generated)" id="1675509892429-2">
+        <createTable tableName="courses">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="courses_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="institute" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="time_zone" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+        </createTable>
+    </changeSet>
+    <changeSet author="samfang (generated)" id="1675509892429-3">
+        <createTable tableName="feedback_sessions">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"
+                    primaryKeyName="feedback_sessions_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="creator_email" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="grace_period" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="instructions" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_closing_email_enabled" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_opening_email_enabled" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_published_email_enabled" type="BOOLEAN">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="results_visible_from_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="session_visible_from_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false" />
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="course_id" type="VARCHAR(255)" />
+        </createTable>
+    </changeSet>
+    <changeSet author="samfang (generated)" id="1675509892429-4">
+        <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="feedback_sessions"
+            constraintName="fkps2v457frlaaddf272oc18uxd" deferrable="false"
+            initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+            referencedColumnNames="id" referencedTableName="courses" validate="true" />
+    </changeSet>
+</databaseChangeLog>
