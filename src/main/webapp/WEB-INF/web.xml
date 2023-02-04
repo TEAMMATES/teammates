@@ -48,16 +48,6 @@
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>
     </filter-mapping>
-    <filter>
-        <filter-name>HibernateSessionRequestFilter</filter-name>
-        <filter-class>teammates.ui.servlets.HibernateSessionRequestFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>HibernateSessionRequestFilter</filter-name>
-        <url-pattern>/webapi/*</url-pattern>
-        <url-pattern>/auto/*</url-pattern>
-        <url-pattern>/worker/*</url-pattern>
-    </filter-mapping>
     <listener>
         <listener-class>teammates.storage.api.OfyHelper</listener-class>
     </listener>

@@ -290,6 +290,9 @@ public final class Config {
         return new AppUrl(APP_FRONTEND_URL + relativeUrl);
     }
 
+    /**
+     * Returns db connection URL.
+     */
     public static String getDbConnectionUrl() {
         if (IS_DEV_SERVER) {
             return "jdbc:postgresql://localhost:"
@@ -300,6 +303,9 @@ public final class Config {
         }
     }
 
+    /**
+     * Returns db username.
+     */
     public static String getDbUsername() {
         if (IS_DEV_SERVER) {
             return APP_LOCALPOSTGRES_USERNAME;
@@ -309,6 +315,9 @@ public final class Config {
         }
     }
 
+    /**
+     * Returns db password.
+     */
     public static String getDbPassword() {
         if (IS_DEV_SERVER) {
             return APP_LOCALPOSTGRES_PASSWORD;

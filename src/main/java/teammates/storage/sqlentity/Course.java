@@ -8,15 +8,16 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
 
 /**
  * Represents a course entity.
@@ -155,6 +156,9 @@ public class Course extends BaseEntity {
                 + ", deletedAt=" + deletedAt + "]";
     }
 
+    /**
+     * Builder for Course.
+     */
     public static class CourseBuilder {
         private String id;
         private String name;

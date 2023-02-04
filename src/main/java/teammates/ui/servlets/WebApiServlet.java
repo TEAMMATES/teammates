@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
+import org.hibernate.HibernateException;
 
 import com.google.cloud.datastore.DatastoreException;
 
-import org.hibernate.HibernateException;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.Logger;

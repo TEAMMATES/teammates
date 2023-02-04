@@ -10,6 +10,10 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -18,9 +22,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
 
 /**
  * Represents a course entity.
@@ -315,6 +316,9 @@ public class FeedbackSession extends BaseEntity {
                 + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
+    /**
+     * Builder for FeedbackSession.
+     */
     public static class FeedbackSessionBuilder {
         private String name;
         private Course course;

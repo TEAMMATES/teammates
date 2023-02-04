@@ -23,8 +23,8 @@ public abstract class BaseEntity {
     /**
      * Returns a {@code List} of strings, one string for each attribute whose
      * value is invalid, or an empty {@code List} if all attributes are valid.
-     * 
-     * The string explains why the value is invalid
+     *
+     * <p>The string explains why the value is invalid
      * and what should values are acceptable. These explanations are
      * good enough to show to the user.
      */
@@ -51,6 +51,9 @@ public abstract class BaseEntity {
         errors.add(error);
     }
 
+    /**
+     * Attribute converter between Duration and Long types.
+     */
     @Converter
     public static class DurationLongConverter implements AttributeConverter<Duration, Long> {
         @Override
