@@ -60,8 +60,8 @@ interface FeedbackQuestionsResponse {
 
 // To export out
 export enum SessionView {
-  DEFAULT = 'Default View',
-  GROUP_RECIPIENTS = 'Group Questions by Recipients',
+  DEFAULT = 'Question',
+  GROUP_RECIPIENTS = 'Recipient',
 }
 
 /**
