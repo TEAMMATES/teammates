@@ -62,7 +62,7 @@ public class SupportRequest extends BaseEntity {
         this.setUpdatedAt(Instant.now());
         setType(type);
         setMessage(message);
-        setStatus(SupportRequestStatus.PENDING);
+        setStatus(SupportRequestStatus.NEW);
     }
 
     /**

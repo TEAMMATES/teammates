@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ContactUsFormModel } from './contact-us-form-model';
-import { SupportReqEnquiryType } from 'src/web/types/support-req-types';
+import { SupportReqEnquiryType, SupportRequestRequest } from 'src/web/types/support-req-types';
+import { SupportRequestService } from 'src/web/services/supportrequest.service';
 
 @Component({
   selector: 'tm-contact-us-form',
@@ -12,26 +12,32 @@ export class ContactUsFormComponent {
   // enum
   SupportReqEnquiryType: typeof SupportReqEnquiryType = SupportReqEnquiryType;
 
-  readonly ENQUIRY_TYPES: SupportReqEnquiryType[] = [
-    SupportReqEnquiryType.GENERAL_HELP,
-    SupportReqEnquiryType.NEW_ACCOUNT,
-  ]
+  ENQUIRY_TYPES = Object.keys(SupportReqEnquiryType).slice(0, Object.keys(SupportReqEnquiryType).length / 2)
 
   @Input()
-  model: ContactUsFormModel = {
-    email: '',
+  model: SupportRequestRequest = {
+    email: '', 
     name: '',
     title: '',
-    enquiryType: SupportReqEnquiryType.GENERAL_HELP,
-    message: '',
+    enquiry_type: SupportReqEnquiryType.GENERAL_HELP,
+    initial_msg: '',
   };
 
   isFormSubmitting: boolean = false;
 
-  handleSubmitEnquiry(): void {
-    this.isFormSubmitting = true;
-    console.log(this.model);
-    this.isFormSubmitting = false;
+  constructor(private supportRequestService: SupportRequestService) {
+
   }
 
+  createNewSupportRequest(req: SupportRequestRequest) {
+    this.supportRequestService.createSupportRequest(req)
+  }
+
+  handleSubmitEnquiry(): void {
+    this.isFormSubmitting = true;
+    // this.model.enquiry_type = (<any>SupportReqEnquiryType)[SupportReqEnquiryType[this.model.enquiry_type.valueOf()]];
+    // console.log(this.model)
+    this.createNewSupportRequest({...this.model})
+    this.isFormSubmitting = false;
+  }
 }
