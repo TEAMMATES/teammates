@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { replacer, reviver } from '../../../test-helpers/json-helper';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
@@ -91,6 +92,13 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   isLoading: false,
   isLoaded: true,
+
+  hasResponseChangedForRecipients: new Map<string, boolean>([
+    ['rogers-alan-id', false],
+    ['buck-arthur-id', false],
+    ['harris-barry-id', false],
+    ['hans-charlie-id', false],
+  ]),
 };
 
 describe('QuestionSubmissionFormComponent', () => {
@@ -140,8 +148,8 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Sorted recipient list)',
    () => {
-    const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
-
+    const model: QuestionSubmissionFormModel = JSON.parse(
+        JSON.stringify(testNumscaleQuestionSubmissionForm, replacer), reviver);
     component.formModel = model;
     component.ngDoCheck();
 
@@ -150,7 +158,8 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Unsorted recipient list)',
     () => {
-      const model: QuestionSubmissionFormModel = JSON.parse(JSON.stringify(testNumscaleQuestionSubmissionForm));
+      const model: QuestionSubmissionFormModel = JSON.parse(
+          JSON.stringify(testNumscaleQuestionSubmissionForm, replacer), reviver);
 
       // Change recipient list to unsorted
       model.recipientList = [{ recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id' },

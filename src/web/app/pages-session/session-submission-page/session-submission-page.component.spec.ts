@@ -324,6 +324,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>(),
   };
 
   const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
@@ -348,6 +349,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: false,
+    hasResponseChangedForRecipients: new Map<string, boolean>(),
   };
 
   const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -371,6 +373,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>(),
   };
 
   const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -398,6 +401,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>(),
   };
 
   const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -422,6 +426,9 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', false],
+    ]),
   };
 
   const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -449,6 +456,9 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', false],
+    ]),
   };
 
   const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -471,6 +481,9 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', false],
+    ]),
   };
 
   const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -497,6 +510,9 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', false],
+    ]),
   };
 
   const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -519,6 +535,9 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', false],
+    ]),
   };
 
   const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -543,6 +562,9 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    hasResponseChangedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', false],
+    ]),
   };
 
   const testInfo: AuthInfo = {
