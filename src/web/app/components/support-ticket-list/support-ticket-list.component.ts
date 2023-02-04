@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { SupportRequest } from 'src/web/types/support-req-types';
+import { SupportReqStatus, SupportRequest } from 'src/web/types/support-req-types';
 import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { FormControl } from '@angular/forms';
@@ -25,7 +25,11 @@ export class SupportListComponent {
   @Input() isActionButtonsEnabled: boolean = true;
 
   @Output() sortSupportTicketListEvent: EventEmitter<SortBy> = new EventEmitter();
+  @Output() deleteSupportTicketEvent: EventEmitter<string> = new EventEmitter(); 
+  @Output() updateSupportTicketStatusEvent: EventEmitter<{id: string, status: SupportReqStatus}> = new EventEmitter(); 
 
+  SupportReqStatusTypes = SupportReqStatus
+  SUPPORT_REQ_STATUSES = Object.values(SupportReqStatus).slice(0, Object.values(SupportReqStatus).length / 2); 
   collectionSize: number = this.supportRequests.length
   supportRequestRows: SupportRequest[] = this.supportRequests
   supportReqRowsInPage: SupportRequest[] = this.supportRequestRows
@@ -89,6 +93,10 @@ export class SupportListComponent {
     this.sortSupportTicketListEvent.emit(sortBy)
   }
 
+  updateSupportRequestStatus(id: string, status: SupportReqStatus) {
+    this.updateSupportTicketStatusEvent.emit({id, status})
+  }
+
   /**
    * Open the delete student confirmation modal.
    */
@@ -97,7 +105,7 @@ export class SupportListComponent {
       const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
           `Delete support request with ID <strong>${supportRequest.trackingId}</strong>?`, SimpleModalType.DANGER, modalContent);
       modalRef.result.then(() => {
-        console.log("Deleting Support Request" + supportRequest.trackingId)
+        this.deleteSupportTicketEvent.emit(supportRequest.trackingId);
       }, () => {});
     }
 }

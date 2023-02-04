@@ -2,10 +2,6 @@ package teammates.logic.core;
 
 import java.util.List;
 
-import com.google.cloud.datastore.Entity;
-
-import teammates.common.datatransfer.SupportRequestStatus;
-import teammates.common.datatransfer.SupportRequestType;
 import teammates.common.datatransfer.attributes.SupportRequestAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;

@@ -3,6 +3,8 @@
     [tableSortOrder]="supportReqSortOrder"
     [supportRequests]="supportRequests"
     (sortSupportTicketListEvent)=(sortSupportRequestsList($event))
+    (deleteSupportTicketEvent)=(deleteSupportRequestWithId($event))
+    (updateSupportTicketStatusEvent)=(editSupportRequestStatus($event))
     ></tm-support-ticket-list>
 
   
