@@ -25,15 +25,18 @@ export class AdminSupportPageComponent {
   getAllSupportRequests() {
     this.supportRequestService.getAllSupportRequests().pipe(finalize(() => {}))
       .subscribe((reqs: SupportRequest[]) => {
-        this.supportRequests = reqs
+        this.supportRequests = reqs;
       })
   }
 
-  editSupportRequestStatus(_newSupportReq: {id: string, status: SupportReqStatus}) {
+  editSupportRequestStatus(event: {oldReq: SupportRequest, status: SupportReqStatus}) {
+    let newSupportReq = {...event.oldReq}; 
+    newSupportReq.status = event.status; 
+    this.supportRequestService.updateSupportRequest(newSupportReq);
   }
 
   deleteSupportRequestWithId(id: string) {
-    this.supportRequestService.deleteSupportRequest(id); 
+    this.supportRequestService.deleteSupportRequest({id}); 
   }
 
   /**

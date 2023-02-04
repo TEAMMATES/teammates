@@ -26,7 +26,7 @@ export class SupportListComponent {
 
   @Output() sortSupportTicketListEvent: EventEmitter<SortBy> = new EventEmitter();
   @Output() deleteSupportTicketEvent: EventEmitter<string> = new EventEmitter(); 
-  @Output() updateSupportTicketStatusEvent: EventEmitter<{id: string, status: SupportReqStatus}> = new EventEmitter(); 
+  @Output() updateSupportTicketStatusEvent: EventEmitter<{oldReq: SupportRequest, status: SupportReqStatus}> = new EventEmitter(); 
 
   SupportReqStatusTypes = SupportReqStatus
   SUPPORT_REQ_STATUSES = Object.values(SupportReqStatus).slice(0, Object.values(SupportReqStatus).length / 2); 
@@ -93,8 +93,8 @@ export class SupportListComponent {
     this.sortSupportTicketListEvent.emit(sortBy)
   }
 
-  updateSupportRequestStatus(id: string, status: SupportReqStatus) {
-    this.updateSupportTicketStatusEvent.emit({id, status})
+  updateSupportRequestStatus(oldReq: SupportRequest, status: SupportReqStatus) {
+    this.updateSupportTicketStatusEvent.emit({oldReq, status})
   }
 
   /**

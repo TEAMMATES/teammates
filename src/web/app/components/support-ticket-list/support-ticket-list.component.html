@@ -83,7 +83,7 @@
                             <ngb-highlight [result]="req.status" [term]="filter.value"></ngb-highlight>
                         </button>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                            <button *ngFor="let status of SUPPORT_REQ_STATUSES" (click)="updateSupportRequestStatus(req.trackingId, status)" ngbDropdownItem>{{ status }}</button>
+                            <button *ngFor="let status of SUPPORT_REQ_STATUSES" (click)="updateSupportRequestStatus(req, status)" ngbDropdownItem>{{ status }}</button>
                         </div>
                     </div>
                 </td>

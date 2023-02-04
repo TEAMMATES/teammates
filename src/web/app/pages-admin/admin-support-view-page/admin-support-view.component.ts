@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SupportRequestService } from 'src/web/services/supportrequest.service';
 import { SupportRequest } from 'src/web/types/support-req-types';
-
-import supportRequests from '../../../data/support-requests.dummy.json'
 
 /**
  * Admin support view list page.
@@ -15,12 +14,21 @@ import supportRequests from '../../../data/support-requests.dummy.json'
 })
 export class AdminSupportViewPageComponent {
   // supportRequests: Observable<SupportRequest[]> 
-  supportRequest: Observable<SupportRequest> = supportRequests[0]; 
+  supportRequest: Observable<SupportRequest> | null = null;
+  currId: string = ''; 
 
-  constructor(private supportRequestService: SupportRequestService) {
+  constructor(private supportRequestService: SupportRequestService, 
+    private route: ActivatedRoute) {
+  }
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.currId = params['id']
+      this.supportRequest = this.getSupportRequestFromBackend(this.currId)
+    })
   }
   
   getSupportRequestFromBackend(id: string) {
-    return this.supportRequestService.getSupportRequest(id);
+    return this.supportRequestService.getOneSupportRequest({id});
   }
 }
