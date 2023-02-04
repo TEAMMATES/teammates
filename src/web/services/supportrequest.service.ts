@@ -21,13 +21,14 @@ export class SupportRequestService {
    * Create support request by calling the API. 
    */
   createSupportRequest(queryParams: SupportRequestRequest): Observable<SupportRequest> {
+    console.log('here');
     const paramsMap: { [key: string]: string } = {
-        name: queryParams.name, 
-        email: queryParams.email,
-        type: queryParams.enquiry_type.toString(),
-        message: queryParams.initial_msg
-      };
-    return this.httpRequestService.post(ResourceEndpoints.SUPPORT_REQUESTS, paramsMap); 
+      name: queryParams.name,
+      email: queryParams.email,
+      type: queryParams.enquiry_type.toString(),
+      message: queryParams.initial_msg
+    };
+    return this.httpRequestService.post(ResourceEndpoints.SUPPORT_REQUESTS, paramsMap);
   }
 
   /**
@@ -40,10 +41,10 @@ export class SupportRequestService {
   /**
    * Fetch a support request with the given ID by calling the API.
    */
-  getOneSupportRequest(queryParams: {id: string}): Observable<SupportRequest> {
+  getOneSupportRequest(queryParams: { id: string }): Observable<SupportRequest> {
     const paramsMap: Record<string, string> = {
-        id: queryParams.id
-      };
+      id: queryParams.id
+    };
     return this.httpRequestService.get(ResourceEndpoints.SUPPORT_REQUEST, paramsMap)
   }
 
@@ -52,24 +53,24 @@ export class SupportRequestService {
    */
   updateSupportRequest(queryParams: SupportRequest): Observable<SupportRequest> {
     const paramsMap: { [key: string]: string } = {
-        id: queryParams.trackingId, 
-        name: queryParams.name, 
-        email: queryParams.email,
-        type: queryParams.enquiry_type.toString(),
-        message: queryParams.initial_msg,
-        status: queryParams.status.toString()
-      };
-    return this.httpRequestService.put(ResourceEndpoints.SUPPORT_REQUEST, paramsMap); 
+      id: queryParams.trackingId,
+      name: queryParams.name,
+      email: queryParams.email,
+      type: queryParams.enquiry_type.toString(),
+      message: queryParams.initial_msg,
+      status: queryParams.status.toString()
+    };
+    return this.httpRequestService.put(ResourceEndpoints.SUPPORT_REQUEST, paramsMap);
   }
 
- /**
-   * Deletes a support request with the given ID by calling API.
-   */
-  deleteSupportRequest(queryParams: {id: string}): Observable<SupportRequest> {
-    const paramsMap = { 
-        id: queryParams.id
+  /**
+    * Deletes a support request with the given ID by calling API.
+    */
+  deleteSupportRequest(queryParams: { id: string }): Observable<SupportRequest> {
+    const paramsMap = {
+      id: queryParams.id
     }
- 
+
     return this.httpRequestService.delete(ResourceEndpoints.SUPPORT_REQUEST, paramsMap);
   }
 }

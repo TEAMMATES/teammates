@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { SupportReqEnquiryType, SupportRequestRequest } from 'src/web/types/support-req-types';
 import { SupportRequestService } from 'src/web/services/supportrequest.service';
+import { finalize } from 'rxjs';
+import { StatusMessageService } from 'src/web/services/status-message.service';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 @Component({
   selector: 'tm-contact-us-form',
@@ -16,7 +19,7 @@ export class ContactUsFormComponent {
 
   @Input()
   model: SupportRequestRequest = {
-    email: '', 
+    email: '',
     name: '',
     title: '',
     enquiry_type: SupportReqEnquiryType.GENERAL_HELP,
@@ -25,19 +28,34 @@ export class ContactUsFormComponent {
 
   isFormSubmitting: boolean = false;
 
-  constructor(private supportRequestService: SupportRequestService) {
+  constructor(private supportRequestService: SupportRequestService, private statusMessageService: StatusMessageService) {
 
   }
 
-  createNewSupportRequest(req: SupportRequestRequest) {
-    this.supportRequestService.createSupportRequest(req)
+  resetForm(): void {
+    this.model = {
+      email: '',
+      name: '',
+      title: '',
+      enquiry_type: SupportReqEnquiryType.GENERAL_HELP,
+      initial_msg: '',
+    };
   }
 
   handleSubmitEnquiry(): void {
     this.isFormSubmitting = true;
     // this.model.enquiry_type = (<any>SupportReqEnquiryType)[SupportReqEnquiryType[this.model.enquiry_type.valueOf()]];
-    // console.log(this.model)
-    this.createNewSupportRequest({...this.model})
-    this.isFormSubmitting = false;
+    console.log(this.model)
+    this.supportRequestService.createSupportRequest({ ...this.model }).pipe(finalize(() => {
+      this.isFormSubmitting = false;
+    })).subscribe({
+      next: () => {
+        this.statusMessageService.showSuccessToast('The course has been added.');
+        this.resetForm();
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });;
   }
 }
