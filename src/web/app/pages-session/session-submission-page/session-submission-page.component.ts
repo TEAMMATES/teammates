@@ -1021,15 +1021,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   toggleViewChange(selectedView: SessionView): void {
-    if (selectedView === SessionView.GROUP_RECIPIENTS) {
-      if (this.currentSelectedSessionView === SessionView.GROUP_RECIPIENTS) {
-        return;
-      }
+    if (selectedView === this.currentSelectedSessionView) {
+      return;
+    }
 
+    if (selectedView === SessionView.DEFAULT) {
+      this.currentSelectedSessionView = SessionView.DEFAULT;
+    } else if (selectedView === SessionView.GROUP_RECIPIENTS) {
       this.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
       this.groupQuestionsByRecipient();
-    } else if (selectedView === SessionView.DEFAULT) {
-      this.currentSelectedSessionView = SessionView.DEFAULT;
     }
   }
 

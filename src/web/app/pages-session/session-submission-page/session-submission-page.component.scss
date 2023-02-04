@@ -14,31 +14,3 @@ label {
     display: none;
   }
 }
-
-.left {
-  width: 80%;
-  margin-right: 2px;
-}
-
-.right {
-  width: 20%;
-  margin-left: 2px;
-}
-
-@media screen and (max-width: 768px) {
-  .contain-left-right {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .left {
-    width: 100%;
-    margin-right: 0;
-  }
-
-  .right {
-    width: 100%;
-    margin-left: 0;
-  }
-}
