@@ -1,22 +1,24 @@
 export interface SupportRequest extends SupportRequestRequest {
-    trackingId: string, 
+    trackingId: string,
     status: SupportReqStatus
 }
 
 export interface SupportRequestRequest {
-    email: string, 
-    name: string, 
-    enquiry_type: SupportReqEnquiryType, 
-    title: string, 
+    email: string,
+    name: string,
+    type: SupportReqEnquiryType,
+    title: string,
     initial_msg: string,
+    createdAt: number,
+    updatedAt: number,
 }
 
 /**
  * The ordering in the supportRequestList is based on the order of this list
  */
 export enum SupportReqStatus {
-    NEW, 
-    AWAITING_ADMIN, 
+    NEW,
+    AWAITING_ADMIN,
     AWAITING_USER,
     RESOLVED
 }
@@ -24,7 +26,7 @@ export enum SupportReqStatus {
 /**
  * The ordering in the supportRequestList is based on the order of this list
  */
-export enum SupportReqEnquiryType { 
-    NEW_ACCOUNT, 
+export enum SupportReqEnquiryType {
+    NEW_ACCOUNT,
     GENERAL_HELP
 }

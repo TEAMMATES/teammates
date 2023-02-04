@@ -14,9 +14,11 @@ export class SupportViewComponent {
     trackingId: "-1",
     email: '',
     name: '',
-    enquiry_type: SupportReqEnquiryType.GENERAL_HELP,
+    type: SupportReqEnquiryType.GENERAL_HELP,
     title: '',
     initial_msg: '',
-    status: SupportReqStatus.NEW
+    status: SupportReqStatus.NEW,
+    createdAt: 0,
+    updatedAt: 0,
   };
 }

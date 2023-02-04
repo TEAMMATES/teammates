@@ -17,19 +17,19 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 })
 
 export class SupportListComponent {
-  @Input() supportRequests: SupportRequest[] = []; 
+  @Input() supportRequests: SupportRequest[] = [];
   @Input() tableSortBy: SortBy = SortBy.NONE;
-  @Input() useGrayHeading: boolean = false; 
+  @Input() useGrayHeading: boolean = false;
   @Input() isHideTableHead: boolean = false;
   @Input() tableSortOrder: SortOrder = SortOrder.DESC;
   @Input() isActionButtonsEnabled: boolean = true;
 
   @Output() sortSupportTicketListEvent: EventEmitter<SortBy> = new EventEmitter();
-  @Output() deleteSupportTicketEvent: EventEmitter<string> = new EventEmitter(); 
-  @Output() updateSupportTicketStatusEvent: EventEmitter<{oldReq: SupportRequest, status: SupportReqStatus}> = new EventEmitter(); 
+  @Output() deleteSupportTicketEvent: EventEmitter<string> = new EventEmitter();
+  @Output() updateSupportTicketStatusEvent: EventEmitter<{ oldReq: SupportRequest, status: SupportReqStatus }> = new EventEmitter();
 
   SupportReqStatusTypes = SupportReqStatus
-  SUPPORT_REQ_STATUSES = Object.values(SupportReqStatus).slice(0, Object.values(SupportReqStatus).length / 2); 
+  SUPPORT_REQ_STATUSES = Object.values(SupportReqStatus).slice(0, Object.values(SupportReqStatus).length / 2);
   collectionSize: number = this.supportRequests.length
   supportRequestRows: SupportRequest[] = this.supportRequests
   supportReqRowsInPage: SupportRequest[] = this.supportRequestRows
@@ -43,7 +43,7 @@ export class SupportListComponent {
   }
 
   ngOnInit() {
-    this.onFilterChange(); 
+    this.onFilterChange();
   }
 
   onFilterChange() {
@@ -59,27 +59,27 @@ export class SupportListComponent {
   }
 
   refreshSupportReqPage() {
-		this.paginateAndFilter()
-	}
+    this.paginateAndFilter()
+  }
 
   paginateAndFilter(searchFilter = this.filter.value) {
     this.supportReqRowsInPage = this.supportRequests.map((req, i) => ({ id: i + 1, ...req })).slice(
-			(this.page - 1) * this.pageSize,
-			(this.page - 1) * this.pageSize + this.pageSize,
-		)
+      (this.page - 1) * this.pageSize,
+      (this.page - 1) * this.pageSize + this.pageSize,
+    )
     this.supportReqRowsInPage = this.matches(searchFilter, this.supportReqRowsInPage)
   }
 
   matches(text: string, rows: SupportRequest[]): SupportRequest[] {
     return text === '' || text === null ? rows : rows.filter((row) => {
-      const term = text.toLowerCase(); 
-  
+      const term = text.toLowerCase();
+
       return (
-        row.trackingId.toString().toLowerCase().includes(term) || 
-        row.name.toString().toLowerCase().includes(term) || 
-        row.email.toString().toLowerCase().includes(term) || 
-        row.status.toString().toLowerCase().includes(term) || 
-        row.enquiry_type.toString().toLowerCase().includes(term) || 
+        row.trackingId.toString().toLowerCase().includes(term) ||
+        row.name.toString().toLowerCase().includes(term) ||
+        row.email.toString().toLowerCase().includes(term) ||
+        row.status.toString().toLowerCase().includes(term) ||
+        row.type.toString().toLowerCase().includes(term) ||
         row.title.toString().toLowerCase().includes(term)
       )
     })
@@ -94,18 +94,18 @@ export class SupportListComponent {
   }
 
   updateSupportRequestStatus(oldReq: SupportRequest, status: SupportReqStatus) {
-    this.updateSupportTicketStatusEvent.emit({oldReq, status})
+    this.updateSupportTicketStatusEvent.emit({ oldReq, status })
   }
 
   /**
    * Open the delete student confirmation modal.
    */
-    openDeleteModal(supportRequest: SupportRequest): void {
-      const modalContent: string = `Are you sure you want to remove support request with ID <strong>${supportRequest.trackingId}</strong>?`;
-      const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-          `Delete support request with ID <strong>${supportRequest.trackingId}</strong>?`, SimpleModalType.DANGER, modalContent);
-      modalRef.result.then(() => {
-        this.deleteSupportTicketEvent.emit(supportRequest.trackingId);
-      }, () => {});
-    }
+  openDeleteModal(supportRequest: SupportRequest): void {
+    const modalContent: string = `Are you sure you want to remove support request with ID <strong>${supportRequest.trackingId}</strong>?`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+      `Delete support request with ID <strong>${supportRequest.trackingId}</strong>?`, SimpleModalType.DANGER, modalContent);
+    modalRef.result.then(() => {
+      this.deleteSupportTicketEvent.emit(supportRequest.trackingId);
+    }, () => { });
+  }
 }

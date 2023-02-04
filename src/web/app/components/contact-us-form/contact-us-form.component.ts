@@ -22,8 +22,10 @@ export class ContactUsFormComponent {
     email: '',
     name: '',
     title: '',
-    enquiry_type: SupportReqEnquiryType.GENERAL_HELP,
+    type: SupportReqEnquiryType.GENERAL_HELP,
     initial_msg: '',
+    createdAt: new Date().valueOf(),
+    updatedAt: new Date().valueOf(),
   };
 
   isFormSubmitting: boolean = false;
@@ -37,8 +39,10 @@ export class ContactUsFormComponent {
       email: '',
       name: '',
       title: '',
-      enquiry_type: SupportReqEnquiryType.GENERAL_HELP,
+      type: SupportReqEnquiryType.GENERAL_HELP,
       initial_msg: '',
+      createdAt: new Date().valueOf(),
+      updatedAt: new Date().valueOf(),
     };
   }
 

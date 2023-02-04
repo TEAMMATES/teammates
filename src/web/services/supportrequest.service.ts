@@ -20,15 +20,8 @@ export class SupportRequestService {
   /**
    * Create support request by calling the API. 
    */
-  createSupportRequest(queryParams: SupportRequestRequest): Observable<SupportRequest> {
-    console.log('here');
-    const paramsMap: { [key: string]: string } = {
-      name: queryParams.name,
-      email: queryParams.email,
-      type: queryParams.enquiry_type.toString(),
-      message: queryParams.initial_msg
-    };
-    return this.httpRequestService.post(ResourceEndpoints.SUPPORT_REQUESTS, paramsMap);
+  createSupportRequest(req: SupportRequestRequest): Observable<SupportRequest> {
+    return this.httpRequestService.post(ResourceEndpoints.SUPPORT_REQUEST, {}, req);
   }
 
   /**
@@ -56,7 +49,7 @@ export class SupportRequestService {
       id: queryParams.trackingId,
       name: queryParams.name,
       email: queryParams.email,
-      type: queryParams.enquiry_type.toString(),
+      type: queryParams.type.toString(),
       message: queryParams.initial_msg,
       status: queryParams.status.toString()
     };
