@@ -587,7 +587,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
       </div>
     </div>
   </div><div
-    class="d-flex flex-row contain-left-right"
+    class="card card-plain"
   >
     <div
       class="card card-plain left"
@@ -700,44 +700,33 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
             Please give your feedback based on the following questions.
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      class="card card-plain right"
-    >
-      <div
-        class="card-body text-center"
-      >
         <div
-          class="text-center"
+          class="row text-center d-flex align-items-center"
         >
-          Customise the questions view of your session
-        </div>
-        <div
-          class="mt-2"
-          ngbdropdown=""
-        >
-          <button
-            class="btn btn-primary"
-            id="btn-new-question"
-            ngbdropdowntoggle=""
+          <label
+            class="col-md-2 text-md-right"
           >
-            Change View
-          </button>
+            Group by:
+          </label>
           <div
-            id="new-question-dropdown"
-            ngbdropdownmenu=""
+            class="col-md-10 text-md-left"
+            id="group-by"
           >
-            <button
-              class="dropdown-item"
+            <select
+              class="w-25 form-control"
+              id="select-group-by"
             >
-              Default View
-            </button>
-            <button
-              class="dropdown-item"
-            >
-              Group Questions by Recipients
-            </button>
+              <option
+                value="Question"
+              >
+                 Question 
+              </option>
+              <option
+                value="Recipient"
+              >
+                 Recipient 
+              </option>
+            </select>
           </div>
         </div>
       </div>
@@ -883,7 +872,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </div>
     </div>
   </div><div
-    class="d-flex flex-row contain-left-right"
+    class="card card-plain"
   >
     <div
       class="card card-plain left"
@@ -962,44 +951,33 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             id="instructions"
           />
         </div>
-      </div>
-    </div>
-    <div
-      class="card card-plain right"
-    >
-      <div
-        class="card-body text-center"
-      >
         <div
-          class="text-center"
+          class="row text-center d-flex align-items-center"
         >
-          Customise the questions view of your session
-        </div>
-        <div
-          class="mt-2"
-          ngbdropdown=""
-        >
-          <button
-            class="btn btn-primary"
-            id="btn-new-question"
-            ngbdropdowntoggle=""
+          <label
+            class="col-md-2 text-md-right"
           >
-            Change View
-          </button>
+            Group by:
+          </label>
           <div
-            id="new-question-dropdown"
-            ngbdropdownmenu=""
+            class="col-md-10 text-md-left"
+            id="group-by"
           >
-            <button
-              class="dropdown-item"
+            <select
+              class="w-25 form-control"
+              id="select-group-by"
             >
-              Default View
-            </button>
-            <button
-              class="dropdown-item"
-            >
-              Group Questions by Recipients
-            </button>
+              <option
+                value="Question"
+              >
+                 Question 
+              </option>
+              <option
+                value="Recipient"
+              >
+                 Recipient 
+              </option>
+            </select>
           </div>
         </div>
       </div>
@@ -3400,7 +3378,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </div>
     </div>
   </div><div
-    class="d-flex flex-row contain-left-right"
+    class="card card-plain"
   >
     <div
       class="card card-plain left"
@@ -3479,44 +3457,33 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             id="instructions"
           />
         </div>
-      </div>
-    </div>
-    <div
-      class="card card-plain right"
-    >
-      <div
-        class="card-body text-center"
-      >
         <div
-          class="text-center"
+          class="row text-center d-flex align-items-center"
         >
-          Customise the questions view of your session
-        </div>
-        <div
-          class="mt-2"
-          ngbdropdown=""
-        >
-          <button
-            class="btn btn-primary"
-            id="btn-new-question"
-            ngbdropdowntoggle=""
+          <label
+            class="col-md-2 text-md-right"
           >
-            Change View
-          </button>
+            Group by:
+          </label>
           <div
-            id="new-question-dropdown"
-            ngbdropdownmenu=""
+            class="col-md-10 text-md-left"
+            id="group-by"
           >
-            <button
-              class="dropdown-item"
+            <select
+              class="w-25 form-control"
+              id="select-group-by"
             >
-              Default View
-            </button>
-            <button
-              class="dropdown-item"
-            >
-              Group Questions by Recipients
-            </button>
+              <option
+                value="Question"
+              >
+                 Question 
+              </option>
+              <option
+                value="Recipient"
+              >
+                 Recipient 
+              </option>
+            </select>
           </div>
         </div>
       </div>
