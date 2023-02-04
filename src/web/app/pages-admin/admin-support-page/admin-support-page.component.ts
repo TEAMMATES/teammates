@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { finalize } from 'rxjs';
+import { SupportRequestService } from 'src/web/services/supportrequest.service';
 import { TableComparatorService } from 'src/web/services/table-comparator.service';
 import { SortBy, SortOrder } from 'src/web/types/sort-properties';
-import { SupportRequest } from 'src/web/types/support-req-types';
-
-import supportRequests from '../../../data/support-requests.dummy.json'
+import { SupportReqStatus, SupportRequest } from 'src/web/types/support-req-types';
 
 /**
  * Admin search page.
@@ -14,11 +14,27 @@ import supportRequests from '../../../data/support-requests.dummy.json'
   styleUrls: ['./admin-support-page.component.scss']
 })
 export class AdminSupportPageComponent {
-  supportRequests: SupportRequest[] = supportRequests
+  supportRequests: SupportRequest[] = []
   supportReqSortBy: SortBy = SortBy.NONE;
   supportReqSortOrder: SortOrder = SortOrder.DESC;
 
-  constructor(private tableComparatorService: TableComparatorService) {}
+  constructor(private tableComparatorService: TableComparatorService, private supportRequestService: SupportRequestService) {
+    this.getAllSupportRequests()
+  }
+
+  getAllSupportRequests() {
+    this.supportRequestService.getAllSupportRequests().pipe(finalize(() => {}))
+      .subscribe((reqs: SupportRequest[]) => {
+        this.supportRequests = reqs
+      })
+  }
+
+  editSupportRequestStatus(_newSupportReq: {id: string, status: SupportReqStatus}) {
+  }
+
+  deleteSupportRequestWithId(id: string) {
+    this.supportRequestService.deleteSupportRequest(id); 
+  }
 
   /**
    * Sorts the support requests list.

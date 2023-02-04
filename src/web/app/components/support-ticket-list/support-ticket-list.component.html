@@ -1,5 +1,4 @@
-<div class="table-responsive">
-
+<div style="width: 100%">
     <form>
         <div class="mb-3 row">
             <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
@@ -74,7 +73,19 @@
                     <ngb-highlight [result]="req.trackingId" [term]="filter.value"></ngb-highlight>
                 </td>
                 <td>
-                    <ngb-highlight [result]="req.status" [term]="filter.value"></ngb-highlight>
+                    <div ngbDropdown class="d-inline-block">
+                        <button [ngClass]="
+                        {
+                            'no-action-status': req.status === 'NEW' || req.status === 'AWAITING_ADMIN_ACTION', 
+                            'require-action-status': req.status === 'RESOLVED' || req.status === 'AWAITING_USER_ACTION'
+                        }"
+                        type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
+                            <ngb-highlight [result]="req.status" [term]="filter.value"></ngb-highlight>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <button *ngFor="let status of SUPPORT_REQ_STATUSES" (click)="updateSupportRequestStatus(req.trackingId, status)" ngbDropdownItem>{{ status }}</button>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     <ngb-highlight [result]="req.enquiry_type" [term]="filter.value"></ngb-highlight>
@@ -134,5 +145,4 @@
             <option [ngValue]="20">20 items per page</option>
         </select>
     </div>
-  </div>
-  
+</div>

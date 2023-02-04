@@ -23,3 +23,11 @@
   .sortable-header {
     cursor: pointer;
   }
+
+  .no-action-status {
+    background-color: lightgreen;
+  }
+
+  .require-action-status {
+    background-color: lightcoral;
+  }
