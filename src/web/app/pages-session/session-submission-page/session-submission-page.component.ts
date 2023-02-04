@@ -514,6 +514,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 showGiverNameTo: feedbackQuestion.showGiverNameTo,
                 showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
                 showResponsesTo: feedbackQuestion.showResponsesTo,
+
+                hasResponseChangedForRecipients: new Map<string, boolean>(),
               };
               this.questionSubmissionForms.push(model);
             });

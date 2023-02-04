@@ -50,7 +50,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
   hasResponseChanged: boolean = false;
-  hasResponseChangedForRecipients: Map<string, boolean> = new Map<string, boolean>();
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -82,8 +81,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     // Initialise the hasResponseChanged variable for a recipient when the recipients of
     // the questions is not loaded.
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
-      if (!this.hasResponseChangedForRecipients.has(recipient.recipientIdentifier)) {
-        this.hasResponseChangedForRecipients.set(recipient.recipientIdentifier, false);
+      if (!this.model.hasResponseChangedForRecipients.has(recipient.recipientIdentifier)) {
+        this.model.hasResponseChangedForRecipients.set(recipient.recipientIdentifier, false);
       }
     });
   }
@@ -137,6 +136,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     showGiverNameTo: [],
     showRecipientNameTo: [],
     showResponsesTo: [],
+
+    hasResponseChangedForRecipients: new Map<string, boolean>(),
   };
 
   recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
@@ -190,8 +191,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.isSaved = false;
       }
 
-      this.hasResponseChangedForRecipients.forEach((_hasResponseChanged: boolean, recipientId: string) => {
-        this.hasResponseChangedForRecipients.set(recipientId, false);
+      this.model.hasResponseChangedForRecipients.forEach((_hasResponseChanged: boolean, recipientId: string) => {
+        this.model.hasResponseChangedForRecipients.set(recipientId, false);
       });
     }
   }
@@ -305,7 +306,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
     this.hasResponseChanged = true;
     this.isSubmitAllClickedChange.emit(false);
-    this.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
+    this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
 
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
         this.model.recipientSubmissionForms.slice();
@@ -393,8 +394,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   saveFeedbackResponses(): void {
     this.isSaved = true;
     this.hasResponseChanged = false;
-    this.hasResponseChangedForRecipients.forEach((_hasResponseChangedForRecipient: boolean, recipientId: string) => {
-      this.hasResponseChangedForRecipients.set(recipientId, false);
+    this.model.hasResponseChangedForRecipients.forEach((_hasResponseChangedForRecipient: boolean, recipientId: string) => {
+      this.model.hasResponseChangedForRecipients.set(recipientId, false);
     });
     this.responsesSave.emit(this.model);
   }
@@ -456,24 +457,29 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     switch (this.model.questionType) {
       case FeedbackQuestionType.TEXT:
         return this.model.recipientSubmissionForms.reduce(
-            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
-                result || (form.recipientIdentifier === recipientId
+            (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) => {
+              if (form.recipientIdentifier === recipientId) {
+                console.log(`${recipientId}, ${(form.responseDetails as FeedbackTextResponseDetails).answer}`);
+                console.log(this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier));
+              }
+              return result || (form.recipientIdentifier === recipientId
                   && !((form.responseDetails as FeedbackTextResponseDetails).answer === ''
-                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                      || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier)))
+            },
             false);
       case FeedbackQuestionType.MCQ:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
                   && !((form.responseDetails as FeedbackMcqResponseDetails).answer === ''
-                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.MSQ:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
                   && !((form.responseDetails as FeedbackMsqResponseDetails).answers.length === 0
-                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.NUMSCALE:
         return this.model.recipientSubmissionForms.reduce(
@@ -481,7 +487,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
                result || (form.recipientIdentifier === recipientId
                 && !((form.responseDetails as FeedbackNumericalScaleResponseDetails)
                   .answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED
-                || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
         return this.model.recipientSubmissionForms.reduce(
@@ -489,7 +495,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
                 result || (form.recipientIdentifier === recipientId
                   && !((form.responseDetails as FeedbackConstantSumResponseDetails)
                     .answers.length === 0
-                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))),
             false);
       case FeedbackQuestionType.RUBRIC:
         return this.model.recipientSubmissionForms.reduce(
@@ -497,13 +503,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
                 result || (form.recipientIdentifier === recipientId
                   && !((form.responseDetails as FeedbackRubricResponseDetails)
                     .answer.length === 0
-                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))), false);
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))), false);
       case FeedbackQuestionType.RANK_OPTIONS:
         return this.model.recipientSubmissionForms.reduce(
             (result: boolean, form: FeedbackResponseRecipientSubmissionFormModel) =>
                 result || (form.recipientIdentifier === recipientId
                   && !((form.responseDetails as FeedbackRankOptionsResponseDetails).answers.length === 0
-                  || this.hasResponseChangedForRecipients.get(form.recipientIdentifier))), false);
+                  || this.model.hasResponseChangedForRecipients.get(form.recipientIdentifier))), false);
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
       case FeedbackQuestionType.CONTRIB:
       case FeedbackQuestionType.RANK_RECIPIENTS:

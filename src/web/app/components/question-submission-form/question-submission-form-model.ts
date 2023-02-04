@@ -50,6 +50,8 @@ export interface QuestionSubmissionFormModel {
 
   isLoading: boolean;
   isLoaded: boolean;
+
+  hasResponseChangedForRecipients: Map<string, boolean>;
 }
 
 /**
