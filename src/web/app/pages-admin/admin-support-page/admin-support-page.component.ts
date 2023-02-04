@@ -19,7 +19,10 @@ export class AdminSupportPageComponent {
   supportReqSortOrder: SortOrder = SortOrder.DESC;
 
   constructor(private tableComparatorService: TableComparatorService, private supportRequestService: SupportRequestService) {
-    this.getAllSupportRequests()
+  }
+
+  ngOnInit() {
+    this.getAllSupportRequests();
   }
 
   getAllSupportRequests() {
