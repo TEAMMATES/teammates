@@ -39,7 +39,7 @@ public class SupportRequestsLogic {
     }
 
     /**
-     * Gets all notifications.
+     * Gets all support requests.
      */
     public List<SupportRequestAttributes> getAllSupportRequests() {
         return supportRequestsDb.getAllSupportRequests();
