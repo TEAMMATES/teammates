@@ -15,7 +15,7 @@
     <strong>Enquiry Type:</strong>
   </label>
   <select id="grace-period" class="form-control" [(ngModel)]="model.type" placeholder="Select enquiry type">
-    <option *ngFor="let enquiryType of ENQUIRY_TYPES" [ngValue]="enquiryType">{{ SupportReqEnquiryType[enquiryType] }}
+    <option *ngFor="let enquiryType of ENQUIRY_TYPES" [ngValue]="enquiryType">{{ enquiryType }}
     </option>
   </select>
   <br />
@@ -28,7 +28,7 @@
   <label class="control-label">
     <strong>Enquiry:</strong>
   </label>
-  <tm-rich-text-editor id="message" [(richText)]="model.initial_msg" required></tm-rich-text-editor>
+  <tm-rich-text-editor id="message" [(richText)]="model.message" required></tm-rich-text-editor>
   <br />
   <button class="btn btn-primary" type="submit" [disabled]="isFormSubmitting" (click)="handleSubmitEnquiry()">
     <tm-ajax-loading *ngIf="isFormSubmitting"></tm-ajax-loading>

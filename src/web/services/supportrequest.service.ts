@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
 import { SupportRequest, SupportRequestRequest } from '../types/support-req-types';
+import { SupportRequestStatus } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 // import SupportRequests from '../data/support-requests.dummy.json';
@@ -21,7 +22,7 @@ export class SupportRequestService {
    * Create support request by calling the API. 
    */
   createSupportRequest(req: SupportRequestRequest): Observable<SupportRequest> {
-    return this.httpRequestService.post(ResourceEndpoints.SUPPORT_REQUEST, {}, req);
+    return this.httpRequestService.post(ResourceEndpoints.SUPPORT_REQUEST, {}, { ...req, status: SupportRequestStatus.NEW });
   }
 
   /**
@@ -50,7 +51,7 @@ export class SupportRequestService {
       name: queryParams.name,
       email: queryParams.email,
       type: queryParams.type.toString(),
-      message: queryParams.initial_msg,
+      message: queryParams.message,
       status: queryParams.status.toString()
     };
     return this.httpRequestService.put(ResourceEndpoints.SUPPORT_REQUEST, paramsMap);

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { SupportReqEnquiryType, SupportRequestRequest } from 'src/web/types/support-req-types';
+import { SupportRequestRequest } from 'src/web/types/support-req-types';
+import { SupportRequestType } from 'src/web/types/api-output';
 import { SupportRequestService } from 'src/web/services/supportrequest.service';
 import { finalize } from 'rxjs';
 import { StatusMessageService } from 'src/web/services/status-message.service';
@@ -13,17 +14,20 @@ import { ErrorMessageOutput } from '../../error-message-output';
 export class ContactUsFormComponent {
 
   // enum
-  SupportReqEnquiryType: typeof SupportReqEnquiryType = SupportReqEnquiryType;
+  SupportRequestType: typeof SupportRequestType = SupportRequestType;
 
-  ENQUIRY_TYPES = Object.keys(SupportReqEnquiryType).slice(0, Object.keys(SupportReqEnquiryType).length / 2)
+  ENQUIRY_TYPES = [
+    SupportRequestType.GENERAL_ENQUIRY,
+    SupportRequestType.NEW_ACCT
+  ];
 
   @Input()
   model: SupportRequestRequest = {
     email: '',
     name: '',
     title: '',
-    type: SupportReqEnquiryType.GENERAL_HELP,
-    initial_msg: '',
+    type: SupportRequestType.GENERAL_ENQUIRY,
+    message: '',
     createdAt: new Date().valueOf(),
     updatedAt: new Date().valueOf(),
   };
@@ -39,8 +43,8 @@ export class ContactUsFormComponent {
       email: '',
       name: '',
       title: '',
-      type: SupportReqEnquiryType.GENERAL_HELP,
-      initial_msg: '',
+      type: SupportRequestType.GENERAL_ENQUIRY,
+      message: '',
       createdAt: new Date().valueOf(),
       updatedAt: new Date().valueOf(),
     };
