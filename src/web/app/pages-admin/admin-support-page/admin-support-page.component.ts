@@ -3,7 +3,9 @@ import { finalize } from 'rxjs';
 import { SupportRequestService } from 'src/web/services/supportrequest.service';
 import { TableComparatorService } from 'src/web/services/table-comparator.service';
 import { SortBy, SortOrder } from 'src/web/types/sort-properties';
-import { SupportReqStatus, SupportRequest } from 'src/web/types/support-req-types';
+import { SupportRequest, SupportRequestStatus } from 'src/web/types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
+import { StatusMessageService } from 'src/web/services/status-message.service';
 
 /**
  * Admin search page.
@@ -18,7 +20,7 @@ export class AdminSupportPageComponent {
   supportReqSortBy: SortBy = SortBy.NONE;
   supportReqSortOrder: SortOrder = SortOrder.DESC;
 
-  constructor(private tableComparatorService: TableComparatorService, private supportRequestService: SupportRequestService) {
+  constructor(private tableComparatorService: TableComparatorService, private supportRequestService: SupportRequestService, private statusMessageService: StatusMessageService) {
   }
 
   ngOnInit() {
@@ -27,12 +29,23 @@ export class AdminSupportPageComponent {
 
   getAllSupportRequests() {
     this.supportRequestService.getAllSupportRequests().pipe(finalize(() => { }))
-      .subscribe((reqs: SupportRequest[]) => {
-        this.supportRequests = reqs;
-      })
+      .subscribe(  {    next: (resp: {supportRequests: SupportRequest[]}) => {
+        if (resp.supportRequests.length > 0) {
+          this.supportRequests = resp.supportRequests;
+        } else {
+          this.statusMessageService.showErrorToast('No support requests!')
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+      complete: () => {
+
+      },
+    })
   }
 
-  editSupportRequestStatus(event: { oldReq: SupportRequest, status: SupportReqStatus }) {
+  editSupportRequestStatus(event: { oldReq: SupportRequest, status: SupportRequestStatus }) {
     let newSupportReq = { ...event.oldReq };
     newSupportReq.status = event.status;
     this.supportRequestService.updateSupportRequest(newSupportReq);
@@ -64,8 +77,8 @@ export class AdminSupportPageComponent {
       let strB: string;
       switch (by) {
         case SortBy.SUPPORT_REQ_TRACKING_ID:
-          strA = a.trackingId.toString()
-          strB = b.trackingId.toString()
+          strA = a.id.toString()
+          strB = b.id.toString()
           break;
         case SortBy.SUPPORT_REQ_EMAIL:
           strA = a.email.toString();
@@ -74,10 +87,6 @@ export class AdminSupportPageComponent {
         case SortBy.SUPPORT_REQ_NAME:
           strA = a.name.toString();
           strB = b.name.toString();
-          break;
-        case SortBy.SUPPORT_REQ_TITLE:
-          strA = a.title.toString();
-          strB = b.title.toString();
           break;
         case SortBy.SUPPORT_REQ_ENQUIRY_TYPE:
           strA = a.type.toString();

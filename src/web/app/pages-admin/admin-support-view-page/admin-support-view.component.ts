@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { finalize } from 'rxjs';
+import { StatusMessageService } from 'src/web/services/status-message.service';
 import { SupportRequestService } from 'src/web/services/supportrequest.service';
-import { SupportRequest } from 'src/web/types/support-req-types';
+import { SupportRequest } from 'src/web/types/api-output';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Admin support view list page.
@@ -13,22 +15,31 @@ import { SupportRequest } from 'src/web/types/support-req-types';
   styleUrls: ['./admin-support-view-page.component.scss']
 })
 export class AdminSupportViewPageComponent {
-  // supportRequests: Observable<SupportRequest[]> 
-  supportRequest: Observable<SupportRequest> | null = null;
+  supportRequest: SupportRequest | null = null;
   currId: string = ''; 
 
   constructor(private supportRequestService: SupportRequestService, 
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute, private statusMessageService: StatusMessageService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.currId = params['id']
-      this.supportRequest = this.getSupportRequestFromBackend(this.currId)
+      this.getSupportRequestFromBackend(this.currId)
     })
   }
   
   getSupportRequestFromBackend(id: string) {
-    return this.supportRequestService.getOneSupportRequest({id});
+    return this.supportRequestService.getOneSupportRequest({id}).pipe(finalize(() => { }))
+    .subscribe(  {    next: (resp: SupportRequest) => {
+      this.supportRequest = resp;
+    },
+    error: (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    },
+    complete: () => {
+
+    },
+  });
   }
 }

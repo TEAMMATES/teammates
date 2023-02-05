@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { SupportReqStatus, SupportRequest } from 'src/web/types/support-req-types';
+import { SupportRequest, SupportRequestStatus } from 'src/web/types/api-output';
 import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { FormControl } from '@angular/forms';
@@ -26,10 +26,10 @@ export class SupportListComponent {
 
   @Output() sortSupportTicketListEvent: EventEmitter<SortBy> = new EventEmitter();
   @Output() deleteSupportTicketEvent: EventEmitter<string> = new EventEmitter();
-  @Output() updateSupportTicketStatusEvent: EventEmitter<{ oldReq: SupportRequest, status: SupportReqStatus }> = new EventEmitter();
+  @Output() updateSupportTicketStatusEvent: EventEmitter<{ oldReq: SupportRequest, status: SupportRequestStatus }> = new EventEmitter();
 
-  SupportReqStatusTypes = SupportReqStatus
-  SUPPORT_REQ_STATUSES = Object.values(SupportReqStatus).slice(0, Object.values(SupportReqStatus).length / 2);
+  SupportReqStatusTypes = SupportRequestStatus
+  SUPPORT_REQ_STATUSES = Object.values(SupportRequestStatus).slice(0, Object.values(SupportRequestStatus).length / 2);
   collectionSize: number = this.supportRequests.length
   supportRequestRows: SupportRequest[] = this.supportRequests
   supportReqRowsInPage: SupportRequest[] = this.supportRequestRows
@@ -63,7 +63,7 @@ export class SupportListComponent {
   }
 
   paginateAndFilter(searchFilter = this.filter.value) {
-    this.supportReqRowsInPage = this.supportRequests.map((req, i) => ({ id: i + 1, ...req })).slice(
+    this.supportReqRowsInPage = this.supportRequests.map((req, i) => ({ table_id: i + 1, ...req })).slice(
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize,
     )
@@ -75,12 +75,11 @@ export class SupportListComponent {
       const term = text.toLowerCase();
 
       return (
-        row.trackingId.toString().toLowerCase().includes(term) ||
+        row.id.toString().toLowerCase().includes(term) ||
         row.name.toString().toLowerCase().includes(term) ||
         row.email.toString().toLowerCase().includes(term) ||
         row.status.toString().toLowerCase().includes(term) ||
-        row.type.toString().toLowerCase().includes(term) ||
-        row.title.toString().toLowerCase().includes(term)
+        row.type.toString().toLowerCase().includes(term)
       )
     })
   }
@@ -93,7 +92,7 @@ export class SupportListComponent {
     this.sortSupportTicketListEvent.emit(sortBy)
   }
 
-  updateSupportRequestStatus(oldReq: SupportRequest, status: SupportReqStatus) {
+  updateSupportRequestStatus(oldReq: SupportRequest, status: SupportRequestStatus) {
     this.updateSupportTicketStatusEvent.emit({ oldReq, status })
   }
 
@@ -101,11 +100,11 @@ export class SupportListComponent {
    * Open the delete student confirmation modal.
    */
   openDeleteModal(supportRequest: SupportRequest): void {
-    const modalContent: string = `Are you sure you want to remove support request with ID <strong>${supportRequest.trackingId}</strong>?`;
+    const modalContent: string = `Are you sure you want to remove support request with ID <strong>${supportRequest.id}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Delete support request with ID <strong>${supportRequest.trackingId}</strong>?`, SimpleModalType.DANGER, modalContent);
+      `Delete support request with ID <strong>${supportRequest.id}</strong>?`, SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
-      this.deleteSupportTicketEvent.emit(supportRequest.trackingId);
+      this.deleteSupportTicketEvent.emit(supportRequest.id);
     }, () => { });
   }
 }

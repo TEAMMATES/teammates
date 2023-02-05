@@ -38,14 +38,6 @@
                         <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_ENQUIRY_TYPE && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
                     </span>
                 </th>
-                <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_TITLE)">
-                    Title
-                    <span class="fa-stack">
-                        <i class="fas fa-sort"></i>
-                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_TITLE && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                        <i *ngIf="tableSortBy === SortBy.SUPPORT_REQ_TITLE && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-                    </span>
-                </th>
                 <th class="sortable-header" scope="col" (click)="sortSupportTicketList(SortBy.SUPPORT_REQ_EMAIL)">
                     Email
                     <span class="fa-stack">
@@ -70,7 +62,7 @@
         <tbody>
             <tr *ngFor="let req of supportReqRowsInPage">
                 <td>
-                    <ngb-highlight [result]="req.trackingId" [term]="filter.value"></ngb-highlight>
+                    <ngb-highlight [result]="req.id" [term]="filter.value"></ngb-highlight>
                 </td>
                 <td>
                     <div ngbDropdown class="d-inline-block">
@@ -88,10 +80,7 @@
                     </div>
                 </td>
                 <td>
-                    <ngb-highlight [result]="req.enquiry_type" [term]="filter.value"></ngb-highlight>
-                </td>
-                <td>
-                    <ngb-highlight [result]="req.title" [term]="filter.value"></ngb-highlight>
+                    <ngb-highlight [result]="req.type" [term]="filter.value"></ngb-highlight>
                 </td>
                 <td>
                     <ngb-highlight [result]="req.email" [term]="filter.value"></ngb-highlight>
@@ -116,7 +105,7 @@
                         isEnabled: isActionButtonsEnabled, 
                         tooltip: 'View message history', 
                         name: 'View messages',
-                        tmRouterLink: ['/web/admin/support/', req.trackingId] 
+                        tmRouterLink: ['/web/admin/support/', req.id] 
                     }">
                     </ng-container>
                     <button id="btn-delete" class="btn btn-light btn-sm btn-margin-right"

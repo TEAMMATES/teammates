@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { SupportRequest, SupportRequestRequest } from '../types/support-req-types';
-import { SupportRequestStatus } from '../types/api-output';
+import { SupportRequestRequest } from '../types/support-req-types';
+import { SupportRequestStatus, SupportRequest } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 // import SupportRequests from '../data/support-requests.dummy.json';
@@ -28,7 +28,7 @@ export class SupportRequestService {
   /**
    * Fetch all support requests in the database by calling the API.
    */
-  getAllSupportRequests(): Observable<SupportRequest[]> {
+  getAllSupportRequests(): Observable<{supportRequests: SupportRequest[]}> {
     return this.httpRequestService.get(ResourceEndpoints.SUPPORT_REQUESTS, {});
   }
 
@@ -47,7 +47,7 @@ export class SupportRequestService {
    */
   updateSupportRequest(queryParams: SupportRequest): Observable<SupportRequest> {
     const paramsMap: { [key: string]: string } = {
-      id: queryParams.trackingId,
+      id: queryParams.id,
       name: queryParams.name,
       email: queryParams.email,
       type: queryParams.type.toString(),

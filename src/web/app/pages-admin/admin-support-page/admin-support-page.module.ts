@@ -24,7 +24,6 @@ const routes: Routes = [
     AdminSupportPageComponent,
   ],
   imports: [
-    // Default stuff
     CommonModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
