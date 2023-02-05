@@ -11,7 +11,6 @@ import {
 import {
   InstructorSearchComponentsModule,
 } from '../../../pages-instructor/instructor-search-page/instructor-search-components.module';
-import { StudentProfileModule } from '../../../pages-instructor/student-profile/student-profile.module';
 import { ExampleBoxModule } from '../example-box/example-box.module';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section.component';
@@ -33,7 +32,6 @@ describe('InstructorHelpStudentsSectionComponent', () => {
         NoopAnimationsModule,
         HttpClientTestingModule,
         ExampleBoxModule,
-        StudentProfileModule,
         InstructorSearchComponentsModule,
         InstructorCourseStudentEditFormModule,
         PanelChevronModule,

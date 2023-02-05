@@ -68,7 +68,7 @@ Subsequent AJAX requests sent to the server will be processed as follows:
 1. `WebApiServlet` uses the `ActionFactory` to generate the matching `Action` object, e.g. `GetFeedbackSessionsAction`.
 1. `WebApiServlet` executes the action.
    1. The `Action` object checks the access rights of the user. If the action is allowed, it will be performed, interacting with the `Logic` component as necessary.
-   1. The `Action` packages and processes the result into an `ActionResult` object. The most common format is `JsonResult` (requests for obtaining data or processing existing data) and other formats are defined as necessary, e.g. `ImageResult` (e.g. profile pictures).
+   1. The `Action` packages and processes the result into an `ActionResult` object. The most common format is `JsonResult` (requests for obtaining data or processing existing data) and other formats can be defined as necessary.
 1. `WebApiServlet` sends the result back to the browser which will then process it on the front-end.
 
 Requests for static asset files (e.g. CSS, JS files, images) are served directly without going through `web.xml` configuration at all.
@@ -163,11 +163,10 @@ Represented by these classes:
 - `EmailGenerator`: Generates emails to be sent.
 - `EmailSender`: Sends email with the provider chosen based on the build configuration.
 - `TaskQueuer`: Adds tasks to the task queue, i.e. to be executed at a later time.
-- `FileStorage`: Manages CRUD of binary files such as profile pictures.
 - `LogsProcessor`: For more advanced usage of logging that cannot be captured by the standard logger class.
 - `RecaptchaVerifier`: For verification of the reCAPTCHA token.
 
-Many classes in this layer make use of proxy pattern, i.e. they only connect to production services such as Google Cloud Storage in the staging/production server.
+Many classes in this layer make use of proxy pattern, i.e. they only connect to production services such as Google Cloud Tasks in the staging/production server.
 
 ### Policies
 

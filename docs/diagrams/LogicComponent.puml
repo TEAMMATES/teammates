@@ -22,7 +22,6 @@ component Logic {
         rectangle MailjetService
         rectangle SendgridService
         rectangle GoogleCloudTasksService
-        rectangle GoogleCloudStorageService
         rectangle "~*Service" as Service
     }
 
@@ -40,7 +39,6 @@ component Logic {
 
 rectangle ThirdPartyEmailAPIs
 rectangle "GoogleCloud\nTasksAPI" as GoogleCloudTasksApi
-rectangle "GoogleCloud\nStorageAPI" as GoogleCloudStorageApi
 rectangle "Other\nExternalAPIs" as OtherExternalApi
 rectangle UI
 storage Storage STORAGE_COLOR_T1
@@ -49,7 +47,6 @@ MailgunService ..> ThirdPartyEmailAPIs
 MailjetService ..> ThirdPartyEmailAPIs
 SendgridService ..> ThirdPartyEmailAPIs
 GoogleCloudTasksService ..> GoogleCloudTasksApi
-GoogleCloudStorageService ..> GoogleCloudStorageApi
 Service ..> OtherExternalApi
 AccountsLogic ..> Storage
 InstructorsLogic ..> Storage
