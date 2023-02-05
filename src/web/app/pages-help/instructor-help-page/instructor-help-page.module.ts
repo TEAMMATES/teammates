@@ -6,6 +6,7 @@ import { NgbCollapseModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap'
 
 import { AddingQuestionPanelModule } from '../../components/adding-question-panel/adding-question-panel.module';
 import { CommentBoxModule } from '../../components/comment-box/comment-box.module';
+import { CourseRelatedInfoModule } from '../../components/course-related-info/course-related-info.module';
 import { FeedbackPathPanelModule } from '../../components/feedback-path-panel/feedback-path-panel.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { PreviewSessionPanelModule } from '../../components/preview-session-panel/preview-session-panel.module';
@@ -40,7 +41,6 @@ import {
 import {
   InstructorSessionResultViewModule,
 } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
-import { StudentProfileModule } from '../../pages-instructor/student-profile/student-profile.module';
 
 import { ExampleBoxModule } from './example-box/example-box.module';
 import {
@@ -82,7 +82,6 @@ const routes: Routes = [
     NgbTooltipModule,
     RouterModule.forChild(routes),
     ExampleBoxModule,
-    StudentProfileModule,
     QuestionEditFormModule,
     ReactiveFormsModule,
     SessionEditFormModule,
@@ -101,6 +100,7 @@ const routes: Routes = [
     ViewResultsPanelModule,
     QuestionResponsePanelModule,
     QuestionEditBriefDescriptionFormModule,
+    CourseRelatedInfoModule,
   ],
   declarations: [
     InstructorHelpPageComponent,

@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -28,7 +27,6 @@ public class AccountsLogicTest extends BaseLogicTest {
     private final AccountsLogic accountsLogic = AccountsLogic.inst();
     private final AccountsDb accountsDb = AccountsDb.inst();
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
@@ -368,14 +366,6 @@ public class AccountsLogicTest extends BaseLogicTest {
     public void testDeleteAccountCascade_lastInstructorInCourse_shouldDeleteOrphanCourse() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor5");
         AccountAttributes account = dataBundle.accounts.get("instructor5");
-        // create a profile for the account
-        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(account.getGoogleId())
-                .withShortName("Test")
-                .build();
-        profilesLogic.updateOrCreateStudentProfile(
-                StudentProfileAttributes.updateOptionsBuilder(account.getGoogleId())
-                        .withShortName(studentProfile.getShortName())
-                        .build());
 
         // verify the instructor is the last instructor of a course
         assertEquals(1, instructorsLogic.getInstructorsForCourse(instructor.getCourseId()).size());
@@ -391,14 +381,12 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .build();
         studentsLogic.createStudent(student);
         verifyPresentInDatabase(account);
-        verifyPresentInDatabase(studentProfile);
         verifyPresentInDatabase(instructor);
         verifyPresentInDatabase(student);
 
         accountsLogic.deleteAccountCascade(instructor.getGoogleId());
 
         verifyAbsentInDatabase(account);
-        verifyAbsentInDatabase(studentProfile);
         verifyAbsentInDatabase(instructor);
         verifyAbsentInDatabase(student);
         // course is deleted because it is the last instructor of the course

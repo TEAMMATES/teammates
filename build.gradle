@@ -53,7 +53,6 @@ dependencies {
     implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
-    implementation("com.google.cloud:google-cloud-storage")
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.google.guava:guava:31.1-jre")
     implementation(objectify)

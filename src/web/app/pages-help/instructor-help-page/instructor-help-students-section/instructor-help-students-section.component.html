@@ -24,7 +24,6 @@
       </li>
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
-      <tm-student-profile [studentProfile]="exampleStudentProfile"></tm-student-profile>
       <tm-course-related-info [student]="exampleStudentAttributes" [isDisplayOnly]="true"></tm-course-related-info>
     </tm-example-box>
     <p>
@@ -44,13 +43,6 @@
         <b>Comments</b>: additional student information you entered in the Comments column during enrollment.
       </li>
     </ul>
-    <p>
-      Below this is the <span class="ui-text">More Info</span> section containing a personal description given by the student, if any.
-      <br> You can press the <span class="text-muted fas fa-expand-arrows-alt cursor-pointer"></span> button in the top-right corner to display the information in a lightbox for better readability.
-    </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
-      <tm-more-info [studentName]="exampleStudentAttributes.name" [moreInfoText]="exampleStudentProfile.moreInfo"></tm-more-info>
-    </tm-example-box>
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_EDIT_DETAILS)"
