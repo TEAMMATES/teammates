@@ -5,7 +5,6 @@
         [hidden]="isHideTableHead"
     >
     <tr>
-      <th>Photo</th>
       <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentList(SortBy.SECTION_NAME)">
         Section
         <span class="fa-stack">
@@ -51,10 +50,6 @@
     </thead>
     <tbody>
     <tr *ngFor="let studentModel of students; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
-      <td>
-        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId"
-                               [useViewPhotoBtn]="true"></tm-view-photo-popover>
-      </td>
       <td *ngIf="hasSection()" [innerHtml]="studentModel.student.sectionName | highlighter:searchString"></td>
       <td [innerHtml]="studentModel.student.teamName | highlighter:searchString"></td>
       <td [innerHtml]="studentModel.student.name | highlighter:searchString"></td>

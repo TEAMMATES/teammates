@@ -46,7 +46,6 @@
             <class name="teammates.e2e.cases.StudentCourseDetailsPageE2ETest" />
             <class name="teammates.e2e.cases.StudentCourseJoinConfirmationPageE2ETest" />
             <class name="teammates.e2e.cases.StudentHomePageE2ETest" />
-            <class name="teammates.e2e.cases.StudentProfilePageE2ETest" />
             <class name="teammates.e2e.cases.InstructorNotificationsPageE2ETest" />
             <class name="teammates.e2e.cases.StudentNotificationsPageE2ETest" />
         </classes>

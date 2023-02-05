@@ -9,21 +9,16 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentLoadingFailed="false"
-  hasStudentProfileLoadingFailed="false"
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentLoading="false"
-  isStudentProfileLoading="false"
   isStudentResultsLoading={[Function Boolean]}
-  photoUrl={[Function String]}
   route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
   studentName={[Function String]}
-  studentProfile={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
   studentTeam=""
@@ -38,10 +33,7 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
     >
        - CS1111
     </small>
-  </h1><tm-loading-retry>
-    <tm-student-profile />
-    <tm-more-info />
-  </tm-loading-retry><h2>
+  </h1><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
     <tm-loading-spinner>
@@ -72,21 +64,16 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentLoadingFailed="false"
-  hasStudentProfileLoadingFailed="false"
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentLoading={[Function Boolean]}
-  isStudentProfileLoading={[Function Boolean]}
   isStudentResultsLoading={[Function Boolean]}
-  photoUrl={[Function String]}
   route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
   studentName=""
-  studentProfile={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
   studentTeam=""
@@ -101,38 +88,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
     >
        - su1337
     </small>
-  </h1><tm-loading-retry>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </tm-loading-retry><h2>
+  </h1><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
     <tm-loading-spinner>
@@ -163,21 +119,16 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentLoadingFailed="false"
-  hasStudentProfileLoadingFailed="false"
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentLoading="false"
-  isStudentProfileLoading="false"
   isStudentResultsLoading="false"
-  photoUrl={[Function String]}
   route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
   studentName={[Function String]}
-  studentProfile={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
   studentTeam=""
@@ -192,10 +143,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
     >
        - su1337
     </small>
-  </h1><tm-loading-retry>
-    <tm-student-profile />
-    <tm-more-info />
-  </tm-loading-retry><h2>
+  </h1><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
     <div>

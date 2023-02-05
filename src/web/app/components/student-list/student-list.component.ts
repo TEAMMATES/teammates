@@ -13,7 +13,6 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
  */
 export interface StudentListRowModel {
   student: Student;
-  photoUrl?: string;
   isAllowedToViewStudentInSection: boolean;
   isAllowedToModifyStudent: boolean;
 }

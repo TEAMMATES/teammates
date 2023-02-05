@@ -21,7 +21,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -232,12 +231,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
         return getAccount(account.getGoogleId());
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
-        return null; // BACKDOOR.getStudentProfile(studentProfileAttributes.googleId);
     }
 
     CourseAttributes getCourse(String courseId) {

@@ -13,21 +13,18 @@ import {
 } from './feedback-path.pipe';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { FormatDateDetailPipe } from './format-date-detail.pipe';
-import { FormatPhotoUrlPipe } from './format-photo-url.pipe';
 import { GeneratedChoicePipe } from './generated-choice.pipe';
 import { InstructorRoleDescriptionPipe } from './instructor-role-description.pipe';
 import { InstructorRoleNamePipe } from './instructor-role-name.pipe';
 import { NotificationStyleClassPipe } from './notification-style-class.pipe';
 import { NotificationStyleDescriptionPipe } from './notification-style-description.pipe';
 import { PublishStatusNamePipe } from './publish-status-name.pipe';
+import { QuestionTypeHelpPathPipe } from './question-type-help-path.pipe';
 import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
-import { StudentNameWithPhotoComponent } from './student-name/student-name-with-photo.component';
-import { GenderFormatPipe } from './student-profile-gender.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
-import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popover.component';
 import {
   VisibilityControlNamePipe,
   VisibilityTypeDescriptionPipe,
@@ -51,17 +48,14 @@ import {
     SubmissionStatusTooltipPipe,
     PublishStatusNamePipe,
     FormatDateDetailPipe,
-    GenderFormatPipe,
     SafeHtmlPipe,
     StripHtmlTagsPipe,
     QuestionTypeNamePipe,
+    QuestionTypeHelpPathPipe,
     InstructorRoleDescriptionPipe,
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
-    FormatPhotoUrlPipe,
     GeneratedChoicePipe,
-    ViewPhotoPopoverComponent,
-    StudentNameWithPhotoComponent,
     GiverTypeDescriptionPipe,
     RecipientTypeDescriptionPipe,
     RecipientTypeSimplifiedDescriptionPipe,
@@ -77,17 +71,14 @@ import {
     SubmissionStatusTooltipPipe,
     PublishStatusNamePipe,
     FormatDateDetailPipe,
-    GenderFormatPipe,
     SafeHtmlPipe,
     StripHtmlTagsPipe,
     QuestionTypeNamePipe,
+    QuestionTypeHelpPathPipe,
     InstructorRoleDescriptionPipe,
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
-    FormatPhotoUrlPipe,
     GeneratedChoicePipe,
-    ViewPhotoPopoverComponent,
-    StudentNameWithPhotoComponent,
     GiverTypeDescriptionPipe,
     RecipientTypeDescriptionPipe,
     RecipientTypeSimplifiedDescriptionPipe,

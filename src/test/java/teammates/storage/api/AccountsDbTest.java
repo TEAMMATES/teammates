@@ -27,12 +27,8 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     public void testGetAccount() throws Exception {
         AccountAttributes a = createNewAccount("valid.googleId");
 
-        ______TS("typical success case without");
+        ______TS("typical success case");
         AccountAttributes retrieved = accountsDb.getAccount(a.getGoogleId());
-        assertNotNull(retrieved);
-
-        ______TS("typical success with student profile");
-        retrieved = accountsDb.getAccount(a.getGoogleId());
         assertNotNull(retrieved);
 
         ______TS("expect null for non-existent account");

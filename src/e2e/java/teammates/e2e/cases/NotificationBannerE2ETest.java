@@ -15,7 +15,7 @@ import teammates.e2e.pageobjects.StudentHomePage;
 /**
  * SUT: The reusable notification banner, which can be displayed across many pages.
  * {@link Const.WebPageURIs#STUDENT_HOME_PAGE} is used to test the behaviour of the banner in this case,
- * {@link Const.WebPageURIs#STUDENT_PROFILE_PAGE}, {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}
+ * {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}
  */
 public class NotificationBannerE2ETest extends BaseE2ETestCase {
     @Override
