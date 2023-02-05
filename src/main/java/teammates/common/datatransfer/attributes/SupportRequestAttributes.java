@@ -146,21 +146,21 @@ public final class SupportRequestAttributes extends EntityAttributes<SupportRequ
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        // addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("support request created time", createdAt), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("support request created time", createdAt), errors);
 
-        // addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("support request updated time", updatedAt), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("support request updated time", updatedAt), errors);
         
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSupportRequestCreatedAndUpdated(createdAt, updatedAt), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSupportRequestCreatedAndUpdated(createdAt, updatedAt), errors);
 
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
 
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
         // addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestMessage(message), errors);
 
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestType(type.name()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestType(type.name()), errors);
 
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestStatus(status.name()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestStatus(status.name()), errors);
 
         return errors;
     }
@@ -334,7 +334,7 @@ public final class SupportRequestAttributes extends EntityAttributes<SupportRequ
         public B withEmail(String email) {
             assert email != null;
 
-            updateOptions.nameOption = UpdateOption.of(email);
+            updateOptions.emailOption = UpdateOption.of(email);
             return thisBuilder;
         }
 
@@ -348,7 +348,7 @@ public final class SupportRequestAttributes extends EntityAttributes<SupportRequ
         public B withUpdatedAt(Instant updatedAt) {
             assert updatedAt != null;
 
-            updateOptions.createdAtOption = UpdateOption.of(updatedAt);
+            updateOptions.updatedAtOption = UpdateOption.of(updatedAt);
             return thisBuilder;
         }
 

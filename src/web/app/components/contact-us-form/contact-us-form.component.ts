@@ -58,7 +58,7 @@ export class ContactUsFormComponent {
       this.isFormSubmitting = false;
     })).subscribe({
       next: () => {
-        this.statusMessageService.showSuccessToast('The course has been added.');
+        this.statusMessageService.showSuccessToast('The support request has been submitted.');
         this.resetForm();
       },
       error: (resp: ErrorMessageOutput) => {
