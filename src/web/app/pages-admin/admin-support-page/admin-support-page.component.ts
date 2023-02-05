@@ -48,11 +48,38 @@ export class AdminSupportPageComponent {
   editSupportRequestStatus(event: { oldReq: SupportRequest, status: SupportRequestStatus }) {
     let newSupportReq = { ...event.oldReq };
     newSupportReq.status = event.status;
-    this.supportRequestService.updateSupportRequest(newSupportReq);
+    const updatedId = newSupportReq.id;
+    this.supportRequestService.updateSupportRequest(newSupportReq).pipe(finalize(() => { })).
+    subscribe({
+      next: (updatedSupportReq: SupportRequest) => {
+        this.statusMessageService.showSuccessToast('Status sucessfully updated!')
+        this.supportRequests = this.supportRequests.map(supportRequest => {
+          if (supportRequest.id == updatedId) {
+            return updatedSupportReq
+          } else {
+            return supportRequest
+          }
+        })
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   deleteSupportRequestWithId(id: string) {
-    this.supportRequestService.deleteSupportRequest({ id });
+    this.supportRequestService.deleteSupportRequest({ id }).pipe(finalize(() => { })).
+    subscribe({
+      next: () => {
+        this.supportRequests = this.supportRequests.filter(supportRequest => {
+          return supportRequest.id != id
+        })
+        this.statusMessageService.showSuccessToast('Support request succesfully deleted');
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**

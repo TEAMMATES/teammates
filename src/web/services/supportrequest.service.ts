@@ -46,15 +46,7 @@ export class SupportRequestService {
    * Update support request fields for one support request with the given ID. 
    */
   updateSupportRequest(queryParams: SupportRequest): Observable<SupportRequest> {
-    const paramsMap: { [key: string]: string } = {
-      id: queryParams.id,
-      name: queryParams.name,
-      email: queryParams.email,
-      type: queryParams.type.toString(),
-      message: queryParams.message,
-      status: queryParams.status.toString()
-    };
-    return this.httpRequestService.put(ResourceEndpoints.SUPPORT_REQUEST, paramsMap);
+    return this.httpRequestService.put(ResourceEndpoints.SUPPORT_REQUEST, { id: queryParams.id }, queryParams);
   }
 
   /**
