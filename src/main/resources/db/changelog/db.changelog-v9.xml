@@ -1,15 +1,15 @@
-<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet author="samfang (generated)" id="1675509892429-1">
+    <changeSet author="samfang (generated)" id="1675599826639-1">
         <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50"
             maxValue="9223372036854775807" minValue="1" sequenceName="feedback_sessions_seq"
             startValue="1" />
     </changeSet>
-    <changeSet author="samfang (generated)" id="1675509892429-2">
+    <changeSet author="samfang (generated)" id="1675599826639-2">
         <createTable tableName="courses">
             <column name="id" type="VARCHAR(255)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="courses_pkey" />
@@ -28,7 +28,7 @@
             <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
         </createTable>
     </changeSet>
-    <changeSet author="samfang (generated)" id="1675509892429-3">
+    <changeSet author="samfang (generated)" id="1675599826639-3">
         <createTable tableName="feedback_sessions">
             <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"
@@ -73,7 +73,7 @@
             <column name="course_id" type="VARCHAR(255)" />
         </createTable>
     </changeSet>
-    <changeSet author="samfang (generated)" id="1675509892429-4">
+    <changeSet author="samfang (generated)" id="1675599826639-4">
         <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="feedback_sessions"
             constraintName="fkps2v457frlaaddf272oc18uxd" deferrable="false"
             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"

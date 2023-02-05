@@ -1,0 +1,82 @@
+package teammates.test;
+
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+import teammates.common.util.HibernateUtil;
+import teammates.common.util.JsonUtils;
+import teammates.sqllogic.api.Logic;
+import teammates.sqllogic.core.LogicStarter;
+import teammates.storage.sqlentity.BaseEntity;
+import teammates.storage.sqlentity.Course;
+
+/**
+ * Base test case for tests that access the database.
+ */
+@Test(singleThreaded = true)
+public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
+    /**
+     * Test container.
+     */
+    protected static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
+
+    private final Logic logic = Logic.inst();
+
+    @BeforeSuite
+    public static void setUpClass() throws Exception {
+        PGSQL.start();
+        DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+        HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+
+        LogicStarter.initializeDependencies();
+    }
+
+    @AfterSuite
+    public static void tearDownClass() throws Exception {
+        PGSQL.close();
+    }
+
+    @BeforeMethod
+    public void setUp() throws Exception {
+        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().begin();
+        DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
+    }
+
+    public void verifyEquals(BaseEntity expected, BaseEntity actual) {
+        if (expected instanceof Course) {
+            Course expectedCourse = (Course) expected;
+            Course actualCourse = (Course) actual;
+            equalizeIrrelevantData(expectedCourse, actualCourse);
+            assertEquals(JsonUtils.toJson(expectedCourse), JsonUtils.toJson(actualCourse));
+        }
+    }
+
+    protected void verifyPresentInDatabase(BaseEntity expected) {
+        BaseEntity actual = getEntity(expected);
+        verifyEquals(expected, actual);
+    }
+
+    private BaseEntity getEntity(BaseEntity entity) {
+        if (entity instanceof Course) {
+            return logic.getCourse(((Course) entity).getId());
+        } else {
+            throw new RuntimeException("Unknown entity type!");
+        }
+    }
+
+    private void equalizeIrrelevantData(Course expected, Course actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+}

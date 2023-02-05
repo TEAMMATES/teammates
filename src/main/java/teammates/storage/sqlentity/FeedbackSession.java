@@ -72,7 +72,7 @@ public class FeedbackSession extends BaseEntity {
     private boolean isPublishedEmailEnabled;
 
     @CreationTimestamp
-    @Column
+    @Column(updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp

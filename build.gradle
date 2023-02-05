@@ -33,6 +33,8 @@ buildscript {
 
 configurations {
     staticAnalysis
+
+    liquibaseRuntime.extendsFrom testImplementation
 }
 
 repositories {
@@ -80,6 +82,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.seleniumhq.selenium:selenium-java:4.3.0")
     testImplementation(testng)
+    testImplementation("org.testcontainers:postgresql:1.17.6")
+    testImplementation("org.liquibase:liquibase-core:4.19.0")
+    testImplementation("org.mockito:mockito-core:5.1.1")
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
     // For using Gmail API
@@ -92,9 +97,7 @@ dependencies {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
-    liquibaseRuntime("org.liquibase:liquibase-core:4.19.0")
     liquibaseRuntime("info.picocli:picocli:4.7.1")
-    liquibaseRuntime("org.postgresql:postgresql:42.5.2")
     liquibaseRuntime(sourceSets.main.output)
 }
 

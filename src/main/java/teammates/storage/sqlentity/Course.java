@@ -3,6 +3,7 @@ package teammates.storage.sqlentity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,7 +42,7 @@ public class Course extends BaseEntity {
     private List<FeedbackSession> feedbackSessions = new ArrayList<>();
 
     @CreationTimestamp
-    @Column
+    @Column(updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp
@@ -156,6 +157,42 @@ public class Course extends BaseEntity {
                 + ", deletedAt=" + deletedAt + "]";
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((timeZone == null) ? 0 : timeZone.hashCode());
+        result = prime * result + ((institute == null) ? 0 : institute.hashCode());
+        result = prime * result + ((feedbackSessions == null) ? 0 : feedbackSessions.hashCode());
+        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+        result = prime * result + ((deletedAt == null) ? 0 : deletedAt.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        } else if (obj == null) {
+            return false;
+        } else if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Course o = (Course) obj;
+        return Objects.equals(this.id, o.id)
+                && Objects.equals(this.name, o.name)
+                && Objects.equals(this.timeZone, o.timeZone)
+                && Objects.equals(this.institute, o.institute)
+                && Objects.equals(this.feedbackSessions, o.feedbackSessions)
+                && Objects.equals(this.createdAt, o.createdAt)
+                && Objects.equals(this.updatedAt, o.updatedAt)
+                && Objects.equals(this.deletedAt, o.deletedAt);
+    }
+
     /**
      * Builder for Course.
      */
@@ -167,9 +204,13 @@ public class Course extends BaseEntity {
         private String timeZone;
         private Instant deletedAt;
 
-        public CourseBuilder(String id, String name) {
+        public CourseBuilder(String id) {
             this.id = id;
+        }
+
+        public CourseBuilder withName(String name) {
             this.name = name;
+            return this;
         }
 
         public CourseBuilder withInstitute(String institute) {
