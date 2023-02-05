@@ -42,7 +42,7 @@ public final class SupportRequestsDb extends EntitiesDb<SupportRequest, SupportR
     }
 
     /**
-     * Gets all notifications
+     * Gets all support requests
      */
     public List<SupportRequestAttributes> getAllSupportRequests() {
         List<SupportRequest> supportRequests = load().list();

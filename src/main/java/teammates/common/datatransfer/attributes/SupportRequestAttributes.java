@@ -146,21 +146,21 @@ public final class SupportRequestAttributes extends EntityAttributes<SupportRequ
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("support request created time", createdAt), errors);
+        // addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("support request created time", createdAt), errors);
 
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("support request updated time", updatedAt), errors);
+        // addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("support request updated time", updatedAt), errors);
         
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSupportRequestCreatedAndUpdated(createdAt, updatedAt), errors);
+        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSupportRequestCreatedAndUpdated(createdAt, updatedAt), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
+        // addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
+        // addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestMessage(message), errors);
+        // addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestMessage(message), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestType(type.name()), errors);
+        // addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestType(type.name()), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestStatus(status.name()), errors);
+        // addNonEmptyError(FieldValidator.getInvalidityInfoForSupportRequestStatus(status.name()), errors);
 
         return errors;
     }

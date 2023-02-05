@@ -1,4 +1,4 @@
-import { SupportReqEnquiryType } from "src/web/types/support-req-types";
+import { SupportRequestType } from "src/web/types/api-output";
 
 /**
  * The form model of contact us form.
@@ -7,6 +7,6 @@ export interface ContactUsFormModel {
   email: string;
   name: string;
   title: string;
-  enquiryType: SupportReqEnquiryType;
+  enquiryType: SupportRequestType;
   message: string;
 }

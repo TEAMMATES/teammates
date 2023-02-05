@@ -14,9 +14,8 @@
   <label class="control-label">
     <strong>Enquiry Type:</strong>
   </label>
-  <select id="grace-period" class="form-control" [(ngModel)]="model.enquiryType" placeholder="Select enquiry Type">
-    <!-- TODO: Pipe and format enquiry type -->
-    <option *ngFor="let enquiryType of ENQUIRY_TYPES" [ngValue]="enquiryType">{{ SupportReqEnquiryType[enquiryType] }}
+  <select id="grace-period" class="form-control" [(ngModel)]="model.type" placeholder="Select enquiry type">
+    <option *ngFor="let enquiryType of ENQUIRY_TYPES" [ngValue]="enquiryType">{{ enquiryType }}
     </option>
   </select>
   <br />

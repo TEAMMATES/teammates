@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { SupportReqEnquiryType, SupportReqStatus, SupportRequest } from 'src/web/types/support-req-types';
+import { SupportReqStatus, SupportRequest } from 'src/web/types/support-req-types';
+import { SupportRequestType } from 'src/web/types/api-output';
 
 /**
  * A detailed view of the support request
@@ -14,9 +15,11 @@ export class SupportViewComponent {
     trackingId: "-1",
     email: '',
     name: '',
-    enquiry_type: SupportReqEnquiryType.GENERAL_HELP,
+    type: SupportRequestType.GENERAL_ENQUIRY,
     title: '',
-    initial_msg: '',
-    status: SupportReqStatus.NEW
+    message: '',
+    status: SupportReqStatus.NEW,
+    createdAt: 0,
+    updatedAt: 0,
   };
 }

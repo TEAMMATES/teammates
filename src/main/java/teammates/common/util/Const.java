@@ -186,6 +186,8 @@ public final class Const {
         public static final String NOTIFICATION_TARGET_USER = "usertype";
         public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
         public static final String NOTFICATION_END_TIME = "endtime";
+
+        public static final String SUPPORT_REQUEST_ID = "id";
     }
 
     /**
@@ -340,6 +342,8 @@ public final class Const {
         public static final String NOTIFICATION = URI_PREFIX + "/notification";
         public static final String NOTIFICATIONS = URI_PREFIX + "/notifications";
         public static final String NOTIFICATION_READ = URI_PREFIX + "/notification/read";
+        public static final String SUPPORT_REQUEST = URI_PREFIX + "/supportrequest";
+        public static final String SUPPORT_REQUESTS = URI_PREFIX + "/supportrequests";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";

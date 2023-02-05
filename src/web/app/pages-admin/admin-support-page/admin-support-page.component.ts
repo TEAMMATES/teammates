@@ -23,24 +23,27 @@ export class AdminSupportPageComponent {
   }
 
   getAllSupportRequests() {
-    this.supportRequestService.getAllSupportRequests().pipe(finalize(() => {}))
+    this.supportRequestService.getAllSupportRequests().pipe(finalize(() => { }))
       .subscribe((reqs: SupportRequest[]) => {
-        this.supportRequests = reqs
+        this.supportRequests = reqs;
       })
   }
 
-  editSupportRequestStatus(_newSupportReq: {id: string, status: SupportReqStatus}) {
+  editSupportRequestStatus(event: { oldReq: SupportRequest, status: SupportReqStatus }) {
+    let newSupportReq = { ...event.oldReq };
+    newSupportReq.status = event.status;
+    this.supportRequestService.updateSupportRequest(newSupportReq);
   }
 
   deleteSupportRequestWithId(id: string) {
-    this.supportRequestService.deleteSupportRequest(id); 
+    this.supportRequestService.deleteSupportRequest({ id });
   }
 
   /**
    * Sorts the support requests list.
    */
   sortSupportRequestsList(sortBy: SortBy): void {
-    this.supportReqSortOrder = this.supportReqSortBy !== sortBy ? SortOrder.ASC : 
+    this.supportReqSortOrder = this.supportReqSortBy !== sortBy ? SortOrder.ASC :
       (this.supportReqSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC);
     this.supportReqSortBy = sortBy;
     if (sortBy !== SortBy.NONE) {
@@ -69,18 +72,18 @@ export class AdminSupportPageComponent {
           strA = a.name.toString();
           strB = b.name.toString();
           break;
-        case SortBy.SUPPORT_REQ_TITLE: 
-          strA = a.title.toString(); 
+        case SortBy.SUPPORT_REQ_TITLE:
+          strA = a.title.toString();
           strB = b.title.toString();
-          break; 
+          break;
         case SortBy.SUPPORT_REQ_ENQUIRY_TYPE:
-          strA = a.enquiry_type.toString(); 
-          strB = b.enquiry_type.toString(); 
-          break; 
+          strA = a.type.toString();
+          strB = b.type.toString();
+          break;
         case SortBy.SUPPORT_REQ_STATUS:
-          strA = a.status.toString(); 
-          strB = b.status.toString(); 
-          break; 
+          strA = a.status.toString();
+          strB = b.status.toString();
+          break;
         default:
           strA = '';
           strB = '';
