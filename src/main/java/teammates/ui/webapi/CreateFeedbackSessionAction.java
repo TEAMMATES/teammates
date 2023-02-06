@@ -88,7 +88,6 @@ class CreateFeedbackSessionAction extends Action {
                         .withIsClosingEmailEnabled(createRequest.isClosingEmailEnabled())
                         .withIsPublishedEmailEnabled(createRequest.isPublishedEmailEnabled())
                         .build();
-
         try {
             logic.createFeedbackSession(fs);
         } catch (EntityAlreadyExistsException e) {

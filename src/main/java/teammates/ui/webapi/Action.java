@@ -19,11 +19,11 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
-import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
+import teammates.sqllogic.api.Logic;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -34,7 +34,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public abstract class Action {
 
-    Logic logic = Logic.inst();
+    teammates.logic.api.Logic logic = teammates.logic.api.Logic.inst();
+    Logic sqlLogic = Logic.inst();
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
     EmailGenerator emailGenerator = EmailGenerator.inst();

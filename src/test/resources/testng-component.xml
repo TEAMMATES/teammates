@@ -9,8 +9,10 @@
             <package name="teammates.common.datatransfer" />
             <package name="teammates.common.util" />
             <package name="teammates.storage.api" />
+            <package name="teammates.storage.sqlapi" />
             <package name="teammates.storage.search" />
             <package name="teammates.logic.api" />
+            <package name="teammates.logic.sqlapi" />
             <package name="teammates.logic.core" />
             <package name="teammates.logic.external" />
             <package name="teammates.ui.request" />

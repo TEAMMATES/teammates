@@ -6,6 +6,7 @@ apply plugin: "pmd"
 apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
+apply plugin: "org.liquibase.gradle"
 
 def checkstyleVersion = "10.3.2"
 def pmdVersion = "6.48.0"
@@ -26,11 +27,14 @@ buildscript {
             exclude group: "org.gradle"
         }
         classpath "com.google.guava:guava:31.1-jre"
+        classpath "org.liquibase:liquibase-gradle-plugin:2.1.1"
     }
 }
 
 configurations {
     staticAnalysis
+
+    liquibaseRuntime.extendsFrom testImplementation
 }
 
 repositories {
@@ -69,6 +73,8 @@ dependencies {
     implementation("org.eclipse.jetty:jetty-webapp")
     implementation("org.eclipse.jetty:jetty-annotations")
     implementation("org.jsoup:jsoup:1.15.2")
+    implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
+    implementation("org.postgresql:postgresql:42.5.2")
 
     testAnnotationProcessor(testng)
 
@@ -76,6 +82,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.seleniumhq.selenium:selenium-java:4.3.0")
     testImplementation(testng)
+    testImplementation("org.testcontainers:postgresql:1.17.6")
+    testImplementation("org.liquibase:liquibase-core:4.19.0")
+    testImplementation("org.mockito:mockito-core:5.1.1")
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
     // For using Gmail API
@@ -88,6 +97,8 @@ dependencies {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
+    liquibaseRuntime("info.picocli:picocli:4.7.1")
+    liquibaseRuntime(sourceSets.main.output)
 }
 
 sourceSets {
@@ -106,6 +117,7 @@ sourceSets {
             srcDir "src/test/java"
             srcDir "src/e2e/java"
             srcDir "src/lnp/java"
+            srcDir "src/it/java"
             srcDir "src/client/java"
             include "**/*.java"
         }
@@ -113,8 +125,21 @@ sourceSets {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
             srcDir "src/lnp/resources"
+            srcDir "src/it/resources"
             srcDir "src/client/resources"
             exclude "**/*.java"
+        }
+    }
+}
+
+liquibase {
+    activities {
+        main {
+            searchPath "${projectDir}"
+            changeLogFile "src/main/resources/db/changelog/db.changelog-root.xml"
+            url project.properties['liquibaseDbUrl']
+            username project.properties['liquibaseUsername']
+            password project.properties['liquibasePassword']
         }
     }
 }
@@ -513,8 +538,8 @@ task lnpTests(type: Test) {
     }
 }
 
-task componentTests(type: Test) {
-    description "Runs the full unit and integration test suite."
+task unitTests(type: Test) {
+    description "Runs the full unit test suite."
     group "Test"
     useTestNG()
     options.suites "src/test/resources/testng-component.xml"
@@ -529,6 +554,30 @@ task componentTests(type: Test) {
     testLogging {
         events "passed"
     }
+}
+
+task integrationTests(type: Test) {
+    description "Runs the full integration test suite."
+    group "Test"
+    useTestNG()
+    options.suites "src/it/resources/testng-it.xml"
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.required = false
+    reports.junitXml.required = false
+    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed"
+    }
+}
+
+task componentTests(type: Test) {
+    description "Runs the full unit and integration test suite."
+    group "Test"
+    dependsOn unitTests, integrationTests
 }
 
 task e2eTests {
