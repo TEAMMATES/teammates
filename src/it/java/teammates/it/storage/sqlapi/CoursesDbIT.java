@@ -1,11 +1,12 @@
-package teammates.storage.sqlapi;
+package teammates.it.storage.sqlapi;
 
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
-import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 
 /**
  * SUT: {@link CoursesDb}.

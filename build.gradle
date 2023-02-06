@@ -117,6 +117,7 @@ sourceSets {
             srcDir "src/test/java"
             srcDir "src/e2e/java"
             srcDir "src/lnp/java"
+            srcDir "src/it/java"
             srcDir "src/client/java"
             include "**/*.java"
         }
@@ -124,6 +125,7 @@ sourceSets {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
             srcDir "src/lnp/resources"
+            srcDir "src/it/resources"
             srcDir "src/client/resources"
             exclude "**/*.java"
         }
@@ -536,8 +538,8 @@ task lnpTests(type: Test) {
     }
 }
 
-task componentTests(type: Test) {
-    description "Runs the full unit and integration test suite."
+task unitTests(type: Test) {
+    description "Runs the full unit test suite."
     group "Test"
     useTestNG()
     options.suites "src/test/resources/testng-component.xml"
@@ -552,6 +554,30 @@ task componentTests(type: Test) {
     testLogging {
         events "passed"
     }
+}
+
+task integrationTests(type: Test) {
+    description "Runs the full integration test suite."
+    group "Test"
+    useTestNG()
+    options.suites "src/it/resources/testng-it.xml"
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.required = false
+    reports.junitXml.required = false
+    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed"
+    }
+}
+
+task componentTests(type: Test) {
+    description "Runs the full unit and integration test suite."
+    group "Test"
+    dependsOn unitTests, integrationTests
 }
 
 task e2eTests {

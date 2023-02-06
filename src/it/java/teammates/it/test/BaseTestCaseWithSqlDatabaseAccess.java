@@ -1,4 +1,4 @@
-package teammates.test;
+package teammates.it.test;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
@@ -13,6 +13,7 @@ import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.core.LogicStarter;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
+import teammates.test.BaseTestCase;
 
 /**
  * Base test case for tests that access the database.
@@ -51,7 +52,10 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
     }
 
-    public void verifyEquals(BaseEntity expected, BaseEntity actual) {
+    /**
+     * Verifies that two entities are equal.
+     */
+    protected void verifyEquals(BaseEntity expected, BaseEntity actual) {
         if (expected instanceof Course) {
             Course expectedCourse = (Course) expected;
             Course actualCourse = (Course) actual;
@@ -60,6 +64,9 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         }
     }
 
+    /**
+     * Verifies that the given entity is present in the database.
+     */
     protected void verifyPresentInDatabase(BaseEntity expected) {
         BaseEntity actual = getEntity(expected);
         verifyEquals(expected, actual);
