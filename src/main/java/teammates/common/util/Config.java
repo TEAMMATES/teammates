@@ -100,6 +100,18 @@ public final class Config {
     /** The value of the "app.localdatastore.port" in build-dev.properties file. */
     public static final int APP_LOCALDATASTORE_PORT;
 
+    /** The value of the "app.localpostgres.port" in build-dev.properties file. */
+    public static final int APP_LOCALPOSTGRES_PORT;
+
+    /** The value of the "app.localpostgres.username" in build-dev.properties file. */
+    public static final String APP_LOCALPOSTGRES_USERNAME;
+
+    /** The value of the "app.localpostgres.password" in build-dev.properties file. */
+    public static final String APP_LOCALPOSTGRES_PASSWORD;
+
+    /** The value of the "app.localpostgres.db" in build-dev.properties file. */
+    public static final String APP_LOCALPOSTGRES_DB;
+
     /** The value of the "app.enable.devserver.login" in build-dev.properties file. */
     public static final boolean ENABLE_DEVSERVER_LOGIN;
 
@@ -174,6 +186,10 @@ public final class Config {
         // The following properties are not used in production server.
         // So they will only be read from build-dev.properties file.
         APP_LOCALDATASTORE_PORT = Integer.parseInt(devProperties.getProperty("app.localdatastore.port", "8484"));
+        APP_LOCALPOSTGRES_PORT = Integer.parseInt(devProperties.getProperty("app.localpostgres.port", "5432"));
+        APP_LOCALPOSTGRES_USERNAME = devProperties.getProperty("app.localpostgres.username", "teammates");
+        APP_LOCALPOSTGRES_PASSWORD = devProperties.getProperty("app.localpostgres.password", "teammates");
+        APP_LOCALPOSTGRES_DB = devProperties.getProperty("app.localpostgres.db", "teammates");
         ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(devProperties.getProperty("app.enable.devserver.login", "false"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(devProperties.getProperty("app.taskqueue.active", "true"));
     }
@@ -280,6 +296,13 @@ public final class Config {
 
     public static boolean isUsingFirebase() {
         return "firebase".equalsIgnoreCase(AUTH_TYPE);
+    }
+
+    /**
+     * Returns db connection URL.
+     */
+    public static String getDbConnectionUrl() {
+        return "jdbc:postgresql://localhost:" + APP_LOCALPOSTGRES_PORT + "/" + APP_LOCALPOSTGRES_DB;
     }
 
     public static boolean isUsingSendgrid() {

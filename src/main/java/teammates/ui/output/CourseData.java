@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.storage.sqlentity.Course;
 
 /**
  * The API output format of a course.
@@ -27,6 +28,17 @@ public class CourseData extends ApiOutput {
         this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
         if (courseAttributes.getDeletedAt() != null) {
             this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
+        }
+    }
+
+    public CourseData(Course course) {
+        this.courseId = course.getId();
+        this.courseName = course.getName();
+        this.timeZone = course.getTimeZone();
+        this.institute = course.getInstitute();
+        this.creationTimestamp = course.getCreatedAt().toEpochMilli();
+        if (course.getDeletedAt() != null) {
+            this.deletionTimestamp = course.getDeletedAt().toEpochMilli();
         }
     }
 

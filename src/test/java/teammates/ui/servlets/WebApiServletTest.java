@@ -1,5 +1,8 @@
 package teammates.ui.servlets;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +11,16 @@ import java.util.Map;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
@@ -29,6 +37,16 @@ public class WebApiServletTest extends BaseTestCase {
 
     private MockHttpServletRequest mockRequest;
     private MockHttpServletResponse mockResponse;
+
+    @BeforeClass
+    public static void classSetup() {
+        SessionFactory sessionFactory = mock(SessionFactory.class);
+        Session session = mock(Session.class);
+        Transaction transaction = mock(Transaction.class);
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.getTransaction()).thenReturn(transaction);
+        HibernateUtil.setSessionFactory(sessionFactory);
+    }
 
     private void setupMocks(String method, String requestUrl) {
         mockRequest = new MockHttpServletRequest(method, requestUrl);
