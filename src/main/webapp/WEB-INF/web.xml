@@ -57,6 +57,12 @@
     <listener>
         <listener-class>teammates.logic.core.LogicStarter</listener-class>
     </listener>
+    <listener>
+        <listener-class>teammates.sqllogic.core.LogicStarter</listener-class>
+    </listener>
+    <listener>
+        <listener-class>teammates.ui.servlets.HibernateContextListener</listener-class>
+    </listener>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
