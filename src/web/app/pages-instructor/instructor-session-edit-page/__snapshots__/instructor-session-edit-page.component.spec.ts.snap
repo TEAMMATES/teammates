@@ -3,6 +3,7 @@
 exports[`InstructorSessionEditPageComponent should snap when feedback question failed to load 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -93,6 +94,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
 exports[`InstructorSessionEditPageComponent should snap when feedback questions are loading 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -183,6 +185,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
 exports[`InstructorSessionEditPageComponent should snap when feedback session failed to load 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -276,6 +279,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
 exports[`InstructorSessionEditPageComponent should snap when feedback session is loading 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -366,6 +370,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
 exports[`InstructorSessionEditPageComponent should snap with default fields 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -456,6 +461,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
 exports[`InstructorSessionEditPageComponent should snap with feedback session questions 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -3060,6 +3066,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
 exports[`InstructorSessionEditPageComponent should snap with new question added 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
