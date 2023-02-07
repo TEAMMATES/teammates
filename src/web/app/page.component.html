@@ -6,7 +6,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="navbar-collapse" [ngStyle]="{display: isCollapsed ? 'none' : 'block'}">
-    <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
+    <ul class="nav navbar-nav flex-nowrap mr-auto" *ngIf="isValidUser">
       <ng-template ngFor let-navItem [ngForOf]="navItems">
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
