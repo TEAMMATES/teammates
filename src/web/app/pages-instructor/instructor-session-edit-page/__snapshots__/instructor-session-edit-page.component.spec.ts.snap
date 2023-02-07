@@ -3,6 +3,7 @@
 exports[`InstructorSessionEditPageComponent should snap when feedback question failed to load 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -93,6 +94,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
 exports[`InstructorSessionEditPageComponent should snap when feedback questions are loading 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -183,6 +185,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
 exports[`InstructorSessionEditPageComponent should snap when feedback session failed to load 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -276,6 +279,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
 exports[`InstructorSessionEditPageComponent should snap when feedback session is loading 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -366,6 +370,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
 exports[`InstructorSessionEditPageComponent should snap with default fields 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -456,6 +461,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
 exports[`InstructorSessionEditPageComponent should snap with feedback session questions 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
@@ -2736,56 +2742,246 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               <div
                 class="dropdown-divider"
               />
-              <button
-                class="dropdown-item"
-              >
-                 Essay question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Multiple-choice (single answer) question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Multiple-choice (multiple answers) question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Numerical-scale question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Distribute points (among options) question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Distribute points (among recipients) question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Team contribution question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Rubric question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Rank (options) question 
-              </button>
-              <button
-                class="dropdown-item"
-              >
-                 Rank (recipients) question 
-              </button>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Essay question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=essay-questions&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Multiple-choice (single answer) question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=single-answer-mcq&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Multiple-choice (multiple answers) question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=multiple-answer-mcq&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Numerical-scale question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=numerical-scale&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Distribute points (among options) question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=points-options&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Distribute points (among recipients) question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=points-recipients&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Team contribution question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=contribution&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Rubric question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=rubric&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Rank (options) question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=rank-options&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="d-flex btn-group justify-content-between"
+                  role="group"
+                >
+                  <button
+                    class="dropdown-item"
+                  >
+                     Rank (recipients) question 
+                  </button>
+                  <a
+                    class="btn btn-link"
+                    href="/web/instructor/help?questionId=rank-recipients&section=questions"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    tmrouterlink="/web/instructor/help"
+                    type="button"
+                  >
+                    <i
+                      class="fas fa-info-circle"
+                    />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
           <a
@@ -2870,6 +3066,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
 exports[`InstructorSessionEditPageComponent should snap with new question added 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
+  FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   __ngContext__={[Function LRootView]}
