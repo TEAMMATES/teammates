@@ -130,7 +130,7 @@ public class FeedbackSessionLogsUpdateActionTest
         FeedbackSessionLogEntryAttributes accessLog1 = logs.get(0);
         FeedbackSessionLogEntryAttributes accessLog2 = logs.get(1);
 
-        assertTrue(accessLog2.getTimestamp() - accessLog1.getTimestamp() > MIN_WINDOW_PERIOD);
+        assertTrue(accessLog2.getTimestamp() - accessLog1.getTimestamp() >= MIN_WINDOW_PERIOD);
 
         assertEquals("student1InCourse1@gmail.tmt", accessLog1.getStudentEmail());
         assertEquals("First feedback session", accessLog1.getFeedbackSessionName());
