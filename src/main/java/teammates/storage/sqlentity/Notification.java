@@ -1,0 +1,302 @@
+package teammates.storage.sqlentity;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import teammates.common.datatransfer.NotificationStyle;
+import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
+
+/**
+ * Represents a unique notification in the system.
+ */
+@Entity
+@Table(name = "Notifications")
+public class Notification extends BaseEntity {
+
+    @Id
+    private String notificationId;
+
+    @Column(nullable = false)
+    private Instant startTime;
+
+    @Column(nullable = false)
+    private Instant endTime;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private NotificationStyle style;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private NotificationTargetUser targetUser;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String message;
+
+    @Column(nullable = false)
+    private boolean shown;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    @Column
+    private Instant updatedAt;
+
+    protected Notification() {
+        // required by Hibernate
+    }
+
+    @Override
+    public void sanitizeForSaving() {
+        this.title = SanitizationHelper.sanitizeTitle(title);
+        this.message = SanitizationHelper.sanitizeForRichText(message);
+    }
+
+    @Override
+    public List<String> getInvalidityInfo() {
+        List<String> errors = new ArrayList<>();
+
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification visible time", startTime), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification expiry time", endTime), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationStyle(style.name()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser.name()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
+
+        return errors;
+    }
+
+    /**
+     * Instantiates a new notification, with ID randomly generated and time fields filled automatically.
+     *
+     * @param startTime start time for the notification to be shown to users
+     * @param endTime notifications are hidden from users after endTime
+     * @param style style of the notification (e.g. success, warning, etc.)
+     * @param targetUser student or instructor
+     * @param title title of the notification
+     * @param message message body of the notification
+     */
+    public Notification(Instant startTime, Instant endTime, NotificationStyle style, NotificationTargetUser targetUser,
+                        String title, String message) {
+        this.setStartTime(startTime);
+        this.setEndTime(endTime);
+        this.setStyle(style);
+        this.setTargetUser(targetUser);
+        this.setTitle(title);
+        this.setMessage(message);
+        this.setCreatedAt(Instant.now());
+
+        UUID uuid = UUID.randomUUID();
+        this.notificationId = uuid.toString();
+        this.shown = false;
+    }
+
+    /**
+     * Instantiates a new notification, with all fields passed in as parameters.
+     * This is mainly for conversion from attributes to entity.
+     */
+    public Notification(String notificationId, Instant startTime, Instant endTime,
+                        NotificationStyle style, NotificationTargetUser targetUser,
+                        String title, String message, boolean shown, Instant createdAt, Instant updatedAt) {
+        this.setStartTime(startTime);
+        this.setEndTime(endTime);
+        this.setStyle(style);
+        this.setTargetUser(targetUser);
+        this.setTitle(title);
+        this.setMessage(message);
+        if (createdAt == null) {
+            this.setCreatedAt(Instant.now());
+        } else {
+            this.setCreatedAt(createdAt);
+        }
+        this.setUpdatedAt(updatedAt);
+        this.notificationId = notificationId;
+        this.shown = shown;
+
+        assert this.createdAt != null;
+    }
+
+    public String getNotificationId() {
+        return notificationId;
+    }
+
+    public Instant getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Instant startTime) {
+        this.startTime = startTime;
+    }
+
+    public Instant getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Instant endTime) {
+        this.endTime = endTime;
+    }
+
+    public NotificationStyle getStyle() {
+        return style;
+    }
+
+    public void setStyle(NotificationStyle style) {
+        this.style = style;
+    }
+
+    public NotificationTargetUser getTargetUser() {
+        return targetUser;
+    }
+
+    public void setTargetUser(NotificationTargetUser targetUser) {
+        this.targetUser = targetUser;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isShown() {
+        return shown;
+    }
+
+    /**
+     * Sets the notification as shown to the user.
+     * Only allowed to change value from false to true.
+     */
+    public void setShown() {
+        this.shown = true;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return JsonUtils.toJson(this, NotificationAttributes.class);
+    }
+
+    @Override
+    public int hashCode() {
+        // Notification ID uniquely identifies a notification.
+        return this.getNotificationId().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            Notification otherNotification = (Notification) other;
+            return Objects.equals(this.notificationId, otherNotification.getNotificationId());
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Builder for Notification.
+     */
+    public static class NotificationBuilder {
+
+        private String notificationId;
+        private Instant startTime;
+        private Instant endTime;
+        private NotificationStyle style;
+        private NotificationTargetUser targetUser;
+        private String title;
+        private String message;
+        private boolean shown;
+
+        public NotificationBuilder(String notificationId) {
+            this.notificationId = notificationId;
+        }
+
+        public NotificationBuilder withStartTime(Instant startTime) {
+            this.startTime = startTime;
+            return this;
+        }
+
+        public NotificationBuilder withEndTime(Instant endTime) {
+            this.endTime = endTime;
+            return this;
+        }
+
+        public NotificationBuilder withStyle(NotificationStyle style) {
+            this.style = style;
+            return this;
+        }
+
+        public NotificationBuilder withTargetUser(NotificationTargetUser targetUser) {
+            this.targetUser = targetUser;
+            return this;
+        }
+
+        public NotificationBuilder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public NotificationBuilder withMessage(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public NotificationBuilder withShown() {
+            this.shown = true;
+            return this;
+        }
+
+        public NotificationBuilder build() {
+            return this;
+        }
+    }
+}
