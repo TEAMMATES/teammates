@@ -6,20 +6,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Represents a unique notification in the system.
@@ -62,31 +64,6 @@ public class Notification extends BaseEntity {
     @Column
     private Instant updatedAt;
 
-    protected Notification() {
-        // required by Hibernate
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        this.title = SanitizationHelper.sanitizeTitle(title);
-        this.message = SanitizationHelper.sanitizeForRichText(message);
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification visible time", startTime), errors);
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification expiry time", endTime), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationStyle(style.name()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser.name()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
-
-        return errors;
-    }
-
     /**
      * Instantiates a new notification, with ID randomly generated and time fields filled automatically.
      *
@@ -116,25 +93,48 @@ public class Notification extends BaseEntity {
      * Instantiates a new notification, with all fields passed in as parameters.
      * This is mainly for conversion from attributes to entity.
      */
-    public Notification(String notificationId, Instant startTime, Instant endTime,
-                        NotificationStyle style, NotificationTargetUser targetUser,
-                        String title, String message, boolean shown, Instant createdAt, Instant updatedAt) {
-        this.setStartTime(startTime);
-        this.setEndTime(endTime);
-        this.setStyle(style);
-        this.setTargetUser(targetUser);
-        this.setTitle(title);
-        this.setMessage(message);
+    public Notification(NotificationBuilder builder) {
+        this.setStartTime(builder.startTime);
+        this.setEndTime(builder.endTime);
+        this.setStyle(builder.style);
+        this.setTargetUser(builder.targetUser);
+        this.setTitle(builder.title);
+        this.setMessage(builder.message);
         if (createdAt == null) {
             this.setCreatedAt(Instant.now());
         } else {
             this.setCreatedAt(createdAt);
         }
         this.setUpdatedAt(updatedAt);
-        this.notificationId = notificationId;
-        this.shown = shown;
+        this.notificationId = builder.notificationId;
+        this.shown = builder.shown;
 
         assert this.createdAt != null;
+    }
+
+    protected Notification() {
+        // required by Hibernate
+    }
+
+    @Override
+    public void sanitizeForSaving() {
+        this.title = SanitizationHelper.sanitizeTitle(title);
+        this.message = SanitizationHelper.sanitizeForRichText(message);
+    }
+
+    @Override
+    public List<String> getInvalidityInfo() {
+        List<String> errors = new ArrayList<>();
+
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification visible time", startTime), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification expiry time", endTime), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationStyle(style.name()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser.name()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
+
+        return errors;
     }
 
     public String getNotificationId() {
@@ -295,8 +295,8 @@ public class Notification extends BaseEntity {
             return this;
         }
 
-        public NotificationBuilder build() {
-            return this;
+        public Notification build() {
+            return new Notification(this);
         }
     }
 }
