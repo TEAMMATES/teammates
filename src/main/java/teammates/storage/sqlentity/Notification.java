@@ -90,8 +90,7 @@ public class Notification extends BaseEntity {
     }
 
     /**
-     * Instantiates a new notification, with all fields passed in as parameters.
-     * This is mainly for conversion from attributes to entity.
+     * Instantiates a new notification from {@code NotificationBuilder}.
      */
     public Notification(NotificationBuilder builder) {
         this.setStartTime(builder.startTime);
