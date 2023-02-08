@@ -1,5 +1,10 @@
 FROM openjdk:11-jre
 
+RUN addgroup -S nonroot \
+    && adduser -S nonroot -G nonroot
+
+USER nonroot
+
 COPY dist .
 COPY WEB-INF WEB-INF
 
