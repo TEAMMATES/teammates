@@ -27,6 +27,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
     private String timeZone;
     private String id;
     private String institute;
+    private boolean isMigrated;
 
     private CourseAttributes(String courseId) {
         this.id = courseId;
@@ -34,6 +35,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
         this.institute = Const.UNKNOWN_INSTITUTION;
         this.createdAt = Instant.now();
         this.deletedAt = null;
+        this.isMigrated = false;
     }
 
     /**
@@ -60,6 +62,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
             courseAttributes.createdAt = course.getCreatedAt();
         }
         courseAttributes.deletedAt = course.getDeletedAt();
+        courseAttributes.isMigrated = course.isMigrated();
 
         return courseAttributes;
     }
@@ -113,6 +116,14 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
 
     public boolean isCourseDeleted() {
         return this.deletedAt != null;
+    }
+
+    public boolean isMigrated() {
+        return isMigrated;
+    }
+
+    public void setMigrated(boolean migrated) {
+        isMigrated = migrated;
     }
 
     @Override

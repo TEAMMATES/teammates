@@ -31,6 +31,8 @@ public class Course extends BaseEntity {
 
     private String institute;
 
+    private boolean isMigrated;
+
     @SuppressWarnings("unused")
     private Course() {
         // required by Objectify
@@ -100,6 +102,14 @@ public class Course extends BaseEntity {
 
     public void setInstitute(String institute) {
         this.institute = institute;
+    }
+
+    public boolean isMigrated() {
+        return isMigrated;
+    }
+
+    public void setMigrated(boolean migrated) {
+        isMigrated = migrated;
     }
 
 }
