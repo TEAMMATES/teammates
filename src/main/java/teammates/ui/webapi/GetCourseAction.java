@@ -46,14 +46,7 @@ class GetCourseAction extends Action {
         if (courseAttributes == null) {
             throw new EntityNotFoundException("No course with id: " + courseId);
         }
-
-        CourseData output;
-        if (courseAttributes.isMigrated()) {
-            output = new CourseData(sqlLogic.getCourse(courseId));
-        } else {
-            output = new CourseData(courseAttributes);
-        }
-
+        CourseData output = new CourseData(courseAttributes);
         String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             InstructorAttributes instructor = getPossiblyUnregisteredInstructor(courseId);
