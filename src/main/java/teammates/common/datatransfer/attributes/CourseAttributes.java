@@ -27,6 +27,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
     private String timeZone;
     private String id;
     private String institute;
+    private boolean isMigrated;
 
     private CourseAttributes(String courseId) {
         this.id = courseId;
@@ -34,6 +35,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
         this.institute = Const.UNKNOWN_INSTITUTION;
         this.createdAt = Instant.now();
         this.deletedAt = null;
+        this.isMigrated = false;
     }
 
     /**
@@ -60,6 +62,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
             courseAttributes.createdAt = course.getCreatedAt();
         }
         courseAttributes.deletedAt = course.getDeletedAt();
+        courseAttributes.isMigrated = course.isMigrated();
 
         return courseAttributes;
     }
@@ -115,6 +118,14 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
         return this.deletedAt != null;
     }
 
+    public boolean isMigrated() {
+        return isMigrated;
+    }
+
+    public void setMigrated(boolean migrated) {
+        isMigrated = migrated;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
 
@@ -131,13 +142,13 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone(), getInstitute(), createdAt, deletedAt);
+        return new Course(getId(), getName(), getTimeZone(), getInstitute(), createdAt, deletedAt, isMigrated);
     }
 
     @Override
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
-               + " institute: " + getInstitute() + " timeZone: " + getTimeZone();
+               + " institute: " + getInstitute() + " timeZone: " + getTimeZone() + " isMigrated: " + isMigrated();
     }
 
     @Override
@@ -189,6 +200,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
         updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
         updateOptions.instituteOption.ifPresent(s -> institute = s);
+        updateOptions.migrateOption.ifPresent(s -> isMigrated = s);
     }
 
     /**
@@ -229,6 +241,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
         private UpdateOption<String> nameOption = UpdateOption.empty();
         private UpdateOption<String> timeZoneOption = UpdateOption.empty();
         private UpdateOption<String> instituteOption = UpdateOption.empty();
+        private UpdateOption<Boolean> migrateOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId) {
             assert courseId != null;
@@ -247,6 +260,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
                     + ", name = " + nameOption
                     + ", timezone = " + timeZoneOption
                     + ", institute = " + instituteOption
+                    + ", isMigrated = " + migrateOption
                     + "]";
         }
 
@@ -302,6 +316,11 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
             assert institute != null;
 
             updateOptions.instituteOption = UpdateOption.of(institute);
+            return thisBuilder;
+        }
+
+        public B withMigrate(boolean isMigrated) {
+            updateOptions.migrateOption = UpdateOption.of(isMigrated);
             return thisBuilder;
         }
 
