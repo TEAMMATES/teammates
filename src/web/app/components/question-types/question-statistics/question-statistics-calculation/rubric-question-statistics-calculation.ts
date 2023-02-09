@@ -132,7 +132,8 @@ export class RubricQuestionStatisticsCalculation
           this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
       perRecipientStats.weightsAverage = this.calculateWeightsAverage(this.weights);
       // Overall weighted sum = sum of total chosen weight for all sub questions
-      perRecipientStats.overallWeightedSum = perRecipientStats.subQuestionTotalChosenWeight.reduce((a, b) => a + b);
+      perRecipientStats.overallWeightedSum =
+        +(perRecipientStats.subQuestionTotalChosenWeight.reduce((a, b) => a + b)).toFixed(2);
       // Overall weighted average = overall weighted sum / total number of responses
       perRecipientStats.overallWeightAverage = +(perRecipientStats.overallWeightedSum
           / this.calculateNumResponses(perRecipientStats.answersSum)).toFixed(2);
@@ -201,7 +202,7 @@ export class RubricQuestionStatisticsCalculation
     const averages: number[] = [];
     // Divide each column sum by total number of responses, then convert to percentage
     for (let i: number = 0; i < answersSum.length; i += 1) {
-      averages[i] = +(answersSum[i] * 100 / numResponses).toFixed(2);
+      averages[i] = numResponses === 0 ? 0 : +(answersSum[i] * 100 / numResponses).toFixed(2);
     }
     return averages;
   }
