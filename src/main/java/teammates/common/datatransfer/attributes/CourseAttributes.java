@@ -142,13 +142,13 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone(), getInstitute(), createdAt, deletedAt);
+        return new Course(getId(), getName(), getTimeZone(), getInstitute(), createdAt, deletedAt, isMigrated);
     }
 
     @Override
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
-               + " institute: " + getInstitute() + " timeZone: " + getTimeZone();
+               + " institute: " + getInstitute() + " timeZone: " + getTimeZone() + " isMigrated: " + isMigrated();
     }
 
     @Override
@@ -200,6 +200,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
         updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
         updateOptions.instituteOption.ifPresent(s -> institute = s);
+        updateOptions.migrateOption.ifPresent(s -> isMigrated = s);
     }
 
     /**

@@ -19,7 +19,7 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf_withTypicalData_shouldGenerateAttributesCorrectly() {
         Instant typicalInstant = Instant.now();
-        Course course = new Course("testId", "testName", "UTC", "institute", typicalInstant, typicalInstant);
+        Course course = new Course("testId", "testName", "UTC", "institute", typicalInstant, typicalInstant, false);
 
         CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
 
@@ -34,7 +34,7 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf_withInvalidTimezoneStr_shouldFallbackToDefaultTimezone() {
         Instant typicalInstant = Instant.now();
-        Course course = new Course("testId", "testName", "invalid", "institute", typicalInstant, typicalInstant);
+        Course course = new Course("testId", "testName", "invalid", "institute", typicalInstant, typicalInstant, false);
 
         CourseAttributes courseAttributes = CourseAttributes.valueOf(course);
 
@@ -43,7 +43,7 @@ public class CourseAttributesTest extends BaseTestCase {
 
     @Test
     public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
-        Course course = new Course("testId", "testName", "UTC", "institute", null, null);
+        Course course = new Course("testId", "testName", "UTC", "institute", null, null, false);
         course.setCreatedAt(null);
         course.setDeletedAt(null);
         assertNull(course.getCreatedAt());
@@ -153,7 +153,7 @@ public class CourseAttributesTest extends BaseTestCase {
     @Test
     public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
-        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name institute: valid-institute timeZone: UTC",
+        assertEquals("[CourseAttributes] id: valid-id-$_abc name: valid-name institute: valid-institute timeZone: UTC isMigrated: false",
                 c.toString());
     }
 

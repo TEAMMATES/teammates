@@ -39,7 +39,7 @@ public class Course extends BaseEntity {
     }
 
     public Course(String courseId, String courseName, String courseTimeZone, String institute,
-            Instant createdAt, Instant deletedAt) {
+                  Instant createdAt, Instant deletedAt, boolean isMigrated) {
         this.setUniqueId(courseId);
         this.setName(courseName);
         if (courseTimeZone == null) {
@@ -54,6 +54,7 @@ public class Course extends BaseEntity {
             this.setCreatedAt(createdAt);
         }
         this.setDeletedAt(deletedAt);
+        this.setMigrated(isMigrated);
     }
 
     public String getUniqueId() {
