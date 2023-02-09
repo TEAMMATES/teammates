@@ -17,7 +17,6 @@ public class CourseData extends ApiOutput {
     private final String institute;
     private long creationTimestamp;
     private long deletionTimestamp;
-    private boolean isMigrated;
     @Nullable
     private InstructorPermissionSet privileges;
 
@@ -27,7 +26,6 @@ public class CourseData extends ApiOutput {
         this.timeZone = courseAttributes.getTimeZone();
         this.institute = courseAttributes.getInstitute();
         this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
-        this.isMigrated = courseAttributes.isMigrated();
         if (courseAttributes.getDeletedAt() != null) {
             this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
         }
