@@ -240,6 +240,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
         private UpdateOption<String> nameOption = UpdateOption.empty();
         private UpdateOption<String> timeZoneOption = UpdateOption.empty();
         private UpdateOption<String> instituteOption = UpdateOption.empty();
+        private UpdateOption<Boolean> migrateOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId) {
             assert courseId != null;
@@ -258,6 +259,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
                     + ", name = " + nameOption
                     + ", timezone = " + timeZoneOption
                     + ", institute = " + instituteOption
+                    + ", isMigrated = " + migrateOption
                     + "]";
         }
 
@@ -313,6 +315,11 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
             assert institute != null;
 
             updateOptions.instituteOption = UpdateOption.of(institute);
+            return thisBuilder;
+        }
+
+        public B withMigrate(boolean isMigrated) {
+            updateOptions.migrateOption = UpdateOption.of(isMigrated);
             return thisBuilder;
         }
 
