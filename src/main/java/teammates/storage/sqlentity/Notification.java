@@ -40,11 +40,11 @@ public class Notification extends BaseEntity {
     private Instant endTime;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private NotificationStyle style;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private NotificationTargetUser targetUser;
 
     @Column(nullable = false)
