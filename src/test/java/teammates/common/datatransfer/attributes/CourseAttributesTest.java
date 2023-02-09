@@ -154,7 +154,8 @@ public class CourseAttributesTest extends BaseTestCase {
     public void testToString() {
         CourseAttributes c = generateValidCourseAttributesObject();
         assertEquals(
-                "[CourseAttributes] id: valid-id-$_abc name: valid-name institute: valid-institute timeZone: UTC isMigrated: false",
+                "[CourseAttributes] id: valid-id-$_abc name: valid-name institute: "
+                        + "valid-institute timeZone: UTC isMigrated: false",
                 c.toString());
     }
 
