@@ -20,6 +20,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -31,7 +32,8 @@ import jakarta.persistence.Table;
 public class Notification extends BaseEntity {
 
     @Id
-    private String notificationId;
+    @GeneratedValue
+    private UUID notificationId;
 
     @Column(nullable = false)
     private Instant startTime;
@@ -75,7 +77,6 @@ public class Notification extends BaseEntity {
         this.setTitle(builder.title);
         this.setMessage(builder.message);
         this.setUpdatedAt(updatedAt);
-        this.notificationId = builder.notificationId;
         this.shown = builder.shown;
     }
 
@@ -104,7 +105,7 @@ public class Notification extends BaseEntity {
         return errors;
     }
 
-    public String getNotificationId() {
+    public UUID getNotificationId() {
         return notificationId;
     }
 
@@ -214,7 +215,6 @@ public class Notification extends BaseEntity {
      */
     public static class NotificationBuilder {
 
-        private String notificationId;
         private Instant startTime;
         private Instant endTime;
         private NotificationStyle style;
@@ -223,8 +223,8 @@ public class Notification extends BaseEntity {
         private String message;
         private boolean shown;
 
-        public NotificationBuilder(String notificationId) {
-            this.notificationId = notificationId;
+        public NotificationBuilder(String title) {
+            this.title = title;
         }
 
         public NotificationBuilder withStartTime(Instant startTime) {
@@ -244,11 +244,6 @@ public class Notification extends BaseEntity {
 
         public NotificationBuilder withTargetUser(NotificationTargetUser targetUser) {
             this.targetUser = targetUser;
-            return this;
-        }
-
-        public NotificationBuilder withTitle(String title) {
-            this.title = title;
             return this;
         }
 
