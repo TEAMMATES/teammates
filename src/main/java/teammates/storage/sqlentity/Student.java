@@ -1,7 +1,6 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,44 +10,43 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.PrimaryKeyJoinColumns;
 import jakarta.persistence.Table;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.JsonUtils;
 
 /**
- * An association class that represents the association Account -->
- * [enrolled in] --> Course.
+ * Represents a Student entity.
  */
 @Entity
-@Table(name = "Student")
-public class Student extends BaseEntity {
+@Table(name = "Students")
+@PrimaryKeyJoinColumns({
+    @PrimaryKeyJoinColumn(name = "teamId"),
+    @PrimaryKeyJoinColumn(name = "userId"),
+})
+public class Student extends User {
     // TODO
-    // [X] Map FKs (Done for Student)
-    // [ ] Ancestor User
-    // [ ] Fill other CourseStudent related methods
-    // [ ] Fill sanitizeForSaving and getInvalidityInfo if necessary
+    // [ ] Ancestor User, define Inheritance in it
+    // [X] Fill other CourseStudent related methods (nothing related to fill)
 
     // should this be auto incremented or generateId from CourseStudent
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    // note: set @OneToMany(mappedBy = "student") in Team
-    @ManyToOne
-    @JoinColumn(name = "id", foreignKey = @ForeignKey(name = "TEAM_ID_FK"), referencedColumnName = "id", nullable = false)
-    private Team team;
+    // not sure what to do with team yet as we can't do multiple inheritance
+    // have added a PKJoinColumn for teamId above before Class definition
+    @Column
+    private int teamId;
 
     // to cascade?
-    // note: to place @OneToOne annotation in User class for bidirectional r/s
-    @OneToOne
-    @JoinColumn(name = "id", foreignKey = @ForeignKey(name = "USER_ID_FK"), referencedColumnName = "id", nullable = false)
-    private User user;
+    // from hibernate docs: seems like we can omit this
+    // https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#entity-inheritance-joined-table
+    @Column
+    private int userId;
 
     @Column
     private String comments;
@@ -65,32 +63,6 @@ public class Student extends BaseEntity {
         // required by Hibernate
     }
 
-    public Student(StudentBuilder builder) {
-        this.setId(builder.id);
-        this.setTeam(builder.team);
-        this.setUser(builder.user);
-        this.setComments(builder.comments);
-
-        if (createdAt == null) {
-            this.setCreatedAt(Instant.now());
-        } else {
-            this.setCreatedAt(createdAt);
-        }
-
-        this.setUpdatedAt(updatedAt);
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public int getId() {
         return id;
     }
@@ -99,20 +71,20 @@ public class Student extends BaseEntity {
         this.id = id;
     }
 
-    public Team getTeam() {
-        return team;
+    public int getTeamId() {
+        return teamId;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getComments() {
@@ -137,6 +109,21 @@ public class Student extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Student(StudentBuilder builder) {
+        this.setId(builder.id);
+        this.setTeamId(builder.teamId);
+        this.setUserId(builder.userId);
+        this.setComments(builder.comments);
+
+        if (createdAt == null) {
+            this.setCreatedAt(Instant.now());
+        } else {
+            this.setCreatedAt(createdAt);
+        }
+
+        this.setUpdatedAt(updatedAt);
     }
     
     @Override
@@ -170,21 +157,21 @@ public class Student extends BaseEntity {
      */
     public static class StudentBuilder {
         private int id;
-        private Team team;
-        private User user;
+        private int teamId;
+        private int userId;
         private String comments;
 
         public StudentBuilder(int id) {
             this.id = id;
         }
 
-        public StudentBuilder withTeam(Team team) {
-            this.team = team;
+        public StudentBuilder withTeamId(int teamId) {
+            this.teamId = teamId;
             return this;
         }
 
-        public StudentBuilder withUser(User user) {
-            this.user = user;
+        public StudentBuilder withUserId(int userId) {
+            this.userId = userId;
             return this;
         }
 
