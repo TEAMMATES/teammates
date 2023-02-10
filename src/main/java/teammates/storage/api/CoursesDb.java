@@ -80,7 +80,8 @@ public final class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         boolean hasSameAttributes =
                 this.<String>hasSameValue(course.getName(), newAttributes.getName())
                 && this.<String>hasSameValue(course.getInstitute(), newAttributes.getInstitute())
-                && this.<String>hasSameValue(course.getTimeZone(), newAttributes.getTimeZone());
+                && this.<String>hasSameValue(course.getTimeZone(), newAttributes.getTimeZone())
+                && this.hasSameValue(course.isMigrated(), newAttributes.isMigrated());
         if (hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, Course.class.getSimpleName(), updateOptions));
             return newAttributes;
@@ -89,6 +90,7 @@ public final class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         course.setName(newAttributes.getName());
         course.setTimeZone(newAttributes.getTimeZone());
         course.setInstitute(newAttributes.getInstitute());
+        course.setMigrated(newAttributes.isMigrated());
 
         saveEntity(course);
 
