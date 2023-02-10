@@ -41,7 +41,6 @@
     "ng-dynamic-component": "~10.1.0",
     "ng-in-viewport": "^6.1.5",
     "ngx-captcha": "^11.0.0",
-    "ngx-image-cropper": "^1.5.1",
     "ngx-page-scroll-core": "^8.0.0",
     "rxjs": "~7.5.7",
     "tslib": "^2.4.1",

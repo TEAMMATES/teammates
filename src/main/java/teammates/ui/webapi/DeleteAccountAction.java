@@ -12,9 +12,6 @@ class DeleteAccountAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() throws AuthException {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        if (fileStorage.doesFileExist(googleId)) {
-            fileStorage.delete(googleId);
-        }
         logic.deleteAccountCascade(googleId);
 
         authProxy.deleteUser(googleId);

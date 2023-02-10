@@ -1,15 +1,11 @@
 package teammates.ui.webapi;
 
-import java.io.IOException;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.Part;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;
@@ -32,15 +28,12 @@ import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.api.MockAuthProxy;
 import teammates.logic.api.MockEmailSender;
-import teammates.logic.api.MockFileStorage;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
-import teammates.test.FileHelper;
 import teammates.test.MockHttpServletRequest;
-import teammates.test.MockPart;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -62,7 +55,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     LogicExtension logic = new LogicExtension();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
-    MockFileStorage mockFileStorage = new MockFileStorage();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
@@ -73,23 +65,23 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     abstract String getRequestMethod();
 
     /**
-     * Gets an action with empty request body and empty multipart config.
+     * Gets an action with empty request body.
      */
     protected T getAction(String... params) {
-        return getAction(null, null, null, params);
+        return getAction(null, null, params);
     }
 
     /**
      * Gets an action with request body.
      */
     protected T getAction(BasicRequest requestBody, String... params) {
-        return getAction(JsonUtils.toCompactJson(requestBody), null, null, params);
+        return getAction(JsonUtils.toCompactJson(requestBody), null, params);
     }
 
     /**
-     * Gets an action with request body and multipart config.
+     * Gets an action with request body and cookie.
      */
-    protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
+    protected T getAction(String body, List<Cookie> cookies, String... params) {
         mockTaskQueuer.clearTasks();
         mockEmailSender.clearEmails();
         MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
@@ -98,11 +90,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         }
         if (body != null) {
             req.setBody(body);
-        }
-        if (parts != null) {
-            parts.forEach((key, part) -> {
-                req.addPart(key, part);
-            });
         }
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -114,7 +101,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
-            action.setFileStorage(mockFileStorage);
             action.setLogsProcessor(mockLogsProcessor);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
@@ -127,20 +113,10 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     }
 
     /**
-     * Gets an action with request multipart config.
-     */
-    protected T getActionWithParts(String key, String filePath, String... params) throws IOException {
-        Map<String, Part> parts = new HashMap<>();
-        parts.put(key, new MockPart(filePath));
-
-        return getAction(null, parts, null, params);
-    }
-
-    /**
      * Gets an action with list of cookies.
      */
     protected T getActionWithCookie(List<Cookie> cookies, String... params) {
-        return getAction(null, null, cookies, params);
+        return getAction(null, cookies, params);
     }
 
     @BeforeMethod
@@ -601,19 +577,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         }
     }
 
-    /**
-     * Executes the action and returns the result.
-     *
-     * <p>Assumption: The action returns a {@link ImageResult}.
-     */
-    protected ImageResult getImageResult(Action a) {
-        try {
-            return (ImageResult) a.execute();
-        } catch (InvalidOperationException | InvalidHttpRequestBodyException | AuthException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     // The next few methods are for verifying action results
 
     /**
@@ -724,29 +687,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
-    }
-
-    /**
-     * Writes a file into the mock file storage.
-     */
-    protected void writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
-        byte[] bytes = FileHelper.readFileAsBytes(sourceFilePath);
-        String contentType = URLConnection.guessContentTypeFromName(sourceFilePath);
-        mockFileStorage.create(targetFileName, bytes, contentType);
-    }
-
-    /**
-     * Deletes a file from the mock file storage.
-     */
-    protected void deleteFile(String fileName) {
-        mockFileStorage.delete(fileName);
-    }
-
-    /**
-     * Returns true if the specified file exists in the mock file storage.
-     */
-    protected boolean doesFileExist(String fileName) {
-        return mockFileStorage.doesFileExist(fileName);
     }
 
 }

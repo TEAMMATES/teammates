@@ -56,10 +56,7 @@
     <div id="user-header" class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       <div>
         {{ isGqr ? 'From' : 'To' }}:
-        <tm-student-name-with-photo [name]="userInfo"
-                                    [email]="userToEmail[userInfo]"
-                                    [courseId]="session.courseId"
-        ></tm-student-name-with-photo>
+        {{ userInfo === '-' ? 'No Specific User' : userInfo }}
         <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
           [{{ userToEmail[userInfo] }}]
         </a>
