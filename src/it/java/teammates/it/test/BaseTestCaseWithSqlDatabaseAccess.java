@@ -30,7 +30,8 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     @BeforeSuite
     public static void setUpClass() throws Exception {
         PGSQL.start();
-        DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+        // Temporarily disable migration utility
+        // DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
@@ -44,12 +45,11 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     @BeforeMethod
     public void setUp() throws Exception {
         HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().begin();
-        DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
     }
 
     @AfterMethod
     public void tearDown() {
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
+        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().rollback();
     }
 
     /**

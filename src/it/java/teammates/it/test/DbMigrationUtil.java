@@ -34,7 +34,6 @@ public final class DbMigrationUtil {
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
             try (Liquibase liquibase = new Liquibase("src/main/resources/db/changelog/db.changelog-root.xml",
                     new DirectoryResourceAccessor(file), database)) {
-                liquibase.dropAll();
                 liquibase.update();
             }
             conn.close();

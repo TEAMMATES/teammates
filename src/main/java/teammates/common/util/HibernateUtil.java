@@ -49,7 +49,7 @@ public final class HibernateUtil {
                 .setProperty("hibernate.connection.username", username)
                 .setProperty("hibernate.connection.password", password)
                 .setProperty("hibernate.connection.url", dbUrl)
-                .setProperty("hibernate.hbm2ddl.auto", "validate")
+                .setProperty("hibernate.hbm2ddl.auto", "update")
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
                 .addPackage("teammates.storage.sqlentity");
