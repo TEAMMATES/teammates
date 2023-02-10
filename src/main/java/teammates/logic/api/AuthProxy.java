@@ -17,7 +17,7 @@ public class AuthProxy {
 
     AuthProxy() {
         AuthService fs;
-        if (Config.IS_DEV_SERVER) {
+        if (Config.ENABLE_DEVSERVER_LOGIN) {
             fs = new EmptyAuthService();
         } else {
             try {
