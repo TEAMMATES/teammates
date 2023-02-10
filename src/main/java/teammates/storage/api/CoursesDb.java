@@ -90,6 +90,7 @@ public final class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
         course.setName(newAttributes.getName());
         course.setTimeZone(newAttributes.getTimeZone());
         course.setInstitute(newAttributes.getInstitute());
+        course.setMigrated(newAttributes.isMigrated());
 
         saveEntity(course);
 

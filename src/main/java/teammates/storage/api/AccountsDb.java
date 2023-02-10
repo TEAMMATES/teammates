@@ -86,6 +86,7 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
         }
 
         account.setReadNotifications(newAttributes.getReadNotifications());
+        account.setMigrated(newAttributes.isMigrated());
 
         saveEntity(account);
 
