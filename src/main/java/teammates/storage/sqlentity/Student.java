@@ -11,6 +11,12 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.JsonUtils;
@@ -23,20 +29,26 @@ import teammates.common.util.JsonUtils;
 @Table(name = "Student")
 public class Student extends BaseEntity {
     // TODO
-    // [ ] Map FKs
+    // [X] Map FKs (Done for Student)
     // [ ] Ancestor User
     // [ ] Fill other CourseStudent related methods
     // [ ] Fill sanitizeForSaving and getInvalidityInfo if necessary
-    
+
     // should this be auto incremented or generateId from CourseStudent
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(nullable = false)
-    private int teamId;
+    // note: set @OneToMany(mappedBy = "student") in Team
+    @ManyToOne
+    @JoinColumn(name = "id", foreignKey = @ForeignKey(name = "TEAM_ID_FK"), referencedColumnName = "id", nullable = false)
+    private Team team;
 
-    @Column(nullable = false)
-    private int userId;
+    // to cascade?
+    // note: to place @OneToOne annotation in User class for bidirectional r/s
+    @OneToOne
+    @JoinColumn(name = "id", foreignKey = @ForeignKey(name = "USER_ID_FK"), referencedColumnName = "id", nullable = false)
+    private User user;
 
     @Column
     private String comments;
@@ -55,8 +67,8 @@ public class Student extends BaseEntity {
 
     public Student(StudentBuilder builder) {
         this.setId(builder.id);
-        this.setUserId(builder.userId);
-        this.setTeamId(builder.teamId);
+        this.setTeam(builder.team);
+        this.setUser(builder.user);
         this.setComments(builder.comments);
 
         if (createdAt == null) {
@@ -87,20 +99,20 @@ public class Student extends BaseEntity {
         this.id = id;
     }
 
-    public int getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getComments() {
@@ -126,7 +138,7 @@ public class Student extends BaseEntity {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-
+    
     @Override
     public String toString() {
         return JsonUtils.toJson(this, StudentAttributes.class);
@@ -158,21 +170,21 @@ public class Student extends BaseEntity {
      */
     public static class StudentBuilder {
         private int id;
-        private int teamId;
-        private int userId;
+        private Team team;
+        private User user;
         private String comments;
 
         public StudentBuilder(int id) {
             this.id = id;
         }
 
-        public StudentBuilder withTeamId(int teamId) {
-            this.teamId = teamId;
+        public StudentBuilder withTeam(Team team) {
+            this.team = team;
             return this;
         }
 
-        public StudentBuilder withUserId(int userId) {
-            this.userId = userId;
+        public StudentBuilder withUser(User user) {
+            this.user = user;
             return this;
         }
 
