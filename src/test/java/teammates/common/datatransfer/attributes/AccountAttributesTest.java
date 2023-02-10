@@ -48,7 +48,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
         Account expectedAccount = new Account(account.getGoogleId(), account.getName(),
-                account.getEmail(), account.getReadNotifications());
+                account.getEmail(), account.getReadNotifications(), false);
 
         Account actualAccount = account.toEntity();
 
@@ -134,7 +134,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf() {
-        Account genericAccount = new Account("id", "Joe", "joe@example.com", new HashMap<>());
+        Account genericAccount = new Account("id", "Joe", "joe@example.com", new HashMap<>(), false);
 
         AccountAttributes observedAccountAttributes = AccountAttributes.valueOf(genericAccount);
 
