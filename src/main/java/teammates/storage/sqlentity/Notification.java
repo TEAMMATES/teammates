@@ -65,31 +65,6 @@ public class Notification extends BaseEntity {
     private Instant updatedAt;
 
     /**
-     * Instantiates a new notification, with ID randomly generated and time fields filled automatically.
-     *
-     * @param startTime start time for the notification to be shown to users
-     * @param endTime notifications are hidden from users after endTime
-     * @param style style of the notification (e.g. success, warning, etc.)
-     * @param targetUser student or instructor
-     * @param title title of the notification
-     * @param message message body of the notification
-     */
-    public Notification(Instant startTime, Instant endTime, NotificationStyle style, NotificationTargetUser targetUser,
-                        String title, String message) {
-        this.setStartTime(startTime);
-        this.setEndTime(endTime);
-        this.setStyle(style);
-        this.setTargetUser(targetUser);
-        this.setTitle(title);
-        this.setMessage(message);
-        this.setCreatedAt(Instant.now());
-
-        UUID uuid = UUID.randomUUID();
-        this.notificationId = uuid.toString();
-        this.shown = false;
-    }
-
-    /**
      * Instantiates a new notification from {@code NotificationBuilder}.
      */
     public Notification(NotificationBuilder builder) {
@@ -99,16 +74,9 @@ public class Notification extends BaseEntity {
         this.setTargetUser(builder.targetUser);
         this.setTitle(builder.title);
         this.setMessage(builder.message);
-        if (createdAt == null) {
-            this.setCreatedAt(Instant.now());
-        } else {
-            this.setCreatedAt(createdAt);
-        }
         this.setUpdatedAt(updatedAt);
         this.notificationId = builder.notificationId;
         this.shown = builder.shown;
-
-        assert this.createdAt != null;
     }
 
     protected Notification() {
