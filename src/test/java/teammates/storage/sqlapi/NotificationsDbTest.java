@@ -58,8 +58,7 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_invalidNonNullParameters() {
-        ______TS("failure: start time is before end time");
+    public void testCreateNotification_invalidNonNullParameters_endTimeIsBeforeStartTime() {
         Notification invalidNotification1 = new Notification.NotificationBuilder("A deprecation note")
                 .withStartTime(Instant.parse("2011-02-01T00:00:00Z"))
                 .withEndTime(Instant.parse("2011-01-01T00:00:00Z"))
@@ -73,8 +72,10 @@ public class NotificationsDbTest extends BaseTestCase {
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification1));
         verify(session, never()).persist(invalidNotification1);
+    }
 
-        ______TS("failure: empty title");
+    @Test
+    public void testCreateNotification_invalidNonNullParameters_emptyTitle() {
         Notification invalidNotification2 = new Notification.NotificationBuilder("")
                 .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
                 .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
@@ -82,14 +83,16 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withMessage("<p>Deprecation happens in three minutes</p>")
                 .build();
-        notificationId = UUID.randomUUID();
+        UUID notificationId = UUID.randomUUID();
         invalidNotification2.setNotificationId(notificationId);
         when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification2);
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification2));
         verify(session, never()).persist(invalidNotification2);
+    }
 
-        ______TS("failure: empty message");
+    @Test
+    public void testCreateNotification_invalidNonNullParameters_emptyMessage() {
         Notification invalidNotification3 = new Notification.NotificationBuilder("A deprecation note")
                 .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
                 .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
@@ -97,7 +100,7 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withMessage("")
                 .build();
-        notificationId = UUID.randomUUID();
+        UUID notificationId = UUID.randomUUID();
         invalidNotification3.setNotificationId(notificationId);
         when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification3);
 
