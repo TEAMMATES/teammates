@@ -58,20 +58,13 @@ As a **student**, I can submit peer evaluation responses and view published resp
     <img src="src/web/assets/images/feature-nosignuprequired.png" width="600">
 </p>
 
-## Tools/Technologies and Roles
+### Tools and Technologies
 Tools and technologies include:
 * HTML SCSS, Bootstrap
 * Angular and TypeScript
 * Java, Servlet, Google App Engine
 * TestNG, Selenium, and Jest
 * Gradle and Node.js
-
-Use of tools/technologies depend on the developer role. Roles include:
-* Web page developer
-* Front-end developer
-* Test developer
-* Back-end developer
-* DevOps developer
 
 ## Installation Guide
 Installation is compatible with Linux, OS X, and Windows. There are two main steps:
@@ -83,6 +76,13 @@ Installation is compatible with Linux, OS X, and Windows. There are two main ste
 We welcome contributions from developers, especially students. Here are some resources:
 * [**Contributor Orientation Guide**](https://teammates.github.io/teammates/contributing-doc.html): This document describes what you need to know/do to become a contributor.
 * [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
+  
+Developer roles include:
+* Web page developer
+* Front-end developer
+* Test developer
+* Back-end developer
+* DevOps developer
 
 ## Acknowledgements
 
