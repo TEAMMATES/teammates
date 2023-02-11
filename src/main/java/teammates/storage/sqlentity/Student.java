@@ -27,18 +27,11 @@ import teammates.common.util.JsonUtils;
     @PrimaryKeyJoinColumn(name = "teamId"),
     @PrimaryKeyJoinColumn(name = "userId"),
 })
-public class Student extends User {
-    // TODO
-    // [ ] Ancestor User, define Inheritance in it
-    // [X] Fill other CourseStudent related methods (nothing related to fill)
-
-    // should this be auto incremented or generateId from CourseStudent
+public class Student { // TODO: extends User
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    // not sure what to do with team yet as we can't do multiple inheritance
-    // have added a PKJoinColumn for teamId above before Class definition
     @Column
     private int teamId;
 
