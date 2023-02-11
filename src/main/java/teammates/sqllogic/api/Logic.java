@@ -1,11 +1,14 @@
 package teammates.sqllogic.api;
 
+import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Notification;
+
+import java.util.List;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -62,5 +65,17 @@ public class Logic {
     public Notification createNotification(Notification notification) throws
             InvalidParametersException, EntityAlreadyExistsException {
         return notificationsLogic.createNotification(notification);
+    }
+
+    /**
+     * Gets a notification by ID.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return Null if no match found.
+     */
+    public Notification getNotification(String notificationId) {
+        return notificationsLogic.getNotification(notificationId);
     }
 }

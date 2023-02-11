@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -14,7 +14,7 @@ public class GetNotificationAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String notificationId = getNonNullRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
 
-        NotificationAttributes notification = logic.getNotification(notificationId);
+        Notification notification = sqlLogic.getNotification(notificationId);
 
         if (notification == null) {
             throw new EntityNotFoundException("Notification does not exist.");
