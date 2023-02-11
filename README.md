@@ -63,7 +63,7 @@ Tools and technologies include:
 * HTML SCSS, Bootstrap
 * Angular and TypeScript
 * Java, Servlet, Google App Engine
-* TestNG, Selenium, and Jest
+* TestNG, Selenium, Jest
 * Gradle and Node.js
 
 ## Installation Guide
