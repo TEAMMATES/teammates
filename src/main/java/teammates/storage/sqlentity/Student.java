@@ -32,13 +32,13 @@ public class Student { // TODO: extends User
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private int teamId;
 
     // to cascade?
     // from hibernate docs: seems like we can omit this
     // https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#entity-inheritance-joined-table
-    @Column
+    @Column(nullable = false)
     private int userId;
 
     @Column
