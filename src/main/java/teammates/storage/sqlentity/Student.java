@@ -121,7 +121,9 @@ public class Student { // TODO: extends User
     
     @Override
     public String toString() {
-        return JsonUtils.toJson(this, StudentAttributes.class);
+        return "Student [id=" + id + ", teamId=" + teamId + ", userId=" + userId
+                + ", comments=" + comments + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
