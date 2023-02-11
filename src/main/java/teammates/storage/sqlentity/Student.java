@@ -12,11 +12,10 @@ import com.googlecode.objectify.annotation.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.PrimaryKeyJoinColumns;
 import jakarta.persistence.Table;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.JsonUtils;
 
 /**
  * Represents a Student entity.
@@ -32,12 +31,15 @@ public class Student { // TODO: extends User
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    // to cascade?
+    @OneToOne(mappedBy = "id")
     @Column(nullable = false)
     private int teamId;
 
     // to cascade?
     // from hibernate docs: seems like we can omit this
     // https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#entity-inheritance-joined-table
+    @OneToOne(mappedBy = "id")
     @Column(nullable = false)
     private int userId;
 
