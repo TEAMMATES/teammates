@@ -59,7 +59,7 @@ public class NotificationsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateNotification_invalidNonNullParameters_endTimeIsBeforeStartTime() {
-        Notification invalidNotification1 = new Notification.NotificationBuilder("A deprecation note")
+        Notification invalidNotification = new Notification.NotificationBuilder("A deprecation note")
                 .withStartTime(Instant.parse("2011-02-01T00:00:00Z"))
                 .withEndTime(Instant.parse("2011-01-01T00:00:00Z"))
                 .withStyle(NotificationStyle.DANGER)
@@ -67,16 +67,16 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withMessage("<p>Deprecation happens in three minutes</p>")
                 .build();
         UUID notificationId = UUID.randomUUID();
-        invalidNotification1.setNotificationId(notificationId);
-        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification1);
+        invalidNotification.setNotificationId(notificationId);
+        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification);
 
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification1));
-        verify(session, never()).persist(invalidNotification1);
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
+        verify(session, never()).persist(invalidNotification);
     }
 
     @Test
     public void testCreateNotification_invalidNonNullParameters_emptyTitle() {
-        Notification invalidNotification2 = new Notification.NotificationBuilder("")
+        Notification invalidNotification = new Notification.NotificationBuilder("")
                 .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
                 .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
                 .withStyle(NotificationStyle.DANGER)
@@ -84,16 +84,16 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withMessage("<p>Deprecation happens in three minutes</p>")
                 .build();
         UUID notificationId = UUID.randomUUID();
-        invalidNotification2.setNotificationId(notificationId);
-        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification2);
+        invalidNotification.setNotificationId(notificationId);
+        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification);
 
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification2));
-        verify(session, never()).persist(invalidNotification2);
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
+        verify(session, never()).persist(invalidNotification);
     }
 
     @Test
     public void testCreateNotification_invalidNonNullParameters_emptyMessage() {
-        Notification invalidNotification3 = new Notification.NotificationBuilder("A deprecation note")
+        Notification invalidNotification = new Notification.NotificationBuilder("A deprecation note")
                 .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
                 .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
                 .withStyle(NotificationStyle.DANGER)
@@ -101,10 +101,10 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withMessage("")
                 .build();
         UUID notificationId = UUID.randomUUID();
-        invalidNotification3.setNotificationId(notificationId);
-        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification3);
+        invalidNotification.setNotificationId(notificationId);
+        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification);
 
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification3));
-        verify(session, never()).persist(invalidNotification3);
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
+        verify(session, never()).persist(invalidNotification);
     }
 }
