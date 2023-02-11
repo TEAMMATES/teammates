@@ -1,6 +1,10 @@
 package teammates.it.storage.sqlapi;
 
+import java.time.Instant;
+import java.util.UUID;
+
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -8,9 +12,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
-
-import java.time.Instant;
-import java.util.UUID;
 
 /**
  * SUT: {@link NotificationsDb}.

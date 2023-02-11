@@ -14,7 +14,7 @@ public final class NotificationsLogic {
 
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
 
-    private  NotificationsLogic() {
+    private NotificationsLogic() {
         // prevent initialization
     }
 
