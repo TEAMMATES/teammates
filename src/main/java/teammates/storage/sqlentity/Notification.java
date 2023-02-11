@@ -187,7 +187,9 @@ public class Notification extends BaseEntity {
 
     @Override
     public String toString() {
-        return JsonUtils.toJson(this, NotificationAttributes.class);
+        return "Notification [id=" + notificationId + ", startTime=" + startTime + ", endTime=" + endTime
+                + ", style=" + style + ", targetUser=" + targetUser + ", shown=" + shown + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
