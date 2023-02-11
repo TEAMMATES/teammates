@@ -15,6 +15,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import teammates.ui.output.InstructorPermissionRole;
@@ -31,6 +32,7 @@ public class Instructor { // TODO: extends User
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @OneToOne(mappedBy = "id")
     @Column(nullable = false)
     private int userId;
 
