@@ -68,6 +68,7 @@ public class Instructor { // TODO: extends User
         this.setId(builder.id);
         this.setUserId(builder.userId);
         this.setRegistrationKey(builder.registrationKey);
+        this.setDisplayedToStudents(builder.isDisplayedToStudents);
         this.setDisplayName(builder.displayName);
         this.setRole(builder.role);
         this.setInstructorPrivilegesAsText(builder.instructorPrivilegesAsText);
