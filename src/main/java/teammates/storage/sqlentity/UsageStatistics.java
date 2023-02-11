@@ -24,24 +24,24 @@ public class UsageStatistics extends BaseEntity {
     @Id
     private String id;
 
-    @Column
+    @Column(nullable = false)
     private Instant startTime;
 
-    @Column
+    @Column(nullable = false)
     private int timePeriod;
-    @Column
+    @Column(nullable = false)
     private int numResponses;
-    @Column
+    @Column(nullable = false)
     private int numCourses;
-    @Column
+    @Column(nullable = false)
     private int numStudents;
-    @Column
+    @Column(nullable = false)
     private int numInstructors;
-    @Column
+    @Column(nullable = false)
     private int numAccountRequests;
-    @Column
+    @Column(nullable = false)
     private int numEmails;
-    @Column
+    @Column(nullable = false)
     private int numSubmissions;
 
     @CreationTimestamp
