@@ -8,6 +8,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
 
+import java.util.UUID;
+
 /**
  * Handles CRUD operations for notifications.
  *
