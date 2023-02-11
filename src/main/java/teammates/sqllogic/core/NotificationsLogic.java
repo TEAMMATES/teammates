@@ -23,7 +23,7 @@ public final class NotificationsLogic {
     }
 
     void initLogicDependencies(NotificationsDb notificationsDb) {
-         this.notificationsDb = notificationsDb;
+        this.notificationsDb = notificationsDb;
     }
 
     /**
