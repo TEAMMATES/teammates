@@ -16,6 +16,38 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 [Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
 [Project Stats](https://www.openhub.net/p/teammatesonline)
 
+## Project Details
+### Features
+TEAMMATES gives you more flexibility over peer evaluations than other existing platforms. Features include:
+* **Flexible feedback paths:** Create feedback paths within teams, between students, and between instructors and students
+* **Customize visibility of responses:** Set visibility levels for each peer evaluation. Select who can see the response, and decide whether the feedback giver or receiver’s identity is visible.
+* **Grant access levels:** Add various instructors to your courses, and decide their access control (e.g. co-owner, manager, tutor or custom).
+
+Take advantage of TEAMMATES powerful database:
+* **Search feature:** Locate any student and their details.
+* **Reuse past questions:** Save time and resurface past questions from existing sessions.
+* **Download data as spreadsheets:** Download responses and statistics as spreadsheets.
+* **Generate reports and statistics** in various formats and views. 
+
+### Tools/Technologies and Roles
+Tools and technologies include:
+* HTML SCSS, Bootstrap
+* Angular and TypeScript
+* Java, Servlet, Google App Engine
+* TestNG, Selenium, and Jest
+* Gradle and Node.js
+
+Use of tools/technologies depend on the developer role. Roles include:
+* Web page developer
+* Front-end developer
+* Test developer
+* Back-end developer
+* DevOps developer
+
+## Installation Guide
+Installation is compatible with Linux, OS X, and Windows.
+View our [Setting Up](https://teammates.github.io/teammates/setting-up.html) guide for a detailed step-by-step view.
+
 ## Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources:
