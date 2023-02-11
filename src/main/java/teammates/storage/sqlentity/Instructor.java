@@ -153,10 +153,12 @@ public class Instructor { // TODO: extends User
         this.updatedAt = updatedAt;
     }
 
-    // TODO: Update
     @Override
     public String toString() {
-        return JsonUtils.toJson(this, InstructorAttributes.class);
+        return "Instructor [id=" + id + ", userId=" + userId + ", registrationKey=" + registrationKey
+                + ", isDisplayedToStudents=" + isDisplayedToStudents + ", displayName=" + displayName
+                + ", role=" + role + ", instructorPrivilegesAsText=" + instructorPrivilegesAsText
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
