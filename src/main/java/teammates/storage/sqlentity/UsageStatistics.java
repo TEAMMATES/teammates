@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -22,7 +23,8 @@ import jakarta.persistence.Table;
 @Table(name = "UsageStatistics")
 public class UsageStatistics extends BaseEntity {
     @Id
-    private String id;
+    @GeneratedValue
+    private int id;
 
     @Column(nullable = false)
     private Instant startTime;
@@ -70,7 +72,7 @@ public class UsageStatistics extends BaseEntity {
         this.numSubmissions = numSubmissions;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
