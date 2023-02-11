@@ -17,8 +17,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.JsonUtils;
 import teammates.ui.output.InstructorPermissionRole;
 
 /**
@@ -50,7 +48,7 @@ public class Instructor { // TODO: extends User
     private InstructorPermissionRole role;
 
     @Column(columnDefinition = "json", nullable = false)
-    private Map<String, String> instructorPrivilegesAsText;
+    private Map<String, String> instructorPrivileges;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -71,7 +69,7 @@ public class Instructor { // TODO: extends User
         this.setDisplayedToStudents(builder.isDisplayedToStudents);
         this.setDisplayName(builder.displayName);
         this.setRole(builder.role);
-        this.setInstructorPrivilegesAsText(builder.instructorPrivilegesAsText);
+        this.setInstructorPrivileges(builder.instructorPrivileges);
 
         if (createdAt == null) {
             this.setCreatedAt(Instant.now());
@@ -130,12 +128,12 @@ public class Instructor { // TODO: extends User
         this.role = role;
     }
 
-    public Map<String, String> getInstructorPrivilegesAsText() {
-        return instructorPrivilegesAsText;
+    public Map<String, String> getInstructorPrivileges() {
+        return instructorPrivileges;
     }
 
-    public void setInstructorPrivilegesAsText(Map<String, String> instructorPrivilegesAsText) {
-        this.instructorPrivilegesAsText = instructorPrivilegesAsText;
+    public void setInstructorPrivileges(Map<String, String> instructorPrivileges) {
+        this.instructorPrivileges = instructorPrivileges;
     }
 
     public Instant getCreatedAt() {
@@ -158,7 +156,7 @@ public class Instructor { // TODO: extends User
     public String toString() {
         return "Instructor [id=" + id + ", userId=" + userId + ", registrationKey=" + registrationKey
                 + ", isDisplayedToStudents=" + isDisplayedToStudents + ", displayName=" + displayName
-                + ", role=" + role + ", instructorPrivilegesAsText=" + instructorPrivilegesAsText
+                + ", role=" + role + ", instructorPrivileges=" + instructorPrivileges
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 
@@ -193,7 +191,7 @@ public class Instructor { // TODO: extends User
         private boolean isDisplayedToStudents;
         private String displayName;
         private InstructorPermissionRole role;
-        private Map<String, String> instructorPrivilegesAsText;
+        private Map<String, String> instructorPrivileges;
 
         public InstructorBuilder(int id) {
             this.id = id;
@@ -224,9 +222,9 @@ public class Instructor { // TODO: extends User
             return this;
         }
 
-        public InstructorBuilder withInstructorPrivilegesAsText(
-                Map<String, String> instructorPrivilegesAsText) {
-            this.instructorPrivilegesAsText = instructorPrivilegesAsText;
+        public InstructorBuilder withInstructorPrivileges(
+                Map<String, String> instructorPrivileges) {
+            this.instructorPrivileges = instructorPrivileges;
             return this;
         }
 
