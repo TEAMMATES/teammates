@@ -11,7 +11,7 @@ import teammates.storage.sqlentity.Notification;
  *
  * @see Notification
  */
-public class NotificationsDb extends EntitiesDb<Notification> {
+public final class NotificationsDb extends EntitiesDb<Notification> {
 
     private static final NotificationsDb instance = new NotificationsDb();
 
