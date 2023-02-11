@@ -42,20 +42,35 @@ public class Student { // TODO: extends User
     @OneToOne(mappedBy = "id")
     @Column(nullable = false)
     private int userId;
-
+    
     @Column
     private String comments;
-
+    
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
-
+    
     @UpdateTimestamp
     @Column
     private Instant updatedAt;
-
+    
     protected Student() {
         // required by Hibernate
+    }
+    
+    public Student(StudentBuilder builder) {
+        this.setId(builder.id);
+        this.setTeamId(builder.teamId);
+        this.setUserId(builder.userId);
+        this.setComments(builder.comments);
+
+        if (createdAt == null) {
+            this.setCreatedAt(Instant.now());
+        } else {
+            this.setCreatedAt(createdAt);
+        }
+
+        this.setUpdatedAt(updatedAt);
     }
 
     public int getId() {
@@ -104,21 +119,6 @@ public class Student { // TODO: extends User
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Student(StudentBuilder builder) {
-        this.setId(builder.id);
-        this.setTeamId(builder.teamId);
-        this.setUserId(builder.userId);
-        this.setComments(builder.comments);
-
-        if (createdAt == null) {
-            this.setCreatedAt(Instant.now());
-        } else {
-            this.setCreatedAt(createdAt);
-        }
-
-        this.setUpdatedAt(updatedAt);
     }
     
     @Override
