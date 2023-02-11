@@ -45,7 +45,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     static final BackDoor BACKDOOR = BackDoor.getInstance();
 
-    DataBundle testData;
+    /**
+     * Data to be used in the test.
+     */
+    protected DataBundle testData;
+
     private Browser browser;
 
     @BeforeClass
