@@ -52,9 +52,6 @@ public class UsageStatistics extends BaseEntity {
     @Column
     private Instant updatedAt;
 
-    @Column
-    private Instant deletedAt;
-
     protected UsageStatistics() {
         // required by Hibernate
     }
@@ -71,7 +68,6 @@ public class UsageStatistics extends BaseEntity {
         this.numAccountRequests = numAccountRequests;
         this.numEmails = numEmails;
         this.numSubmissions = numSubmissions;
-        this.id = generateId(startTime, timePeriod);
     }
 
     public String getId() {
@@ -128,21 +124,6 @@ public class UsageStatistics extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Instant getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Instant deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
-    /**
-     * Generates a unique ID for the usage statistics object.
-     */
-    public static String generateId(Instant startTime, int timePeriod) {
-        return startTime.toEpochMilli() + "%" + timePeriod;
     }
 
     @Override
