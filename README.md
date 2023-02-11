@@ -1,24 +1,40 @@
+<p align="center">
+    <img src="src/web/assets/icons/icon-152x152.png">
+</p>
+<p align="center">
+    <a href="https://teammates.github.io/teammates">Documentation for Developers</a> | 
+    <a href="https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed">Version History</a> |
+    <a href="https://www.openhub.net/p/teammatesonline">Project Stats</a> | 
+    <a href="http://teammatesv4.appspot.com/">Product Website
+</p>
+<p align="center">
+    <a href="https://github.com/TEAMMATES/teammates/actions">
+        <img src="https://github.com/TEAMMATES/teammates/workflows/Component%20Tests/badge.svg">
+    </a>
+    <a href="https://github.com/TEAMMATES/teammates/actions">
+        <img src="https://github.com/TEAMMATES/teammates/workflows/E2E%20Tests/badge.svg">
+    </a>
+    <a href="https://codecov.io/gh/TEAMMATES/teammates">
+        <img src="https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg">
+    </a>
+    <a href="https://github.com/michelletaing/teammates/blob/master/LICENSE">
+        <img src="https://img.shields.io/badge/license-GPLv2-blue.svg">
+    </a>
+</p>
+
 # TEAMMATES Developer Web Site
 
-[![GitHub Actions Build Status Component Tests](https://github.com/TEAMMATES/teammates/workflows/Component%20Tests/badge.svg)](https://github.com/TEAMMATES/teammates/actions)
-[![GitHub Actions Build Status E2E Tests](https://github.com/TEAMMATES/teammates/workflows/E2E%20Tests/badge.svg)](https://github.com/TEAMMATES/teammates/actions)
-[![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
-[![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
+## What is TEAMMMATES?
 
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
 
-<img src="src/web/assets/images/overview.png" width="600">
+<p align="center">
+    <img src="src/web/assets/images/overview.png" width="600">
+</p>
 
-This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
-
-[**Documentation for Developers** :book:](https://teammates.github.io/teammates) |
-[Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
-[Project Stats](https://www.openhub.net/p/teammatesonline)
-
-## Project Details
 ### Features
-TEAMMATES gives you more flexibility over peer evaluations than other existing platforms. Features include:
+TEAMMATES gives you more flexibility over peer evaluations than other existing platforms:
 * **Flexible feedback paths:** Create feedback paths within teams, between students, and between instructors and students
 * **Customize visibility of responses:** Set visibility levels for each peer evaluation. Select who can see the response, and decide whether the feedback giver or receiver’s identity is visible.
 * **Grant access levels:** Add various instructors to your courses, and decide their access control (e.g. co-owner, manager, tutor or custom).
@@ -28,6 +44,19 @@ Take advantage of TEAMMATES powerful database:
 * **Reuse past questions:** Save time and resurface past questions from existing sessions.
 * **Download data as spreadsheets:** Download responses and statistics as spreadsheets.
 * **Generate reports and statistics** in various formats and views. 
+
+### Demos
+As an **instructor**, I can set feedback paths, control response visibility, and generate reports and statistics.
+<p align="center">
+    <img src="src/web/assets/images/feature-flexiblefeedbackpaths.png" width="600">
+    <img src="src/web/assets/images/feature-powerfullvisibilitycontrol.png" width="600">
+    <img src="src/web/assets/images/feature-reportsandstatistics.png" width="600">
+</p>
+
+As a **student**, I can submit responses and view published responses via email, without the need to sign up or log in.
+<p align="center">
+    <img src="src/web/assets/images/feature-nosignuprequired.png" width="600">
+</p>
 
 ### Tools/Technologies and Roles
 Tools and technologies include:
@@ -45,9 +74,10 @@ Use of tools/technologies depend on the developer role. Roles include:
 * DevOps developer
 
 ## Installation Guide
-Installation is compatible with Linux, OS X, and Windows.
-View our [Setting Up](https://teammates.github.io/teammates/setting-up.html) guide for a detailed step-by-step view.
-
+Installation is compatible with Linux, OS X, and Windows. There are two main steps:
+* [Set up the development environment](https://teammates.github.io/teammates/setting-up.html)
+* [Start the front-end and back-end servers](https://teammates.github.io/teammates/development.html)
+  
 ## Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources:
