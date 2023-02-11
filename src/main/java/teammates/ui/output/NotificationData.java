@@ -3,6 +3,7 @@ package teammates.ui.output;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
+import teammates.storage.sqlentity.Notification;
 
 /**
  * The API output format of a notification.
@@ -29,6 +30,18 @@ public class NotificationData extends ApiOutput {
         this.title = notificationAttributes.getTitle();
         this.message = notificationAttributes.getMessage();
         this.shown = notificationAttributes.isShown();
+    }
+
+    public NotificationData(Notification notification) {
+        this.notificationId = notification.getNotificationId().toString();
+        this.startTimestamp = notification.getStartTime().toEpochMilli();
+        this.endTimestamp = notification.getEndTime().toEpochMilli();
+        this.createdAt = notification.getCreatedAt().toEpochMilli();
+        this.style = notification.getStyle();
+        this.targetUser = notification.getTargetUser();
+        this.title = notification.getTitle();
+        this.message = notification.getMessage();
+        this.shown = notification.isShown();
     }
 
     public String getNotificationId() {

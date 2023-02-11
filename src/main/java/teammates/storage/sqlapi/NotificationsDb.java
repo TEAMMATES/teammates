@@ -6,6 +6,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
 
+import java.util.UUID;
+
 /**
  * Handles CRUD operations for notifications.
  *
@@ -35,7 +37,7 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
             throw new InvalidParametersException(notification.getInvalidityInfo());
         }
 
-        if (getNotification(notification.getNotificationId().toString()) != null) {
+        if (notification.getNotificationId() != null && getNotification(notification.getNotificationId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS,
                     notification.toString()));
         }
@@ -47,7 +49,7 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
     /**
      * Gets a notification by its unique ID.
      */
-    public Notification getNotification(String notificationId) {
+    public Notification getNotification(UUID notificationId) {
         assert notificationId != null;
 
         return HibernateUtil.getSessionFactory().getCurrentSession().get(Notification.class, notificationId);
@@ -66,7 +68,7 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
             throw new InvalidParametersException(notification.getInvalidityInfo());
         }
 
-        if (getNotification(notification.getNotificationId().toString()) == null) {
+        if (getNotification(notification.getNotificationId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
@@ -78,7 +80,7 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
      *
      * <p>Fails silently if there is no such notification.
      */
-    public void deleteNotification(String notificationId) {
+    public void deleteNotification(UUID notificationId) {
         assert notificationId != null;
 
         Notification notification = getNotification(notificationId);

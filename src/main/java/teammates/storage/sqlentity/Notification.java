@@ -111,6 +111,10 @@ public class Notification extends BaseEntity {
         return notificationId;
     }
 
+    public void setNotificationId(UUID notificationId) {
+        this.notificationId = notificationId;
+    }
+
     public Instant getStartTime() {
         return startTime;
     }
