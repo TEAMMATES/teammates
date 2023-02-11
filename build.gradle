@@ -565,21 +565,37 @@ task e2eTests {
     e2eTests.dependsOn "e2eTestTry${id}"
 }
 
-task axeTests(type: Test) {
-    useTestNG()
-    options.suites "src/e2e/resources/testng-axe.xml"
-    options.outputDirectory = file("${buildDir}/reports/axe-test")
-    options.useDefaultListeners = true
-    ignoreFailures = false
-    maxHeapSize = "1g"
-    reports.html.required = false
-    reports.junitXml.required = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    testLogging {
-        events "passed"
+task axeTests {
+    description "Runs the full accessibility test suite and retries failed test up to ${numOfTestRetries} times."
+    group "Test"
+}
+
+(1..numOfTestRetries + 1).each { id ->
+    def isFirstTry = id == 1
+    def isLastRetry = id == numOfTestRetries + 1
+
+    task "axeTestTry${id}"(type: Test) {
+        useTestNG()
+        options.suites isFirstTry ? "src/e2e/resources/testng-axe.xml" : file("${buildDir}/reports/axe-test-try-${id - 1}/testng-failed.xml")
+        options.outputDirectory = file("${buildDir}/reports/axe-test-try-${id}")
+        options.useDefaultListeners = true
+        ignoreFailures = !isLastRetry
+        maxHeapSize = "1g"
+        reports.html.required = false
+        reports.junitXml.required = false
+        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+        testLogging {
+            events "passed"
+        }
+        afterTest afterTestClosure
+        if (isFirstTry) {
+            afterSuite checkTestNgFailureClosure
+        }
+        onlyIf {
+            isFirstTry || file("${buildDir}/reports/axe-test-try-${id - 1}/testng-failed.xml").exists()
+        }
     }
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
+    axeTests.dependsOn "axeTestTry${id}"
 }
 
 // COVERAGE TASKS
