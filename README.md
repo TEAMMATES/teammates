@@ -53,12 +53,12 @@ As an **instructor**, I can set feedback paths, control response visibility, and
     <img src="src/web/assets/images/feature-reportsandstatistics.png" width="600">
 </p>
 
-As a **student**, I can submit responses and view published responses via email, without the need to sign up or log in.
+As a **student**, I can submit peer evaluation responses and view published responses via email, without the need to sign up or log in.
 <p align="center">
     <img src="src/web/assets/images/feature-nosignuprequired.png" width="600">
 </p>
 
-### Tools/Technologies and Roles
+## Tools/Technologies and Roles
 Tools and technologies include:
 * HTML SCSS, Bootstrap
 * Angular and TypeScript
