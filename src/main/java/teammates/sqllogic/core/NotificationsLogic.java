@@ -12,7 +12,7 @@ public final class NotificationsLogic {
 
     private static final NotificationsLogic instance = new NotificationsLogic();
 
-    private final NotificationsDb notificationsDb = NotificationsDb.inst();
+    private NotificationsDb notificationsDb;
 
     private NotificationsLogic() {
         // prevent initialization
@@ -22,8 +22,8 @@ public final class NotificationsLogic {
         return instance;
     }
 
-    void initLogicDependencies() {
-        // No dependency to other logic class
+    void initLogicDependencies(NotificationsDb notificationsDb) {
+         this.notificationsDb = notificationsDb;
     }
 
     /**
