@@ -7,14 +7,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.PrimaryKeyJoinColumns;
 import jakarta.persistence.Table;
 
 /**
@@ -23,19 +19,17 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "Students")
 public class Student { // TODO: extends User
-    // to cascade?
+    // Cascade?
     // from hibernate docs: seems like we can omit this
     // https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#entity-inheritance-joined-table
     @OneToOne(mappedBy = "id")
     @Column(nullable = false)
     private int id;
 
-    // to cascade?
-    // from hibernate docs: seems like we can omit this
-    // https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#entity-inheritance-joined-table
-    @OneToOne(mappedBy = "id")
-    @Column(nullable = false)
-    private int teamId;
+    // Cascade?
+    @OneToOne
+    @JoinColumn(name = "teamId")
+    private Team team;
 
     @Column(nullable = false)
     private String comments;
@@ -54,7 +48,7 @@ public class Student { // TODO: extends User
     
     public Student(StudentBuilder builder) {
         this.setId(builder.id);
-        this.setTeamId(builder.teamId);
+        this.setTeam(builder.team);
         this.setComments(builder.comments);
 
         if (createdAt == null) {
@@ -74,12 +68,12 @@ public class Student { // TODO: extends User
         this.id = id;
     }
 
-    public int getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public String getComments() {
@@ -108,7 +102,7 @@ public class Student { // TODO: extends User
     
     @Override
     public String toString() {
-        return "Student [id=" + id + ", teamId=" + teamId + ", comments=" + comments
+        return "Student [id=" + id + ", team=" + team + ", comments=" + comments
                 + ", createdAt=" + createdAt
                 + ", updatedAt=" + updatedAt + "]";
     }
@@ -139,15 +133,15 @@ public class Student { // TODO: extends User
      */
     public static class StudentBuilder {
         private int id;
-        private int teamId;
+        private int team;
         private String comments;
 
         public StudentBuilder(int id) {
             this.id = id;
         }
 
-        public StudentBuilder withTeamId(int teamId) {
-            this.teamId = teamId;
+        public StudentBuilder withTeam(Team team) {
+            this.team = team;
             return this;
         }
 
