@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -28,8 +29,14 @@ class DeleteCourseAction extends Action {
     public JsonResult execute() {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        logic.deleteCourseCascade(idOfCourseToDelete);
+        // courseAttributes is used only for checking if the course has been migrated.
+        CourseAttributes courseAttributes = logic.getCourse(idOfCourseToDelete);
+        if (courseAttributes != null && courseAttributes.isMigrated()) {
+            sqlLogic.deleteCourseCascade(idOfCourseToDelete);
+            return new JsonResult(new MessageOutput("OK"));
+        }
 
+        logic.deleteCourseCascade(idOfCourseToDelete);
         return new JsonResult(new MessageOutput("OK"));
     }
 }

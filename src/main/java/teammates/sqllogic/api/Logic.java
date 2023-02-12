@@ -45,4 +45,12 @@ public class Logic {
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesLogic.createCourse(course);
     }
+
+    /**
+     * Deletes a course by course id.
+     * @param courseId of course.
+     */
+    public void deleteCourseCascade(String courseId) {
+        coursesLogic.deleteCourseCascade(courseId);
+    }
 }

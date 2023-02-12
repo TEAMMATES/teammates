@@ -50,4 +50,28 @@ public final class CoursesLogic {
     public Course getCourse(String courseId) {
         return coursesDb.getCourse(courseId);
     }
+
+    /**
+     * Deletes a course and cascade its students, instructors, sessions, responses, deadline extensions and comments.
+     * Fails silently if no such course.
+     */
+    public void deleteCourseCascade(String courseId) {
+        if (getCourse(courseId) == null) {
+            return;
+        }
+
+        // TODO: Migrate after other Logic classes have been migrated.
+        // AttributesDeletionQuery query = AttributesDeletionQuery.builder()
+        //         .withCourseId(courseId)
+        //         .build();
+        // frcLogic.deleteFeedbackResponseComments(query);
+        // frLogic.deleteFeedbackResponses(query);
+        // fqLogic.deleteFeedbackQuestions(query);
+        // feedbackSessionsLogic.deleteFeedbackSessions(query);
+        // studentsLogic.deleteStudents(query);
+        // instructorsLogic.deleteInstructors(query);
+        // deadlineExtensionsLogic.deleteDeadlineExtensions(query);
+
+        coursesDb.deleteCourse(courseId);
+    }
 }
