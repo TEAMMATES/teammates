@@ -25,16 +25,10 @@ import teammates.ui.output.InstructorPermissionRole;
  */
 @Entity
 @Table(name = "Instructors")
-// Might have to change this. Should follow User's PK. Same for Student
-@PrimaryKeyJoinColumn(name = "userId")
 public class Instructor { // TODO: extends User
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
     @OneToOne(mappedBy = "id")
     @Column(nullable = false)
-    private int userId;
+    private int id;
 
     @Column(nullable = false)
     private String registrationKey;
@@ -66,7 +60,6 @@ public class Instructor { // TODO: extends User
 
     private Instructor(InstructorBuilder builder) {
         this.setId(builder.id);
-        this.setUserId(builder.userId);
         this.setRegistrationKey(builder.registrationKey);
         this.setDisplayedToStudents(builder.isDisplayedToStudents);
         this.setDisplayName(builder.displayName);
@@ -88,14 +81,6 @@ public class Instructor { // TODO: extends User
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getRegistrationKey() {
@@ -156,7 +141,7 @@ public class Instructor { // TODO: extends User
 
     @Override
     public String toString() {
-        return "Instructor [id=" + id + ", userId=" + userId + ", registrationKey=" + registrationKey
+        return "Instructor [id=" + id + ", registrationKey=" + registrationKey
                 + ", isDisplayedToStudents=" + isDisplayedToStudents + ", displayName=" + displayName
                 + ", role=" + role + ", instructorPrivileges=" + instructorPrivileges
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
@@ -188,7 +173,6 @@ public class Instructor { // TODO: extends User
      */
     public static class InstructorBuilder {
         private int id;
-        private int userId;
         private String registrationKey;
         private boolean isDisplayedToStudents;
         private String displayName;
@@ -197,11 +181,6 @@ public class Instructor { // TODO: extends User
 
         public InstructorBuilder(int id) {
             this.id = id;
-        }
-
-        public InstructorBuilder withUserId(int userId) {
-            this.userId = userId;
-            return this;
         }
 
         public InstructorBuilder withRegistrationKey(String registrationKey) {
