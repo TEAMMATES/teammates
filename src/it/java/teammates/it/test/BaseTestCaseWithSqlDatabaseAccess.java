@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.api.Logic;
