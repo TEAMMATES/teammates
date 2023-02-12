@@ -1,6 +1,9 @@
 package teammates.sqllogic.api;
 
+import java.time.Instant;
+
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.storage.sqlentity.Course;
@@ -52,5 +55,17 @@ public class Logic {
      */
     public void deleteCourseCascade(String courseId) {
         coursesLogic.deleteCourseCascade(courseId);
+    }
+
+    /**
+     * Moves a course to Recycle Bin by its given corresponding ID.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return the deletion timestamp assigned to the course.
+     */
+    public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
+        return coursesLogic.moveCourseToRecycleBin(courseId);
     }
 }

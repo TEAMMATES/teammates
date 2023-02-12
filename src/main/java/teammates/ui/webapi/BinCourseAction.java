@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
 import teammates.ui.output.CourseData;
 
 /**
@@ -31,8 +32,14 @@ class BinCourseAction extends Action {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
             CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
-            courseAttributes.setDeletedAt(logic.moveCourseToRecycleBin(idOfCourseToBin));
 
+            if (!courseAttributes.isMigrated()) {
+                courseAttributes.setDeletedAt(logic.moveCourseToRecycleBin(idOfCourseToBin));
+                return new JsonResult(new CourseData(courseAttributes));
+            }
+
+            Course course = sqlLogic.getCourse(idOfCourseToBin);
+            course.setDeletedAt(sqlLogic.moveCourseToRecycleBin(idOfCourseToBin));
             return new JsonResult(new CourseData(courseAttributes));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
