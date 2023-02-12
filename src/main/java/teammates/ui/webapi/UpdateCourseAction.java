@@ -6,6 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.storage.sqlentity.Course;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -28,8 +29,15 @@ class UpdateCourseAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        CourseAttributes course = logic.getCourse(courseId);
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        CourseAttributes courseAttributes = logic.getCourse(courseId);
+
+        if (!courseAttributes.isMigrated()) {
+            gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+            return;
+        }
+        Course course = sqlLogic.getCourse(courseId);
+        // TODO: Migrate once instructor entity is ready.
+        // gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override
@@ -44,20 +52,30 @@ class UpdateCourseAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String courseName = courseUpdateRequest.getCourseName();
-        CourseAttributes updatedCourse;
 
         try {
-            updatedCourse = logic.updateCourseCascade(
+            CourseAttributes updatedCourseAttributes;
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
+            if (!courseAttributes.isMigrated()) {
+                updatedCourseAttributes = logic.updateCourseCascade(
                     CourseAttributes.updateOptionsBuilder(courseId)
                             .withName(courseName)
                             .withTimezone(courseTimeZone)
                             .build());
+                return new JsonResult(new CourseData(updatedCourseAttributes));
+            } 
+
+            Course updatedCourse = sqlLogic.updateCourseCascade(
+                new Course.CourseBuilder(courseId)
+                        .withName(courseName)
+                        .withTimeZone(courseTimeZone)
+                        .build());
+            return new JsonResult(new CourseData(updatedCourse));
+            
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException edee) {
             throw new EntityNotFoundException(edee);
         }
-
-        return new JsonResult(new CourseData(updatedCourse));
     }
 }

@@ -92,4 +92,26 @@ public final class CoursesLogic {
     public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
         coursesDb.restoreDeletedCourse(courseId);
     }
+
+    /**
+     * Updates a course by {@link CourseAttributes.UpdateOptions}.
+     *
+     * <p>If the {@code timezone} of the course is changed, cascade the change to its corresponding feedback sessions.
+     *
+     * @return updated course
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the course cannot be found
+     */
+    public Course updateCourseCascade(Course course)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Course oldCourse = coursesDb.getCourse(course.getId());
+        Course updatedCourse = coursesDb.updateCourse(course);
+
+        if (!updatedCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
+            // TODO: Migrate once Feedback Session is ready.
+            // feedbackSessionsLogic.updateFeedbackSessionsTimeZoneForCourse(updatedCourse.getId(), updatedCourse.getTimeZone());
+        }
+
+        return updatedCourse;
+    }
 }
