@@ -43,7 +43,7 @@ public class Student { // TODO: extends User
     @Column(nullable = false)
     private int userId;
     
-    @Column
+    @Column(nullable = false)
     private String comments;
     
     @CreationTimestamp
@@ -51,7 +51,7 @@ public class Student { // TODO: extends User
     private Instant createdAt;
     
     @UpdateTimestamp
-    @Column
+    @Column(nullable = false)
     private Instant updatedAt;
     
     protected Student() {

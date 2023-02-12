@@ -57,7 +57,7 @@ public class Instructor { // TODO: extends User
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column
+    @Column(nullable = false)
     private Instant updatedAt;
 
     protected Instructor() {
