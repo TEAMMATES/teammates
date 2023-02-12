@@ -12,6 +12,21 @@ It is provided as a cloud-based service for educators/students and is currently 
 
 This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
 
+By entering the developer website for TEAMMATES, you will see that you are not able to use the features of the application. The website itself only includes additional information about the application and its features. 
+
+To properly install and run the project follow the Documentation for Developers that is linked below. 
+
+![Uploading Screen Shot 2023-02-12 at 4.33.47 PM.png…]()
+
+
+The Documention for Developers includes:
+  - An overview of the application as a whole including its functionality and purpose. 
+  - Information on how to become a contributor 
+  - Instructions on setting up the developer environment
+  - A troubleshooting guide
+  - The software design 
+  - Additonal information to help with coding, testing, UI design, and data migration
+
 [**Documentation for Developers** :book:](https://teammates.github.io/teammates) |
 [Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
 [Project Stats](https://www.openhub.net/p/teammatesonline)
