@@ -24,11 +24,8 @@ public class AdminAccountsPageAxeTest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-
-        String googleId = "tm.e2e.AAccounts.instr2";
-
         AppUrl accountsPageUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId);
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, "tm.e2e.AAccounts.instr2");
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
         Results results = AxeUtil.AXE_BUILDER.analyze(accountsPage.getBrowser().getDriver());

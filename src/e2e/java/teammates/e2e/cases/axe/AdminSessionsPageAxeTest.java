@@ -18,9 +18,6 @@ import teammates.e2e.util.AxeUtil;
  * SUT: {@link Const.WebPageURIs#ADMIN_SESSIONS_PAGE}.
  */
 public class AdminSessionsPageAxeTest extends BaseE2ETestCase {
-    private FeedbackSessionAttributes openFeedbackSession;
-    private FeedbackSessionAttributes awaitingFeedbackSession;
-    private FeedbackSessionAttributes futureFeedbackSession;
     private Instant instant3DaysAgo = TimeHelper.getInstantDaysOffsetFromNow(-3);
     private Instant instantTomorrow = TimeHelper.getInstantDaysOffsetFromNow(1);
     private Instant instant3DaysLater = TimeHelper.getInstantDaysOffsetFromNow(3);
@@ -34,21 +31,21 @@ public class AdminSessionsPageAxeTest extends BaseE2ETestCase {
         // To guarantee that there will always be some "ongoing sessions" listed,
         // the test data is injected with date/time values relative to the time where the test takes place
 
-        openFeedbackSession = testData.feedbackSessions.get("session1InCourse1");
+        FeedbackSessionAttributes openFeedbackSession = testData.feedbackSessions.get("session1InCourse1");
         openFeedbackSession.setStartTime(instant3DaysAgo);
         openFeedbackSession.setCreatedTime(instant3DaysAgo);
         openFeedbackSession.setSessionVisibleFromTime(instant3DaysAgo);
         openFeedbackSession.setEndTime(instant3DaysLater);
         openFeedbackSession.setResultsVisibleFromTime(instant3DaysLater);
 
-        awaitingFeedbackSession = testData.feedbackSessions.get("session2InCourse1");
+        FeedbackSessionAttributes awaitingFeedbackSession = testData.feedbackSessions.get("session2InCourse1");
         awaitingFeedbackSession.setStartTime(instantTomorrow);
         awaitingFeedbackSession.setCreatedTime(instant3DaysAgo);
         awaitingFeedbackSession.setSessionVisibleFromTime(instantTomorrow);
         awaitingFeedbackSession.setEndTime(instant3DaysLater);
         awaitingFeedbackSession.setResultsVisibleFromTime(instant3DaysLater);
 
-        futureFeedbackSession = testData.feedbackSessions.get("session3InCourse1");
+        FeedbackSessionAttributes futureFeedbackSession = testData.feedbackSessions.get("session3InCourse1");
         futureFeedbackSession.setStartTime(instant10DaysLater);
         futureFeedbackSession.setCreatedTime(instant3DaysAgo);
         futureFeedbackSession.setSessionVisibleFromTime(instant10DaysLater);
@@ -61,7 +58,6 @@ public class AdminSessionsPageAxeTest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-
         AppUrl sessionsUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_SESSIONS_PAGE);
         AdminSessionsPage sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
 

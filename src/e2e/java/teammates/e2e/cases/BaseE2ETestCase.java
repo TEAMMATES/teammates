@@ -43,7 +43,10 @@ import teammates.test.ThreadHelper;
  */
 public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
-    static final BackDoor BACKDOOR = BackDoor.getInstance();
+    /**
+     * Backdoor used to call APIs.
+     */
+    protected static final BackDoor BACKDOOR = BackDoor.getInstance();
 
     /**
      * Data to be used in the test.
@@ -299,7 +302,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
 
-    String getKeyForInstructor(String courseId, String instructorEmail) {
+    /**
+     * Gets registration key for a given instructor.
+     */
+    protected String getKeyForInstructor(String courseId, String instructorEmail) {
         return getInstructor(courseId, instructorEmail).getKey();
     }
 
@@ -308,7 +314,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return BACKDOOR.getStudent(student.getCourse(), student.getEmail());
     }
 
-    String getKeyForStudent(StudentAttributes student) {
+    /**
+     * Gets registration key for a given student.
+     */
+    protected String getKeyForStudent(StudentAttributes student) {
         return getStudent(student).getKey();
     }
 
