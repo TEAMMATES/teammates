@@ -37,4 +37,30 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Notification actualNotification = notificationsDb.getNotification(notificationId);
         verifyEquals(newNotification, actualNotification);
     }
+
+    @Test
+    public void testGetNotification() throws EntityAlreadyExistsException, InvalidParametersException {
+        ______TS("success: get a notification that already exists");
+        Notification newNotification = new Notification.NotificationBuilder("A deprecation note")
+                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
+                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
+                .withStyle(NotificationStyle.DANGER)
+                .withTargetUser(NotificationTargetUser.GENERAL)
+                .withMessage("<p>Deprecation happens in three minutes</p>")
+                .build();
+
+        notificationsDb.createNotification(newNotification);
+
+        UUID notificationId = newNotification.getNotificationId();
+        Notification actualNotification = notificationsDb.getNotification(notificationId);
+        verifyEquals(newNotification, actualNotification);
+
+        ______TS("success: get a notification that does not exist");
+        UUID nonExistentId = UUID.randomUUID();
+        while (nonExistentId.equals(notificationId)) {
+            nonExistentId = UUID.randomUUID();
+        }
+        Notification nonExistentNotification = notificationsDb.getNotification(nonExistentId);
+        assertNull(nonExistentNotification);
+    }
 }

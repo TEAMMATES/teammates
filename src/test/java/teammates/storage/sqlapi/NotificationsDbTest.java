@@ -92,11 +92,10 @@ public class NotificationsDbTest extends BaseTestCase {
                 .build();
         UUID notificationId = UUID.randomUUID();
         notification.setNotificationId(notificationId);
-        when(session.get(Notification.class, notificationId)).thenReturn(null);
         notificationsDb.createNotification(notification);
         verify(session, times(1)).persist(notification);
 
-        when(session.get(Notification.class, notificationId)).thenReturn(notification);
+        when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
         Notification actualNotification = notificationsDb.getNotification(notification.getNotificationId());
 
         assertEquals(notification, actualNotification);
@@ -111,6 +110,7 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withMessage("<p>Deprecation happens in three minutes</p>")
                 .build();
+
         notificationsDb.createNotification(notification);
         verify(session, times(1)).persist(notification);
 
@@ -119,6 +119,7 @@ public class NotificationsDbTest extends BaseTestCase {
             nonExistentId = UUID.randomUUID();
         }
 
+        when(session.get(Notification.class, nonExistentId)).thenReturn(null);
         Notification actualNotification = notificationsDb.getNotification(nonExistentId);
 
         assertNull(actualNotification);
