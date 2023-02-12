@@ -85,4 +85,11 @@ public final class CoursesLogic {
     public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
         return coursesDb.softDeleteCourse(courseId);
     }
+
+    /**
+     * Restores a course from Recycle Bin by its given corresponding ID.
+     */
+    public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
+        coursesDb.restoreDeletedCourse(courseId);
+    }
 }

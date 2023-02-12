@@ -64,4 +64,12 @@ public class Logic {
     public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
         return coursesLogic.moveCourseToRecycleBin(courseId);
     }
+
+    /**
+     * Restores a course and all data related to the course from Recycle Bin by
+     * its given corresponding ID.
+     */
+    public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
+        coursesLogic.restoreCourseFromRecycleBin(courseId);
+    }
 }
