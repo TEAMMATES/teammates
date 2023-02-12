@@ -36,20 +36,5 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         UUID notificationId = newNotification.getNotificationId();
         Notification actualNotification = notificationsDb.getNotification(notificationId);
         verifyEquals(newNotification, actualNotification);
-
-        ______TS("failure: create notification that already exists, exception thrown");
-        Notification identicalNotification = new Notification.NotificationBuilder("A deprecation note")
-                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DANGER)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withMessage("<p>Deprecation happens in three minutes</p>")
-                .build();
-        identicalNotification.setNotificationId(notificationId);
-
-        assertNotSame(newNotification, identicalNotification);
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> notificationsDb.createNotification(identicalNotification));
-        assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + identicalNotification.toString());
     }
 }

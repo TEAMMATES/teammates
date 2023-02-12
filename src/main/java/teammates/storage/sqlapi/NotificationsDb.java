@@ -37,11 +37,6 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
             throw new InvalidParametersException(notification.getInvalidityInfo());
         }
 
-        if (notification.getNotificationId() != null && getNotification(notification.getNotificationId()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                    notification.toString()));
-        }
-
         persist(notification);
         return notification;
     }

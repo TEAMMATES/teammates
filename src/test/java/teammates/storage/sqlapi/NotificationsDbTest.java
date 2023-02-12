@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
-import java.util.UUID;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -48,9 +47,6 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withMessage("<p>Deprecation happens in three minutes</p>")
                 .build();
-        UUID notificationId = UUID.randomUUID();
-        newNotification.setNotificationId(notificationId);
-        when(session.get(Notification.class, notificationId.toString())).thenReturn(null);
 
         notificationsDb.createNotification(newNotification);
 
@@ -66,9 +62,6 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withMessage("<p>Deprecation happens in three minutes</p>")
                 .build();
-        UUID notificationId = UUID.randomUUID();
-        invalidNotification.setNotificationId(notificationId);
-        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification);
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
         verify(session, never()).persist(invalidNotification);
@@ -83,9 +76,6 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withMessage("<p>Deprecation happens in three minutes</p>")
                 .build();
-        UUID notificationId = UUID.randomUUID();
-        invalidNotification.setNotificationId(notificationId);
-        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification);
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
         verify(session, never()).persist(invalidNotification);
@@ -100,9 +90,6 @@ public class NotificationsDbTest extends BaseTestCase {
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withMessage("")
                 .build();
-        UUID notificationId = UUID.randomUUID();
-        invalidNotification.setNotificationId(notificationId);
-        when(session.get(Notification.class, notificationId.toString())).thenReturn(invalidNotification);
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
         verify(session, never()).persist(invalidNotification);
