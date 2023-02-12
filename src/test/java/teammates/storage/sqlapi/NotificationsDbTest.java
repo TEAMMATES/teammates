@@ -80,4 +80,47 @@ public class NotificationsDbTest extends BaseTestCase {
         assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
         verify(session, never()).persist(invalidNotification);
     }
+
+    @Test
+    public void testGetNotification_success() throws EntityAlreadyExistsException, InvalidParametersException {
+        Notification notification = new Notification.NotificationBuilder("A deprecation note")
+                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
+                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
+                .withStyle(NotificationStyle.DANGER)
+                .withTargetUser(NotificationTargetUser.GENERAL)
+                .withMessage("<p>Deprecation happens in three minutes</p>")
+                .build();
+        UUID notificationId = UUID.randomUUID();
+        notification.setNotificationId(notificationId);
+        when(session.get(Notification.class, notificationId)).thenReturn(null);
+        notificationsDb.createNotification(notification);
+        verify(session, times(1)).persist(notification);
+
+        when(session.get(Notification.class, notificationId)).thenReturn(notification);
+        Notification actualNotification = notificationsDb.getNotification(notification.getNotificationId());
+
+        assertEquals(notification, actualNotification);
+    }
+
+    @Test
+    public void testGetNotification_entityDoesNotExist() throws EntityAlreadyExistsException, InvalidParametersException {
+        Notification notification = new Notification.NotificationBuilder("A deprecation note")
+                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
+                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
+                .withStyle(NotificationStyle.DANGER)
+                .withTargetUser(NotificationTargetUser.GENERAL)
+                .withMessage("<p>Deprecation happens in three minutes</p>")
+                .build();
+        notificationsDb.createNotification(notification);
+        verify(session, times(1)).persist(notification);
+
+        UUID nonExistentId = UUID.randomUUID();
+        while (nonExistentId.equals(notification.getNotificationId())) {
+            nonExistentId = UUID.randomUUID();
+        }
+
+        Notification actualNotification = notificationsDb.getNotification(nonExistentId);
+
+        assertNull(actualNotification);
+    }
 }
