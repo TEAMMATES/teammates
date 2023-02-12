@@ -17,7 +17,7 @@ public class InstructorFeedbackEditPageAxeTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/FeedbackConstSumRecipientQuestionE2ETest.json");
+        testData = loadDataBundle("/InstructorFeedbackEditPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
     }
 

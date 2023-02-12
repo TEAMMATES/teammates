@@ -13,7 +13,7 @@ import teammates.e2e.util.AxeUtil;
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_REPORT_PAGE}.
  */
-public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
+public class InstructorFeedbackReportPageAxeTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {

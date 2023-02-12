@@ -14,7 +14,7 @@ import teammates.e2e.util.TestProperties;
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SEARCH_PAGE}.
  */
-public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
+public class InstructorSearchPageAxeTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {

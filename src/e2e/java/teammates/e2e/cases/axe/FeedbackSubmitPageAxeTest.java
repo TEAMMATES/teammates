@@ -17,7 +17,7 @@ public class FeedbackSubmitPageAxeTest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/FeedbackConstSumRecipientQuestionE2ETest.json");
+        testData = loadDataBundle("/FeedbackSubmitPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
     }
 
@@ -25,11 +25,11 @@ public class FeedbackSubmitPageAxeTest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withCourseId(testData.courses.get("course").getId())
-                .withSessionName(testData.feedbackSessions.get("openSession").getFeedbackSessionName());
+                .withCourseId(testData.courses.get("FSubmit.CS2104").getId())
+                .withSessionName(testData.feedbackSessions.get("Open Session").getFeedbackSessionName());
 
         FeedbackSubmitPage feedbackSubmitPage = loginToPage(url, FeedbackSubmitPage.class,
-                testData.students.get("alice.tmms@FCSumRcptQn.CS2104").getGoogleId());
+                testData.students.get("Alice").getGoogleId());
 
         Results results = AxeUtil.AXE_BUILDER.analyze(feedbackSubmitPage.getBrowser().getDriver());
         assertTrue(AxeUtil.formatViolations(results), results.violationFree());
