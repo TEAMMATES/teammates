@@ -23,8 +23,18 @@ class BinCourseAction extends Action {
         }
 
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
-                logic.getCourse(idOfCourseToBin), Const.InstructorPermissions.CAN_MODIFY_COURSE);
+
+        CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
+        if (!courseAttributes.isMigrated()) {
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
+                courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+            return;
+        }
+
+        Course course = sqlLogic.getCourse(idOfCourseToBin);
+        // TODO: Migrate once instructor entity is ready.
+        // gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
+        //         course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

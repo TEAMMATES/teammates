@@ -59,10 +59,6 @@ public class Logic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
-     *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
      * @return the deletion timestamp assigned to the course.
      */
     public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
