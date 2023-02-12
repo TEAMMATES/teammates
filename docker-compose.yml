@@ -12,3 +12,14 @@ services:
       context: solr
     ports:
       - 8983:8983
+  postgres:
+    image: postgres:15.1-alpine
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: teammates
+      POSTGRES_PASSWORD: teammates
+      POSTGRES_DB: teammates

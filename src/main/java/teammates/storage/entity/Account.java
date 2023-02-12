@@ -25,6 +25,8 @@ public class Account extends BaseEntity {
 
     private String email;
 
+    private boolean isMigrated;
+
     @Unindex
     @Serialize
     private Map<String, Instant> readNotifications;
@@ -45,12 +47,15 @@ public class Account extends BaseEntity {
      * @param email The official email of the user.
      * @param readNotifications The notifications that the user has read, stored in a map of ID to end time.
      */
-    public Account(String googleId, String name, String email, Map<String, Instant> readNotifications) {
+    public Account(
+            String googleId, String name, String email,
+            Map<String, Instant> readNotifications, boolean isMigrated) {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
         this.setReadNotifications(readNotifications);
         this.setCreatedAt(Instant.now());
+        this.setMigrated(isMigrated);
     }
 
     public String getGoogleId() {
@@ -75,6 +80,14 @@ public class Account extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setMigrated(boolean migrated) {
+        isMigrated = migrated;
+    }
+
+    public boolean isMigrated() {
+        return isMigrated;
     }
 
     /**
