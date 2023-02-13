@@ -6,9 +6,8 @@ import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.googlecode.objectify.annotation.Entity;
-
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -33,19 +32,19 @@ public class Student { // TODO: extends User
 
     @Column(nullable = false)
     private String comments;
-    
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
-    
+
     @UpdateTimestamp
     @Column(nullable = false)
     private Instant updatedAt;
-    
+
     protected Student() {
         // required by Hibernate
     }
-    
+
     public Student(StudentBuilder builder) {
         this.setId(builder.id);
         this.setTeam(builder.team);
@@ -99,7 +98,7 @@ public class Student { // TODO: extends User
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
+
     @Override
     public String toString() {
         return "Student [id=" + id + ", team=" + team + ", comments=" + comments
@@ -133,7 +132,7 @@ public class Student { // TODO: extends User
      */
     public static class StudentBuilder {
         private int id;
-        private int team;
+        private Team team;
         private String comments;
 
         public StudentBuilder(int id) {
