@@ -248,10 +248,6 @@ public class Notification extends BaseEntity {
         private String message;
         private boolean shown;
 
-        public NotificationBuilder(String title) {
-            this.title = title;
-        }
-
         public NotificationBuilder withStartTime(Instant startTime) {
             this.startTime = startTime;
             return this;
@@ -269,6 +265,11 @@ public class Notification extends BaseEntity {
 
         public NotificationBuilder withTargetUser(NotificationTargetUser targetUser) {
             this.targetUser = targetUser;
+            return this;
+        }
+
+        public NotificationBuilder withTitle(String title) {
+            this.title = title;
             return this;
         }
 
