@@ -240,6 +240,7 @@ public class Notification extends BaseEntity {
      */
     public static class NotificationBuilder {
 
+        private UUID notificationId;
         private Instant startTime;
         private Instant endTime;
         private NotificationStyle style;
@@ -247,6 +248,11 @@ public class Notification extends BaseEntity {
         private String title;
         private String message;
         private boolean shown;
+
+        public NotificationBuilder withNotificationId(UUID notificationId) {
+            this.notificationId = notificationId;
+            return this;
+        }
 
         public NotificationBuilder withStartTime(Instant startTime) {
             this.startTime = startTime;
