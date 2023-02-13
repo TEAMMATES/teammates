@@ -1,15 +1,13 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
-import java.util.Map;
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.googlecode.objectify.annotation.Entity;
-
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToOne;
@@ -39,8 +37,8 @@ public class Instructor { // TODO: extends User
     @Enumerated(EnumType.STRING)
     private InstructorPermissionRole role;
 
-    @Column(columnDefinition = "json", nullable = false)
-    private Map<String, String> instructorPrivileges;
+    @Column(nullable = false)
+    private String instructorPrivileges;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -111,11 +109,11 @@ public class Instructor { // TODO: extends User
         this.role = role;
     }
 
-    public Map<String, String> getInstructorPrivileges() {
+    public String getInstructorPrivileges() {
         return instructorPrivileges;
     }
 
-    public void setInstructorPrivileges(Map<String, String> instructorPrivileges) {
+    public void setInstructorPrivileges(String instructorPrivileges) {
         this.instructorPrivileges = instructorPrivileges;
     }
 
@@ -173,7 +171,7 @@ public class Instructor { // TODO: extends User
         private boolean isDisplayedToStudents;
         private String displayName;
         private InstructorPermissionRole role;
-        private Map<String, String> instructorPrivileges;
+        private String instructorPrivileges;
 
         public InstructorBuilder(int id) {
             this.id = id;
@@ -199,8 +197,7 @@ public class Instructor { // TODO: extends User
             return this;
         }
 
-        public InstructorBuilder withInstructorPrivileges(
-                Map<String, String> instructorPrivileges) {
+        public InstructorBuilder withInstructorPrivileges(String instructorPrivileges) {
             this.instructorPrivileges = instructorPrivileges;
             return this;
         }
