@@ -5,10 +5,12 @@ on:
     branches:
       - master
       - release
+      - user-friendliness
   pull_request:
     branches:
       - master
       - release
+      - user-friendliness
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:
