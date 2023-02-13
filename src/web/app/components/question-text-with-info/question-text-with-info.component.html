@@ -1,4 +1,4 @@
-<span class="d-inline-flex row align-items-center no-gutters">
+<span class="d-inline-flex align-items-center">
   <span *ngIf="shouldShowDownloadQuestionResult" class="col-auto">
     <button ngbTooltip="Download Question Results" type="button" class="btn btn-link text-white padding-0" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
       <b>Question {{ questionNumber }}:</b>

@@ -34,23 +34,29 @@
             <div *tmIsLoading="!courseTab.hasStudentLoaded">
               <div *ngIf="!courseTab.hasLoadingFailed" class="card-body">
                 <ng-container *ngIf="courseTab.hasStudentLoaded && courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
-                  <div class="card-deck text-center text-sm-start" *ngIf="courseTab.stats">
-                    <div class="card">
-                      <div class="card-body" id="num-students">
-                        <h3 class="card-title inline">{{courseTab.stats.numOfStudents}}</h3>
-                        <h4 class="card-text inline"> students</h4>
+                  <div class="row text-center text-sm-start" *ngIf="courseTab.stats">
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body" id="num-students">
+                          <h3 class="card-title inline">{{courseTab.stats.numOfStudents}}</h3>
+                          <h4 class="card-text inline"> students</h4>
+                        </div>
                       </div>
                     </div>
-                    <div class="card">
-                      <div class="card-body" id="num-sections">
-                        <h3 class="card-title inline">{{courseTab.stats.numOfSections}}</h3>
-                        <h4 class="card-text inline"> sections</h4>
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body" id="num-sections">
+                          <h3 class="card-title inline">{{courseTab.stats.numOfSections}}</h3>
+                          <h4 class="card-text inline"> sections</h4>
+                        </div>
                       </div>
                     </div>
-                    <div class="card">
-                      <div class="card-body" id="num-teams">
-                        <h3 class="card-title inline">{{courseTab.stats.numOfTeams}}</h3>
-                        <h4 class="card-text inline"> teams</h4>
+                    <div class="col-md-4">
+                      <div class="card">
+                        <div class="card-body" id="num-teams">
+                          <h3 class="card-title inline">{{courseTab.stats.numOfTeams}}</h3>
+                          <h4 class="card-text inline"> teams</h4>
+                        </div>
                       </div>
                     </div>
                   </div>

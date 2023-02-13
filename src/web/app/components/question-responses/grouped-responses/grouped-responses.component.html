@@ -24,7 +24,7 @@
           <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
-          <div id="response" class="row" style="margin: 0;">
+          <div id="response" style="margin: 0;">
             <tm-single-response
                     [class.color-neutral]="response.allResponses[0].isMissingResponse"
                     [responseDetails]="response.allResponses[0].responseDetails"
