@@ -20,7 +20,7 @@
   <div class="col-md-9">
     <div id="question-panel" *ngFor="let response of responses">
       <div class="card bottom-padded alert-primary-border">
-        <div class="card-header alert-primary">
+        <div class="card-header alert alert-primary alert-no-bottom">
           <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
