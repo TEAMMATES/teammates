@@ -3,7 +3,12 @@ package teammates.sqllogic.api;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.CoursesLogic;
+import teammates.sqllogic.core.UsageStatisticsLogic;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.UsageStatistics;
+
+import java.time.Instant;
+import java.util.List;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -15,6 +20,7 @@ public class Logic {
 
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     // final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
 
     Logic() {
         // prevent initialization
@@ -45,4 +51,13 @@ public class Logic {
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesLogic.createCourse(course);
     }
+
+    public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        assert startTime != null;
+        assert endTime != null;
+        assert startTime.toEpochMilli() < endTime.toEpochMilli();
+
+        return usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
+    }
+
 }

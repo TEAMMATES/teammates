@@ -58,7 +58,7 @@ public class UsageStatistics extends BaseEntity {
         // required by Hibernate
     }
 
-    private UsageStatistics(
+    public UsageStatistics(
             Instant startTime, int timePeriod, int numResponses, int numCourses,
             int numStudents, int numInstructors, int numAccountRequests, int numEmails, int numSubmissions) {
         this.startTime = startTime;
