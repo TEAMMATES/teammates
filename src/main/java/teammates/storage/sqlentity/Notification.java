@@ -72,6 +72,7 @@ public class Notification extends BaseEntity {
      * Instantiates a new notification from {@code NotificationBuilder}.
      */
     public Notification(NotificationBuilder builder) {
+        this.setNotificationId(builder.notificationId);
         this.setStartTime(builder.startTime);
         this.setEndTime(builder.endTime);
         this.setStyle(builder.style);
