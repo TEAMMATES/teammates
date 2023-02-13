@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - master
+      - user-friendliness
   pull_request:
     branches:
       - master
+      - user-friendliness
 
 jobs:
   build:
