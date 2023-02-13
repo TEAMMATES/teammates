@@ -22,7 +22,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testCreateNotification() throws EntityAlreadyExistsException, InvalidParametersException {
-        ______TS("success: create notification that does not exists");
+        ______TS("success: create notification that does not exist");
         Notification newNotification = new Notification.NotificationBuilder()
                 .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
                 .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
