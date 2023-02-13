@@ -1,14 +1,11 @@
 package teammates.sqllogic.api;
 
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Notification;
-
-import java.util.List;
 
 /**
  * Provides the business logic for production usage of the system.

@@ -1,12 +1,11 @@
 package teammates.sqllogic.core;
 
-import teammates.common.datatransfer.attributes.NotificationAttributes;
+import java.util.UUID;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
-
-import java.util.UUID;
 
 /**
  * Handles the logic related to notifications.
