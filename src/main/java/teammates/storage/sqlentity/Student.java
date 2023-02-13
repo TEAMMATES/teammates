@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "Students")
-public class Student { // TODO: extends User
+public class Student extends User {
     // Cascade?
     // from hibernate docs: seems like we can omit this
     // https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#entity-inheritance-joined-table

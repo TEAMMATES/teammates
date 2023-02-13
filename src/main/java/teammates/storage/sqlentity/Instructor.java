@@ -19,7 +19,7 @@ import teammates.ui.output.InstructorPermissionRole;
  */
 @Entity
 @Table(name = "Instructors")
-public class Instructor { // TODO: extends User
+public class Instructor extends User {
     @OneToOne(mappedBy = "id")
     @Column(nullable = false)
     private int id;
