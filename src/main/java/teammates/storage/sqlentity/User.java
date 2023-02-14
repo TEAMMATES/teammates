@@ -15,7 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -27,17 +26,21 @@ public abstract class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /*
     @OneToOne
     @JoinColumn(name = "accountId")
     private Account account;
+    */
 
     @OneToOne
     @JoinColumn(name = "courseId")
     private Course course;
 
+    /*
     @ManyToOne
     @JoinColumn(name = "teamId")
     private Team team;
+    */
 
     @Column(nullable = false)
     private String name;
@@ -65,6 +68,7 @@ public abstract class User extends BaseEntity {
         this.id = id;
     }
 
+    /*
     public Account getAccount() {
         return account;
     }
@@ -72,6 +76,7 @@ public abstract class User extends BaseEntity {
     public void setAccount(Account account) {
         this.account = account;
     }
+    */
 
     public Course getCourse() {
         return course;
@@ -81,6 +86,7 @@ public abstract class User extends BaseEntity {
         this.course = course;
     }
 
+    /*
     public Team getTeam() {
         return team;
     }
@@ -88,6 +94,7 @@ public abstract class User extends BaseEntity {
     public void setTeam(Team team) {
         this.team = team;
     }
+    */
 
     public String getName() {
         return name;
@@ -123,8 +130,9 @@ public abstract class User extends BaseEntity {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", account=" + account + ", course=" + course
-                + ", team=" + team + ", name=" + name + ", email=" + email
+        // return "User [id=" + id + ", account=" + account + ", course=" + course
+        //         + ", team=" + team + ", name=" + name + ", email=" + email
+        return "User [id=" + id + ", course=" + course + ", name=" + name + ", email=" + email
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 

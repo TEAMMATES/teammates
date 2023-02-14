@@ -8,8 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -59,7 +57,8 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        return "Student [id=" + super.getId() + ", team=" + super.getTeam() + ", comments=" + comments
+        // return "Student [id=" + super.getId() + ", team=" + super.getTeam() + ", comments=" + comments
+        return "Student [id=" + super.getId() + ", comments=" + comments
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 
