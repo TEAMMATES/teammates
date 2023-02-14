@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,7 +30,7 @@ public abstract class User extends BaseEntity {
     private Account account;
     */
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "courseId")
     private Course course;
 
