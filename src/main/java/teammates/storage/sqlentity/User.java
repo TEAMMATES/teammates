@@ -1,8 +1,6 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -126,45 +124,5 @@ public abstract class User extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        // return "User [id=" + id + ", account=" + account + ", course=" + course
-        //         + ", team=" + team + ", name=" + name + ", email=" + email
-        return "User [id=" + id + ", course=" + course + ", name=" + name + ", email=" + email
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        // User Id uniquely identifies a User
-        return this.getId();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        } else if (this == obj) {
-            return true;
-        } else if (this.getClass() == obj.getClass()) {
-            User otherUser = (User) obj;
-
-            return Objects.equals(this.id, otherUser.id);
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

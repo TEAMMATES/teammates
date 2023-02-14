@@ -1,6 +1,7 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -130,5 +131,16 @@ public class Instructor extends User {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void sanitizeForSaving() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public List<String> getInvalidityInfo() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
