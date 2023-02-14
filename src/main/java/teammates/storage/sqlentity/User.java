@@ -25,7 +25,7 @@ public abstract class User extends BaseEntity {
     private int id;
 
     /*
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "accountId")
     private Account account;
     */
