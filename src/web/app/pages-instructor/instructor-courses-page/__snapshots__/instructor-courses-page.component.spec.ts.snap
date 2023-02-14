@@ -87,7 +87,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
       class="card top-padded"
     >
       <div
-        class="card-header bg-info text-white cursor-pointer"
+        class="card-header bg-info cursor-pointer"
         id="archived-table-heading"
       >
         <b>
@@ -697,7 +697,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       class="card top-padded"
     >
       <div
-        class="card-header bg-info text-white cursor-pointer"
+        class="card-header bg-info cursor-pointer"
         id="archived-table-heading"
       >
         <b>
@@ -1439,7 +1439,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       class="card top-padded"
     >
       <div
-        class="card-header bg-info text-white cursor-pointer"
+        class="card-header bg-info cursor-pointer"
         id="archived-table-heading"
       >
         <b>

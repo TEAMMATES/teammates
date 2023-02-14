@@ -70,7 +70,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-info"
+          class="card-header cursor-pointer bg-info"
         >
           <strong
             class="text-break"
@@ -207,7 +207,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-info"
+          class="card-header cursor-pointer bg-info"
         >
           <strong
             class="text-break"
@@ -239,7 +239,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                   id="copy-instructor-table"
                 >
                   <thead
-                    class="text-white bg-info"
+                    class="bg-info"
                   >
                     <tr>
                       <th>
@@ -451,7 +451,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-info"
+          class="card-header cursor-pointer bg-info"
         >
           <strong
             class="text-break"
@@ -585,7 +585,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-info"
+          class="card-header cursor-pointer bg-info"
         >
           <strong
             class="text-break"
@@ -613,7 +613,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
         class="card"
       >
         <div
-          class="card-header cursor-pointer text-white bg-primary"
+          class="card-header cursor-pointer bg-primary text-white"
         >
           <strong
             class="text-break"

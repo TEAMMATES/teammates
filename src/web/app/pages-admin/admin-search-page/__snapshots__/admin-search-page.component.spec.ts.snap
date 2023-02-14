@@ -48,7 +48,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
     class="card bg-light top-padded"
   >
     <div
-      class="card-header bg-info text-white"
+      class="card-header bg-info"
     >
       <strong>
         Instructors Found
@@ -581,7 +581,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
     class="card bg-light top-padded"
   >
     <div
-      class="card-header bg-info text-white"
+      class="card-header bg-info"
     >
       <strong>
         Instructors Found
