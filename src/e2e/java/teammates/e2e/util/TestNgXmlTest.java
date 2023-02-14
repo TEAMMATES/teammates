@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.testng.annotations.Test;
 
@@ -22,7 +23,13 @@ public class TestNgXmlTest extends BaseTestCase {
         // <class name, package name>
         Map<String, String> testFiles = getTestFiles(testNgXml, "./src/e2e/java/teammates/e2e");
 
-        testFiles.forEach((key, value) -> assertTrue(isTestFileIncluded(testNgXml, value, key)));
+        testFiles.forEach((key, value) -> {
+            if (Objects.equals(value, "teammates.e2e.cases.axe")) {
+                // Exclude accessibility tests
+                return;
+            }
+            assertTrue(isTestFileIncluded(testNgXml, value, key));
+        });
     }
 
     /**

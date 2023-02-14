@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -88,12 +89,13 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyStatusMessage("Notification has been deleted.");
         verifyAbsentInDatabase(newNotification);
 
-        ______TS("delete test notifications from database");
-        for (NotificationAttributes notification : notifications) {
-            notificationsPage.deleteNotification(notification);
-            verifyAbsentInDatabase(notification);
-        }
+    }
 
+    @AfterClass
+    public void classTeardown() {
+        for (NotificationAttributes notification : testData.notifications.values()) {
+            BACKDOOR.deleteNotification(notification.getNotificationId());
+        }
     }
 
 }
