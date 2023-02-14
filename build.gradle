@@ -75,6 +75,7 @@ dependencies {
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.seleniumhq.selenium:selenium-java:4.3.0")
+    testImplementation("com.deque.html.axe-core:selenium:4.6.0")
     testImplementation(testng)
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
@@ -562,6 +563,24 @@ task e2eTests {
         }
     }
     e2eTests.dependsOn "e2eTestTry${id}"
+}
+
+task axeTests(type: Test) {
+    description "Runs the full accessibility test suite."
+    useTestNG()
+    options.suites "src/e2e/resources/testng-axe.xml"
+    options.outputDirectory = file("${buildDir}/reports/axe-test")
+    options.useDefaultListeners = true
+    ignoreFailures = false
+    maxHeapSize = "1g"
+    reports.html.required = false
+    reports.junitXml.required = false
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    testLogging {
+        events "passed"
+    }
+    afterTest afterTestClosure
+    afterSuite checkTestNgFailureClosure
 }
 
 // COVERAGE TASKS
