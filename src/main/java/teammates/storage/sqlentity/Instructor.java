@@ -47,23 +47,6 @@ public class Instructor extends User {
         // required by Hibernate
     }
 
-    private Instructor(InstructorBuilder builder) {
-        this.setId(builder.id);
-        this.setRegistrationKey(builder.registrationKey);
-        this.setDisplayedToStudents(builder.isDisplayedToStudents);
-        this.setDisplayName(builder.displayName);
-        this.setRole(builder.role);
-        this.setInstructorPrivileges(builder.instructorPrivileges);
-
-        if (createdAt == null) {
-            this.setCreatedAt(Instant.now());
-        } else {
-            this.setCreatedAt(createdAt);
-        }
-
-        this.setUpdatedAt(updatedAt);
-    }
-
     public String getRegistrationKey() {
         return registrationKey;
     }
@@ -146,51 +129,6 @@ public class Instructor extends User {
             return Objects.equals(super.getId(), otherInstructor.getId());
         } else {
             return false;
-        }
-    }
-
-    /**
-     * Builder for Instructor.
-     */
-    public static class InstructorBuilder {
-        private int id;
-        private String registrationKey;
-        private boolean isDisplayedToStudents;
-        private String displayName;
-        private InstructorPermissionRole role;
-        private String instructorPrivileges;
-
-        public InstructorBuilder(int id) {
-            this.id = id;
-        }
-
-        public InstructorBuilder withRegistrationKey(String registrationKey) {
-            this.registrationKey = registrationKey;
-            return this;
-        }
-
-        public InstructorBuilder withIsDisplayedToStudents(boolean isDisplayedToStudents) {
-            this.isDisplayedToStudents = isDisplayedToStudents;
-            return this;
-        }
-
-        public InstructorBuilder withDisplayName(String displayName) {
-            this.displayName = displayName;
-            return this;
-        }
-
-        public InstructorBuilder withRole(InstructorPermissionRole role) {
-            this.role = role;
-            return this;
-        }
-
-        public InstructorBuilder withInstructorPrivileges(String instructorPrivileges) {
-            this.instructorPrivileges = instructorPrivileges;
-            return this;
-        }
-
-        public Instructor build() {
-            return new Instructor(this);
         }
     }
 }

@@ -38,20 +38,6 @@ public class Student extends User {
         // required by Hibernate
     }
 
-    public Student(StudentBuilder builder) {
-        this.setId(builder.id);
-        this.setTeam(builder.team);
-        this.setComments(builder.comments);
-
-        if (createdAt == null) {
-            this.setCreatedAt(Instant.now());
-        } else {
-            this.setCreatedAt(createdAt);
-        }
-
-        this.setUpdatedAt(updatedAt);
-    }
-
     public Team getTeam() {
         return team;
     }
@@ -108,33 +94,6 @@ public class Student extends User {
             return Objects.equals(super.getId(), otherStudent.getId());
         } else {
             return false;
-        }
-    }
-
-    /**
-     * Builder for Student
-     */
-    public static class StudentBuilder {
-        private int id;
-        private Team team;
-        private String comments;
-
-        public StudentBuilder(int id) {
-            this.id = id;
-        }
-
-        public StudentBuilder withTeam(Team team) {
-            this.team = team;
-            return this;
-        }
-
-        public StudentBuilder withComments(String comments) {
-            this.comments = comments;
-            return this;
-        }
-
-        public Student build() {
-            return new Student(this);
         }
     }
 }
