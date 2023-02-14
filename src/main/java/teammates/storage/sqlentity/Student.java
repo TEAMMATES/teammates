@@ -18,11 +18,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "Students")
 public class Student extends User {
-    // Cascade?
-    @OneToOne
-    @JoinColumn(name = "teamId")
-    private Team team;
-
     @Column(nullable = false)
     private String comments;
 
@@ -36,14 +31,6 @@ public class Student extends User {
 
     protected Student() {
         // required by Hibernate
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 
     public String getComments() {
@@ -72,14 +59,14 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        return "Student [id=" + super.getId() + ", team=" + team + ", comments=" + comments
+        return "Student [id=" + super.getId() + ", team=" + super.getTeam() + ", comments=" + comments
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
     public int hashCode() {
         // Student Id uniquely identifies a Student
-        return this.getId();
+        return super.getId();
     }
 
     @Override

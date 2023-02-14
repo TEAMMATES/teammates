@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -33,6 +34,10 @@ public abstract class User extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "courseId")
     private Course course;
+
+    @ManyToOne
+    @JoinColumn(name = "teamId")
+    private Team team;
 
     @Column(nullable = false)
     private String name;
@@ -76,6 +81,14 @@ public abstract class User extends BaseEntity {
         this.course = course;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     public String getName() {
         return name;
     }
@@ -111,8 +124,8 @@ public abstract class User extends BaseEntity {
     @Override
     public String toString() {
         return "User [id=" + id + ", account=" + account + ", course=" + course
-                + ", name=" + name + ", email=" + email + ", createdAt=" + createdAt
-                + ", updatedAt=" + updatedAt + "]";
+                + ", team=" + team + ", name=" + name + ", email=" + email
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
