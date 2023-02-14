@@ -10,7 +10,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import teammates.ui.output.InstructorPermissionRole;
 
@@ -20,10 +19,6 @@ import teammates.ui.output.InstructorPermissionRole;
 @Entity
 @Table(name = "Instructors")
 public class Instructor extends User {
-    @OneToOne(mappedBy = "id")
-    @Column(nullable = false)
-    private int id;
-
     @Column(nullable = false)
     private String registrationKey;
 
@@ -67,14 +62,6 @@ public class Instructor extends User {
         }
 
         this.setUpdatedAt(updatedAt);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getRegistrationKey() {
@@ -135,7 +122,7 @@ public class Instructor extends User {
 
     @Override
     public String toString() {
-        return "Instructor [id=" + id + ", registrationKey=" + registrationKey
+        return "Instructor [id=" + super.getId() + ", registrationKey=" + registrationKey
                 + ", isDisplayedToStudents=" + isDisplayedToStudents + ", displayName=" + displayName
                 + ", role=" + role + ", instructorPrivileges=" + instructorPrivileges
                 + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
@@ -144,7 +131,7 @@ public class Instructor extends User {
     @Override
     public int hashCode() {
         // Instructor Id uniquely identifies an Instructor
-        return this.getId();
+        return super.getId();
     }
 
     @Override
@@ -156,7 +143,7 @@ public class Instructor extends User {
         } else if (this.getClass() == obj.getClass()) {
             Instructor otherInstructor = (Instructor) obj;
 
-            return Objects.equals(this.id, otherInstructor.id);
+            return Objects.equals(super.getId(), otherInstructor.getId());
         } else {
             return false;
         }

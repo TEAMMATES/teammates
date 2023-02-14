@@ -19,13 +19,6 @@ import jakarta.persistence.Table;
 @Table(name = "Students")
 public class Student extends User {
     // Cascade?
-    // from hibernate docs: seems like we can omit this
-    // https://docs.jboss.org/hibernate/orm/6.1/userguide/html_single/Hibernate_User_Guide.html#entity-inheritance-joined-table
-    @OneToOne(mappedBy = "id")
-    @Column(nullable = false)
-    private int id;
-
-    // Cascade?
     @OneToOne
     @JoinColumn(name = "teamId")
     private Team team;
@@ -57,14 +50,6 @@ public class Student extends User {
         }
 
         this.setUpdatedAt(updatedAt);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Team getTeam() {
@@ -101,9 +86,8 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        return "Student [id=" + id + ", team=" + team + ", comments=" + comments
-                + ", createdAt=" + createdAt
-                + ", updatedAt=" + updatedAt + "]";
+        return "Student [id=" + super.getId() + ", team=" + team + ", comments=" + comments
+                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
@@ -121,7 +105,7 @@ public class Student extends User {
         } else if (this.getClass() == obj.getClass()) {
             Student otherStudent = (Student) obj;
 
-            return Objects.equals(this.id, otherStudent.id);
+            return Objects.equals(super.getId(), otherStudent.getId());
         } else {
             return false;
         }
