@@ -115,6 +115,10 @@ public abstract class AppPage {
         throw new IllegalStateException("Not in the correct page!");
     }
 
+    public Browser getBrowser() {
+        return browser;
+    }
+
     /**
      * Gets a new page object representation of the currently open web page in the browser.
      *

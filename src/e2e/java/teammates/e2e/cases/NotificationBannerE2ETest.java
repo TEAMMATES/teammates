@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -58,10 +59,12 @@ public class NotificationBannerE2ETest extends BaseE2ETestCase {
         account.setReadNotifications(readNotifications);
         verifyPresentInDatabase(account);
 
-        ______TS("delete test notifications from database");
-        for (NotificationAttributes n : testData.notifications.values()) {
-            BACKDOOR.deleteNotification(n.getNotificationId());
-            verifyAbsentInDatabase(n);
+    }
+
+    @AfterClass
+    public void classTeardown() {
+        for (NotificationAttributes notification : testData.notifications.values()) {
+            BACKDOOR.deleteNotification(notification.getNotificationId());
         }
     }
 }
