@@ -72,6 +72,7 @@ public class Notification extends BaseEntity {
      * Instantiates a new notification from {@code NotificationBuilder}.
      */
     public Notification(NotificationBuilder builder) {
+        this.setNotificationId(builder.notificationId);
         this.setStartTime(builder.startTime);
         this.setEndTime(builder.endTime);
         this.setStyle(builder.style);
@@ -109,6 +110,10 @@ public class Notification extends BaseEntity {
 
     public UUID getNotificationId() {
         return notificationId;
+    }
+
+    public void setNotificationId(UUID notificationId) {
+        this.notificationId = notificationId;
     }
 
     public Instant getStartTime() {
@@ -236,6 +241,7 @@ public class Notification extends BaseEntity {
      */
     public static class NotificationBuilder {
 
+        private UUID notificationId;
         private Instant startTime;
         private Instant endTime;
         private NotificationStyle style;
@@ -244,8 +250,9 @@ public class Notification extends BaseEntity {
         private String message;
         private boolean shown;
 
-        public NotificationBuilder(String title) {
-            this.title = title;
+        public NotificationBuilder withNotificationId(UUID notificationId) {
+            this.notificationId = notificationId;
+            return this;
         }
 
         public NotificationBuilder withStartTime(Instant startTime) {
@@ -265,6 +272,11 @@ public class Notification extends BaseEntity {
 
         public NotificationBuilder withTargetUser(NotificationTargetUser targetUser) {
             this.targetUser = targetUser;
+            return this;
+        }
+
+        public NotificationBuilder withTitle(String title) {
+            this.title = title;
             return this;
         }
 
