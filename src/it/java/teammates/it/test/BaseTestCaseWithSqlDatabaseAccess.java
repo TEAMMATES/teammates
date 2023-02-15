@@ -1,5 +1,7 @@
 package teammates.it.test;
 
+import java.util.UUID;
+
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -98,4 +100,11 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         expected.setUpdatedAt(actual.getUpdatedAt());
     }
 
+    protected UUID generateDifferentUUID(UUID uuid) {
+        UUID ret = UUID.randomUUID();
+        while (ret.equals(uuid)) {
+            ret = UUID.randomUUID();
+        }
+        return ret;
+    }
 }

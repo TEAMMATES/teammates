@@ -57,10 +57,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEquals(newNotification, actualNotification);
 
         ______TS("success: get a notification that does not exist");
-        UUID nonExistentId = UUID.randomUUID();
-        while (nonExistentId.equals(notificationId)) {
-            nonExistentId = UUID.randomUUID();
-        }
+        UUID nonExistentId = generateDifferentUUID(notificationId);
         Notification nonExistentNotification = notificationsDb.getNotification(nonExistentId);
         assertNull(nonExistentNotification);
     }

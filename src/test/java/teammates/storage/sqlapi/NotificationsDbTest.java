@@ -115,10 +115,7 @@ public class NotificationsDbTest extends BaseTestCase {
         notificationsDb.createNotification(notification);
         verify(session, times(1)).persist(notification);
 
-        UUID nonExistentId = UUID.randomUUID();
-        while (nonExistentId.equals(notification.getNotificationId())) {
-            nonExistentId = UUID.randomUUID();
-        }
+        UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
 
         when(session.get(Notification.class, nonExistentId)).thenReturn(null);
         Notification actualNotification = notificationsDb.getNotification(nonExistentId);
