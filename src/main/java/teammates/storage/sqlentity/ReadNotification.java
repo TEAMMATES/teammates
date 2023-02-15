@@ -21,7 +21,7 @@ import jakarta.persistence.Table;
 public class ReadNotification extends BaseEntity {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     private Account account;
@@ -36,11 +36,11 @@ public class ReadNotification extends BaseEntity {
         // required by Hibernate
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,11 +71,6 @@ public class ReadNotification extends BaseEntity {
     @Override
     public List<String> getInvalidityInfo() {
         return new ArrayList<>();
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        // No sanitization required
     }
 
     @Override
