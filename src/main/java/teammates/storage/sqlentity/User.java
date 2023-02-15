@@ -13,6 +13,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,11 +29,9 @@ public abstract class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    /*
     @ManyToOne
     @JoinColumn(name = "accountId")
     private Account account;
-    */
 
     @OneToMany
     private List<Course> courses;
@@ -68,7 +68,6 @@ public abstract class User extends BaseEntity {
         this.id = id;
     }
 
-    /*
     public Account getAccount() {
         return account;
     }
@@ -76,7 +75,6 @@ public abstract class User extends BaseEntity {
     public void setAccount(Account account) {
         this.account = account;
     }
-    */
 
     public List<Course> getCourses() {
         return courses;
