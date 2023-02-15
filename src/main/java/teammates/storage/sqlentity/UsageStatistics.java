@@ -24,7 +24,7 @@ import jakarta.persistence.Table;
 public class UsageStatistics extends BaseEntity {
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private Instant startTime;
@@ -72,7 +72,7 @@ public class UsageStatistics extends BaseEntity {
         this.numSubmissions = numSubmissions;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

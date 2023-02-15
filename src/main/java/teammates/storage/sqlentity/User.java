@@ -25,7 +25,7 @@ import jakarta.persistence.Table;
 public abstract class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "accountId")
@@ -59,11 +59,11 @@ public abstract class User extends BaseEntity {
         // required by Hibernate
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

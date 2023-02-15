@@ -31,7 +31,7 @@ import jakarta.persistence.Table;
 public class FeedbackSession extends BaseEntity {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "courseId")
@@ -174,11 +174,11 @@ public class FeedbackSession extends BaseEntity {
         return errors;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

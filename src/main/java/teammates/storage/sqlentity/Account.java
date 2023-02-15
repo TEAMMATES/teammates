@@ -26,7 +26,7 @@ import jakarta.persistence.Table;
 public class Account extends BaseEntity {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String googleId;
@@ -59,11 +59,11 @@ public class Account extends BaseEntity {
         this.readNotifications = new ArrayList<>();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
