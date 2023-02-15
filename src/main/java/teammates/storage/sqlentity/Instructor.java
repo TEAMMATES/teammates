@@ -113,24 +113,7 @@ public class Instructor extends User {
 
     @Override
     public void sanitizeForSaving() {
-        if (role == null) {
-            role = InstructorPermissionRole
-                    .valueOf(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        } else {
-            role = InstructorPermissionRole
-                    .valueOf(SanitizationHelper.sanitizeName(role.name()));
-        }
-
-        if (displayName == null) {
-            displayName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        } else {
-            displayName = SanitizationHelper.sanitizeName(displayName);
-        }
-
-        if (instructorPrivileges == null) {
-            instructorPrivileges = new InstructorPrivileges(
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER).toString();
-        }
+        displayName = SanitizationHelper.sanitizeName(displayName);
     }
 
     @Override
