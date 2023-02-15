@@ -128,7 +128,8 @@ public class Instructor extends User {
         }
 
         if (instructorPrivileges == null) {
-            instructorPrivileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER).toString();
+            instructorPrivileges = new InstructorPrivileges(
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER).toString();
         }
     }
 
