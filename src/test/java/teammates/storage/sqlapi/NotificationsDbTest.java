@@ -39,7 +39,8 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_success() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateNotification_notificationDoesNotExist_success()
+            throws EntityAlreadyExistsException, InvalidParametersException {
         Notification newNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
@@ -50,7 +51,7 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_invalidNonNullParameters_endTimeIsBeforeStartTime() {
+    public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(Instant.parse("2011-02-01T00:00:00Z"),
                 Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
@@ -60,7 +61,7 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_invalidNonNullParameters_emptyTitle() {
+    public void testCreateNotification_emptyTitle_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "", "<p>Deprecation happens in three minutes</p>");
@@ -70,7 +71,7 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_invalidNonNullParameters_emptyMessage() {
+    public void testCreateNotification_emptyMessage_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "");
