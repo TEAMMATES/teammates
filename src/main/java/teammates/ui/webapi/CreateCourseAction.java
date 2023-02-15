@@ -61,11 +61,7 @@ class CreateCourseAction extends Action {
         String newCourseName = courseCreateRequest.getCourseName();
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
-        Course course = new Course.CourseBuilder(newCourseId)
-                .withName(newCourseName)
-                .withTimeZone(newCourseTimeZone)
-                .withInstitute(institute)
-                .build();
+        Course course = new Course(newCourseId, newCourseName, newCourseTimeZone, institute);
 
         try {
             sqlLogic.createCourse(course); // TODO: Create instructor as well

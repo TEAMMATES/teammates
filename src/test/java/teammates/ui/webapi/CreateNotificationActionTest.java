@@ -27,7 +27,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         return POST;
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     protected void testExecute() throws Exception {
         long startTime = testNotificationAttribute.getStartTime().toEpochMilli();

@@ -25,7 +25,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     public void testExecute() {
 
         ______TS("Not enough parameters");

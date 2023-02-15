@@ -29,7 +29,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
      *
      * @return null if not found or soft-deleted.
      */
-    public FeedbackSession getFeedbackSession(Long fsId) {
+    public FeedbackSession getFeedbackSession(Integer fsId) {
         assert fsId != null;
 
         FeedbackSession fs = HibernateUtil.getSessionFactory().getCurrentSession().get(FeedbackSession.class, fsId);
@@ -47,7 +47,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
      *
      * @return null if not found or not soft-deleted.
      */
-    public FeedbackSession getSoftDeletedFeedbackSession(Long fsId) {
+    public FeedbackSession getSoftDeletedFeedbackSession(Integer fsId) {
         assert fsId != null;
 
         FeedbackSession fs = HibernateUtil.getSessionFactory().getCurrentSession().get(FeedbackSession.class, fsId);
@@ -71,7 +71,6 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
             throws InvalidParametersException, EntityDoesNotExistException {
         assert feedbackSession != null;
 
-        feedbackSession.sanitizeForSaving();
         if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }
@@ -88,7 +87,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
      *
      * @return Soft-deletion time of the feedback session.
      */
-    public Instant softDeleteFeedbackSession(Long fsId)
+    public Instant softDeleteFeedbackSession(Integer fsId)
             throws EntityDoesNotExistException {
         assert fsId != null;
 
@@ -105,7 +104,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     /**
      * Restores a specific soft deleted feedback session.
      */
-    public void restoreDeletedFeedbackSession(Long fsId)
+    public void restoreDeletedFeedbackSession(Integer fsId)
             throws EntityDoesNotExistException {
         assert fsId != null;
 
@@ -121,7 +120,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     /**
      * Deletes a feedback session.
      */
-    public void deleteFeedbackSession(Long fsId) {
+    public void deleteFeedbackSession(Integer fsId) {
         assert fsId != null;
 
         FeedbackSession fs = getFeedbackSession(fsId);
