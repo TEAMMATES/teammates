@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -58,12 +61,20 @@ public class Student extends User {
 
     @Override
     public void sanitizeForSaving() {
-        // TODO Auto-generated method stub
+        comments = SanitizationHelper.sanitizeTextField(comments);
     }
 
     @Override
     public List<String> getInvalidityInfo() {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+        assert comments != null;
+
+        List<String> errors = new ArrayList<>();
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(super.getCourse().getId()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForStudentRoleComments(comments), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
+
+        return errors;
     }
 }

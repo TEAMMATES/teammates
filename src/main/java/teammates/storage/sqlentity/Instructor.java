@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
 import teammates.ui.output.InstructorPermissionRole;
 
 import jakarta.persistence.Column;
@@ -109,12 +113,35 @@ public class Instructor extends User {
 
     @Override
     public void sanitizeForSaving() {
-        // TODO Auto-generated method stub
+        if (role == null) {
+            role = InstructorPermissionRole
+                    .valueOf(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        } else {
+            role = InstructorPermissionRole
+                    .valueOf(SanitizationHelper.sanitizeName(role.name()));
+        }
+
+        if (displayName == null) {
+            displayName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            displayName = SanitizationHelper.sanitizeName(displayName);
+        }
+
+        if (instructorPrivileges == null) {
+            instructorPrivileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER).toString();
+        }
     }
 
     @Override
     public List<String> getInvalidityInfo() {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(super.getCourse().getId()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(displayName), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role.name()), errors);
+
+        return errors;
     }
 }
