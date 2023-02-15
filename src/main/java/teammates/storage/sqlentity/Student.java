@@ -58,7 +58,7 @@ public class Student extends User {
                     && Objects.equals(super.getAccount().getGoogleId(),
                             otherStudent.getAccount().getGoogleId())
                     && Objects.equals(this.comments, otherStudent.comments);
-                    // && Objects.equals(this.team, otherStudent.team)
+            // && Objects.equals(this.team, otherStudent.team)
         } else {
             return false;
         }
