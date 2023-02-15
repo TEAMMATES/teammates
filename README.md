@@ -20,10 +20,10 @@ We used `lizard` to inspect the complexity of the repository. The results were c
 
 Out of these, the following five methods were chosen for manual complexity calculation:
 
-|# | Cyclomatic Complexity | LOC | Method                                                                           | Manually Calculated Complexity |
-|--|-----------------------|-----|----------------------------------------------------------------------------------|--------------------------------|
-|1 |                    17 |  68 | SessionResultsData::buildSingleResponseForStudent                                | Name: calc, Name2: calc2       |
-|2 |                    17 |  52 | FeedbackResponseCommentsLogic::isFeedbackParticipantNameVisibleToUser            |                                |
-|3 |                    16 |  82 | FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions |                                |
-|4 |                    15 |  50 | SessionResultsData::initForStudent                                               |                                |
-|5 |                    15 |  41 | FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion                 |                                |
+| Cyclomatic Complexity | LOC | Method                                                                           | Manually Calculated Complexity |
+|-----------------------|-----|----------------------------------------------------------------------------------|--------------------------------|
+|                    17 |  68 | SessionResultsData::buildSingleResponseForStudent                                | Markus: 17, Edvin: 17          |
+|                    17 |  52 | FeedbackResponseCommentsLogic::isFeedbackParticipantNameVisibleToUser            |                                |
+|                    16 |  82 | FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions |                                |
+|                    15 |  50 | SessionResultsData::initForStudent                                               |                                |
+|                    15 |  41 | FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion                 |                                |
