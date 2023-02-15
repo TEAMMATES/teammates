@@ -90,3 +90,4 @@ docs/_markbind/logs/*
 .eslintcache
 
 complexity_calc1and2.txt
+.vscode

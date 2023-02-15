@@ -22,7 +22,7 @@ Out of these, the following five methods were chosen for manual complexity calcu
 
 | Cyclomatic Complexity | LOC | Method                                                                           | Manually Calculated Complexity |
 |-----------------------|-----|----------------------------------------------------------------------------------|--------------------------------|
-|                    17 |  68 | SessionResultsData::buildSingleResponseForStudent                                | Markus: 17, Name2: calc2       |
+|                    17 |  68 | SessionResultsData::buildSingleResponseForStudent                                | Markus: 17, Edvin: 17          |
 |                    17 |  52 | FeedbackResponseCommentsLogic::isFeedbackParticipantNameVisibleToUser            |                                |
 |                    16 |  82 | FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions |                                |
 |                    15 |  50 | SessionResultsData::initForStudent                                               |                                |
