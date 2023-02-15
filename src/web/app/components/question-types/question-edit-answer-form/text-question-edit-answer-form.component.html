@@ -2,7 +2,7 @@
   <textarea [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled"></textarea>
 </div>
 <tm-rich-text-editor *ngIf="questionDetails.shouldAllowRichText" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
-<div class="margin-top-7px text-secondary text-right">
+<div class="margin-top-7px text-secondary text-end">
   <div id="recommended-length" *ngIf="questionDetails.recommendedLength">
     Recommended length for the answer: {{ questionDetails.recommendedLength }} words
   </div>

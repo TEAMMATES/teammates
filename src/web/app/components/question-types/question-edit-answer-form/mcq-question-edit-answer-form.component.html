@@ -11,7 +11,7 @@
     </div>
     <div *ngIf="questionDetails.questionDropdownEnabled" >
       {{updateParentCss(true)}}
-      <select id="dropdown-option-select" class="form-control margin-bottom-8px" [(ngModel)]="valueSelected" (change)="updateSelectedMcqDropdownOption()">
+      <select id="dropdown-option-select" class="form-control form-select margin-bottom-8px" [(ngModel)]="valueSelected" (change)="updateSelectedMcqDropdownOption()">
         <option value=""></option>
         <option *ngFor="let num of questionDetails.mcqChoices; let i = index;"
                 [ngValue]="questionDetails.mcqChoices[i]"

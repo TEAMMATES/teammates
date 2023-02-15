@@ -1,6 +1,6 @@
 <div class="card" [class.no-border]="!displayAddCommentButton && !model.isAddingNewComment && !model.commentRows.length">
   <div class="card-header comment-table-header" *ngIf="!model.isReadOnly && !model.isAddingNewComment && displayAddCommentButton">
-    <button (click)="handleAddingNewCommentEvent()" type="button" class="btn btn-light btn-sm float-right">
+    <button (click)="handleAddingNewCommentEvent()" type="button" class="btn btn-light btn-sm float-end">
       <i class="fas fa-comment"></i>&nbsp;<i class="fas fa-plus"></i>
     </button>
   </div>

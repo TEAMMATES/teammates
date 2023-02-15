@@ -7,15 +7,13 @@
     Recipient: {{ response.recipient }} ({{ response.recipientTeam }})
   </div>
   <div class="col-6">
-    <div class="float-right">
+    <div class="float-end">
       <span>
         <button *ngIf="isVisibilityOptionEnabled" class="btn btn-info btn-sm" (click)="toggleVisibilityTable()">
           <i class="fas fa-eye"></i> {{ isVisibilityTableExpanded ? "Hide" : "Show" }} Visibility Options</button>
       </span>
       <span *ngIf="!isVisibilityOptionEnabled" style="margin-left: 10px;">
-        <button *ngIf="!shouldHideClosingButton" type="button" class="close" aria-label="Close" (click)="triggerCloseCommentBoxEvent()">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button *ngIf="!shouldHideClosingButton" type="button" class="btn-close" aria-label="Close" (click)="triggerCloseCommentBoxEvent()"></button>
       </span>
     </div>
   </div>
@@ -26,7 +24,7 @@
   <table class="table margin-bottom-0 background-color-white table-striped table-responsive-md">
     <thead>
     <tr>
-      <th scope="col" class="text-left">User/Group</th>
+      <th scope="col" class="text-start">User/Group</th>
       <th scope="col" class="text-center" *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray">{{ commentVisibilityControl | commentVisibilityControlName }}</th>
     </tr>
     </thead>
@@ -49,10 +47,10 @@
                        placeholderText="Enter your comment here" [isDisabled]="isDisabled"></tm-rich-text-editor>
 </div>
 
-<button type="button" class="btn btn-success btn-sm float-right btn-margin-left"
+<button type="button" class="btn btn-success btn-sm float-end btn-margin-left"
         (click)="triggerSaveCommentEvent()" *ngIf="!shouldHideSavingButton" [disabled]="isDisabled"><i class="fas fa-save"></i>
   {{ mode === CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
 
-<button type="button" class="btn btn-light btn-sm float-right"
+<button type="button" class="btn btn-light btn-sm float-end"
         (click)="triggerCloseCommentBoxEvent()" *ngIf="!shouldHideClosingButton" [disabled]="isDisabled"><i class="fas fa-times"></i>
   {{ mode === CommentRowMode.EDIT ? 'Discard' : 'Cancel' }}</button>
