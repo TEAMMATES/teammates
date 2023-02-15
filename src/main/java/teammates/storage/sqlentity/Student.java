@@ -1,12 +1,8 @@
 package teammates.storage.sqlentity;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,14 +17,6 @@ public class Student extends User {
     @Column(nullable = false)
     private String comments;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    @Column
-    private Instant updatedAt;
-
     protected Student() {
         // required by Hibernate
     }
@@ -41,27 +29,11 @@ public class Student extends User {
         this.comments = comments;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public String toString() {
         // return "Student [id=" + super.getId() + ", team=" + super.getTeam() + ", comments=" + comments
         return "Student [id=" + super.getId() + ", comments=" + comments
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+                + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
     @Override

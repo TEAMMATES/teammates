@@ -1,12 +1,8 @@
 package teammates.storage.sqlentity;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.ui.output.InstructorPermissionRole;
 
@@ -37,14 +33,6 @@ public class Instructor extends User {
 
     @Column(nullable = false)
     private String instructorPrivileges;
-
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    @Column
-    private Instant updatedAt;
 
     protected Instructor() {
         // required by Hibernate
@@ -90,28 +78,12 @@ public class Instructor extends User {
         this.instructorPrivileges = instructorPrivileges;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public String toString() {
         return "Instructor [id=" + super.getId() + ", registrationKey=" + registrationKey
                 + ", isDisplayedToStudents=" + isDisplayedToStudents + ", displayName=" + displayName
                 + ", role=" + role + ", instructorPrivileges=" + instructorPrivileges
-                + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+                + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
     @Override
