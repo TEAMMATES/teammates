@@ -7,12 +7,13 @@ import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.ui.output.InstructorPermissionRole;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import teammates.ui.output.InstructorPermissionRole;
 
 /**
  * Represents an Instructor entity.

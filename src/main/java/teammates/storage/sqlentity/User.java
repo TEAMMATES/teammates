@@ -16,6 +16,9 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * Represents a User entity.
+ */
 @Entity
 @Table(name = "Users")
 @Inheritance(strategy = InheritanceType.JOINED)
