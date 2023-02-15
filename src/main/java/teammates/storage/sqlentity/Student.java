@@ -31,7 +31,6 @@ public class Student extends User {
 
     @Override
     public String toString() {
-        // return "Student [id=" + super.getId() + ", team=" + super.getTeam() + ", comments=" + comments
         return "Student [id=" + super.getId() + ", comments=" + comments
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
