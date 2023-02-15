@@ -95,15 +95,20 @@ public class Instructor extends User {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object other) {
+        if (other == null) {
             return false;
-        } else if (this == obj) {
+        } else if (this == other) {
             return true;
-        } else if (this.getClass() == obj.getClass()) {
-            Instructor otherInstructor = (Instructor) obj;
-
-            return Objects.equals(super.getId(), otherInstructor.getId());
+        } else if (this.getClass() == other.getClass()) {
+            Instructor otherInstructor = (Instructor) other;
+            return Objects.equals(super.getEmail(), otherInstructor.getEmail())
+                    && Objects.equals(super.getName(), otherInstructor.getName())
+                    && Objects.equals(super.getCourse().getId(), otherInstructor.getCourse().getId())
+                    && Objects.equals(super.getAccount().getGoogleId(),
+                            otherInstructor.getAccount().getGoogleId())
+                    && Objects.equals(this.displayName, otherInstructor.displayName)
+                    && Objects.equals(this.role, otherInstructor.role);
         } else {
             return false;
         }

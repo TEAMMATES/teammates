@@ -45,15 +45,20 @@ public class Student extends User {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object other) {
+        if (other == null) {
             return false;
-        } else if (this == obj) {
+        } else if (this == other) {
             return true;
-        } else if (this.getClass() == obj.getClass()) {
-            Student otherStudent = (Student) obj;
-
-            return Objects.equals(super.getId(), otherStudent.getId());
+        } else if (this.getClass() == other.getClass()) {
+            Student otherStudent = (Student) other;
+            return Objects.equals(super.getCourse(), otherStudent.getCourse())
+                    && Objects.equals(super.getName(), otherStudent.getName())
+                    && Objects.equals(super.getEmail(), otherStudent.getEmail())
+                    && Objects.equals(super.getAccount().getGoogleId(),
+                            otherStudent.getAccount().getGoogleId())
+                    && Objects.equals(this.comments, otherStudent.comments);
+                    // && Objects.equals(this.team, otherStudent.team)
         } else {
             return false;
         }
