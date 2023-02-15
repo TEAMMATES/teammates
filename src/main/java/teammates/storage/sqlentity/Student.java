@@ -1,6 +1,7 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public class Student extends User {
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false)
+    @Column
     private Instant updatedAt;
 
     protected Student() {
@@ -92,6 +93,6 @@ public class Student extends User {
     @Override
     public List<String> getInvalidityInfo() {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 }
