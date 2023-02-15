@@ -88,3 +88,6 @@ docs/_site/*
 docs/_markbind/logs/*
 .stylelintcache
 .eslintcache
+
+complexity_calc1and2.txt
+.vscode
