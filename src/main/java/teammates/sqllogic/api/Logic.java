@@ -1,14 +1,14 @@
 package teammates.sqllogic.api;
 
+import java.time.Instant;
+import java.util.List;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.UsageStatistics;
-
-import java.time.Instant;
-import java.util.List;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -52,6 +52,9 @@ public class Logic {
         return coursesLogic.createCourse(course);
     }
 
+    /**
+     * Get usage statistics within a time range.
+     */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
         assert startTime != null;
         assert endTime != null;
