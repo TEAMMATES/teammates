@@ -1,12 +1,12 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.UUID;
 
-import teammates.common.datatransfer.attributes.NotificationAttributes;
-import teammates.common.datatransfer.attributes.NotificationAttributes.UpdateOptions;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationUpdateRequest;
@@ -24,7 +24,8 @@ public class UpdateNotificationAction extends AdminOnlyAction {
         Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());
         Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
 
-        UpdateOptions newNotification = NotificationAttributes.updateOptionsBuilder(notificationId)
+        Notification newNotification = new Notification.NotificationBuilder()
+                .withNotificationId(UUID.fromString(notificationId))
                 .withStartTime(startTime)
                 .withEndTime(endTime)
                 .withStyle(notificationRequest.getStyle())
@@ -34,7 +35,7 @@ public class UpdateNotificationAction extends AdminOnlyAction {
                 .build();
 
         try {
-            return new JsonResult(new NotificationData(logic.updateNotification(newNotification)));
+            return new JsonResult(new NotificationData(sqlLogic.updateNotification(newNotification)));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException ednee) {

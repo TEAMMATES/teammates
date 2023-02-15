@@ -3,6 +3,7 @@ package teammates.sqllogic.core;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
