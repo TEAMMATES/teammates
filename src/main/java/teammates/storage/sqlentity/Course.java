@@ -56,16 +56,11 @@ public class Course extends BaseEntity {
         // required by Hibernate
     }
 
-    private Course(CourseBuilder builder) {
-        this.setId(builder.id);
-        this.setName(builder.name);
-
-        this.setTimeZone(StringUtils.defaultIfEmpty(builder.timeZone, Const.DEFAULT_TIME_ZONE));
-        this.setInstitute(builder.institute);
-
-        if (builder.deletedAt != null) {
-            this.setDeletedAt(builder.deletedAt);
-        }
+    public Course(String id, String name, String timeZone, String institute) {
+        this.setId(id);
+        this.setName(name);
+        this.setTimeZone(StringUtils.defaultIfEmpty(timeZone, Const.DEFAULT_TIME_ZONE));
+        this.setInstitute(institute);
     }
 
     @Override
@@ -191,45 +186,5 @@ public class Course extends BaseEntity {
                 && Objects.equals(this.createdAt, o.createdAt)
                 && Objects.equals(this.updatedAt, o.updatedAt)
                 && Objects.equals(this.deletedAt, o.deletedAt);
-    }
-
-    /**
-     * Builder for Course.
-     */
-    public static class CourseBuilder {
-        private String id;
-        private String name;
-        private String institute;
-
-        private String timeZone;
-        private Instant deletedAt;
-
-        public CourseBuilder(String id) {
-            this.id = id;
-        }
-
-        public CourseBuilder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public CourseBuilder withInstitute(String institute) {
-            this.institute = institute;
-            return this;
-        }
-
-        public CourseBuilder withTimeZone(String timeZone) {
-            this.timeZone = timeZone;
-            return this;
-        }
-
-        public CourseBuilder withDeletedAt(Instant deletedAt) {
-            this.deletedAt = deletedAt;
-            return this;
-        }
-
-        public Course build() {
-            return new Course(this);
-        }
     }
 }

@@ -86,24 +86,21 @@ public class FeedbackSession extends BaseEntity {
         // required by Hibernate
     }
 
-    private FeedbackSession(FeedbackSessionBuilder builder) {
-        this.setName(builder.name);
-        this.setCourse(builder.course);
-
-        this.setCreatorEmail(builder.creatorEmail);
-        this.setInstructions(StringUtils.defaultString(builder.instructions));
-        this.setStartTime(builder.startTime);
-        this.setEndTime(builder.endTime);
-        this.setSessionVisibleFromTime(builder.sessionVisibleFromTime);
-        this.setResultsVisibleFromTime(builder.resultsVisibleFromTime);
-        this.setGracePeriod(Objects.requireNonNullElse(builder.gracePeriod, Duration.ZERO));
-        this.setOpeningEmailEnabled(builder.isOpeningEmailEnabled);
-        this.setClosingEmailEnabled(builder.isClosingEmailEnabled);
-        this.setPublishedEmailEnabled(builder.isPublishedEmailEnabled);
-
-        if (builder.deletedAt != null) {
-            this.setDeletedAt(builder.deletedAt);
-        }
+    public FeedbackSession(String name, Course course, String creatorEmail, String instructions, Instant startTime,
+            Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, Duration gracePeriod,
+            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+        this.setName(name);
+        this.setCourse(course);
+        this.setCreatorEmail(creatorEmail);
+        this.setInstructions(StringUtils.defaultString(instructions));
+        this.setStartTime(startTime);
+        this.setEndTime(endTime);
+        this.setSessionVisibleFromTime(sessionVisibleFromTime);
+        this.setResultsVisibleFromTime(resultsVisibleFromTime);
+        this.setGracePeriod(Objects.requireNonNullElse(gracePeriod, Duration.ZERO));
+        this.setOpeningEmailEnabled(isOpeningEmailEnabled);
+        this.setClosingEmailEnabled(isClosingEmailEnabled);
+        this.setPublishedEmailEnabled(isPublishedEmailEnabled);
     }
 
     @Override
@@ -314,93 +311,5 @@ public class FeedbackSession extends BaseEntity {
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", createdAt=" + createdAt + ", updatedAt="
                 + updatedAt + ", deletedAt=" + deletedAt + "]";
-    }
-
-    /**
-     * Builder for FeedbackSession.
-     */
-    public static class FeedbackSessionBuilder {
-        private String name;
-        private Course course;
-
-        private String creatorEmail;
-        private String instructions;
-        private Instant startTime;
-        private Instant endTime;
-        private Instant sessionVisibleFromTime;
-        private Instant resultsVisibleFromTime;
-        private Duration gracePeriod;
-        private boolean isOpeningEmailEnabled;
-        private boolean isClosingEmailEnabled;
-        private boolean isPublishedEmailEnabled;
-        private Instant deletedAt;
-
-        public FeedbackSessionBuilder(String name) {
-            this.name = name;
-        }
-
-        public FeedbackSessionBuilder withCourse(Course course) {
-            this.course = course;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withCreatorEmail(String creatorEmail) {
-            this.creatorEmail = creatorEmail;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withInstructions(String instructions) {
-            this.instructions = instructions;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withStartTime(Instant startTime) {
-            this.startTime = startTime;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withEndTime(Instant endTime) {
-            this.endTime = endTime;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-            this.sessionVisibleFromTime = sessionVisibleFromTime;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-            this.resultsVisibleFromTime = resultsVisibleFromTime;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withGracePeriod(Duration gracePeriod) {
-            this.gracePeriod = gracePeriod;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withOpeningEmailEnabled(boolean isOpeningEmailEnabled) {
-            this.isOpeningEmailEnabled = isOpeningEmailEnabled;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withClosingEmailEnabled(boolean isClosingEmailEnabled) {
-            this.isClosingEmailEnabled = isClosingEmailEnabled;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withPublishedEmailEnabled(boolean isPublishedEmailEnabled) {
-            this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-            return this;
-        }
-
-        public FeedbackSessionBuilder withDeletedAt(Instant deletedAt) {
-            this.deletedAt = deletedAt;
-            return this;
-        }
-
-        public FeedbackSession build() {
-            return new FeedbackSession(this);
-        }
     }
 }
