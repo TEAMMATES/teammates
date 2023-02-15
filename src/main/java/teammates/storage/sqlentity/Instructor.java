@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.util.Const;
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.ui.output.InstructorPermissionRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
