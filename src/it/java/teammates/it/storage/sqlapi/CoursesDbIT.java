@@ -19,10 +19,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testCreateCourse() throws Exception {
         ______TS("Create course, does not exists, succeeds");
 
-        Course course = new Course.CourseBuilder("course-id")
-                .withName("course-name")
-                .withInstitute("teammates")
-                .build();
+        Course course = new Course("course-id", "course-name", null, "teammates");
 
         coursesDb.createCourse(course);
 
@@ -31,10 +28,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("Create course, already exists, execption thrown");
 
-        Course identicalCourse = new Course.CourseBuilder("course-id")
-                .withName("course-name")
-                .withInstitute("teammates")
-                .build();
+        Course identicalCourse = new Course("course-id", "course-name", null, "teammates");
         assertNotSame(course, identicalCourse);
 
         assertThrows(EntityAlreadyExistsException.class, () -> coursesDb.createCourse(identicalCourse));
@@ -44,10 +38,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testUpdateCourse() throws Exception {
         ______TS("Update course, does not exists, exception thrown");
 
-        Course course = new Course.CourseBuilder("course-id")
-                .withName("course-name")
-                .withInstitute("teammates")
-                .build();
+        Course course = new Course("course-id", "course-name", null, "teammates");
 
         assertThrows(EntityDoesNotExistException.class, () -> coursesDb.updateCourse(course));
 
@@ -63,10 +54,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Update detached course, already exists, update successful");
 
         // same id, different name
-        Course detachedCourse = new Course.CourseBuilder("course-id")
-                .withName("course")
-                .withInstitute("teammates")
-                .build();
+        Course detachedCourse = new Course("course-id", "different-name", null, "teammates");
 
         coursesDb.updateCourse(detachedCourse);
         verifyEquals(course, detachedCourse);

@@ -26,7 +26,7 @@ import jakarta.persistence.Table;
 public class Account extends BaseEntity {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String googleId;
@@ -53,17 +53,17 @@ public class Account extends BaseEntity {
     }
 
     public Account(String googleId, String name, String email) {
-        this.googleId = googleId;
-        this.name = name;
-        this.email = email;
+        this.setGoogleId(googleId);
+        this.setName(name);
+        this.setEmail(email);
         this.readNotifications = new ArrayList<>();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -72,7 +72,7 @@ public class Account extends BaseEntity {
     }
 
     public void setGoogleId(String googleId) {
-        this.googleId = googleId;
+        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
     }
 
     public String getName() {
@@ -80,7 +80,7 @@ public class Account extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = SanitizationHelper.sanitizeName(name);
     }
 
     public String getEmail() {
@@ -88,7 +88,7 @@ public class Account extends BaseEntity {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
     public List<ReadNotification> getReadNotifications() {
@@ -127,13 +127,6 @@ public class Account extends BaseEntity {
     }
 
     @Override
-    public void sanitizeForSaving() {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.email = SanitizationHelper.sanitizeEmail(email);
-    }
-
-    @Override
     public boolean equals(Object other) {
         if (other == null) {
             return false;
@@ -141,10 +134,7 @@ public class Account extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             Account otherAccount = (Account) other;
-            return Objects.equals(this.email, otherAccount.email)
-                    && Objects.equals(this.name, otherAccount.name)
-                    && Objects.equals(this.googleId, otherAccount.googleId)
-                    && Objects.equals(this.id, otherAccount.id);
+            return Objects.equals(this.googleId, otherAccount.googleId);
         } else {
             return false;
         }
@@ -152,7 +142,7 @@ public class Account extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return this.getGoogleId().hashCode();
     }
 
     @Override

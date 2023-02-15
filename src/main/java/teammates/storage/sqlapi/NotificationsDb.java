@@ -32,7 +32,6 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert notification != null;
 
-        notification.sanitizeForSaving();
         if (!notification.isValid()) {
             throw new InvalidParametersException(notification.getInvalidityInfo());
         }
@@ -56,8 +55,6 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
     public Notification updateNotification(Notification notification)
             throws InvalidParametersException, EntityDoesNotExistException {
         assert notification != null;
-
-        notification.sanitizeForSaving();
 
         if (!notification.isValid()) {
             throw new InvalidParametersException(notification.getInvalidityInfo());

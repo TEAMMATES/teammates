@@ -56,16 +56,11 @@ public class Course extends BaseEntity {
         // required by Hibernate
     }
 
-    private Course(CourseBuilder builder) {
-        this.setId(builder.id);
-        this.setName(builder.name);
-
-        this.setTimeZone(StringUtils.defaultIfEmpty(builder.timeZone, Const.DEFAULT_TIME_ZONE));
-        this.setInstitute(builder.institute);
-
-        if (builder.deletedAt != null) {
-            this.setDeletedAt(builder.deletedAt);
-        }
+    public Course(String id, String name, String timeZone, String institute) {
+        this.setId(id);
+        this.setName(name);
+        this.setTimeZone(StringUtils.defaultIfEmpty(timeZone, Const.DEFAULT_TIME_ZONE));
+        this.setInstitute(institute);
     }
 
     @Override
@@ -79,19 +74,12 @@ public class Course extends BaseEntity {
         return errors;
     }
 
-    @Override
-    public void sanitizeForSaving() {
-        this.id = SanitizationHelper.sanitizeTitle(id);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = SanitizationHelper.sanitizeTitle(id);
     }
 
     public String getName() {
@@ -99,7 +87,7 @@ public class Course extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = SanitizationHelper.sanitizeName(name);
     }
 
     public String getTimeZone() {
@@ -115,7 +103,7 @@ public class Course extends BaseEntity {
     }
 
     public void setInstitute(String institute) {
-        this.institute = institute;
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
     public List<FeedbackSession> getFeedbackSessions() {
@@ -159,77 +147,20 @@ public class Course extends BaseEntity {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((timeZone == null) ? 0 : timeZone.hashCode());
-        result = prime * result + ((institute == null) ? 0 : institute.hashCode());
-        result = prime * result + ((feedbackSessions == null) ? 0 : feedbackSessions.hashCode());
-        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
-        result = prime * result + ((deletedAt == null) ? 0 : deletedAt.hashCode());
-        return result;
+        return this.id.hashCode();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
             return true;
-        } else if (obj == null) {
+        } else if (this.getClass() == other.getClass()) {
+            Course otherCourse = (Course) other;
+            return Objects.equals(this.id, otherCourse.id);
+        } else {
             return false;
-        } else if (this.getClass() != obj.getClass()) {
-            return false;
-        }
-
-        Course o = (Course) obj;
-        return Objects.equals(this.id, o.id)
-                && Objects.equals(this.name, o.name)
-                && Objects.equals(this.timeZone, o.timeZone)
-                && Objects.equals(this.institute, o.institute)
-                && Objects.equals(this.feedbackSessions, o.feedbackSessions)
-                && Objects.equals(this.createdAt, o.createdAt)
-                && Objects.equals(this.updatedAt, o.updatedAt)
-                && Objects.equals(this.deletedAt, o.deletedAt);
-    }
-
-    /**
-     * Builder for Course.
-     */
-    public static class CourseBuilder {
-        private String id;
-        private String name;
-        private String institute;
-
-        private String timeZone;
-        private Instant deletedAt;
-
-        public CourseBuilder(String id) {
-            this.id = id;
-        }
-
-        public CourseBuilder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public CourseBuilder withInstitute(String institute) {
-            this.institute = institute;
-            return this;
-        }
-
-        public CourseBuilder withTimeZone(String timeZone) {
-            this.timeZone = timeZone;
-            return this;
-        }
-
-        public CourseBuilder withDeletedAt(Instant deletedAt) {
-            this.deletedAt = deletedAt;
-            return this;
-        }
-
-        public Course build() {
-            return new Course(this);
         }
     }
 }

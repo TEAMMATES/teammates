@@ -2,7 +2,6 @@ package teammates.storage.sqlentity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.util.FieldValidator;
@@ -61,7 +60,7 @@ public class Instructor extends User {
     }
 
     public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+        this.displayName = SanitizationHelper.sanitizeName(displayName);
     }
 
     public InstructorPermissionRole getRole() {
@@ -86,37 +85,6 @@ public class Instructor extends User {
                 + ", isDisplayedToStudents=" + isDisplayedToStudents + ", displayName=" + displayName
                 + ", role=" + role + ", instructorPrivileges=" + instructorPrivileges
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        // Instructor Id uniquely identifies an Instructor
-        return super.getId();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            Instructor otherInstructor = (Instructor) other;
-            return Objects.equals(super.getEmail(), otherInstructor.getEmail())
-                    && Objects.equals(super.getName(), otherInstructor.getName())
-                    && Objects.equals(super.getCourse().getId(), otherInstructor.getCourse().getId())
-                    && Objects.equals(super.getAccount().getGoogleId(),
-                            otherInstructor.getAccount().getGoogleId())
-                    && Objects.equals(this.displayName, otherInstructor.displayName)
-                    && Objects.equals(this.role, otherInstructor.role);
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        displayName = SanitizationHelper.sanitizeName(displayName);
     }
 
     @Override
