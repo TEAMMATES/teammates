@@ -2,7 +2,6 @@ package teammates.storage.sqlentity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -36,32 +35,6 @@ public class Student extends User {
     public String toString() {
         return "Student [id=" + super.getId() + ", comments=" + comments
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        // Student Id uniquely identifies a Student
-        return super.getId();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            Student otherStudent = (Student) other;
-            return Objects.equals(super.getCourse(), otherStudent.getCourse())
-                    && Objects.equals(super.getName(), otherStudent.getName())
-                    && Objects.equals(super.getEmail(), otherStudent.getEmail())
-                    && Objects.equals(super.getAccount().getGoogleId(),
-                            otherStudent.getAccount().getGoogleId())
-                    && Objects.equals(this.comments, otherStudent.comments);
-            // && Objects.equals(this.team, otherStudent.team)
-        } else {
-            return false;
-        }
     }
 
     @Override

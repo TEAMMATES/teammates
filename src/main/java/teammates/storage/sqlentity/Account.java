@@ -134,10 +134,7 @@ public class Account extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             Account otherAccount = (Account) other;
-            return Objects.equals(this.email, otherAccount.email)
-                    && Objects.equals(this.name, otherAccount.name)
-                    && Objects.equals(this.googleId, otherAccount.googleId)
-                    && Objects.equals(this.id, otherAccount.id);
+            return Objects.equals(this.googleId, otherAccount.googleId);
         } else {
             return false;
         }
@@ -145,7 +142,7 @@ public class Account extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return this.getGoogleId().hashCode();
     }
 
     @Override

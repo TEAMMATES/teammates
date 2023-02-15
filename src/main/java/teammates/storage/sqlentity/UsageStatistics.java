@@ -3,6 +3,7 @@ package teammates.storage.sqlentity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -126,6 +127,26 @@ public class UsageStatistics extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            UsageStatistics otherUsageStatistics = (UsageStatistics) other;
+            return Objects.equals(this.startTime, otherUsageStatistics.startTime)
+                    && Objects.equals(this.timePeriod, otherUsageStatistics.timePeriod);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.startTime, this.timePeriod);
     }
 
     @Override

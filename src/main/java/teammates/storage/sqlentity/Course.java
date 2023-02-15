@@ -147,37 +147,20 @@ public class Course extends BaseEntity {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((timeZone == null) ? 0 : timeZone.hashCode());
-        result = prime * result + ((institute == null) ? 0 : institute.hashCode());
-        result = prime * result + ((feedbackSessions == null) ? 0 : feedbackSessions.hashCode());
-        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-        result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
-        result = prime * result + ((deletedAt == null) ? 0 : deletedAt.hashCode());
-        return result;
+        return this.id.hashCode();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        } else if (obj == null) {
+    public boolean equals(Object other) {
+        if (other == null) {
             return false;
-        } else if (this.getClass() != obj.getClass()) {
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            Course otherCourse = (Course) other;
+            return Objects.equals(this.id, otherCourse.id);
+        } else {
             return false;
         }
-
-        Course o = (Course) obj;
-        return Objects.equals(this.id, o.id)
-                && Objects.equals(this.name, o.name)
-                && Objects.equals(this.timeZone, o.timeZone)
-                && Objects.equals(this.institute, o.institute)
-                && Objects.equals(this.feedbackSessions, o.feedbackSessions)
-                && Objects.equals(this.createdAt, o.createdAt)
-                && Objects.equals(this.updatedAt, o.updatedAt)
-                && Objects.equals(this.deletedAt, o.deletedAt);
     }
 }

@@ -1,6 +1,7 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -40,7 +41,7 @@ public abstract class User extends BaseEntity {
     /*
     @ManyToOne
     @JoinColumn(name = "teamId")
-    private Team team;
+    private List<Team> team;
     */
 
     @Column(nullable = false)
@@ -86,11 +87,11 @@ public abstract class User extends BaseEntity {
     }
 
     /*
-    public Team getTeam() {
+    public List<Team> getTeam() {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(List<Team> team) {
         this.team = team;
     }
     */
@@ -125,5 +126,26 @@ public abstract class User extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            User otherUser = (User) other;
+            return Objects.equals(this.course, otherUser.course)
+                    && Objects.equals(this.name, otherUser.name)
+                    && Objects.equals(this.email, otherUser.email);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.course, this.name, this.email);
     }
 }

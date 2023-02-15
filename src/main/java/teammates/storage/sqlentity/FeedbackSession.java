@@ -307,4 +307,24 @@ public class FeedbackSession extends BaseEntity {
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", createdAt=" + createdAt + ", updatedAt="
                 + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.course, this.name);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackSession otherFs = (FeedbackSession) other;
+            return Objects.equals(this.name, otherFs.name)
+                    && Objects.equals(this.course, otherFs.course);
+        } else {
+            return false;
+        }
+    }
 }
