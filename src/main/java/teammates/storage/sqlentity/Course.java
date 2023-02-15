@@ -74,19 +74,12 @@ public class Course extends BaseEntity {
         return errors;
     }
 
-    @Override
-    public void sanitizeForSaving() {
-        this.id = SanitizationHelper.sanitizeTitle(id);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = SanitizationHelper.sanitizeTitle(id);
     }
 
     public String getName() {
@@ -94,7 +87,7 @@ public class Course extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = SanitizationHelper.sanitizeName(name);
     }
 
     public String getTimeZone() {
@@ -110,7 +103,7 @@ public class Course extends BaseEntity {
     }
 
     public void setInstitute(String institute) {
-        this.institute = institute;
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
     public List<FeedbackSession> getFeedbackSessions() {

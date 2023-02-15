@@ -86,12 +86,6 @@ public class Notification extends BaseEntity {
     }
 
     @Override
-    public void sanitizeForSaving() {
-        this.title = SanitizationHelper.sanitizeTitle(title);
-        this.message = SanitizationHelper.sanitizeForRichText(message);
-    }
-
-    @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
@@ -151,7 +145,7 @@ public class Notification extends BaseEntity {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = SanitizationHelper.sanitizeTitle(title);
     }
 
     public String getMessage() {
@@ -159,7 +153,7 @@ public class Notification extends BaseEntity {
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.message = SanitizationHelper.sanitizeForRichText(message);
     }
 
     public boolean isShown() {

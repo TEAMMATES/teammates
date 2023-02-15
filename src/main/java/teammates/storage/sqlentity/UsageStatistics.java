@@ -129,11 +129,6 @@ public class UsageStatistics extends BaseEntity {
     }
 
     @Override
-    public void sanitizeForSaving() {
-        // required by BaseEntity
-    }
-
-    @Override
     public List<String> getInvalidityInfo() {
         return new ArrayList<>();
     }

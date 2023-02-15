@@ -29,7 +29,7 @@ public class Student extends User {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments = SanitizationHelper.sanitizeTextField(comments);
     }
 
     @Override
@@ -62,11 +62,6 @@ public class Student extends User {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        comments = SanitizationHelper.sanitizeTextField(comments);
     }
 
     @Override

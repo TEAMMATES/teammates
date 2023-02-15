@@ -104,11 +104,6 @@ public class FeedbackSession extends BaseEntity {
     }
 
     @Override
-    public void sanitizeForSaving() {
-        this.instructions = SanitizationHelper.sanitizeForRichText(instructions);
-    }
-
-    @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
@@ -211,7 +206,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public void setInstructions(String instructions) {
-        this.instructions = instructions;
+        this.instructions = SanitizationHelper.sanitizeForRichText(instructions);
     }
 
     public Instant getStartTime() {

@@ -61,7 +61,7 @@ public class Instructor extends User {
     }
 
     public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+        this.displayName = SanitizationHelper.sanitizeName(displayName);
     }
 
     public InstructorPermissionRole getRole() {
@@ -112,11 +112,6 @@ public class Instructor extends User {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        displayName = SanitizationHelper.sanitizeName(displayName);
     }
 
     @Override

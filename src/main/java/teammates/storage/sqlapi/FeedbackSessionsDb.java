@@ -71,7 +71,6 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
             throws InvalidParametersException, EntityDoesNotExistException {
         assert feedbackSession != null;
 
-        feedbackSession.sanitizeForSaving();
         if (!feedbackSession.isValid()) {
             throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
         }

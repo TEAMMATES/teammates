@@ -53,9 +53,9 @@ public class Account extends BaseEntity {
     }
 
     public Account(String googleId, String name, String email) {
-        this.googleId = googleId;
-        this.name = name;
-        this.email = email;
+        this.setGoogleId(googleId);
+        this.setName(name);
+        this.setEmail(email);
         this.readNotifications = new ArrayList<>();
     }
 
@@ -72,7 +72,7 @@ public class Account extends BaseEntity {
     }
 
     public void setGoogleId(String googleId) {
-        this.googleId = googleId;
+        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
     }
 
     public String getName() {
@@ -80,7 +80,7 @@ public class Account extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = SanitizationHelper.sanitizeName(name);
     }
 
     public String getEmail() {
@@ -88,7 +88,7 @@ public class Account extends BaseEntity {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
     public List<ReadNotification> getReadNotifications() {
@@ -124,13 +124,6 @@ public class Account extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
         return errors;
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
     @Override

@@ -74,11 +74,6 @@ public class ReadNotification extends BaseEntity {
     }
 
     @Override
-    public void sanitizeForSaving() {
-        // No sanitization required
-    }
-
-    @Override
     public boolean equals(Object other) {
         if (other == null) {
             return false;

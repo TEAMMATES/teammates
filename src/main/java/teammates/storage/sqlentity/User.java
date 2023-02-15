@@ -5,6 +5,8 @@ import java.time.Instant;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.util.SanitizationHelper;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -98,7 +100,7 @@ public abstract class User extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = SanitizationHelper.sanitizeName(name);
     }
 
     public String getEmail() {
@@ -106,7 +108,7 @@ public abstract class User extends BaseEntity {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
     public Instant getCreatedAt() {
