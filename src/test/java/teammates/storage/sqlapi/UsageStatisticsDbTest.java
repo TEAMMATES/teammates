@@ -35,7 +35,8 @@ public class UsageStatisticsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateUsageStatistics_success() {
-        UsageStatistics newUsageStatistics = new UsageStatistics(Instant.parse("2011-01-01T00:00:00Z"), 1, 0, 0, 0, 0, 0, 0, 0);
+        UsageStatistics newUsageStatistics = new UsageStatistics(
+                Instant.parse("2011-01-01T00:00:00Z"), 1, 0, 0, 0, 0, 0, 0, 0);
 
         usageStatisticsDb.createUsageStatistics(newUsageStatistics);
 
