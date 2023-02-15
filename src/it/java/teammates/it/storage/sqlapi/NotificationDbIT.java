@@ -41,10 +41,11 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testGetNotification() throws EntityAlreadyExistsException, InvalidParametersException {
         ______TS("success: get a notification that already exists");
-        Notification newNotification = new Notification.NotificationBuilder("A deprecation note")
+        Notification newNotification = new Notification.NotificationBuilder()
                 .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
                 .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
                 .withStyle(NotificationStyle.DANGER)
+                .withTitle("A deprecation note")
                 .withTargetUser(NotificationTargetUser.GENERAL)
                 .withMessage("<p>Deprecation happens in three minutes</p>")
                 .build();
