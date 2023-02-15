@@ -1,7 +1,6 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
-import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,7 +14,6 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -33,8 +31,8 @@ public abstract class User extends BaseEntity {
     @JoinColumn(name = "accountId")
     private Account account;
 
-    @OneToMany
-    private List<Course> courses;
+    @ManyToOne
+    private Course course;
 
     /*
     @ManyToOne
@@ -76,12 +74,12 @@ public abstract class User extends BaseEntity {
         this.account = account;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     /*
