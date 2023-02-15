@@ -165,7 +165,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Course ID:
@@ -185,7 +185,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Course name:
@@ -205,7 +205,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Course institute:
@@ -225,7 +225,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Instructors:
@@ -250,7 +250,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Your section:
@@ -270,7 +270,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Your team:
@@ -290,7 +290,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Your name:
@@ -310,7 +310,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Your email:

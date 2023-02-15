@@ -2,7 +2,7 @@
   <tbody>
     <tr>
       <td></td>
-      <td *ngFor="let choice of questionDetails.rubricChoices" class="font-weight-bold">{{ choice }}</td>
+      <td *ngFor="let choice of questionDetails.rubricChoices" class="fw-bold">{{ choice }}</td>
     </tr>
     <tr *ngFor="let rubricDescriptionRow of questionDetails.rubricDescriptions; let i = index;"
         [ngClass]="{ 'row-answered': i < responseDetails.answer.length && responseDetails.answer[i] !== RUBRIC_ANSWER_NOT_CHOSEN }">

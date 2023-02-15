@@ -17,7 +17,7 @@ exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEna
     <td>
       <div>
         <select
-          class="form-control margin-bottom-8px ng-untouched ng-pristine ng-valid"
+          class="form-control form-select margin-bottom-8px ng-untouched ng-pristine ng-valid"
           id="dropdown-option-select"
         >
           <option

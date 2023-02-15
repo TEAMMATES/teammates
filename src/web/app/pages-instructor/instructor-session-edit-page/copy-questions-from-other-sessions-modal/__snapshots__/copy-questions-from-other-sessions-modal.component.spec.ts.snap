@@ -22,21 +22,15 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-question-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"
@@ -171,7 +165,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                   </tbody>
                 </table>
                 <button
-                  class="btn btn-primary float-right mt-2 mb-3"
+                  class="btn btn-primary float-end mt-2 mb-3"
                 >
                   <i
                     aria-hidden="true"
@@ -228,21 +222,15 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-question-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"
@@ -366,21 +354,15 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-question-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"
@@ -507,21 +489,15 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with default f
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-question-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"
@@ -596,21 +572,15 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
     </h4>
     <button
       aria-label="Close"
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <span
-        aria-hidden="true"
-      >
-        ×
-      </span>
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-question-modal"
   >
     <div
-      class="col-12 mb-3 text-md-right"
+      class="col-12 mb-3 text-md-end"
     >
       <strong
         class="d-inline"

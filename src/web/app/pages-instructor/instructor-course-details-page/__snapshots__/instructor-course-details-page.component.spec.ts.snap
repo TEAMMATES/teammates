@@ -81,12 +81,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Course ID:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="course-id"
             >
                CS101 
@@ -96,12 +96,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Course name:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="course-name"
             >
                Introduction to CS 
@@ -111,12 +111,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Course institute:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="course-institute"
             >
                Test Institute 
@@ -126,12 +126,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Sections:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="num-sections"
             >
                0 
@@ -141,12 +141,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Teams:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="num-teams"
             >
                0 
@@ -156,12 +156,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Total students:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="num-students"
             >
                0 
@@ -171,12 +171,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right control-label"
+              class="col-sm-2 text-sm-end control-label"
             >
               Instructors:
             </label>
             <div
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="instructors"
             >
               <div>
@@ -244,12 +244,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Course ID:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="course-id"
             >
                CS101 
@@ -259,12 +259,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Course name:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="course-name"
             >
                Introduction to CS 
@@ -274,12 +274,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Course institute:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="course-institute"
             >
                Test Institute 
@@ -289,12 +289,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Sections:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="num-sections"
             >
                1 
@@ -304,12 +304,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Teams:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="num-teams"
             >
                1 
@@ -319,12 +319,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right"
+              class="col-sm-2 text-sm-end"
             >
               Total students:
             </label>
             <span
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="num-students"
             >
                1 
@@ -334,12 +334,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-right control-label"
+              class="col-sm-2 text-sm-end control-label"
             >
               Instructors:
             </label>
             <div
-              class="col-sm-9 text-sm-left"
+              class="col-sm-9 text-sm-start"
               id="instructors"
             >
               <div>

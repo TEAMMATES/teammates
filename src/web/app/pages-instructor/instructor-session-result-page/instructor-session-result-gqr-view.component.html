@@ -1,6 +1,6 @@
 <div id="section-panel" *ngFor="let sectionInfo of responses | keyvalue">
   <div class="card margin-bottom-15px alert-success-border">
-    <div id="section-header" class="card-header alert-success cursor-pointer" (click)="toggleAndLoadTab.emit(sectionInfo.key)">
+    <div id="section-header" class="card-header alert alert-success alert-no-bottom cursor-pointer" (click)="toggleAndLoadTab.emit(sectionInfo.key)">
       {{ sectionInfo.key === 'None' ? 'No specific section' : sectionInfo.key }}
       <div class="card-header-btn-toolbar">
         <tm-panel-chevron [isExpanded]="sectionInfo.value.isTabExpanded"></tm-panel-chevron>

@@ -8,9 +8,7 @@
   <input type="text" class="form-control" ngbDatepicker readonly
          [ngModel]="date" (ngModelChange)="changeDate($event)"
          [maxDate]="maxDate" [minDate]="minDate" #timeDp="ngbDatepicker" [disabled]="disabled" [footerTemplate]="footer"/>
-  <div class="input-group-append" *ngIf="!disabled">
-    <button class="btn btn-light" (click)="timeDp.toggle()" type="button">
-      <i class="fas fa-calendar-alt"></i>
-    </button>
-  </div>
+  <button class="btn btn-light input-group-text" (click)="timeDp.toggle()" type="button">
+    <i class="fas fa-calendar-alt"></i>
+  </button>
 </div>

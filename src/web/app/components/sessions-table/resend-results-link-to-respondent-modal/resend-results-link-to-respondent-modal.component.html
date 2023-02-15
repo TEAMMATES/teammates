@@ -3,7 +3,7 @@
     Resend Published Email
     <small>(Select the student(s) or instructor(s) you want to resend the published email to)</small>
   </h4>
-  <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
   <div class="table-responsive" *ngIf="studentListInfoTableRowModels.length > 0; else noRespondentsToRemind">
@@ -14,7 +14,7 @@
     ></tm-respondent-list-info-table>
   </div>
   <ng-template #noRespondentsToRemind>
-    <h4 class="p-2 bg-info text-white">
+    <h4 class="p-2 bg-info">
       There are no participants to email.
     </h4>
   </ng-template>
