@@ -21,11 +21,11 @@ ___________________
 
 
 ### Function 2: `FeedbackSessionsDb::updateFeedbackSession`
-1.
-2.
-3.
-4.
-5.
+1. This function's complexity was not calculated by hand.
+2. The number of LOC is quite high in relation to the CC, but not surprisingly high.
+3. The purpose of the function is to update a feedback session, and the high complexity is a result of multiple values that are being checked if they have changed and should be updated.
+4. The function throws exceptions, and these do not seem to be included as exit points. The functions do not include try/catch blocks.
+5. There is no explicit documentation of the different possible outcomes of the branches, however, the code is pretty self-explanatory.
 
 
 ### Function 3: `FeedbackResponsesLogic::isFeedbackParticipantNameVisibleToUser`
