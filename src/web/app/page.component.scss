@@ -85,11 +85,16 @@ nav {
   }
 
   .main-content {
-    padding: 0 0;
+    padding: 10px 15px;
   }
 
   .footer {
     padding: 5px 0;
+  }
+
+  .footer .row {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 
