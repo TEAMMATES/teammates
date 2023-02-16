@@ -108,29 +108,19 @@ public class NotificationsDbTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_success()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        Notification notification = new Notification.NotificationBuilder()
-                .withNotificationId(UUID.randomUUID())
-                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DANGER)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withTitle("A deprecation note")
-                .withMessage("<p>Deprecation happens in three minutes</p>")
-                .build();
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+               Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
         verify(session, times(1)).persist(notification);
 
         when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
 
-        Notification newNotification = new Notification.NotificationBuilder()
-                .withNotificationId(notification.getNotificationId())
-                .withStartTime(Instant.parse("2012-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2098-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DARK)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("An updated deprecation note")
-                .withMessage("<p>Deprecation happens in three seconds</p>")
-                .build();
+        Notification newNotification = new Notification(Instant.parse("2012-01-01T00:00:00Z"),
+                Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK, NotificationTargetUser.INSTRUCTOR,
+                "An updated deprecation note", "<p>Deprecation happens in three seconds</p>");
+        newNotification.setNotificationId(notification.getNotificationId());
 
         when(session.merge(newNotification)).thenReturn(newNotification);
 
@@ -143,29 +133,19 @@ public class NotificationsDbTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_invalidNonNullParameter_endTimeBeforeStartTime()
             throws EntityAlreadyExistsException, InvalidParametersException {
-        Notification notification = new Notification.NotificationBuilder()
-                .withNotificationId(UUID.randomUUID())
-                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DANGER)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withTitle("A deprecation note")
-                .withMessage("<p>Deprecation happens in three minutes</p>")
-                .build();
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
         verify(session, times(1)).persist(notification);
 
         when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
 
-        Notification newNotification = new Notification.NotificationBuilder()
-                .withNotificationId(notification.getNotificationId())
-                .withStartTime(Instant.parse("2011-01-01T00:00:01Z"))
-                .withEndTime(Instant.parse("2011-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DARK)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("An updated deprecation note")
-                .withMessage("<p>Deprecation happens in three seconds</p>")
-                .build();
+        Notification newNotification = new Notification(Instant.parse("2011-01-01T00:00:01Z"),
+                Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(notification.getNotificationId());
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(newNotification));
     }
@@ -173,29 +153,19 @@ public class NotificationsDbTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_invalidNonNullParameter_emptyTitle()
             throws EntityAlreadyExistsException, InvalidParametersException {
-        Notification notification = new Notification.NotificationBuilder()
-                .withNotificationId(UUID.randomUUID())
-                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DANGER)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withTitle("A deprecation note")
-                .withMessage("<p>Deprecation happens in three minutes</p>")
-                .build();
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
         verify(session, times(1)).persist(notification);
 
         when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
 
-        Notification newNotification = new Notification.NotificationBuilder()
-                .withNotificationId(notification.getNotificationId())
-                .withStartTime(Instant.parse("2012-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2098-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DARK)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("")
-                .withMessage("<p>Deprecation happens in three seconds</p>")
-                .build();
+        Notification newNotification = new Notification(Instant.parse("2012-01-01T00:00:00Z"),
+                Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK, NotificationTargetUser.INSTRUCTOR,
+                "", "<p>Deprecation happens in three seconds</p>");
+        newNotification.setNotificationId(notification.getNotificationId());
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(newNotification));
     }
@@ -203,29 +173,19 @@ public class NotificationsDbTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_invalidNonNullParameter_emptyMessage()
             throws EntityAlreadyExistsException, InvalidParametersException {
-        Notification notification = new Notification.NotificationBuilder()
-                .withNotificationId(UUID.randomUUID())
-                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DANGER)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withTitle("A deprecation note")
-                .withMessage("<p>Deprecation happens in three minutes</p>")
-                .build();
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
         verify(session, times(1)).persist(notification);
 
         when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
 
-        Notification newNotification = new Notification.NotificationBuilder()
-                .withNotificationId(notification.getNotificationId())
-                .withStartTime(Instant.parse("2012-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2098-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DARK)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("An updated deprecation note")
-                .withMessage("")
-                .build();
+        Notification newNotification = new Notification(Instant.parse("2012-01-01T00:00:00Z"),
+                Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK, NotificationTargetUser.INSTRUCTOR,
+                "An updated deprecation note", "");
+        newNotification.setNotificationId(notification.getNotificationId());
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(newNotification));
     }
@@ -233,15 +193,10 @@ public class NotificationsDbTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_entityDoesNotExist()
             throws EntityAlreadyExistsException, InvalidParametersException {
-        Notification notification = new Notification.NotificationBuilder()
-                .withNotificationId(UUID.randomUUID())
-                .withStartTime(Instant.parse("2011-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2099-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DANGER)
-                .withTargetUser(NotificationTargetUser.GENERAL)
-                .withTitle("A deprecation note")
-                .withMessage("<p>Deprecation happens in three minutes</p>")
-                .build();
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
         verify(session, times(1)).persist(notification);
 
@@ -251,15 +206,10 @@ public class NotificationsDbTest extends BaseTestCase {
         while (nonExistentId.equals(notification.getNotificationId())) {
             nonExistentId = UUID.randomUUID();
         }
-        Notification newNotification = new Notification.NotificationBuilder()
-                .withNotificationId(nonExistentId)
-                .withStartTime(Instant.parse("2012-01-01T00:00:00Z"))
-                .withEndTime(Instant.parse("2098-01-01T00:00:00Z"))
-                .withStyle(NotificationStyle.DARK)
-                .withTargetUser(NotificationTargetUser.INSTRUCTOR)
-                .withTitle("An updated deprecation note")
-                .withMessage("<p>Deprecation happens in three seconds</p>")
-                .build();
+        Notification newNotification = new Notification(Instant.parse("2012-01-01T00:00:00Z"),
+                Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK, NotificationTargetUser.INSTRUCTOR,
+                "An updated deprecation note", "<p>Deprecation happens in three seconds</p>");
+        newNotification.setNotificationId(nonExistentId);
 
         assertThrows(EntityDoesNotExistException.class, () -> notificationsDb.updateNotification(newNotification));
     }

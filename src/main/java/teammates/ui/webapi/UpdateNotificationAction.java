@@ -24,15 +24,9 @@ public class UpdateNotificationAction extends AdminOnlyAction {
         Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());
         Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
 
-        Notification newNotification = new Notification.NotificationBuilder()
-                .withNotificationId(UUID.fromString(notificationId))
-                .withStartTime(startTime)
-                .withEndTime(endTime)
-                .withStyle(notificationRequest.getStyle())
-                .withTargetUser(notificationRequest.getTargetUser())
-                .withTitle(notificationRequest.getTitle())
-                .withMessage(notificationRequest.getMessage())
-                .build();
+        Notification newNotification = new Notification(startTime, endTime, notificationRequest.getStyle(),
+                notificationRequest.getTargetUser(), notificationRequest.getTitle(), notificationRequest.getMessage());
+        newNotification.setNotificationId(UUID.fromString(notificationId));
 
         try {
             return new JsonResult(new NotificationData(sqlLogic.updateNotification(newNotification)));
