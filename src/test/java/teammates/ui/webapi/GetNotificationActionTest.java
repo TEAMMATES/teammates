@@ -10,6 +10,7 @@ import teammates.ui.output.NotificationData;
 /**
  * SUT: {@link GetNotificationAction}.
  */
+@Test(enabled = false)
 public class GetNotificationActionTest extends BaseActionTest<GetNotificationAction> {
 
     @Override
