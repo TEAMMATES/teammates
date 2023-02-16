@@ -109,7 +109,7 @@ public class NotificationsDbTest extends BaseTestCase {
     public void testUpdateNotification_success()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
-               Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
