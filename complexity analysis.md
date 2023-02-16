@@ -29,11 +29,11 @@ ___________________
 
 
 ### Function 3: `FeedbackResponsesLogic::isFeedbackParticipantNameVisibleToUser`
-1.
-2.
-3.
-4.
-5.
+1. This function's complexity was not one of the functions calculated by hand.
+2. The function has 60 LOC which I consider to be too long. There is a lot of exit points in the function that reduces the CC. The functions almost exclusively consists of if, else, case, switch, return, break.
+3. As given in the name, it’s a function that checks if the participant receiving the feedback is visible to the user.  Without have used the software, I assume there is a high complexity if things should be visible or not because of privacy and integrity.
+4. There are no exceptions. However, the function includes assertions that seem to be included in the count performed by lizard.
+5. There is none documentation of the function and the different outcomes.
 
 ### Function 4: `FeedbackMcqQuestionDetails::validateQuestionDetails`
 1.
