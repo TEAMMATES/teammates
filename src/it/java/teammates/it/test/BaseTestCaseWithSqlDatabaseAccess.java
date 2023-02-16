@@ -100,7 +100,10 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         expected.setUpdatedAt(actual.getUpdatedAt());
     }
 
-    protected UUID generateDifferentUUID(UUID uuid) {
+    /**
+     * Generates a UUID that is different from the given {@code uuid}.
+     */
+    protected UUID generateDifferentUuid(UUID uuid) {
         UUID ret = UUID.randomUUID();
         while (ret.equals(uuid)) {
             ret = UUID.randomUUID();
