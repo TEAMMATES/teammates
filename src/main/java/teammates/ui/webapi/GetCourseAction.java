@@ -60,29 +60,12 @@ class GetCourseAction extends Action {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        CourseAttributes courseAttributes = logic.getCourse(courseId);
-        if (courseAttributes == null) {
-            throw new EntityNotFoundException("No course with id: " + courseId);
-        }
-        if (!courseAttributes.isMigrated()) {
-            CourseData output = new CourseData(courseAttributes);
-            String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-            if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-                InstructorAttributes instructor = getPossiblyUnregisteredInstructor(courseId);
-                if (instructor != null) {
-                    InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
-                    output.setPrivileges(privilege);
-                }
-            } else if (Const.EntityType.STUDENT.equals(entityType)) {
-                output.hideInformationForStudent();
-            }
-            return new JsonResult(output);
-        } 
 
         Course course = sqlLogic.getCourse(courseId);
         if (course == null) {
-            throw new EntityNotFoundException("No course with id: " + courseId);
+            return this.getFromDatastore(courseId);
         }
+
         CourseData output = new CourseData(course);
         
         String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
@@ -93,6 +76,26 @@ class GetCourseAction extends Action {
             //     InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
             //     output.setPrivileges(privilege);
             // }
+        } else if (Const.EntityType.STUDENT.equals(entityType)) {
+            output.hideInformationForStudent();
+        }
+        return new JsonResult(output);
+    }
+
+    private JsonResult getFromDatastore(String courseId) throws EntityNotFoundException {
+        CourseAttributes courseAttributes = logic.getCourse(courseId);
+        if (courseAttributes == null) {
+            throw new EntityNotFoundException("No course with id: " + courseId);
+        }
+
+        CourseData output = new CourseData(courseAttributes);
+        String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
+            InstructorAttributes instructor = getPossiblyUnregisteredInstructor(courseId);
+            if (instructor != null) {
+                InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
+                output.setPrivileges(privilege);
+            }
         } else if (Const.EntityType.STUDENT.equals(entityType)) {
             output.hideInformationForStudent();
         }
