@@ -36,11 +36,11 @@ ___________________
 5. There is none documentation of the function and the different outcomes.
 
 ### Function 4: `FeedbackMcqQuestionDetails::validateQuestionDetails`
-1.
-2.
-3.
-4.
-5.
+1. This function's complexity was not one of the functions calculated by hand.
+2. This function has 59 LOC, but most of it is comments. It’s a fairly short function with a lot of if-statements.
+3. The purpose of the function is to check that every question is entered correctly. Since there are many options that need to be checked, the complexity will be high. However, the branching is very shallow, so the function is not experienced as complex.
+4. There are no exceptions or assertions in the function.
+5. This function is well documented in its different paths. Almost all if-statements has a comment explaining the branching.
 
 ### Function 5: `GetFeedbackSessionLogsAction::execute`
 1.
