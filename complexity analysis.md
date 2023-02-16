@@ -13,11 +13,11 @@
 ___________________
 
 ### Function 1: `BasicFeedbackSubmissionAction::getRecipientSection`
-1.
-2.
-3.
-4.
-5.
+1. This function's complexity was not calculated by hand.
+2. The number of LOC is not significantly high.
+3. The purpose of this function is to get a section of a recipient of a feedback action. Depending on the value of `giverType`, i.e. the type of user that is giving feedback, and the value of `recipientType`, the outcome of the function differs. Because there are many different combinations of these values, the complexity is high.
+4. There are no exceptions. However, the function includes assertions that seem to be included in the count performed by `lizard`.
+5. The documentation in the code does not contain any information of the outcomes.
 
 
 ### Function 2: `FeedbackSessionsDb::updateFeedbackSession`
