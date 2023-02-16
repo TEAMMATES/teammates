@@ -11,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.FieldValidator;
-
 import teammates.storage.sqlconverter.FeedbackParticipantTypeListConverter;
 
 import jakarta.persistence.Column;
@@ -28,10 +27,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
- * Represents a Question entity.
+ * Represents a FeedbackQuestion
+ *  entity.
  */
 @Entity
-@Table(name = "Question")
+@Table(name = "FeedbackQuestion")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class FeedbackQuestion extends BaseEntity {
     @Id
@@ -89,12 +89,12 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public FeedbackQuestion(
-        FeedbackSession feedbackSession, Integer questionNumber,
-        String description, FeedbackQuestionType questionType,
-        String questionText, FeedbackParticipantType giverType,
-        Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showReponsesTo,
-        List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showReceipientNameTo
-         ) {
+            FeedbackSession feedbackSession, Integer questionNumber,
+            String description, FeedbackQuestionType questionType,
+            String questionText, FeedbackParticipantType giverType,
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
+            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo
+    ) {
         this.setFeedbackSession(feedbackSession);
         this.setQuestionNumber(questionNumber);
         this.setDescription(description);
