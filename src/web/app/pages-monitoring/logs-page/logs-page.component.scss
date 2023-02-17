@@ -19,3 +19,17 @@
   width: 200px;
   display: inline;
 }
+
+@media (max-width: 768px) {
+  .col-6 {
+    width: auto;
+  }
+
+  .col-4 {
+    width: auto;
+  }
+
+  .col-1 {
+    width: auto;
+  }
+}
