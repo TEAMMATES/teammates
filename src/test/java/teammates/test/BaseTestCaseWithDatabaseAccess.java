@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.JsonUtils;
 
 /**
@@ -52,9 +51,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     private EntityAttributes<?> getEntity(EntityAttributes<?> expected) {
         if (expected instanceof AccountAttributes) {
             return getAccount((AccountAttributes) expected);
-
-        } else if (expected instanceof StudentProfileAttributes) {
-            return getStudentProfile((StudentProfileAttributes) expected);
 
         } else if (expected instanceof CourseAttributes) {
             return getCourse((CourseAttributes) expected);
@@ -108,12 +104,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             AccountAttributes actualAccount = (AccountAttributes) actual;
             equalizeIrrelevantData(expectedAccount, actualAccount);
             assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
-
-        } else if (expected instanceof StudentProfileAttributes) {
-            StudentProfileAttributes expectedProfile = ((StudentProfileAttributes) expected).getCopy();
-            StudentProfileAttributes actualProfile = (StudentProfileAttributes) actual;
-            equalizeIrrelevantData(expectedProfile, actualProfile);
-            assertEquals(JsonUtils.toJson(expectedProfile), JsonUtils.toJson(actualProfile));
 
         } else if (expected instanceof CourseAttributes) {
             CourseAttributes expectedCourse = (CourseAttributes) expected;
@@ -188,10 +178,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         expected.setCreatedAt(actual.getCreatedAt());
     }
 
-    private void equalizeIrrelevantData(StudentProfileAttributes expected, StudentProfileAttributes actual) {
-        expected.setModifiedDate(actual.getModifiedDate());
-    }
-
     private void equalizeIrrelevantData(CourseAttributes expected, CourseAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
@@ -247,8 +233,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());
     }
-
-    protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);
 
     protected abstract CourseAttributes getCourse(CourseAttributes course);
 

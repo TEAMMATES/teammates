@@ -34,7 +34,7 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
         class="col"
       >
         <div
-          class="float-right"
+          class="float-end"
         >
           <strong
             class="d-inline"

@@ -41,7 +41,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -50,12 +50,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -65,12 +65,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -80,12 +80,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Example Course 
@@ -95,12 +95,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -109,12 +109,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Fri, 14 Jul 2017, 02:40 AM UTC 
@@ -515,7 +515,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -524,12 +524,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -539,12 +539,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -554,12 +554,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Example Course 
@@ -569,12 +569,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -583,12 +583,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Fri, 14 Jul 2017, 02:40 AM UTC 
@@ -1244,7 +1244,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -1253,12 +1253,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -1268,12 +1268,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -1283,12 +1283,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Example Course 
@@ -1298,12 +1298,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -1312,12 +1312,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Fri, 14 Jul 2017, 02:40 AM UTC 
@@ -1667,7 +1667,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -1676,12 +1676,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -1691,12 +1691,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -1706,12 +1706,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Example Course 
@@ -1721,12 +1721,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -1735,12 +1735,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Fri, 14 Jul 2017, 02:40 AM UTC 
@@ -2055,7 +2055,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -2064,12 +2064,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -2079,12 +2079,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -2094,12 +2094,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Example Course 
@@ -2109,12 +2109,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -2123,12 +2123,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Fri, 14 Jul 2017, 02:40 AM UTC 
@@ -2531,7 +2531,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -2540,12 +2540,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -2555,12 +2555,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -2570,12 +2570,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -2584,12 +2584,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -2598,12 +2598,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                5 Apr 2000 2:00:00 
@@ -2800,7 +2800,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -2809,12 +2809,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -2824,12 +2824,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -2839,12 +2839,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -2853,12 +2853,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -2867,12 +2867,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                5 Apr 2000 2:00:00 
@@ -3573,7 +3573,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -3582,12 +3582,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -3597,12 +3597,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -3612,12 +3612,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Example Course 
@@ -3627,12 +3627,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -3641,12 +3641,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Fri, 14 Jul 2017, 02:40 AM UTC 
@@ -3934,7 +3934,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   <tm-loading-retry>
     <div>
       <div
-        class="card bg-light top-padded text-center text-sm-left"
+        class="card bg-light top-padded text-center text-sm-start"
       >
         <div
           class="card-body"
@@ -3943,12 +3943,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course ID
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                exampleId 
@@ -3958,12 +3958,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Time Zone
             </div>
             <div
-              class="col-md-3 text-md-left"
+              class="col-md-3 text-md-start"
               id="time-zone"
             >
                UTC 
@@ -3973,12 +3973,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Course Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Example Course 
@@ -3988,12 +3988,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Session Name
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
             </div>
@@ -4002,12 +4002,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-bold"
+              class="col-md-2 text-md-end font-bold"
             >
               Original Deadline
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
               id="course-name"
             >
                Fri, 14 Jul 2017, 02:40 AM UTC 

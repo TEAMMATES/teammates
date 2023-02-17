@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
@@ -42,24 +43,37 @@ class CreateFeedbackSessionAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
         CourseAttributes course = logic.getCourse(courseId);
-
         FeedbackSessionCreateRequest createRequest =
                 getAndValidateRequestBody(FeedbackSessionCreateRequest.class);
-
-        String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
 
         String timeZone = course.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 createRequest.getSubmissionStartTime(), timeZone, true);
+        String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
+        if (!startTimeError.isEmpty()) {
+            throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
+        }
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 createRequest.getSubmissionEndTime(), timeZone, true);
+        String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
+        if (!endTimeError.isEmpty()) {
+            throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
+        }
         Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 createRequest.getSessionVisibleFromTime(), timeZone, true);
+        String visibilityStartAndSessionStartTimeError =
+                FieldValidator.getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
+        if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
+            throw new InvalidHttpRequestBodyException("Invalid session visible time: "
+                    + visibilityStartAndSessionStartTimeError);
+        }
         Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 createRequest.getResultsVisibleFromTime(), timeZone, true);
+
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
+
         FeedbackSessionAttributes fs =
                 FeedbackSessionAttributes
                         .builder(feedbackSessionName, course.getId())

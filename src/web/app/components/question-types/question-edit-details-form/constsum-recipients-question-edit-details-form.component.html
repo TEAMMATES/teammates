@@ -12,7 +12,7 @@
           <input id="total-points" type="number" class="form-control" min="1" step="1"
                  [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption">
         </div>
-        <div class="col-sm-9 text-left">
+        <div class="col-sm-9 text-start">
           <b class="ngb-tooltip-class" ngbTooltip="Respondents will have to distribute the total points specified here among the recipients, e.g. if you specify 100 points here and there are 3 recipients, respondents will have to distribute 100 points among 3 recipients.">in total</b>
         </div>
       </label>
@@ -31,12 +31,12 @@
       </label>
     </div>
   </div>
-  <label class="form-row form-check-label col-sm-12 padding-left-33px margin-top-10px">
+  <label class="form-row form-check col-sm-12 padding-left-33px margin-top-10px">
     <div class="col-sm-3">
       <input id="uneven-distribution-checkbox" class="form-check-input" type="checkbox"
              [ngModel]="model.forceUnevenDistribution"
              (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable">
-      <select id="uneven-distribution-dropdown" class="form-control" [ngModel]="model.distributePointsFor"
+      <select id="uneven-distribution-dropdown" class="form-control form-select" [ngModel]="model.distributePointsFor"
               [disabled]="!isEditable || model.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE"
               (ngModelChange)="triggerModelChange('distributePointsFor', $event)">
         <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">

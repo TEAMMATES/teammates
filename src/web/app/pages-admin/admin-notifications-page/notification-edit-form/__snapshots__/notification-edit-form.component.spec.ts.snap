@@ -25,15 +25,9 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
     >
       <button
         aria-label="Close"
-        class="close"
+        class="btn-close float-end"
         type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
+      />
     </div>
     <div
       class="card-body"
@@ -48,7 +42,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -58,10 +52,10 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               </span>
             </div>
             <div
-              class="col-md-auto text-md-left"
+              class="col-md-auto text-md-start"
             >
               <select
-                class="form-control ng-untouched ng-pristine ng-valid"
+                class="form-control form-select ng-untouched ng-pristine ng-valid"
                 id="notification-target-user"
               >
                 <option
@@ -87,7 +81,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -97,10 +91,10 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               </span>
             </div>
             <div
-              class="col-md-auto text-md-left"
+              class="col-md-auto text-md-start"
             >
               <select
-                class="form-control ng-untouched ng-pristine ng-valid"
+                class="form-control form-select ng-untouched ng-pristine ng-valid"
                 id="notification-style"
               >
                 <option
@@ -160,7 +154,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -170,7 +164,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               </span>
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -189,7 +183,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -199,7 +193,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               </span>
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
             >
               <tm-rich-text-editor
                 id="notification-message"
@@ -224,7 +218,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -234,7 +228,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               </span>
             </div>
             <div
-              class="col-md-4 text-md-left"
+              class="col-md-4 text-md-start"
               id="submission-status"
             >
                UTC 
@@ -247,11 +241,11 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               class="col-md-6"
             >
               <div
-                class="col-12 text-md-left"
+                class="col-12 text-md-start"
               >
                 <div>
                   <label
-                    class="ngb-tooltip-class label-control font-weight-bold"
+                    class="ngb-tooltip-class label-control fw-bold"
                     ngbtooltip="Users will be able to see the notification."
                   >
                      Notification start time 
@@ -275,18 +269,14 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                         readonly=""
                         type="text"
                       />
-                      <div
-                        class="input-group-append"
+                      <button
+                        class="btn btn-light input-group-text"
+                        type="button"
                       >
-                        <button
-                          class="btn btn-light"
-                          type="button"
-                        >
-                          <i
-                            class="fas fa-calendar-alt"
-                          />
-                        </button>
-                      </div>
+                        <i
+                          class="fas fa-calendar-alt"
+                        />
+                      </button>
                     </div>
                   </tm-datepicker>
                 </div>
@@ -297,7 +287,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                     id="notification-start-time"
                   >
                     <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
+                      class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
                         value="1: Object"
@@ -436,10 +426,10 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                 class="row text-center"
               >
                 <div
-                  class="col-12 text-md-left ml-md-2"
+                  class="col-12 text-md-start ms-md-2"
                 >
                   <label
-                    class="ngb-tooltip-class label-control font-weight-bold"
+                    class="ngb-tooltip-class label-control fw-bold"
                     ngbtooltip="Notification will be hidden from users."
                   >
                      Notification end time 
@@ -463,18 +453,14 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                         readonly=""
                         type="text"
                       />
-                      <div
-                        class="input-group-append"
+                      <button
+                        class="btn btn-light input-group-text"
+                        type="button"
                       >
-                        <button
-                          class="btn btn-light"
-                          type="button"
-                        >
-                          <i
-                            class="fas fa-calendar-alt"
-                          />
-                        </button>
-                      </div>
+                        <i
+                          class="fas fa-calendar-alt"
+                        />
+                      </button>
                     </div>
                   </tm-datepicker>
                 </div>
@@ -485,7 +471,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                     id="notification-end-time"
                   >
                     <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
+                      class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
                         value="1: Object"
@@ -670,15 +656,9 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
     >
       <button
         aria-label="Close"
-        class="close"
+        class="btn-close float-end"
         type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
+      />
     </div>
     <div
       class="card-body"
@@ -693,7 +673,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -703,10 +683,10 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
               </span>
             </div>
             <div
-              class="col-md-auto text-md-left"
+              class="col-md-auto text-md-start"
             >
               <select
-                class="form-control ng-untouched ng-pristine ng-valid"
+                class="form-control form-select ng-untouched ng-pristine ng-valid"
                 id="notification-target-user"
               >
                 <option
@@ -732,7 +712,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -742,10 +722,10 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
               </span>
             </div>
             <div
-              class="col-md-auto text-md-left"
+              class="col-md-auto text-md-start"
             >
               <select
-                class="form-control ng-untouched ng-pristine ng-valid"
+                class="form-control form-select ng-untouched ng-pristine ng-valid"
                 id="notification-style"
               >
                 <option
@@ -805,7 +785,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -815,7 +795,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
               </span>
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -834,7 +814,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -844,7 +824,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
               </span>
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
             >
               <tm-rich-text-editor
                 id="notification-message"
@@ -869,7 +849,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -879,7 +859,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
               </span>
             </div>
             <div
-              class="col-md-4 text-md-left"
+              class="col-md-4 text-md-start"
               id="submission-status"
             >
                UTC 
@@ -892,11 +872,11 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
               class="col-md-6"
             >
               <div
-                class="col-12 text-md-left"
+                class="col-12 text-md-start"
               >
                 <div>
                   <label
-                    class="ngb-tooltip-class label-control font-weight-bold"
+                    class="ngb-tooltip-class label-control fw-bold"
                     ngbtooltip="Users will be able to see the notification."
                   >
                      Notification start time 
@@ -920,18 +900,14 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                         readonly=""
                         type="text"
                       />
-                      <div
-                        class="input-group-append"
+                      <button
+                        class="btn btn-light input-group-text"
+                        type="button"
                       >
-                        <button
-                          class="btn btn-light"
-                          type="button"
-                        >
-                          <i
-                            class="fas fa-calendar-alt"
-                          />
-                        </button>
-                      </div>
+                        <i
+                          class="fas fa-calendar-alt"
+                        />
+                      </button>
                     </div>
                   </tm-datepicker>
                 </div>
@@ -942,7 +918,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                     id="notification-start-time"
                   >
                     <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
+                      class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
                         value="1: Object"
@@ -1081,10 +1057,10 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                 class="row text-center"
               >
                 <div
-                  class="col-12 text-md-left ml-md-2"
+                  class="col-12 text-md-start ms-md-2"
                 >
                   <label
-                    class="ngb-tooltip-class label-control font-weight-bold"
+                    class="ngb-tooltip-class label-control fw-bold"
                     ngbtooltip="Notification will be hidden from users."
                   >
                      Notification end time 
@@ -1108,18 +1084,14 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                         readonly=""
                         type="text"
                       />
-                      <div
-                        class="input-group-append"
+                      <button
+                        class="btn btn-light input-group-text"
+                        type="button"
                       >
-                        <button
-                          class="btn btn-light"
-                          type="button"
-                        >
-                          <i
-                            class="fas fa-calendar-alt"
-                          />
-                        </button>
-                      </div>
+                        <i
+                          class="fas fa-calendar-alt"
+                        />
+                      </button>
                     </div>
                   </tm-datepicker>
                 </div>
@@ -1130,7 +1102,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                     id="notification-end-time"
                   >
                     <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
+                      class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
                         value="1: Object"
@@ -1315,15 +1287,9 @@ exports[`NotificationEditFormComponent should snap with notification that has be
     >
       <button
         aria-label="Close"
-        class="close"
+        class="btn-close float-end"
         type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
+      />
     </div>
     <div
       class="card-body"
@@ -1355,7 +1321,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -1365,10 +1331,10 @@ exports[`NotificationEditFormComponent should snap with notification that has be
               </span>
             </div>
             <div
-              class="col-md-auto text-md-left"
+              class="col-md-auto text-md-start"
             >
               <select
-                class="form-control ng-untouched ng-pristine ng-valid"
+                class="form-control form-select ng-untouched ng-pristine ng-valid"
                 id="notification-target-user"
               >
                 <option
@@ -1394,7 +1360,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -1404,10 +1370,10 @@ exports[`NotificationEditFormComponent should snap with notification that has be
               </span>
             </div>
             <div
-              class="col-md-auto text-md-left"
+              class="col-md-auto text-md-start"
             >
               <select
-                class="form-control ng-untouched ng-pristine ng-valid"
+                class="form-control form-select ng-untouched ng-pristine ng-valid"
                 id="notification-style"
               >
                 <option
@@ -1467,7 +1433,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -1477,7 +1443,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
               </span>
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -1496,7 +1462,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -1506,7 +1472,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
               </span>
             </div>
             <div
-              class="col-md-10 text-md-left"
+              class="col-md-10 text-md-start"
             >
               <tm-rich-text-editor
                 id="notification-message"
@@ -1531,7 +1497,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
             class="row text-center"
           >
             <div
-              class="col-md-2 text-md-right font-weight-bold"
+              class="col-md-2 text-md-end fw-bold"
             >
               <span
                 class="ngb-tooltip-class"
@@ -1541,7 +1507,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
               </span>
             </div>
             <div
-              class="col-md-4 text-md-left"
+              class="col-md-4 text-md-start"
               id="submission-status"
             >
                UTC 
@@ -1554,11 +1520,11 @@ exports[`NotificationEditFormComponent should snap with notification that has be
               class="col-md-6"
             >
               <div
-                class="col-12 text-md-left"
+                class="col-12 text-md-start"
               >
                 <div>
                   <label
-                    class="ngb-tooltip-class label-control font-weight-bold"
+                    class="ngb-tooltip-class label-control fw-bold"
                     ngbtooltip="Users will be able to see the notification."
                   >
                      Notification start time 
@@ -1582,18 +1548,14 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                         readonly=""
                         type="text"
                       />
-                      <div
-                        class="input-group-append"
+                      <button
+                        class="btn btn-light input-group-text"
+                        type="button"
                       >
-                        <button
-                          class="btn btn-light"
-                          type="button"
-                        >
-                          <i
-                            class="fas fa-calendar-alt"
-                          />
-                        </button>
-                      </div>
+                        <i
+                          class="fas fa-calendar-alt"
+                        />
+                      </button>
                     </div>
                   </tm-datepicker>
                 </div>
@@ -1604,7 +1566,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                     id="notification-start-time"
                   >
                     <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
+                      class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
                         value="1: Object"
@@ -1743,10 +1705,10 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                 class="row text-center"
               >
                 <div
-                  class="col-12 text-md-left ml-md-2"
+                  class="col-12 text-md-start ms-md-2"
                 >
                   <label
-                    class="ngb-tooltip-class label-control font-weight-bold"
+                    class="ngb-tooltip-class label-control fw-bold"
                     ngbtooltip="Notification will be hidden from users."
                   >
                      Notification end time 
@@ -1770,18 +1732,14 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                         readonly=""
                         type="text"
                       />
-                      <div
-                        class="input-group-append"
+                      <button
+                        class="btn btn-light input-group-text"
+                        type="button"
                       >
-                        <button
-                          class="btn btn-light"
-                          type="button"
-                        >
-                          <i
-                            class="fas fa-calendar-alt"
-                          />
-                        </button>
-                      </div>
+                        <i
+                          class="fas fa-calendar-alt"
+                        />
+                      </button>
                     </div>
                   </tm-datepicker>
                 </div>
@@ -1792,7 +1750,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                     id="notification-end-time"
                   >
                     <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
+                      class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
                         value="1: Object"

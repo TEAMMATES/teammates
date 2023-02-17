@@ -24,7 +24,7 @@
   <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
     <thead>
     <tr>
-      <th scope="col" class="text-left">User/Group</th>
+      <th scope="col" class="text-start">User/Group</th>
       <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControl | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
     </tr>
     </thead>

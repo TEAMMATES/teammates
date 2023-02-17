@@ -36,23 +36,19 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           id="search-box"
           type="text"
         />
-        <div
-          class="input-group-append"
+        <button
+          class="btn btn-primary input-group-text"
+          id="search-button"
         >
-          <button
-            class="btn btn-primary"
-            id="search-button"
-          >
-            Search
-          </button>
-        </div>
+          Search
+        </button>
       </div>
     </div>
   </div><div
     class="card bg-light top-padded"
   >
     <div
-      class="card-header bg-info text-white"
+      class="card-header bg-info"
     >
       <strong>
         Instructors Found
@@ -364,16 +360,12 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
           id="search-box"
           type="text"
         />
-        <div
-          class="input-group-append"
+        <button
+          class="btn btn-primary input-group-text"
+          id="search-button"
         >
-          <button
-            class="btn btn-primary"
-            id="search-button"
-          >
-            Search
-          </button>
-        </div>
+          Search
+        </button>
       </div>
     </div>
   </div>
@@ -416,16 +408,12 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
           id="search-box"
           type="text"
         />
-        <div
-          class="input-group-append"
+        <button
+          class="btn btn-primary input-group-text"
+          id="search-button"
         >
-          <button
-            class="btn btn-primary"
-            id="search-button"
-          >
-            Search
-          </button>
-        </div>
+          Search
+        </button>
       </div>
     </div>
   </div><div
@@ -532,7 +520,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                   </strong>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
               </ul>
@@ -581,23 +569,19 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           id="search-box"
           type="text"
         />
-        <div
-          class="input-group-append"
+        <button
+          class="btn btn-primary input-group-text"
+          id="search-button"
         >
-          <button
-            class="btn btn-primary"
-            id="search-button"
-          >
-            Search
-          </button>
-        </div>
+          Search
+        </button>
       </div>
     </div>
   </div><div
     class="card bg-light top-padded"
   >
     <div
-      class="card-header bg-info text-white"
+      class="card-header bg-info"
     >
       <strong>
         Instructors Found
@@ -732,7 +716,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -743,7 +727,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -754,7 +738,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -765,7 +749,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -776,7 +760,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -787,7 +771,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
               </ul>
@@ -836,16 +820,12 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           id="search-box"
           type="text"
         />
-        <div
-          class="input-group-append"
+        <button
+          class="btn btn-primary input-group-text"
+          id="search-button"
         >
-          <button
-            class="btn btn-primary"
-            id="search-button"
-          >
-            Search
-          </button>
-        </div>
+          Search
+        </button>
       </div>
     </div>
   </div><div
@@ -998,7 +978,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </strong>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -1016,7 +996,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -1035,7 +1015,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -1054,7 +1034,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -1073,7 +1053,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
                 <li
@@ -1092,7 +1072,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    readonly=""
+                    disabled=""
                   />
                 </li>
               </ul>
@@ -1141,16 +1121,12 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
           id="search-box"
           type="text"
         />
-        <div
-          class="input-group-append"
+        <button
+          class="btn btn-primary input-group-text"
+          id="search-button"
         >
-          <button
-            class="btn btn-primary"
-            id="search-button"
-          >
-            Search
-          </button>
-        </div>
+          Search
+        </button>
       </div>
     </div>
   </div>

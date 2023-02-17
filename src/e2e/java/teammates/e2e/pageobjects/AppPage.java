@@ -213,6 +213,7 @@ public abstract class AppPage {
      */
     public void waitForConfirmationModalAndClickOk() {
         waitForModalShown();
+        waitForElementVisibility(By.className("modal-btn-ok"));
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
         clickDismissModalButtonAndWaitForModalHidden(okayButton);
@@ -357,7 +358,7 @@ public abstract class AppPage {
 
         selectDropdownOptionByText(yearPicker, year);
         selectDropdownOptionByText(monthPicker, month);
-        dayPicker.findElement(By.cssSelector(String.format("[aria-label='%s']", date))).click();
+        click(dayPicker.findElement(By.cssSelector(String.format("[aria-label='%s']", date))));
     }
 
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
@@ -434,6 +435,7 @@ public abstract class AppPage {
      * Selects option in dropdown based on visible text.
      */
     protected void selectDropdownOptionByText(WebElement dropdown, String text) {
+        scrollElementToCenter(dropdown);
         Select select = new Select(dropdown);
         select.selectByVisibleText(text);
     }
@@ -442,6 +444,7 @@ public abstract class AppPage {
      * Selects option in dropdown based on value.
      */
     protected void selectDropdownOptionByValue(WebElement dropdown, String value) {
+        scrollElementToCenter(dropdown);
         Select select = new Select(dropdown);
         select.selectByValue(value);
     }
@@ -591,6 +594,7 @@ public abstract class AppPage {
      */
     void scrollElementToCenter(WebElement element) {
         executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
+        ThreadHelper.waitFor(1000);
     }
 
     /**

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -40,6 +40,7 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -142,6 +143,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   hasCourseLoadingFailed: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+
   constructor(statusMessageService: StatusMessageService,
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
@@ -153,12 +156,12 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               simpleModalService: SimpleModalService,
               progressBarService: ProgressBarService,
               feedbackSessionActionsService: FeedbackSessionActionsService,
+              timezoneService: TimezoneService,
               private courseService: CourseService,
-              private route: ActivatedRoute,
-              private timezoneService: TimezoneService) {
+              private route: ActivatedRoute) {
     super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModalService,
-        simpleModalService, progressBarService, feedbackSessionActionsService, studentService);
+        simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService, studentService);
   }
 
   ngOnInit(): void {
@@ -187,6 +190,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         this.sessionsTableRowModels.map((model: SessionsTableRowModel) => model.feedbackSession);
 
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
+      this.coursesOfModifiedSession = [];
+      this.modifiedSession = {};
       this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
         result.fromFeedbackSession.courseId)
           .pipe(finalize(() => {
@@ -194,9 +199,22 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           }))
           .subscribe({
             next: (createdFeedbackSession: FeedbackSession) => {
-              this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
-                  'The feedback session has been copied. Please modify settings/questions as necessary.',
-                  { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
+              if (this.coursesOfModifiedSession.length > 0) {
+                this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
+                    SimpleModalType.WARNING, this.modifiedTimestampsModal,
+                    {
+                      onClosed: () => this.navigationService.navigateByURLWithParamEncoding(
+                          '/web/instructor/sessions/edit',
+                          {
+                            courseid: createdFeedbackSession.courseId,
+                            fsname: createdFeedbackSession.feedbackSessionName,
+                          }),
+                    });
+              } else {
+                this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
+                    'The feedback session has been copied. Please modify settings/questions as necessary.',
+                    { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
+              }
             },
             error: (resp: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(
@@ -254,7 +272,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     }
 
     // set opening time to near future
-    const nearFuture: moment.Moment = moment().add(1, 'hours');
+    const nearFuture: moment.Moment = moment().tz(this.sessionEditFormModel.timeZone).add(1, 'hours');
     this.sessionEditFormModel.submissionStartDate = {
       year: nearFuture.year(),
       month: nearFuture.month() + 1, // moment return 0-11 for month
@@ -265,7 +283,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       hour: nearFuture.hour() === 0 ? 23 : nearFuture.hour(),
     };
     // set the closing time to tomorrow
-    const tomorrow: moment.Moment = moment().add(1, 'days');
+    const tomorrow: moment.Moment = moment().tz(this.sessionEditFormModel.timeZone).add(1, 'days');
     this.sessionEditFormModel.submissionEndDate = {
       year: tomorrow.year(),
       month: tomorrow.month() + 1, // moment return 0-11 for month
@@ -510,10 +528,12 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   copySessionEventHandler(result: CopySessionResult): void {
     this.isCopySessionLoading = true;
     this.failedToCopySessions = {};
+    this.coursesOfModifiedSession = [];
+    this.modifiedSession = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0]);
+      this.copySingleSession(requestList[0], this.modifiedTimestampsModal);
     }
     if (requestList.length > 1) {
       forkJoin(requestList).pipe(finalize(() => {
@@ -531,7 +551,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               this.sessionsTableRowModels.push(model);
             });
           }
-          this.showCopyStatusMessage();
+          this.showCopyStatusMessage(this.modifiedTimestampsModal);
         });
     }
   }

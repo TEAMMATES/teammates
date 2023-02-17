@@ -32,9 +32,6 @@ exports[`StudentListComponent should snap with default fields 1`] = `
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
             class="sortable-header"
           >
@@ -131,9 +128,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
             class="sortable-header"
           >
@@ -208,16 +202,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 1
           </td>
           <td>
@@ -279,16 +263,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -352,16 +326,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 2
           </td>
           <td>
@@ -417,16 +381,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -518,9 +472,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
             class="sortable-header"
           >
@@ -595,16 +546,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 1
           </td>
           <td>
@@ -667,16 +608,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 1
           </td>
           <td>
@@ -733,16 +664,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 2
           </td>
           <td>
@@ -798,16 +719,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -899,9 +810,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
             class="sortable-header"
           >
@@ -976,16 +884,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 1
           </td>
           <td>
@@ -1041,16 +939,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1108,16 +996,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 2
           </td>
           <td>
@@ -1173,16 +1051,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -1274,9 +1142,6 @@ exports[`StudentListComponent should snap with some student list data and some s
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
             class="sortable-header"
           >
@@ -1352,16 +1217,6 @@ exports[`StudentListComponent should snap with some student list data and some s
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 1
           </td>
           <td>
@@ -1417,16 +1272,6 @@ exports[`StudentListComponent should snap with some student list data and some s
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1485,16 +1330,6 @@ exports[`StudentListComponent should snap with some student list data and some s
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 2
           </td>
           <td>
@@ -1550,16 +1385,6 @@ exports[`StudentListComponent should snap with some student list data and some s
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -1651,9 +1476,6 @@ exports[`StudentListComponent should snap with some student list data when not a
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
             class="sortable-header"
           >
@@ -1728,16 +1550,6 @@ exports[`StudentListComponent should snap with some student list data when not a
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 1
           </td>
           <td>
@@ -1793,16 +1605,6 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1860,16 +1662,6 @@ exports[`StudentListComponent should snap with some student list data when not a
           s=""
         >
           <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
-          <td>
             Tutorial Group 2
           </td>
           <td>
@@ -1925,16 +1717,6 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -2026,9 +1808,6 @@ exports[`StudentListComponent should snap with some student list data with no se
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
             class="sortable-header"
           >
@@ -2090,16 +1869,6 @@ exports[`StudentListComponent should snap with some student list data with no se
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Team 1
           </td>
@@ -2189,9 +1958,6 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
         hidden=""
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
             class="sortable-header"
           >

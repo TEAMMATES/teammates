@@ -1,10 +1,8 @@
-<tm-loading-retry [shouldShowRetry]="hasStudentLoadingFailed || hasStudentProfileLoadingFailed" (retryEvent)="loadStudentDetails(courseId, studentEmail)" [message]="'Failed to load students'">
+<tm-loading-retry [shouldShowRetry]="hasStudentLoadingFailed" (retryEvent)="loadStudentDetails(courseId, studentEmail)" [message]="'Failed to load students'">
   <div *tmIsLoading="isStudentLoading">
     <ng-container *ngIf="student">
       <h1 id="student-name">{{student?.name}}</h1>
-      <tm-student-profile *tmIsLoading="isStudentProfileLoading" [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
       <tm-course-related-info [student]="student"></tm-course-related-info>
-      <tm-more-info [studentName]="student?.name" [moreInfoText]="studentProfile?.moreInfo"></tm-more-info>
     </ng-container>
   </div>
 </tm-loading-retry>

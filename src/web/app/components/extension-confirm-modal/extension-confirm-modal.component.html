@@ -2,9 +2,7 @@
   <div class="modal-header" [ngClass]="{'alert-primary': isExtendModal(), 'alert-danger' : isDeleteModal() || isSessionDeleteModal()}">
     <h5 class="modal-title" *ngIf="isExtendModal()">Confirm extension of feedback session</h5>
     <h5 class="modal-title" *ngIf="isDeleteModal() || isSessionDeleteModal()">Confirm deletion of feedback session extensions</h5>
-    <button type="button" class="close" (click)="activeModal.dismiss()">
-      <i class="fas fa-times"></i>
-    </button>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
   </div>
 
   <div class="modal-body">

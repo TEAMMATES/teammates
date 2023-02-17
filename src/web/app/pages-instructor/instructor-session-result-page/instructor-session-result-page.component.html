@@ -3,7 +3,7 @@
 </h1>
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, fsName)">
   <div *tmIsLoading="isFeedbackSessionLoading">
-    <div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
+    <div class="card bg-light top-padded text-center text-sm-start" *ngIf="session">
       <div class="card-body row info-card-padding">
         <div class="col-sm-12 col-md-12 col-lg-4">
           <div class="form-group row">

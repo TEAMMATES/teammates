@@ -30,13 +30,9 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
         Confirm extension of feedback session
       </h5>
       <button
-        class="close"
+        class="btn-close"
         type="button"
-      >
-        <i
-          class="fas fa-times"
-        />
-      </button>
+      />
     </div>
     <div
       class="modal-body"

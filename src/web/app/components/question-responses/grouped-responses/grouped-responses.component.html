@@ -3,18 +3,12 @@
   <div id="users-details" class="col-md-3">
     <div>
       {{ isGrq ? 'To' : 'From' }}:
-      <tm-student-name-with-photo [name]="responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']"
-                       [email]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']]"
-                       [courseId]="session.courseId"
-      ></tm-student-name-with-photo>
+      {{ responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver'] === '-' ? 'No Specific User' : responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver'] }}
       {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
     </div>
     <div class="top-padded">
       {{ isGrq ? 'From' : 'To' }}:
-      <tm-student-name-with-photo [name]="this.responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']"
-                       [email]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']]"
-                       [courseId]="session.courseId"
-      ></tm-student-name-with-photo>
+      {{ responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient'] === '-' ? 'No Specific User' : responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient'] }}
       {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
     </div>
     <div class="top-padded">
@@ -26,11 +20,11 @@
   <div class="col-md-9">
     <div id="question-panel" *ngFor="let response of responses">
       <div class="card bottom-padded alert-primary-border">
-        <div class="card-header alert-primary">
+        <div class="card-header alert alert-primary alert-no-bottom">
           <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
-          <div id="response" class="row" style="margin: 0;">
+          <div id="response" style="margin: 0;">
             <tm-single-response
                     [class.color-neutral]="response.allResponses[0].isMissingResponse"
                     [responseDetails]="response.allResponses[0].responseDetails"

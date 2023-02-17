@@ -33,7 +33,6 @@
                   [licenseKey]="'non-commercial-and-evaluation'"
                   [hotId]="existingStudentsHOT"
                   [readOnly]="true"
-                  [height]="400"
                   [autoWrapRow]="true"
                   [preventOverflow]="'horizontal'"
                   [manualColumnResize]="true"
@@ -46,13 +45,14 @@
                   [maxCols]="5"
                   [autoRowSize]="true"
                   [stretchH]="'all'"
+                  [renderAllRows]="true"
                   [hidden]="isExistingStudentsPanelCollapsed" @collapseAnim>
               </hot-table>
             </div>
 
             <div *ngIf="enrollErrorMessage" class="card card-default">
               <div class="card-body bg-danger text-white">
-                <button class="float-right fas fa-times close" (click)="enrollErrorMessage = ''"></button>
+                <button class="float-end fas fa-times close" (click)="enrollErrorMessage = ''"></button>
                 {{ enrollErrorMessage }}
               </div>
             </div>
@@ -67,7 +67,6 @@
               <hot-table
                   [licenseKey]="'non-commercial-and-evaluation'"
                   [hotId]="newStudentsHOT"
-                  [height]="500"
                   [autoWrapRow]="true"
                   [preventOverflow]="'horizontal'"
                   [manualColumnResize]="true"
@@ -81,6 +80,7 @@
                   [autoRowSize]="true"
                   [stretchH]="'all'"
                   [minSpareRows]="1"
+                  [renderAllRows]="true"
                   [contextMenu]="contextMenuOptions"
                   [hidden]="isNewStudentsPanelCollapsed">
               </hot-table>
@@ -101,7 +101,7 @@
                     title="Enroll"
                     id="btn-enroll"
                     name="button-enroll"
-                    class="btn btn-success float-right"
+                    class="btn btn-success float-end"
                     [disabled]="isEnrolling"
                     (click)="submitEnrollData()">
                   <tm-progress-bar *ngIf="isEnrolling"></tm-progress-bar>
@@ -111,10 +111,18 @@
               </div>
             </div>
             <div class="row mt-3" style="align-items: center;">
-              <div class="box red-box"></div><span class="mr-5">Student failed to be enrolled</span>
-              <div class="box green-box"></div><span class="mr-5">Student added</span>
-              <div class="box yellow-box"></div><span class="mr-5">Student modified</span>
-              <div class="box grey-box"></div><span class="mr-5">Student updated with no changes</span>
+              <div class="col-md-3">
+                <div class="box red-box"></div><div>Student failed to be enrolled</div>
+              </div>
+              <div class="col-md-2">
+                <div class="box green-box"></div><div>Student added</div>
+              </div>
+              <div class="col-md-2">
+                <div class="box yellow-box"></div><div>Student modified</div>
+              </div>
+              <div class="col-md-4">
+                <div class="box grey-box"></div><div>Student updated with no changes</div>
+              </div>
             </div>
           </div>
         </div>

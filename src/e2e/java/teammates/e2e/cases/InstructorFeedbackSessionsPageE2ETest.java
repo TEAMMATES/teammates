@@ -2,9 +2,9 @@ package teammates.e2e.cases;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -50,13 +50,17 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedCourse = testData.courses.get("course2");
 
         openSession = testData.feedbackSessions.get("openSession");
+        // To ensure the openSession is always open
+        openSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedCourse.getTimeZone())).plus(Duration.ofDays(182))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
         closedSession = testData.feedbackSessions.get("closedSession");
-        int currentYear = LocalDate.now().getYear();
         newSession = FeedbackSessionAttributes
                 .builder("New Session", course.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(LocalDateTime.of(currentYear + 8, 1, 2, 12, 0).atZone(ZoneId.of("UTC")).toInstant())
-                .withEndTime(LocalDateTime.of(currentYear + 8, 1, 3, 12, 0).atZone(ZoneId.of("UTC")).toInstant())
+                .withStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(2))
+                        .truncatedTo(ChronoUnit.DAYS).toInstant())
+                .withEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
+                        .truncatedTo(ChronoUnit.DAYS).toInstant())
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(Duration.ZERO)
@@ -109,10 +113,14 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         copiedSession.setCourseId(course.getId());
         copiedSession.setFeedbackSessionName(newName);
         copiedSession.setCreatedTime(Instant.now());
+        copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(2))
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
+        copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone())).plus(Duration.ofDays(180))
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
+        copiedSession.setSessionVisibleFromTime(ZonedDateTime.now(ZoneId.of(copiedSession.getTimeZone()))
+                .minus(Duration.ofDays(28)).truncatedTo(ChronoUnit.HOURS).toInstant());
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
 
-        feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
-                        + "Please modify settings/questions as necessary.");
         feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.verifySessionDetails(copiedSession);
@@ -120,11 +128,10 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("copy session");
         newName = "Copied Name 2";
-        FeedbackSessionAttributes copiedSession2 = openSession.getCopy();
-        copiedSession2.setCourseId(course.getId());
+        FeedbackSessionAttributes copiedSession2 = copiedSession.getCopy();
         copiedSession2.setFeedbackSessionName(newName);
         copiedSession2.setCreatedTime(Instant.now());
-        feedbackSessionsPage.copySession(openSession, course, newName);
+        feedbackSessionsPage.copySession(copiedSession, course, newName);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");

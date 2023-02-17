@@ -5,7 +5,7 @@
       <div class="card-body fill-plain">
         <ng-container *ngIf="course.courseId">
           <div class="row">
-            <div class="col-3 text-right">
+            <div class="col-3 text-end">
               <label>Course ID:</label>
             </div>
             <div class="col-9">
@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 text-right">
+            <div class="col-3 text-end">
               <label>Course name:</label>
             </div>
             <div class="col-9">
@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 text-right">
+            <div class="col-3 text-end">
               <label>Course institute:</label>
             </div>
             <div class="col-9">
@@ -31,7 +31,7 @@
         </ng-container>
         <ng-container *ngIf="instructorDetails && instructorDetails.length">
           <div class="row">
-            <div class="col-3 text-right">
+            <div class="col-3 text-end">
               <label>Instructors:</label>
             </div>
             <div class="col-9" style="margin-bottom: .5rem;" id="instructors">
@@ -44,7 +44,7 @@
         </ng-container>
         <ng-container *ngIf="student.courseId">
           <div class="row">
-            <div class="col-3 text-right">
+            <div class="col-3 text-end">
               <label>Your section:</label>
             </div>
             <div class="col-9">
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 text-right">
+            <div class="col-3 text-end">
               <label>Your team:</label>
             </div>
             <div class="col-9">
@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 text-right">
+            <div class="col-3 text-end">
               <label>Your name:</label>
             </div>
             <div class="col-9">
@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 text-right">
+            <div class="col-3 text-end">
               <label>Your email:</label>
             </div>
             <div class="col-9">
@@ -85,9 +85,6 @@
       <div class="btn-group" data-toggle="buttons">
         <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_NAME)" (click)="sortTeammatesBy(SortBy.RESPONDENT_NAME)">Name</button>
         <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_EMAIL)" (click)="sortTeammatesBy(SortBy.RESPONDENT_EMAIL)">Email</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_GENDER)" (click)="sortTeammatesBy(SortBy.STUDENT_GENDER)">Gender</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION)" (click)="sortTeammatesBy(SortBy.INSTITUTION)">Institution</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NATIONALITY)" (click)="sortTeammatesBy(SortBy.NATIONALITY)">Nationality</button>
       </div>
     </div>
   </div>
@@ -102,24 +99,12 @@
       <table>
         <tbody>
         <tr *ngFor="let teammateProfile of teammateProfiles; let i = index">
-          <td class="team-member-photo-cell">
-            <img src="{{ teammateProfile.photoUrl }}" class="profile-pic" (error)="setDefaultPic(teammateProfile)">
-          </td>
           <td class="team-member-profile-cell" id="teammates-details-{{ i }}">
             <div>
               <label>Name:</label> {{ teammateProfile.name }}
             </div>
             <div>
               <label>Email:</label>&nbsp;<a href="mailto:{{ teammateProfile.email }}">{{ teammateProfile.email }}</a>
-            </div>
-            <div *ngIf="teammateProfile.gender">
-              <label>Gender:</label> {{ teammateProfile.gender | genderFormat }}
-            </div>
-            <div *ngIf="teammateProfile.nationality">
-              <label>Nationality:</label> {{ teammateProfile.nationality }}
-            </div>
-            <div *ngIf="teammateProfile.institute">
-              <label>Institute:</label> {{ teammateProfile.institute }}
             </div>
           </td>
         </tr>
