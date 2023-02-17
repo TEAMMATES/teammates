@@ -61,7 +61,6 @@
     <div class="row">
       <div class="evaluee-col col-12">
         <div class="row" *ngFor="let recipientSubmissionFormModel of model.recipientSubmissionForms; let i = index; trackBy: trackRecipientSubmissionFormByFn">
-<<<<<<< HEAD
           <!-- When questions are grouped by recipients, only show the question edit answer form for that particular recipients-->
           <ng-container *ngIf="currentSelectedSessionView === allSessionViews.DEFAULT || (currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS && recipientId === recipientSubmissionFormModel.recipientIdentifier)">
             <div class="col-md-5 col-xs-12 margin-top-20px" *ngIf="model.recipientType !== FeedbackParticipantType.SELF && model.recipientType !== FeedbackParticipantType.NONE">
