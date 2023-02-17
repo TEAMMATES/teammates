@@ -123,7 +123,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
   hasLoadedAllRecipients: boolean = false;
   // Records the recipient to groupable questions mapping used in grouping questions by recipients view
-  recipientQuestionMap: Map<string, Set<any>> = new Map<string, Set<any>>();
+  recipientQuestionMap: Map<string, Set<number>> = new Map<string, Set<number>>();
   ungroupableQuestions: Set<number> = new Set();
   ungroupableQuestionsSorted: number[] = [];
 
@@ -1004,10 +1004,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   saveResponsesForSelectedRecipientQuestions(recipientId: string,
     questionSubmissionForms: QuestionSubmissionFormModel[]): void {
-    const questionsToRecipient: Set<number> = this.recipientQuestionMap.get(recipientId) || new Set();
+    const questionsToRecipient: Set<number> | undefined = this.recipientQuestionMap.get(recipientId);
+    if (!questionsToRecipient) {
+      this.statusMessageService.showErrorToast('Failed to save response for this recipient. '
+          + 'Please switch back to \"Group by Question\" view to save responses.')
+    }
     const recipientQSForms = questionSubmissionForms
       .filter((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
-          questionsToRecipient.has(questionSubmissionFormModel.questionNumber));
+          questionsToRecipient!.has(questionSubmissionFormModel.questionNumber));
 
     this.saveFeedbackResponses(recipientQSForms);
   }
@@ -1039,59 +1043,60 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Group questions by recipients in {@code GROUP_RECIPIENTS} view.
    */
   groupQuestionsByRecipient(): void {
-    if (!this.hasLoadedAllRecipients) {
-      // We first need to load the recipient for all the questions. This is because questions with
-      // FIXED_RECIPIENT question submission mode are ungroupable and to know whether the question
-      // submission mode of a question, we need to load the recipient list first.
-      const recipientsObservables: Observable<FeedbackQuestionRecipients>[] = [];
-      const questionsToBeLoaded: QuestionSubmissionFormModel[] = [];
-
-      this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
-        if (!model.isLoading && !model.isLoaded) {
-          questionsToBeLoaded.push(model);
-          recipientsObservables.push(this.feedbackQuestionsService.loadFeedbackQuestionRecipients({
-            questionId: model.feedbackQuestionId,
-            intent: this.intent,
-            key: this.regKey,
-            moderatedPerson: this.moderatedPerson,
-            previewAs: this.previewAsPerson,
-          }));
-        }
-      });
-
-      // Find the groupable and ungroupable questions and construct the recipient to question mapping.
-      forkJoin(recipientsObservables)
-          .pipe(finalize(() => {
-            this.ungroupableQuestionsSorted = Array.from(this.ungroupableQuestions).sort();
-            this.hasLoadedAllRecipients = true;
-          }))
-          .subscribe({
-            next: (recipients: FeedbackQuestionRecipients[]) => {
-                for (let i = 0; i < recipients.length; i += 1) {
-                  const question: QuestionSubmissionFormModel = questionsToBeLoaded[i];
-                  // Only questions with question submission form mode being FIXED_RECIPIENT and with question type
-                  // not being CONSTSUM_RECIPIENTS, RANK_RECIPIENTS, and CONTRIB, are the groupable questions.
-                  if (this.getQuestionSubmissionFormMode(question, recipients[i].recipients.length)
-                      === QuestionSubmissionFormMode.FIXED_RECIPIENT
-                      && question.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS
-                      && question.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
-                      && question.questionType !== FeedbackQuestionType.CONTRIB) {
-
-                    for (let j = 0; j < recipients[i].recipients.length; j += 1) {
-                      const recipient: FeedbackQuestionRecipient = recipients[i].recipients[j];
-                      this.addQuestionForRecipient(recipient.identifier, question.questionNumber);
-                    }
-                  } else {
-                    this.ungroupableQuestions.add(question.questionNumber);
-                  }
-                }
-              },
-              error: () => {
-                this.statusMessageService.showWarningToast('Failed to build groupable questions');
-              },
-            },
-          );
+    if (this.hasLoadedAllRecipients) {
+      return;
     }
+    // We first need to load the recipient for all the questions. This is because questions with
+    // FIXED_RECIPIENT question submission mode are ungroupable and to know whether the question
+    // submission mode of a question, we need to load the recipient list first.
+    const recipientsObservables: Observable<FeedbackQuestionRecipients>[] = [];
+    const questionsToBeLoaded: QuestionSubmissionFormModel[] = [];
+
+    this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
+      if (!model.isLoading && !model.isLoaded) {
+        questionsToBeLoaded.push(model);
+        recipientsObservables.push(this.feedbackQuestionsService.loadFeedbackQuestionRecipients({
+          questionId: model.feedbackQuestionId,
+          intent: this.intent,
+          key: this.regKey,
+          moderatedPerson: this.moderatedPerson,
+          previewAs: this.previewAsPerson,
+        }));
+      }
+    });
+
+    // Find the groupable and ungroupable questions and construct the recipient to question mapping.
+    forkJoin(recipientsObservables)
+        .pipe(finalize(() => {
+          this.ungroupableQuestionsSorted = Array.from(this.ungroupableQuestions).sort();
+          this.hasLoadedAllRecipients = true;
+        }))
+        .subscribe({
+          next: (recipients: FeedbackQuestionRecipients[]) => {
+              for (let i = 0; i < recipients.length; i += 1) {
+                const question: QuestionSubmissionFormModel = questionsToBeLoaded[i];
+                // Only questions with question submission form mode being FIXED_RECIPIENT and with question type
+                // not being CONSTSUM_RECIPIENTS, RANK_RECIPIENTS, and CONTRIB, are the groupable questions.
+                if (this.getQuestionSubmissionFormMode(question, recipients[i].recipients.length)
+                    === QuestionSubmissionFormMode.FIXED_RECIPIENT
+                    && question.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS
+                    && question.questionType !== FeedbackQuestionType.RANK_RECIPIENTS
+                    && question.questionType !== FeedbackQuestionType.CONTRIB) {
+
+                  for (let j = 0; j < recipients[i].recipients.length; j += 1) {
+                    const recipient: FeedbackQuestionRecipient = recipients[i].recipients[j];
+                    this.addQuestionForRecipient(recipient.identifier, question.questionNumber);
+                  }
+                } else {
+                  this.ungroupableQuestions.add(question.questionNumber);
+                }
+              }
+            },
+            error: () => {
+              this.statusMessageService.showWarningToast('Failed to build groupable questions');
+            },
+          },
+        );
   }
 
   /**

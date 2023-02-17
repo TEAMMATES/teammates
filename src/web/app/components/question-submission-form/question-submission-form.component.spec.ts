@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { replacer, reviver } from '../../../test-helpers/json-helpers';
+import { mapReplacer, mapReviver } from '../../../test-helpers/json-helpers';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
@@ -149,7 +149,7 @@ describe('QuestionSubmissionFormComponent', () => {
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Sorted recipient list)',
    () => {
     const model: QuestionSubmissionFormModel = JSON.parse(
-        JSON.stringify(testNumscaleQuestionSubmissionForm, replacer), reviver);
+        JSON.stringify(testNumscaleQuestionSubmissionForm, mapReplacer), mapReviver);
     component.formModel = model;
     component.ngDoCheck();
 
@@ -159,7 +159,7 @@ describe('QuestionSubmissionFormComponent', () => {
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Unsorted recipient list)',
     () => {
       const model: QuestionSubmissionFormModel = JSON.parse(
-          JSON.stringify(testNumscaleQuestionSubmissionForm, replacer), reviver);
+          JSON.stringify(testNumscaleQuestionSubmissionForm, mapReplacer), mapReviver);
 
       // Change recipient list to unsorted
       model.recipientList = [{ recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id' },
