@@ -2,6 +2,7 @@ package teammates.ui.output;
 
 import javax.annotation.Nullable;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 
 /**

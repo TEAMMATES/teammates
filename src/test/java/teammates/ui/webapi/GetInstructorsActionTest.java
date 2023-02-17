@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorData;
-import teammates.ui.output.InstructorPermissionRole;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.output.JoinState;
 import teammates.ui.request.Intent;
