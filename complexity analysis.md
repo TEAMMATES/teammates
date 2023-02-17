@@ -66,11 +66,11 @@ ___________________
 
 
 ### Function 8: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions`
-1.
-2.
-3.
-4.
-5.
+1. Both of the people that worked on it got the same result: CC=16. We used lizard to calculate the CC of the function, and same result was shown. 
+2. This function has 82 LOC, which is fairly large for one function. I beilieve it would make sens to try to divide the method into submethods, as the function seems to do multiple steps(4 detected). Given that there's only 3 possible exit points, the function has a high CC of 16.
+3. The purpose of the function is to provide updates of responses for 'rank recipient question', such that the ranks in the responses are consistent. It's natural to have a high CC as the function provdes the updates which seem to be immutable, hence a builder has been implemented
+4. The are no try catch blocks, however one assertion is made, which seems to be taken into account.
+5. The documentation is fairly clear about possible outcomes induced. However, condition statements are poorly commented, but the condition itself can be understood with the names of the variables used.
 
 ### Function 9: `SessionResultsData::initForStudent`
 1.
