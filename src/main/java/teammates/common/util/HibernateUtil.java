@@ -6,9 +6,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
+import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 
 /**
  * Class containing utils for setting up the Hibernate session factory.
@@ -17,7 +23,8 @@ public final class HibernateUtil {
     private static SessionFactory sessionFactory;
 
     private static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(Course.class,
-            FeedbackSession.class);
+            FeedbackSession.class, Account.class, Notification.class, ReadNotification.class,
+            User.class, Instructor.class, Student.class);
 
     private HibernateUtil() {
         // Utility class
@@ -49,7 +56,7 @@ public final class HibernateUtil {
                 .setProperty("hibernate.connection.username", username)
                 .setProperty("hibernate.connection.password", password)
                 .setProperty("hibernate.connection.url", dbUrl)
-                .setProperty("hibernate.hbm2ddl.auto", "validate")
+                .setProperty("hibernate.hbm2ddl.auto", "update")
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
                 .addPackage("teammates.storage.sqlentity");

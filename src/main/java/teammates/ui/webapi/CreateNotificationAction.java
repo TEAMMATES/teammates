@@ -1,14 +1,13 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.UUID;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationCreateRequest;
@@ -26,17 +25,11 @@ public class CreateNotificationAction extends AdminOnlyAction {
         Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());
         Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
 
-        NotificationAttributes newNotification = NotificationAttributes.builder(UUID.randomUUID().toString())
-                .withStartTime(startTime)
-                .withEndTime(endTime)
-                .withStyle(notificationRequest.getStyle())
-                .withTargetUser(notificationRequest.getTargetUser())
-                .withTitle(notificationRequest.getTitle())
-                .withMessage(notificationRequest.getMessage())
-                .build();
+        Notification newNotification = new Notification(startTime, endTime, notificationRequest.getStyle(),
+                notificationRequest.getTargetUser(), notificationRequest.getTitle(), notificationRequest.getMessage());
 
         try {
-            return new JsonResult(new NotificationData(logic.createNotification(newNotification)));
+            return new JsonResult(new NotificationData(sqlLogic.createNotification(newNotification)));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {

@@ -16,11 +16,6 @@ public abstract class BaseEntity {
     }
 
     /**
-     * Perform any sanitization that needs to be done before saving.
-     */
-    public abstract void sanitizeForSaving();
-
-    /**
      * Returns a {@code List} of strings, one string for each attribute whose
      * value is invalid, or an empty {@code List} if all attributes are valid.
      *

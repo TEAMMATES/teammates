@@ -40,7 +40,6 @@ public final class CoursesDb extends EntitiesDb<Course> {
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         assert course != null;
 
-        course.sanitizeForSaving();
         if (!course.isValid()) {
             throw new InvalidParametersException(course.getInvalidityInfo());
         }
@@ -59,7 +58,6 @@ public final class CoursesDb extends EntitiesDb<Course> {
     public Course updateCourse(Course course) throws InvalidParametersException, EntityDoesNotExistException {
         assert course != null;
 
-        course.sanitizeForSaving();
         if (!course.isValid()) {
             throw new InvalidParametersException(course.getInvalidityInfo());
         }

@@ -35,11 +35,10 @@ public class CoursesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void createCourseDoesNotExist() throws InvalidParametersException, EntityAlreadyExistsException {
-        Course c = new Course.CourseBuilder("course-id")
-                .withName("course-name")
-                .withInstitute("institute")
-                .build();
+    public void testCreateCourse_courseDoesNotExist_success()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Course c = new Course("course-id", "course-name", null, "institute");
+
         when(session.get(Course.class, "course-id")).thenReturn(null);
 
         coursesDb.createCourse(c);
@@ -48,14 +47,13 @@ public class CoursesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void createCourseAlreadyExists() {
-        Course c = new Course.CourseBuilder("course-id")
-                .withName("course-name")
-                .withInstitute("institute")
-                .build();
+    public void testCreateCourse_courseAlreadyExists_throwsEntityAlreadyExistsException() {
+        Course c = new Course("course-id", "course-name", null, "institute");
+
         when(session.get(Course.class, "course-id")).thenReturn(c);
 
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class, () -> coursesDb.createCourse(c));
+        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
+                () -> coursesDb.createCourse(c));
         assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + c.toString());
         verify(session, never()).persist(c);
     }
