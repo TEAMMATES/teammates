@@ -1007,7 +1007,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const questionsToRecipient: Set<number> | undefined = this.recipientQuestionMap.get(recipientId);
     if (!questionsToRecipient) {
       this.statusMessageService.showErrorToast('Failed to save response for this recipient. '
-          + 'Please switch back to \"Group by Question\" view to save responses.')
+          + 'Please switch back to "Group by Question" view to save responses.');
     }
     const recipientQSForms = questionSubmissionForms
       .filter((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
