@@ -6,15 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.BaseEntity;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.*;
 
 /**
  * Class containing utils for setting up the Hibernate session factory.
@@ -24,7 +16,7 @@ public final class HibernateUtil {
 
     private static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(Course.class,
             FeedbackSession.class, Account.class, Notification.class, ReadNotification.class,
-            User.class, Instructor.class, Student.class);
+            User.class, Instructor.class, Student.class, UsageStatistics.class);
 
     private HibernateUtil() {
         // Utility class
