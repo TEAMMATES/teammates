@@ -48,27 +48,28 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.8.1")
-    implementation(platform("com.google.cloud:google-cloud-bom:0.176.0"))
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.16.0")
+    implementation(platform("com.google.cloud:google-cloud-bom:0.189.0"))
     implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.google.guava:guava:31.1-jre")
     implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20220608.1")
-    implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
-    implementation("com.mailjet:mailjet-client:5.2.0")
+    implementation("com.helger.commons:ph-commons:11.0.1") // necessary to add SpotBugs suppression
+    implementation("com.mailjet:mailjet-client:5.2.2")
     implementation("com.sendgrid:sendgrid-java:4.9.3")
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
     implementation("org.apache.solr:solr-solrj:8.11.1")
-    implementation(platform("org.eclipse.jetty:jetty-bom:9.4.48.v20220622"))
+    implementation(platform("org.eclipse.jetty:jetty-bom:10.0.13"))
+    implementation("org.eclipse.jetty:jetty-slf4j-impl")
     implementation("org.eclipse.jetty:jetty-server")
     implementation("org.eclipse.jetty:jetty-webapp")
     implementation("org.eclipse.jetty:jetty-annotations")
-    implementation("org.jsoup:jsoup:1.15.2")
+    implementation("org.jsoup:jsoup:1.15.3")
 
     testAnnotationProcessor(testng)
 
