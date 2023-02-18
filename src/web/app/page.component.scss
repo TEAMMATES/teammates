@@ -85,7 +85,7 @@ nav {
   }
 
   .main-content {
-    padding: 0 0;
+    padding: 10px 15px;
   }
 
   .footer {
@@ -109,4 +109,8 @@ nav {
 .dropdown-divider {
   border: 1px solid rgba(255, 255, 255, .3);
   margin: .5rem 15px;
+}
+
+.dropdown-menu-right {
+  margin-bottom: .5rem;
 }
