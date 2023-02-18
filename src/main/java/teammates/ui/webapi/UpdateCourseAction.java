@@ -31,7 +31,7 @@ class UpdateCourseAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
 
-        if (!courseAttributes.isMigrated()) {
+        if (courseAttributes != null && !courseAttributes.isMigrated()) {
             gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
             return;
         }

@@ -23,8 +23,7 @@ class RestoreCourseAction extends Action {
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseAttributes courseAttributes = logic.getCourse(idOfCourseToRestore);
-
-        if (!courseAttributes.isMigrated()) {
+        if (courseAttributes != null && !courseAttributes.isMigrated()) {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, userInfo.id),
                 courseAttributes,
                 Const.InstructorPermissions.CAN_MODIFY_COURSE);
@@ -48,7 +47,7 @@ class RestoreCourseAction extends Action {
 
             // courseAttributes is only used to check if the course has been migrated or not.
             CourseAttributes courseAttributes = logic.getCourse(idOfCourseToRestore);
-            if (!courseAttributes.isMigrated()) {
+            if (courseAttributes != null && !courseAttributes.isMigrated()) {
                 logic.restoreCourseFromRecycleBin(idOfCourseToRestore);
             } else {
                 sqlLogic.restoreCourseFromRecycleBin(idOfCourseToRestore);

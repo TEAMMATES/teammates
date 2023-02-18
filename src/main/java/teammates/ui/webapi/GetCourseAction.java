@@ -27,7 +27,7 @@ class GetCourseAction extends Action {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         CourseAttributes courseAttributes = logic.getCourse(courseId);
-        if (!courseAttributes.isMigrated()) {
+        if (courseAttributes != null && !courseAttributes.isMigrated()) {
             if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), courseAttributes);
                 return;
@@ -41,16 +41,15 @@ class GetCourseAction extends Action {
             throw new UnauthorizedAccessException("Student or instructor account is required to access this resource.");
         } 
 
-        Course _course = sqlLogic.getCourse(courseId);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            // TODO: Migrate once GateKeeper class is ready.
-            // gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), courseAttributes);
+            // TODO: Migrate once Instructor class is ready.
+            // gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), course);
             return;
         }
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            // TODO: Migrate once GateKeeper class is ready.
-            // gateKeeper.verifyAccessible(getPossiblyUnregisteredStudent(courseId), courseAttributes);
+            // TODO: Migrate once Instructor class is ready.
+            // gateKeeper.verifyAccessible(getPossiblyUnregisteredStudent(courseId), course);
             return;
         }
 
@@ -61,13 +60,17 @@ class GetCourseAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Course course = sqlLogic.getCourse(courseId);
-        if (course == null) {
+        CourseAttributes courseAttributes = logic.getCourse(courseId);
+        if (courseAttributes != null && !courseAttributes.isMigrated()) {
             return this.getFromDatastore(courseId);
         }
 
+        Course course = sqlLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityNotFoundException("No course with id: " + courseId);
+        }
+
         CourseData output = new CourseData(course);
-        
         String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             // TODO: Migrate once Instructor class is ready.
