@@ -61,7 +61,7 @@ public class Logic {
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
         assert startTime != null;
         assert endTime != null;
-        assert startTime.toEpochMilli() < endTime.toEpochMilli();
+        assert startTime.isBefore(endTime);
 
         return usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
     }

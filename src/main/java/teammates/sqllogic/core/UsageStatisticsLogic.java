@@ -16,7 +16,7 @@ public final class UsageStatisticsLogic {
 
     private static final UsageStatisticsLogic instance = new UsageStatisticsLogic();
 
-    private final UsageStatisticsDb usageStatisticsDb = UsageStatisticsDb.inst();
+    private UsageStatisticsDb usageStatisticsDb;
 
     private UsageStatisticsLogic() {
         // prevent initialization
@@ -26,8 +26,8 @@ public final class UsageStatisticsLogic {
         return instance;
     }
 
-    void initLogicDependencies() {
-        // TODO
+    void initLogicDependencies(UsageStatisticsDb usageStatisticsDb) {
+        this.usageStatisticsDb = usageStatisticsDb;
     }
 
     /**
