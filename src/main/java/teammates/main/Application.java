@@ -73,7 +73,6 @@ public final class Application {
             }
         };
 
-
         server.setHandler(webapp);
         server.setStopAtShutdown(true);
         server.addEventListener(customLifeCycleListener);
