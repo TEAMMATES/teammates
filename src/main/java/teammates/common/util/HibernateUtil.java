@@ -6,7 +6,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 
-import teammates.storage.sqlentity.*;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.BaseEntity;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
+import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.UsageStatistics;
+import teammates.storage.sqlentity.User;
 
 /**
  * Class containing utils for setting up the Hibernate session factory.
