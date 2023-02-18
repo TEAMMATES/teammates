@@ -60,10 +60,7 @@ class UpdateCourseAction extends Action {
             } 
 
             Course updatedCourse = sqlLogic.updateCourseCascade(
-                new Course.CourseBuilder(courseId)
-                        .withName(courseName)
-                        .withTimeZone(courseTimeZone)
-                        .build());
+                new Course(courseId, courseName, courseTimeZone, null));
             return new JsonResult(new CourseData(updatedCourse));
             
         } catch (InvalidParametersException ipe) {
