@@ -6,6 +6,29 @@ import { McqQuestionStatisticsComponent } from './mcq-question-statistics.compon
 import { Response } from './question-statistics';
 import ResponseTestData from './test-data/mcqQuestionResponses.json';
 
+// describe('McqQuestionStatisticsCalculation', () => {
+//   let component: McqQuestionStatisticsCalculation;
+//   let fixture: ComponentFixture<McqQuestionStatisticsCalculation>;
+
+//   beforeEach(waitForAsync(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [McqQuestionStatisticsCalculation],
+//     }).compileComponents();
+//   }));
+
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(McqQuestionStatisticsCalculation);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
+
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+
+
+// });
+
 describe('McqQuestionStatisticsComponent', () => {
   let component: McqQuestionStatisticsComponent;
   let fixture: ComponentFixture<McqQuestionStatisticsComponent>;
@@ -15,7 +38,7 @@ describe('McqQuestionStatisticsComponent', () => {
       declarations: [McqQuestionStatisticsComponent],
       imports: [SortableTableModule],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -26,6 +49,8 @@ describe('McqQuestionStatisticsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    
+    console.log(component.b);
   });
 
   it('should calculate statistics correctly', () => {
@@ -48,7 +73,7 @@ describe('McqQuestionStatisticsComponent', () => {
       optionA: 50, optionB: 50, optionC: 0,
     };
     const expectedPerRecipientResponses: Record<string, any> =
-        ResponseTestData.expectedPerRecipientResponses as Record<string, any>;
+      ResponseTestData.expectedPerRecipientResponses as Record<string, any>;
 
     component.calculateStatistics();
 
@@ -57,6 +82,8 @@ describe('McqQuestionStatisticsComponent', () => {
     expect(component.weightPerOption).toEqual(expectedWeightPerOption);
     expect(component.weightedPercentagePerOption).toEqual(expectedWeightedPrecentagePerOption);
     expect(component.perRecipientResponses).toEqual(expectedPerRecipientResponses);
+
+    console.log(component.b);
   });
 
   it('should calculate statistics correctly when other is enabled', () => {
@@ -80,7 +107,7 @@ describe('McqQuestionStatisticsComponent', () => {
       optionA: 14.29, optionB: 28.57, optionC: 0, Other: 57.14,
     };
     const expectedPerRecipientResponses: Record<string, any> =
-        ResponseTestData.expectedPerRecipientResponsesWithOther as Record<string, any>;
+      ResponseTestData.expectedPerRecipientResponsesWithOther as Record<string, any>;
 
     component.calculateStatistics();
 
@@ -89,6 +116,8 @@ describe('McqQuestionStatisticsComponent', () => {
     expect(component.weightPerOption).toEqual(expectedWeightPerOption);
     expect(component.weightedPercentagePerOption).toEqual(expectedWeightedPrecentagePerOption);
     expect(component.perRecipientResponses).toEqual(expectedPerRecipientResponses);
+
+    console.log(component.b);
   });
 
   it('should calculate statistics correctly when there are no assigned weights', () => {
@@ -110,6 +139,8 @@ describe('McqQuestionStatisticsComponent', () => {
     expect(component.answerFrequency).toEqual(expectedAnswerFrequency);
     expect(component.percentagePerOption).toEqual(expectedPercentagePerOption);
     expect(component.perRecipientResponses).toEqual(expectedPerRecipientResponses);
+
+    console.log(component.b);
   });
 
   it('should calculate statistics correctly when other is enabled and no assigned weights', () => {
@@ -131,6 +162,7 @@ describe('McqQuestionStatisticsComponent', () => {
     expect(component.answerFrequency).toEqual(expectedAnswerFrequency);
     expect(component.percentagePerOption).toEqual(expectedPercentagePerOption);
     expect(component.perRecipientResponses).toEqual(expectedPerRecipientResponses);
-  });
 
+    console.log(component.b);
+  });
 });
