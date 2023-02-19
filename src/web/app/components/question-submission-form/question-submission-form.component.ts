@@ -9,6 +9,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import {
@@ -26,6 +27,7 @@ import {
   selector: 'tm-question-submission-form',
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
+  animations: [collapseAnim],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {
 
@@ -86,6 +88,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   model: QuestionSubmissionFormModel = {
     isLoading: false,
     isLoaded: false,
+    isTabExpanded: true,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -162,6 +165,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.isSaved = false;
       }
     }
+  }
+
+  handleClick(event: Event): boolean {
+    console.log("helpppp");
+    if (event.target) {
+      return !this.model.isTabExpanded;
+    }
+    return this.model.isTabExpanded;
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,

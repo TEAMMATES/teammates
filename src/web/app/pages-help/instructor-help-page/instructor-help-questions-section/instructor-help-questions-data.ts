@@ -1510,6 +1510,7 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
 export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionFormModel = {
   isLoading: false,
   isLoaded: true,
+  isTabExpanded: true,
   recipientList: [
     {
       recipientIdentifier: 'alice',
