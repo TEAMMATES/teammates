@@ -3,7 +3,7 @@
 exports[`QuestionResponsePanelComponent should snap with feedback session with questions 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   questions={[Function Array]}
@@ -448,7 +448,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
 exports[`QuestionResponsePanelComponent should snap with feedback session with questions of anonymous responses 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   questions={[Function Array]}

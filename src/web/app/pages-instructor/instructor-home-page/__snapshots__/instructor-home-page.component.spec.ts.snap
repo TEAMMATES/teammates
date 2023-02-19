@@ -5,7 +5,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -74,7 +74,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -143,7 +143,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -290,7 +290,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -806,7 +806,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -1482,7 +1482,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -1727,7 +1727,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
@@ -1996,7 +1996,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   SessionsTableColumn={[Function Object]}
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}

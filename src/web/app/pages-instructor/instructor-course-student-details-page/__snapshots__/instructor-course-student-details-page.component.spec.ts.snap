@@ -2,7 +2,7 @@
 
 exports[`InstructorCourseStudentDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-details-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseId="undefined"
   hasStudentLoadingFailed="false"
   isStudentLoading={[Function Boolean]}
@@ -33,7 +33,7 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
 
 exports[`InstructorCourseStudentDetailsPageComponent should snap with populated student 1`] = `
 <tm-instructor-course-student-details-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseId="undefined"
   hasStudentLoadingFailed="false"
   isStudentLoading={[Function Boolean]}

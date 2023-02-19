@@ -2,7 +2,7 @@
 
 exports[`InstructorStudentRecordsPageComponent should snap when student results are still loading 1`] = `
 <tm-instructor-student-records-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   commentService={[Function FeedbackResponseCommentService]}
   commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
@@ -57,7 +57,7 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
 
 exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
 <tm-instructor-student-records-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   commentService={[Function FeedbackResponseCommentService]}
   commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
@@ -112,7 +112,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
 
 exports[`InstructorStudentRecordsPageComponent should snap with populated fields 1`] = `
 <tm-instructor-student-records-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   commentService={[Function FeedbackResponseCommentService]}
   commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
