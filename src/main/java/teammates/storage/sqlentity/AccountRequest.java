@@ -73,7 +73,9 @@ public class AccountRequest extends BaseEntity {
         return errors;
     }
 
-    @Override
+    /**
+     * Cleans attribute values for AccountRequest before saving into the database.
+     */
     public void sanitizeForSaving() {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.name = SanitizationHelper.sanitizeName(name);
