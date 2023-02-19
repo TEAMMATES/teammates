@@ -4,7 +4,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
@@ -204,7 +204,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
@@ -336,7 +336,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
@@ -471,7 +471,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with default f
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
@@ -554,7 +554,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}

@@ -2,7 +2,7 @@
 
 exports[`ErrorReportComponent should snap with default view 1`] = `
 <tm-error-report
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   content=""
   csrfErrorMessages={[Function Array]}
   errorMessage=""

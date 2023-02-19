@@ -4,7 +4,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -154,7 +154,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -301,7 +301,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -448,7 +448,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -694,7 +694,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -3160,7 +3160,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5652,7 +5652,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5800,7 +5800,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}

@@ -2,7 +2,7 @@
 
 exports[`StatusMessageComponent should show all three messages 1`] = `
 <tm-status-message
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   messages={[Function Array]}
 >
   <div
@@ -44,7 +44,7 @@ exports[`StatusMessageComponent should show all three messages 1`] = `
 
 exports[`StatusMessageComponent should snap with default view 1`] = `
 <tm-status-message
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   messages={[Function Array]}
 >
 </tm-status-message>
