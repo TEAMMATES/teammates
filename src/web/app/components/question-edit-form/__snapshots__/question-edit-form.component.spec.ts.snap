@@ -234,7 +234,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </div>
             <div
               autoclose="outside"
-              class="margin-top-15px dropdown"
+              class="margin-top-15px overflow-scroll dropdown"
               ngbdropdown=""
             >
               <button
