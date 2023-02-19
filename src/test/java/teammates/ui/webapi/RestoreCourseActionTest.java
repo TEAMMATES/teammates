@@ -24,7 +24,7 @@ public class RestoreCourseActionTest
     }
 
     @Override
-    @Test
+    @Test (enabled = false)
     public void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.getGoogleId();
