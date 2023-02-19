@@ -5,7 +5,7 @@
   <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="navbar-collapse" [ngStyle]="{display: isCollapsed ? 'none' : 'block'}">
+  <div class="navbar-collapse" [ngStyle]="{ display: isCollapsed ? 'none' : 'block' }">
     <ul class="nav navbar-nav flex-nowrap me-auto" *ngIf="isValidUser">
       <ng-template ngFor let-navItem [ngForOf]="navItems">
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
@@ -44,15 +44,13 @@
 </nav>
 <tm-loader-bar></tm-loader-bar>
 <tm-toast [(toast)]="toast" aria-live="polite" aria-atomic="true"></tm-toast>
-<div id="main-content" class="container main-content">
-  <tm-notification-banner *ngIf="isStudent || isInstructor"
-                          [url]="getUrl()"
-                          [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
+<main id="main-content" class="container main-content">
+  <tm-notification-banner *ngIf="isStudent || isInstructor" [url]="getUrl()" [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
   <div *tmIsLoading="isFetchingAuthDetails">
     <div *ngIf="isUnsupportedBrowser">
       <div class="alert alert-danger" role="alert">
         <i class="fas fa-exclamation-circle"></i>&nbsp;You are currently using {{ browser }}. This web browser is not officially supported by TEAMMATES.
-        In case this web browser does not display the webpage correctly you may wish to view it in the following supported browsers:
+        In case this web browser does not display the webpage correctly, you may wish to view it in the following supported browsers:
         <ol>
           <li>Chrome {{ minimumVersions['Chrome'] }}+</li>
           <li>Edge {{ minimumVersions['Edge'] }}+</li>
@@ -116,21 +114,17 @@
     <h1 *ngIf="pageTitle && isValidUser">{{ pageTitle }}</h1>
     <router-outlet *ngIf="isValidUser"></router-outlet>
   </div>
-</div>
-<div>
-  <footer>
-    <div class="container footer">
-      <div class="row text-center">
-        <div class="col-sm-6 text-md-start">
-          <i class="fas fa-bolt"></i><a tmRouterLink="/web/front/home"> TEAMMATES</a> V{{ version }}
-        </div>
-        <div class="col-sm-6 text-md-end">
-          <i class="far fa-comments"></i> Send <a tmRouterLink="/web/front/contact" target="_blank">Feedback</a>
-        </div>
-        <div class="col-sm-12">
-          Sponsored by School of Computing, National University of Singapore. (<a tmRouterLink="/web/front/contact" target="_blank">Become a sponsor</a>)
-        </div>
-      </div>
+</main>
+<footer class="footer">
+  <div class="row text-center">
+    <div class="col-sm-6 text-md-start">
+      <i class="fas fa-bolt"></i><a tmRouterLink="/web/front/home">&nbsp;TEAMMATES</a> V{{ version }}
     </div>
-  </footer>
-</div>
+    <div class="col-sm-6 text-md-end">
+      <i class="far fa-comments"></i>&nbsp;Send <a tmRouterLink="/web/front/contact" target="_blank">Feedback</a>
+    </div>
+    <div class="col-sm-12">
+      Sponsored by School of Computing, National University of Singapore. <a tmRouterLink="/web/front/contact" target="_blank">Become a sponsor</a>
+    </div>
+  </div>
+</footer>
