@@ -3,13 +3,9 @@ package teammates.main;
 import java.io.File;
 import java.time.zone.ZoneRulesProvider;
 
-import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
-import org.eclipse.jetty.util.log.StdErrLog;
-import org.eclipse.jetty.webapp.Configuration.ClassList;
-import org.eclipse.jetty.webapp.JettyWebXmlConfiguration;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
@@ -32,7 +28,6 @@ public final class Application {
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException") // ok to ignore as this is a startup method
     public static void main(String[] args) throws Exception {
-        System.setProperty("org.eclipse.jetty.util.log.class", StdErrLog.class.getName());
         System.setProperty("org.eclipse.jetty.LEVEL", "INFO");
 
         Server server = new Server(Config.getPort());
@@ -42,7 +37,6 @@ public final class Application {
         String classPath = Application.class.getProtectionDomain().getCodeSource().getLocation().getFile();
         String warPath = new File(classPath).getParentFile().getParentFile().getAbsolutePath();
         webapp.setWar(warPath);
-        ClassList classlist = ClassList.setServerDefault(server);
 
         if (Config.isDevServerLoginEnabled()) {
             // For dev server, we dynamically add servlet to serve the dev server login page.
@@ -52,14 +46,7 @@ public final class Application {
             webapp.addServlet(devServerLoginServlet, "/devServerLogin");
         }
 
-        // Enable Jetty annotation scanning
-        classlist.addBefore(
-                JettyWebXmlConfiguration.class.getName(),
-                AnnotationConfiguration.class.getName());
-
-        server.setHandler(webapp);
-        server.setStopAtShutdown(true);
-        server.addLifeCycleListener(new LifeCycle.Listener() {
+        LifeCycle.Listener customLifeCycleListener = new LifeCycle.Listener() {
             @Override
             public void lifeCycleStarting(LifeCycle event) {
                 log.startup();
@@ -84,7 +71,11 @@ public final class Application {
             public void lifeCycleStopped(LifeCycle event) {
                 // do nothing
             }
-        });
+        };
+
+        server.setHandler(webapp);
+        server.setStopAtShutdown(true);
+        server.addEventListener(customLifeCycleListener);
 
         server.start();
 

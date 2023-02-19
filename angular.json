@@ -107,7 +107,7 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {
-            "no-cache": true
+            "cache": false
           }
         },
         "lint": {
@@ -122,8 +122,9 @@
       }
     }
   },
-  "defaultProject": "teammates",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

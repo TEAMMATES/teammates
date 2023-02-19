@@ -13,7 +13,7 @@
       <li class="dropdown-header">Common feedback path combinations</li>
       <li class="dropdown-item" *ngFor="let path of commonFeedbackPaths | keyvalue">
         <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
-          <span ngbDropdownAnchor class="float-right invisible"></span>
+          <span ngbDropdownAnchor class="float-end invisible"></span>
           {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
           <ul ngbDropdownMenu>
             <li class="dropdown-item" *ngFor="let recipient of path.value"
@@ -34,7 +34,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <select id="giver-type" class="form-control" [ngModel]="model.giverType"  (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
+          <select id="giver-type" class="form-control form-select" [ngModel]="model.giverType"  (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
             <option *ngFor="let path of allowedFeedbackPaths | keyvalue" [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
           </select>
         </div>
@@ -48,7 +48,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <select id="receiver-type" class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
+          <select id="receiver-type" class="form-control form-select" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
             <option *ngFor="let recipientType of allowedFeedbackPaths.get(model.giverType)" [ngValue]="recipientType">{{ recipientType | recipientTypeDescription }}</option>
           </select>
         </div>
@@ -60,18 +60,16 @@
        || model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION || model.recipientType === FeedbackParticipantType.TEAMS
        || model.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF || model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION
        || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
-    <div class="offset-1 col-md-4 text-md-right">
+    <div class="offset-1 col-md-4 text-md-end">
       The maximum number of {{ model.recipientType | recipientTypeSimplifiedDescription }} each respondent should give feedback to:
     </div>
     <div class="col-md-2">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <input id="custom-recipients" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
-                   (ngModelChange)="triggerNumberOfEntitiesSetting($event)"
-                   [value]="NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM"
-                   [disabled]="!model.isEditable">
-          </div>
+        <div class="input-group-text">
+          <input id="custom-recipients" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
+                 (ngModelChange)="triggerNumberOfEntitiesSetting($event)"
+                 [value]="NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM"
+                 [disabled]="!model.isEditable">
         </div>
         <input id="custom-recipients-number" type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerCustomNumberOfEntities($event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting !== NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
       </div>

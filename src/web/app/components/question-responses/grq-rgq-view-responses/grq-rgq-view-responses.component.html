@@ -1,7 +1,7 @@
 <div *ngIf="groupByTeam">
   <div id="team-panel" *ngFor="let teamInfo of teamsToUsers | keyvalue">
     <div class="card top-padded">
-      <div id="team-header" class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
+      <div id="team-header" class="card-header alert alert-warning alert-no-bottom cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
         {{ teamInfo.key === '-' ? 'No Specific Team': teamInfo.key }}
         <div class="card-header-btn-toolbar">
           <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
