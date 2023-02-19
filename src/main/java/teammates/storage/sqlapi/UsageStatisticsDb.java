@@ -44,4 +44,16 @@ public final class UsageStatisticsDb extends EntitiesDb<UsageStatistics> {
 
         return session.createQuery(cr).getResultList();
     }
+
+    /**
+     * Creates a usage statistics object.
+     */
+    public UsageStatistics createUsageStatistics(UsageStatistics usageStatistics) {
+        assert usageStatistics != null;
+
+        persist(usageStatistics);
+
+        return usageStatistics;
+    }
+
 }

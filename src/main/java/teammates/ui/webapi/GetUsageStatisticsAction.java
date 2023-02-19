@@ -4,8 +4,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.UsageStatistics;
 import teammates.ui.output.UsageStatisticsRangeData;
 
 /**
@@ -57,8 +57,8 @@ class GetUsageStatisticsAction extends Action {
                     + MAX_SEARCH_WINDOW.toDays() + " full days.");
         }
 
-        List<UsageStatisticsAttributes> usageStatisticsInRange =
-                logic.getUsageStatisticsForTimeRange(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
+        List<UsageStatistics> usageStatisticsInRange =
+                sqlLogic.getUsageStatisticsForTimeRange(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
 
         UsageStatisticsRangeData output = new UsageStatisticsRangeData(usageStatisticsInRange);
         return new JsonResult(output);
