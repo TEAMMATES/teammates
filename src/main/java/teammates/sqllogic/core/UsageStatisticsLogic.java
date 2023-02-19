@@ -34,6 +34,10 @@ public final class UsageStatisticsLogic {
      * Gets the list of statistics objects between start time and end time.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        assert startTime != null;
+        assert endTime != null;
+        assert startTime.isBefore(endTime);
+        
         return usageStatisticsDb.getUsageStatisticsForTimeRange(startTime, endTime);
     }
 

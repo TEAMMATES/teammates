@@ -59,10 +59,6 @@ public class Logic {
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
-        assert startTime != null;
-        assert endTime != null;
-        assert startTime.isBefore(endTime);
-
         return usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
     }
 
