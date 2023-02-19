@@ -109,7 +109,8 @@ public final class CoursesLogic {
 
         if (!updatedCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
             // TODO: Migrate once Feedback Session is ready.
-            // feedbackSessionsLogic.updateFeedbackSessionsTimeZoneForCourse(updatedCourse.getId(), updatedCourse.getTimeZone());
+            // feedbackSessionsLogic.updateFeedbackSessionsTimeZoneForCourse(updatedCourse.getId(), 
+            // updatedCourse.getTimeZone());
         }
 
         return updatedCourse;

@@ -39,7 +39,7 @@ class GetCourseAction extends Action {
             }
 
             throw new UnauthorizedAccessException("Student or instructor account is required to access this resource.");
-        } 
+        }
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             // TODO: Migrate once Instructor class is ready.

@@ -57,12 +57,12 @@ class UpdateCourseAction extends Action {
             CourseAttributes courseAttributes = logic.getCourse(courseId);
             if (courseAttributes != null && !courseAttributes.isMigrated()) {
                 return updateWithDatastore(courseId, courseName, courseTimeZone);
-            } 
+            }
 
             Course updatedCourse = sqlLogic.updateCourseCascade(
                 new Course(courseId, courseName, courseTimeZone, null));
             return new JsonResult(new CourseData(updatedCourse));
-            
+
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException edee) {
@@ -70,9 +70,10 @@ class UpdateCourseAction extends Action {
         }
     }
 
-    private JsonResult updateWithDatastore(String courseId, String courseName, String courseTimeZone) throws InvalidParametersException, EntityDoesNotExistException {
+    private JsonResult updateWithDatastore(String courseId, String courseName, String courseTimeZone) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes updatedCourseAttributes = logic.updateCourseCascade(
-            CourseAttributes.updateOptionsBuilder(courseId)
+                CourseAttributes.updateOptionsBuilder(courseId)
                     .withName(courseName)
                     .withTimezone(courseTimeZone)
                     .build());

@@ -25,8 +25,8 @@ class DeleteCourseAction extends Action {
         CourseAttributes courseAttributes = logic.getCourse(idOfCourseToDelete);
         if (courseAttributes != null && !courseAttributes.isMigrated()) {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.id),
-                courseAttributes,
-                Const.InstructorPermissions.CAN_MODIFY_COURSE);
+                    courseAttributes,
+                    Const.InstructorPermissions.CAN_MODIFY_COURSE);
             return;
         }
 
@@ -34,7 +34,7 @@ class DeleteCourseAction extends Action {
         // TODO: Migrate once instructor entity is ready.
         // gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.id),
         //         courseAttributes,
-        //         Const.InstructorPermissions.CAN_MODIFY_COURSE);        
+        //         Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

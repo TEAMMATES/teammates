@@ -25,8 +25,8 @@ class RestoreCourseAction extends Action {
         CourseAttributes courseAttributes = logic.getCourse(idOfCourseToRestore);
         if (courseAttributes != null && !courseAttributes.isMigrated()) {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, userInfo.id),
-                courseAttributes,
-                Const.InstructorPermissions.CAN_MODIFY_COURSE);
+                    courseAttributes,
+                    Const.InstructorPermissions.CAN_MODIFY_COURSE);
             return;
         }
 

@@ -61,7 +61,7 @@ public class CoursesDbTest extends BaseTestCase {
         verify(session, never()).persist(c);
     }
 
-    @Test 
+    @Test
     public void testGetCourse_courseAlreadyExists_success() {
         Course c = new Course("course-id", "course-name", null, "institute");
 
@@ -71,7 +71,7 @@ public class CoursesDbTest extends BaseTestCase {
         assertEquals(c, courseFetched);
     }
 
-    @Test 
+    @Test
     public void testGetCourse_courseDoesNotExist_returnsNull() {
         when(session.get(Course.class, "course-id-not-in-db")).thenReturn(null);
         Course courseFetched = coursesDb.getCourse("course-id-not-in-db");
@@ -86,13 +86,13 @@ public class CoursesDbTest extends BaseTestCase {
         when(session.get(Course.class, "course-id-not-in-db")).thenReturn(null);
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> coursesDb.updateCourse(c));
-        
+
         assertEquals(ex.getMessage(), "Trying to update non-existent Entity: ");
         verify(session, never()).merge(c);
     }
 
     @Test
-    public void testUpdateCourse_courseExists_success() 
+    public void testUpdateCourse_courseExists_success()
             throws InvalidParametersException, EntityDoesNotExistException {
         Course c = new Course("course-id", "new-course-name", null, "institute");
 
@@ -111,7 +111,7 @@ public class CoursesDbTest extends BaseTestCase {
         when(session.get(Course.class, "course-id-not-in-db")).thenReturn(null);
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> coursesDb.softDeleteCourse("course-id-not-in-db"));
-        
+
         assertEquals(ex.getMessage(), "Trying to update non-existent Entity: ");
         assertEquals(deletedAt, c.getDeletedAt());
     }
@@ -139,7 +139,7 @@ public class CoursesDbTest extends BaseTestCase {
         when(session.get(Course.class, "course-id-not-in-db")).thenReturn(null);
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> coursesDb.restoreDeletedCourse("course-id-not-in-db"));
-        
+
         assertEquals(ex.getMessage(), "Trying to update non-existent Entity: ");
         assertEquals(c.getDeletedAt(), initialDeletedAt);
     }
@@ -158,7 +158,7 @@ public class CoursesDbTest extends BaseTestCase {
         assertEquals(c.getDeletedAt(), null);
     }
 
-    @Test 
+    @Test
     public void testDeleteCourse_courseDoesNotExist_failsSilently() {
         Course c = new Course("course-id-not-in-db", "course-name", null, "institute");
 
@@ -168,8 +168,7 @@ public class CoursesDbTest extends BaseTestCase {
         verify(session, never()).remove(c);
     }
 
-
-    @Test 
+    @Test
     public void testDeleteCourse_courseExists_success() {
         Course c = new Course("course-id", "new-course-name", null, "institute");
 

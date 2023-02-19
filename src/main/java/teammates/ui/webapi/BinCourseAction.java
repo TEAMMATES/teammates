@@ -27,7 +27,7 @@ class BinCourseAction extends Action {
         CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
         if (courseAttributes != null && !courseAttributes.isMigrated()) {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
-                courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+                    courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
             return;
         }
 

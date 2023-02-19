@@ -80,7 +80,7 @@ public class Logic {
         coursesLogic.restoreCourseFromRecycleBin(courseId);
     }
 
-     /**
+    /**
      * Updates a course by {@link CourseAttributes.UpdateOptions}.
      *
      * <p>If the {@code timezone} of the course is changed, cascade the change to its corresponding feedback sessions.
@@ -93,7 +93,7 @@ public class Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         return coursesLogic.updateCourseCascade(updatedCourse);
     }
-    
+
     /**
      * Get usage statistics within a time range.
      */
