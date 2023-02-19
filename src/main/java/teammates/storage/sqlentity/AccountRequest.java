@@ -1,51 +1,66 @@
 package teammates.storage.sqlentity;
 
+import java.security.SecureRandom;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.ArrayList; 
-import java.security.SecureRandom;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.persistence.Id;
 
-import teammates.common.util.StringHelper;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
-
+/**
+ * Entity for AccountRequests.
+ */
 @Entity
-@Table( name = "AccountRequests", 
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "registrationKey"), 
-        @UniqueConstraint(columnNames = {"email", "institute"})
-    })
+@Table(name = "AccountRequests",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "Unique registration key", columnNames = "registrationKey"),
+                @UniqueConstraint(name = "Unique name and institute", columnNames = {"email", "institute"})
+        })
 public class AccountRequest extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id; 
+    private int id;
 
-    private String registrationKey; 
+    private String registrationKey;
 
-    private String name; 
+    private String name;
 
-    private String email; 
+    private String email;
 
-    private String institute; 
+    private String institute;
 
-    private Instant registeredAt; 
+    private Instant registeredAt;
 
     @CreationTimestamp
-    private Instant createdAt; 
+    private Instant createdAt;
 
     @UpdateTimestamp
-    private Instant updatedAt; 
+    private Instant updatedAt;
+
+    protected AccountRequest() {
+        // required by Hibernate
+    }
+
+    public AccountRequest(String email, String name, String institute) {
+        this.setEmail(email);
+        this.setName(name);
+        this.setInstitute(institute);
+        this.setRegistrationKey(generateRegistrationKey());
+        this.setCreatedAt(Instant.now());
+        this.setRegisteredAt(null);
+    }
 
     @Override
     public List<String> getInvalidityInfo() {
@@ -58,24 +73,10 @@ public class AccountRequest extends BaseEntity {
         return errors;
     }
 
-    @Override
     public void sanitizeForSaving() {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
-    }
-
-    protected AccountRequest() {
-        // required by Hibernate 
-    }
-
-    public AccountRequest(String email, String name, String institute) {
-        this.setEmail(email);
-        this.setName(name);
-        this.setInstitute(institute);
-        this.setRegistrationKey(generateRegistrationKey());
-        this.setCreatedAt(Instant.now());
-        this.setRegisteredAt(null);
     }
 
     /**
@@ -83,7 +84,7 @@ public class AccountRequest extends BaseEntity {
      * The key contains random elements to avoid being guessed.
      */
     private String generateRegistrationKey() {
-        String uniqueId = String.valueOf(getId()); 
+        String uniqueId = String.valueOf(getId());
         SecureRandom prng = new SecureRandom();
 
         return StringHelper.encrypt(uniqueId + prng.nextInt());

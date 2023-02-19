@@ -5,17 +5,19 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+
 /**
- * Generates CRUD operations for AccountRequest
+ * Generates CRUD operations for AccountRequest.
  *
  * @see AccountRequest
  */
@@ -26,14 +28,15 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
         // prevent instantiation
     }
 
-    public static AccountRequestDb getInstance() {
+    public static AccountRequestDb inst() {
         return instance;
     }
 
     /**
      * Creates an AccountRequest in the database.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         assert accountRequest != null;
 
         accountRequest.sanitizeForSaving();
@@ -41,8 +44,10 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
 
-        if (getAccountRequest(accountRequest.getId()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, accountRequest.toString()));
+        // don't need to check registrationKey for uniqueness since it is generated using email + institute
+        if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) != null) {
+            throw new EntityAlreadyExistsException(
+                String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, accountRequest.toString()));
         }
 
         persist(accountRequest);
@@ -56,15 +61,19 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
         return HibernateUtil.getSessionFactory().getCurrentSession().get(AccountRequest.class, accountRequestId);
     }
 
+    /**
+     * Get AccountRequest by {@code email} and {@code institute} from database.
+     */
     public AccountRequest getAccountRequest(String email, String institute) {
         Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
         CriteriaBuilder cb = currentSession.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(cb.equal(root.get("email"), email), cb.equal(root.get("institute"), institute)));
+        cr.select(root).where(cb.and(cb.equal(
+                root.get("email"), email), cb.equal(root.get("institute"), institute)));
 
         TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
-        return query.getSingleResult();
+        return query.getResultStream().findFirst().orElse(null);
     }
 
     /**
@@ -78,7 +87,7 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
         cr.select(root).where(cb.equal(root.get("registrationKey"), registrationKey));
 
         TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
-        return query.getSingleResult();
+        return query.getResultStream().findFirst().orElse(null);
     }
 
     /**
@@ -89,16 +98,18 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
         CriteriaBuilder cb = currentSession.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("createdTime"), startTime), cb.lessThanOrEqualTo(root.get("createdTime"), endTime)));
+        cr.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThanOrEqualTo(root.get("createdAt"), endTime)));
 
         TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
         return query.getResultList();
     }
 
     /**
-     * Updates the AccountRequest in the database.
+     * Updates or creates (if does not exist) the AccountRequest in the database.
      */
-    public AccountRequest updateAccountRequest(AccountRequest accountRequest) throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
         assert accountRequest != null;
 
         accountRequest.sanitizeForSaving();
@@ -106,8 +117,9 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
 
-        if (getAccountRequest(accountRequest.getId()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, accountRequest.toString()));
+        if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) == null) {
+            throw new EntityDoesNotExistException(
+                String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, accountRequest.toString()));
         }
 
         merge(accountRequest);
