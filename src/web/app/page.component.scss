@@ -85,12 +85,17 @@ nav {
   }
 
   .main-content {
-    padding: 0 0;
+    padding: 10px 15px;
   }
 
   .footer {
-    padding: 5px 0;
+    padding: 5px 15px;
   }
+
+  // .footer .row {
+  //   margin-left: 0;
+  //   margin-right: 0;
+  // }
 }
 
 .navbar-toggler {
@@ -109,4 +114,8 @@ nav {
 .dropdown-divider {
   border: 1px solid rgba(255, 255, 255, .3);
   margin: .5rem 15px;
+}
+
+.dropdown-menu-right {
+  margin-bottom: .5rem;
 }
