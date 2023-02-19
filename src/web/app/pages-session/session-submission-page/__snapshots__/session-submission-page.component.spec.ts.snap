@@ -897,14 +897,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 1: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -1148,14 +1148,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 3: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -1281,14 +1281,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header"
           >
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 2: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -1375,14 +1375,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 4: 
               </b>
               MSQ question
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -1660,14 +1660,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 5: 
               </b>
               numerical scale question
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -1835,14 +1835,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 6: 
               </b>
               constant sum question
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -2024,14 +2024,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 7: 
               </b>
               contribution question
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -2442,14 +2442,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 8: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -2721,14 +2721,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 9: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -2958,14 +2958,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 10: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -3363,14 +3363,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 1: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -3619,14 +3619,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 3: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -3752,14 +3752,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <div
             class="card-header bg-primary text-white question-header"
           >
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 2: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -3846,14 +3846,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 4: 
               </b>
               MSQ question
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -4137,14 +4137,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 5: 
               </b>
               numerical scale question
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -4313,14 +4313,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 6: 
               </b>
               constant sum question
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -4503,14 +4503,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 7: 
               </b>
               contribution question
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -4922,14 +4922,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 8: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -5210,14 +5210,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 9: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
@@ -5448,14 +5448,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             <i
               class="fas fa-check me-2"
             />
-            <span
+            <h3
               id="question-details"
             >
               <b>
                 Question 10: 
               </b>
               question brief
-            </span>
+            </h3>
           </div>
           <div
             class="card-body"
