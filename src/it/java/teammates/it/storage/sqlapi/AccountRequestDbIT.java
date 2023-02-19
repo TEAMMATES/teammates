@@ -45,7 +45,7 @@ public class AccountRequestDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         List<AccountRequest> actualAccReqCreatedAtOutside = accountRequestDb.getAccountRequests(accountRequest.getCreatedAt().minusMillis(3000), accountRequest.getCreatedAt().minusMillis(2000));
         assertEquals(0, actualAccReqCreatedAtOutside.size());
 
-        ______TS("Create course, already exists, execption thrown");
+        ______TS("Create acccount request, already exists, execption thrown");
 
         AccountRequest identicalAccountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         assertNotSame(accountRequest, identicalAccountRequest);
