@@ -73,6 +73,9 @@ public class AccountRequest extends BaseEntity {
         return errors;
     }
 
+    /**
+     * Sanitize attribute values before saving.
+     */
     public void sanitizeForSaving() {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
         this.name = SanitizationHelper.sanitizeName(name);
