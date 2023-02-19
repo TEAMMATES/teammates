@@ -85,7 +85,7 @@
           </div>
           <tm-panel-chevron [isExpanded]="courseTabModel.isTabExpanded"></tm-panel-chevron>
         </div>
-        <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
+        <div class="card-body padding-0 table-responsive" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
           <tm-loading-retry [shouldShowRetry]="courseTabModel.hasLoadingFailed" [message]="'Error loading feedback sessions'"
                             (retryEvent)="loadFeedbackSessions(idx)">
             <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
