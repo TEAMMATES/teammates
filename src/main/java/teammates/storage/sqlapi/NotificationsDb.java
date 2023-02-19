@@ -1,5 +1,7 @@
 package teammates.storage.sqlapi;
 
+import java.util.UUID;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -30,14 +32,8 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert notification != null;
 
-        notification.sanitizeForSaving();
         if (!notification.isValid()) {
             throw new InvalidParametersException(notification.getInvalidityInfo());
-        }
-
-        if (getNotification(notification.getNotificationId().toString()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                    notification.toString()));
         }
 
         persist(notification);
@@ -47,7 +43,7 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
     /**
      * Gets a notification by its unique ID.
      */
-    public Notification getNotification(String notificationId) {
+    public Notification getNotification(UUID notificationId) {
         assert notificationId != null;
 
         return HibernateUtil.getSessionFactory().getCurrentSession().get(Notification.class, notificationId);
@@ -60,13 +56,11 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
             throws InvalidParametersException, EntityDoesNotExistException {
         assert notification != null;
 
-        notification.sanitizeForSaving();
-
         if (!notification.isValid()) {
             throw new InvalidParametersException(notification.getInvalidityInfo());
         }
 
-        if (getNotification(notification.getNotificationId().toString()) == null) {
+        if (getNotification(notification.getNotificationId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
@@ -78,7 +72,7 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
      *
      * <p>Fails silently if there is no such notification.
      */
-    public void deleteNotification(String notificationId) {
+    public void deleteNotification(UUID notificationId) {
         assert notificationId != null;
 
         Notification notification = getNotification(notificationId);

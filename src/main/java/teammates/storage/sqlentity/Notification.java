@@ -20,6 +20,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -56,6 +57,9 @@ public class Notification extends BaseEntity {
     @Column(nullable = false)
     private boolean shown;
 
+    @OneToMany(mappedBy = "notification")
+    private List<ReadNotification> readNotifications;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
@@ -65,27 +69,20 @@ public class Notification extends BaseEntity {
     private Instant updatedAt;
 
     /**
-     * Instantiates a new notification from {@code NotificationBuilder}.
+     * Instantiates a new notification.
      */
-    public Notification(NotificationBuilder builder) {
-        this.setStartTime(builder.startTime);
-        this.setEndTime(builder.endTime);
-        this.setStyle(builder.style);
-        this.setTargetUser(builder.targetUser);
-        this.setTitle(builder.title);
-        this.setMessage(builder.message);
-        this.setUpdatedAt(updatedAt);
-        this.shown = builder.shown;
+    public Notification(Instant startTime, Instant endTime, NotificationStyle style,
+            NotificationTargetUser targetUser, String title, String message) {
+        this.setStartTime(startTime);
+        this.setEndTime(endTime);
+        this.setStyle(style);
+        this.setTargetUser(targetUser);
+        this.setTitle(title);
+        this.setMessage(message);
     }
 
     protected Notification() {
         // required by Hibernate
-    }
-
-    @Override
-    public void sanitizeForSaving() {
-        this.title = SanitizationHelper.sanitizeTitle(title);
-        this.message = SanitizationHelper.sanitizeForRichText(message);
     }
 
     @Override
@@ -105,6 +102,10 @@ public class Notification extends BaseEntity {
 
     public UUID getNotificationId() {
         return notificationId;
+    }
+
+    public void setNotificationId(UUID notificationId) {
+        this.notificationId = notificationId;
     }
 
     public Instant getStartTime() {
@@ -144,7 +145,7 @@ public class Notification extends BaseEntity {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = SanitizationHelper.sanitizeTitle(title);
     }
 
     public String getMessage() {
@@ -152,11 +153,19 @@ public class Notification extends BaseEntity {
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.message = SanitizationHelper.sanitizeForRichText(message);
     }
 
     public boolean isShown() {
         return shown;
+    }
+
+    public List<ReadNotification> getReadNotifications() {
+        return readNotifications;
+    }
+
+    public void setReadNotifications(List<ReadNotification> readNotifications) {
+        this.readNotifications = readNotifications;
     }
 
     /**
@@ -185,8 +194,9 @@ public class Notification extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Notification [id=" + notificationId + ", startTime=" + startTime + ", endTime=" + endTime
-                + ", style=" + style + ", targetUser=" + targetUser + ", shown=" + shown + ", createdAt=" + createdAt
+        return "Notification [notificationId=" + notificationId + ", startTime=" + startTime + ", endTime=" + endTime
+                + ", style=" + style + ", targetUser=" + targetUser + ", title=" + title + ", message=" + message
+                + ", shown=" + shown + ", readNotifications=" + readNotifications + ", createdAt=" + createdAt
                 + ", updatedAt=" + updatedAt + "]";
     }
 
@@ -204,61 +214,17 @@ public class Notification extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             Notification otherNotification = (Notification) other;
-            return Objects.equals(this.notificationId, otherNotification.getNotificationId());
+            return Objects.equals(this.notificationId, otherNotification.getNotificationId())
+                    && Objects.equals(this.startTime, otherNotification.startTime)
+                    && Objects.equals(this.endTime, otherNotification.endTime)
+                    && Objects.equals(this.style, otherNotification.style)
+                    && Objects.equals(this.targetUser, otherNotification.targetUser)
+                    && Objects.equals(this.title, otherNotification.title)
+                    && Objects.equals(this.message, otherNotification.message)
+                    && Objects.equals(this.shown, otherNotification.shown)
+                    && Objects.equals(this.readNotifications, otherNotification.readNotifications);
         } else {
             return false;
-        }
-    }
-
-    /**
-     * Builder for Notification.
-     */
-    public static class NotificationBuilder {
-
-        private Instant startTime;
-        private Instant endTime;
-        private NotificationStyle style;
-        private NotificationTargetUser targetUser;
-        private String title;
-        private String message;
-        private boolean shown;
-
-        public NotificationBuilder(String title) {
-            this.title = title;
-        }
-
-        public NotificationBuilder withStartTime(Instant startTime) {
-            this.startTime = startTime;
-            return this;
-        }
-
-        public NotificationBuilder withEndTime(Instant endTime) {
-            this.endTime = endTime;
-            return this;
-        }
-
-        public NotificationBuilder withStyle(NotificationStyle style) {
-            this.style = style;
-            return this;
-        }
-
-        public NotificationBuilder withTargetUser(NotificationTargetUser targetUser) {
-            this.targetUser = targetUser;
-            return this;
-        }
-
-        public NotificationBuilder withMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-        public NotificationBuilder withShown() {
-            this.shown = true;
-            return this;
-        }
-
-        public Notification build() {
-            return new Notification(this);
         }
     }
 }

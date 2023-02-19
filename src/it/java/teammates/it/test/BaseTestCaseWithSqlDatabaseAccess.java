@@ -13,6 +13,7 @@ import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.core.LogicStarter;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Notification;
 import teammates.test.BaseTestCase;
 
 /**
@@ -61,6 +62,11 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             Course actualCourse = (Course) actual;
             equalizeIrrelevantData(expectedCourse, actualCourse);
             assertEquals(JsonUtils.toJson(expectedCourse), JsonUtils.toJson(actualCourse));
+        } else if (expected instanceof Notification) {
+            Notification expectedNotification = (Notification) expected;
+            Notification actualNotification = (Notification) actual;
+            equalizeIrrelevantData(expectedNotification, actualNotification);
+            assertEquals(JsonUtils.toJson(expectedNotification), JsonUtils.toJson(actualNotification));
         }
     }
 
@@ -81,6 +87,12 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     }
 
     private void equalizeIrrelevantData(Course expected, Course actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+    private void equalizeIrrelevantData(Notification expected, Notification actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());

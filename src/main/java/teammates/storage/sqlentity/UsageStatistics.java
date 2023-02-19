@@ -3,6 +3,7 @@ package teammates.storage.sqlentity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -24,7 +25,7 @@ import jakarta.persistence.Table;
 public class UsageStatistics extends BaseEntity {
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private Instant startTime;
@@ -58,7 +59,7 @@ public class UsageStatistics extends BaseEntity {
         // required by Hibernate
     }
 
-    private UsageStatistics(
+    public UsageStatistics(
             Instant startTime, int timePeriod, int numResponses, int numCourses,
             int numStudents, int numInstructors, int numAccountRequests, int numEmails, int numSubmissions) {
         this.startTime = startTime;
@@ -72,7 +73,7 @@ public class UsageStatistics extends BaseEntity {
         this.numSubmissions = numSubmissions;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -129,8 +130,23 @@ public class UsageStatistics extends BaseEntity {
     }
 
     @Override
-    public void sanitizeForSaving() {
-        // required by BaseEntity
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            UsageStatistics otherUsageStatistics = (UsageStatistics) other;
+            return Objects.equals(this.startTime, otherUsageStatistics.startTime)
+                    && Objects.equals(this.timePeriod, otherUsageStatistics.timePeriod);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.startTime, this.timePeriod);
     }
 
     @Override
