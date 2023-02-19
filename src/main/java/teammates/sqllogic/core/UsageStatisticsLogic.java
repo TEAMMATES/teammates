@@ -37,7 +37,7 @@ public final class UsageStatisticsLogic {
         assert startTime != null;
         assert endTime != null;
         assert startTime.isBefore(endTime);
-        
+
         return usageStatisticsDb.getUsageStatisticsForTimeRange(startTime, endTime);
     }
 
