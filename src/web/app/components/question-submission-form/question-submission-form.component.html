@@ -2,7 +2,7 @@
   <div class="card-header bg-primary text-white question-header"
     [ngClass]="isSaved ? 'bg-success' : 'bg-primary'">
     <i class="fas fa-check me-2" *ngIf="isSaved"></i>
-    <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
+    <h3 id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</h3>
   </div>
 
   <div class="card-body" *tmIsLoading="model.isLoading">
