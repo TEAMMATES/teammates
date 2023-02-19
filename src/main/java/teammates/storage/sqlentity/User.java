@@ -20,7 +20,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
- * Represents a User entity.
+ * Represents a User.
  */
 @Entity
 @Table(name = "Users")
@@ -38,11 +38,9 @@ public abstract class User extends BaseEntity {
     @JoinColumn(name = "courseId")
     private Course course;
 
-    /*
     @ManyToOne
     @JoinColumn(name = "teamId")
-    private List<Team> team;
-    */
+    private Team team;
 
     @Column(nullable = false)
     private String name;
@@ -86,15 +84,13 @@ public abstract class User extends BaseEntity {
         this.course = course;
     }
 
-    /*
-    public List<Team> getTeam() {
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(List<Team> team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
-    */
 
     public String getName() {
         return name;
