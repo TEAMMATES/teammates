@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -17,7 +18,7 @@ public final class HibernateUtil {
     private static SessionFactory sessionFactory;
 
     private static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(Course.class,
-            FeedbackSession.class);
+            FeedbackSession.class, AccountRequest.class);
 
     private HibernateUtil() {
         // Utility class
