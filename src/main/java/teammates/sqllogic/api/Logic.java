@@ -92,6 +92,7 @@ public class Logic {
     public Course updateCourseCascade(Course updatedCourse)
             throws InvalidParametersException, EntityDoesNotExistException {
         return coursesLogic.updateCourseCascade(updatedCourse);
+    }
     
     /**
      * Get usage statistics within a time range.
