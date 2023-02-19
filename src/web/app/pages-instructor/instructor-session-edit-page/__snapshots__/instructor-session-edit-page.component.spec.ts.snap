@@ -1442,7 +1442,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     </div>
                     <div
                       autoclose="outside"
-                      class="margin-top-15px"
+                      class="margin-top-15px overflow-scroll"
                       ngbdropdown=""
                     >
                       <button
@@ -2181,7 +2181,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     </div>
                     <div
                       autoclose="outside"
-                      class="margin-top-15px"
+                      class="margin-top-15px overflow-scroll"
                       ngbdropdown=""
                     >
                       <button
@@ -4004,7 +4004,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 </div>
                 <div
                   autoclose="outside"
-                  class="margin-top-15px"
+                  class="margin-top-15px overflow-scroll"
                   ngbdropdown=""
                 >
                   <button

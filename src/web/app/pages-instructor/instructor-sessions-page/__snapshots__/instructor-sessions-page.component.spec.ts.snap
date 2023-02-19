@@ -1161,7 +1161,9 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
     <div
       class="margin-top-30px"
     >
-      <div>
+      <div
+        class="table-responsive"
+      >
         <tm-loading-spinner>
           <div
             class="loading-container"
