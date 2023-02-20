@@ -1,27 +1,25 @@
 package teammates.storage.sqlapi;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import java.time.Instant;
+
 import org.hibernate.Session;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
 
-import java.time.Instant;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for users.
  *
  * @see User
- * @see Instructor
- * @see Student
  */
-public class UserDb extends EntitiesDb<User> {
+public final class UserDb extends EntitiesDb<User> {
     private static final UserDb instance = new UserDb();
 
     private UserDb() {
@@ -100,7 +98,7 @@ public class UserDb extends EntitiesDb<User> {
 
         cr.select(cb.count(root.get("id"))).where(cb.and(
                 cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
-                cb.lessThan(root.get("createdAt"), endTime)));;
+                cb.lessThan(root.get("createdAt"), endTime)));
 
         return session.createQuery(cr).getSingleResult();
     }
