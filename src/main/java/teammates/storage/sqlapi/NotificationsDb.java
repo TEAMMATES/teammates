@@ -68,14 +68,11 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
     }
 
     /**
-     * Deletes a notification by its unique ID.
+     * Deletes a notification.
      *
-     * <p>Fails silently if there is no such notification.
+     * <p>Fails silently if notification is null.
      */
-    public void deleteNotification(UUID notificationId) {
-        assert notificationId != null;
-
-        Notification notification = getNotification(notificationId);
+    public void deleteNotification(Notification notification) {
         if (notification != null) {
             delete(notification);
         }

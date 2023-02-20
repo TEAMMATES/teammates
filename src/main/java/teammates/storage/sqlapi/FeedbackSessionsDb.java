@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import java.time.Instant;
-
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -25,39 +23,14 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     }
 
     /**
-     * Gets a feedback session that is not soft-deleted.
+     * Gets a feedback session.
      *
-     * @return null if not found or soft-deleted.
+     * @return null if not found
      */
     public FeedbackSession getFeedbackSession(Integer fsId) {
         assert fsId != null;
 
-        FeedbackSession fs = HibernateUtil.get(FeedbackSession.class, fsId);
-
-        if (fs != null && fs.getDeletedAt() != null) {
-            log.info("Trying to access soft-deleted session: " + fs.getName() + "/" + fs.getCourse().getId());
-            return null;
-        }
-
-        return fs;
-    }
-
-    /**
-     * Gets a soft-deleted feedback session.
-     *
-     * @return null if not found or not soft-deleted.
-     */
-    public FeedbackSession getSoftDeletedFeedbackSession(Integer fsId) {
-        assert fsId != null;
-
-        FeedbackSession fs = HibernateUtil.get(FeedbackSession.class, fsId);
-
-        if (fs != null && fs.getDeletedAt() != null) {
-            log.info(fs.getName() + "/" + fs.getCourse().getId() + " is not soft-deleted");
-            return null;
-        }
-
-        return fs;
+        return HibernateUtil.get(FeedbackSession.class, fsId);
     }
 
     /**
@@ -80,41 +53,6 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
         }
 
         return merge(feedbackSession);
-    }
-
-    /**
-     * Soft-deletes a feedback session.
-     *
-     * @return Soft-deletion time of the feedback session.
-     */
-    public Instant softDeleteFeedbackSession(Integer fsId)
-            throws EntityDoesNotExistException {
-        assert fsId != null;
-
-        FeedbackSession fs = getFeedbackSession(fsId);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        fs.setDeletedAt(Instant.now());
-
-        return fs.getDeletedAt();
-    }
-
-    /**
-     * Restores a specific soft deleted feedback session.
-     */
-    public void restoreDeletedFeedbackSession(Integer fsId)
-            throws EntityDoesNotExistException {
-        assert fsId != null;
-
-        FeedbackSession fs = getFeedbackSession(fsId);
-
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        fs.setDeletedAt(null);
     }
 
     /**

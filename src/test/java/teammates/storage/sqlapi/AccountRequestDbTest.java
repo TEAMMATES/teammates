@@ -66,7 +66,7 @@ public class AccountRequestDbTest extends BaseTestCase {
         AccountRequest returnedAccountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(returnedAccountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
-        accountRequestDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        accountRequestDb.deleteAccountRequest(accountRequest);
 
         verify(session, times(1)).remove(returnedAccountRequest);
     }

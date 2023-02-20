@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import java.time.Instant;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -72,45 +70,10 @@ public final class CoursesDb extends EntitiesDb<Course> {
     /**
      * Deletes a course.
      */
-    public void deleteCourse(String courseId) {
-        assert courseId != null;
-
-        Course course = getCourse(courseId);
+    public void deleteCourse(Course course) {
         if (course != null) {
             delete(course);
         }
     }
 
-    /**
-     * Soft-deletes a course by its given corresponding ID.
-     *
-     * @return Soft-deletion time of the course.
-     */
-    public Instant softDeleteCourse(String courseId) throws EntityDoesNotExistException {
-        assert courseId != null;
-
-        Course course = getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        course.setDeletedAt(Instant.now());
-
-        return course.getDeletedAt();
-    }
-
-    /**
-     * Restores a soft-deleted course by its given corresponding ID.
-     */
-    public void restoreDeletedCourse(String courseId) throws EntityDoesNotExistException {
-        assert courseId != null;
-
-        Course course = getCourse(courseId);
-
-        if (course == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        course.setDeletedAt(null);
-    }
 }

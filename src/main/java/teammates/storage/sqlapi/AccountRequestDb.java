@@ -118,14 +118,11 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
     }
 
     /**
-     * Delete the AccountRequest with the given email and institute from the database.
+     * Delete an AccountRequest.
      */
-    public void deleteAccountRequest(String email, String institute) {
-        assert email != null && institute != null;
-
-        AccountRequest accountRequestToDelete = getAccountRequest(email, institute);
-        if (accountRequestToDelete != null) {
-            delete(accountRequestToDelete);
+    public void deleteAccountRequest(AccountRequest accountRequest) {
+        if (accountRequest != null) {
+            delete(accountRequest);
         }
     }
 }
