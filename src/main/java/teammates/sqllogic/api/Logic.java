@@ -63,6 +63,21 @@ public class Logic {
     }
 
     /**
+     * Calculate usage statistics within a time range.
+     */
+    public UsageStatistics calculateEntitiesStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        return usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
+    }
+
+    /**
+     * Create usage statistics within a time range.
+     */
+    public void createUsageStatistics(UsageStatistics attributes)
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        usageStatisticsLogic.createUsageStatistics(attributes);
+    }
+
+    /**
      * Creates a notification.
      *
      * <p>Preconditions:</p>
