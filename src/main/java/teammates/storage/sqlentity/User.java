@@ -3,7 +3,6 @@ package teammates.storage.sqlentity;
 import java.time.Instant;
 import java.util.Objects;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.SanitizationHelper;
@@ -48,12 +47,7 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
-
     @UpdateTimestamp
-    @Column(nullable = false)
     private Instant updatedAt;
 
     protected User() {
@@ -106,14 +100,6 @@ public abstract class User extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = SanitizationHelper.sanitizeEmail(email);
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Instant getUpdatedAt() {

@@ -43,9 +43,6 @@ public class AccountRequest extends BaseEntity {
 
     private Instant registeredAt;
 
-    @CreationTimestamp
-    private Instant createdAt;
-
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -130,14 +127,6 @@ public class AccountRequest extends BaseEntity {
 
     public void setRegisteredAt(Instant registeredAt) {
         this.registeredAt = registeredAt;
-    }
-
-    public Instant getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Instant getUpdatedAt() {

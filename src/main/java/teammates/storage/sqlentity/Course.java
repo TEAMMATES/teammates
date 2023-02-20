@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
@@ -40,15 +39,9 @@ public class Course extends BaseEntity {
     @OneToMany(mappedBy = "course")
     private List<FeedbackSession> feedbackSessions = new ArrayList<>();
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
-
     @UpdateTimestamp
-    @Column
     private Instant updatedAt;
 
-    @Column
     private Instant deletedAt;
 
     protected Course() {
@@ -113,14 +106,6 @@ public class Course extends BaseEntity {
         this.feedbackSessions = feedbackSessions;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -140,8 +125,8 @@ public class Course extends BaseEntity {
     @Override
     public String toString() {
         return "Course [id=" + id + ", name=" + name + ", timeZone=" + timeZone + ", institute=" + institute
-                + ", feedbackSessions=" + feedbackSessions + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-                + ", deletedAt=" + deletedAt + "]";
+                + ", feedbackSessions=" + feedbackSessions + ", createdAt=" + getCreatedAt()
+                + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
     @Override

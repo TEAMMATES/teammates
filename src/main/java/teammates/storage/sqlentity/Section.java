@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
@@ -41,12 +40,7 @@ public class Section extends BaseEntity {
     @OneToMany(mappedBy = "section")
     private List<Team> teams;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
-
     @UpdateTimestamp
-    @Column(nullable = false)
     private Instant updatedAt;
 
     protected Section() {
@@ -120,12 +114,12 @@ public class Section extends BaseEntity {
         this.teams = teams;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }
