@@ -9,7 +9,7 @@
     <ul class="nav navbar-nav flex-nowrap me-auto" *ngIf="isValidUser">
       <ng-template ngFor let-navItem [ngForOf]="navItems">
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0" ngbDropdownToggle>{{ navItem.display }}</a>
           <div class="dropdown-menu" ngbDropdownMenu>
             <a *ngFor="let childItem of navItem.children" class="dropdown-item" [tmRouterLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
           </div>
@@ -22,14 +22,14 @@
     <ul class="nav navbar-nav me-auto" *ngIf="!isValidUser"></ul>
     <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo && !isFetchingAuthDetails">
       <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="!user">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0" ngbDropdownToggle>Login</a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
           <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
         </div>
       </li>
       <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="user">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ user }}</a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0" ngbDropdownToggle>{{ user }}</a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" tmRouterLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
           <a class="dropdown-item" tmRouterLink="/web/instructor" *ngIf="isInstructor" (click)="closeModal()">To instructor pages</a>
