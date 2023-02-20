@@ -45,6 +45,10 @@ public final class UsageStatisticsLogic {
      * Calculates the usage statistics of created entities for the given time range.
      */
     public UsageStatistics calculateEntitiesStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        assert startTime != null;
+        assert endTime != null;
+        assert startTime.isBefore(endTime);
+
         int numResponses = 0; //feedbackResponsesLogic.getNumFeedbackResponsesByTimeRange(startTime, endTime);
         int numCourses = 0; //coursesLogic.getNumCoursesByTimeRange(startTime, endTime);
         int numStudents = 0; //studentsLogic.getNumStudentsByTimeRange(startTime, endTime);
