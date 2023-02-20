@@ -18,6 +18,30 @@ import teammates.test.BaseTestCase;
 public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
     @Test
+    public void testValidateQuestionDetails_FeedbackParticipantTypeNotNone() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
+        
+        List<String> errors = msqDetails.validateQuestionDetails();
+
+        assertEquals(0, errors.size());
+        }
+    
+    @Test
+    public void testValidateQuestionDetails_maxSelectableChoicesLessThanTwo_errorReturn() {
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMaxSelectableChoices(0);
+        msqDetails.setOtherEnabled(false);
+        msqDetails.setMsqChoices(Arrays.asList("a","b"));
+        
+        List<String> errors = msqDetails.validateQuestionDetails();
+
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES, errors.get(0));
+        }
+
+
+    @Test
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
 
