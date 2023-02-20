@@ -820,6 +820,63 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testEqualsNull() {
+        FeedbackQuestionAttributes feedbackQuestionNull = null;
+        FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
+
+        assertFalse(feedbackQuestion.equals(feedbackQuestionNull));
+
+        feedbackQuestionNull = getNewFeedbackQuestionAttributes();
+        feedbackQuestion = getNewFeedbackQuestionAttributes();
+
+        feedbackQuestionNull.setFeedbackSessionName(null);
+        feedbackQuestion.setFeedbackSessionName("Some session name");
+
+        assertFalse(feedbackQuestion.equals(feedbackQuestionNull));
+
+        feedbackQuestionNull = getNewFeedbackQuestionAttributes();
+        feedbackQuestion = getNewFeedbackQuestionAttributes();
+
+        feedbackQuestionNull.setCourseId(null);
+        feedbackQuestion.setCourseId("Some courseId");
+
+        assertFalse(feedbackQuestion.equals(feedbackQuestionNull));
+    }
+
+    @Test
+    public void testEqualsNegative() {
+        FeedbackQuestionAttributes feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withGiverType(FeedbackParticipantType.OWN_TEAM)
+                .build();
+
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+
+        feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withNumberOfEntitiesToGiveFeedbackTo(10)
+                .build();
+
+        feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withNumberOfEntitiesToGiveFeedbackTo(20)
+                .build();
+
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+
+        feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withQuestionNumber(6)
+                .build();
+
+        feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withQuestionNumber(5)
+                .build();
+
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+
+    }
+
+    @Test
     public void testHashCode() {
         FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
 
