@@ -39,6 +39,15 @@ public class Instructor extends User {
         // required by Hibernate
     }
 
+    public Instructor(String registrationKey, boolean isDisplayedToStudents, String displayName,
+            InstructorPermissionRole role, String instructorPrivileges) {
+        this.registrationKey = registrationKey;
+        this.isDisplayedToStudents = isDisplayedToStudents;
+        this.displayName = displayName;
+        this.role = role;
+        this.instructorPrivileges = instructorPrivileges;
+    }
+
     public String getRegistrationKey() {
         return registrationKey;
     }

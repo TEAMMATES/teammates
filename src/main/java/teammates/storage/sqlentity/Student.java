@@ -23,6 +23,10 @@ public class Student extends User {
         // required by Hibernate
     }
 
+    public Student(String comments) {
+        this.comments = comments;
+    }
+
     public String getComments() {
         return comments;
     }
