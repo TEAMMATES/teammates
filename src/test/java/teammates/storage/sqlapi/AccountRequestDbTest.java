@@ -1,12 +1,12 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doReturn;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -51,10 +51,11 @@ public class AccountRequestDbTest extends BaseTestCase {
     @Test
     public void createAccountRequestAlreadyExists() {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        doReturn(new AccountRequest("test@gmail.com", "name", "institute")).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+        doReturn(new AccountRequest("test@gmail.com", "name", "institute"))
+                .when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-            () -> accountRequestDb.createAccountRequest(accountRequest));
+                () -> accountRequestDb.createAccountRequest(accountRequest));
         assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + accountRequest.toString());
         verify(session, never()).persist(accountRequest);
     }

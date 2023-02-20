@@ -1,8 +1,8 @@
 package teammates.it.storage.sqlapi;
 
-import org.testng.annotations.Test;
-
 import java.util.List;
+
+import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -26,37 +26,46 @@ public class AccountRequestDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("Read account request using the given email and institute");
 
-        AccountRequest actualAccReqEmalAndInstitute = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actualAccReqEmalAndInstitute =
+                accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         verifyEquals(accountRequest, actualAccReqEmalAndInstitute);
 
         ______TS("Read account request using the given registration key");
 
-        AccountRequest actualAccReqRegistrationKey = accountRequestDb.getAccountRequest(accountRequest.getRegistrationKey());
+        AccountRequest actualAccReqRegistrationKey =
+                accountRequestDb.getAccountRequest(accountRequest.getRegistrationKey());
         verifyEquals(accountRequest, actualAccReqRegistrationKey);
 
         ______TS("Read account request using the given start and end timing");
 
-        List<AccountRequest> actualAccReqCreatedAt = accountRequestDb.getAccountRequests(accountRequest.getCreatedAt(), accountRequest.getCreatedAt());
+        List<AccountRequest> actualAccReqCreatedAt =
+                accountRequestDb.getAccountRequests(accountRequest.getCreatedAt(), accountRequest.getCreatedAt());
         assertEquals(1, actualAccReqCreatedAt.size());
         verifyEquals(accountRequest, actualAccReqCreatedAt.get(0));
 
         ______TS("Read account request not found using the outside start and end timing");
 
-        List<AccountRequest> actualAccReqCreatedAtOutside = accountRequestDb.getAccountRequests(accountRequest.getCreatedAt().minusMillis(3000), accountRequest.getCreatedAt().minusMillis(2000));
+        List<AccountRequest> actualAccReqCreatedAtOutside =
+                accountRequestDb.getAccountRequests(
+                        accountRequest.getCreatedAt().minusMillis(3000),
+                        accountRequest.getCreatedAt().minusMillis(2000));
         assertEquals(0, actualAccReqCreatedAtOutside.size());
 
         ______TS("Create acccount request, already exists, execption thrown");
 
-        AccountRequest identicalAccountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest identicalAccountRequest =
+                new AccountRequest("test@gmail.com", "name", "institute");
         assertNotSame(accountRequest, identicalAccountRequest);
 
-        assertThrows(EntityAlreadyExistsException.class, () -> accountRequestDb.createAccountRequest(identicalAccountRequest));
+        assertThrows(EntityAlreadyExistsException.class,
+                () -> accountRequestDb.createAccountRequest(identicalAccountRequest));
 
         ______TS("Delete account request that was created");
 
         accountRequestDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
 
-        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actualAccountRequest =
+                accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         verifyEquals(null, actualAccountRequest);
     }
 
@@ -66,7 +75,8 @@ public class AccountRequestDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
 
-        assertThrows(EntityDoesNotExistException.class, () -> accountRequestDb.updateAccountRequest(accountRequest));
+        assertThrows(EntityDoesNotExistException.class,
+                () -> accountRequestDb.updateAccountRequest(accountRequest));
 
         ______TS("Update account request, already exists, update successful");
 
@@ -74,7 +84,8 @@ public class AccountRequestDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         accountRequest.setName("new account request name");
 
         accountRequestDb.updateAccountRequest(accountRequest);
-        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        AccountRequest actual = accountRequestDb.getAccountRequest(
+                accountRequest.getEmail(), accountRequest.getInstitute());
         verifyEquals(accountRequest, actual);
     }
 }
