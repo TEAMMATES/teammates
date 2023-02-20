@@ -45,7 +45,7 @@ public class CalculateUsageStatisticsAction extends AdminOnlyAction {
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             log.severe("Unexpected error", e);
         }
-        
+
         return new JsonResult("Successful");
     }
 
