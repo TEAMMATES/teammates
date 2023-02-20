@@ -122,4 +122,10 @@ public class Section extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "Section [id=" + id + ", course=" + course + ", name=" + name + ", teams=" + teams
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
+    }
+
 }

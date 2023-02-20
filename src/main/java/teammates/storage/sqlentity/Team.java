@@ -121,4 +121,10 @@ public class Team extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "Team [id=" + id + ", section=" + section + ", users=" + users + ", name=" + name
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
+    }
+
 }

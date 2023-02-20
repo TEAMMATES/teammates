@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
@@ -136,4 +135,12 @@ public class AccountRequest extends BaseEntity {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
+                + email + ", institute=" + institute + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt()
+                + ", updatedAt=" + updatedAt + "]";
+    }
+
 }
