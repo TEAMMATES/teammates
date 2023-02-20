@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -60,12 +59,7 @@ public class Notification extends BaseEntity {
     @OneToMany(mappedBy = "notification")
     private List<ReadNotification> readNotifications;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
-
     @UpdateTimestamp
-    @Column
     private Instant updatedAt;
 
     /**
@@ -176,14 +170,6 @@ public class Notification extends BaseEntity {
         this.shown = true;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -196,7 +182,7 @@ public class Notification extends BaseEntity {
     public String toString() {
         return "Notification [notificationId=" + notificationId + ", startTime=" + startTime + ", endTime=" + endTime
                 + ", style=" + style + ", targetUser=" + targetUser + ", title=" + title + ", message=" + message
-                + ", shown=" + shown + ", readNotifications=" + readNotifications + ", createdAt=" + createdAt
+                + ", shown=" + shown + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + "]";
     }
 
