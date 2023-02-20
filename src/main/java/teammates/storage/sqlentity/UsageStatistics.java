@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,14 +43,6 @@ public class UsageStatistics extends BaseEntity {
     private int numEmails;
     @Column(nullable = false)
     private int numSubmissions;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    @Column
-    private Instant updatedAt;
 
     protected UsageStatistics() {
         // required by Hibernate
@@ -111,22 +100,6 @@ public class UsageStatistics extends BaseEntity {
 
     public int getNumSubmissions() {
         return numSubmissions;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override

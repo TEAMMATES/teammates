@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
@@ -71,15 +70,9 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isPublishedEmailEnabled;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
-
     @UpdateTimestamp
-    @Column
     private Instant updatedAt;
 
-    @Column
     private Instant deletedAt;
 
     protected FeedbackSession() {
@@ -273,14 +266,6 @@ public class FeedbackSession extends BaseEntity {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -304,7 +289,7 @@ public class FeedbackSession extends BaseEntity {
                 + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", createdAt=" + createdAt + ", updatedAt="
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", createdAt=" + getCreatedAt() + ", updatedAt="
                 + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
