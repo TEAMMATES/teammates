@@ -141,7 +141,7 @@ public final class HibernateUtil {
      * or null if there is no such persistent instance.
      * @see Session#get(Class, Object)
      */
-    public static <T> T get(Class<T> entityType, Object id) {
+    public static <T extends BaseEntity> T get(Class<T> entityType, Object id) {
         return HibernateUtil.getCurrentSession().get(entityType, id);
     }
 
