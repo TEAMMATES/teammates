@@ -22,6 +22,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -821,6 +823,119 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
                 ((FeedbackMsqQuestionDetails) fqa.getQuestionDetailsCopy()).getMsqChoices());
+    }
+
+    @Test
+    public void testPopulateFieldsToGenerateInQuestion_otherQuestion_fqaIsUnchanged() {
+        StudentAttributes typicalStudent = dataBundle.students.get("student1InCourse1");
+
+        FeedbackQuestionAttributes fqa = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        // construct a typical question
+        fqa = FeedbackQuestionAttributes.builder()
+                        .withCourseId(fqa.getCourseId())
+                        .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                        .withNumberOfEntitiesToGiveFeedbackTo(2)
+                        .withQuestionDescription("test")
+                        .withQuestionNumber(fqa.getQuestionNumber())
+                        .withGiverType(FeedbackParticipantType.STUDENTS)
+                        .withRecipientType(FeedbackParticipantType.STUDENTS)
+                        .withQuestionDetails(new FeedbackTextQuestionDetails())
+                        .withShowResponsesTo(new ArrayList<>())
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withShowRecipientNameTo(new ArrayList<>())
+                        .build();
+
+        FeedbackQuestionAttributes identical_fqa = fqa.getCopy();
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(fqa, identical_fqa);
+    }
+
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Course disappeared")
+    public void testPopulateFieldsToGenerateInQuestion_mcqQuestion_courseMissingThrowsAssertionError() {
+        StudentAttributes typicalStudent = dataBundle.students.get("student1InCourse1");
+
+        FeedbackQuestionAttributes fqa = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        // construct a typical question
+        fqa = FeedbackQuestionAttributes.builder()
+                        .withCourseId("nonExistantCourseId")
+                        .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                        .withNumberOfEntitiesToGiveFeedbackTo(2)
+                        .withQuestionDescription("test")
+                        .withQuestionNumber(fqa.getQuestionNumber())
+                        .withGiverType(FeedbackParticipantType.STUDENTS)
+                        .withRecipientType(FeedbackParticipantType.STUDENTS)
+                        .withQuestionDetails(new FeedbackMcqQuestionDetails())
+                        .withShowResponsesTo(new ArrayList<>())
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withShowRecipientNameTo(new ArrayList<>())
+                        .build();
+
+        FeedbackMcqQuestionDetails feedbackMcqQuestionDetails = new FeedbackMcqQuestionDetails();
+
+        feedbackMcqQuestionDetails.setMcqChoices(Arrays.asList("test"));
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam()); // Should result in an AssertionError
+    }
+
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Course disappeared")
+    public void testPopulateFieldsToGenerateInQuestion_msqQuestion_courseMissingThrowsAssertionError() {
+        StudentAttributes typicalStudent = dataBundle.students.get("student1InCourse1");
+
+        FeedbackQuestionAttributes fqa = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        // construct a typical question
+        fqa = FeedbackQuestionAttributes.builder()
+                        .withCourseId("nonExistantCourseId")
+                        .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                        .withNumberOfEntitiesToGiveFeedbackTo(2)
+                        .withQuestionDescription("test")
+                        .withQuestionNumber(fqa.getQuestionNumber())
+                        .withGiverType(FeedbackParticipantType.STUDENTS)
+                        .withRecipientType(FeedbackParticipantType.STUDENTS)
+                        .withQuestionDetails(new FeedbackMsqQuestionDetails())
+                        .withShowResponsesTo(new ArrayList<>())
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withShowRecipientNameTo(new ArrayList<>())
+                        .build();
+
+        FeedbackMsqQuestionDetails feedbackMsqQuestionDetails = new FeedbackMsqQuestionDetails();
+
+        feedbackMsqQuestionDetails.setMsqChoices(Arrays.asList("test"));
+        feedbackMsqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS_EXCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMsqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam()); // Should result in an AssertionError
+    }
+
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Trying to generate options for neither students, teams nor instructors")
+    public void testPopulateFieldsToGenerateInQuestion_msqQuestion_generateOptionsForIsSelfThrowsAssertionError() {
+        StudentAttributes typicalStudent = dataBundle.students.get("student1InCourse1");
+
+        FeedbackQuestionAttributes fqa = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        // construct a typical question
+        fqa = FeedbackQuestionAttributes.builder()
+                        .withCourseId(fqa.getCourseId())
+                        .withFeedbackSessionName(fqa.getFeedbackSessionName())
+                        .withNumberOfEntitiesToGiveFeedbackTo(2)
+                        .withQuestionDescription("test")
+                        .withQuestionNumber(fqa.getQuestionNumber())
+                        .withGiverType(FeedbackParticipantType.STUDENTS)
+                        .withRecipientType(FeedbackParticipantType.STUDENTS)
+                        .withQuestionDetails(new FeedbackMcqQuestionDetails())
+                        .withShowResponsesTo(new ArrayList<>())
+                        .withShowGiverNameTo(new ArrayList<>())
+                        .withShowRecipientNameTo(new ArrayList<>())
+                        .build();
+
+        FeedbackMsqQuestionDetails feedbackMcqQuestionDetails = new FeedbackMsqQuestionDetails();
+
+        feedbackMcqQuestionDetails.setMsqChoices(Arrays.asList("test"));
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.SELF); // Should trigger default case in generateOptionsFor switch
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam()); // Should result in an AssertionError
     }
 
     @Test
