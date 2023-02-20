@@ -118,7 +118,7 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
     }
 
     /**
-     * Delete an AccountRequest.
+     * Deletes an AccountRequest.
      */
     public void deleteAccountRequest(AccountRequest accountRequest) {
         if (accountRequest != null) {

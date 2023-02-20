@@ -24,7 +24,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 
 /**
- * Utility class for Hibernate.
+ * Utility class for Hibernate related methods.
  */
 public final class HibernateUtil {
     private static SessionFactory sessionFactory;
