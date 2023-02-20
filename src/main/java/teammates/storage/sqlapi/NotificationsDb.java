@@ -46,7 +46,7 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
     public Notification getNotification(UUID notificationId) {
         assert notificationId != null;
 
-        return HibernateUtil.getSessionFactory().getCurrentSession().get(Notification.class, notificationId);
+        return HibernateUtil.get(Notification.class, notificationId);
     }
 
     /**

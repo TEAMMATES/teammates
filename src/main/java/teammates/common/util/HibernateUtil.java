@@ -2,9 +2,12 @@ package teammates.common.util;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -21,7 +24,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 
 /**
- * Class containing utils for setting up the Hibernate session factory.
+ * Utility class for Hibernate.
  */
 public final class HibernateUtil {
     private static SessionFactory sessionFactory;
@@ -43,15 +46,6 @@ public final class HibernateUtil {
     private HibernateUtil() {
         // Utility class
         // Intentional private constructor to prevent instantiation.
-    }
-
-    /**
-     * Returns the SessionFactory.
-     */
-    public static SessionFactory getSessionFactory() {
-        assert sessionFactory != null;
-
-        return sessionFactory;
     }
 
     /**
@@ -83,7 +77,96 @@ public final class HibernateUtil {
         setSessionFactory(config.buildSessionFactory());
     }
 
+    /**
+     * Returns the SessionFactory.
+     */
+    public static SessionFactory getSessionFactory() {
+        assert sessionFactory != null;
+
+        return sessionFactory;
+    }
+
+    /**
+     * Returns the current hibernate session.
+     * @see SessionFactory#getCurrentSession()
+     */
+    public static Session getCurrentSession() {
+        return HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+
     public static void setSessionFactory(SessionFactory sessionFactory) {
         HibernateUtil.sessionFactory = sessionFactory;
     }
+
+    /**
+     * Start a resource transaction.
+     * @see Transaction#begin()
+     */
+    public static void beginTransaction() {
+        Transaction transaction = HibernateUtil.getCurrentSession().getTransaction();
+        transaction.begin();
+    }
+
+    /**
+     * Roll back the current resource transaction if needed.
+     * @see Transaction#rollback()
+     */
+    public static void rollbackTransaction() {
+        Session session = HibernateUtil.getCurrentSession();
+        if (session.getTransaction().getStatus() == TransactionStatus.ACTIVE
+                || session.getTransaction().getStatus() == TransactionStatus.MARKED_ROLLBACK) {
+            session.getTransaction().rollback();
+        }
+    }
+
+    /**
+     * Commit the current resource transaction, writing any unflushed changes to the database.
+     * @see Session#commit()
+     */
+    public static void commitTransaction() {
+        Transaction transaction = HibernateUtil.getCurrentSession().getTransaction();
+        transaction.commit();
+    }
+
+    /**
+     * Force this session to flush. Must be called at the end of a unit of work, before the transaction is committed.
+     * @see Session#flush()
+     */
+    public static void flushSession() {
+        HibernateUtil.getCurrentSession().flush();
+    }
+
+    /**
+     * Return the persistent instance of the given entity class with the given identifier,
+     * or null if there is no such persistent instance.
+     * @see Session#get(Class, Object)
+     */
+    public static <T> T get(Class<T> entityType, Object id) {
+        return HibernateUtil.getCurrentSession().get(entityType, id);
+    }
+
+    /**
+     * Copy the state of the given object onto the persistent object with the same identifier.
+     * @see Session#merge(E)
+     */
+    public static <E> E merge(E object) {
+        return HibernateUtil.getCurrentSession().merge(object);
+    }
+
+    /**
+     * Make a transient instance persistent and mark it for later insertion in the database.
+     * @see Session#persist(Object)
+     */
+    public static void persist(BaseEntity entity) {
+        HibernateUtil.getCurrentSession().persist(entity);
+    }
+
+    /**
+     * Mark a persistence instance associated with this session for removal from the underlying database.
+     * @see Session#remove(Object)
+     */
+    public static void remove(BaseEntity entity) {
+        HibernateUtil.getCurrentSession().remove(entity);
+    }
+
 }

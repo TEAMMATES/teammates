@@ -57,7 +57,7 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
      * Get AccountRequest by {@code email} and {@code institute} from database.
      */
     public AccountRequest getAccountRequest(String email, String institute) {
-        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session currentSession = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = currentSession.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);

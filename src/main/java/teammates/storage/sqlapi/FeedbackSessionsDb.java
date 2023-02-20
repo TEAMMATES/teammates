@@ -32,7 +32,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     public FeedbackSession getFeedbackSession(Integer fsId) {
         assert fsId != null;
 
-        FeedbackSession fs = HibernateUtil.getSessionFactory().getCurrentSession().get(FeedbackSession.class, fsId);
+        FeedbackSession fs = HibernateUtil.get(FeedbackSession.class, fsId);
 
         if (fs != null && fs.getDeletedAt() != null) {
             log.info("Trying to access soft-deleted session: " + fs.getName() + "/" + fs.getCourse().getId());
@@ -50,7 +50,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     public FeedbackSession getSoftDeletedFeedbackSession(Integer fsId) {
         assert fsId != null;
 
-        FeedbackSession fs = HibernateUtil.getSessionFactory().getCurrentSession().get(FeedbackSession.class, fsId);
+        FeedbackSession fs = HibernateUtil.get(FeedbackSession.class, fsId);
 
         if (fs != null && fs.getDeletedAt() != null) {
             log.info(fs.getName() + "/" + fs.getCourse().getId() + " is not soft-deleted");

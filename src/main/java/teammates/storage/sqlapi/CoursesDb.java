@@ -31,7 +31,7 @@ public final class CoursesDb extends EntitiesDb<Course> {
     public Course getCourse(String courseId) {
         assert courseId != null;
 
-        return HibernateUtil.getSessionFactory().getCurrentSession().get(Course.class, courseId);
+        return HibernateUtil.get(Course.class, courseId);
     }
 
     /**
