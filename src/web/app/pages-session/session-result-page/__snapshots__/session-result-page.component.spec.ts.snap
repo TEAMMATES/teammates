@@ -55,7 +55,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (recommended). 
         </div>
@@ -204,7 +204,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (recommended). 
         </div>
@@ -350,7 +350,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (recommended). 
         </div>
@@ -496,7 +496,7 @@ exports[`SessionResultPageComponent should snap with session details and results
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (recommended). 
         </div>
@@ -591,7 +591,7 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (recommended). 
         </div>
@@ -884,7 +884,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (recommended). 
         </div>

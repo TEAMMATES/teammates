@@ -73,7 +73,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (optional). 
         </div>
@@ -223,7 +223,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (optional). 
         </div>
@@ -370,7 +370,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (optional). 
         </div>
@@ -763,7 +763,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (optional). 
         </div>
@@ -3229,7 +3229,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (optional). 
         </div>
@@ -5870,7 +5870,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
           <a
             href="#"
           >
-            login using a Google account
+            log in using a Google account
           </a>
            (optional). 
         </div>
