@@ -1,78 +1,72 @@
-// package teammates.storage.sqlapi;
+package teammates.storage.sqlapi;
 
-// import static org.mockito.ArgumentMatchers.any;
-// import static org.mockito.Mockito.doReturn;
-// import static org.mockito.Mockito.mock;
-// import static org.mockito.Mockito.never;
-// import static org.mockito.Mockito.times;
-// import static org.mockito.Mockito.verify;
-// import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
 
-// import java.util.stream.Stream;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-// import org.hibernate.Session;
-// import org.hibernate.SessionFactory;
-// import org.testng.annotations.BeforeMethod;
-// import org.testng.annotations.Test;
-
-// import teammates.common.exception.EntityAlreadyExistsException;
-// import teammates.common.exception.InvalidParametersException;
-// import teammates.common.util.HibernateUtil;
-// import teammates.storage.sqlentity.AccountRequest;
-// import teammates.test.BaseTestCase;
-
-// import jakarta.persistence.TypedQuery;
-// import jakarta.persistence.criteria.CriteriaQuery;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.AccountRequest;
+import teammates.test.BaseTestCase;
 
 /**
  * SUT: {@code AccountRequestDb}.
  */
-// public class AccountRequestDbTest extends BaseTestCase {
+public class AccountRequestDbTest extends BaseTestCase {
 
-//     private AccountRequestDb accountRequestDb = AccountRequestDb.inst();
+    private AccountRequestDb accountRequestDb;
 
-//     private Session session;
-//     private TypedQuery<AccountRequest> query;
+    private Session session;
 
-//     @BeforeMethod
-//     public void setUp() {
-//         SessionFactory sessionFactory = mock(SessionFactory.class);
-//         query = mock(TypedQuery.class);
-//         session = mock(Session.class);
+    @BeforeMethod
+    public void setUp() {
+        accountRequestDb = spy(AccountRequestDb.class);
+        session = spy(Session.class);
+        SessionFactory sessionFactory = spy(SessionFactory.class);
 
-//         HibernateUtil.setSessionFactory(sessionFactory);
-//         when(sessionFactory.getCurrentSession()).thenReturn(session);
-//         doReturn(query).when(session).createQuery(any(CriteriaQuery.class));
-//     }
+        HibernateUtil.setSessionFactory(sessionFactory);
 
-//     @Test
-//     public void createAccountRequestDoesNotExist() throws InvalidParametersException, EntityAlreadyExistsException {
-//         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-//         when(query.getResultStream()).thenReturn(Stream.empty());
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+    }
 
-//         accountRequestDb.createAccountRequest(accountRequest);
+    @Test
+    public void createAccountRequestDoesNotExist() throws InvalidParametersException, EntityAlreadyExistsException {
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+        accountRequestDb.createAccountRequest(accountRequest);
 
-//         verify(session, times(1)).persist(accountRequest);
-//     }
+        verify(session, times(1)).persist(accountRequest);
+    }
 
-//     @Test
-//     public void createAccountRequestAlreadyExists() {
-//         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-//         when(query.getResultStream()).thenReturn(Stream.of(accountRequest));
+    @Test
+    public void createAccountRequestAlreadyExists() {
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        doReturn(new AccountRequest("test@gmail.com", "name", "institute")).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
-//         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-//             () -> accountRequestDb.createAccountRequest(accountRequest));
-//         assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + accountRequest.toString());
-//         verify(session, never()).persist(accountRequest);
-//     }
+        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
+            () -> accountRequestDb.createAccountRequest(accountRequest));
+        assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + accountRequest.toString());
+        verify(session, never()).persist(accountRequest);
+    }
 
-//     @Test
-//     public void deleteAccountRequest() {
-//         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-//         when(query.getResultStream()).thenReturn(Stream.of(accountRequest));
+    @Test
+    public void deleteAccountRequest() {
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        AccountRequest returnedAccountRequest = new AccountRequest("test@gmail.com", "name", "institute");
+        doReturn(returnedAccountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
-//         accountRequestDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        accountRequestDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
 
-//         verify(session, times(1)).delete(accountRequest);
-//     }
-// }
+        verify(session, times(1)).remove(returnedAccountRequest);
+    }
+}
