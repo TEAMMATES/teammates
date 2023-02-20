@@ -70,20 +70,68 @@ export class TimepickerComponent {
    * datetime.
    */
   isOptionDisabled(t: TimeFormat): boolean {
-    if (this.minDate && this.minTime
-        && this.date.year === this.minDate?.year && this.date.month === this.minDate?.month
-        && this.date.day === this.minDate?.day
-        && (t.hour < this.minTime?.hour || t.minute < this.minTime?.minute)) {
+    if (this.isMinTimeFormatsValid()
+        && this.isMinDatesEqual()
+        && this.isTimeBeforeMinTime(t, this.minTime)) {
       return true;
     }
 
-    if (this.maxDate && this.maxTime
-        && this.date.year === this.maxDate?.year && this.date.month === this.maxDate?.month
-        && this.date.day === this.maxDate?.day
-        && (t.hour > this.maxTime?.hour || t.minute > this.maxTime?.minute)) {
+    if (this.isMaxTimeFormatsValid()
+        && this.isMaxDatesEqual()
+        && this.isTimeAfterMaxTime(t, this.maxTime)) {
       return true;
     }
 
+    return false;
+  }
+
+  isMinTimeFormatsValid(): boolean {
+    if (this.minDate && this.minTime) {
+      return true;
+    }
+    return false;
+  }
+
+  isMinDatesEqual(): boolean {
+    if (this.date.year === this.minDate?.year
+        && this.date.month === this.minDate?.month
+        && this.date.day === this.minDate?.day) {
+      return true;
+    }
+    return false;
+  }
+
+  isTimeBeforeMinTime(t: TimeFormat, t2?: TimeFormat): boolean {
+    if (t2) {
+      if(t.hour < t2.hour || t.minute < t2.minute) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isMaxTimeFormatsValid(): boolean {
+    if (this.maxDate && this.maxTime) {
+      return true;
+    }
+    return false;
+  }
+
+  isMaxDatesEqual(): boolean {
+    if (this.date.year === this.maxDate?.year
+        && this.date.month === this.maxDate?.month
+        && this.date.day === this.maxDate?.day) {
+      return true;
+    }
+    return false;
+  }
+
+  isTimeAfterMaxTime(t: TimeFormat, t2?: TimeFormat): boolean {
+    if (t2) {
+      if((t.hour > t2.hour || t.minute > t2.minute)) {
+        return true;
+      }
+    }
     return false;
   }
 
