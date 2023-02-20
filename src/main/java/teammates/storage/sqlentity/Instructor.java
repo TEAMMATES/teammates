@@ -14,7 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 /**
- * Represents an Instructor entity.
+ * Represents an Instructor.
  */
 @Entity
 @Table(name = "Instructors")

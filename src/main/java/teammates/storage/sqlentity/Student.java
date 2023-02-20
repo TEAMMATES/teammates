@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 /**
- * Represents a Student entity.
+ * Represents a Student.
  */
 @Entity
 @Table(name = "Students")
