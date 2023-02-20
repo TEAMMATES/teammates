@@ -39,7 +39,6 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert accountRequest != null;
 
-        accountRequest.sanitizeForSaving();
         if (!accountRequest.isValid()) {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
@@ -52,13 +51,6 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
 
         persist(accountRequest);
         return accountRequest;
-    }
-
-    /**
-     * Get AccountRequest by {@code accountRequestId} from database.
-     */
-    public AccountRequest getAccountRequest(int accountRequestId) {
-        return HibernateUtil.getSessionFactory().getCurrentSession().get(AccountRequest.class, accountRequestId);
     }
 
     /**
@@ -112,7 +104,6 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
             throws InvalidParametersException, EntityDoesNotExistException {
         assert accountRequest != null;
 
-        accountRequest.sanitizeForSaving();
         if (!accountRequest.isValid()) {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }

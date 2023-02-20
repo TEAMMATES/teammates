@@ -74,15 +74,6 @@ public class AccountRequest extends BaseEntity {
     }
 
     /**
-     * Sanitize attribute values before saving.
-     */
-    public void sanitizeForSaving() {
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.email = SanitizationHelper.sanitizeEmail(email);
-    }
-
-    /**
      * Generate unique registration key for the account request.
      * The key contains random elements to avoid being guessed.
      */
@@ -114,7 +105,7 @@ public class AccountRequest extends BaseEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = SanitizationHelper.sanitizeName(name);
     }
 
     public String getEmail() {
@@ -122,7 +113,7 @@ public class AccountRequest extends BaseEntity {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
     public String getInstitute() {
@@ -130,7 +121,7 @@ public class AccountRequest extends BaseEntity {
     }
 
     public void setInstitute(String institute) {
-        this.institute = institute;
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
     public Instant getRegisteredAt() {
