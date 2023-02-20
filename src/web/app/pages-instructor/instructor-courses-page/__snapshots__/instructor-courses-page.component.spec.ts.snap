@@ -5,7 +5,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -259,7 +259,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -335,7 +335,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -783,7 +783,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1077,7 +1077,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1529,7 +1529,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1605,7 +1605,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}

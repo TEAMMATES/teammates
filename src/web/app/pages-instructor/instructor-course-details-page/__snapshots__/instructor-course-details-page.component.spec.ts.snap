@@ -2,7 +2,7 @@
 
 exports[`InstructorCourseDetailsPageComponent should snap when students are still loading 1`] = `
 <tm-instructor-course-details-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   hasLoadingStudentsFailed="false"
@@ -45,7 +45,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
 
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
 <tm-instructor-course-details-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   hasLoadingStudentsFailed="false"
@@ -208,7 +208,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   hasLoadingStudentsFailed="false"
@@ -548,7 +548,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 
 exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-details-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   hasLoadingStudentsFailed="false"

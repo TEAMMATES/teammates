@@ -6,7 +6,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -97,7 +97,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -188,7 +188,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -282,7 +282,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -373,7 +373,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""
@@ -464,7 +464,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId={[Function String]}
   courseName={[Function String]}
@@ -3066,7 +3066,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   changeDetectorRef={[Function ViewRef$1]}
   courseId="undefined"
   courseName=""

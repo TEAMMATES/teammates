@@ -6,7 +6,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -66,7 +66,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -630,7 +630,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -690,7 +690,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
   SortBy={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
