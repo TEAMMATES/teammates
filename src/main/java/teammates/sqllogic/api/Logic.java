@@ -1,11 +1,16 @@
 package teammates.sqllogic.api;
 
+import java.time.Instant;
+import java.util.List;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.NotificationsLogic;
+import teammates.sqllogic.core.UsageStatisticsLogic;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.UsageStatistics;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -17,6 +22,7 @@ public class Logic {
 
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     // final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
 
     Logic() {
@@ -47,6 +53,28 @@ public class Logic {
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesLogic.createCourse(course);
+    }
+
+    /**
+     * Get usage statistics within a time range.
+     */
+    public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        return usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
+    }
+
+    /**
+     * Calculate usage statistics within a time range.
+     */
+    public UsageStatistics calculateEntitiesStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        return usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
+    }
+
+    /**
+     * Create usage statistics within a time range.
+     */
+    public void createUsageStatistics(UsageStatistics attributes)
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        usageStatisticsLogic.createUsageStatistics(attributes);
     }
 
     /**

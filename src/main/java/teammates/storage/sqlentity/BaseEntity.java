@@ -1,15 +1,25 @@
 package teammates.storage.sqlentity;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Column;
 import jakarta.persistence.Converter;
+import jakarta.persistence.MappedSuperclass;
 
 /**
  * Base class for all entities.
  */
+@MappedSuperclass
 public abstract class BaseEntity {
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Instant createdAt;
 
     BaseEntity() {
         // instantiate as child classes
@@ -44,6 +54,14 @@ public abstract class BaseEntity {
         }
 
         errors.add(error);
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     /**
