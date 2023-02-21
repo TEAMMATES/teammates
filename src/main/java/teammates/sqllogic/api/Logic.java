@@ -2,6 +2,7 @@ package teammates.sqllogic.api;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -92,4 +93,15 @@ public class Logic {
         return notificationsLogic.createNotification(notification);
     }
 
+    /**
+     * Gets a notification by ID.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return Null if no match found.
+     */
+    public Notification getNotification(UUID notificationId) {
+        return notificationsLogic.getNotification(notificationId);
+    }
 }
