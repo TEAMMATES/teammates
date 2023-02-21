@@ -61,16 +61,16 @@ export abstract class InstructorSessionBasePageComponent {
   protected copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string,
       oldCourseId: string): Observable<FeedbackSession> {
     // Local constants
-    const startDateTime = moment(fromFeedbackSession.submissionStartTimestamp).hours();
-    const endDateTime = moment(fromFeedbackSession.submissionEndTimestamp).hours();
-    const twoHoursBeforeNow = moment().tz(fromFeedbackSession.timeZone).subtract(2, 'hours')
+    const startHour = moment.utc(fromFeedbackSession.submissionStartTimestamp).tz(fromFeedbackSession.timeZone).hours();
+    const endHour = moment(fromFeedbackSession.submissionEndTimestamp).tz(fromFeedbackSession.timeZone).hours();
+    const twoHoursBeforeNow = moment().subtract(2, 'hours')
         .valueOf();
     const twoDaysFromNowSameHour = moment().tz(fromFeedbackSession.timeZone).add(2, 'days')
-        .set('hour', startDateTime)
+        .set('hour', startHour)
         .startOf('hour')
         .valueOf();
     const sevenDaysFromNowSameHour = moment().tz(fromFeedbackSession.timeZone).add(7, 'days')
-        .set('hour', endDateTime)
+        .set('hour', endHour)
         .startOf('hour')
         .valueOf();
     const ninetyDaysFromNow = moment().tz(fromFeedbackSession.timeZone).add(90, 'days')
