@@ -204,7 +204,7 @@ public abstract class Action {
     /**
      * Returns the first value for the specified parameter expected to be present in the HTTP request as UUID.
      */
-    UUID getUUIDRequestParamValue(String paramName) {
+    UUID getUuidRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
         try {
             return UUID.fromString(value);

@@ -14,7 +14,7 @@ public class GetNotificationAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        UUID notificationId = getUUIDRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
+        UUID notificationId = getUuidRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
 
         Notification notification = sqlLogic.getNotification(notificationId);
 
