@@ -94,7 +94,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     @AfterTest
     public void afterTest() {
         int coveredBranches = fqLogic.debugReachedBranches.size();
-        double totalBranches = 44;
+        double totalBranches = 52;
         Double branchCoverage = 100 * ((double) coveredBranches / totalBranches);
         System.out.println("From aftertest: " + coveredBranches);
         try {
