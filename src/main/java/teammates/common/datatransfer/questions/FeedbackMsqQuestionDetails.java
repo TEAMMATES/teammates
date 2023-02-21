@@ -114,57 +114,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
-
-            if (msqChoices.size() < MSQ_MIN_NUM_OF_CHOICES) {
-                errors.add(MSQ_ERROR_NOT_ENOUGH_CHOICES
-                           + MSQ_MIN_NUM_OF_CHOICES + ".");
-            }
-
-            // If there are Empty Msq options entered trigger this error
-            boolean isEmptyMsqOptionEntered = msqChoices.stream().anyMatch(msqText -> "".equals(msqText.trim()));
-            if (isEmptyMsqOptionEntered) {
-                errors.add(MSQ_ERROR_EMPTY_MSQ_OPTION);
-            }
-
-            // If weights are enabled, number of choices and weights should be same.
-            // If a user enters an invalid weight for a valid choice,
-            // the msqChoices.size() will be greater than msqWeights.size(), in that case
-            // trigger this error.
-            if (hasAssignedWeights && msqChoices.size() != msqWeights.size()) {
-                errors.add(MSQ_ERROR_INVALID_WEIGHT);
-            }
-
-            // If weights are not enabled, but weight list is not empty or otherWeight is not 0
-            // In that case, trigger this error.
-            if (!hasAssignedWeights && (!msqWeights.isEmpty() || msqOtherWeight != 0)) {
-                errors.add(MSQ_ERROR_INVALID_WEIGHT);
-            }
-
-            // If weight is enabled, but other option is disabled, and msqOtherWeight is not 0
-            // In that case, trigger this error.
-            if (hasAssignedWeights && !otherEnabled && msqOtherWeight != 0) {
-                errors.add(MSQ_ERROR_INVALID_WEIGHT);
-            }
-
-            // If weights are negative, trigger this error.
-            if (hasAssignedWeights && !msqWeights.isEmpty()) {
-                msqWeights.stream()
-                        .filter(weight -> weight < 0)
-                        .forEach(weight -> errors.add(MSQ_ERROR_INVALID_WEIGHT));
-            }
-
-            // If 'Other' option is enabled, and other weight has negative value,
-            // trigger this error.
-            if (hasAssignedWeights && otherEnabled && msqOtherWeight < 0) {
-                errors.add(MSQ_ERROR_INVALID_WEIGHT);
-            }
-
-            //If there are duplicate mcq options trigger this error
-            boolean isDuplicateOptionsEntered = msqChoices.stream().map(String::trim).distinct().count()
-                                                != msqChoices.size();
-            if (isDuplicateOptionsEntered) {
-                errors.add(MSQ_ERROR_DUPLICATE_MSQ_OPTION);
-            }
+            validateMessage(errors);
         }
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Const.POINTS_NO_VALUE;
@@ -172,14 +122,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         boolean isMsqChoiceValidatable = generateOptionsFor == FeedbackParticipantType.NONE;
 
         int numOfMsqChoices = msqChoices.size() + (otherEnabled ? 1 : 0);
-        if (isMsqChoiceValidatable && isMaxSelectableChoicesEnabled) {
-            if (numOfMsqChoices < maxSelectableChoices) {
-                errors.add(MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
-            } else if (maxSelectableChoices < 2) {
-                errors.add(MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
-            }
+        validateMaxSelectableChoices(isMsqChoiceValidatable, isMaxSelectableChoicesEnabled, numOfMsqChoices, errors);
+        validateMinSelectableChoices(isMsqChoiceValidatable, isMinSelectableChoicesEnabled, numOfMsqChoices, errors);
+
+        if (isMaxSelectableChoicesEnabled && isMinSelectableChoicesEnabled
+                && minSelectableChoices > maxSelectableChoices) {
+            errors.add(MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE);
         }
 
+        return errors;
+    }
+
+    public void validateMinSelectableChoices(boolean isMsqChoiceValidatable, boolean isMinSelectableChoicesEnabled, int numOfMsqChoices, List<String> errors){
         if (isMsqChoiceValidatable && isMinSelectableChoicesEnabled) {
             if (minSelectableChoices < 1) {
                 errors.add(MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
@@ -188,13 +142,70 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 errors.add(MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES);
             }
         }
+    }
 
-        if (isMaxSelectableChoicesEnabled && isMinSelectableChoicesEnabled
-                && minSelectableChoices > maxSelectableChoices) {
-            errors.add(MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE);
+    public void validateMaxSelectableChoices(boolean isMsqChoiceValidatable, boolean isMaxSelectableChoicesEnabled, int numOfMsqChoices, List<String> errors){
+        if (isMsqChoiceValidatable && isMaxSelectableChoicesEnabled) {
+            if (numOfMsqChoices < maxSelectableChoices) {
+                errors.add(MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
+            } else if (maxSelectableChoices < 2) {
+                errors.add(MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
+            }
+        }
+    }
+
+    public void validateMessage(List<String> errors){
+        if (msqChoices.size() < MSQ_MIN_NUM_OF_CHOICES) {
+            errors.add(MSQ_ERROR_NOT_ENOUGH_CHOICES
+                       + MSQ_MIN_NUM_OF_CHOICES + ".");
         }
 
-        return errors;
+        // If there are Empty Msq options entered trigger this error
+        boolean isEmptyMsqOptionEntered = msqChoices.stream().anyMatch(msqText -> "".equals(msqText.trim()));
+        if (isEmptyMsqOptionEntered) {
+            errors.add(MSQ_ERROR_EMPTY_MSQ_OPTION);
+        }
+
+        // If weights are enabled, number of choices and weights should be same.
+        // If a user enters an invalid weight for a valid choice,
+        // the msqChoices.size() will be greater than msqWeights.size(), in that case
+        // trigger this error.
+        if (hasAssignedWeights && msqChoices.size() != msqWeights.size()) {
+            errors.add(MSQ_ERROR_INVALID_WEIGHT);
+        }
+
+        // If weights are not enabled, but weight list is not empty or otherWeight is not 0
+        // In that case, trigger this error.
+        if (!hasAssignedWeights && (!msqWeights.isEmpty() || msqOtherWeight != 0)) {
+            errors.add(MSQ_ERROR_INVALID_WEIGHT);
+        }
+
+        // If weight is enabled, but other option is disabled, and msqOtherWeight is not 0
+        // In that case, trigger this error.
+        if (hasAssignedWeights && !otherEnabled && msqOtherWeight != 0) {
+            errors.add(MSQ_ERROR_INVALID_WEIGHT);
+        }
+
+        // If weights are negative, trigger this error.
+        if (hasAssignedWeights && !msqWeights.isEmpty()) {
+            msqWeights.stream()
+                    .filter(weight -> weight < 0)
+                    .forEach(weight -> errors.add(MSQ_ERROR_INVALID_WEIGHT));
+        }
+
+        // If 'Other' option is enabled, and other weight has negative value,
+        // trigger this error.
+        if (hasAssignedWeights && otherEnabled && msqOtherWeight < 0) {
+            errors.add(MSQ_ERROR_INVALID_WEIGHT);
+        }
+
+        //If there are duplicate mcq options trigger this error
+        boolean isDuplicateOptionsEntered = msqChoices.stream().map(String::trim).distinct().count()
+                                            != msqChoices.size();
+        if (isDuplicateOptionsEntered) {
+            errors.add(MSQ_ERROR_DUPLICATE_MSQ_OPTION);
+        }
+
     }
 
     @Override
