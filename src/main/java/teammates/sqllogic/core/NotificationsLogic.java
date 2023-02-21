@@ -45,7 +45,9 @@ public final class NotificationsLogic {
      *
      * @return null if no match found.
      */
-    public Notification getNotification(String notificationId) {
-        return notificationsDb.getNotification(UUID.fromString(notificationId));
+    public Notification getNotification(UUID notificationId) {
+        assert notificationId != null;
+
+        return notificationsDb.getNotification(notificationId);
     }
 }
