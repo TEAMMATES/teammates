@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -78,5 +79,37 @@ public class NotificationsDbTest extends BaseTestCase {
 
         assertThrows(InvalidParametersException.class, () -> notificationsDb.createNotification(invalidNotification));
         verify(session, never()).persist(invalidNotification);
+    }
+
+    @Test
+    public void testGetNotification_success() throws EntityAlreadyExistsException, InvalidParametersException {
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(UUID.randomUUID());
+        notificationsDb.createNotification(notification);
+        verify(session, times(1)).persist(notification);
+
+        when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
+        Notification actualNotification = notificationsDb.getNotification(notification.getNotificationId());
+
+        assertEquals(notification, actualNotification);
+    }
+
+    @Test
+    public void testGetNotification_entityDoesNotExist() throws EntityAlreadyExistsException, InvalidParametersException {
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(UUID.randomUUID());
+        notificationsDb.createNotification(notification);
+        verify(session, times(1)).persist(notification);
+
+        UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
+
+        when(session.get(Notification.class, nonExistentId)).thenReturn(null);
+        Notification actualNotification = notificationsDb.getNotification(nonExistentId);
+
+        assertNull(actualNotification);
     }
 }
