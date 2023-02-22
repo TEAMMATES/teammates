@@ -62,7 +62,7 @@ public class AccountRequestDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("Delete account request that was created");
 
-        accountRequestDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        accountRequestDb.deleteAccountRequest(accountRequest);
 
         AccountRequest actualAccountRequest =
                 accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());

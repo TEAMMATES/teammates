@@ -33,7 +33,7 @@ public final class UsageStatisticsDb extends EntitiesDb<UsageStatistics> {
      * Gets a list of statistics objects between start time and end time.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<UsageStatistics> cr = cb.createQuery(UsageStatistics.class);
         Root<UsageStatistics> root = cr.from(UsageStatistics.class);

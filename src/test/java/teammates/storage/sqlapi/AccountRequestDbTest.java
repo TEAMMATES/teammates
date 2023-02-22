@@ -2,14 +2,12 @@ package teammates.storage.sqlapi;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -26,26 +24,27 @@ public class AccountRequestDbTest extends BaseTestCase {
 
     private AccountRequestDb accountRequestDb;
 
-    private Session session;
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @BeforeMethod
-    public void setUp() {
+    public void setUpMethod() {
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
         accountRequestDb = spy(AccountRequestDb.class);
-        session = spy(Session.class);
-        SessionFactory sessionFactory = spy(SessionFactory.class);
+    }
 
-        HibernateUtil.setSessionFactory(sessionFactory);
-
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
+    @AfterMethod
+    public void teardownMethod() {
+        mockHibernateUtil.close();
     }
 
     @Test
     public void createAccountRequestDoesNotExist() throws InvalidParametersException, EntityAlreadyExistsException {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
         doReturn(null).when(accountRequestDb).getAccountRequest(anyString(), anyString());
+
         accountRequestDb.createAccountRequest(accountRequest);
 
-        verify(session, times(1)).persist(accountRequest);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
     }
 
     @Test
@@ -56,18 +55,17 @@ public class AccountRequestDbTest extends BaseTestCase {
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountRequestDb.createAccountRequest(accountRequest));
+
         assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + accountRequest.toString());
-        verify(session, never()).persist(accountRequest);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest), never());
     }
 
     @Test
     public void deleteAccountRequest() {
         AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        AccountRequest returnedAccountRequest = new AccountRequest("test@gmail.com", "name", "institute");
-        doReturn(returnedAccountRequest).when(accountRequestDb).getAccountRequest(anyString(), anyString());
 
-        accountRequestDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        accountRequestDb.deleteAccountRequest(accountRequest);
 
-        verify(session, times(1)).remove(returnedAccountRequest);
+        mockHibernateUtil.verify(() -> HibernateUtil.remove(accountRequest));
     }
 }

@@ -57,7 +57,7 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
      * Get AccountRequest by {@code email} and {@code institute} from database.
      */
     public AccountRequest getAccountRequest(String email, String institute) {
-        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session currentSession = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = currentSession.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
@@ -118,14 +118,11 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
     }
 
     /**
-     * Delete the AccountRequest with the given email and institute from the database.
+     * Deletes an AccountRequest.
      */
-    public void deleteAccountRequest(String email, String institute) {
-        assert email != null && institute != null;
-
-        AccountRequest accountRequestToDelete = getAccountRequest(email, institute);
-        if (accountRequestToDelete != null) {
-            delete(accountRequestToDelete);
+    public void deleteAccountRequest(AccountRequest accountRequest) {
+        if (accountRequest != null) {
+            delete(accountRequest);
         }
     }
 }
