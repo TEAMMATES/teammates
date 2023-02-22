@@ -35,49 +35,18 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
 
         FeedbackResponseDetails details;
         FeedbackRankRecipientsResponseDetails responseDetails;
-        boolean[] isRankUsed;
+        // boolean[] isRankUsed;
         Set<FeedbackResponseAttributes> updatedResponses = new HashSet<>();
-        boolean isUpdateNeeded = false;
         int answer;
         int maxUnusedRank = 0;
-
-        // Checks whether update is needed.
-        for (FeedbackResponseAttributes response : responses) {
-            details = response.getResponseDetails();
-            if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
-                continue;
-            }
-            responseDetails = (FeedbackRankRecipientsResponseDetails) details;
-            answer = responseDetails.getAnswer();
-            if (answer > maxRank) {
-                isUpdateNeeded = true;
-                break;
-            }
-        }
+        boolean isUpdateNeeded = needsUpdate(responses, maxRank);
 
         // Updates repeatedly, until all responses are consistent.
         while (isUpdateNeeded) {
             isUpdateNeeded = false; // will be set to true again once invalid rank appears after update
-            isRankUsed = new boolean[maxRank];
 
-            // Obtains the largest unused rank.
-            for (FeedbackResponseAttributes response : responses) {
-                details = response.getResponseDetails();
-                if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
-                    continue;
-                }
-                responseDetails = (FeedbackRankRecipientsResponseDetails) details;
-                answer = responseDetails.getAnswer();
-                if (answer <= maxRank) {
-                    isRankUsed[answer - 1] = true;
-                }
-            }
-            for (int i = maxRank - 1; i >= 0; i--) {
-                if (!isRankUsed[i]) {
-                    maxUnusedRank = i + 1;
-                    break;
-                }
-            }
+            maxUnusedRank = getMaxUnusedRank(responses, maxRank, maxUnusedRank);
+            
             assert maxUnusedRank > 0; // if update is needed, there must be at least one unused rank
 
             for (FeedbackResponseAttributes response : responses) {
@@ -106,6 +75,66 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
             }
         }
         return updateOptions;
+    }
+
+    /**
+     * Checks whether update is needed.
+     * @param responses responses to one feedback question, from one giver
+     * @param maxRank the maximum rank in each response
+     * @return boolean deciding if update is needed
+     */
+    private static boolean needsUpdate(List<FeedbackResponseAttributes> responses, int maxRank) {
+        FeedbackResponseDetails details;
+        FeedbackRankRecipientsResponseDetails responseDetails;
+        int answer;
+        boolean isUpdateNeeded = false;
+
+        for (FeedbackResponseAttributes response : responses) {
+            details = response.getResponseDetails();
+            if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
+                continue;
+            }
+            responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+            answer = responseDetails.getAnswer();
+            if (answer > maxRank) {
+                isUpdateNeeded = true;
+                break;
+            }
+        }
+        return isUpdateNeeded;
+    }
+
+    /**
+     * Obtains the largest unused rank.
+     * @param responses responses to one feedback question, from one giver
+     * @param maxRank the maximum rank in each response
+     * @param maxUnusedRank max unused rank
+     * @return max unused rank
+     */
+    private static int getMaxUnusedRank(List<FeedbackResponseAttributes> responses, int maxRank, int maxUnusedRank) {
+        FeedbackResponseDetails details;
+        FeedbackRankRecipientsResponseDetails responseDetails;
+        int answer;
+        boolean[] isRankUsed = new boolean[maxRank];
+
+        for (FeedbackResponseAttributes response : responses) {
+            details = response.getResponseDetails();
+            if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
+                continue;
+            }
+            responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+            answer = responseDetails.getAnswer();
+            if (answer <= maxRank) {
+                isRankUsed[answer - 1] = true;
+            }
+        }
+        for (int i = maxRank - 1; i >= 0; i--) {
+            if (!isRankUsed[i]) {
+                maxUnusedRank = i + 1;
+                break;
+            }
+        }
+        return maxUnusedRank;
     }
 
     @Override
