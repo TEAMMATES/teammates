@@ -54,6 +54,16 @@ public abstract class User extends BaseEntity {
         // required by Hibernate
     }
 
+    public User(Integer id, Account account, Course course,
+            Team team, String name, String email) {
+        this.setId(id);
+        this.setAccount(account);
+        this.setCourse(course);
+        this.setTeam(team);
+        this.setName(name);
+        this.setEmail(email);
+    }
+
     public Integer getId() {
         return id;
     }

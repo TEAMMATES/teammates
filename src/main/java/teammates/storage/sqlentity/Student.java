@@ -23,8 +23,10 @@ public class Student extends User {
         // required by Hibernate
     }
 
-    public Student(String comments) {
-        this.comments = comments;
+    public Student(Integer id, Account account, Course course,
+            Team team, String name, String email, String comments) {
+        super(id, account, course, team, name, email);
+        this.setComments(comments);
     }
 
     public String getComments() {
