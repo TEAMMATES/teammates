@@ -6,13 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.annotations.AfterTest;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
@@ -89,35 +85,6 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         testGetFeedbackQuestionsForStudents();
         testAddQuestion();
     }
-
-
-    @AfterTest
-    public void afterTest() {
-        int coveredBranches = fqLogic.debugReachedBranches.size();
-        double totalBranches = 52;
-        Double branchCoverage = 100 * ((double) coveredBranches / totalBranches);
-        System.out.println("From aftertest: " + coveredBranches);
-        try {
-                File directory = new File("./build/reports/tests/coverage");
-                directory.mkdirs();
-                FileWriter writer = new FileWriter("./build/reports/tests/coverage/getRecipientsOfQuestion.txt");
-                writer.write("Code coverage: " + branchCoverage.toString() + "%\n");
-                writer.write("Branches covered: ");
-                for (Integer i : frLogic.debugReachedBranches) {
-                        writer.write(i.toString() + " ");
-                }
-                writer.write("\nBranches not covered: ");
-                for (Integer i = 1; i < totalBranches; i++) {
-                        if (!Arrays.asList(frLogic.debugReachedBranches).contains(i)) {
-                                writer.write(i.toString() + " ");
-                        }
-                }
-                writer.write("\n");
-                writer.close();
-        } catch (IOException e) {
-                e.printStackTrace();
-        }
-    }    
 
     @Test
     public void testGetRecipientsOfQuestion() throws Exception {

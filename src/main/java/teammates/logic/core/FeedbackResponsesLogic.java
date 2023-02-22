@@ -49,8 +49,6 @@ public final class FeedbackResponsesLogic {
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
 
-    public Integer[] debugReachedBranches;
-
     private FeedbackResponsesLogic() {
         // prevent initialization
     }

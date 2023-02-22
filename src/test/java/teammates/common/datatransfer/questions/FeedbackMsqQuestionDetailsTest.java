@@ -38,62 +38,8 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         assertEquals(1, errors.size());
         assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES, errors.get(0));
-    }
+        }
 
-     @Test
-     public void testShouldChangesRequireResponseDeletion_moreStrictMinRestriction_BothMsqDetalsAndnewMsqDetailsNoValue_shouldReturnTrue() {
-         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
-         msqDetails.setMinSelectableChoices(Const.POINTS_NO_VALUE);
- 
-         FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
-         newMsqDetails.setMinSelectableChoices(Const.POINTS_NO_VALUE);
- 
-         assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
-     }
- 
-     @Test
-     public void testShouldChangesRequireResponseDeletion_moreStrictMinRestriction_MsqDetailsNotNovalue_shouldReturnTrue() {
-         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
-         msqDetails.setMinSelectableChoices(3);
-     
-         FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
-         newMsqDetails.setMinSelectableChoices(Const.POINTS_NO_VALUE);
-     
-         assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
-     }  
-     
-     @Test
-     public void testShouldChangesRequireResponseDeletion_moreStrictMinRestriction_msqDetailsSelectableChoiesGreaterThan_newMsqDetals_shouldReturnTrue() {
-         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
-         msqDetails.setMinSelectableChoices(20);
-     
-         FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
-         newMsqDetails.setMinSelectableChoices(5);
-     
-         assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
-     }  
- 
-     @Test
-     public void testShouldChangesRequireResponseDeletion_moreStrictMinRestriction_minSelectableChoicesEqual_shouldReturnTrue() {
-         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
-         msqDetails.setMinSelectableChoices(3);
-     
-         FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
-         newMsqDetails.setMinSelectableChoices(3);
-     
-         assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
-     } 
- 
-     @Test
-     public void testShouldChangesRequireResponseDeletion_differentSizesMsqChoices_shouldReturnTrue() {
-         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
-         msqDetails.setMsqChoices(List.of("choice1", "choice2"));
- 
-         FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
-         newMsqDetails.setMsqChoices(List.of("choice1"));
- 
-         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
-     }
 
     @Test
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues() {

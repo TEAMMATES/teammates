@@ -16,10 +16,6 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 [Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
 [Project Stats](https://www.openhub.net/p/teammatesonline)
 
-## Link to report
-This fork was created as a part of the DD2480 course at KTH.
-[**The report can be found here**](https://docs.google.com/document/d/18Pbn-wY31H9d7QTO26DVCbYnxxiBbLltp-C4tGSYd64/edit?usp=sharing)
-
 ## Interested to join TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources:
