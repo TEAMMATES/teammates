@@ -47,12 +47,12 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
     @BeforeMethod
     public void setUp() throws Exception {
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().begin();
+        HibernateUtil.beginTransaction();
     }
 
     @AfterMethod
     public void tearDown() {
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().rollback();
+        HibernateUtil.rollbackTransaction();
     }
 
     /**

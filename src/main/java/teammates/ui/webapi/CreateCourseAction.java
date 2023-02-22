@@ -79,7 +79,7 @@ class CreateCourseAction extends Action {
             throw new InvalidHttpRequestBodyException(e);
         }
 
-        HibernateUtil.getSessionFactory().getCurrentSession().flush();
+        HibernateUtil.flushSession();
         CourseData courseData = new CourseData(course);
         return new JsonResult(courseData);
     }
