@@ -824,23 +824,40 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes feedbackQuestionNull = null;
         FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
 
-        assertFalse(feedbackQuestion.equals(feedbackQuestionNull));
+        assertFalse(feedbackQuestion.equals(feedbackQuestionNull));   
+    }
 
-        feedbackQuestionNull = getNewFeedbackQuestionAttributes();
-        feedbackQuestion = getNewFeedbackQuestionAttributes();
+    @Test
+    public void testEqualsNull_questionDescription() {
+        FeedbackQuestionAttributes feedbackQuestionNull = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
 
-        feedbackQuestionNull.setFeedbackSessionName(null);
-        feedbackQuestion.setFeedbackSessionName("Some session name");
+        feedbackQuestionNull.setQuestionDescription(null);
+        feedbackQuestion.setQuestionDescription("Some description");
 
-        assertFalse(feedbackQuestion.equals(feedbackQuestionNull));
+        assertFalse(feedbackQuestionNull.equals(feedbackQuestion));
+    }
 
-        feedbackQuestionNull = getNewFeedbackQuestionAttributes();
-        feedbackQuestion = getNewFeedbackQuestionAttributes();
+    @Test
+    public void testEqualsNull_courseId() {
+        FeedbackQuestionAttributes feedbackQuestionNull = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
 
         feedbackQuestionNull.setCourseId(null);
         feedbackQuestion.setCourseId("Some courseId");
 
         assertFalse(feedbackQuestion.equals(feedbackQuestionNull));
+    }
+
+    @Test
+    public void testEqualsNull_feedbackSessionName() {
+        FeedbackQuestionAttributes feedbackQuestionNull = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
+
+        feedbackQuestionNull.setFeedbackSessionName(null);
+        feedbackQuestion.setFeedbackSessionName("Some session name");
+
+        assertFalse(feedbackQuestionNull.equals(feedbackQuestion));
     }
 
     @Test
@@ -873,7 +890,21 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .build();
 
         assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+    }
 
+    @Test
+    public void testEquals_recipientType() {
+        FeedbackQuestionAttributes feedbackQuestionOne = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes feedbackQuestionTwo = getNewFeedbackQuestionAttributes();
+
+        feedbackQuestionOne.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
+        feedbackQuestionTwo.setRecipientType(FeedbackParticipantType.GIVER);
+
+        assertFalse(feedbackQuestionOne.equals(feedbackQuestionTwo));
+
+        feedbackQuestionOne.setRecipientType(FeedbackParticipantType.GIVER);
+
+        assertTrue(feedbackQuestionOne.equals(feedbackQuestionTwo));
     }
 
     @Test
