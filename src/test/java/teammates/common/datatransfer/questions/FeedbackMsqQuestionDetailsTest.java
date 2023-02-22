@@ -40,7 +40,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES, errors.get(0));
     }
 
-     //Branch: this.minSelectableChoices and newMsqDetails.minSelectableChoices are both Const.POINTS_NO_VALUE.
      @Test
      public void testShouldChangesRequireResponseDeletion_moreStrictMinRestriction_BothMsqDetalsAndnewMsqDetailsNoValue_shouldReturnTrue() {
          FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
@@ -52,7 +51,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
          assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
      }
  
-     //Branch: this.minSelectableChoices is not Const.POINTS_NO_VALUE, and newMsqDetails.minSelectableChoices is.
      @Test
      public void testShouldChangesRequireResponseDeletion_moreStrictMinRestriction_MsqDetailsNotNovalue_shouldReturnTrue() {
          FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
@@ -64,7 +62,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
          assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
      }  
      
-     //Branch Both this.minSelectableChoices and newMsqDetails.minSelectableChoices are not Const.POINTS_NO_VALUE, but this.minSelectableChoices is greater than or equal to newMsqDetails.minSelectableChoices.
      @Test
      public void testShouldChangesRequireResponseDeletion_moreStrictMinRestriction_msqDetailsSelectableChoiesGreaterThan_newMsqDetals_shouldReturnTrue() {
          FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
@@ -76,7 +73,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
          assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
      }  
  
-     // Maybe delete? 
      @Test
      public void testShouldChangesRequireResponseDeletion_moreStrictMinRestriction_minSelectableChoicesEqual_shouldReturnTrue() {
          FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
@@ -88,7 +84,6 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
          assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
      } 
  
-     // this.msqChoices.size() != newMsqDetails.msqChoices.size() [1/2 branches covered]
      @Test
      public void testShouldChangesRequireResponseDeletion_differentSizesMsqChoices_shouldReturnTrue() {
          FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
