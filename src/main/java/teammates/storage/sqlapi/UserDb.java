@@ -51,12 +51,21 @@ public final class UserDb extends EntitiesDb<User> {
     }
 
     /**
-     * Gets a user by its {@code id}.
+     * Gets an instructor by its {@code id}.
      */
-    public User getUser(Integer userId) {
-        assert userId != null;
+    public Instructor getInstructor(Integer id) {
+        assert id != null;
 
-        return HibernateUtil.getSessionFactory().getCurrentSession().get(User.class, userId);
+        return HibernateUtil.getSessionFactory().getCurrentSession().get(Instructor.class, id);
+    }
+    
+    /**
+     * Gets a student by its {@code id}.
+     */
+    public Student getStudent(Integer id) {
+        assert id != null;
+
+        return HibernateUtil.getSessionFactory().getCurrentSession().get(Student.class, id);
     }
 
     /**
