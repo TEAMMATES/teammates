@@ -88,13 +88,29 @@ public final class UserDb extends EntitiesDb<User> {
     }
 
     /**
-     * Gets the number of users created within a specified time range.
+     * Gets the number of instructors created within a specified time range.
      */
-    public long getNumUsersByTimeRange(Instant startTime, Instant endTime) {
+    public long getNumInstructorsByTimeRange(Instant startTime, Instant endTime) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
-        Root<User> root = cr.from(User.class);
+        Root<Instructor> root = cr.from(Instructor.class);
+
+        cr.select(cb.count(root.get("id"))).where(cb.and(
+                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThan(root.get("createdAt"), endTime)));
+
+        return session.createQuery(cr).getSingleResult();
+    }
+
+     /**
+     * Gets the number of students created within a specified time range.
+     */
+    public long getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        Root<Student> root = cr.from(Student.class);
 
         cr.select(cb.count(root.get("id"))).where(cb.and(
                 cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
