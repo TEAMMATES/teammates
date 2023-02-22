@@ -113,21 +113,29 @@ public class NotificationsDbTest extends BaseTestCase {
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
-        verify(session, times(1)).persist(notification);
 
-        when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(notification));
+        mockHibernateUtil.when(() -> HibernateUtil.get(Notification.class, notification.getNotificationId()))
+                .thenReturn(notification);
 
-        Notification newNotification = new Notification(Instant.parse("2012-01-01T00:00:00Z"),
-                Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK, NotificationTargetUser.INSTRUCTOR,
-                "An updated deprecation note", "<p>Deprecation happens in three seconds</p>");
-        newNotification.setNotificationId(notification.getNotificationId());
+        Instant newStartTime = Instant.parse("2012-01-01T00:00:00Z");
+        Instant newEndTime = Instant.parse("2098-01-01T00:00:00Z");
+        NotificationStyle newStyle = NotificationStyle.DARK;
+        NotificationTargetUser newTargetUser = NotificationTargetUser.INSTRUCTOR;
+        String newTitle = "An updated deprecation note";
+        String newMessage = "<p>Deprecation happens in three seconds</p>";
+        Notification updatedNotification = notificationsDb.updateNotification(notification.getNotificationId(),
+                newStartTime, newEndTime, newStyle, newTargetUser, newTitle, newMessage);
 
-        when(session.merge(newNotification)).thenReturn(newNotification);
+        mockHibernateUtil.verify(() -> HibernateUtil.get(Notification.class, notification.getNotificationId()));
 
-        Notification actualNotification = notificationsDb.updateNotification(newNotification);
-        verify(session, times(1)).merge(newNotification);
-
-        assertEquals(newNotification, actualNotification);
+        assertEquals(notification.getNotificationId(), updatedNotification.getNotificationId());
+        assertEquals(newStartTime, updatedNotification.getStartTime());
+        assertEquals(newEndTime, updatedNotification.getEndTime());
+        assertEquals(newStyle, updatedNotification.getStyle());
+        assertEquals(newTargetUser, updatedNotification.getTargetUser());
+        assertEquals(newTitle, updatedNotification.getTitle());
+        assertEquals(newMessage, updatedNotification.getMessage());
     }
 
     @Test
@@ -138,16 +146,15 @@ public class NotificationsDbTest extends BaseTestCase {
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
-        verify(session, times(1)).persist(notification);
 
-        when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(notification));
+        mockHibernateUtil.when(() -> HibernateUtil.get(Notification.class, notification.getNotificationId()))
+                .thenReturn(notification);
 
-        Notification newNotification = new Notification(Instant.parse("2011-01-01T00:00:01Z"),
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(
+                notification.getNotificationId(), Instant.parse("2011-01-01T00:00:01Z"),
                 Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
-        notification.setNotificationId(notification.getNotificationId());
-
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(newNotification));
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>"));
     }
 
     @Test
@@ -158,16 +165,15 @@ public class NotificationsDbTest extends BaseTestCase {
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
-        verify(session, times(1)).persist(notification);
 
-        when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(notification));
+        mockHibernateUtil.when(() -> HibernateUtil.get(Notification.class, notification.getNotificationId()))
+                .thenReturn(notification);
 
-        Notification newNotification = new Notification(Instant.parse("2012-01-01T00:00:00Z"),
-                Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK, NotificationTargetUser.INSTRUCTOR,
-                "", "<p>Deprecation happens in three seconds</p>");
-        newNotification.setNotificationId(notification.getNotificationId());
-
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(newNotification));
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(
+                notification.getNotificationId(), Instant.parse("2011-01-01T00:00:01Z"),
+                Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "", "<p>Deprecation happens in three minutes</p>"));
     }
 
     @Test
@@ -178,16 +184,15 @@ public class NotificationsDbTest extends BaseTestCase {
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
-        verify(session, times(1)).persist(notification);
 
-        when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(notification));
+        mockHibernateUtil.when(() -> HibernateUtil.get(Notification.class, notification.getNotificationId()))
+                .thenReturn(notification);
 
-        Notification newNotification = new Notification(Instant.parse("2012-01-01T00:00:00Z"),
-                Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK, NotificationTargetUser.INSTRUCTOR,
-                "An updated deprecation note", "");
-        newNotification.setNotificationId(notification.getNotificationId());
-
-        assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(newNotification));
+        assertThrows(InvalidParametersException.class, () -> notificationsDb.updateNotification(
+                notification.getNotificationId(), Instant.parse("2011-01-01T00:00:01Z"),
+                Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "An updated deprecation note", ""));
     }
 
     @Test
@@ -198,19 +203,16 @@ public class NotificationsDbTest extends BaseTestCase {
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         notification.setNotificationId(UUID.randomUUID());
         notificationsDb.createNotification(notification);
-        verify(session, times(1)).persist(notification);
 
-        when(session.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(notification));
+        mockHibernateUtil.when(() -> HibernateUtil.get(Notification.class, notification.getNotificationId()))
+                .thenReturn(notification);
 
-        UUID nonExistentId = UUID.randomUUID();
-        while (nonExistentId.equals(notification.getNotificationId())) {
-            nonExistentId = UUID.randomUUID();
-        }
-        Notification newNotification = new Notification(Instant.parse("2012-01-01T00:00:00Z"),
-                Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK, NotificationTargetUser.INSTRUCTOR,
-                "An updated deprecation note", "<p>Deprecation happens in three seconds</p>");
-        newNotification.setNotificationId(nonExistentId);
+        UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
 
-        assertThrows(EntityDoesNotExistException.class, () -> notificationsDb.updateNotification(newNotification));
+        assertThrows(EntityDoesNotExistException.class, () -> notificationsDb.updateNotification(nonExistentId,
+                Instant.parse("2012-01-01T00:00:00Z"), Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK,
+                NotificationTargetUser.INSTRUCTOR, "An updated deprecation note",
+                "<p>Deprecation happens in three seconds</p>"));
     }
 }

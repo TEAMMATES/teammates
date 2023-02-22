@@ -1,7 +1,10 @@
 package teammates.sqllogic.core;
 
+import java.time.Instant;
 import java.util.UUID;
 
+import teammates.common.datatransfer.NotificationStyle;
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -50,5 +53,19 @@ public final class NotificationsLogic {
         assert notificationId != null;
 
         return notificationsDb.getNotification(notificationId);
+    }
+
+    /**
+     * Updates/Creates the notification using {@link Notification}.
+     *
+     * @return updated notification
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if notification cannot be found with given Id
+     */
+    public Notification updateNotification(UUID notificationId, Instant startTime, Instant endTime,
+                                           NotificationStyle style, NotificationTargetUser targetUser, String title,
+                                           String message)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return notificationsDb.updateNotification(notificationId, startTime, endTime, style, targetUser, title, message);
     }
 }

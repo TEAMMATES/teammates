@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import teammates.common.datatransfer.NotificationStyle;
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -104,5 +106,21 @@ public class Logic {
      */
     public Notification getNotification(UUID notificationId) {
         return notificationsLogic.getNotification(notificationId);
+    }
+
+    /**
+     * Updates a notification.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     * @return updated notification
+     * @throws InvalidParametersException if the notification is not valid
+     * @throws EntityDoesNotExistException if the notification does not exist in the database
+     */
+    public Notification updateNotification(UUID notificationId, Instant startTime, Instant endTime,
+                                           NotificationStyle style, NotificationTargetUser targetUser, String title,
+                                           String message) throws
+            InvalidParametersException, EntityDoesNotExistException {
+        return notificationsLogic.updateNotification(notificationId, startTime, endTime, style, targetUser, title, message);
     }
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -18,18 +19,20 @@ public class UpdateNotificationAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        String notificationId = getNonNullRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
+        UUID notificationId = UUID.fromString(getNonNullRequestParamValue(Const.ParamsNames.NOTIFICATION_ID));
         NotificationUpdateRequest notificationRequest = getAndValidateRequestBody(NotificationUpdateRequest.class);
 
         Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());
         Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
 
-        Notification newNotification = new Notification(startTime, endTime, notificationRequest.getStyle(),
-                notificationRequest.getTargetUser(), notificationRequest.getTitle(), notificationRequest.getMessage());
-        newNotification.setNotificationId(UUID.fromString(notificationId));
-
         try {
-            return new JsonResult(new NotificationData(sqlLogic.updateNotification(newNotification)));
+            Notification updateNotification = sqlLogic.updateNotification(notificationId, startTime, endTime,
+                    notificationRequest.getStyle(), notificationRequest.getTargetUser(), notificationRequest.getTitle(),
+                    notificationRequest.getMessage());
+
+            HibernateUtil.flushSession();
+
+            return new JsonResult(new NotificationData(updateNotification));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException ednee) {
