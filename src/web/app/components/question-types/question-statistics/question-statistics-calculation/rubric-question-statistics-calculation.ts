@@ -98,25 +98,28 @@ export class RubricQuestionStatisticsCalculation
 
     // calculate per recipient stats
     for (const response of this.responses) {
-      this.perRecipientStatsMap[response.recipient] = this.perRecipientStatsMap[response.recipient] || {
-        recipientName: response.recipient,
-        recipientEmail: response.recipientEmail,
-        recipientTeam: response.recipientTeam,
-        answers: JSON.parse(JSON.stringify(emptyAnswers)),
-        answersSum: [],
-        percentages: [],
-        percentagesAverage: [],
-        weightsAverage: [],
-        subQuestionTotalChosenWeight: this.subQuestions.map(() => 0),
-        subQuestionWeightAverage: [],
-      };
+      this.perRecipientStatsMap[response.recipientEmail || response.recipient] =
+        this.perRecipientStatsMap[
+          response.recipientEmail || response.recipient
+        ] || {
+          recipientName: response.recipient,
+          recipientEmail: response.recipientEmail,
+          recipientTeam: response.recipientTeam,
+          answers: JSON.parse(JSON.stringify(emptyAnswers)),
+          answersSum: [],
+          percentages: [],
+          percentagesAverage: [],
+          weightsAverage: [],
+          subQuestionTotalChosenWeight: this.subQuestions.map(() => 0),
+          subQuestionWeightAverage: [],
+        };
       for (let i: number = 0; i < response.responseDetails.answer.length; i += 1) {
         const subAnswer: number = response.responseDetails.answer[i];
         if (subAnswer === RUBRIC_ANSWER_NOT_CHOSEN) {
           continue;
         }
-        this.perRecipientStatsMap[response.recipient].answers[i][subAnswer] += 1;
-        this.perRecipientStatsMap[response.recipient].subQuestionTotalChosenWeight[i] +=
+        this.perRecipientStatsMap[response.recipientEmail || response.recipient].answers[i][subAnswer] += 1;
+        this.perRecipientStatsMap[response.recipientEmail || response.recipient].subQuestionTotalChosenWeight[i] +=
             +this.weights[i][subAnswer].toFixed(5);
       }
     }
