@@ -35,14 +35,19 @@ public final class UserDb extends EntitiesDb<User> {
     /**
      * Creates a user.
      */
-    public User createUser(User user) throws InvalidParametersException, EntityAlreadyExistsException {
+    public <T extends User> T createUser(T user)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         assert user != null;
 
         if (!user.isValid()) {
             throw new InvalidParametersException(user.getInvalidityInfo());
         }
 
-        if (getUser(user.getId()) != null) {
+        if (getInstructor(user.getId()) == null) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, user.toString()));
+        }
+
+        if (getStudent(user.getId()) == null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, user.toString()));
         }
 
@@ -71,14 +76,19 @@ public final class UserDb extends EntitiesDb<User> {
     /**
      * Saves an updated {@code User} to the db.
      */
-    public User updateUser(User user) throws InvalidParametersException, EntityDoesNotExistException {
+    public <T extends User> T updateUser(T user)
+            throws InvalidParametersException, EntityDoesNotExistException {
         assert user != null;
 
         if (!user.isValid()) {
             throw new InvalidParametersException(user.getInvalidityInfo());
         }
 
-        if (getUser(user.getId()) == null) {
+        if (getInstructor(user.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        if (getStudent(user.getId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
@@ -88,11 +98,7 @@ public final class UserDb extends EntitiesDb<User> {
     /**
      * Deletes a user.
      */
-    public void deleteUser(Integer userId) {
-        assert userId != null;
-
-        User user = getUser(userId);
-
+    public <T extends User> void deleteUser(T user) {
         if (user != null) {
             delete(user);
         }
