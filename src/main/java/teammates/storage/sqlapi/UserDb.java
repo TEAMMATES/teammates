@@ -63,7 +63,7 @@ public final class UserDb extends EntitiesDb<User> {
 
         return HibernateUtil.getSessionFactory().getCurrentSession().get(Instructor.class, id);
     }
-    
+
     /**
      * Gets a student by its {@code id}.
      */
@@ -120,7 +120,7 @@ public final class UserDb extends EntitiesDb<User> {
         return session.createQuery(cr).getSingleResult();
     }
 
-     /**
+    /**
      * Gets the number of students created within a specified time range.
      */
     public long getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
