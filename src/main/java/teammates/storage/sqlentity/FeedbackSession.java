@@ -3,7 +3,9 @@ package teammates.storage.sqlentity;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,7 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-
+import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -152,12 +154,15 @@ public class FeedbackSession extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
-        // TODO: add once extended dealines added to entity
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-        // endTime, studentDeadlines), errors);
+        // Fetches the DeadlineExtensions associated with this (feedback session) id
+        List<DeadlineExtension> deadlineExtensions = DeadlineExtensionsDb.inst().getDeadlineExtensionsBySessionId(id);
+        Map<String, Instant> deadlines = new HashMap<>();
+        for (DeadlineExtension de: deadlineExtensions) {
+            deadlines.put(de.getUser().getEmail(), de.getEndTime());
+        }
 
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-        // endTime, instructorDeadlines), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+        endTime, deadlines), errors);
 
         return errors;
     }

@@ -1,6 +1,13 @@
 package teammates.storage.sqlapi;
 
-import io.grpc.Deadline;
+import java.util.List;
+
+import org.hibernate.Session;
+
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -81,5 +88,20 @@ public class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
         if (de != null) {
             delete(de);
         }
+    }
+
+    /**
+     * Get DeadlineExtension with {@code createdTime} within the times {@code startTime} and {@code endTime}.
+     */
+    public List<DeadlineExtension> getDeadlineExtensionsBySessionId(Integer feedbackSessionId) {
+        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
+        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
+        Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
+
+        cr.select(root).where(cb.equal(root.get("sessionId"), feedbackSessionId));
+
+        TypedQuery<DeadlineExtension> query = currentSession.createQuery(cr);
+        return query.getResultList();
     }
 }
