@@ -74,6 +74,17 @@ public final class UserDb extends EntitiesDb<User> {
     }
 
     /**
+     * Checks if a user exists by its {@code id}.
+     */
+    private boolean doesUserExist(Integer id) {
+        assert id != null;
+
+        User user = HibernateUtil.getSessionFactory().getCurrentSession().get(User.class, id);
+
+        return user != null;
+    }
+
+    /**
      * Saves an updated {@code User} to the db.
      */
     public <T extends User> T updateUser(T user)
@@ -84,11 +95,7 @@ public final class UserDb extends EntitiesDb<User> {
             throw new InvalidParametersException(user.getInvalidityInfo());
         }
 
-        if (getInstructor(user.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        if (getStudent(user.getId()) == null) {
+        if (doesUserExist(user.getId())) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
