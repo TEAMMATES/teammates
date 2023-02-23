@@ -4,21 +4,22 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.DeadlineExtension;
 
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+
 /**
  * Handles CRUD operations for deadline extensions.
- * 
+ *
  * @see DeadlineExtension
  */
-public class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
+public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
 
     private static final DeadlineExtensionsDb instance = new DeadlineExtensionsDb();
 
@@ -31,9 +32,9 @@ public class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
     }
 
     /**
-     * Creates a deadline extension
+     * Creates a deadline extension.
      */
-    public DeadlineExtension createDeadlineExtension(DeadlineExtension de) 
+    public DeadlineExtension createDeadlineExtension(DeadlineExtension de)
             throws InvalidParametersException {
         assert de != null;
 
@@ -51,9 +52,8 @@ public class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
     public DeadlineExtension getDeadlineExtension(Integer deadlineExtensionId) {
         assert deadlineExtensionId != null;
 
-        DeadlineExtension de = HibernateUtil.getSessionFactory().getCurrentSession()
+        return HibernateUtil.getSessionFactory().getCurrentSession()
                 .get(DeadlineExtension.class, deadlineExtensionId);
-        return de;
     }
 
     /**
@@ -63,7 +63,7 @@ public class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
      * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the deadline extension cannot be found
      */
-    public DeadlineExtension updateDeadlineExtension(DeadlineExtension deadlineExtension) 
+    public DeadlineExtension updateDeadlineExtension(DeadlineExtension deadlineExtension)
             throws InvalidParametersException, EntityDoesNotExistException {
         assert deadlineExtension != null;
 

@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import teammates.common.util.FieldValidator;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import teammates.common.util.FieldValidator;
 
 /**
  * Represents a deadline extension entity.
@@ -37,10 +37,6 @@ public class DeadlineExtension extends BaseEntity {
 
     @Column(nullable = false)
     private Instant endTime;
-
-    @CreationTimestamp
-    @Column(updatable = false, nullable = false)
-    private Instant createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
@@ -80,21 +76,12 @@ public class DeadlineExtension extends BaseEntity {
         this.feedbackSession = feedbackSession;
     }
 
-
     public Instant getEndTime() {
         return endTime;
     }
 
     public void setEndTime(Instant endTime) {
         this.endTime = endTime;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Instant getUpdatedAt() {
@@ -107,8 +94,8 @@ public class DeadlineExtension extends BaseEntity {
 
     @Override
     public String toString() {
-        return "DeadlineExtension [id=" + id + ", user=" + user + ", feedbackSession=" + feedbackSession + ", endTime=" + endTime + 
-                ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+        return "DeadlineExtension [id=" + id + ", user=" + user + ", feedbackSession=" + feedbackSession
+                + ", endTime=" + endTime + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
