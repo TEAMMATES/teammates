@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
@@ -27,7 +28,7 @@ public class Account extends BaseEntity {
     @GeneratedValue
     private Integer id;
 
-    @Column(nullable = false)
+    @NaturalId
     private String googleId;
 
     @Column(nullable = false)

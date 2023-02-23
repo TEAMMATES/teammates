@@ -66,7 +66,7 @@ public class AccountRequestDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         AccountRequest actualAccountRequest =
                 accountRequestDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
-        verifyEquals(null, actualAccountRequest);
+        assertNull(actualAccountRequest);
     }
 
     @Test
