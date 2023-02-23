@@ -146,6 +146,15 @@ public final class HibernateUtil {
     }
 
     /**
+     * Return the persistent instance of the given entity class with the given natural id,
+     * or null if there is no such persistent instance.
+     * @see Session#get(Class, Object)
+     */
+    public static <T extends BaseEntity> T getBySimpleNaturalId(Class<T> entityType, Object id) {
+        return HibernateUtil.getCurrentSession().bySimpleNaturalId(entityType).load(id);
+    }
+
+    /**
      * Copy the state of the given object onto the persistent object with the same identifier.
      * @see Session#merge(E)
      */
