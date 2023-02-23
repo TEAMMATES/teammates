@@ -1,8 +1,11 @@
 package teammates.storage.sqlentity.questions;
 
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 
 /**
@@ -11,36 +14,32 @@ import jakarta.persistence.Entity;
 @Entity
 public class FeedbackTextQuestion extends FeedbackQuestion {
 
-    @Column(nullable = true)
-    private Integer recommendedLength;
+    FeedbackTextQuestionDetailsConverter converter = new FeedbackTextQuestionDetailsConverter();
 
     @Column(nullable = false)
-    private boolean shouldAllowRichText;
+    @Convert(converter = FeedbackTextQuestionDetailsConverter.class)
+    private String questionDetails;
 
     protected FeedbackTextQuestion() {
         // required by Hibernate
     }
 
-    public Integer getRecommendedLength() {
-        return recommendedLength;
-    }
-
-    public void setRecommendedLength(Integer recommendedLength) {
-        this.recommendedLength = recommendedLength;
-    }
-
-    public boolean getShouldAllowRichText() {
-        return shouldAllowRichText;
-    }
-
-    public void setShouldAllowRichText(Boolean shouldAllowRichText) {
-        this.shouldAllowRichText = shouldAllowRichText;
-    }
-
     @Override
     public String toString() {
-        return "FeedbackTextQuestion [id=" + super.getId() + ", recommendedLength=" + recommendedLength
-                + ", shouldAllowRichText=" + shouldAllowRichText
-                + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
+        return "FeedbackTextQuestion [id=" + super.getId() + ", createdAt=" + super.getCreatedAt()
+                + ", updatedAt=" + super.getUpdatedAt() + "]";
+    }
+
+    public void setFeedBackQuestionDetails(FeedbackTextQuestionDetails questionDetails) {
+        this.questionDetails = converter.convertToDatabaseColumn(questionDetails);
+    }
+
+    public FeedbackTextQuestionDetails getFeedbackQuestionDetails() {
+        return converter.convertToEntityAttribute(questionDetails);
+    }
+
+    @Converter
+    private class FeedbackTextQuestionDetailsConverter
+            extends JsonConverter<FeedbackTextQuestionDetails> {
     }
 }

@@ -1,8 +1,11 @@
 package teammates.storage.sqlentity.questions;
 
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 
 /**
@@ -11,47 +14,32 @@ import jakarta.persistence.Entity;
 @Entity
 public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
 
-    @Column(nullable = false)
-    private Integer minScale;
+    FeedbackNumericalScaleQuestionDetailsConverter converter = new FeedbackNumericalScaleQuestionDetailsConverter();
 
     @Column(nullable = false)
-    private Integer maxScale;
-
-    @Column(nullable = false)
-    private Double step;
+    @Convert(converter = FeedbackNumericalScaleQuestionDetailsConverter.class)
+    private String questionDetails;
 
     protected FeedbackNumericalScaleQuestion() {
         // required by Hibernate
     }
 
-    public Integer getMinScale() {
-        return minScale;
-    }
-
-    public void setMinScale(Integer minScale) {
-        this.minScale = minScale;
-    }
-
-    public Integer getMaxScale() {
-        return maxScale;
-    }
-
-    public void setMaxScale(Integer maxScale) {
-        this.maxScale = maxScale;
-    }
-
-    public Double getStep() {
-        return step;
-    }
-
-    public void setStep(Double step) {
-        this.step = step;
-    }
-
     @Override
     public String toString() {
-        return "FeedbackNumericalScaleQuestion [id=" + super.getId() + ", minScale=" + minScale
-                + ", maxScale=" + maxScale + ", step=" + step
+        return "FeedbackNumericalScaleQuestion [id=" + super.getId()
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
+    }
+
+    public void setFeedBackQuestionDetails(FeedbackNumericalScaleQuestionDetails questionDetails) {
+        this.questionDetails = converter.convertToDatabaseColumn(questionDetails);
+    }
+
+    public FeedbackNumericalScaleQuestionDetails getFeedbackQuestionDetails() {
+        return converter.convertToEntityAttribute(questionDetails);
+    }
+
+    @Converter
+    private class FeedbackNumericalScaleQuestionDetailsConverter
+            extends JsonConverter<FeedbackNumericalScaleQuestionDetails> {
     }
 }

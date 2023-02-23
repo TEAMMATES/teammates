@@ -11,10 +11,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.FieldValidator;
-import teammates.storage.sqlconverter.FeedbackParticipantTypeListConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,9 +31,9 @@ import jakarta.persistence.Table;
  *  entity.
  */
 @Entity
-@Table(name = "FeedbackQuestion")
+@Table(name = "FeedbackQuestions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class FeedbackQuestion extends BaseEntity {
+public abstract class FeedbackQuestion extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -67,9 +67,11 @@ public class FeedbackQuestion extends BaseEntity {
     private Integer numOfEntitiesToGiveFeedbackTo;
 
     @Column(nullable = false)
+    @Convert(converter = FeedbackParticipantTypeListConverter.class)
     private List<FeedbackParticipantType> showResponsesTo;
 
     @Column(nullable = false)
+    @Convert(converter = FeedbackParticipantTypeListConverter.class)
     private List<FeedbackParticipantType> showGiverNameTo;
 
     @Column(nullable = false)
@@ -262,6 +264,12 @@ public class FeedbackQuestion extends BaseEntity {
         } else {
             return false;
         }
+    }
+
+    @Converter
+    private class FeedbackParticipantTypeListConverter
+            extends JsonConverter<List<FeedbackParticipantType>> {
+
     }
 }
 
