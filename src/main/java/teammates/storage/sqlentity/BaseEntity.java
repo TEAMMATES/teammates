@@ -89,7 +89,7 @@ public abstract class BaseEntity {
      * @param <T> The type of entity to be converted to and from JSON.
      */
     @Converter
-    public abstract class JsonConverter<T> implements AttributeConverter<T, String> {
+    public static class JsonConverter<T> implements AttributeConverter<T, String> {
         @Override
         public String convertToDatabaseColumn(T questionDetails) {
             return JsonUtils.toJson(questionDetails);

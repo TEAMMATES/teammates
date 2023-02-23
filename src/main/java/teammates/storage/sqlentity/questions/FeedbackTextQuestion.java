@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
 
 /**
  * Represents a FeedbackTextQuestion entity.
@@ -14,11 +15,12 @@ import jakarta.persistence.Entity;
 @Entity
 public class FeedbackTextQuestion extends FeedbackQuestion {
 
-    FeedbackTextQuestionDetailsConverter converter = new FeedbackTextQuestionDetailsConverter();
-
     @Column(nullable = false)
     @Convert(converter = FeedbackTextQuestionDetailsConverter.class)
     private String questionDetails;
+
+    @Transient
+    private FeedbackTextQuestionDetailsConverter converter = new FeedbackTextQuestionDetailsConverter();
 
     protected FeedbackTextQuestion() {
         // required by Hibernate
@@ -38,8 +40,11 @@ public class FeedbackTextQuestion extends FeedbackQuestion {
         return converter.convertToEntityAttribute(questionDetails);
     }
 
+    /**
+     * Converter for FeedbackTextQuestion specific attributes.
+     */
     @Converter
-    private class FeedbackTextQuestionDetailsConverter
+    public static class FeedbackTextQuestionDetailsConverter
             extends JsonConverter<FeedbackTextQuestionDetails> {
     }
 }

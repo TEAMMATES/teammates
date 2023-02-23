@@ -267,7 +267,7 @@ public abstract class FeedbackQuestion extends BaseEntity {
     }
 
     @Converter
-    private class FeedbackParticipantTypeListConverter
+    private static class FeedbackParticipantTypeListConverter
             extends JsonConverter<List<FeedbackParticipantType>> {
 
     }
