@@ -1,5 +1,6 @@
 package teammates.storage.sqlapi;
 
+import io.grpc.Deadline;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -20,6 +21,21 @@ public class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
 
     public static DeadlineExtensionsDb inst() {
         return instance;
+    }
+
+    /**
+     * Creates a deadline extension
+     */
+    public DeadlineExtension createDeadlineExtension(DeadlineExtension de) 
+            throws InvalidParametersException {
+        assert de != null;
+
+        if (!de.isValid()) {
+            throw new InvalidParametersException(de.getInvalidityInfo());
+        }
+
+        persist(de);
+        return de;
     }
 
     /**
