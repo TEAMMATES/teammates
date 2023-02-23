@@ -4,9 +4,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-import com.google.common.reflect.TypeToken;
-
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.google.common.reflect.TypeToken;
 
 import teammates.common.util.JsonUtils;
 
