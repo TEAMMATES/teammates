@@ -11,6 +11,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -29,32 +30,6 @@ public final class UserDb extends EntitiesDb<User> {
 
     public static UserDb inst() {
         return instance;
-    }
-
-    private <T extends User> boolean doesUserExist(String courseId, String email) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-        long instructorCount = 0;
-        Root<Student> studentRoot = cr.from(Student.class);
-        long studentCount = 0;
-        
-        cr.select(cb.count(instructorRoot.get("id")))
-                .where(cb.and(
-                    cb.equal(instructorRoot.get("courseId"), courseId),
-                    cb.equal(instructorRoot.get("email"), email)));
-
-        instructorCount = session.createQuery(cr).getSingleResult();
-
-        cr.select(cb.count(studentRoot.get("id")))
-                .where(cb.and(
-                        cb.equal(studentRoot.get("courseId"), courseId),
-                        cb.equal(studentRoot.get("email"), email)));
-
-        studentCount = session.createQuery(cr).getSingleResult();
-
-        return instructorCount > 0 || studentCount > 0;
     }
 
     /**
@@ -95,17 +70,6 @@ public final class UserDb extends EntitiesDb<User> {
         assert id != null;
 
         return HibernateUtil.getSessionFactory().getCurrentSession().get(Student.class, id);
-    }
-
-    /**
-     * Checks if a user exists by its {@code id}.
-     */
-    private boolean doesUserExist(Integer id) {
-        assert id != null;
-
-        User user = HibernateUtil.getSessionFactory().getCurrentSession().get(User.class, id);
-
-        return user != null;
     }
 
     /**
@@ -165,5 +129,43 @@ public final class UserDb extends EntitiesDb<User> {
                 cb.lessThan(root.get("createdAt"), endTime)));
 
         return session.createQuery(cr).getSingleResult();
+    }
+
+    /**
+     * Checks if a user exists by its {@code courseId} and {@code email}.
+     */
+    private <T extends User> boolean doesUserExist(String courseId, String email) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
+        cr.select(cb.count(instructorRoot.get("id")))
+                .where(cb.and(
+                    cb.equal(instructorRoot.get("courseId"), courseId),
+                    cb.equal(instructorRoot.get("email"), email)));
+
+        long instructorCount = session.createQuery(cr).getSingleResult();
+
+        cr.select(cb.count(studentRoot.get("id")))
+                .where(cb.and(
+                        cb.equal(studentRoot.get("courseId"), courseId),
+                        cb.equal(studentRoot.get("email"), email)));
+
+        long studentCount = session.createQuery(cr).getSingleResult();
+
+        return instructorCount > 0 || studentCount > 0;
+    }
+
+    /**
+     * Checks if a user exists by its {@code id}.
+     */
+    private boolean doesUserExist(Integer id) {
+        assert id != null;
+
+        User user = HibernateUtil.getSessionFactory().getCurrentSession().get(User.class, id);
+
+        return user != null;
     }
 }
