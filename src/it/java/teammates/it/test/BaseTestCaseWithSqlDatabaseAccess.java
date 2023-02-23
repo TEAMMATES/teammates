@@ -1,5 +1,7 @@
 package teammates.it.test;
 
+import java.util.UUID;
+
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -45,12 +47,12 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
     @BeforeMethod
     public void setUp() throws Exception {
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().begin();
+        HibernateUtil.beginTransaction();
     }
 
     @AfterMethod
     public void tearDown() {
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().rollback();
+        HibernateUtil.rollbackTransaction();
     }
 
     /**
@@ -98,4 +100,14 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         expected.setUpdatedAt(actual.getUpdatedAt());
     }
 
+    /**
+     * Generates a UUID that is different from the given {@code uuid}.
+     */
+    protected UUID generateDifferentUuid(UUID uuid) {
+        UUID ret = UUID.randomUUID();
+        while (ret.equals(uuid)) {
+            ret = UUID.randomUUID();
+        }
+        return ret;
+    }
 }

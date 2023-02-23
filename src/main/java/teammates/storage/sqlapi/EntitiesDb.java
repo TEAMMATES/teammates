@@ -25,7 +25,7 @@ class EntitiesDb<E extends BaseEntity> {
     E merge(E entity) {
         assert entity != null;
 
-        E newEntity = HibernateUtil.getSessionFactory().getCurrentSession().merge(entity);
+        E newEntity = HibernateUtil.merge(entity);
         log.info("Entity saves: " + JsonUtils.toJson(entity));
         return newEntity;
     }
@@ -36,7 +36,7 @@ class EntitiesDb<E extends BaseEntity> {
     void persist(E entity) {
         assert entity != null;
 
-        HibernateUtil.getSessionFactory().getCurrentSession().persist(entity);
+        HibernateUtil.persist(entity);
         log.info("Entity persisted: " + JsonUtils.toJson(entity));
     }
 
@@ -46,7 +46,7 @@ class EntitiesDb<E extends BaseEntity> {
     void delete(E entity) {
         assert entity != null;
 
-        HibernateUtil.getSessionFactory().getCurrentSession().remove(entity);
+        HibernateUtil.remove(entity);
         log.info("Entity deleted: " + JsonUtils.toJson(entity));
     }
 }
