@@ -11,7 +11,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -32,6 +31,32 @@ public final class UserDb extends EntitiesDb<User> {
         return instance;
     }
 
+    private <T extends User> boolean doesUserExist(String courseId, String email) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        long instructorCount = 0;
+        Root<Student> studentRoot = cr.from(Student.class);
+        long studentCount = 0;
+        
+        cr.select(cb.count(instructorRoot.get("id")))
+                .where(cb.and(
+                    cb.equal(instructorRoot.get("courseId"), courseId),
+                    cb.equal(instructorRoot.get("email"), email)));
+
+        instructorCount = session.createQuery(cr).getSingleResult();
+
+        cr.select(cb.count(studentRoot.get("id")))
+                .where(cb.and(
+                        cb.equal(studentRoot.get("courseId"), courseId),
+                        cb.equal(studentRoot.get("email"), email)));
+
+        studentCount = session.createQuery(cr).getSingleResult();
+
+        return instructorCount > 0 || studentCount > 0;
+    }
+
     /**
      * Creates a user.
      */
@@ -43,11 +68,10 @@ public final class UserDb extends EntitiesDb<User> {
             throw new InvalidParametersException(user.getInvalidityInfo());
         }
 
-        if (getInstructor(user.getId()) == null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, user.toString()));
-        }
+        String courseId = user.getCourse().getId();
+        String email = user.getEmail();
 
-        if (getStudent(user.getId()) == null) {
+        if (doesUserExist(courseId, email)) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, user.toString()));
         }
 
