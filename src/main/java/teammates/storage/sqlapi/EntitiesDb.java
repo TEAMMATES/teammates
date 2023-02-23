@@ -22,18 +22,18 @@ class EntitiesDb<E extends BaseEntity> {
      * Copy the state of the given object onto the persistent object with the same identifier.
      * If there is no persistent instance currently associated with the session, it will be loaded.
      */
-    E merge(E entity) {
+    protected E merge(E entity) {
         assert entity != null;
 
         E newEntity = HibernateUtil.merge(entity);
-        log.info("Entity saves: " + JsonUtils.toJson(entity));
+        log.info("Entity updated: " + JsonUtils.toJson(entity));
         return newEntity;
     }
 
     /**
      * Associate {@code entity} with the persistence context.
      */
-    void persist(E entity) {
+    protected void persist(E entity) {
         assert entity != null;
 
         HibernateUtil.persist(entity);
@@ -43,7 +43,7 @@ class EntitiesDb<E extends BaseEntity> {
     /**
      * Deletes {@code entity} from persistence context.
      */
-    void delete(E entity) {
+    protected void delete(E entity) {
         assert entity != null;
 
         HibernateUtil.remove(entity);
