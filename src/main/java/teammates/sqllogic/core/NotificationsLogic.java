@@ -1,5 +1,7 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -28,7 +30,10 @@ public final class NotificationsLogic {
         return instance;
     }
 
-    void initLogicDependencies(NotificationsDb notificationsDb) {
+    /**
+     * Initialise dependencies for {@code NotificationLogic} object.
+     */
+    public void initLogicDependencies(NotificationsDb notificationsDb) {
         this.notificationsDb = notificationsDb;
     }
 
@@ -66,6 +71,23 @@ public final class NotificationsLogic {
                                            NotificationStyle style, NotificationTargetUser targetUser, String title,
                                            String message)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return notificationsDb.updateNotification(notificationId, startTime, endTime, style, targetUser, title, message);
+        Notification notification = notificationsDb.getNotification(notificationId);
+
+        if (notification == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Notification.class);
+        }
+
+        notification.setStartTime(startTime);
+        notification.setEndTime(endTime);
+        notification.setStyle(style);
+        notification.setTargetUser(targetUser);
+        notification.setTitle(title);
+        notification.setMessage(message);
+
+        if (!notification.isValid()) {
+            throw new InvalidParametersException(notification.getInvalidityInfo());
+        }
+
+        return notification;
     }
 }

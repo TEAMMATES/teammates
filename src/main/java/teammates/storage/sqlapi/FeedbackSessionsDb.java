@@ -1,5 +1,7 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;

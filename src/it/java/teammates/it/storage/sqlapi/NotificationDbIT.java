@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.NotificationsDb;
@@ -58,41 +57,4 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(nonExistentNotification);
     }
 
-    @Test
-    public void testUpdateNotification()
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        Instant newStartTime = Instant.parse("2012-01-01T00:00:00Z");
-        Instant newEndTime = Instant.parse("2098-01-01T00:00:00Z");
-        NotificationStyle newStyle = NotificationStyle.DARK;
-        NotificationTargetUser newTargetUser = NotificationTargetUser.INSTRUCTOR;
-        String newTitle = "An updated deprecation note";
-        String newMessage = "<p>Deprecation happens in three seconds</p>";
-
-        ______TS("success: update notification that already exists");
-        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
-        notificationsDb.createNotification(notification);
-
-        UUID notificationId = notification.getNotificationId();
-        Notification expectedNotification = notificationsDb.updateNotification(notificationId, newStartTime, newEndTime,
-                newStyle, newTargetUser, newTitle, newMessage);
-
-        assertEquals(notificationId, expectedNotification.getNotificationId());
-        assertEquals(newStartTime, expectedNotification.getStartTime());
-        assertEquals(newEndTime, expectedNotification.getEndTime());
-        assertEquals(newStyle, expectedNotification.getStyle());
-        assertEquals(newTargetUser, expectedNotification.getTargetUser());
-        assertEquals(newTitle, expectedNotification.getTitle());
-        assertEquals(newMessage, expectedNotification.getMessage());
-
-        Notification actualNotification = notificationsDb.getNotification(notificationId);
-        assertEquals(expectedNotification, actualNotification);
-
-        ______TS("failure: update notification that does not exist");
-        UUID nonExistentId = generateDifferentUuid(notificationId);
-
-        assertThrows(EntityDoesNotExistException.class, () -> notificationsDb.updateNotification(nonExistentId,
-                newStartTime, newEndTime, newStyle, newTargetUser, newTitle, newMessage));
-    }
 }
