@@ -14,6 +14,7 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -23,6 +24,8 @@ import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 
 /**
  * Utility class for Hibernate related methods.
@@ -43,6 +46,9 @@ public final class HibernateUtil {
             UsageStatistics.class,
             Section.class,
             Team.class,
+            FeedbackQuestion.class,
+            FeedbackNumericalScaleQuestion.class,
+            FeedbackTextQuestion.class,
             DeadlineExtension.class);
 
     private HibernateUtil() {
@@ -145,6 +151,15 @@ public final class HibernateUtil {
      */
     public static <T extends BaseEntity> T get(Class<T> entityType, Object id) {
         return HibernateUtil.getCurrentSession().get(entityType, id);
+    }
+
+    /**
+     * Return the persistent instance of the given entity class with the given natural id,
+     * or null if there is no such persistent instance.
+     * @see Session#get(Class, Object)
+     */
+    public static <T extends BaseEntity> T getBySimpleNaturalId(Class<T> entityType, Object id) {
+        return HibernateUtil.getCurrentSession().bySimpleNaturalId(entityType).load(id);
     }
 
     /**

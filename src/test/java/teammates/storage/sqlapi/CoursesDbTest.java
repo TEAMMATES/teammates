@@ -51,7 +51,7 @@ public class CoursesDbTest extends BaseTestCase {
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesDb.createCourse(c));
 
-        assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + c.toString());
+        assertEquals("Trying to create an entity that exists: " + c.toString(), ex.getMessage());
         mockHibernateUtil.verify(() -> HibernateUtil.persist(c), never());
     }
 }
