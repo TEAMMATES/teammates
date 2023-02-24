@@ -105,6 +105,9 @@
   <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
     <ng-container *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS">
       <h1 class="my-3">Grouped Questions</h1>
+      <div class="card" *ngIf="recipientQuestionMap.size === 0">
+        <h2 class="my-2 mx-2">There are no groupable questions</h2>
+      </div>
       <ng-container *ngFor="let entry of recipientQuestionMap | keyvalue">
         <div class="card px-4">
           <h2 class="my-4">{{ getRecipientName(entry.key) }}</h2>
@@ -135,6 +138,9 @@
         </div>
       </ng-container>
       <h1 class="my-3">Ungrouped Questions</h1>
+      <div class="card" *ngIf="ungroupableQuestions.size === 0">
+        <h2 class="my-2 mx-2">There are no ungroupable questions</h2>
+      </div>
       <ng-container *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn">
         <ng-container *ngIf="ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)">
           <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
