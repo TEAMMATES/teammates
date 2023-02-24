@@ -788,7 +788,7 @@ public final class FieldValidator {
     public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
             Instant sessionEnd, List<DeadlineExtension> deadlineExtensions) {
         for (DeadlineExtension de : deadlineExtensions) {
-            String err = getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(sessionEnd, de.getEndTime(), 
+            String err = getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(sessionEnd, de.getEndTime(),
                     SESSION_NAME, SESSION_END_TIME_FIELD_NAME, EXTENDED_DEADLINES_FIELD_NAME);
 
             if (!err.isEmpty()) {

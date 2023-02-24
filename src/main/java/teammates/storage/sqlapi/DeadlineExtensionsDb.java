@@ -1,18 +1,10 @@
 package teammates.storage.sqlapi;
 
-import java.util.List;
-
-import org.hibernate.Session;
-
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.DeadlineExtension;
-
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for deadline extensions.
@@ -35,11 +27,16 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
      * Creates a deadline extension.
      */
     public DeadlineExtension createDeadlineExtension(DeadlineExtension de)
-            throws InvalidParametersException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         assert de != null;
 
         if (!de.isValid()) {
             throw new InvalidParametersException(de.getInvalidityInfo());
+        }
+
+        if (getDeadlineExtension(de.getId()) != null) {
+            throw new EntityAlreadyExistsException(
+                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, de.toString()));
         }
 
         persist(de);
@@ -47,13 +44,13 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
     }
 
     /**
-     * Gets a deadline extension by {@code deadlineExtensionId}.
+     * Gets a deadline extension by {@code id}.
      */
-    public DeadlineExtension getDeadlineExtension(Integer deadlineExtensionId) {
-        assert deadlineExtensionId != null;
+    public DeadlineExtension getDeadlineExtension(Integer id) {
+        assert id != null;
 
         return HibernateUtil.getSessionFactory().getCurrentSession()
-                .get(DeadlineExtension.class, deadlineExtensionId);
+                .get(DeadlineExtension.class, id);
     }
 
     /**
@@ -81,27 +78,9 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
     /**
      * Deletes a deadline extension.
      */
-    public void deleteDeadlineExtension(Integer deadlineExtensionId) {
-        assert deadlineExtensionId != null;
-
-        DeadlineExtension de = getDeadlineExtension(deadlineExtensionId);
+    public void deleteDeadlineExtension(DeadlineExtension de) {
         if (de != null) {
             delete(de);
         }
-    }
-
-    /**
-     * Get DeadlineExtension with {@code createdTime} within the times {@code startTime} and {@code endTime}.
-     */
-    public List<DeadlineExtension> getDeadlineExtensionsBySessionId(Integer feedbackSessionId) {
-        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
-        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
-        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
-        Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
-
-        cr.select(root).where(cb.equal(root.get("sessionId"), feedbackSessionId));
-
-        TypedQuery<DeadlineExtension> query = currentSession.createQuery(cr);
-        return query.getResultList();
     }
 }
