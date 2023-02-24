@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 /**
- * Represents a Student entity.
+ * Represents a Student.
  */
 @Entity
 @Table(name = "Students")
@@ -21,6 +21,11 @@ public class Student extends User {
 
     protected Student() {
         // required by Hibernate
+    }
+
+    public Student(Course course, Team team, String name, String email, String comments) {
+        super(course, team, name, email);
+        this.setComments(comments);
     }
 
     public String getComments() {
