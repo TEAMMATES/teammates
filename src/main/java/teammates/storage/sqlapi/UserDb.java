@@ -35,7 +35,7 @@ public final class UserDb extends EntitiesDb<User> {
     /**
      * Creates a user.
      */
-    public <T extends User> T createUser(T user)
+    public User createUser(User user)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert user != null;
 
@@ -43,15 +43,56 @@ public final class UserDb extends EntitiesDb<User> {
             throw new InvalidParametersException(user.getInvalidityInfo());
         }
 
-        String courseId = user.getCourse().getId();
-        String email = user.getEmail();
-
-        if (doesUserExist(courseId, email)) {
+        if (hasExistingUser(user.getId())) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, user.toString()));
         }
 
         persist(user);
         return user;
+    }
+
+    /**
+     * Creates an instructor.
+     */
+    public Instructor createUser(Instructor instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert instructor != null;
+
+        if (!instructor.isValid()) {
+            throw new InvalidParametersException(instructor.getInvalidityInfo());
+        }
+
+        String courseId = instructor.getCourse().getId();
+        String email = instructor.getEmail();
+
+        if (hasExistingInstructor(courseId, email)) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, instructor.toString()));
+        }
+
+        persist(instructor);
+        return instructor;
+    }
+
+    /**
+     * Creates a student.
+     */
+    public Student createUser(Student student)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert student != null;
+
+        if (!student.isValid()) {
+            throw new InvalidParametersException(student.getInvalidityInfo());
+        }
+
+        String courseId = student.getCourse().getId();
+        String email = student.getEmail();
+
+        if (hasExistingStudent(courseId, email)) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, student.toString()));
+        }
+
+        persist(student);
+        return student;
     }
 
     /**
@@ -83,7 +124,7 @@ public final class UserDb extends EntitiesDb<User> {
             throw new InvalidParametersException(user.getInvalidityInfo());
         }
 
-        if (doesUserExist(user.getId())) {
+        if (hasExistingUser(user.getId())) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
@@ -132,14 +173,13 @@ public final class UserDb extends EntitiesDb<User> {
     }
 
     /**
-     * Checks if a user exists by its {@code courseId} and {@code email}.
+     * Checks if an instructor exists by its {@code courseId} and {@code email}.
      */
-    private <T extends User> boolean doesUserExist(String courseId, String email) {
+    private <T extends User> boolean hasExistingInstructor(String courseId, String email) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
-        Root<Student> studentRoot = cr.from(Student.class);
 
         cr.select(cb.count(instructorRoot.get("id")))
                 .where(cb.and(
@@ -148,6 +188,18 @@ public final class UserDb extends EntitiesDb<User> {
 
         long instructorCount = session.createQuery(cr).getSingleResult();
 
+        return instructorCount > 0;
+    }
+
+    /**
+     * Checks if a student exists by its {@code courseId} and {@code email}.
+     */
+    private <T extends User> boolean hasExistingStudent(String courseId, String email) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
         cr.select(cb.count(studentRoot.get("id")))
                 .where(cb.and(
                         cb.equal(studentRoot.get("courseId"), courseId),
@@ -155,13 +207,13 @@ public final class UserDb extends EntitiesDb<User> {
 
         long studentCount = session.createQuery(cr).getSingleResult();
 
-        return instructorCount > 0 || studentCount > 0;
+        return studentCount > 0;
     }
 
     /**
      * Checks if a user exists by its {@code id}.
      */
-    private boolean doesUserExist(Integer id) {
+    private boolean hasExistingUser(Integer id) {
         assert id != null;
 
         User user = HibernateUtil.getSessionFactory().getCurrentSession().get(User.class, id);
