@@ -57,7 +57,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
     public DeadlineExtension getDeadlineExtension(Integer id) {
         assert id != null;
 
-        return HibernateUtil.getSessionFactory().getCurrentSession()
+        return HibernateUtil.getCurrentSession()
                 .get(DeadlineExtension.class, id);
     }
 
@@ -65,7 +65,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
      * Get DeadlineExtension by {@code userId} and {@code feedbackSessionId}.
      */
     public DeadlineExtension getDeadlineExtension(Integer userId, Integer feedbackSessionId) {
-        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session currentSession = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = currentSession.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
         Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
