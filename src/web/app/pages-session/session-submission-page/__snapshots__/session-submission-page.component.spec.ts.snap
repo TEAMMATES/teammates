@@ -49,6 +49,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts="0"
@@ -206,6 +207,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -360,6 +362,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -514,6 +517,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -800,6 +804,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -3306,6 +3311,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -5838,6 +5844,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -5993,6 +6000,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
+  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
