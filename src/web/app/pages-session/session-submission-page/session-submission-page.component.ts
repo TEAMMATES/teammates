@@ -53,6 +53,7 @@ import {
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
+import Handsontable from "handsontable";
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -126,6 +127,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   recipientQuestionMap: Map<string, Set<number>> = new Map<string, Set<number>>();
   ungroupableQuestions: Set<number> = new Set();
   ungroupableQuestionsSorted: number[] = [];
+  questionSubmissionFormsCopy: QuestionSubmissionFormModel[] = [];
 
   private backendUrl: string = environment.backendUrl;
 
@@ -736,9 +738,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Saves the feedback responses for the specific questions.
    *
    * <p>All empty feedback response will be deleted; For non-empty responses, update/create them if necessary.
+   * @param questionSubmissionForms An array of question submission forms to be saved
+   * @param isSubmitAll Is the 'Submit Responses for All Questions' button clicked when saving responses
+   * @param recipientId The recipient identifier of the selected recipient when saving responses for this recipient only.
+   *                    This parameter will be null when saving responses for all questions or saving responses for one question.
    */
-  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[]): void {
-    this.isSubmitAllClicked = true;
+  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], isSubmitAll: boolean, recipientId: string | null): void {
+    if (isSubmitAll) {
+      this.isSubmitAllClicked = true;
+    }
 
     const notYetAnsweredQuestions: Set<number> = new Set();
     const requestIds: Record<string, string> = {};
@@ -850,6 +858,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           modalRef.componentInstance.answers = answers;
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
+
+          if (recipientId) {
+            this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
+              if (this.recipientQuestionMap.get(recipientId)!.has(model.questionNumber)) {
+                model.hasResponseChangedForRecipients.set(recipientId, false);
+              }
+            });
+          }
         }),
     ).subscribe();
   }
@@ -1013,7 +1029,58 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       .filter((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
           questionsToRecipient!.has(questionSubmissionFormModel.questionNumber));
 
-    this.saveFeedbackResponses(recipientQSForms);
+    // Create a copy of the question submission form for submission with the new responses of the selected recipient
+    // and the old responses of the other recipient so the new responses of the other recipients will not be submitted.
+    let recipientQSFormsCopy: QuestionSubmissionFormModel[] = [];
+    recipientQSForms.forEach((model: QuestionSubmissionFormModel) => {
+      // Get the new responses of the selected recipient and the old responses of the other recipients.
+      let recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] = [];
+      model.recipientSubmissionForms.forEach((response: FeedbackResponseRecipientSubmissionFormModel) => {
+        if (response.recipientIdentifier === recipientId) {
+          recipientSubmissionForms.push(response);
+        } else {
+          const qn: QuestionSubmissionFormModel | undefined = this.questionSubmissionFormsCopy.find((qsf: QuestionSubmissionFormModel) => qsf.questionNumber === model.questionNumber);
+          if (!qn) {
+            this.statusMessageService.showErrorToast('Failed to save responses');
+          }
+          const res: FeedbackResponseRecipientSubmissionFormModel | undefined = qn!.recipientSubmissionForms.find((r: FeedbackResponseRecipientSubmissionFormModel) => r.recipientIdentifier === response.recipientIdentifier);
+          if (res) {
+            recipientSubmissionForms.push(res);
+          }
+        }
+      });
+
+      const copy: QuestionSubmissionFormModel = {
+        isLoading: model.isLoading,
+        isLoaded: model.isLoaded,
+        feedbackQuestionId: model.feedbackQuestionId,
+
+        questionNumber: model.questionNumber,
+        questionBrief: model.questionBrief,
+        questionDescription: model.questionDescription,
+
+        giverType: model.giverType,
+        recipientType: model.recipientType,
+        recipientList: model.recipientList,
+        recipientSubmissionForms: recipientSubmissionForms,
+
+        questionType: model.questionType,
+        questionDetails: model.questionDetails,
+
+        numberOfEntitiesToGiveFeedbackToSetting: model.numberOfEntitiesToGiveFeedbackToSetting,
+        customNumberOfEntitiesToGiveFeedbackTo: model.customNumberOfEntitiesToGiveFeedbackTo,
+
+        showGiverNameTo: model.showGiverNameTo,
+        showRecipientNameTo: model.showRecipientNameTo,
+        showResponsesTo: model.showResponsesTo,
+
+        hasResponseChangedForRecipients: model.hasResponseChangedForRecipients,
+      };
+
+      recipientQSFormsCopy.push(copy);
+    });
+
+    this.saveFeedbackResponses(recipientQSFormsCopy, false, recipientId);
   }
 
   private addQuestionForRecipient(recipientId: string, questionId: any): void {
@@ -1035,8 +1102,43 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       this.currentSelectedSessionView = SessionView.DEFAULT;
     } else if (selectedView === SessionView.GROUP_RECIPIENTS) {
       this.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
+      this.saveQuestionSubmissionFormsCopy();
       this.groupQuestionsByRecipient();
     }
+  }
+
+  saveQuestionSubmissionFormsCopy(): void {
+    this.questionSubmissionFormsCopy = [];
+    this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
+      const copy: QuestionSubmissionFormModel = {
+        isLoading: model.isLoading,
+        isLoaded: model.isLoaded,
+        feedbackQuestionId: model.feedbackQuestionId,
+
+        questionNumber: model.questionNumber,
+        questionBrief: model.questionBrief,
+        questionDescription: model.questionDescription,
+
+        giverType: model.giverType,
+        recipientType: model.recipientType,
+        recipientList: model.recipientList,
+        recipientSubmissionForms: Handsontable.helper.deepClone(model.recipientSubmissionForms) as FeedbackResponseRecipientSubmissionFormModel[],
+
+        questionType: model.questionType,
+        questionDetails: model.questionDetails,
+
+        numberOfEntitiesToGiveFeedbackToSetting: model.numberOfEntitiesToGiveFeedbackToSetting,
+        customNumberOfEntitiesToGiveFeedbackTo: model.customNumberOfEntitiesToGiveFeedbackTo,
+
+        showGiverNameTo: model.showGiverNameTo,
+        showRecipientNameTo: model.showRecipientNameTo,
+        showResponsesTo: model.showResponsesTo,
+
+        hasResponseChangedForRecipients: model.hasResponseChangedForRecipients,
+      };
+
+      this.questionSubmissionFormsCopy.push(copy);
+    })
   }
 
   /**

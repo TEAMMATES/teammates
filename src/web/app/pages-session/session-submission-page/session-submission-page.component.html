@@ -114,7 +114,7 @@
                                           inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                           [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                           [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                          [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
+                                          [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, entry.key)"
                                           (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                           [isQuestionCountOne]="isQuestionCountOne"
                                           [(isSubmitAllClicked)]="isSubmitAllClicked"
@@ -141,7 +141,7 @@
                                       inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                       [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                       [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                      [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
+                                      [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, null)"
                                       (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                       [isQuestionCountOne]="isQuestionCountOne"
                                       [(isSubmitAllClicked)]="isSubmitAllClicked"
@@ -155,7 +155,7 @@
                                    inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                    [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                    [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                   [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event])"
+                                   [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, null)"
                                    (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                    [isQuestionCountOne]="isQuestionCountOne"
                                    [(isSubmitAllClicked)]="isSubmitAllClicked"
@@ -174,7 +174,7 @@
       <div class="col-12 text-center">
         <button id="btn-submit" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses at any time and come back later to continue."
-                (click)="saveFeedbackResponses(questionSubmissionForms)" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+                (click)="saveFeedbackResponses(questionSubmissionForms, true, null)" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
         ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for All Questions</button>
       </div>
     </div>

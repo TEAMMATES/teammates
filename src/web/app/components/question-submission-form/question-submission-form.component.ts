@@ -195,6 +195,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.model.hasResponseChangedForRecipients.set(recipientId, false);
       });
     }
+
+    this.model.hasResponseChangedForRecipients.forEach((hasResponseChanged: boolean, _recipientId: string) => {
+      if (hasResponseChanged) {
+        this.isSaved = false;
+      }
+    });
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,
