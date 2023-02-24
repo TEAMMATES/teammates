@@ -20,6 +20,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -69,6 +70,9 @@ public class FeedbackSession extends BaseEntity {
 
     @Column(nullable = false)
     private boolean isPublishedEmailEnabled;
+
+    @OneToMany(mappedBy = "feedbackSession")
+    private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -152,12 +156,8 @@ public class FeedbackSession extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
-        // TODO: add once extended dealines added to entity
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-        // endTime, studentDeadlines), errors);
-
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-        // endTime, instructorDeadlines), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                endTime, deadlineExtensions), errors);
 
         return errors;
     }
@@ -266,6 +266,14 @@ public class FeedbackSession extends BaseEntity {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
+    public List<DeadlineExtension> getDeadlineExtensions() {
+        return deadlineExtensions;
+    }
+
+    public void setDeadlineExtensions(List<DeadlineExtension> deadlineExtensions) {
+        this.deadlineExtensions = deadlineExtensions;
+    }
+
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -289,8 +297,8 @@ public class FeedbackSession extends BaseEntity {
                 + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", createdAt=" + getCreatedAt() + ", updatedAt="
-                + updatedAt + ", deletedAt=" + deletedAt + "]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", deadlineExtensions=" + deadlineExtensions
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
     @Override
