@@ -3,9 +3,7 @@ package teammates.storage.sqlentity;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,7 +12,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.sqlapi.DeadlineExtensionsDb;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

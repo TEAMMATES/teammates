@@ -100,7 +100,7 @@ public class DeadlineExtension extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.user.getCourse(), this.feedbackSession, this.user.getEmail());
+        return Objects.hash(this.user, this.feedbackSession);
     }
 
     @Override
@@ -111,9 +111,8 @@ public class DeadlineExtension extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             DeadlineExtension otherDe = (DeadlineExtension) other;
-            return Objects.equals(this.user.getCourse(), otherDe.user.getCourse())
-                    && Objects.equals(this.feedbackSession, otherDe.feedbackSession)
-                    && Objects.equals(this.user.getEmail(), otherDe.user.getEmail());
+            return Objects.equals(this.user, otherDe.user)
+                    && Objects.equals(this.feedbackSession, otherDe.feedbackSession);
         } else {
             return false;
         }
@@ -123,9 +122,10 @@ public class DeadlineExtension extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(user.getCourse().getId()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForFeedbackSessionName(feedbackSession.getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(user.getEmail()), errors);
+        List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
+        deadlineExtensions.add(this);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                feedbackSession.getEndTime(), deadlineExtensions), errors);
 
         return errors;
     }
