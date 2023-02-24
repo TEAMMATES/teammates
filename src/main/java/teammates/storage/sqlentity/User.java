@@ -1,11 +1,13 @@
 package teammates.storage.sqlentity;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Objects;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,6 +49,9 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String regKey;
+
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -59,6 +64,7 @@ public abstract class User extends BaseEntity {
         this.setTeam(team);
         this.setName(name);
         this.setEmail(email);
+        this.setRegKey(generateRegistrationKey());
     }
 
     public Integer getId() {
@@ -115,6 +121,25 @@ public abstract class User extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getRegKey() {
+        return this.regKey;
+    }
+
+    public void setRegKey(String regKey) {
+        this.regKey = regKey;
+    }
+
+    /**
+     * Returns unique registration key for the student/instructor.
+     */
+    private String generateRegistrationKey() {
+        String uniqueId = this.email + '%' + this.course.getId();
+
+        SecureRandom prng = new SecureRandom();
+
+        return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
     }
 
     @Override

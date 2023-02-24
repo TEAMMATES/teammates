@@ -21,14 +21,14 @@ import jakarta.persistence.criteria.Root;
  *
  * @see User
  */
-public final class UserDb extends EntitiesDb<User> {
-    private static final UserDb instance = new UserDb();
+public final class UsersDb extends EntitiesDb<User> {
+    private static final UsersDb instance = new UsersDb();
 
-    private UserDb() {
+    private UsersDb() {
         // prevent initialization
     }
 
-    public static UserDb inst() {
+    public static UsersDb inst() {
         return instance;
     }
 
@@ -125,7 +125,7 @@ public final class UserDb extends EntitiesDb<User> {
      * Gets the number of instructors created within a specified time range.
      */
     public long getNumInstructorsByTimeRange(Instant startTime, Instant endTime) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
         Root<Instructor> root = cr.from(Instructor.class);
@@ -141,7 +141,7 @@ public final class UserDb extends EntitiesDb<User> {
      * Gets the number of students created within a specified time range.
      */
     public long getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
         Root<Student> root = cr.from(Student.class);
@@ -159,17 +159,15 @@ public final class UserDb extends EntitiesDb<User> {
     private <T extends User> boolean hasExistingInstructor(String courseId, String email) {
         Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
 
-        cr.select(cb.count(instructorRoot.get("id")))
+        cr.select(instructorRoot.get("id"))
                 .where(cb.and(
                     cb.equal(instructorRoot.get("courseId"), courseId),
                     cb.equal(instructorRoot.get("email"), email)));
 
-        long instructorCount = session.createQuery(cr).getSingleResultOrNull();
-
-        return instructorCount > 0;
+        return session.createQuery(cr).getSingleResultOrNull() != null;
     }
 
     /**
@@ -178,17 +176,15 @@ public final class UserDb extends EntitiesDb<User> {
     private <T extends User> boolean hasExistingStudent(String courseId, String email) {
         Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
 
-        cr.select(cb.count(studentRoot.get("id")))
+        cr.select(studentRoot.get("id"))
                 .where(cb.and(
                         cb.equal(studentRoot.get("courseId"), courseId),
                         cb.equal(studentRoot.get("email"), email)));
 
-        long studentCount = session.createQuery(cr).getSingleResultOrNull();
-
-        return studentCount > 0;
+        return session.createQuery(cr).getSingleResultOrNull() != null;
     }
 
     /**
@@ -197,8 +193,6 @@ public final class UserDb extends EntitiesDb<User> {
     private boolean hasExistingUser(Integer id) {
         assert id != null;
 
-        User user = HibernateUtil.getSessionFactory().getCurrentSession().get(User.class, id);
-
-        return user != null;
+        return HibernateUtil.getCurrentSession().get(User.class, id) != null;
     }
 }
