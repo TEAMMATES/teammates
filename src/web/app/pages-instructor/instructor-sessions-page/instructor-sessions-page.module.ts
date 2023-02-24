@@ -55,5 +55,10 @@ const routes: Routes = [
   exports: [
     InstructorSessionsPageComponent,
   ],
+  entryComponents: [
+    CopyFromOtherSessionsModalComponent,
+    SessionPermanentDeletionConfirmModalComponent,
+    SessionsPermanentDeletionConfirmModalComponent,
+  ],
 })
 export class InstructorSessionsPageModule { }

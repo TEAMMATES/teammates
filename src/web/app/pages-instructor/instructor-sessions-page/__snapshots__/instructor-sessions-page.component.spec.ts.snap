@@ -7,7 +7,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -125,7 +125,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -243,7 +243,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -329,7 +329,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -414,9 +414,15 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
           >
             <button
               aria-label="Close"
-              class="btn-close"
+              class="close"
               type="button"
-            />
+            >
+              <span
+                aria-hidden="true"
+              >
+                ×
+              </span>
+            </button>
           </div>
           <div
             class="card-body"
@@ -434,7 +440,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     class="col-md-3"
                   >
                     <h5
-                      class="text-end"
+                      class="text-right"
                     >
                       Create new
                     </h5>
@@ -443,7 +449,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     class="col-9 col-md-8"
                   >
                     <select
-                      class="form-control form-select ng-untouched ng-pristine ng-valid"
+                      class="form-control ng-untouched ng-pristine ng-valid"
                       id="session-type"
                     >
                       <option
@@ -490,13 +496,13 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     class="col-md-2"
                   >
                     <h5
-                      class="text-md-end"
+                      class="text-md-right"
                     >
                       Or: 
                     </h5>
                   </div>
                   <div
-                    class="col-md-10 text-md-start"
+                    class="col-md-10 text-md-left"
                   >
                     <button
                       class="btn btn-info align-row"
@@ -525,7 +531,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-end font-bold col-form-label"
+                    class="col-md-2 text-md-right font-bold col-form-label"
                   >
                     <span
                       class="ngb-tooltip-class"
@@ -535,11 +541,11 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     </span>
                   </div>
                   <div
-                    class="col-md-auto text-md-start"
+                    class="col-md-auto text-md-left"
                   >
                     <div>
                       <select
-                        class="form-control form-select is-invalid ng-untouched ng-pristine ng-valid"
+                        class="form-control is-invalid ng-untouched ng-pristine ng-valid"
                         id="add-course-id"
                       >
                       </select>
@@ -556,12 +562,12 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-end font-bold col-form-label"
+                    class="col-md-2 text-md-right font-bold col-form-label"
                   >
                      Time Zone 
                   </div>
                   <div
-                    class="col-md-3 text-md-start col-form-label"
+                    class="col-md-3 text-md-left col-form-label"
                     id="time-zone"
                   >
                     <span
@@ -577,12 +583,12 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-end font-bold"
+                    class="col-md-2 text-md-right font-bold"
                   >
                      Course Name 
                   </div>
                   <div
-                    class="col-md-10 text-md-start"
+                    class="col-md-10 text-md-left"
                     id="course-name"
                   >
                   </div>
@@ -592,7 +598,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-end font-bold"
+                    class="col-md-2 text-md-right font-bold"
                   >
                     <span
                       class="ngb-tooltip-class"
@@ -602,7 +608,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     </span>
                   </div>
                   <div
-                    class="col-md-10 text-md-start"
+                    class="col-md-10 text-md-left"
                   >
                     <div>
                       <input
@@ -623,7 +629,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-end font-bold"
+                    class="col-md-2 text-md-right font-bold"
                   >
                     <span
                       class="ngb-tooltip-class"
@@ -633,7 +639,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     </span>
                   </div>
                   <div
-                    class="col-md-10 text-md-start"
+                    class="col-md-10 text-md-left"
                   >
                     <tm-rich-text-editor
                       id="instructions"
@@ -661,7 +667,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     class="col-md-4"
                   >
                     <div
-                      class="col-12 text-md-start"
+                      class="col-12 text-md-left"
                     >
                       <div>
                         <label
@@ -689,14 +695,18 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                               readonly=""
                               type="text"
                             />
-                            <button
-                              class="btn btn-light input-group-text"
-                              type="button"
+                            <div
+                              class="input-group-append"
                             >
-                              <i
-                                class="fas fa-calendar-alt"
-                              />
-                            </button>
+                              <button
+                                class="btn btn-light"
+                                type="button"
+                              >
+                                <i
+                                  class="fas fa-calendar-alt"
+                                />
+                              </button>
+                            </div>
                           </div>
                         </tm-datepicker>
                       </div>
@@ -707,7 +717,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-start-time"
                         >
                           <select
-                            class="form-control form-select ng-untouched ng-pristine ng-valid"
+                            class="form-control ng-untouched ng-pristine ng-valid"
                           >
                             <option
                               value="1: Object"
@@ -841,7 +851,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       class="row text-center"
                     >
                       <div
-                        class="col-12 text-md-start ms-md-2"
+                        class="col-12 text-md-left ml-md-2"
                       >
                         <label
                           class="ngb-tooltip-class label-control font-bold"
@@ -868,14 +878,18 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                               readonly=""
                               type="text"
                             />
-                            <button
-                              class="btn btn-light input-group-text"
-                              type="button"
+                            <div
+                              class="input-group-append"
                             >
-                              <i
-                                class="fas fa-calendar-alt"
-                              />
-                            </button>
+                              <button
+                                class="btn btn-light"
+                                type="button"
+                              >
+                                <i
+                                  class="fas fa-calendar-alt"
+                                />
+                              </button>
+                            </div>
                           </div>
                         </tm-datepicker>
                       </div>
@@ -886,7 +900,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-end-time"
                         >
                           <select
-                            class="form-control form-select ng-untouched ng-pristine ng-valid"
+                            class="form-control ng-untouched ng-pristine ng-valid"
                           >
                             <option
                               value="1: Object"
@@ -1020,7 +1034,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       class="row text-center"
                     >
                       <div
-                        class="ngb-tooltip-class col-12 text-md-start ms-md-2"
+                        class="ngb-tooltip-class col-12 text-md-left ml-md-2"
                         ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
                       >
                         <label
@@ -1037,7 +1051,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                         class="col-12"
                       >
                         <select
-                          class="form-control form-select ng-untouched ng-pristine ng-valid"
+                          class="form-control ng-untouched ng-pristine ng-valid"
                           id="grace-period"
                         >
                           <option
@@ -1082,7 +1096,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       class="row"
                     >
                       <a
-                        class="ps-3 pt-2 disabled-link ngb-tooltip-class"
+                        class="pl-3 pt-2 disabled-link ngb-tooltip-class"
                         ngbtooltip="You must save the new session before setting individual deadline extensions"
                       >
                          Individual Deadline Extensions 
@@ -1221,7 +1235,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -1339,7 +1353,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -1457,7 +1471,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}

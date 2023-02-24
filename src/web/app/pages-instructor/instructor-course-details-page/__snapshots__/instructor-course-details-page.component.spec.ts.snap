@@ -2,7 +2,7 @@
 
 exports[`InstructorCourseDetailsPageComponent should snap when students are still loading 1`] = `
 <tm-instructor-course-details-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   hasLoadingStudentsFailed="false"
@@ -45,7 +45,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
 
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
 <tm-instructor-course-details-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   hasLoadingStudentsFailed="false"
@@ -81,12 +81,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Course ID:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="course-id"
             >
                CS101 
@@ -96,12 +96,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Course name:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="course-name"
             >
                Introduction to CS 
@@ -111,12 +111,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Course institute:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="course-institute"
             >
                Test Institute 
@@ -126,12 +126,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Sections:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="num-sections"
             >
                0 
@@ -141,12 +141,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Teams:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="num-teams"
             >
                0 
@@ -156,12 +156,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Total students:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="num-students"
             >
                0 
@@ -171,12 +171,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end control-label"
+              class="col-sm-2 text-sm-right control-label"
             >
               Instructors:
             </label>
             <div
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="instructors"
             >
               <div>
@@ -208,7 +208,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   hasLoadingStudentsFailed="false"
@@ -244,12 +244,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Course ID:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="course-id"
             >
                CS101 
@@ -259,12 +259,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Course name:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="course-name"
             >
                Introduction to CS 
@@ -274,12 +274,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Course institute:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="course-institute"
             >
                Test Institute 
@@ -289,12 +289,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Sections:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="num-sections"
             >
                1 
@@ -304,12 +304,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Teams:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="num-teams"
             >
                1 
@@ -319,12 +319,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end"
+              class="col-sm-2 text-sm-right"
             >
               Total students:
             </label>
             <span
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="num-students"
             >
                1 
@@ -334,12 +334,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="row"
           >
             <label
-              class="col-sm-2 text-sm-end control-label"
+              class="col-sm-2 text-sm-right control-label"
             >
               Instructors:
             </label>
             <div
-              class="col-sm-9 text-sm-start"
+              class="col-sm-9 text-sm-left"
               id="instructors"
             >
               <div>
@@ -548,7 +548,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 
 exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-details-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   hasLoadingStudentsFailed="false"

@@ -2,7 +2,7 @@
 
 exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -36,19 +36,23 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           id="search-box"
           type="text"
         />
-        <button
-          class="btn btn-primary input-group-text"
-          id="search-button"
+        <div
+          class="input-group-append"
         >
-          Search
-        </button>
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
       </div>
     </div>
   </div><div
     class="card bg-light top-padded"
   >
     <div
-      class="card-header bg-info"
+      class="card-header bg-info text-white"
     >
       <strong>
         Instructors Found
@@ -326,7 +330,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
 
 exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -360,12 +364,16 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
           id="search-box"
           type="text"
         />
-        <button
-          class="btn btn-primary input-group-text"
-          id="search-button"
+        <div
+          class="input-group-append"
         >
-          Search
-        </button>
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -374,7 +382,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 
 exports[`AdminSearchPageComponent should snap with an expanded account requests table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -408,12 +416,16 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
           id="search-box"
           type="text"
         />
-        <button
-          class="btn btn-primary input-group-text"
-          id="search-button"
+        <div
+          class="input-group-append"
         >
-          Search
-        </button>
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
       </div>
     </div>
   </div><div
@@ -520,7 +532,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
                   </strong>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
               </ul>
@@ -535,7 +547,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
 
 exports[`AdminSearchPageComponent should snap with an expanded instructor table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -569,19 +581,23 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           id="search-box"
           type="text"
         />
-        <button
-          class="btn btn-primary input-group-text"
-          id="search-button"
+        <div
+          class="input-group-append"
         >
-          Search
-        </button>
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
       </div>
     </div>
   </div><div
     class="card bg-light top-padded"
   >
     <div
-      class="card-header bg-info"
+      class="card-header bg-info text-white"
     >
       <strong>
         Instructors Found
@@ -716,7 +732,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -727,7 +743,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -738,7 +754,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -749,7 +765,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -760,7 +776,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -771,7 +787,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                   </strong>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
               </ul>
@@ -786,7 +802,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
 
 exports[`AdminSearchPageComponent should snap with an expanded student table 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -820,12 +836,16 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           id="search-box"
           type="text"
         />
-        <button
-          class="btn btn-primary input-group-text"
-          id="search-button"
+        <div
+          class="input-group-append"
         >
-          Search
-        </button>
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
       </div>
     </div>
   </div><div
@@ -978,7 +998,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </strong>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -996,7 +1016,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -1015,7 +1035,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -1034,7 +1054,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -1053,7 +1073,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
                 <li
@@ -1072,7 +1092,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </button>
                   <input
                     class="form-control"
-                    disabled=""
+                    readonly=""
                   />
                 </li>
               </ul>
@@ -1087,7 +1107,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
 
 exports[`AdminSearchPageComponent should snap with default fields 1`] = `
 <tm-admin-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   emailGenerationService={[Function EmailGenerationService]}
@@ -1121,12 +1141,16 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
           id="search-box"
           type="text"
         />
-        <button
-          class="btn btn-primary input-group-text"
-          id="search-button"
+        <div
+          class="input-group-append"
         >
-          Search
-        </button>
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -3,8 +3,8 @@
   <div class="col-sm-6">
     <div class="row">
       <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div class="margin-bottom-20px padding-left-12px" *ngFor="let num of model.options; let i = index;
-        trackBy: trackRankOption" cdkDrag cdkDragLockAxis="y" style="display: flex;">
+        <div class="row margin-bottom-20px padding-left-12px" *ngFor="let num of model.options; let i = index;
+        trackBy: trackRankOption" cdkDrag cdkDragLockAxis="y">
           <div cdkDragHandle>
             <span class="input-group-addon">&#8597; </span>
           </div>
@@ -30,7 +30,7 @@
     </div>
     <br />
   </div>
-  <div class="col-sm-6 form-check">
+  <div class="col-sm-6">
     <label class="form-check-label margin-bottom-20px margin-right-5px">
       <input id="duplicate-rank-checkbox" class="form-check-input" type="checkbox"  [ngModel]="model.areDuplicatesAllowed"
          (ngModelChange)="triggerModelChange('areDuplicatesAllowed', $event)" [disabled]="!isEditable">

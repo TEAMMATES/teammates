@@ -6,7 +6,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -25,7 +25,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   timeZoneService={[Function TimezoneService]}
 >
   <div
-    class="modal-header alert alert-primary alert-no-bottom"
+    class="modal-header alert-primary"
   >
     <h5
       class="modal-title"
@@ -33,9 +33,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       Select the new deadline for extension
     </h5>
     <button
-      class="btn-close"
+      class="close"
       type="button"
-    />
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
   </div><div
     class="modal-body"
   >
@@ -49,13 +53,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
     </b>
      instructor(s):
   </div><div
-    class="container ms-1"
+    class="container ml-1"
   >
     <div
-      class="row ps-3"
+      class="row pl-3"
     >
       <label
-        class="me-2"
+        class="mr-2"
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
@@ -86,7 +90,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
           class="input-group w-75"
         >
           <select
-            class="form-control form-select ng-untouched ng-pristine ng-valid"
+            class="form-control ng-untouched ng-pristine ng-valid"
             id="extend-by-dropdown"
           >
             <option
@@ -156,7 +160,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -175,7 +179,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   timeZoneService={[Function TimezoneService]}
 >
   <div
-    class="modal-header alert alert-primary alert-no-bottom"
+    class="modal-header alert-primary"
   >
     <h5
       class="modal-title"
@@ -183,9 +187,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       Select the new deadline for extension
     </h5>
     <button
-      class="btn-close"
+      class="close"
       type="button"
-    />
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
   </div><div
     class="modal-body"
   >
@@ -199,13 +207,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
     </b>
      instructor(s):
   </div><div
-    class="container ms-1"
+    class="container ml-1"
   >
     <div
-      class="row ps-3"
+      class="row pl-3"
     >
       <label
-        class="me-2"
+        class="mr-2"
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
@@ -236,7 +244,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
           class="input-group w-75"
         >
           <select
-            class="form-control form-select ng-untouched ng-pristine ng-valid"
+            class="form-control ng-untouched ng-pristine ng-valid"
             id="extend-by-dropdown"
           >
             <option
@@ -289,7 +297,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
           class="row"
         >
           <div
-            class="col-sm ps-0"
+            class="col-sm pl-0"
           >
             <small>
               Hours
@@ -351,7 +359,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -370,7 +378,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   timeZoneService={[Function TimezoneService]}
 >
   <div
-    class="modal-header alert alert-primary alert-no-bottom"
+    class="modal-header alert-primary"
   >
     <h5
       class="modal-title"
@@ -378,9 +386,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
       Select the new deadline for extension
     </h5>
     <button
-      class="btn-close"
+      class="close"
       type="button"
-    />
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
   </div><div
     class="modal-body"
   >
@@ -394,13 +406,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
     </b>
      instructor(s):
   </div><div
-    class="container ms-1"
+    class="container ml-1"
   >
     <div
-      class="row ps-3"
+      class="row pl-3"
     >
       <label
-        class="me-2"
+        class="mr-2"
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
@@ -442,14 +454,18 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
                 readonly=""
                 type="text"
               />
-              <button
-                class="btn btn-light input-group-text"
-                type="button"
+              <div
+                class="input-group-append"
               >
-                <i
-                  class="fas fa-calendar-alt"
-                />
-              </button>
+                <button
+                  class="btn btn-light"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-calendar-alt"
+                  />
+                </button>
+              </div>
             </div>
           </tm-datepicker>
           <div
@@ -459,7 +475,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
               id="submission-end-time"
             >
               <select
-                class="form-control form-select ng-untouched ng-pristine ng-valid"
+                class="form-control ng-untouched ng-pristine ng-valid"
               >
                 <option
                   value="1: Object"
@@ -618,7 +634,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -637,7 +653,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   timeZoneService={[Function TimezoneService]}
 >
   <div
-    class="modal-header alert alert-primary alert-no-bottom"
+    class="modal-header alert-primary"
   >
     <h5
       class="modal-title"
@@ -645,9 +661,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
       Select the new deadline for extension
     </h5>
     <button
-      class="btn-close"
+      class="close"
       type="button"
-    />
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
   </div><div
     class="modal-body"
   >
@@ -661,13 +681,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
     </b>
      instructor(s):
   </div><div
-    class="container ms-1"
+    class="container ml-1"
   >
     <div
-      class="row ps-3"
+      class="row pl-3"
     >
       <label
-        class="me-2"
+        class="mr-2"
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
@@ -698,7 +718,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
           class="input-group w-75"
         >
           <select
-            class="form-control form-select ng-untouched ng-pristine ng-valid"
+            class="form-control ng-untouched ng-pristine ng-valid"
             id="extend-by-dropdown"
           >
             <option
@@ -769,7 +789,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
@@ -789,7 +809,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   timeZoneService={[Function TimezoneService]}
 >
   <div
-    class="modal-header alert alert-primary alert-no-bottom"
+    class="modal-header alert-primary"
   >
     <h5
       class="modal-title"
@@ -797,9 +817,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
       Select the new deadline for extension
     </h5>
     <button
-      class="btn-close"
+      class="close"
       type="button"
-    />
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
   </div><div
     class="modal-body"
   >
@@ -813,13 +837,13 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
     </b>
      instructor(s):
   </div><div
-    class="container ms-1"
+    class="container ml-1"
   >
     <div
-      class="row ps-3"
+      class="row pl-3"
     >
       <label
-        class="me-2"
+        class="mr-2"
       >
         <input
           class="ng-untouched ng-pristine ng-valid"
@@ -850,7 +874,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
           class="input-group w-75"
         >
           <select
-            class="form-control form-select ng-untouched ng-pristine ng-valid"
+            class="form-control ng-untouched ng-pristine ng-valid"
             id="extend-by-dropdown"
           >
             <option

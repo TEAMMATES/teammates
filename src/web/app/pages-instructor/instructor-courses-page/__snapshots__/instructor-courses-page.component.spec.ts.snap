@@ -5,7 +5,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -87,7 +87,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
       class="card top-padded"
     >
       <div
-        class="card-header bg-info cursor-pointer"
+        class="card-header bg-info text-white cursor-pointer"
         id="archived-table-heading"
       >
         <b>
@@ -259,7 +259,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -335,7 +335,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -533,6 +533,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     <div
                       class="dropdown-menu"
                       ngbdropdownmenu=""
+                      x-placement="bottom"
                     >
                       <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
@@ -643,6 +644,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     <div
                       class="dropdown-menu"
                       ngbdropdownmenu=""
+                      x-placement="bottom"
                     >
                       <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
@@ -697,7 +699,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       class="card top-padded"
     >
       <div
-        class="card-header bg-info cursor-pointer"
+        class="card-header bg-info text-white cursor-pointer"
         id="archived-table-heading"
       >
         <b>
@@ -783,7 +785,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -886,7 +888,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             class="form-row form-group"
           >
             <label
-              class="col-sm-2 fw-bold text-md-end"
+              class="col-sm-2 font-weight-bold text-md-right"
             >
               Course ID:
             </label>
@@ -919,7 +921,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             class="form-row form-group"
           >
             <label
-              class="col-sm-2 fw-bold text-md-end"
+              class="col-sm-2 font-weight-bold text-md-right"
             >
               Course Name:
             </label>
@@ -952,7 +954,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             class="form-row form-group"
           >
             <label
-              class="col-sm-2 fw-bold text-md-end"
+              class="col-sm-2 font-weight-bold text-md-right"
             >
               <span
                 class="ngb-tooltip-class"
@@ -966,7 +968,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               class="col-sm-9"
             >
               <select
-                class="col-xs-12 form-control form-select ng-untouched ng-pristine ng-valid"
+                class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
                 id="course-institute"
                 name="institute"
                 required=""
@@ -979,7 +981,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             class="form-row form-group"
           >
             <label
-              class="col-xs-12 col-sm-2 fw-bold text-md-end"
+              class="col-xs-12 col-sm-2 font-weight-bold text-md-right"
             >
               <span
                 class="ngb-tooltip-class"
@@ -996,7 +998,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                 class="input-group"
               >
                 <select
-                  class="form-control form-select ng-untouched ng-pristine ng-valid"
+                  class="form-control ng-untouched ng-pristine ng-valid"
                   id="time-zone"
                   name="timeZone"
                   required=""
@@ -1077,7 +1079,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1275,6 +1277,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     <div
                       class="dropdown-menu"
                       ngbdropdownmenu=""
+                      x-placement="bottom"
                     >
                       <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
@@ -1385,6 +1388,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     <div
                       class="dropdown-menu"
                       ngbdropdownmenu=""
+                      x-placement="bottom"
                     >
                       <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
@@ -1439,7 +1443,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       class="card top-padded"
     >
       <div
-        class="card-header bg-info cursor-pointer"
+        class="card-header bg-info text-white cursor-pointer"
         id="archived-table-heading"
       >
         <b>
@@ -1529,7 +1533,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1605,7 +1609,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1813,6 +1817,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <div
                       class="dropdown-menu"
                       ngbdropdownmenu=""
+                      x-placement="bottom"
                     >
                       <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
@@ -1933,6 +1938,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <div
                       class="dropdown-menu"
                       ngbdropdownmenu=""
+                      x-placement="bottom"
                     >
                       <a
                         class="btn btn-primary btn-sm dropdown-item clickable"

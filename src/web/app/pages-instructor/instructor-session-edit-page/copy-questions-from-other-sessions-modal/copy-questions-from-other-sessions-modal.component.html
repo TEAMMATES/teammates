@@ -1,9 +1,11 @@
 <div class="modal-header">
   <h4 class="modal-title">Copy Questions</h4>
-  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <div id="copy-question-modal" class="modal-body">
-  <div class="col-12 mb-3 text-md-end">
+  <div class="col-12 mb-3 text-md-right">
     <strong class="d-inline"> Sort Sessions By: </strong>
     <div class="btn-group" data-toggle="buttons">
       <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortFeedbackSessionTabs(SortBy.COURSE_ID)">Course ID</button>
@@ -56,7 +58,7 @@
                   </tbody>
                 </table>
               </ng-container>
-              <button (click)="loadQuestions(feedbackSessionTabModel)" class="btn btn-primary float-end mt-2 mb-3">
+              <button (click)="loadQuestions(feedbackSessionTabModel)" class="btn btn-primary float-right mt-2 mb-3">
                 <i class="fas fa-redo" aria-hidden="true"></i>
                 &nbsp;Reload
               </button>

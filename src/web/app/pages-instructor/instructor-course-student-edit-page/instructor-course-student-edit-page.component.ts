@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -38,7 +38,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   hasStudentLoadingFailed: boolean = false;
   isFormSaving: boolean = false;
 
-  editForm!: UntypedFormGroup;
+  editForm!: FormGroup;
   teamFieldSubscription?: Subscription;
   emailFieldSubscription?: Subscription;
 
@@ -107,16 +107,16 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Subscriptions are set up to listen to changes in the 'teamname' fields and 'newstudentemail' fields.
    */
   private initEditForm(): void {
-    this.editForm = new UntypedFormGroup({
-      studentname: new UntypedFormControl(this.student.name,
+    this.editForm = new FormGroup({
+      studentname: new FormControl(this.student.name,
           [Validators.required, Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)]),
-      sectionname: new UntypedFormControl(this.student.sectionName,
+      sectionname: new FormControl(this.student.sectionName,
           [Validators.required, Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH)]),
-      teamname: new UntypedFormControl(this.student.teamName,
+      teamname: new FormControl(this.student.teamName,
           [Validators.required, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
-      newstudentemail: new UntypedFormControl(this.student.email, // original student email initialized
+      newstudentemail: new FormControl(this.student.email, // original student email initialized
           [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)]),
-      comments: new UntypedFormControl(this.student.comments),
+      comments: new FormControl(this.student.comments),
     });
     this.teamFieldSubscription =
         (this.editForm.get('teamname') as AbstractControl).valueChanges

@@ -8,7 +8,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   NumberOfEntitiesToGiveFeedbackToSetting={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   VisibilityControl={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   allowedFeedbackPaths={[Function Map]}
   commonFeedbackPaths={[Function Map]}
   commonFeedbackVisibilitySettings={[Function Array]}
@@ -21,7 +21,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   formMode={[Function Number]}
   formModelChange={[Function EventEmitter_]}
   isDisplayOnly="false"
-  isQuestionPublished="false"
   model={[Function Object]}
   numOfQuestions="0"
   saveExistingQuestionEvent={[Function EventEmitter_]}
@@ -121,7 +120,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   class="background-color-light-blue"
                 >
                   <div
-                    class="row padding-15px text-start"
+                    class="row padding-15px text-left"
                   >
                     <div
                       class="col-md-2"
@@ -144,7 +143,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     </div>
                   </div>
                   <div
-                    class="row padding-15px text-start"
+                    class="row padding-15px text-left"
                   >
                     <div
                       class="col-md-2"
@@ -258,6 +257,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 class="dropdown-menu"
                 id="feedback-path-dropdown"
                 ngbdropdownmenu=""
+                x-placement="bottom"
               >
                 <li
                   class="dropdown-header"
@@ -279,7 +279,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               style=""
             >
               <div
-                class="offset-1 col-md-4 text-md-end"
+                class="offset-1 col-md-4 text-md-right"
               >
                  The maximum number of students each respondent should give feedback to: 
               </div>
@@ -290,14 +290,18 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   class="input-group"
                 >
                   <div
-                    class="input-group-text"
+                    class="input-group-prepend"
                   >
-                    <input
-                      class="ng-untouched ng-pristine ng-valid"
-                      disabled=""
-                      id="custom-recipients"
-                      type="radio"
-                    />
+                    <div
+                      class="input-group-text"
+                    >
+                      <input
+                        class="ng-untouched ng-pristine ng-valid"
+                        disabled=""
+                        id="custom-recipients"
+                        type="radio"
+                      />
+                    </div>
                   </div>
                   <input
                     class="form-control ng-untouched ng-pristine ng-valid"
@@ -362,6 +366,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 class="dropdown-menu"
                 id="question-visibility-dropdown"
                 ngbdropdownmenu=""
+                x-placement="bottom"
               >
                 <li
                   class="dropdown-header"
@@ -401,7 +406,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           style=""
         >
           <div
-            class="col-12 text-end"
+            class="col-12 text-right"
           >
             <button
               class="btn btn-success"

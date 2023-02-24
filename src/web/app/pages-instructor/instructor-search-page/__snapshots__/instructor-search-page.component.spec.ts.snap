@@ -2,7 +2,7 @@
 
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   instructorService={[Function InstructorService]}
   isSearching="false"
@@ -54,12 +54,16 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
               placeholder="Your search keyword"
               type="text"
             />
-            <button
-              class="btn btn-primary input-group-text"
-              id="btn-search"
+            <div
+              class="input-group-append"
             >
-              Search
-            </button>
+              <button
+                class="btn btn-primary"
+                id="btn-search"
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -71,7 +75,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   instructorService={[Function InstructorService]}
   isSearching="false"
@@ -123,13 +127,17 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
               placeholder="Your search keyword"
               type="text"
             />
-            <button
-              class="btn btn-primary input-group-text"
-              disabled=""
-              id="btn-search"
+            <div
+              class="input-group-append"
             >
-              Search
-            </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                id="btn-search"
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -140,7 +148,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
         class="card border border-light-blue mb-3 student-course-table"
       >
         <div
-          class="card-header alert alert-primary alert-no-bottom fw-bold text-break"
+          class="card-header alert-primary font-weight-bold text-break"
         >
           [test-exa.demo]
         </div>
@@ -465,7 +473,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   instructorService={[Function InstructorService]}
   isSearching="false"
@@ -517,13 +525,17 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
               placeholder="Your search keyword"
               type="text"
             />
-            <button
-              class="btn btn-primary input-group-text"
-              disabled=""
-              id="btn-search"
+            <div
+              class="input-group-append"
             >
-              Search
-            </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                id="btn-search"
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </div>

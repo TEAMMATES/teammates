@@ -292,19 +292,16 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private void selectCourseInstitute(String institute) {
-        scrollElementToCenter(courseInstituteDropdown);
         Select dropdown = new Select(courseInstituteDropdown);
         dropdown.selectByValue(institute);
     }
 
     private void selectNewTimeZone(String timeZone) {
-        scrollElementToCenter(timeZoneDropdown);
         Select dropdown = new Select(timeZoneDropdown);
         dropdown.selectByValue(timeZone);
     }
 
     private void selectCopyTimeZone(String timeZone) {
-        scrollElementToCenter(copyTimeZoneDropdown);
         Select dropdown = new Select(copyTimeZoneDropdown);
         dropdown.selectByValue(timeZone);
     }

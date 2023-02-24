@@ -1,7 +1,7 @@
 <div id="question-submission-form" class="card">
   <div class="card-header bg-primary text-white question-header"
     [ngClass]="isSaved ? 'bg-success' : 'bg-primary'">
-    <i class="fas fa-check me-2" *ngIf="isSaved"></i>
+    <i class="fas fa-check mr-2" *ngIf="isSaved"></i>
     <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
@@ -47,7 +47,7 @@
       </div>
       <div class="form-check" *ngIf="hasSectionTeam">
           <input type="checkbox" id="showSectionTeam" name="showSectionTeam" value="sectionTeam" (change)="toggleSectionTeam($event)">
-          <label class="form-check-label ms-1" for="showSectionTeam">Show Section/Team</label>
+          <label class="form-check-label ml-1" for="showSectionTeam">Show Section/Team</label>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
               <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
             </div>
             <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-              <select id="recipient-dropdown" class="form-control form-select fw-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
+              <select id="recipient-dropdown" class="form-control font-weight-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
                       (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
                       [disabled]="isFormsDisabled">
                 <option value=""></option>
@@ -71,7 +71,7 @@
                   <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
                 </ng-container>
               </select>
-              <div class="col-auto text-start">
+              <div class="col-auto text-left">
                 ({{ model.recipientType | recipientTypeName: model.giverType }})
               </div>
             </div>

@@ -3,8 +3,8 @@
   <div class="col-sm-6">
     <div class="row">
       <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div class="margin-bottom-20px padding-left-12px" *ngFor="let option of model.constSumOptions; let i = index;
-        trackBy: trackConstsumOption" cdkDrag cdkDragLockAxis="y" style="display: flex;">
+        <div class="row margin-bottom-20px padding-left-12px" *ngFor="let option of model.constSumOptions; let i = index;
+        trackBy: trackConstsumOption" cdkDrag cdkDragLockAxis="y">
           <div cdkDragHandle>
             <span class="input-group-addon">&#8597; </span>
           </div>
@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="col-12 padding-left-33px margin-top-10px row">
-        <div class="col-auto w-25 form-check">
+        <div class="col-auto w-25">
           <label class="form-check-label">
             <input id="min-point-checkbox" class="form-check-input" type="checkbox"
                    [ngModel]="hasMinPoint"
@@ -62,7 +62,7 @@
             <b class="ngb-tooltip-class" ngbTooltip="The minimum allocation of the points to an option, e.g if you specify 5 points here, the user must input a value larger than or equal to 5 for each option.">min per option</b>
           </label>
         </div>
-        <div class="col-auto w-25 form-check">
+        <div class="col-auto w-25">
           <label class="form-check-label">
             <input id="max-point-checkbox" class="form-check-input" type="checkbox"
                    [ngModel]="hasMaxPoint"
@@ -73,12 +73,12 @@
           </label>
         </div>
       </div>
-      <div class="col-12 padding-left-33px margin-top-10px form-check">
+      <div class="col-12 padding-left-33px margin-top-10px">
         <label class="form-check-label">
           <input id="uneven-distribution-checkbox" class="form-check-input" type="checkbox"
                  [ngModel]="model.forceUnevenDistribution"
                  (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable">
-          <select id="uneven-distribution-dropdown" class="form-control form-select" [ngModel]="model.distributePointsFor"
+          <select id="uneven-distribution-dropdown" class="form-control" [ngModel]="model.distributePointsFor"
                   [disabled]="!isEditable || model.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE"
                   (ngModelChange)="triggerModelChange('distributePointsFor', $event)">
             <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">

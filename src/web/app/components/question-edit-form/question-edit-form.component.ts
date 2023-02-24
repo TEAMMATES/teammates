@@ -119,9 +119,6 @@ export class QuestionEditFormComponent {
   @Input()
   isDisplayOnly: boolean = false;
 
-  @Input()
-  isQuestionPublished: boolean = false;
-
   model: QuestionEditFormModel = {
     feedbackQuestionId: '',
 
@@ -284,7 +281,7 @@ export class QuestionEditFormComponent {
       const doChangesNeedWarning: boolean = this.model.isQuestionDetailsChanged
         || this.model.isVisibilityChanged
         || this.model.isFeedbackPathChanged;
-      if (!this.isQuestionPublished && (!this.model.isQuestionHasResponses || !doChangesNeedWarning)) {
+      if (!this.model.isQuestionHasResponses || !doChangesNeedWarning) {
         this.saveExistingQuestionEvent.emit();
       } else if (this.model.isFeedbackPathChanged) {
         // warn user that editing feedback path will delete all messages

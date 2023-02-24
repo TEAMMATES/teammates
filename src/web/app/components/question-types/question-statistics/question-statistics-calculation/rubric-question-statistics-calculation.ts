@@ -98,28 +98,25 @@ export class RubricQuestionStatisticsCalculation
 
     // calculate per recipient stats
     for (const response of this.responses) {
-      this.perRecipientStatsMap[response.recipientEmail || response.recipient] =
-        this.perRecipientStatsMap[
-          response.recipientEmail || response.recipient
-        ] || {
-          recipientName: response.recipient,
-          recipientEmail: response.recipientEmail,
-          recipientTeam: response.recipientTeam,
-          answers: JSON.parse(JSON.stringify(emptyAnswers)),
-          answersSum: [],
-          percentages: [],
-          percentagesAverage: [],
-          weightsAverage: [],
-          subQuestionTotalChosenWeight: this.subQuestions.map(() => 0),
-          subQuestionWeightAverage: [],
-        };
+      this.perRecipientStatsMap[response.recipient] = this.perRecipientStatsMap[response.recipient] || {
+        recipientName: response.recipient,
+        recipientEmail: response.recipientEmail,
+        recipientTeam: response.recipientTeam,
+        answers: JSON.parse(JSON.stringify(emptyAnswers)),
+        answersSum: [],
+        percentages: [],
+        percentagesAverage: [],
+        weightsAverage: [],
+        subQuestionTotalChosenWeight: this.subQuestions.map(() => 0),
+        subQuestionWeightAverage: [],
+      };
       for (let i: number = 0; i < response.responseDetails.answer.length; i += 1) {
         const subAnswer: number = response.responseDetails.answer[i];
         if (subAnswer === RUBRIC_ANSWER_NOT_CHOSEN) {
           continue;
         }
-        this.perRecipientStatsMap[response.recipientEmail || response.recipient].answers[i][subAnswer] += 1;
-        this.perRecipientStatsMap[response.recipientEmail || response.recipient].subQuestionTotalChosenWeight[i] +=
+        this.perRecipientStatsMap[response.recipient].answers[i][subAnswer] += 1;
+        this.perRecipientStatsMap[response.recipient].subQuestionTotalChosenWeight[i] +=
             +this.weights[i][subAnswer].toFixed(5);
       }
     }
@@ -127,19 +124,18 @@ export class RubricQuestionStatisticsCalculation
     for (const recipient of Object.keys(this.perRecipientStatsMap)) {
       const perRecipientStats: PerRecipientStats = this.perRecipientStatsMap[recipient];
 
-      // Answers sum = number of answers in each column
       perRecipientStats.answersSum = this.calculateAnswersSum(perRecipientStats.answers);
       perRecipientStats.percentages = this.calculatePercentages(perRecipientStats.answers);
-      perRecipientStats.percentagesAverage = this.calculatePercentagesAverage(perRecipientStats.answersSum);
+      perRecipientStats.percentagesAverage =
+          this.calculatePercentagesAverage(perRecipientStats.percentages,
+          this.calculateNumResponses(perRecipientStats.answersSum));
       perRecipientStats.subQuestionWeightAverage =
           this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
       perRecipientStats.weightsAverage = this.calculateWeightsAverage(this.weights);
-      // Overall weighted sum = sum of total chosen weight for all sub questions
-      perRecipientStats.overallWeightedSum =
-        +(perRecipientStats.subQuestionTotalChosenWeight.reduce((a, b) => a + b)).toFixed(2);
-      // Overall weighted average = overall weighted sum / total number of responses
+      perRecipientStats.overallWeightedSum = this.calculateWeightedSum(perRecipientStats.percentagesAverage,
+          perRecipientStats.answersSum, perRecipientStats.weightsAverage);
       perRecipientStats.overallWeightAverage = +(perRecipientStats.overallWeightedSum
-          / this.calculateNumResponses(perRecipientStats.answersSum)).toFixed(2);
+          / (this.calculateNumResponses(perRecipientStats.answersSum))).toFixed(2);
     }
   }
 
@@ -199,19 +195,32 @@ export class RubricQuestionStatisticsCalculation
   }
 
   // Calculate percentage average for each column
-  private calculatePercentagesAverage(answersSum: number[]): number[] {
-    // Calculate total number of responses
-    const numResponses = this.calculateNumResponses(answersSum);
+  private calculatePercentagesAverage(percentages: number[][], numAnswers: number): number[] {
+    // Calculate sum of percentages for each column
+    const sums: number[] = this.calculateAnswersSum(percentages);
     const averages: number[] = [];
-    // Divide each column sum by total number of responses, then convert to percentage
-    for (let i: number = 0; i < answersSum.length; i += 1) {
-      averages[i] = numResponses === 0 ? 0 : +(answersSum[i] * 100 / numResponses).toFixed(2);
+    // Divide each percentage by the number of answers
+    for (let i: number = 0; i < sums.length; i += 1) {
+      averages[i] = numAnswers === 0 ? 0 : +(sums[i] / numAnswers).toFixed(2);
     }
     return averages;
   }
 
+  // Calculate weighted sum of responses
+  private calculateWeightedSum(percentages: number[], answers: number[], weights: number[]): number {
+    let sum: number = 0;
+    for (let i: number = 0; i < answers.length; i += 1) {
+      sum += (percentages[i] / 100) * answers[i] * weights[i];
+    }
+    return +sum.toFixed(2);
+  }
+
   // Calculate total number of responses
   private calculateNumResponses(answersSum: number[]): number {
-    return answersSum.reduce((a, b) => a + b);
+    let num: number = 0;
+    for (let i = 0; i < answersSum.length; i += 1) {
+      num += answersSum[i];
+    }
+    return num;
   }
 }

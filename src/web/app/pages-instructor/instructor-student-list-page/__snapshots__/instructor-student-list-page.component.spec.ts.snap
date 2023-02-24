@@ -3,7 +3,7 @@
 exports[`InstructorStudentListPageComponent should snap with a course with students the instructor has no permission to view 1`] = `
 <tm-instructor-student-list-page
   SortBy={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   courseService={[Function CourseService]}
   courseTabList={[Function Array]}
   coursesSortBy={[Function Number]}
@@ -34,7 +34,7 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
         class="col"
       >
         <div
-          class="float-end"
+          class="float-right"
         >
           <strong
             class="d-inline"

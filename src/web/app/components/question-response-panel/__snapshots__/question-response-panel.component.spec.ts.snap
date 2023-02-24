@@ -3,7 +3,7 @@
 exports[`QuestionResponsePanelComponent should snap with feedback session with questions 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   questions={[Function Array]}
@@ -27,7 +27,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-inline-flex row align-items-center no-gutters"
             >
               <span
                 class="col-auto"
@@ -43,7 +43,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                  How well did team member perform?
               </span>
               <a
-                class="info-font-size ms-1"
+                class="info-font-size ml-1"
                 id="additional-info-link"
                 queryparamshandling="merge"
               >
@@ -133,7 +133,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-inline-flex row align-items-center no-gutters"
             >
               <span
                 class="col-auto"
@@ -149,7 +149,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                  Rate your teammates in contribution
               </span>
               <a
-                class="info-font-size ms-1"
+                class="info-font-size ml-1"
                 id="additional-info-link"
                 queryparamshandling="merge"
               >
@@ -286,7 +286,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-inline-flex row align-items-center no-gutters"
             >
               <span
                 class="col-auto"
@@ -302,7 +302,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                  Rate your teammates proficiency
               </span>
               <a
-                class="info-font-size ms-1"
+                class="info-font-size ml-1"
                 id="additional-info-link"
                 queryparamshandling="merge"
               >
@@ -411,7 +411,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                                                 class="fa fa-eye"
                                               />
                                               <div
-                                                class="float-end"
+                                                class="float-right"
                                               >
                                               </div>
                                             </div>
@@ -448,7 +448,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
 exports[`QuestionResponsePanelComponent should snap with feedback session with questions of anonymous responses 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   intent={[Function String]}
   questions={[Function Array]}
@@ -472,7 +472,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-inline-flex row align-items-center no-gutters"
             >
               <span
                 class="col-auto"
@@ -665,7 +665,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-inline-flex row align-items-center no-gutters"
             >
               <span
                 class="col-auto"

@@ -3,7 +3,7 @@
 exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is false 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}
@@ -112,7 +112,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
         </div>
       </div>
       <div
-        class="col-sm-6 form-check"
+        class="col-sm-6"
       >
         <label
           class="form-check-label mb-2"
@@ -127,7 +127,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
           </b>
         </label>
         <select
-          class="form-control form-select ng-untouched ng-pristine"
+          class="form-control ng-untouched ng-pristine"
           disabled=""
           id="generate-dropdown"
         >
@@ -176,7 +176,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
 exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is true 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}
@@ -285,7 +285,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
         </div>
       </div>
       <div
-        class="col-sm-6 form-check"
+        class="col-sm-6"
       >
         <label
           class="form-check-label mb-2"
@@ -300,7 +300,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
           </b>
         </label>
         <select
-          class="form-control form-select ng-untouched ng-pristine"
+          class="form-control ng-untouched ng-pristine"
           disabled=""
           id="generate-dropdown"
         >
@@ -349,7 +349,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
 exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. Question options are radio buttons 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}
@@ -458,7 +458,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. 
         </div>
       </div>
       <div
-        class="col-sm-6 form-check"
+        class="col-sm-6"
       >
         <label
           class="form-check-label mb-2"
@@ -473,7 +473,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. 
           </b>
         </label>
         <select
-          class="form-control form-select ng-untouched ng-pristine ng-valid"
+          class="form-control ng-untouched ng-pristine ng-valid"
           disabled=""
           id="generate-dropdown"
         >

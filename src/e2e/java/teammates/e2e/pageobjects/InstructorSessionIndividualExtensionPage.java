@@ -162,27 +162,27 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
     }
 
     public void selectStudent(int index) {
-        click(waitForElementPresence(By.id("student-checkbox-" + index)));
+        waitForElementPresence(By.id("student-checkbox-" + index)).click();
         waitUntilAnimationFinish();
     }
 
     public void selectInstructor(int index) {
-        click(waitForElementPresence(By.id("instructor-checkbox-" + index)));
+        waitForElementPresence(By.id("instructor-checkbox-" + index)).click();
         waitUntilAnimationFinish();
     }
 
     public void selectAllStudents() {
-        click(waitForElementPresence(By.id("select-all-student-btn")));
+        waitForElementPresence(By.id("select-all-student-btn")).click();
         waitUntilAnimationFinish();
     }
 
     public void selectAllInstructors() {
-        click(waitForElementPresence(By.id("select-all-instructor-btn")));
+        waitForElementPresence(By.id("select-all-instructor-btn")).click();
         waitUntilAnimationFinish();
     }
 
     public void deleteDeadlines(boolean notifyUsers) {
-        click(deleteDeadlinesButton);
+        deleteDeadlinesButton.click();
         confirmChangesToDeadlineExtensions(notifyUsers);
     }
 
@@ -195,19 +195,19 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
     }
 
     private void extendDeadlineBy(String by, boolean notifyUsers) {
-        click(extendDeadlinesButton);
+        extendDeadlinesButton.click();
         WebElement dropdown = waitForElementPresence(By.id("extend-by-dropdown"));
         selectDropdownOptionByValue(dropdown, by);
-        click(browser.driver.findElement(By.className("modal-btn-ok")));
+        browser.driver.findElement(By.className("modal-btn-ok")).click();
         confirmChangesToDeadlineExtensions(notifyUsers);
     }
 
     public void extendDeadlineToOneDayAway(FeedbackSessionAttributes session, boolean notifyUsers) {
-        click(extendDeadlinesButton);
+        extendDeadlinesButton.click();
 
         Instant extendedDeadline = session.getEndTime().plus(Duration.ofDays(1));
         extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedDeadline, session.getTimeZone(), false);
-        click(waitForElementPresence(By.id("extend-deadline-to")));
+        waitForElementPresence(By.id("extend-deadline-to")).click();
 
         // set time
         WebElement timePicker = browser.driver.findElement(By.id("submission-end-time"));
@@ -218,7 +218,7 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
         WebElement datePicker = browser.driver.findElement(By.id("submission-end-date"));
         fillDatePicker(datePicker, extendedDeadline, session.getTimeZone());
 
-        click(browser.driver.findElement(By.className("modal-btn-ok")));
+        browser.driver.findElement(By.className("modal-btn-ok")).click();
         confirmChangesToDeadlineExtensions(notifyUsers);
     }
 
@@ -227,7 +227,7 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
 
         WebElement notifyUsersCheckbox = browser.driver.findElement(By.id("flexCheckChecked"));
         if (notifyUsers) {
-            click(notifyUsersCheckbox);
+            notifyUsersCheckbox.click();
         }
 
         WebElement okButton = browser.driver.findElement(By.className("modal-btn-ok"));

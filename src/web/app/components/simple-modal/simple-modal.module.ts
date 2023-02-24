@@ -15,6 +15,7 @@ import { SimpleModalComponent } from './simple-modal.component';
     ProgressBarModule,
     NgbModule,
   ],
+  entryComponents: [SimpleModalComponent],
 })
 
 export class SimpleModalModule { }

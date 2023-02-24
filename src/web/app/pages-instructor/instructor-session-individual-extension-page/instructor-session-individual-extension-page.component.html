@@ -1,35 +1,35 @@
 <tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackSessionFailed"
   [message]="'Failed to load course and feedback session'" (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingFeedbackSession">
-    <div class="card bg-light top-padded text-center text-sm-start">
+    <div class="card bg-light top-padded text-center text-sm-left">
       <div class="card-body">
         <div class="row text-center">
-          <div class="col-md-2 text-md-end font-bold">Course ID</div>
-          <div id="time-zone" class="col-md-3 text-md-start">
+          <div class="col-md-2 text-md-right font-bold">Course ID</div>
+          <div id="time-zone" class="col-md-3 text-md-left">
             {{ courseId }}
           </div>
         </div>
         <div class="row text-center">
-          <div class="col-md-2 text-md-end font-bold">Time Zone</div>
-          <div id="time-zone" class="col-md-3 text-md-start">
+          <div class="col-md-2 text-md-right font-bold">Time Zone</div>
+          <div id="time-zone" class="col-md-3 text-md-left">
             {{ feedbackSessionTimeZone }}
           </div>
         </div>
         <div class="row text-center">
-          <div class="col-md-2 text-md-end font-bold">Course Name</div>
-          <div id="course-name" class="col-md-10 text-md-start">
+          <div class="col-md-2 text-md-right font-bold">Course Name</div>
+          <div id="course-name" class="col-md-10 text-md-left">
             {{ courseName }}
           </div>
         </div>
         <div class="row text-center">
-          <div class="col-md-2 text-md-end font-bold">Session Name</div>
-          <div id="course-name" class="col-md-10 text-md-start">
+          <div class="col-md-2 text-md-right font-bold">Session Name</div>
+          <div id="course-name" class="col-md-10 text-md-left">
             {{ feedbackSessionName }}
           </div>
         </div>
         <div class="row text-center">
-          <div class="col-md-2 text-md-end font-bold">Original Deadline</div>
-          <div id="course-name" class="col-md-10 text-md-start">
+          <div class="col-md-2 text-md-right font-bold">Original Deadline</div>
+          <div id="course-name" class="col-md-10 text-md-left">
             {{ feedbackSessionEndingTimestamp | formatDateDetail: feedbackSessionTimeZone }}
           </div>
         </div>

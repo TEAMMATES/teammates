@@ -62,7 +62,7 @@ export class PageComponent {
    *
    * Angular browser support: https://angular.io/guide/browser-support
    *
-   * Bootstrap 5 browser support: https://getbootstrap.com/docs/5.2/getting-started/browsers-devices/
+   * Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
    */
   minimumVersions: Record<string, number> = {
     Chrome: 87,

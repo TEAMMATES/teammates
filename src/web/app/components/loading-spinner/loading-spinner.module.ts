@@ -12,5 +12,6 @@ import { LoadingSpinnerDirective } from './loading-spinner.directive';
     CommonModule,
   ],
   exports: [LoadingSpinnerDirective],
+  entryComponents: [LoadingSpinnerComponent],
 })
 export class LoadingSpinnerModule { }

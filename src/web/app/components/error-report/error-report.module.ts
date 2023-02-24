@@ -12,6 +12,7 @@ import { ErrorReportComponent } from './error-report.component';
     FormsModule,
   ],
   exports: [ErrorReportComponent],
+  entryComponents: [ErrorReportComponent],
   declarations: [ErrorReportComponent],
 })
 export class ErrorReportModule { }

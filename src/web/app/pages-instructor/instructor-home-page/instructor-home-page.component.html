@@ -14,7 +14,7 @@
     </a>
   </div>
   <div class="col-8" *ngIf="courseTabModels.length > 0">
-    <div class="float-end">
+    <div class="float-right">
       <strong class="d-inline"> Sort By: </strong>
       <div class="btn-group" data-toggle="buttons">
         <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>

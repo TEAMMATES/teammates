@@ -7,7 +7,7 @@
       <button type="button" class="btn btn-link" *ngIf="!isModerationHintExpanded" (click)="isModerationHintExpanded = true">[More]</button>
       <button type="button" class="btn btn-link" *ngIf="isModerationHintExpanded" (click)="isModerationHintExpanded = false">[Less]</button>
     </h5>
-    <div *ngIf="isModerationHintExpanded" class="text-start">
+    <div *ngIf="isModerationHintExpanded" class="text-left">
       <p>
         The page below resembles the submission page as seen by the respondent {{ personName }} ({{ moderatedPerson }}).
         You can use it to moderate responses submitted by the respondent or submit responses on behalf of the respondent.
@@ -59,32 +59,32 @@
 <div class="card card-plain" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
   <div class="card-body">
     <div class="row text-center">
-      <label class="col-md-2 text-md-end">Course ID:</label>
-      <div id="course-id" class="col-md-10 text-md-start">{{ courseId }}</div>
+      <label class="col-md-2 text-md-right">Course ID:</label>
+      <div id="course-id" class="col-md-10 text-md-left">{{ courseId }}</div>
     </div>
     <div class="row text-center" *ngIf="courseName">
-      <label class="col-md-2 text-md-end">Course name:</label>
-      <div id="course-name" class="col-md-10 text-md-start">{{ courseName }}</div>
+      <label class="col-md-2 text-md-right">Course name:</label>
+      <div id="course-name" class="col-md-10 text-md-left">{{ courseName }}</div>
     </div>
     <div class="row text-center" *ngIf="courseInstitute">
-      <label class="col-md-2 text-md-end">Course institute:</label>
-      <div id="course-institute" class="col-md-10 text-md-start">{{ courseInstitute }}</div>
+      <label class="col-md-2 text-md-right">Course institute:</label>
+      <div id="course-institute" class="col-md-10 text-md-left">{{ courseInstitute }}</div>
     </div>
     <div class="row text-center">
-      <label class="col-md-2 text-md-end">Session:</label>
-      <div id="fs-name" class="col-md-10 text-md-start">{{ feedbackSessionName }}</div>
+      <label class="col-md-2 text-md-right">Session:</label>
+      <div id="fs-name" class="col-md-10 text-md-left">{{ feedbackSessionName }}</div>
     </div>
     <div class="row text-center">
-      <label class="col-md-2 text-md-end">Opening time:</label>
-      <div id="opening-time" class="col-md-10 text-md-start">{{ formattedSessionOpeningTime }}</div>
+      <label class="col-md-2 text-md-right">Opening time:</label>
+      <div id="opening-time" class="col-md-10 text-md-left">{{ formattedSessionOpeningTime }}</div>
     </div>
     <div class="row text-center">
-      <label class="col-md-2 text-md-end">Closing time:</label>
-      <div id="closing-time" class="col-md-10 text-md-start">{{ formattedSessionClosingTime }}</div>
+      <label class="col-md-2 text-md-right">Closing time:</label>
+      <div id="closing-time" class="col-md-10 text-md-left">{{ formattedSessionClosingTime }}</div>
     </div>
     <div class="row text-center">
-      <label class="col-md-2 text-md-end">Instructions:</label>
-      <div id="instructions" class="col-md-10 text-md-start" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+      <label class="col-md-2 text-md-right">Instructions:</label>
+      <div id="instructions" class="col-md-10 text-md-left" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
     </div>
   </div>
 </div>

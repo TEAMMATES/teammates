@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12 text-start">
+  <div class="col-12 text-left">
     <div class="form-group form-check">
       <label class="form-check-label tool-tip-decorate ngb-tooltip-class"
              ngbTooltip="Assign weights to the columns for calculating statistics.">
@@ -10,12 +10,12 @@
 </div>
 <table id="rubric-table" class="table table-bordered">
   <tbody>
-    <tr class="fw-bold item-center">
+    <tr class="font-weight-bold item-center">
       <td>
         <div>Choices <i class="fas fa-arrow-right"></i></div>
       </td>
       <td *ngFor="let rubricChoice of model.rubricChoices; let j = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
-        <input type="text" class="form-control fw-bold" [disabled]="!isEditable"
+        <input type="text" class="form-control font-weight-bold" [disabled]="!isEditable"
                [ngModel]="rubricChoice" (ngModelChange)="triggerRubricChoiceChange($event, j)">
       </td>
     </tr>
@@ -72,10 +72,10 @@
   </tbody>
 </table>
 <div class="row">
-  <div class="col-6 text-start">
+  <div class="col-6 text-left">
     <button id="btn-add-row" type="button" class="btn btn-primary btn-sm" (click)="addNewSubQuestion()" [disabled]="!isEditable">Add Row <i class="fas fa-arrow-down"></i></button>
   </div>
-  <div class="col-6 text-end">
+  <div class="col-6 text-right">
     <button id="btn-add-col" type="button" class="btn btn-primary btn-sm" (click)="addNewChoice()" [disabled]="!isEditable">Add Column <i class="fas fa-arrow-right"></i></button>
   </div>
 </div>

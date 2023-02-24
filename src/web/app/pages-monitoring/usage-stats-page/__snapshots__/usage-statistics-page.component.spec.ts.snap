@@ -4,7 +4,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
 <tm-usage-statistics-page
   AggregationType={[Function Object]}
   StatisticsType={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   dataToDraw={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
@@ -37,39 +37,35 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             class="col-12 mb-1"
           >
             <label
-              class="fw-bold"
+              class="font-weight-bold"
               for="search-from-datepicker"
             >
               Search period from
             </label>
           </div>
           <div
-            class="col-12 row"
+            class="input-group"
           >
             <div
-              class="col-md-7"
+              class="col-md-8 input-group"
             >
-              <div
-                class="input-group"
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="search-from-datepicker"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
               >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="search-from-datepicker"
-                  ngbdatepicker=""
-                  type="text"
+                <i
+                  class="fas fa-calendar-alt"
                 />
-                <button
-                  class="btn btn-light input-group-text"
-                  type="button"
-                >
-                  <i
-                    class="fas fa-calendar-alt"
-                  />
-                </button>
-              </div>
+              </button>
             </div>
             <div
-              class="col-md-5"
+              class="col-md-4"
             >
               <ngb-timepicker
                 class="ng-untouched ng-pristine ng-valid"
@@ -120,39 +116,35 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             class="col-12 mb-1"
           >
             <label
-              class="fw-bold"
+              class="font-weight-bold"
               for="search-to-datepicker"
             >
               Search period until
             </label>
           </div>
           <div
-            class="col-12 row"
+            class="input-group"
           >
             <div
-              class="col-md-7"
+              class="col-md-8 input-group"
             >
-              <div
-                class="input-group"
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="search-to-datepicker"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
               >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="search-to-datepicker"
-                  ngbdatepicker=""
-                  type="text"
+                <i
+                  class="fas fa-calendar-alt"
                 />
-                <button
-                  class="btn btn-light input-group-text"
-                  type="button"
-                >
-                  <i
-                    class="fas fa-calendar-alt"
-                  />
-                </button>
-              </div>
+              </button>
             </div>
             <div
-              class="col-md-5"
+              class="col-md-4"
             >
               <ngb-timepicker
                 class="ng-untouched ng-pristine ng-valid"
@@ -203,14 +195,14 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             class="col-12 mb-1"
           >
             <label
-              class="fw-bold"
+              class="font-weight-bold"
               for="data-to-display"
             >
               Data to display:
             </label>
           </div>
           <select
-            class="form-control form-select col-12 ng-untouched ng-pristine ng-valid"
+            class="form-control col-12 ng-untouched ng-pristine ng-valid"
             id="data-to-display"
           >
             <option
@@ -257,14 +249,14 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             class="col-12 mb-1"
           >
             <label
-              class="fw-bold"
+              class="font-weight-bold"
               for="data-aggregation"
             >
               Data aggregation:
             </label>
           </div>
           <select
-            class="form-control form-select col-12 ng-untouched ng-pristine ng-valid"
+            class="form-control col-12 ng-untouched ng-pristine ng-valid"
             id="data-aggregation"
           >
             <option
@@ -283,7 +275,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
           class="col-1 mt-4"
         >
           <button
-            class="float-end btn btn-primary"
+            class="float-right btn btn-primary"
             id="query-button"
           >
             Query

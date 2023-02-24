@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -24,7 +24,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   size: 'compact' | 'normal' = 'normal';
   lang: string = 'en';
 
-  formSessionLinksRecovery!: UntypedFormGroup;
+  formSessionLinksRecovery!: FormGroup;
   isFormSubmitting: boolean = false;
   readonly captchaSiteKey: string = environment.captchaSiteKey;
 
@@ -32,7 +32,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
 
   constructor(private feedbackSessionsService: FeedbackSessionsService,
               private statusMessageService: StatusMessageService,
-              private formBuilder: UntypedFormBuilder) {}
+              private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.formSessionLinksRecovery = this.formBuilder.group({
@@ -44,7 +44,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   /**
    * Sends the feedback session links to the recovery email address.
    */
-  onSubmitFormSessionLinksRecovery(sessionLinksRecoveryForm: UntypedFormGroup): void {
+  onSubmitFormSessionLinksRecovery(sessionLinksRecoveryForm: FormGroup): void {
     if (!this.captchaSiteKey) {
       this.captchaResponse = '';
     }

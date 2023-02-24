@@ -90,7 +90,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
 
   // url param
   courseId: string = '';

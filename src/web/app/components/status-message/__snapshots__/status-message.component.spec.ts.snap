@@ -2,15 +2,21 @@
 
 exports[`StatusMessageComponent should show all three messages 1`] = `
 <tm-status-message
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   messages={[Function Array]}
 >
   <div
     class="alert alert-black"
   >
     <button
-      class="btn-close"
-    />
+      class="close"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
     <div
       style="padding-right: 30px;"
     >
@@ -20,8 +26,14 @@ exports[`StatusMessageComponent should show all three messages 1`] = `
     class="alert alert-red"
   >
     <button
-      class="btn-close"
-    />
+      class="close"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
     <div
       style="padding-right: 30px;"
     >
@@ -31,8 +43,14 @@ exports[`StatusMessageComponent should show all three messages 1`] = `
     class="alert alert-green"
   >
     <button
-      class="btn-close"
-    />
+      class="close"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
     <div
       style="padding-right: 30px;"
     >
@@ -44,7 +62,7 @@ exports[`StatusMessageComponent should show all three messages 1`] = `
 
 exports[`StatusMessageComponent should snap with default view 1`] = `
 <tm-status-message
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   messages={[Function Array]}
 >
 </tm-status-message>

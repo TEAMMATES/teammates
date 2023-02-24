@@ -5,7 +5,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -25,16 +25,22 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
     </h4>
     <button
       aria-label="Close"
-      class="btn-close"
+      class="close"
       id="btn-close-modal"
       type="button"
-    />
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
   </div><div
     class="modal-body"
     id="copy-instructor-modal"
   >
     <div
-      class="col-12 mb-3 text-md-end"
+      class="col-12 mb-3 text-md-right"
     >
       <strong
         class="d-inline"
@@ -70,7 +76,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-info"
+          class="card-header cursor-pointer text-white bg-info"
         >
           <strong
             class="text-break"
@@ -142,7 +148,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -162,16 +168,22 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     </h4>
     <button
       aria-label="Close"
-      class="btn-close"
+      class="close"
       id="btn-close-modal"
       type="button"
-    />
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
   </div><div
     class="modal-body"
     id="copy-instructor-modal"
   >
     <div
-      class="col-12 mb-3 text-md-end"
+      class="col-12 mb-3 text-md-right"
     >
       <strong
         class="d-inline"
@@ -207,7 +219,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-info"
+          class="card-header cursor-pointer text-white bg-info"
         >
           <strong
             class="text-break"
@@ -239,7 +251,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                   id="copy-instructor-table"
                 >
                   <thead
-                    class="bg-info"
+                    class="text-white bg-info"
                   >
                     <tr>
                       <th>
@@ -345,7 +357,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                   </tbody>
                 </table>
                 <button
-                  class="btn btn-secondary float-end mt-2 mb-3"
+                  class="btn btn-secondary float-right mt-2 mb-3"
                 >
                   <i
                     aria-hidden="true"
@@ -386,7 +398,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -406,16 +418,22 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     </h4>
     <button
       aria-label="Close"
-      class="btn-close"
+      class="close"
       id="btn-close-modal"
       type="button"
-    />
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
   </div><div
     class="modal-body"
     id="copy-instructor-modal"
   >
     <div
-      class="col-12 mb-3 text-md-end"
+      class="col-12 mb-3 text-md-right"
     >
       <strong
         class="d-inline"
@@ -451,7 +469,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-info"
+          class="card-header cursor-pointer text-white bg-info"
         >
           <strong
             class="text-break"
@@ -520,7 +538,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -540,16 +558,22 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
     </h4>
     <button
       aria-label="Close"
-      class="btn-close"
+      class="close"
       id="btn-close-modal"
       type="button"
-    />
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
   </div><div
     class="modal-body"
     id="copy-instructor-modal"
   >
     <div
-      class="col-12 mb-3 text-md-end"
+      class="col-12 mb-3 text-md-right"
     >
       <strong
         class="d-inline"
@@ -585,7 +609,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-info"
+          class="card-header cursor-pointer text-white bg-info"
         >
           <strong
             class="text-break"
@@ -613,7 +637,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-primary text-white"
+          class="card-header cursor-pointer text-white bg-primary"
         >
           <strong
             class="text-break"
@@ -663,7 +687,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
@@ -683,10 +707,16 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
     </h4>
     <button
       aria-label="Close"
-      class="btn-close"
+      class="close"
       id="btn-close-modal"
       type="button"
-    />
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
   </div><div
     class="modal-body"
     id="copy-instructor-modal"

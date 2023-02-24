@@ -39,7 +39,7 @@
       <div class="col-sm-9" *ngIf="instructor.joinState === JoinState.JOINED">
         <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" tabindex="3" [ngModel]="instructor.googleId" disabled>
       </div>
-      <span class="text-danger col-sm-9 text-start margin-bottom-label" *ngIf="instructor.joinState === JoinState.NOT_JOINED">
+      <span class="text-danger col-sm-9 text-left margin-bottom-label" *ngIf="instructor.joinState === JoinState.NOT_JOINED">
         Not available. Instructor is yet to join this course.
       </span>
     </div>
@@ -80,8 +80,8 @@
                [ngModel]="instructor.isDisplayedToStudents ? instructor.displayedToStudentsAs : '(This instructor will NOT be displayed to students)'">
       </div>
     </div>
-    <div class="form-row form-group align-items-start text-start">
-      <label class="col-sm-2 control-label text-center text-md-end">
+    <div class="form-row form-group align-items-start text-left">
+      <label class="col-sm-2 control-label text-center text-md-right">
         Access Level:
       </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
@@ -103,7 +103,7 @@
       </div>
     </div>
 
-    <tm-custom-privilege-setting-panel class="text-start" id="custom-access-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+    <tm-custom-privilege-setting-panel class="text-left" id="custom-access-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
                                        [permission]="this.instructor.permission" (permissionChange)="triggerModelChange('permission', $event)"
                                        [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-custom-privilege-setting-panel>
 

@@ -14,6 +14,9 @@ import { CopySessionModalComponent } from './copy-session-modal.component';
     CommonModule,
     FormsModule,
   ],
+  entryComponents: [
+    CopySessionModalComponent,
+  ],
   exports: [
     CopySessionModalComponent,
   ],

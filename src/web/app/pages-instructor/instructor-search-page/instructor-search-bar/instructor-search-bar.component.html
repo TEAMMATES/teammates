@@ -14,9 +14,11 @@
       <div class="input-group">
         <input type="text" id="search-keyword" class="form-control" [ngModel]="searchParams.searchKey"
           (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" placeholder="Your search keyword">
-        <button class="btn btn-primary input-group-text" id="btn-search" (click)="search()"
-                [disabled]="searchParams.searchKey === ''"
-        >Search</button>
+          <div class="input-group-append">
+            <button class="btn btn-primary" id="btn-search" (click)="search()"
+                    [disabled]="searchParams.searchKey === ''"
+            >Search</button>
+          </div>
       </div>
     </div>
   </div>

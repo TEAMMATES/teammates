@@ -44,5 +44,8 @@ const routes: Routes = [
   exports: [
     SessionSubmissionPageComponent,
   ],
+  entryComponents: [
+    SavingCompleteModalComponent,
+  ],
 })
 export class SessionSubmissionPageModule { }

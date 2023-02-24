@@ -6,13 +6,15 @@
 
     <div class="input-group">
       <input id="search-box" type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
-      <button id="search-button" class="btn btn-primary input-group-text" (click)="search()">Search</button>
+        <div class="input-group-append">
+          <button id="search-button" class="btn btn-primary" (click)="search()">Search</button>
+        </div>
     </div>
   </div>
 </div>
 
 <div class="card bg-light top-padded" *ngIf="instructors.length">
-  <div class="card-header bg-info">
+  <div class="card-header bg-info text-white">
     <strong>Instructors Found</strong>
     <div class="card-header-btn-toolbar">
       <button id="show-instructor-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
@@ -70,27 +72,27 @@
               <ul class="list-group">
                 <li class="list-group-item list-group-item-success has-success">
                   <strong>Email</strong>
-                  <input [value]="instructor.email" disabled class="form-control">
+                  <input [value]="instructor.email" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
-                  <input [value]="instructor.courseJoinLink" disabled class="form-control">
+                  <input [value]="instructor.courseJoinLink" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-light" *ngFor="let awaitingFs of instructor.awaitingSessions | keyvalue">
                   <strong>{{ awaitingFs.key + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
-                  <input [value]="awaitingFs.value.feedbackSessionUrl" disabled class="form-control">
+                  <input [value]="awaitingFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let openFs of instructor.openSessions | keyvalue">
                   <strong>{{ openFs.key + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
-                  <input [value]="openFs.value.feedbackSessionUrl" disabled class="form-control">
+                  <input [value]="openFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-danger" *ngFor="let notOpenFs of instructor.notOpenSessions | keyvalue">
                   <strong>{{ notOpenFs.key + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
-                  <input [value]="notOpenFs.value.feedbackSessionUrl" disabled class="form-control">
+                  <input [value]="notOpenFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-success" *ngFor="let publishedFs of instructor.publishedSessions | keyvalue">
                   <strong>{{ publishedFs.key + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
-                  <input [value]="publishedFs.value.feedbackSessionUrl" disabled class="form-control">
+                  <input [value]="publishedFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
               </ul>
             </td>
@@ -165,32 +167,32 @@
               <ul class="list-group" *ngIf="student.showLinks" @collapseAnim>
                 <li class="list-group-item list-group-item-success has-success">
                   <strong>Email</strong>
-                  <input [value]="student.email" disabled class="form-control">
+                  <input [value]="student.email" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
                   <button id="send-course-join-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openCourseJoinEmail(student.courseId, student.email)">Send mail</button>
-                  <input [value]="student.courseJoinLink" disabled class="form-control">
+                  <input [value]="student.courseJoinLink" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-light" *ngFor="let awaitingFs of student.awaitingSessions | keyvalue">
                   <strong>{{ awaitingFs.key + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
                   <button id="send-awaiting-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, awaitingFs.key)">Send mail</button>
-                  <input [value]="awaitingFs.value.feedbackSessionUrl" disabled class="form-control">
+                  <input [value]="awaitingFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let openFs of student.openSessions | keyvalue">
                   <strong>{{ openFs.key + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
                   <button id="send-open-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, openFs.key)">Send mail</button>
-                  <input [value]="openFs.value.feedbackSessionUrl" disabled class="form-control">
+                  <input [value]="openFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-danger" *ngFor="let notOpenFs of student.notOpenSessions | keyvalue">
                   <strong>{{ notOpenFs.key + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
                   <button id="send-not-open-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, notOpenFs.key)">Send mail</button>
-                  <input [value]="notOpenFs.value.feedbackSessionUrl" disabled class="form-control">
+                  <input [value]="notOpenFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-success" *ngFor="let publishedFs of student.publishedSessions | keyvalue">
                   <strong>{{ publishedFs.key + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
                   <button id="send-published-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, publishedFs.key)">Send mail</button>
-                  <input [value]="publishedFs.value.feedbackSessionUrl" disabled class="form-control">
+                  <input [value]="publishedFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
               </ul>
             </td>
@@ -254,7 +256,7 @@
               <ul class="list-group" *ngIf="accountRequest.showLinks" @collapseAnim>
                 <li class="list-group-item list-group-item-info">
                   <strong>Account Registration Link</strong>
-                  <input [value]="accountRequest.registrationLink" disabled class="form-control">
+                  <input [value]="accountRequest.registrationLink" readonly class="form-control">
                 </li>
               </ul>
             </td>

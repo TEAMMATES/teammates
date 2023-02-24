@@ -4,7 +4,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__={[Function LRootView]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   extensionTimestamp={[Function Number]}
@@ -30,9 +30,13 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
         Confirm extension of feedback session
       </h5>
       <button
-        class="btn-close"
+        class="close"
         type="button"
-      />
+      >
+        <i
+          class="fas fa-times"
+        />
+      </button>
     </div>
     <div
       class="modal-body"

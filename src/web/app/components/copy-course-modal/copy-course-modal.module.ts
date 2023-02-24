@@ -16,6 +16,9 @@ import { CopyCourseModalComponent } from './copy-course-modal.component';
     FormsModule,
     NgbTooltipModule,
   ],
+  entryComponents: [
+    CopyCourseModalComponent,
+  ],
   exports: [
     CopyCourseModalComponent,
   ],

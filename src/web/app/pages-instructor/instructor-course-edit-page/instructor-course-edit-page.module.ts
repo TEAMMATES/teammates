@@ -54,5 +54,8 @@ const routes: Routes = [
     PanelChevronModule,
     CourseEditFormModule,
   ],
+  entryComponents: [
+    ViewRolePrivilegesModalComponent,
+  ],
 })
 export class InstructorCourseEditPageModule { }
