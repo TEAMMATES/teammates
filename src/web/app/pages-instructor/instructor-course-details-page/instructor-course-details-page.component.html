@@ -4,44 +4,44 @@
     <div class="card">
       <div class="card-body fill-plain">
         <div class="row">
-          <label class="col-sm-2 text-sm-right">Course ID:</label>
-          <span id="course-id" class="col-sm-9 text-sm-left">
+          <label class="col-sm-2 text-sm-end">Course ID:</label>
+          <span id="course-id" class="col-sm-9 text-sm-start">
             {{courseDetails.course.courseId}}
           </span>
         </div>
         <div class="row">
-          <label class="col-sm-2 text-sm-right">Course name:</label>
-          <span id="course-name" class="col-sm-9 text-sm-left">
+          <label class="col-sm-2 text-sm-end">Course name:</label>
+          <span id="course-name" class="col-sm-9 text-sm-start">
             {{courseDetails.course.courseName}}
           </span>
         </div>
         <div class="row">
-          <label class="col-sm-2 text-sm-right">Course institute:</label>
-          <span id="course-institute" class="col-sm-9 text-sm-left">
+          <label class="col-sm-2 text-sm-end">Course institute:</label>
+          <span id="course-institute" class="col-sm-9 text-sm-start">
             {{courseDetails.course.institute}}
           </span>
         </div>
         <div class="row">
-          <label class="col-sm-2 text-sm-right">Sections:</label>
-          <span id="num-sections" class="col-sm-9 text-sm-left">
+          <label class="col-sm-2 text-sm-end">Sections:</label>
+          <span id="num-sections" class="col-sm-9 text-sm-start">
             {{courseDetails.stats.numOfSections}}
           </span>
         </div>
         <div class="row">
-          <label class="col-sm-2 text-sm-right">Teams:</label>
-          <span id="num-teams" class="col-sm-9 text-sm-left">
+          <label class="col-sm-2 text-sm-end">Teams:</label>
+          <span id="num-teams" class="col-sm-9 text-sm-start">
             {{courseDetails.stats.numOfTeams}}
           </span>
         </div>
         <div class="row">
-          <label class="col-sm-2 text-sm-right">Total students:</label>
-          <span id="num-students" class="col-sm-9 text-sm-left">
+          <label class="col-sm-2 text-sm-end">Total students:</label>
+          <span id="num-students" class="col-sm-9 text-sm-start">
             {{courseDetails.stats.numOfStudents}}
           </span>
         </div>
         <div class="row">
-          <label class="col-sm-2 text-sm-right control-label">Instructors:</label>
-          <div id="instructors" class="col-sm-9 text-sm-left">
+          <label class="col-sm-2 text-sm-end control-label">Instructors:</label>
+          <div id="instructors" class="col-sm-9 text-sm-start">
             <div *ngFor="let instructor of instructors">
               {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
             </div>

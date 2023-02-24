@@ -1,4 +1,4 @@
-<select class="form-control" [ngModel]="time"
+<select class="form-control form-select" [ngModel]="time"
         (ngModelChange)="triggerTimeChange($event)" [disabled]="isDisabled"
         [compareWith]="timeCompareFn"
 >

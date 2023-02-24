@@ -3,7 +3,7 @@
 exports[`InstructorCourseStudentEditPageComponent should snap when student is still loading 1`] = `
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseId="undefined"
   hasStudentLoadingFailed="false"
   isEmailFieldChanged="false"
@@ -42,7 +42,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
 exports[`InstructorCourseStudentEditPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseId="undefined"
   hasStudentLoadingFailed="false"
   isEmailFieldChanged="false"
@@ -81,7 +81,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
 exports[`InstructorCourseStudentEditPageComponent should snap with student details 1`] = `
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   courseId="undefined"
   editForm={[Function FormGroup]}
   hasStudentLoadingFailed="false"
@@ -105,7 +105,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
         class="card border-primary"
       >
         <div
-          class="card-body fill-plain text-sm-left"
+          class="card-body fill-plain text-sm-start"
         >
           <form
             class="form form-horizontal ng-untouched ng-pristine ng-valid"

@@ -3,7 +3,7 @@
 exports[`McqQuestionAdditionalInfoComponent should show generator option message when "generateOptionsFor" is enabled 1`] = `
 <tm-mcq-question-additional-info
   FeedbackParticipantType={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   questionDetails={[Function Object]}
 >
   Multiple-choice (single answer) question options:
@@ -16,7 +16,7 @@ exports[`McqQuestionAdditionalInfoComponent should show generator option message
 exports[`McqQuestionAdditionalInfoComponent should show mcq options 1`] = `
 <tm-mcq-question-additional-info
   FeedbackParticipantType={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   questionDetails={[Function Object]}
 >
   Multiple-choice (single answer) question options:
@@ -37,7 +37,7 @@ exports[`McqQuestionAdditionalInfoComponent should show mcq options 1`] = `
 exports[`McqQuestionAdditionalInfoComponent should show other when "other" option is enabled 1`] = `
 <tm-mcq-question-additional-info
   FeedbackParticipantType={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   questionDetails={[Function Object]}
 >
   Multiple-choice (single answer) question options:
@@ -61,7 +61,7 @@ exports[`McqQuestionAdditionalInfoComponent should show other when "other" optio
 exports[`McqQuestionAdditionalInfoComponent should snap with default view 1`] = `
 <tm-mcq-question-additional-info
   FeedbackParticipantType={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   questionDetails={[Function Object]}
 >
   Multiple-choice (single answer) question options:
