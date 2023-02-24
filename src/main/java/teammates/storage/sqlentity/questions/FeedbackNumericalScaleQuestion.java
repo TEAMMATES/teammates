@@ -7,7 +7,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
 
 /**
  * Represents a FeedbackNumericalScaleQuestion entity.
@@ -17,10 +16,7 @@ public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
 
     @Column(nullable = false)
     @Convert(converter = FeedbackNumericalScaleQuestionDetailsConverter.class)
-    private String questionDetails;
-
-    @Transient
-    private FeedbackNumericalScaleQuestionDetailsConverter converter = new FeedbackNumericalScaleQuestionDetailsConverter();
+    private FeedbackNumericalScaleQuestionDetails questionDetails;
 
     protected FeedbackNumericalScaleQuestion() {
         // required by Hibernate
@@ -33,11 +29,11 @@ public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
     }
 
     public void setFeedBackQuestionDetails(FeedbackNumericalScaleQuestionDetails questionDetails) {
-        this.questionDetails = converter.convertToDatabaseColumn(questionDetails);
+        this.questionDetails = questionDetails;
     }
 
     public FeedbackNumericalScaleQuestionDetails getFeedbackQuestionDetails() {
-        return converter.convertToEntityAttribute(questionDetails);
+        return questionDetails;
     }
 
     /**

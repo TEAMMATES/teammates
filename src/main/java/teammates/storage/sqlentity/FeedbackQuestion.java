@@ -19,7 +19,6 @@ import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -36,7 +35,6 @@ import jakarta.persistence.Table;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class FeedbackQuestion extends BaseEntity {
     @Id
-    @GeneratedValue
     private UUID id;
 
     @ManyToOne
