@@ -27,8 +27,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
- * Represents a FeedbackQuestion
- *  entity.
+ * Represents a FeedbackQuestion.
  */
 @Entity
 @Table(name = "FeedbackQuestions")
