@@ -15,14 +15,14 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.core.BaseLogicTest;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
+import teammates.test.BaseTestCase;
 
 /**
  * SUT: {@link NotificationsLogic}.
  */
-public class NotificationsLogicTest extends BaseLogicTest {
+public class NotificationsLogicTest extends BaseTestCase {
 
     private NotificationsLogic notificationsLogic = NotificationsLogic.inst();
 

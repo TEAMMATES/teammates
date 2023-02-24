@@ -3,7 +3,6 @@ package teammates.it.sqllogic.core;
 import java.time.Instant;
 import java.util.UUID;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -13,7 +12,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.NotificationsLogic;
-import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
 
 /**
@@ -22,12 +20,6 @@ import teammates.storage.sqlentity.Notification;
 public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private NotificationsLogic notificationsLogic = NotificationsLogic.inst();
-    private NotificationsDb notificationsDb = NotificationsDb.inst();
-
-    @BeforeClass
-    public void initLogicDependencies() {
-        notificationsLogic.initLogicDependencies(notificationsDb);
-    }
 
     @Test
     public void testUpdateNotification()
@@ -43,7 +35,7 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
-        notificationsDb.createNotification(notification);
+        notificationsLogic.createNotification(notification);
 
         UUID notificationId = notification.getNotificationId();
         Notification expectedNotification = notificationsLogic.updateNotification(notificationId, newStartTime, newEndTime,
@@ -57,8 +49,8 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(newTitle, expectedNotification.getTitle());
         assertEquals(newMessage, expectedNotification.getMessage());
 
-        Notification actualNotification = notificationsDb.getNotification(notificationId);
-        assertEquals(expectedNotification, actualNotification);
+        Notification actualNotification = notificationsLogic.getNotification(notificationId);
+        verifyEquals(expectedNotification, actualNotification);
 
         ______TS("failure: update notification that does not exist");
         UUID nonExistentId = generateDifferentUuid(notificationId);

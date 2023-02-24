@@ -19,7 +19,7 @@ public class UpdateNotificationAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        UUID notificationId = UUID.fromString(getNonNullRequestParamValue(Const.ParamsNames.NOTIFICATION_ID));
+        UUID notificationId = getUuidRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);;
         NotificationUpdateRequest notificationRequest = getAndValidateRequestBody(NotificationUpdateRequest.class);
 
         Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());
@@ -29,8 +29,6 @@ public class UpdateNotificationAction extends AdminOnlyAction {
             Notification updateNotification = sqlLogic.updateNotification(notificationId, startTime, endTime,
                     notificationRequest.getStyle(), notificationRequest.getTargetUser(), notificationRequest.getTitle(),
                     notificationRequest.getMessage());
-
-            HibernateUtil.flushSession();
 
             return new JsonResult(new NotificationData(updateNotification));
         } catch (InvalidParametersException e) {
