@@ -22,11 +22,11 @@ class EntitiesDb<E extends BaseEntity> {
      * Copy the state of the given object onto the persistent object with the same identifier.
      * If there is no persistent instance currently associated with the session, it will be loaded.
      */
-    protected E merge(E entity) {
+    protected <T extends E> T merge(T entity) {
         assert entity != null;
 
-        E newEntity = HibernateUtil.merge(entity);
-        log.info("Entity updated: " + JsonUtils.toJson(entity));
+        T newEntity = HibernateUtil.merge(entity);
+        log.info("Entity saves: " + JsonUtils.toJson(entity));
         return newEntity;
     }
 
