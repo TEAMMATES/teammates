@@ -1,10 +1,17 @@
 package teammates.storage.sqlapi;
 
+import org.hibernate.Session;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.DeadlineExtension;
+
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for deadline extensions.
@@ -34,7 +41,8 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
             throw new InvalidParametersException(de.getInvalidityInfo());
         }
 
-        if (getDeadlineExtension(de.getId()) != null) {
+        if (getDeadlineExtension(de.getId()) != null
+                || getDeadlineExtension(de.getUser().getId(), de.getFeedbackSession().getId()) != null) {
             throw new EntityAlreadyExistsException(
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, de.toString()));
         }
@@ -51,6 +59,23 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
 
         return HibernateUtil.getSessionFactory().getCurrentSession()
                 .get(DeadlineExtension.class, id);
+    }
+
+    /**
+     * Get DeadlineExtension by {@code userId} and {@code feedbackSessionId}.
+     */
+    public DeadlineExtension getDeadlineExtension(Integer userId, Integer feedbackSessionId) {
+        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
+        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
+        Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
+
+        cr.select(root).where(cb.and(
+                cb.equal(root.get("sessionId"), feedbackSessionId),
+                cb.equal(root.get("userId"), userId)));
+
+        TypedQuery<DeadlineExtension> query = currentSession.createQuery(cr);
+        return query.getResultStream().findFirst().orElse(null);
     }
 
     /**
