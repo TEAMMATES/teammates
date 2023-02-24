@@ -33,28 +33,9 @@ public final class UserDb extends EntitiesDb<User> {
     }
 
     /**
-     * Creates a user.
-     */
-    public User createUser(User user)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        assert user != null;
-
-        if (!user.isValid()) {
-            throw new InvalidParametersException(user.getInvalidityInfo());
-        }
-
-        if (hasExistingUser(user.getId())) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, user.toString()));
-        }
-
-        persist(user);
-        return user;
-    }
-
-    /**
      * Creates an instructor.
      */
-    public Instructor createUser(Instructor instructor)
+    public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert instructor != null;
 
@@ -76,7 +57,7 @@ public final class UserDb extends EntitiesDb<User> {
     /**
      * Creates a student.
      */
-    public Student createUser(Student student)
+    public Student createStudent(Student student)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert student != null;
 
@@ -101,7 +82,7 @@ public final class UserDb extends EntitiesDb<User> {
     public Instructor getInstructor(Integer id) {
         assert id != null;
 
-        return HibernateUtil.getSessionFactory().getCurrentSession().get(Instructor.class, id);
+        return HibernateUtil.getCurrentSession().get(Instructor.class, id);
     }
 
     /**
@@ -110,7 +91,7 @@ public final class UserDb extends EntitiesDb<User> {
     public Student getStudent(Integer id) {
         assert id != null;
 
-        return HibernateUtil.getSessionFactory().getCurrentSession().get(Student.class, id);
+        return HibernateUtil.getCurrentSession().get(Student.class, id);
     }
 
     /**
@@ -176,7 +157,7 @@ public final class UserDb extends EntitiesDb<User> {
      * Checks if an instructor exists by its {@code courseId} and {@code email}.
      */
     private <T extends User> boolean hasExistingInstructor(String courseId, String email) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
@@ -186,7 +167,7 @@ public final class UserDb extends EntitiesDb<User> {
                     cb.equal(instructorRoot.get("courseId"), courseId),
                     cb.equal(instructorRoot.get("email"), email)));
 
-        long instructorCount = session.createQuery(cr).getSingleResult();
+        long instructorCount = session.createQuery(cr).getSingleResultOrNull();
 
         return instructorCount > 0;
     }
@@ -195,7 +176,7 @@ public final class UserDb extends EntitiesDb<User> {
      * Checks if a student exists by its {@code courseId} and {@code email}.
      */
     private <T extends User> boolean hasExistingStudent(String courseId, String email) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
         Root<Student> studentRoot = cr.from(Student.class);
@@ -205,7 +186,7 @@ public final class UserDb extends EntitiesDb<User> {
                         cb.equal(studentRoot.get("courseId"), courseId),
                         cb.equal(studentRoot.get("email"), email)));
 
-        long studentCount = session.createQuery(cr).getSingleResult();
+        long studentCount = session.createQuery(cr).getSingleResultOrNull();
 
         return studentCount > 0;
     }
