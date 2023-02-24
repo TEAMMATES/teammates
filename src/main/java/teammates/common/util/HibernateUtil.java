@@ -13,6 +13,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -41,7 +42,8 @@ public final class HibernateUtil {
             Student.class,
             UsageStatistics.class,
             Section.class,
-            Team.class);
+            Team.class,
+            DeadlineExtension.class);
 
     private HibernateUtil() {
         // Utility class
