@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -36,7 +37,7 @@ import jakarta.persistence.Table;
 public abstract class FeedbackQuestion extends BaseEntity {
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "sessionId")
@@ -123,11 +124,11 @@ public abstract class FeedbackQuestion extends BaseEntity {
         return errors;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -219,14 +220,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -248,8 +241,8 @@ public abstract class FeedbackQuestion extends BaseEntity {
 
     @Override
     public int hashCode() {
-        // FeedbackQuestion ID uniquely identifies a notification.
-        return this.id.hashCode();
+        // FeedbackQuestion ID uniquely identifies a FeedbackQuestion.
+        return this.getId().hashCode();
     }
 
     @Override
