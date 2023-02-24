@@ -9,7 +9,7 @@ import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 
 /**
- * Represents a FeedbackTextQuestion entity.
+ * Represents a text question.
  */
 @Entity
 public class FeedbackTextQuestion extends FeedbackQuestion {

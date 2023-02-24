@@ -9,7 +9,7 @@ import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 
 /**
- * Represents a FeedbackNumericalScaleQuestion entity.
+ * Represents a numerical scale question.
  */
 @Entity
 public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
