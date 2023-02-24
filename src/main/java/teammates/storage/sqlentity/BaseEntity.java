@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.google.common.reflect.TypeToken;
+
+import teammates.common.util.JsonUtils;
+
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Converter;
@@ -77,6 +81,23 @@ public abstract class BaseEntity {
         @Override
         public Duration convertToEntityAttribute(Long minutes) {
             return Duration.ofMinutes(minutes);
+        }
+    }
+
+    /**
+     * Generic attribute converter for classes stored in JSON.
+     * @param <T> The type of entity to be converted to and from JSON.
+     */
+    @Converter
+    public static class JsonConverter<T> implements AttributeConverter<T, String> {
+        @Override
+        public String convertToDatabaseColumn(T questionDetails) {
+            return JsonUtils.toJson(questionDetails);
+        }
+
+        @Override
+        public T convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<T>(){}.getType());
         }
     }
 }
