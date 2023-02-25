@@ -24,7 +24,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "FeedbackReponseComments")
-public abstract class FeedbackResponseComment extends BaseEntity {
+public class FeedbackResponseComment extends BaseEntity {
     @Id
     private UUID id;
 
