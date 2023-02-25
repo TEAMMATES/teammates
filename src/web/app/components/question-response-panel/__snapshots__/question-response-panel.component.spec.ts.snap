@@ -29,13 +29,13 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h3
+                class="col-auto question-number"
               >
                 <b>
                   Question 1: 
                 </b>
-              </span>
+              </h3>
               <span
                 class="col-auto"
                 id="question-text"
@@ -46,6 +46,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                 class="info-font-size ms-1"
                 id="additional-info-link"
                 queryparamshandling="merge"
+                tabindex="0"
               >
                  [more] 
               </a>
@@ -135,13 +136,13 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h3
+                class="col-auto question-number"
               >
                 <b>
                   Question 2: 
                 </b>
-              </span>
+              </h3>
               <span
                 class="col-auto"
                 id="question-text"
@@ -152,6 +153,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                 class="info-font-size ms-1"
                 id="additional-info-link"
                 queryparamshandling="merge"
+                tabindex="0"
               >
                  [more] 
               </a>
@@ -288,13 +290,13 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h3
+                class="col-auto question-number"
               >
                 <b>
                   Question 3: 
                 </b>
-              </span>
+              </h3>
               <span
                 class="col-auto"
                 id="question-text"
@@ -305,6 +307,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                 class="info-font-size ms-1"
                 id="additional-info-link"
                 queryparamshandling="merge"
+                tabindex="0"
               >
                  [more] 
               </a>
@@ -474,13 +477,13 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h3
+                class="col-auto question-number"
               >
                 <b>
                   Question 1: 
                 </b>
-              </span>
+              </h3>
               <span
                 class="col-auto"
                 id="question-text"
@@ -667,13 +670,13 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h3
+                class="col-auto question-number"
               >
                 <b>
                   Question 2: 
                 </b>
-              </span>
+              </h3>
               <span
                 class="col-auto"
                 id="question-text"
