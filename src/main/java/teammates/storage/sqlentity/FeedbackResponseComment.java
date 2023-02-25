@@ -20,7 +20,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
- * Represents a Feedback Response.
+ * Represents a feedback response comment.
  */
 @Entity
 @Table(name = "FeedbackReponseComments")
