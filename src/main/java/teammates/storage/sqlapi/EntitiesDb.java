@@ -13,9 +13,6 @@ import teammates.storage.sqlentity.BaseEntity;
  */
 class EntitiesDb<E extends BaseEntity> {
 
-    static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create an entity that exists: %s";
-    static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
-
     static final Logger log = Logger.getLogger();
 
     /**

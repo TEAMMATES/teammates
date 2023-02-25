@@ -15,6 +15,7 @@
             <package name="teammates.logic.sqlapi" />
             <package name="teammates.logic.core" />
             <package name="teammates.logic.external" />
+            <package name="teammates.sqllogic.core" />
             <package name="teammates.ui.request" />
             <package name="teammates.ui.servlets" />
             <package name="teammates.ui.webapi" />

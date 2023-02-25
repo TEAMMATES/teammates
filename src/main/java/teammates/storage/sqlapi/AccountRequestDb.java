@@ -1,5 +1,7 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+
 import java.time.Instant;
 import java.util.List;
 

@@ -56,4 +56,5 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Notification nonExistentNotification = notificationsDb.getNotification(nonExistentId);
         assertNull(nonExistentNotification);
     }
+
 }

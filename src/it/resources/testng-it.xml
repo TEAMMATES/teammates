@@ -5,6 +5,7 @@
         <packages>
             <package name="teammates.it" />
             <package name="teammates.it.test" />
+            <package name="teammates.it.sqllogic.core" />
             <package name="teammates.it.storage.sqlapi" />
         </packages>
     </test>
