@@ -17,7 +17,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -40,11 +39,11 @@ public abstract class FeedbackResponseComment extends BaseEntity {
     @Convert(converter = FeedbackParticipantTypeConverter.class)
     private FeedbackParticipantType giverType;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "giverSectionId")
     private Section giverSection;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "receiverSectionId")
     private Section receiverSection;
 
