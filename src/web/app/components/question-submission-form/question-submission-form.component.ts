@@ -9,9 +9,9 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -168,7 +168,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   handleClick(event: Event): boolean {
-    console.log("helpppp");
     if (event.target) {
       return !this.model.isTabExpanded;
     }
