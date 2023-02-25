@@ -5,7 +5,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
