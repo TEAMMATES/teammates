@@ -58,7 +58,7 @@
     }
   ],
   "expectedStatsMap": {
-    "Alice": {
+    "alice@gmail.com": {
       "answers": [
         [1, 1], [1, 1], [2, 0]
       ],
@@ -76,7 +76,7 @@
       "overallWeightedSum": 2.8,
       "overallWeightAverage": 0.47
     },
-    "Bob": {
+    "bob@gmail.com": {
       "answers": [
         [2, 0], [1, 1], [2, 0]
       ],
