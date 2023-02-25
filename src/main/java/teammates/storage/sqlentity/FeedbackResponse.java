@@ -150,10 +150,6 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     @Override
     public List<String> getInvalidityInfo() {
-        /*
-        * The old FeedbackResponse checks invalidity info for courseId and sessionName,
-        * which do not exist on this new entity.
-        */
         return new ArrayList<>();
     }
 
@@ -165,7 +161,6 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     @Override
     public int hashCode() {
-        // FeedbackQuestion ID uniquely identifies a Feedback Response.
         return this.getId().hashCode();
     }
 

@@ -222,7 +222,6 @@ public abstract class FeedbackResponseComment extends BaseEntity {
 
     @Override
     public int hashCode() {
-        // FeedbackResponseComment ID uniquely identifies a Feedback Response Comment.
         return this.getId().hashCode();
     }
 
