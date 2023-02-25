@@ -1,10 +1,10 @@
 <div id="question-submission-form" class="card">
-  <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="this.model.isTabExpanded = handleClick($event);"
-    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'">
+  <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="this.model.isTabExpanded = !this.model.isTabExpanded;"
+    [ngClass]="isSaved ? 'bg-success' : 'bg-primary'" [attr.aria-expanded]="this.model.isTabExpanded">
     <div class="collapse-caret">
-      <tm-panel-chevron [isExpanded]="model.isTabExpanded"></tm-panel-chevron>
+      <tm-panel-chevron [isExpanded]="model.isTabExpanded" aria-hidden="true"></tm-panel-chevron>
     </div>
-    <i class="fas fa-check me-2" *ngIf="isSaved"></i>
+    <i class="fas fa-check me-2" *ngIf="isSaved" aria-hidden="true"></i>
     <h2 id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</h2>
   </button>
 

@@ -892,12 +892,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -908,6 +911,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -1162,12 +1166,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -1178,6 +1185,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -1317,12 +1325,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -1427,12 +1438,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -1443,6 +1457,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -1731,12 +1746,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -1747,6 +1765,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -1925,12 +1944,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -1941,6 +1963,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -2133,12 +2156,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -2149,6 +2175,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -2570,12 +2597,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -2586,6 +2616,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -2868,12 +2899,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -2884,6 +2918,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -3124,12 +3159,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -3140,6 +3178,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -3548,12 +3587,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -3564,6 +3606,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -3823,12 +3866,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -3839,6 +3885,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -3978,12 +4025,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -4088,12 +4138,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -4104,6 +4157,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -4398,12 +4452,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -4414,6 +4471,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -4593,12 +4651,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -4609,6 +4670,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -4802,12 +4864,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -4818,6 +4883,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -5240,12 +5306,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -5256,6 +5325,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -5547,12 +5617,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -5563,6 +5636,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
@@ -5804,12 +5878,15 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form"
         >
           <button
+            aria-expanded="true"
             class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
             >
-              <tm-panel-chevron>
+              <tm-panel-chevron
+                aria-hidden="true"
+              >
                 <div
                   class="chevron"
                 >
@@ -5820,6 +5897,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               </tm-panel-chevron>
             </div>
             <i
+              aria-hidden="true"
               class="fas fa-check me-2"
             />
             <h2
