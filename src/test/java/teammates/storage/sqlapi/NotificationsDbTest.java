@@ -81,7 +81,7 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetNotification_success() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testGetNotification_success() {
         Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
@@ -95,7 +95,7 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetNotification_entityDoesNotExist() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testGetNotification_entityDoesNotExist() {
         UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
         mockHibernateUtil.when(() -> HibernateUtil.get(Notification.class, nonExistentId)).thenReturn(null);
 
@@ -103,4 +103,5 @@ public class NotificationsDbTest extends BaseTestCase {
 
         assertNull(actualNotification);
     }
+
 }
