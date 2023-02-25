@@ -15,7 +15,6 @@ import teammates.common.util.FieldValidator;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -254,12 +253,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
         } else {
             return false;
         }
-    }
-
-    @Converter
-    private static class FeedbackParticipantTypeListConverter
-            extends JsonConverter<List<FeedbackParticipantType>> {
-
     }
 }
 
