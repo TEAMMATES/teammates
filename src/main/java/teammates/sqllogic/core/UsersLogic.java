@@ -31,7 +31,7 @@ public final class UsersLogic {
      * Gets instructor associated with {@code id}.
      * 
      * @param id    Id of Instructor.
-     * @return      Returns null if not found else Instructor.
+     * @return      Returns Instructor if found else null.
      */
     public Instructor getInstructor(Integer id) {
         assert id != null;
@@ -43,7 +43,7 @@ public final class UsersLogic {
      * Gets student associated with {@code id}.
      * 
      * @param id    Id of Student.
-     * @return      Returns null if not found else Student.
+     * @return      Returns Student if found else null.
      */
     public Student getStudent(Integer id) {
         assert id != null;
