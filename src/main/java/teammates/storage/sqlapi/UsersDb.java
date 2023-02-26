@@ -26,7 +26,7 @@ import jakarta.persistence.criteria.Root;
  * @see User
  */
 public final class UsersDb extends EntitiesDb<User> {
-    
+
     private static final UsersDb instance = new UsersDb();
 
     private UsersDb() {

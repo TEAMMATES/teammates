@@ -11,6 +11,7 @@ import teammates.storage.sqlentity.Student;
  * @see UsersDb
  */
 public final class UsersLogic {
+
     private static final UsersLogic instance = new UsersLogic();
 
     private UsersDb usersDb;
@@ -29,7 +30,7 @@ public final class UsersLogic {
 
     /**
      * Gets instructor associated with {@code id}.
-     * 
+     *
      * @param id    Id of Instructor.
      * @return      Returns Instructor if found else null.
      */
@@ -41,7 +42,7 @@ public final class UsersLogic {
 
     /**
      * Gets student associated with {@code id}.
-     * 
+     *
      * @param id    Id of Student.
      * @return      Returns Student if found else null.
      */
