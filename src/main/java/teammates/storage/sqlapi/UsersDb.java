@@ -26,6 +26,7 @@ import jakarta.persistence.criteria.Root;
  * @see User
  */
 public final class UsersDb extends EntitiesDb<User> {
+    
     private static final UsersDb instance = new UsersDb();
 
     private UsersDb() {
@@ -86,7 +87,7 @@ public final class UsersDb extends EntitiesDb<User> {
     public Instructor getInstructor(Integer id) {
         assert id != null;
 
-        return HibernateUtil.getCurrentSession().get(Instructor.class, id);
+        return HibernateUtil.get(Instructor.class, id);
     }
 
     /**
@@ -95,7 +96,7 @@ public final class UsersDb extends EntitiesDb<User> {
     public Student getStudent(Integer id) {
         assert id != null;
 
-        return HibernateUtil.getCurrentSession().get(Student.class, id);
+        return HibernateUtil.get(Student.class, id);
     }
 
     /**
