@@ -26,8 +26,22 @@ import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
 import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
 import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
+import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
+import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
+import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 /**
@@ -50,12 +64,26 @@ public final class HibernateUtil {
             Section.class,
             Team.class,
             FeedbackQuestion.class,
+            FeedbackConstantSumQuestion.class,
+            FeedbackContributionQuestion.class,
+            FeedbackMcqQuestion.class,
+            FeedbackMsqQuestion.class,
             FeedbackNumericalScaleQuestion.class,
+            FeedbackRankOptionsQuestion.class,
+            FeedbackRankRecipientsQuestion.class,
+            FeedbackRubricQuestion.class,
             FeedbackTextQuestion.class,
             DeadlineExtension.class,
             FeedbackResponse.class,
-            FeedbackTextResponse.class,
+            FeedbackConstantSumResponse.class,
+            FeedbackContributionResponse.class,
+            FeedbackMcqResponse.class,
+            FeedbackMsqResponse.class,
             FeedbackNumericalScaleQuestion.class,
+            FeedbackRankOptionsResponse.class,
+            FeedbackRankRecipientsResponse.class,
+            FeedbackRubricResponse.class,
+            FeedbackTextResponse.class,
             FeedbackResponseComment.class);
 
     private HibernateUtil() {
