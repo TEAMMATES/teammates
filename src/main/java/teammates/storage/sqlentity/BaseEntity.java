@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.google.common.reflect.TypeToken;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.JsonUtils;
 
 import jakarta.persistence.AttributeConverter;
@@ -99,5 +100,23 @@ public abstract class BaseEntity {
         public T convertToEntityAttribute(String dbData) {
             return JsonUtils.fromJson(dbData, new TypeToken<T>(){}.getType());
         }
+    }
+
+    /**
+     * Attribute converter between FeedbackParticipantType and JSON.
+     */
+    @Converter
+    public static class FeedbackParticipantTypeConverter
+            extends JsonConverter<FeedbackParticipantType> {
+
+    }
+
+    /**
+     * Attribute converter between a list of FeedbackParticipantTypes and JSON.
+     */
+    @Converter
+    public static class FeedbackParticipantTypeListConverter
+            extends JsonConverter<List<FeedbackParticipantType>> {
+
     }
 }

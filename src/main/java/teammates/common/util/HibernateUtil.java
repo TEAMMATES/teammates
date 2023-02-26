@@ -15,6 +15,8 @@ import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -26,6 +28,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
 import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 /**
  * Utility class for Hibernate related methods.
@@ -49,7 +52,11 @@ public final class HibernateUtil {
             FeedbackQuestion.class,
             FeedbackNumericalScaleQuestion.class,
             FeedbackTextQuestion.class,
-            DeadlineExtension.class);
+            DeadlineExtension.class,
+            FeedbackResponse.class,
+            FeedbackTextResponse.class,
+            FeedbackNumericalScaleQuestion.class,
+            FeedbackResponseComment.class);
 
     private HibernateUtil() {
         // Utility class
