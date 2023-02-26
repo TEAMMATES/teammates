@@ -8,6 +8,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Course;
@@ -28,12 +29,14 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGetInstructor() throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("success: gets an instructor that already exists");
 
-        Course course = mock(Course.class);
+        Course course = new Course("course-id", "course-name", null, "institute");
         Team team = mock(Team.class);
-        InstructorPrivileges instructorPrivileges = mock(InstructorPrivileges.class);
-        Instructor newInstructor = new Instructor(course, team, "instructor-name", "instructor-email",
-                false, "instructor-display-name",
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructorPrivileges);
+        InstructorPrivileges instructorPrivileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorPermissionRole role = InstructorPermissionRole
+                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        Instructor newInstructor = new Instructor(course, team, "valid.name", "valid@email.tmt",
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
 
         newInstructor.setId(USER_ID);
         usersDb.createInstructor(newInstructor);
