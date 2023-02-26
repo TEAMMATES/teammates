@@ -29,13 +29,11 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <h3
+              <h2
                 class="col-auto question-number"
               >
-                <b>
-                  Question 1: 
-                </b>
-              </h3>
+                 Question 1:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
@@ -136,13 +134,11 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <h3
+              <h2
                 class="col-auto question-number"
               >
-                <b>
-                  Question 2: 
-                </b>
-              </h3>
+                 Question 2:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
@@ -290,13 +286,11 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <h3
+              <h2
                 class="col-auto question-number"
               >
-                <b>
-                  Question 3: 
-                </b>
-              </h3>
+                 Question 3:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
@@ -477,13 +471,11 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <h3
+              <h2
                 class="col-auto question-number"
               >
-                <b>
-                  Question 1: 
-                </b>
-              </h3>
+                 Question 1:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
@@ -670,13 +662,11 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <h3
+              <h2
                 class="col-auto question-number"
               >
-                <b>
-                  Question 2: 
-                </b>
-              </h3>
+                 Question 2:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"

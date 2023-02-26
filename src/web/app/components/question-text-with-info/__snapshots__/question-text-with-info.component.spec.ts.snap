@@ -13,13 +13,11 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
   <span
     class="d-inline-flex align-items-center"
   >
-    <h3
+    <h2
       class="col-auto question-number"
     >
-      <b>
-        Question 0: 
-      </b>
-    </h3>
+       Question 0:  
+    </h2>
     <span
       class="col-auto"
       id="question-text"
@@ -43,13 +41,11 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
   <span
     class="d-inline-flex align-items-center"
   >
-    <h3
+    <h2
       class="col-auto question-number"
     >
-      <b>
-        Question 0: 
-      </b>
-    </h3>
+       Question 0:  
+    </h2>
     <span
       class="col-auto"
       id="question-text"
@@ -81,13 +77,11 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
   <span
     class="d-inline-flex align-items-center"
   >
-    <h3
+    <h2
       class="col-auto question-number"
     >
-      <b>
-        Question 0: 
-      </b>
-    </h3>
+       Question 0:  
+    </h2>
     <span
       class="col-auto"
       id="question-text"
