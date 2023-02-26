@@ -400,7 +400,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void showAdditionalInfo(int qnNumber) {
-        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber).findElement(By.id("additional-info-link"));
+        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber).findElement(By.id("additional-info-button"));
         if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
             waitUntilAnimationFinish();

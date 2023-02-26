@@ -29,26 +29,23 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="col-auto question-number"
               >
-                <b>
-                  Question 1: 
-                </b>
-              </span>
+                 Question 1:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
               >
                  How well did team member perform?
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
+              <button
+                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                id="additional-info-button"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
@@ -135,26 +132,23 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="col-auto question-number"
               >
-                <b>
-                  Question 2: 
-                </b>
-              </span>
+                 Question 2:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
               >
                  Rate your teammates in contribution
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
+              <button
+                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                id="additional-info-button"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
@@ -288,26 +282,23 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="col-auto question-number"
               >
-                <b>
-                  Question 3: 
-                </b>
-              </span>
+                 Question 3:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
               >
                  Rate your teammates proficiency
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
+              <button
+                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                id="additional-info-button"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
@@ -474,13 +465,11 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="col-auto question-number"
               >
-                <b>
-                  Question 1: 
-                </b>
-              </span>
+                 Question 1:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
@@ -667,13 +656,11 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             <span
               class="d-inline-flex align-items-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="col-auto question-number"
               >
-                <b>
-                  Question 2: 
-                </b>
-              </span>
+                 Question 2:  
+              </h2>
               <span
                 class="col-auto"
                 id="question-text"
