@@ -96,7 +96,7 @@ public class Instructor extends User {
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(displayName), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role.name()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role.getRoleName()), errors);
 
         return errors;
     }
