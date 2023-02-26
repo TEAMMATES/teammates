@@ -83,7 +83,7 @@ describe('QuestionTextWithInfoComponent', () => {
     component.questionDetails = mcqQuestionDetails;
     fixture.detectChanges();
 
-    const questionDetailControlLink: any = fixture.debugElement.query(By.css('a'));
+    const questionDetailControlLink: any = fixture.debugElement.query(By.css('button'));
 
     questionDetailControlLink.nativeElement.click();
     fixture.detectChanges();

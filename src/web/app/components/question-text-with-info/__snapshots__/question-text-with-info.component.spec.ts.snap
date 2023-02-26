@@ -52,14 +52,12 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
     >
        MCQ question details
     </span>
-    <a
-      class="info-font-size ms-1"
-      id="additional-info-link"
-      queryparamshandling="merge"
-      tabindex="0"
+    <button
+      class="info-font-size ms-1 border-0 bg-transparent text-primary"
+      id="additional-info-button"
     >
        [more] 
-    </a>
+    </button>
   </span>
 </tm-question-text-with-info>
 `;
@@ -88,14 +86,12 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     >
        MCQ question details
     </span>
-    <a
-      class="info-font-size ms-1"
-      id="additional-info-link"
-      queryparamshandling="merge"
-      tabindex="0"
+    <button
+      class="info-font-size ms-1 border-0 bg-transparent text-primary"
+      id="additional-info-button"
     >
        [less] 
-    </a>
+    </button>
   </span><div
     class="info-font-size"
     id="additional-info"

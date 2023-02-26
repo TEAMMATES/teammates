@@ -40,14 +40,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
               >
                  How well did team member perform?
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
-                tabindex="0"
+              <button
+                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                id="additional-info-button"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
@@ -145,14 +143,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
               >
                  Rate your teammates in contribution
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
-                tabindex="0"
+              <button
+                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                id="additional-info-button"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
@@ -297,14 +293,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
               >
                  Rate your teammates proficiency
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
-                tabindex="0"
+              <button
+                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                id="additional-info-button"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
