@@ -123,4 +123,18 @@ public class Logic {
             InvalidParametersException, EntityDoesNotExistException {
         return notificationsLogic.updateNotification(notificationId, startTime, endTime, style, targetUser, title, message);
     }
+
+    /**
+     * Deletes notification by ID.
+     *
+     * <ul>
+     * <li>Fails silently if no such notification.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     */
+    public void deleteNotification(UUID notificationId) {
+        notificationsLogic.deleteNotification(notificationId);
+    }
 }

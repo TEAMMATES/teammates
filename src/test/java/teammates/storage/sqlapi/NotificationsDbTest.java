@@ -1,5 +1,6 @@
 package teammates.storage.sqlapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 
@@ -82,15 +83,13 @@ public class NotificationsDbTest extends BaseTestCase {
 
     @Test
     public void testGetNotification_success() {
-        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
-        notification.setNotificationId(UUID.randomUUID());
+        Notification notification = generateTypicalNotificationWithId();
         mockHibernateUtil.when(() ->
                 HibernateUtil.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
 
         Notification actualNotification = notificationsDb.getNotification(notification.getNotificationId());
 
+        mockHibernateUtil.verify(() -> HibernateUtil.get(Notification.class, notification.getNotificationId()));
         assertEquals(notification, actualNotification);
     }
 
@@ -101,7 +100,29 @@ public class NotificationsDbTest extends BaseTestCase {
 
         Notification actualNotification = notificationsDb.getNotification(nonExistentId);
 
+        mockHibernateUtil.verify(() -> HibernateUtil.get(Notification.class, nonExistentId));
         assertNull(actualNotification);
+    }
+
+    @Test
+    public void testDeleteNotification_entityExists_success() {
+        Notification notification = generateTypicalNotificationWithId();
+        notificationsDb.deleteNotification(notification);
+        mockHibernateUtil.verify(() -> HibernateUtil.remove(notification));
+    }
+
+    @Test
+    public void testDeleteNotification_entityDoesNotExists_success() {
+        notificationsDb.deleteNotification(null);
+        mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
+    }
+
+    private Notification generateTypicalNotificationWithId() {
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        notification.setNotificationId(UUID.randomUUID());
+        return notification;
     }
 
 }
