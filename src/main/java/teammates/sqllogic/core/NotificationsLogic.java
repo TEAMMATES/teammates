@@ -90,4 +90,16 @@ public final class NotificationsLogic {
 
         return notification;
     }
+
+    /**
+     * Deletes notification associated with the {@code notificationId}.
+     *
+     * <p>Fails silently if the notification doesn't exist.</p>
+     */
+    public void deleteNotification(UUID notificationId) {
+        assert notificationId != null;
+
+        Notification notification = getNotification(notificationId);
+        notificationsDb.deleteNotification(notification);
+    }
 }
