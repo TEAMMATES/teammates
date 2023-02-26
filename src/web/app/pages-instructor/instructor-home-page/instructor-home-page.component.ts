@@ -209,6 +209,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         });
   }
 
+  copyCourse(courseId: string): void {
+    alert(`Course id ${courseId}`);
+  }
+
   /**
    * Loads the feedback session in the course and sorts them according to end date.
    */
