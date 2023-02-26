@@ -15,7 +15,6 @@ import teammates.common.util.FieldValidator;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -24,6 +23,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -39,6 +39,9 @@ public abstract class FeedbackQuestion extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "sessionId")
     private FeedbackSession feedbackSession;
+
+    @OneToMany(mappedBy = "feedbackQuestion")
+    private List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
     @Column(nullable = false)
     private Integer questionNumber;
@@ -135,6 +138,14 @@ public abstract class FeedbackQuestion extends BaseEntity {
 
     public void setFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSession = feedbackSession;
+    }
+
+    public List<FeedbackResponse> getFeedbackResponses() {
+        return feedbackResponses;
+    }
+
+    public void setFeedbackResponses(List<FeedbackResponse> feedbackResponses) {
+        this.feedbackResponses = feedbackResponses;
     }
 
     public Integer getQuestionNumber() {
@@ -254,12 +265,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
         } else {
             return false;
         }
-    }
-
-    @Converter
-    private static class FeedbackParticipantTypeListConverter
-            extends JsonConverter<List<FeedbackParticipantType>> {
-
     }
 }
 
