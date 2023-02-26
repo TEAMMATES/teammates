@@ -22,11 +22,11 @@ import teammates.test.BaseTestCase;
  */
 public class UsersDbTest extends BaseTestCase {
 
+    private static final int USER_ID = 1;
+
     private UsersDb usersDb = UsersDb.inst();
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
-
-    private static final int USER_ID = 1;
 
     @BeforeMethod
     public void setUpMethod() {

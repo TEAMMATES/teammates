@@ -20,9 +20,9 @@ import teammates.storage.sqlentity.Team;
  */
 public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final UsersDb usersDb = UsersDb.inst();
-
     private static final int USER_ID = 1;
+
+    private final UsersDb usersDb = UsersDb.inst();
 
     @Test
     public void testGetInstructor() throws InvalidParametersException, EntityAlreadyExistsException {
