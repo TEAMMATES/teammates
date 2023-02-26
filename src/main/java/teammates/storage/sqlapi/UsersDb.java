@@ -198,6 +198,6 @@ public final class UsersDb extends EntitiesDb<User> {
     private boolean hasExistingUser(UUID id) {
         assert id != null;
 
-        return HibernateUtil.getCurrentSession().get(User.class, id) != null;
+        return HibernateUtil.get(User.class, id) != null;
     }
 }
