@@ -1,6 +1,8 @@
 package teammates.sqllogic.core;
 
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidOperationException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.AccountRequestDb;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.webapi.EntityNotFoundException;
@@ -30,7 +32,12 @@ public class AccountRequestLogic {
      * Creates an account request.
      * @return
      */
-    // public AccountRequest createAccountRequest() {}
+    public AccountRequest createAccountRequest(String name, String email, String institute)
+        throws InvalidParametersException, EntityAlreadyExistsException {
+        AccountRequest toCreate = new AccountRequest(email, name, institute);
+
+        return accountRequestDb.createAccountRequest(toCreate);
+    }
 
     /**
      * Gets account request associated with the {@code }.

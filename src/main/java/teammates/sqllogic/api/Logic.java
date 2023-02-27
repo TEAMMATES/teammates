@@ -43,9 +43,17 @@ public class Logic {
 
     // AccountRequests
 
-    // public AccountRequest createAccountRequest() {
-    //     return accountRequestLogic.createAccountRequest();
-    // }
+    public AccountRequest createAccountRequest(String name, String email, String institute)
+        throws InvalidParametersException, EntityAlreadyExistsException, InvalidOperationException {
+
+        AccountRequest accountRequest = accountRequestLogic.createAccountRequest(name, email, institute);
+
+        if (accountRequest.getRegisteredAt() != null) {
+            throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
+        }
+
+        return accountRequest;
+    }
 
     public AccountRequest getAccountRequest(String email, String institute) {
         return accountRequestLogic.getAccountRequest(email, institute);
