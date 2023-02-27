@@ -167,7 +167,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
   }
 
-  handleClick(): Void {
+  handleClick(): void {
     this.model.isTabExpanded = !this.model.isTabExpanded;
   }
 
