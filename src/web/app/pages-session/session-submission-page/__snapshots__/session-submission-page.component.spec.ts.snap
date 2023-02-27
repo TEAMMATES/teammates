@@ -1284,6 +1284,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="plain-text-area"
                       >
                         <textarea
+                          aria-label="Text Response for To-Be-Selected"
                           class="ng-untouched ng-pristine ng-valid"
                         />
                       </div>
@@ -3944,6 +3945,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="plain-text-area"
                       >
                         <textarea
+                          aria-label="Text Response for To-Be-Selected"
                           class="ng-untouched ng-pristine ng-valid"
                         />
                       </div>
