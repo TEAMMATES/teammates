@@ -90,6 +90,7 @@
                                               [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                               (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                               [isDisabled]="isFormsDisabled"
+                                              [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
             ></tm-text-question-edit-answer-form>
             <tm-rank-options-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="model.questionDetails"
                                                       [responseDetails]="recipientSubmissionFormModel.responseDetails"

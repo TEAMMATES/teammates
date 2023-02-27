@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import {
   FeedbackTextQuestionDetails,
@@ -22,8 +22,18 @@ export class TextQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent
         <FeedbackTextQuestionDetails, FeedbackTextResponseDetails> {
 
+  @Input()
+  recipient: String = '';
+
   constructor() {
     super(DEFAULT_TEXT_QUESTION_DETAILS(), DEFAULT_TEXT_RESPONSE_DETAILS());
+  }
+
+  getAriaLabel(): String {
+    if (this.recipient === '' || this.recipient === 'Myself') {
+      return 'Text Response';
+    }
+    return `Text Response for ${this.recipient}`;
   }
 
   get wordCount(): number {
