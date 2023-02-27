@@ -4,14 +4,14 @@ import java.time.Instant;
 
 import org.testng.annotations.Test;
 
-import teammates.sqllogic.core.AccountRequestsLogic;
-import teammates.storage.sqlapi.AccountRequestsDb;
-import teammates.storage.sqlentity.AccountRequest;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.sqllogic.core.AccountRequestsLogic;
+import teammates.storage.sqlapi.AccountRequestsDb;
+import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * SUT: {@link AccountRequestsLogic}.
@@ -55,6 +55,6 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("failure: reset account request that does not exist");
 
         assertThrows(EntityDoesNotExistException.class,
-            () -> accountRequestsLogic.resetAccountRequest(name, institute));
+                () -> accountRequestsLogic.resetAccountRequest(name, institute));
     }
 }
