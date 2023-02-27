@@ -1,6 +1,7 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
@@ -112,7 +113,7 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
 
         if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) == null) {
             throw new EntityDoesNotExistException(
-                String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, accountRequest.toString()));
+                String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
         }
 
         merge(accountRequest);

@@ -1,6 +1,7 @@
 package teammates.sqllogic.core;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.AccountRequestDb;
@@ -52,7 +53,21 @@ public class AccountRequestLogic {
     /**
      * Updates/Creates the account request using {@Link AccountRequest}.
      */
-    // public AccountRequest updateAccountRequest() {}
+    public AccountRequest updateAccountRequest(String email, String institute)
+        throws EntityDoesNotExistException, InvalidOperationException, InvalidParametersException {
+        AccountRequest accountRequest = accountRequestDb.getAccountRequest(email, institute);
+
+        if (accountRequest == null) {
+            throw new EntityDoesNotExistException("Account request for instructor with email: " + email
+            + " and institute: " + institute + " does not exist.");
+        }
+
+        if (accountRequest.getRegisteredAt() == null) {
+            throw new InvalidOperationException("Unable to reset account request as instructor is still unregistered.");
+        }
+
+        return accountRequestDb.updateAccountRequest(accountRequest);
+    }
 
     /**
      * Deletes account request associated with the {@code email} and {@code institute}.

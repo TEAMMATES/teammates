@@ -59,9 +59,11 @@ public class Logic {
         return accountRequestLogic.getAccountRequest(email, institute);
     }
 
-    // public AccountRequest updateAccountRequest() {
-    //     return accountRequestLogic.updateAccountRequest();
-    // }
+    public AccountRequest updateAccountRequest(String email, String institute)
+        throws EntityDoesNotExistException, InvalidOperationException,
+            InvalidParametersException {
+        return accountRequestLogic.updateAccountRequest(email, institute);
+    }
 
     public void deleteAccountRequest(String email, String institute) throws InvalidOperationException {
         accountRequestLogic.deleteAccountRequest(email, institute);
