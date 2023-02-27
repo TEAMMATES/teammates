@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;

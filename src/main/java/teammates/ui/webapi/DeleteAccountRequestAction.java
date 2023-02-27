@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 
 /**
@@ -9,17 +9,15 @@ import teammates.common.util.Const;
 class DeleteAccountRequestAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() throws InvalidOperationException {
+    public JsonResult execute() throws teammates.ui.webapi.InvalidOperationException {
         String email = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
-        AccountRequestAttributes accountRequest = logic.getAccountRequest(email, institute);
-        if (accountRequest != null && accountRequest.getRegisteredAt() != null) {
-            // instructor is registered
-            throw new InvalidOperationException("Account request of a registered instructor cannot be deleted.");
+        try {
+            sqlLogic.deleteAccountRequest(email, institute);
+        } catch (InvalidOperationException invalidOperationException) {
+            throw new teammates.ui.webapi.InvalidOperationException(invalidOperationException.getMessage());
         }
-
-        logic.deleteAccountRequest(email, institute);
         return new JsonResult("Account request successfully deleted.");
     }
 

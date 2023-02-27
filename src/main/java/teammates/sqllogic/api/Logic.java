@@ -8,10 +8,13 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.sqllogic.core.AccountRequestLogic;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.UsageStatistics;
@@ -24,6 +27,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 public class Logic {
     private static final Logic instance = new Logic();
 
+    final AccountRequestLogic accountRequestLogic = AccountRequestLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     // final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
@@ -35,6 +39,24 @@ public class Logic {
 
     public static Logic inst() {
         return instance;
+    }
+
+    // AccountRequests
+
+    // public AccountRequest createAccountRequest() {
+    //     return accountRequestLogic.createAccountRequest();
+    // }
+
+    public AccountRequest getAccountRequest(String email, String institute) {
+        return accountRequestLogic.getAccountRequest(email, institute);
+    }
+
+    // public AccountRequest updateAccountRequest() {
+    //     return accountRequestLogic.updateAccountRequest();
+    // }
+
+    public void deleteAccountRequest(String email, String institute) throws InvalidOperationException {
+        accountRequestLogic.deleteAccountRequest(email, institute);
     }
 
     // Courses
