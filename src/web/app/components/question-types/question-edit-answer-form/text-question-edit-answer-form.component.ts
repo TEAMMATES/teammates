@@ -33,6 +33,9 @@ export class TextQuestionEditAnswerFormComponent
     if (this.recipient === '' || this.recipient === 'Myself') {
       return 'Text Response';
     }
+    if (this.recipient === 'Unknown') {
+      return 'Text Response for To-Be-Selected';
+    }
     return `Text Response for ${this.recipient}`;
   }
 
