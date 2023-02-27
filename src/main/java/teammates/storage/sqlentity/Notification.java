@@ -72,6 +72,7 @@ public class Notification extends BaseEntity {
         this.setTitle(title);
         this.setMessage(message);
         this.setId(UUID.randomUUID());
+        this.readNotifications = new ArrayList<>();
     }
 
     protected Notification() {

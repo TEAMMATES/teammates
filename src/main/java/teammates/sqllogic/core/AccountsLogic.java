@@ -48,9 +48,9 @@ public class AccountsLogic {
      * Updates the readNotifications of an account.
      *
      * @param googleId google ID of the user who read the notification.
-     * @param notificationId notification to be marked as read.
+     * @param notificationId ID of notification to be marked as read.
      * @param endTime the expiry time of the notification, i.e. notification will not be shown after this time.
-     * @return the account attributes with updated read notifications.
+     * @return the account with updated read notifications.
      * @throws InvalidParametersException if the notification has expired.
      * @throws EntityDoesNotExistException if account or notification does not exist.
      */
