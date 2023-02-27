@@ -23,17 +23,17 @@ class ResetAccountRequestAction extends AdminOnlyAction {
         String instructorEmail = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
-        AccountRequest accountRequest = null;
+        AccountRequest accountRequest;
         try {
-            accountRequest = sqlLogic.updateAccountRequest(instructorEmail, institute);
+            accountRequest = sqlLogic.resetAccountRequest(instructorEmail, institute);
         } catch (InvalidParametersException e) {
             // InvalidParametersException should not be thrown as validity of params verified when fetching entity.
             log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityDoesNotExistException ednee) {
-            throw new EntityNotFoundException(ednee.getMessage());
+            throw new EntityNotFoundException(ednee);
         } catch (InvalidOperationException ioe) {
-            throw new teammates.ui.webapi.InvalidOperationException(ioe.getMessage());
+            throw new teammates.ui.webapi.InvalidOperationException(ioe);
         }
 
         String joinLink = accountRequest.getRegistrationUrl();

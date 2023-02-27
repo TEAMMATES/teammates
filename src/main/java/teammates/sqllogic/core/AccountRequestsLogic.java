@@ -4,37 +4,41 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.sqlapi.AccountRequestDb;
+import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.ui.webapi.EntityNotFoundException;
 
-public class AccountRequestLogic {
+/**
+ * Handles operations related to account requests.
+ *
+ * @see AccountRequest
+ * @see AccountRequestsDb
+ */
+public final class AccountRequestsLogic {
 
-    private static final AccountRequestLogic instance = new AccountRequestLogic();
+    private static final AccountRequestsLogic instance = new AccountRequestsLogic();
 
-    private AccountRequestDb accountRequestDb;
+    private AccountRequestsDb accountRequestDb;
 
-    private AccountRequestLogic() {
+    private AccountRequestsLogic() {
         // prevent notification
     }
 
-    public static AccountRequestLogic inst() {
+    public static AccountRequestsLogic inst() {
         return instance;
     }
 
     /**
      * Initialise dependencies for {@code AccountRequestLogic} object.
      */
-    public void initLogicDependencies(AccountRequestDb accountRequestDb) {
+    public void initLogicDependencies(AccountRequestsDb accountRequestDb) {
         this.accountRequestDb = accountRequestDb;
     }
 
     /**
      * Creates an account request.
-     * @return
      */
     public AccountRequest createAccountRequest(String name, String email, String institute)
-        throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         AccountRequest toCreate = new AccountRequest(email, name, institute);
 
         return accountRequestDb.createAccountRequest(toCreate);
@@ -43,18 +47,16 @@ public class AccountRequestLogic {
     /**
      * Gets account request associated with the {@code }.
      */
-    public AccountRequest getAccountRequest(String email, String institute) throws EntityNotFoundException {
+    public AccountRequest getAccountRequest(String email, String institute) {
 
-        AccountRequest accountRequest = accountRequestDb.getAccountRequest(email, institute);
-
-        return accountRequest;
+        return accountRequestDb.getAccountRequest(email, institute);
     }
 
     /**
-     * Updates/Creates the account request using {@Link AccountRequest}.
+     * Creates/resets the account request with the given email and institute such that it is not registered.
      */
-    public AccountRequest updateAccountRequest(String email, String institute)
-        throws EntityDoesNotExistException, InvalidOperationException, InvalidParametersException {
+    public AccountRequest resetAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException, InvalidOperationException, InvalidParametersException {
         AccountRequest accountRequest = accountRequestDb.getAccountRequest(email, institute);
 
         if (accountRequest == null) {
@@ -65,6 +67,8 @@ public class AccountRequestLogic {
         if (accountRequest.getRegisteredAt() == null) {
             throw new InvalidOperationException("Unable to reset account request as instructor is still unregistered.");
         }
+
+        accountRequest.setRegisteredAt(null);
 
         return accountRequestDb.updateAccountRequest(accountRequest);
     }

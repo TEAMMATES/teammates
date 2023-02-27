@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
@@ -17,14 +16,14 @@ class CreateAccountRequestAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute()
-        throws InvalidHttpRequestBodyException, teammates.ui.webapi.InvalidOperationException {
+            throws InvalidHttpRequestBodyException, teammates.ui.webapi.InvalidOperationException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
 
-        AccountRequest accountRequest = null;
+        AccountRequest accountRequest;
 
         try {
             accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution);
@@ -34,7 +33,7 @@ class CreateAccountRequestAction extends AdminOnlyAction {
             // Use existing account request
             accountRequest = sqlLogic.getAccountRequest(instructorEmail, instructorInstitution);
         } catch (InvalidOperationException ioe) {
-            throw new teammates.ui.webapi.InvalidOperationException(ioe.getMessage());
+            throw new teammates.ui.webapi.InvalidOperationException(ioe);
         }
 
         assert accountRequest != null;

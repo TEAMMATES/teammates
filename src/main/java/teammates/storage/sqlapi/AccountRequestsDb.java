@@ -24,14 +24,14 @@ import jakarta.persistence.criteria.Root;
  *
  * @see AccountRequest
  */
-public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
-    private static final AccountRequestDb instance = new AccountRequestDb();
+public final class AccountRequestsDb extends EntitiesDb<AccountRequest> {
+    private static final AccountRequestsDb instance = new AccountRequestsDb();
 
-    private AccountRequestDb() {
+    private AccountRequestsDb() {
         // prevent instantiation
     }
 
-    public static AccountRequestDb inst() {
+    public static AccountRequestsDb inst() {
         return instance;
     }
 

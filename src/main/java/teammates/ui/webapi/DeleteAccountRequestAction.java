@@ -15,8 +15,8 @@ class DeleteAccountRequestAction extends AdminOnlyAction {
 
         try {
             sqlLogic.deleteAccountRequest(email, institute);
-        } catch (InvalidOperationException invalidOperationException) {
-            throw new teammates.ui.webapi.InvalidOperationException(invalidOperationException.getMessage());
+        } catch (InvalidOperationException ioe) {
+            throw new teammates.ui.webapi.InvalidOperationException(ioe);
         }
         return new JsonResult("Account request successfully deleted.");
     }

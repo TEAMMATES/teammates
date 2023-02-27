@@ -10,7 +10,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.sqllogic.core.AccountRequestLogic;
+import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
@@ -27,7 +27,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 public class Logic {
     private static final Logic instance = new Logic();
 
-    final AccountRequestLogic accountRequestLogic = AccountRequestLogic.inst();
+    final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     // final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
@@ -43,8 +43,16 @@ public class Logic {
 
     // AccountRequests
 
+    /**
+     * Creates an account request.
+     *
+     * @return newly created account request.
+     * @throws InvalidParametersException if the account request details are invalid.
+     * @throws EntityAlreadyExistsException if the account request already exists.
+     * @throws InvalidOperationException if the account request cannot be created.
+     */
     public AccountRequest createAccountRequest(String name, String email, String institute)
-        throws InvalidParametersException, EntityAlreadyExistsException, InvalidOperationException {
+            throws InvalidParametersException, EntityAlreadyExistsException, InvalidOperationException {
 
         AccountRequest accountRequest = accountRequestLogic.createAccountRequest(name, email, institute);
 
@@ -55,16 +63,38 @@ public class Logic {
         return accountRequest;
     }
 
+    /**
+     * Gets the account request with the given email and institute.
+     *
+     * @return account request with the given email and institute.
+     */
     public AccountRequest getAccountRequest(String email, String institute) {
         return accountRequestLogic.getAccountRequest(email, institute);
     }
 
-    public AccountRequest updateAccountRequest(String email, String institute)
-        throws EntityDoesNotExistException, InvalidOperationException,
+    /**
+     * Creates/Resets the account request with the given email and institute
+     * such that it is not registered.
+     *
+     * @return account request that is unregistered with the
+     *         email and institute.
+     */
+    public AccountRequest resetAccountRequest(String email, String institute)
+            throws EntityDoesNotExistException, InvalidOperationException,
             InvalidParametersException {
-        return accountRequestLogic.updateAccountRequest(email, institute);
+        return accountRequestLogic.resetAccountRequest(email, institute);
     }
 
+    /**
+     * Deletes account request by email and institute.
+     *
+     * <ul>
+     * <li>Fails silently if no such account request.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * All parameters are non-null.
+     */
     public void deleteAccountRequest(String email, String institute) throws InvalidOperationException {
         accountRequestLogic.deleteAccountRequest(email, institute);
     }
