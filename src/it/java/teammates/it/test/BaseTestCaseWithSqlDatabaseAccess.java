@@ -1,5 +1,7 @@
 package teammates.it.test;
 
+import java.util.UUID;
+
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -11,9 +13,12 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.core.LogicStarter;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
 /**
@@ -32,7 +37,8 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     public static void setUpClass() throws Exception {
         PGSQL.start();
         // Temporarily disable migration utility
-        // DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+        // DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(),
+        // PGSQL.getPassword());
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
@@ -45,12 +51,12 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
     @BeforeMethod
     public void setUp() throws Exception {
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().begin();
+        HibernateUtil.beginTransaction();
     }
 
     @AfterMethod
     public void tearDown() {
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().rollback();
+        HibernateUtil.rollbackTransaction();
     }
 
     /**
@@ -67,6 +73,23 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             Notification actualNotification = (Notification) actual;
             equalizeIrrelevantData(expectedNotification, actualNotification);
             assertEquals(JsonUtils.toJson(expectedNotification), JsonUtils.toJson(actualNotification));
+        } else if (expected instanceof Account) {
+            Account expectedAccount = (Account) expected;
+            Account actualAccount = (Account) actual;
+            equalizeIrrelevantData(expectedAccount, actualAccount);
+            assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
+        } else if (expected instanceof AccountRequest) {
+            AccountRequest expectedAccountRequest = (AccountRequest) expected;
+            AccountRequest actualAccountRequest = (AccountRequest) actual;
+            equalizeIrrelevantData(expectedAccountRequest, actualAccountRequest);
+            assertEquals(JsonUtils.toJson(expectedAccountRequest), JsonUtils.toJson(actualAccountRequest));
+        } else if (expected instanceof UsageStatistics) {
+            UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
+            UsageStatistics actualUsageStatistics = (UsageStatistics) actual;
+            equalizeIrrelevantData(expectedUsageStatistics, actualUsageStatistics);
+            assertEquals(JsonUtils.toJson(expectedUsageStatistics), JsonUtils.toJson(actualUsageStatistics));
+        } else {
+            fail("Unknown entity");
         }
     }
 
@@ -98,4 +121,31 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         expected.setUpdatedAt(actual.getUpdatedAt());
     }
 
+    private void equalizeIrrelevantData(Account expected, Account actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+    private void equalizeIrrelevantData(AccountRequest expected, AccountRequest actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+    private void equalizeIrrelevantData(UsageStatistics expected, UsageStatistics actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+    }
+
+    /**
+     * Generates a UUID that is different from the given {@code uuid}.
+     */
+    protected UUID generateDifferentUuid(UUID uuid) {
+        UUID ret = UUID.randomUUID();
+        while (ret.equals(uuid)) {
+            ret = UUID.randomUUID();
+        }
+        return ret;
+    }
 }

@@ -37,6 +37,9 @@ public final class Const {
 
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
 
+    public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create an entity that exists: %s";
+    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
+
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
     public static final int INT_UNINITIALIZED = -9999;

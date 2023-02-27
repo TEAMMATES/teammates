@@ -4,41 +4,45 @@
     <div class="row form-group">
       <div class="col-4">
         <div class="col-12 mb-1">
-          <label for="search-from-datepicker" class="font-weight-bold">Search period from</label>
+          <label for="search-from-datepicker" class="fw-bold">Search period from</label>
         </div>
-        <div class="input-group">
-          <div class="col-md-8 input-group">
-            <input id="search-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.fromDate" #logsFromDp="ngbDatepicker">
-            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
+        <div class="col-12 row">
+          <div class="col-md-7">
+            <div class="input-group">
+              <input id="search-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.fromDate" #logsFromDp="ngbDatepicker">
+              <button class="btn btn-light input-group-text" (click)="logsFromDp.toggle()" type="button">
+                <i class="fas fa-calendar-alt"></i>
+              </button>
+            </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5">
             <ngb-timepicker [(ngModel)]="formModel.fromTime" [spinners]="false"></ngb-timepicker>
           </div>
         </div>
       </div>
       <div class="col-4">
         <div class="col-12 mb-1">
-          <label for="search-to-datepicker" class="font-weight-bold">Search period until</label>
+          <label for="search-to-datepicker" class="fw-bold">Search period until</label>
         </div>
-        <div class="input-group">
-          <div class="col-md-8 input-group">
-            <input id="search-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.toDate" #logsToDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
+        <div class="col-12 row">
+          <div class="col-md-7">
+            <div class="input-group">
+              <input id="search-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.toDate" #logsToDp="ngbDatepicker"/>
+              <button class="btn btn-light input-group-text" (click)="logsToDp.toggle()" type="button">
+                <i class="fas fa-calendar-alt"></i>
+              </button>
+            </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5">
             <ngb-timepicker [(ngModel)]="formModel.toTime" [spinners]="false"></ngb-timepicker>
           </div>
         </div>
       </div>
       <div class="col-2">
         <div class="col-12 mb-1">
-          <label for="data-to-display" class="font-weight-bold">Data to display:</label>
+          <label for="data-to-display" class="fw-bold">Data to display:</label>
         </div>
-        <select id="data-to-display" class="form-control col-12" [ngModel]="formModel.dataType" (ngModelChange)="changeStatsType($event)">
+        <select id="data-to-display" class="form-control form-select col-12" [ngModel]="formModel.dataType" (ngModelChange)="changeStatsType($event)">
           <option [value]="StatisticsType.NUM_RESPONSES"># of responses</option>
           <option [value]="StatisticsType.NUM_COURSES"># of courses</option>
           <option [value]="StatisticsType.NUM_STUDENTS"># of students</option>
@@ -50,15 +54,15 @@
       </div>
       <div class="col-2">
         <div class="col-12 mb-1">
-          <label for="data-aggregation" class="font-weight-bold">Data aggregation:</label>
+          <label for="data-aggregation" class="fw-bold">Data aggregation:</label>
         </div>
-        <select id="data-aggregation" class="form-control col-12" [ngModel]="formModel.aggregationType" (ngModelChange)="changeAggregationType($event)">
+        <select id="data-aggregation" class="form-control form-select col-12" [ngModel]="formModel.aggregationType" (ngModelChange)="changeAggregationType($event)">
           <option [value]="AggregationType.HOURLY">Hourly</option>
           <option [value]="AggregationType.DAILY">Daily</option>
         </select>
       </div>
       <div class="col-1 mt-4">
-        <button id="query-button" class="float-right btn btn-primary" (click)="getUsageStatistics()">Query</button>
+        <button id="query-button" class="float-end btn btn-primary" (click)="getUsageStatistics()">Query</button>
       </div>
     </div>
   </div>

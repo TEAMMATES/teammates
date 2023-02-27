@@ -75,14 +75,14 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6 form-check">
       <label class="form-check-label mb-2">
         <input id="generate-checkbox" class="form-check-input" type="checkbox"  [disabled]="!isEditable"
               [ngModel]="isGeneratedOptionsEnabled"
               (ngModelChange)="triggerGeneratedOptionsChange($event)">
         <b>Or, generate options from the list of all</b>
       </label>
-      <select id="generate-dropdown" class="form-control" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
+      <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
               [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
         <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option | generatedChoice }}</option>
       </select>

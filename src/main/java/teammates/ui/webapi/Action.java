@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -197,6 +198,19 @@ public abstract class Action {
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
                     "Expected long value for " + paramName + " parameter, but found: [" + value + "]", e);
+        }
+    }
+
+    /**
+     * Returns the first value for the specified parameter expected to be present in the HTTP request as UUID.
+     */
+    UUID getUuidRequestParamValue(String paramName) {
+        String value = getNonNullRequestParamValue(paramName);
+        try {
+            return UUID.fromString(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Expected UUID value for " + paramName + " parameter, but found: [" + value + "]", e);
         }
     }
 

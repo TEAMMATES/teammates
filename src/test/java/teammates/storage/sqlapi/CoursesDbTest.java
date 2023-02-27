@@ -1,13 +1,10 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -24,14 +21,16 @@ public class CoursesDbTest extends BaseTestCase {
 
     private CoursesDb coursesDb = CoursesDb.inst();
 
-    private Session session;
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @BeforeMethod
-    public void setUp() {
-        session = mock(Session.class);
-        SessionFactory sessionFactory = mock(SessionFactory.class);
-        HibernateUtil.setSessionFactory(sessionFactory);
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
+    public void setUpMethod() {
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+    }
+
+    @AfterMethod
+    public void teardownMethod() {
+        mockHibernateUtil.close();
     }
 
     @Test
@@ -39,22 +38,20 @@ public class CoursesDbTest extends BaseTestCase {
             throws InvalidParametersException, EntityAlreadyExistsException {
         Course c = new Course("course-id", "course-name", null, "institute");
 
-        when(session.get(Course.class, "course-id")).thenReturn(null);
-
         coursesDb.createCourse(c);
 
-        verify(session, times(1)).persist(c);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(c));
     }
 
     @Test
     public void testCreateCourse_courseAlreadyExists_throwsEntityAlreadyExistsException() {
         Course c = new Course("course-id", "course-name", null, "institute");
-
-        when(session.get(Course.class, "course-id")).thenReturn(c);
+        mockHibernateUtil.when(() -> HibernateUtil.get(Course.class, "course-id")).thenReturn(c);
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesDb.createCourse(c));
-        assertEquals(ex.getMessage(), "Trying to create an entity that exists: " + c.toString());
-        verify(session, never()).persist(c);
+
+        assertEquals("Trying to create an entity that exists: " + c.toString(), ex.getMessage());
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(c), never());
     }
 }

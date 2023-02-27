@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
@@ -21,6 +20,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -71,15 +71,12 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isPublishedEmailEnabled;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
+    @OneToMany(mappedBy = "feedbackSession")
+    private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
 
     @UpdateTimestamp
-    @Column
     private Instant updatedAt;
 
-    @Column
     private Instant deletedAt;
 
     protected FeedbackSession() {
@@ -159,12 +156,8 @@ public class FeedbackSession extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
-        // TODO: add once extended dealines added to entity
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-        // endTime, studentDeadlines), errors);
-
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-        // endTime, instructorDeadlines), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                endTime, deadlineExtensions), errors);
 
         return errors;
     }
@@ -273,12 +266,12 @@ public class FeedbackSession extends BaseEntity {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public List<DeadlineExtension> getDeadlineExtensions() {
+        return deadlineExtensions;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
+    public void setDeadlineExtensions(List<DeadlineExtension> deadlineExtensions) {
+        this.deadlineExtensions = deadlineExtensions;
     }
 
     public Instant getUpdatedAt() {
@@ -304,8 +297,8 @@ public class FeedbackSession extends BaseEntity {
                 + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", createdAt=" + createdAt + ", updatedAt="
-                + updatedAt + ", deletedAt=" + deletedAt + "]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", deadlineExtensions=" + deadlineExtensions
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
     @Override

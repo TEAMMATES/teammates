@@ -6,7 +6,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="navbar-collapse" [ngStyle]="{display: isCollapsed ? 'none' : 'block'}">
-    <ul class="nav navbar-nav flex-nowrap mr-auto" *ngIf="isValidUser">
+    <ul class="nav navbar-nav flex-nowrap me-auto" *ngIf="isValidUser">
       <ng-template ngFor let-navItem [ngForOf]="navItems">
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
@@ -19,16 +19,16 @@
         </li>
       </ng-template>
     </ul>
-    <ul class="nav navbar-nav mr-auto" *ngIf="!isValidUser"></ul>
+    <ul class="nav navbar-nav me-auto" *ngIf="!isValidUser"></ul>
     <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo && !isFetchingAuthDetails">
-      <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="!user">
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="!user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Login</a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
           <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
         </div>
       </li>
-      <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ user }}</a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" tmRouterLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
@@ -121,10 +121,10 @@
   <footer>
     <div class="container footer">
       <div class="row text-center">
-        <div class="col-sm-6 text-md-left">
+        <div class="col-sm-6 text-md-start">
           <i class="fas fa-bolt"></i><a tmRouterLink="/web/front/home"> TEAMMATES</a> V{{ version }}
         </div>
-        <div class="col-sm-6 text-md-right">
+        <div class="col-sm-6 text-md-end">
           <i class="far fa-comments"></i> Send <a tmRouterLink="/web/front/contact" target="_blank">Feedback</a>
         </div>
         <div class="col-sm-12">

@@ -2,8 +2,12 @@ package teammates.sqllogic.api;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
+import teammates.common.datatransfer.NotificationStyle;
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.NotificationsLogic;
@@ -63,6 +67,21 @@ public class Logic {
     }
 
     /**
+     * Calculate usage statistics within a time range.
+     */
+    public UsageStatistics calculateEntitiesStatisticsForTimeRange(Instant startTime, Instant endTime) {
+        return usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
+    }
+
+    /**
+     * Create usage statistics within a time range.
+     */
+    public void createUsageStatistics(UsageStatistics attributes)
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        usageStatisticsLogic.createUsageStatistics(attributes);
+    }
+
+    /**
      * Creates a notification.
      *
      * <p>Preconditions:</p>
@@ -77,4 +96,45 @@ public class Logic {
         return notificationsLogic.createNotification(notification);
     }
 
+    /**
+     * Gets a notification by ID.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return Null if no match found.
+     */
+    public Notification getNotification(UUID notificationId) {
+        return notificationsLogic.getNotification(notificationId);
+    }
+
+    /**
+     * Updates a notification.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     * @return updated notification
+     * @throws InvalidParametersException if the notification is not valid
+     * @throws EntityDoesNotExistException if the notification does not exist in the database
+     */
+    public Notification updateNotification(UUID notificationId, Instant startTime, Instant endTime,
+                                           NotificationStyle style, NotificationTargetUser targetUser, String title,
+                                           String message) throws
+            InvalidParametersException, EntityDoesNotExistException {
+        return notificationsLogic.updateNotification(notificationId, startTime, endTime, style, targetUser, title, message);
+    }
+
+    /**
+     * Deletes notification by ID.
+     *
+     * <ul>
+     * <li>Fails silently if no such notification.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     */
+    public void deleteNotification(UUID notificationId) {
+        notificationsLogic.deleteNotification(notificationId);
+    }
 }

@@ -1,7 +1,6 @@
 package teammates.ui.servlets;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mockStatic;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,9 +10,8 @@ import java.util.Map;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,17 +33,19 @@ public class WebApiServletTest extends BaseTestCase {
 
     private static final WebApiServlet SERVLET = new WebApiServlet();
 
+    private static MockedStatic<HibernateUtil> mockHibernateUtil;
+
     private MockHttpServletRequest mockRequest;
     private MockHttpServletResponse mockResponse;
 
     @BeforeClass
     public static void classSetup() {
-        SessionFactory sessionFactory = mock(SessionFactory.class);
-        Session session = mock(Session.class);
-        Transaction transaction = mock(Transaction.class);
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
-        when(session.getTransaction()).thenReturn(transaction);
-        HibernateUtil.setSessionFactory(sessionFactory);
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+    }
+
+    @AfterClass
+    public static void classTeardown() {
+        mockHibernateUtil.close();
     }
 
     private void setupMocks(String method, String requestUrl) {

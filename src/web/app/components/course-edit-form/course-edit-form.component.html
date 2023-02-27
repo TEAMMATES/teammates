@@ -36,7 +36,7 @@
 <div class="card-body fill-plain">
     <form #courseForm="ngForm" (ngSubmit)="submitHandler()">
         <div class="form-row form-group">
-            <label class="col-sm-2 font-weight-bold text-md-right">Course ID:</label>
+            <label class="col-sm-2 fw-bold text-md-end">Course ID:</label>
             <div class="col-sm-9">
                 <input id="course-id" name="courseId" class="col-xs-12 form-control" type="text" tabindex="1"
                     placeholder="e.g. CS3215-2013Semester1" #courseId="ngModel" [(ngModel)]="model.course.courseId"
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="form-row form-group">
-            <label class="col-sm-2 font-weight-bold text-md-right">Course Name:</label>
+            <label class="col-sm-2 fw-bold text-md-end">Course Name:</label>
             <div class="col-sm-9">
                 <input id="course-name" class="form-control" name="courseName" type="text" tabindex="2"
                     placeholder="e.g. Software Engineering" [disabled]="isInputDisabled" #courseName="ngModel"
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="form-row form-group">
-            <label class="col-sm-2 font-weight-bold text-md-right">
+            <label class="col-sm-2 fw-bold text-md-end">
                 <ng-container *ngIf="isInAddMode; else withoutToolTip">
                     <span class="ngb-tooltip-class"
                         ngbTooltip="Note that you can only create a new course under an institute in which you are already a course co-owner.">
@@ -75,7 +75,7 @@
                 </ng-template>
             </label>
             <div class="col-sm-9">
-                <select id="course-institute" class="col-xs-12 form-control" type="text" name="institute"
+                <select id="course-institute" class="col-xs-12 form-control form-select" type="text" name="institute"
                     [(ngModel)]="model.course.institute" [disabled]="isInEditMode || isInputDisabled" required>
                     <option *ngIf="isInEditMode" [value]="model.course.institute" selected>{{ model.course.institute }}
                     </option>
@@ -84,13 +84,13 @@
             </div>
         </div>
         <div class="form-row form-group">
-            <label class="col-xs-12 col-sm-2 font-weight-bold text-md-right"><span class="ngb-tooltip-class"
+            <label class="col-xs-12 col-sm-2 fw-bold text-md-end"><span class="ngb-tooltip-class"
                     ngbTooltip="You should not need to change this as it is auto-detected based on your
                 device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
                     Time Zone:</span></label>
             <div class="col-xs-12 col-sm-9">
                 <div class="input-group">
-                    <select id="time-zone" class="form-control" name="timeZone" #timeZone="ngModel"
+                    <select id="time-zone" class="form-control form-select" name="timeZone" #timeZone="ngModel"
                         [(ngModel)]="model.course.timeZone" [disabled]="isInputDisabled" required>
                         <option *ngFor="let timezone of model.timezones" [value]="timezone.id">{{ timezone.id }} ({{
                             timezone.offset }})</option>
