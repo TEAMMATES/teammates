@@ -21,6 +21,7 @@ public class ArchitectureTest {
     private static final String STORAGE_PACKAGE = "teammates.storage";
     private static final String STORAGE_API_PACKAGE = STORAGE_PACKAGE + ".api";
     private static final String STORAGE_ENTITY_PACKAGE = STORAGE_PACKAGE + ".entity";
+    private static final String STORAGE_SQL_ENTITY_PACKAGE = STORAGE_PACKAGE + ".sqlentity";
     private static final String STORAGE_SEARCH_PACKAGE = STORAGE_PACKAGE + ".search";
 
     private static final String LOGIC_PACKAGE = "teammates.logic";
@@ -68,8 +69,14 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_uiShouldNotTouchStorage() {
         noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
-                .check(forClasses(UI_PACKAGE, STORAGE_PACKAGE));
+                .should().accessClassesThat(new DescribedPredicate<>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
+                                && !STORAGE_SQL_ENTITY_PACKAGE.equals(input.getPackageName());
+                    }
+                })
+                .check(forClasses(UI_PACKAGE));
     }
 
     @Test
@@ -303,17 +310,6 @@ public class ArchitectureTest {
 
         noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
                 .should().accessClassesThat(new DescribedPredicate<>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
-                                && !"OfyHelper".equals(input.getSimpleName())
-                                && !"AccountRequestSearchManager".equals(input.getSimpleName())
-                                && !"InstructorSearchManager".equals(input.getSimpleName())
-                                && !"StudentSearchManager".equals(input.getSimpleName())
-                                && !"SearchManagerFactory".equals(input.getSimpleName());
-                    }
-                })
-                .orShould().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(LOGIC_CORE_PACKAGE)

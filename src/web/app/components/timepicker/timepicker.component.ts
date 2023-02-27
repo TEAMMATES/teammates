@@ -10,7 +10,6 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } fr
   styleUrls: ['./timepicker.component.scss'],
 })
 export class TimepickerComponent {
-
   @Input()
   isDisabled: boolean = false;
 
@@ -70,21 +69,33 @@ export class TimepickerComponent {
    * datetime.
    */
   isOptionDisabled(t: TimeFormat): boolean {
-    if (this.minDate && this.minTime
-        && this.date.year === this.minDate?.year && this.date.month === this.minDate?.month
-        && this.date.day === this.minDate?.day
-        && (t.hour < this.minTime?.hour || t.minute < this.minTime?.minute)) {
-      return true;
+    const date = this.toJsDate(this.date, t);
+
+    if (this.minDate && this.minTime) {
+      const minDate = this.toJsDate(this.minDate, this.minTime);
+      if (date < minDate) {
+        return true;
+      }
     }
 
-    if (this.maxDate && this.maxTime
-        && this.date.year === this.maxDate?.year && this.date.month === this.maxDate?.month
-        && this.date.day === this.maxDate?.day
-        && (t.hour > this.maxTime?.hour || t.minute > this.maxTime?.minute)) {
-      return true;
+    if (this.maxDate && this.maxTime) {
+      const maxDate = this.toJsDate(this.maxDate, this.maxTime);
+      if (date > maxDate) {
+        return true;
+      }
     }
 
     return false;
+  }
+
+  private toJsDate(date: DateFormat, time: TimeFormat): Date {
+    return new Date(
+      date.year,
+      date.month - 1,
+      date.day,
+      time.hour,
+      time.minute,
+    );
   }
 
   /**

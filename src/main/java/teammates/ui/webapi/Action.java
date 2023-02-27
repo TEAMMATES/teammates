@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,11 +20,11 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
-import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
+import teammates.sqllogic.api.Logic;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -34,7 +35,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public abstract class Action {
 
-    Logic logic = Logic.inst();
+    teammates.logic.api.Logic logic = teammates.logic.api.Logic.inst();
+    Logic sqlLogic = Logic.inst();
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
     EmailGenerator emailGenerator = EmailGenerator.inst();
@@ -196,6 +198,19 @@ public abstract class Action {
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
                     "Expected long value for " + paramName + " parameter, but found: [" + value + "]", e);
+        }
+    }
+
+    /**
+     * Returns the first value for the specified parameter expected to be present in the HTTP request as UUID.
+     */
+    UUID getUuidRequestParamValue(String paramName) {
+        String value = getNonNullRequestParamValue(paramName);
+        try {
+            return UUID.fromString(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException(
+                    "Expected UUID value for " + paramName + " parameter, but found: [" + value + "]", e);
         }
     }
 

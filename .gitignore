@@ -79,6 +79,7 @@ src/web/dist/*
 src/web/webtools/*
 filestorage-dev/*
 datastore-dev/datastore/*
+postgres-data/
 
 !.gitkeep
 

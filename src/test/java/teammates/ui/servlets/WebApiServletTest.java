@@ -1,5 +1,7 @@
 package teammates.ui.servlets;
 
+import static org.mockito.Mockito.mockStatic;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +10,15 @@ import java.util.Map;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
@@ -27,8 +33,20 @@ public class WebApiServletTest extends BaseTestCase {
 
     private static final WebApiServlet SERVLET = new WebApiServlet();
 
+    private static MockedStatic<HibernateUtil> mockHibernateUtil;
+
     private MockHttpServletRequest mockRequest;
     private MockHttpServletResponse mockResponse;
+
+    @BeforeClass
+    public static void classSetup() {
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+    }
+
+    @AfterClass
+    public static void classTeardown() {
+        mockHibernateUtil.close();
+    }
 
     private void setupMocks(String method, String requestUrl) {
         mockRequest = new MockHttpServletRequest(method, requestUrl);
