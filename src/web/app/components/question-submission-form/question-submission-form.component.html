@@ -40,7 +40,7 @@
                                                  [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
 
     <div class="form-row margin-top-30px margin-bottom-0px">
-      <div class="col-2">
+      <div class="col">
         <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF" >
           <span class="ngb-tooltip-class font-bold" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
         </p>
