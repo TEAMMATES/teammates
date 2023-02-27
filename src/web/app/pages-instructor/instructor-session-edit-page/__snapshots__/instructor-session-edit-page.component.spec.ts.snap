@@ -1490,12 +1490,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     </div>
                     <div
                       autoclose="outside"
-                      class="margin-top-15px overflow-scroll"
+                      class="margin-top-15px w-100"
                       ngbdropdown=""
                     >
                       <button
                         aria-expanded="false"
-                        class="dropdown-toggle btn btn-light white-space-normal"
+                        class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
@@ -2229,12 +2229,12 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     </div>
                     <div
                       autoclose="outside"
-                      class="margin-top-15px overflow-scroll"
+                      class="margin-top-15px w-100"
                       ngbdropdown=""
                     >
                       <button
                         aria-expanded="false"
-                        class="dropdown-toggle btn btn-light white-space-normal"
+                        class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
@@ -4100,12 +4100,12 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 </div>
                 <div
                   autoclose="outside"
-                  class="margin-top-15px overflow-scroll"
+                  class="margin-top-15px w-100"
                   ngbdropdown=""
                 >
                   <button
                     aria-expanded="false"
-                    class="dropdown-toggle btn btn-light white-space-normal"
+                    class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
                     id="btn-feedback-path"
                     ngbdropdowntoggle=""
                   >

@@ -2,8 +2,8 @@
   <div>
     <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
   </div>
-  <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px overflow-scroll" autoClose="outside">
-    <button id="btn-feedback-path" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable || commonFeedbackPaths.size === 1">
+  <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px w-100" autoClose="outside">
+    <button id="btn-feedback-path" class="btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block" ngbDropdownToggle [disabled]="!model.isEditable || commonFeedbackPaths.size === 1">
       <span *ngIf="!model.isUsingOtherFeedbackPath">
         {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
       </span>
