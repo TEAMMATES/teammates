@@ -167,11 +167,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
   }
 
-  handleClick(event: Event): boolean {
-    if (event.target) {
-      return !this.model.isTabExpanded;
-    }
-    return this.model.isTabExpanded;
+  handleClick() {
+    this.model.isTabExpanded = !this.model.isTabExpanded;
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,
