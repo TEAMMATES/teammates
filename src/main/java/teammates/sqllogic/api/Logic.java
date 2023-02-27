@@ -339,4 +339,15 @@ public class Logic {
     public Student getStudentByGoogleId(String courseId, String googleId) {
         return usersLogic.getStudentByGoogleId(courseId, googleId);
     }
+
+    public List<Notification> getAllNotifications() {
+        return notificationsLogic.getAllNotifications();
+    }
+
+    /**
+     * Returns active notification for general users and the specified {@code targetUser}.
+     */
+    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+        return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
+    }
 }

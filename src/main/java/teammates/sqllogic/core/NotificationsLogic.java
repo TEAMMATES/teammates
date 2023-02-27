@@ -3,6 +3,7 @@ package teammates.sqllogic.core;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -101,5 +102,21 @@ public final class NotificationsLogic {
 
         Notification notification = getNotification(notificationId);
         notificationsDb.deleteNotification(notification);
+    }
+
+    /**
+     * Gets all notifications.
+     */
+    public List<Notification> getAllNotifications() {
+        return notificationsDb.getAllNotifications();
+    }
+
+    /**
+     * Gets a list of notifications.
+     *
+     * @return a list of notifications with the specified {@code targetUser}.
+     */
+    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+        return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
     }
 }

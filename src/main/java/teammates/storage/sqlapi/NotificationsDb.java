@@ -1,7 +1,14 @@
 package teammates.storage.sqlapi;
 
+import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import org.hibernate.Session;
+import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -57,5 +64,33 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
         if (notification != null) {
             delete(notification);
         }
+    }
+
+    /**
+     * Gets all notifications.
+     */
+    public List<Notification> getAllNotifications() {
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
+        Root<Notification> root = cq.from(Notification.class);
+        CriteriaQuery<Notification> all = cq.select(root);
+        TypedQuery<Notification> allQuery = session.createQuery(all);
+        return allQuery.getResultList();
+    }
+
+    /**
+     * Gets notifications by {@code targetUser}.
+     *
+     * @return a list of notifications for the specified targetUser.
+     */
+    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
+        Root<Notification> root = cq.from(Notification.class);
+        cq.select(root).where(cb.equal(root.get("target_user"), targetUser));
+        TypedQuery<Notification> query = session.createQuery(cq);
+        return query.getResultList();
     }
 }
