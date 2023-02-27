@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import teammates.ui.output.ReadNotificationsData;
 
@@ -20,8 +21,8 @@ public class GetReadNotificationsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        List<String> readNotifications =
-                logic.getReadNotificationsId(userInfo.getId());
+        List<UUID> readNotifications =
+                sqlLogic.getReadNotificationsId(userInfo.getId());
         ReadNotificationsData output = new ReadNotificationsData(readNotifications);
         return new JsonResult(output);
     }

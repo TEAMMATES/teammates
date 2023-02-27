@@ -137,4 +137,8 @@ public class Logic {
     public void deleteNotification(UUID notificationId) {
         notificationsLogic.deleteNotification(notificationId);
     }
+
+    public List<UUID> getReadNotificationsId(String id) {
+
+    }
 }
