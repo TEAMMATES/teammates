@@ -1008,7 +1008,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-mcq-question-edit-answer-form>
-                      <tr>
+                      <tr
+                        aria-label="Response for To-Be-Selected"
+                      >
                         <td>
                           <div>
                             <div
@@ -3666,7 +3668,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-mcq-question-edit-answer-form>
-                      <tr>
+                      <tr
+                        aria-label="Response for To-Be-Selected"
+                      >
                         <td>
                           <div>
                             <div
