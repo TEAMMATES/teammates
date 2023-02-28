@@ -18,12 +18,25 @@ export abstract class QuestionEditAnswerFormComponent<
   @Input()
   responseDetails: R;
 
+  @Input()
+  recipient: String = '';
+
   @Output()
   responseDetailsChange: EventEmitter<FeedbackResponseDetails> = new EventEmitter();
 
   protected constructor(questionDetails: Q, responseDetails: R) {
     this.questionDetails = questionDetails;
     this.responseDetails = responseDetails;
+  }
+
+  getAriaLabel(): String {
+    if (this.recipient === '' || this.recipient === '%GENERAL%' || this.recipient === 'Myself') {
+      return 'Response';
+    }
+    if (this.recipient === 'Unknown') {
+      return 'Response for To-Be-Selected';
+    }
+    return `Response for ${this.recipient}`;
   }
 
   /**
