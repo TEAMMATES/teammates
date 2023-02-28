@@ -1284,7 +1284,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="plain-text-area"
                       >
                         <textarea
-                          aria-label="Text Response for To-Be-Selected"
+                          aria-label="Response for To-Be-Selected"
                           class="ng-untouched ng-pristine ng-valid"
                         />
                       </div>
@@ -1578,7 +1578,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
-                      <tr>
+                      <tr
+                        aria-label="Response for Barry Harris"
+                      >
                         <td>
                           <div
                             class="check-box"
@@ -3945,7 +3947,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="plain-text-area"
                       >
                         <textarea
-                          aria-label="Text Response for To-Be-Selected"
+                          aria-label="Response for To-Be-Selected"
                           class="ng-untouched ng-pristine ng-valid"
                         />
                       </div>
@@ -4239,7 +4241,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
-                      <tr>
+                      <tr
+                        aria-label="Response for Barry Harris"
+                      >
                         <td>
                           <div
                             class="check-box"
