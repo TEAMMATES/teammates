@@ -9,6 +9,7 @@ exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEna
   isDisabled="false"
   isMcqOptionSelected={[Function Array]}
   questionDetails={[Function Object]}
+  recipient=""
   responseDetails={[Function Object]}
   responseDetailsChange={[Function EventEmitter_]}
   valueSelected=""
@@ -39,6 +40,7 @@ exports[`McqQuestionEditAnswerFormComponent should snap with default view 1`] = 
   isDisabled="false"
   isMcqOptionSelected={[Function Array]}
   questionDetails={[Function Object]}
+  recipient=""
   responseDetails={[Function Object]}
   responseDetailsChange={[Function EventEmitter_]}
   valueSelected=""
