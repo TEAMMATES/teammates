@@ -5,13 +5,13 @@
 </div>
 
 <div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded && !isLoading" @collapseAnim>
-  <tm-course-edit-form  [formMode]="CourseEditFormMode.ADD"
+  <!-- <tm-course-edit-form  [formMode]="CourseEditFormMode.ADD"
                         [(formModel)]="courseFormModel"
                         [resetFormEvent]="resetCourseForm"
                         (closeFormEvent)="isAddNewCourseFormExpanded = false"
                         (createNewCourseEvent)="createNewCourse()"
                         (copyCourseEvent)="createCopiedCourse($event)">
-  </tm-course-edit-form>
+  </tm-course-edit-form> -->
 </div>
 
 <div *ngIf="isCopyingCourse" class="margin-top-30px">
