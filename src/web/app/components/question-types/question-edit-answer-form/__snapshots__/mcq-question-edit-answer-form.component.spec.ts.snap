@@ -14,7 +14,9 @@ exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEna
   responseDetailsChange={[Function EventEmitter_]}
   valueSelected=""
 >
-  <tr>
+  <tr
+    aria-label="Response"
+  >
     <td>
       <div>
         <select
@@ -45,7 +47,9 @@ exports[`McqQuestionEditAnswerFormComponent should snap with default view 1`] = 
   responseDetailsChange={[Function EventEmitter_]}
   valueSelected=""
 >
-  <tr>
+  <tr
+    aria-label="Response"
+  >
     <td>
       <div>
       </div>
