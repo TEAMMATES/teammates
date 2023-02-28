@@ -1578,7 +1578,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
-                      <tr>
+                      <tr
+                        aria-label="Choices (Multi-Select) for Barry Harris"
+                      >
                         <td>
                           <div
                             class="check-box"
@@ -4239,7 +4241,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-msq-question-edit-answer-form>
-                      <tr>
+                      <tr
+                        aria-label="Choices (Multi-Select) for Barry Harris"
+                      >
                         <td>
                           <div
                             class="check-box"

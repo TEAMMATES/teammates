@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
@@ -24,6 +24,9 @@ export class MsqQuestionEditAnswerFormComponent
 
   @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
+  @Input()
+  recipient: String = '';
+
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
   }
@@ -40,6 +43,16 @@ export class MsqQuestionEditAnswerFormComponent
         }
       }
     }
+  }
+
+  getAriaLabel(): String {
+    if (this.recipient === '' || this.recipient === '%GENERAL%') {
+      return 'Choices (Multi-Select)';
+    }
+    if (this.recipient === 'Unknown') {
+      return 'Choices (Multi-Select) for To-Be-Selected';
+    }
+    return `Choices (Multi-Select) for ${this.recipient}`;
   }
 
   /**
