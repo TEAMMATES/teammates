@@ -1858,6 +1858,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-md-2 col-xs-5"
                         >
                           <input
+                            aria-label="Response for Barry Harris"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             max="10"
                             min="1"
@@ -4527,6 +4528,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-md-2 col-xs-5"
                         >
                           <input
+                            aria-label="Response for Barry Harris"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             max="10"
                             min="1"
