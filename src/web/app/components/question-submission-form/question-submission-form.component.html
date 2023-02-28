@@ -116,6 +116,7 @@
                                               [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                               (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                               [isDisabled]="isFormsDisabled"
+                                              [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
             ></tm-msq-question-edit-answer-form>
             <tm-rubric-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RUBRIC" [questionDetails]="model.questionDetails"
                                                 [responseDetails]="recipientSubmissionFormModel.responseDetails"
