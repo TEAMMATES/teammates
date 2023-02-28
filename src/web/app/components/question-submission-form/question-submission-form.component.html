@@ -104,6 +104,7 @@
                                                     [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                     [isDisabled]="isFormsDisabled"
+                                                    [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
             ></tm-num-scale-question-edit-answer-form>
             <tm-mcq-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.MCQ" [questionDetails]="model.questionDetails"
                                                     [responseDetails]="recipientSubmissionFormModel.responseDetails"
