@@ -133,7 +133,9 @@
             <tm-constsum-recipients-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [questionDetails]="model.questionDetails"
                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
-                                                          [isDisabled]="isFormsDisabled"></tm-constsum-recipients-question-edit-answer-form>
+                                                          [isDisabled]="isFormsDisabled"
+                                                          [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)">
+            </tm-constsum-recipients-question-edit-answer-form>
           </div>
 
           <div id="comment-section" *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
