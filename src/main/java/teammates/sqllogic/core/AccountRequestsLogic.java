@@ -76,7 +76,9 @@ public final class AccountRequestsLogic {
     /**
      * Deletes account request associated with the {@code email} and {@code institute}.
      *
-     * <p>Fails silently if the account request doesn't exist.</p>
+     * Fails silently if no account requests with the given email and institute to delete can be found.
+     *
+     * @throws InvalidOperationException if the account request to delete has already been registered as an account.
      */
     public void deleteAccountRequest(String email, String institute) throws InvalidOperationException {
         AccountRequest toDelete = accountRequestDb.getAccountRequest(email, institute);

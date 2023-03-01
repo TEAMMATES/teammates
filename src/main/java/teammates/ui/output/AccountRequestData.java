@@ -19,11 +19,13 @@ public class AccountRequestData extends ApiOutput {
     private final long createdAt;
 
     public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
+
         this.name = accountRequestInfo.getName();
         this.email = accountRequestInfo.getEmail();
         this.institute = accountRequestInfo.getInstitute();
         this.registrationKey = accountRequestInfo.getRegistrationKey();
         this.createdAt = accountRequestInfo.getCreatedAt().toEpochMilli();
+
         if (accountRequestInfo.getRegisteredAt() == null) {
             this.registeredAt = null;
         } else {
@@ -32,11 +34,13 @@ public class AccountRequestData extends ApiOutput {
     }
 
     public AccountRequestData(AccountRequest accountRequest) {
+
         this.name = accountRequest.getName();
         this.email = accountRequest.getEmail();
         this.institute = accountRequest.getInstitute();
         this.registrationKey = accountRequest.getRegistrationKey();
         this.createdAt = accountRequest.getCreatedAt().toEpochMilli();
+
         if (accountRequest.getRegisteredAt() == null) {
             this.registeredAt = null;
         } else {
