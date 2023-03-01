@@ -1,5 +1,5 @@
 <div id="question-submission-form" class="card">
-  <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="handleClick();"
+  <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
     [ngClass]="isSaved ? 'bg-success' : 'bg-primary'" [attr.aria-expanded]="this.model.isTabExpanded">
     <div class="collapse-caret">
       <tm-panel-chevron [isExpanded]="model.isTabExpanded" aria-hidden="true"></tm-panel-chevron>
