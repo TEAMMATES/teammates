@@ -70,7 +70,7 @@
                 </a>
                 <a id="btn-archive-course" class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Copy the course and its corresponding sessions"
-                   (click)="copyCourse(courseTabModel.course.courseId)"> Copy
+                   (click)="copyCourse(courseTabModel.course.courseId, courseTabModel.course.courseName, courseTabModel.course.timeZone)"> Copy
                 </a>
                 <a class="btn btn-light btn-sm dropdown-item"
                    tmRouterLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit

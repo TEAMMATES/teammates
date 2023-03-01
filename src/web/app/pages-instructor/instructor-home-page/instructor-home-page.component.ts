@@ -209,8 +209,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         });
   }
 
-  copyCourse(courseId: string): void {
-    alert(`Course id ${courseId}`);
+  copyCourse(courseId: string, courseName: string, timeZone: string): void {
+    alert(`Course id ${courseId} ${courseName} ${timeZone}}`);
   }
 
   /**
