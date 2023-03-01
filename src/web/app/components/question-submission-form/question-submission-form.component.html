@@ -1,5 +1,5 @@
 <div id="question-submission-form" class="card">
-  <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="handleClick();"
+  <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
     [ngClass]="isSaved ? 'bg-success' : 'bg-primary'" [attr.aria-expanded]="this.model.isTabExpanded">
     <div class="collapse-caret">
       <tm-panel-chevron [isExpanded]="model.isTabExpanded" aria-hidden="true"></tm-panel-chevron>
@@ -134,7 +134,9 @@
             <tm-constsum-recipients-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [questionDetails]="model.questionDetails"
                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
-                                                          [isDisabled]="isFormsDisabled"></tm-constsum-recipients-question-edit-answer-form>
+                                                          [isDisabled]="isFormsDisabled"
+                                                          [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)">
+            </tm-constsum-recipients-question-edit-answer-form>
           </div>
 
           <div id="comment-section" *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
