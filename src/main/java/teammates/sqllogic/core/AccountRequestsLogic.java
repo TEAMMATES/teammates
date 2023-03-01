@@ -76,7 +76,7 @@ public final class AccountRequestsLogic {
     /**
      * Deletes account request associated with the {@code email} and {@code institute}.
      *
-     * Fails silently if no account requests with the given email and institute to delete can be found.
+     * <p>Fails silently if no account requests with the given email and institute to delete can be found.</p>
      *
      * @throws InvalidOperationException if the account request to delete has already been registered as an account.
      */
