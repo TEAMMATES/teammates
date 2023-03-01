@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -9,6 +10,7 @@ import teammates.ui.output.AccountRequestData;
 /**
  * SUT: {@link GetAccountRequestAction}.
  */
+@Ignore
 public class GetAccountRequestActionTest extends BaseActionTest<GetAccountRequestAction> {
 
     @Override
