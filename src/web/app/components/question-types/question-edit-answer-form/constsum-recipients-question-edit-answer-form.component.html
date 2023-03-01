@@ -5,6 +5,7 @@
              (ngModelChange)="triggerResponse($event)"
              [disabled]="isDisabled"
              min="0" step="1"
-             tmDisableWheel>
+             tmDisableWheel
+             [attr.aria-label]="getAriaLabel()">
   </div>
 </div>
