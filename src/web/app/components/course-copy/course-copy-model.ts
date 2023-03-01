@@ -1,21 +1,6 @@
 import { Course } from '../../../types/api-output';
 
 /**
- * The mode of operation for question edit form.
- */
-export enum CourseEditFormMode {
-    /**
-     * Adding a new course.
-     */
-    ADD,
-
-    /**
-     * Editing the existing course.
-     */
-    EDIT,
-}
-
-/**
  * Timezone format used along with course.
  */
 export interface Timezone {
@@ -44,16 +29,6 @@ export interface CourseAddFormModel extends CourseFormModel {
     isCopying: boolean;
 }
 
-/**
- * The form model of course edit form in Edit mode.
- */
-export interface CourseEditFormModel extends CourseFormModel {
-    originalCourse: Course;
-
-    isEditing: boolean;
-    canModifyCourse: boolean;
-}
-
 const DefaultCourse: Course = {
     courseName: '',
     courseId: '',
@@ -61,12 +36,6 @@ const DefaultCourse: Course = {
     timeZone: 'UTC',
     creationTimestamp: 0,
     deletionTimestamp: 0,
-};
-
-const DefaultCourseModel: CourseFormModel = {
-    course: JSON.parse(JSON.stringify(DefaultCourse)),
-    timezones: [],
-    isSaving: false,
 };
 
 const DefaultCourseAddFormModel: CourseAddFormModel = {
@@ -78,30 +47,6 @@ const DefaultCourseAddFormModel: CourseAddFormModel = {
 
     isSaving: false,
     isCopying: false,
-};
-
-const DefaultCourseEditFormModel: CourseEditFormModel = {
-    course: JSON.parse(JSON.stringify(DefaultCourse)),
-    originalCourse: JSON.parse(JSON.stringify(DefaultCourse)),
-    timezones: [],
-
-    isSaving: false,
-    isEditing: false,
-    canModifyCourse: false,
-};
-
-/**
- * Returns default course form model.
- */
-export const DEFAULT_COURSE_FORM_MODEL: Function = (): CourseEditFormModel => {
-    return JSON.parse(JSON.stringify(DefaultCourseModel));
-};
-
-/**
- * Returns default course edit form model.
- */
-export const DEFAULT_COURSE_EDIT_FORM_MODEL: Function = (): CourseEditFormModel => {
-    return JSON.parse(JSON.stringify(DefaultCourseEditFormModel));
 };
 
 /**
