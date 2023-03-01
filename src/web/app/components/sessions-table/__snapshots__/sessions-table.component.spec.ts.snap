@@ -8,7 +8,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
@@ -209,7 +209,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <div
                     class="dropdown-menu"
                     ngbdropdownmenu=""
-                    x-placement="bottom"
                   >
                     <a
                       class="btn dropdown-item clickable"
@@ -268,7 +267,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <div
                     class="dropdown-menu"
                     ngbdropdownmenu=""
-                    x-placement="bottom"
                   >
                     <button
                       class="btn dropdown-item clickable"
@@ -386,7 +384,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <div
                     class="dropdown-menu"
                     ngbdropdownmenu=""
-                    x-placement="bottom"
                   >
                     <a
                       class="btn dropdown-item clickable disabled"
@@ -454,7 +451,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <div
                     class="dropdown-menu"
                     ngbdropdownmenu=""
-                    x-placement="bottom"
                   >
                     <button
                       class="btn dropdown-item clickable"
@@ -488,7 +484,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
@@ -669,7 +665,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <div
                     class="dropdown-menu"
                     ngbdropdownmenu=""
-                    x-placement="bottom"
                   >
                     <a
                       class="btn dropdown-item clickable"
@@ -728,7 +723,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <div
                     class="dropdown-menu"
                     ngbdropdownmenu=""
-                    x-placement="bottom"
                   >
                     <button
                       class="btn dropdown-item clickable"
@@ -837,7 +831,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <div
                     class="dropdown-menu"
                     ngbdropdownmenu=""
-                    x-placement="bottom"
                   >
                     <a
                       class="btn dropdown-item clickable disabled"
@@ -905,7 +898,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <div
                     class="dropdown-menu"
                     ngbdropdownmenu=""
-                    x-placement="bottom"
                   >
                     <button
                       class="btn dropdown-item clickable"
@@ -939,7 +931,7 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}

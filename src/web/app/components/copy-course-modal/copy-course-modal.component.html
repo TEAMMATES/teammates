@@ -3,9 +3,7 @@
     <div>Copy course</div>
     <small *ngIf="!isCopyFromOtherSession">Copy from: [{{oldCourseId}}] <b>{{oldCourseName}}</b></small>
   </h5>
-  <button type="button" class="close" (click)="activeModal.dismiss()">
-    <i class="fas fa-times"></i>
-  </button>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div id="copy-course-modal" class="modal-body">
   <div class="row">
@@ -32,7 +30,7 @@
           </span>
         </label>
         <div class="input-group">
-          <select id="copy-course-institute" class="form-control" [(ngModel)]="newCourseInstitute">
+          <select id="copy-course-institute" class="form-control form-select" [(ngModel)]="newCourseInstitute">
             <option *ngFor="let institute of institutes" [value]="institute">{{ institute }}</option>
           </select>
         </div>
@@ -41,7 +39,7 @@
         <label class="ngb-tooltip-class"><span ngbTooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
           to match the current time offset in your area, including clock changes due to daylight saving time.">Time Zone:</span></label>
         <div class="input-group">
-          <select id="copy-time-zone" class="form-control" [(ngModel)]="newTimezone">
+          <select id="copy-time-zone" class="form-control form-select" [(ngModel)]="newTimezone">
             <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
           </select>
           <span class="input-group-btn" style="margin-left: 5px;">
@@ -52,7 +50,7 @@
       <div class="form-group" *ngIf="isCopyFromOtherSession">
         <label>Course to copy from:</label>
         <div class="input-group">
-          <select id="course-to-copy-from" class="form-control" (change)="onSelectCourseChange()" [(ngModel)]="oldCourseId">
+          <select id="course-to-copy-from" class="form-control form-select" (change)="onSelectCourseChange()" [(ngModel)]="oldCourseId">
             <option *ngFor="let course of activeCourses" [value]="course.courseId">{{ course.courseId }}</option>
           </select>
         </div>

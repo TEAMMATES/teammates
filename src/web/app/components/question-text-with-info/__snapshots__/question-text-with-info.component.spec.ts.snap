@@ -3,7 +3,7 @@
 exports[`QuestionTextWithInfoComponent should not show control link and question details for TEXT questions 1`] = `
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   additionalInfoIsExpanded="false"
   downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
@@ -11,7 +11,7 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex row align-items-center no-gutters"
+    class="d-inline-flex align-items-center"
   >
     <span
       class="col-auto"
@@ -33,7 +33,7 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
 exports[`QuestionTextWithInfoComponent should show control link when question type is not TEXT 1`] = `
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   additionalInfoIsExpanded="false"
   downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
@@ -41,7 +41,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex row align-items-center no-gutters"
+    class="d-inline-flex align-items-center"
   >
     <span
       class="col-auto"
@@ -57,7 +57,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
        MCQ question details
     </span>
     <a
-      class="info-font-size ml-1"
+      class="info-font-size ms-1"
       id="additional-info-link"
       queryparamshandling="merge"
     >
@@ -70,7 +70,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
 exports[`QuestionTextWithInfoComponent should show question detail when click control link 1`] = `
 <tm-question-text-with-info
   FeedbackQuestionType={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   additionalInfoIsExpanded={[Function Boolean]}
   downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
@@ -78,7 +78,7 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex row align-items-center no-gutters"
+    class="d-inline-flex align-items-center"
   >
     <span
       class="col-auto"
@@ -94,7 +94,7 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
        MCQ question details
     </span>
     <a
-      class="info-font-size ml-1"
+      class="info-font-size ms-1"
       id="additional-info-link"
       queryparamshandling="merge"
     >

@@ -19,6 +19,7 @@ import { InstructorRoleNamePipe } from './instructor-role-name.pipe';
 import { NotificationStyleClassPipe } from './notification-style-class.pipe';
 import { NotificationStyleDescriptionPipe } from './notification-style-description.pipe';
 import { PublishStatusNamePipe } from './publish-status-name.pipe';
+import { QuestionTypeHelpPathPipe } from './question-type-help-path.pipe';
 import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
@@ -50,6 +51,7 @@ import {
     SafeHtmlPipe,
     StripHtmlTagsPipe,
     QuestionTypeNamePipe,
+    QuestionTypeHelpPathPipe,
     InstructorRoleDescriptionPipe,
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
@@ -72,6 +74,7 @@ import {
     SafeHtmlPipe,
     StripHtmlTagsPipe,
     QuestionTypeNamePipe,
+    QuestionTypeHelpPathPipe,
     InstructorRoleDescriptionPipe,
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
