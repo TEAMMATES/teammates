@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopyCourseModalModule } from '../../components/copy-course-modal/copy-course-modal.module';
+import { CourseCopyModule } from '../../components/course-copy/course-copy.module';
 import { CourseEditFormModule } from '../../components/course-edit-form/course-edit-form.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -45,6 +46,7 @@ const routes: Routes = [
     CopyCourseModalModule,
     ProgressBarModule,
     CourseEditFormModule,
+    CourseCopyModule
   ],
 })
 export class InstructorCoursesPageModule { }

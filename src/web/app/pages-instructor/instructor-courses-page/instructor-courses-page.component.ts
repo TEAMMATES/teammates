@@ -1,34 +1,23 @@
-import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-// import moment from 'moment-timezone';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
-import { finalize, mergeMap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-// import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-// import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseArchive,
   Courses,
-  // FeedbackSession,
-  FeedbackSessions,
   JoinState,
   MessageOutput,
-  // ResponseVisibleSetting,
-  // SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
-// import { FeedbackSessionCreateRequest } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
-import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
 import {
   CourseAddFormModel,
   CourseEditFormMode,
@@ -84,29 +73,17 @@ export class InstructorCoursesPageComponent implements OnInit {
   canRestoreAll: boolean = true;
   isAddNewCourseFormExpanded: boolean = false;
   isArchivedCourseExpanded: boolean = false;
+
   isCopyingCourse: boolean = false;
 
-  copyProgressPercentage: number = 0;
-  totalNumberOfSessionsToCopy: number = 0;
-  numberOfSessionsCopied: number = 0;
+  @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();  
 
-  modifiedSessions: Record<string, TweakedTimestampData> = {};
-
-  @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
-
-  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
-
-  constructor(private ngbModal: NgbModal,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
               private simpleModalService: SimpleModalService,
-              private tableComparatorService: TableComparatorService,
-              private feedbackSessionsService: FeedbackSessionsService,
-              // private progressBarService: ProgressBarService,
-              // private timezoneService: TimezoneService
-              ) {}
+              private tableComparatorService: TableComparatorService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -115,11 +92,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       }
       this.loadInstructorCourses();
     });
-  }
-
-  setIsCopyingCourse(value: boolean): void {
-    this.isCopyingCourse = value;
-    this.courseFormModel.isCopying = value;
   }
 
   /**
@@ -214,6 +186,29 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseFormModel.activeCourses = this.activeCoursesList;
     this.courseFormModel.allCourses = this.allCoursesList;
+  }
+
+  onCourseCopy(course: Course) {
+    console.log('Copied', course);
+
+    this.activeCourses.push(this.getCourseModelFromCourse(course));
+    this.activeCoursesList.push(course);
+    this.allCoursesList.push(course);
+    this.activeCoursesDefaultSort();
+  }
+
+  /**
+   * Gets a CourseModel from courseID
+   */
+  private getCourseModelFromCourse(course: Course): CourseModel {
+    let canModifyCourse: boolean = false;
+    let canModifyStudent: boolean = false;
+    if (course.privileges) {
+      canModifyCourse = course.privileges.canModifyCourse;
+      canModifyStudent = course.privileges.canModifyStudent;
+    }
+    const isLoadingCourseStats: boolean = false;
+    return { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
   }
 
   /**
@@ -344,304 +339,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       return model.course.courseId !== courseId;
     });
   }
-
-  /**
-   * Creates a copy of a course including the selected sessions.
-   */
-  onCopy(courseId: string, courseName: string, timeZone: string): void {
-    if (!courseId) {
-      this.statusMessageService.showErrorToast('Course is not found!');
-      return;
-    }
-
-    this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).pipe(
-      mergeMap((response: FeedbackSessions) => {
-        const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
-        modalRef.componentInstance.oldCourseId = courseId;
-        modalRef.componentInstance.oldCourseName = courseName;
-        modalRef.componentInstance.allCourses = this.allCoursesList;
-        modalRef.componentInstance.newTimeZone = timeZone;
-        modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
-        modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
-
-        return modalRef.result as Promise<CopyCourseModalResult>;
-      }),
-      mergeMap((result: CopyCourseModalResult) => {
-        this.setIsCopyingCourse(true);
-        this.modifiedSessions = {};
-        this.numberOfSessionsCopied = 0;
-        this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
-        this.copyProgressPercentage = 0;
-  
-        return this.courseService.createCopiedCourse(result);
-      })
-    ).subscribe({
-      next: (result: CopyCourseModalResult) => {
-        console.log('Instructor result:', result);
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      }
-    });
-
-    // this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe({
-    //   next: (response: FeedbackSessions) => {
-    //     const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
-    //     modalRef.componentInstance.oldCourseId = courseId;
-    //     modalRef.componentInstance.oldCourseName = courseName;
-    //     modalRef.componentInstance.allCourses = this.allCoursesList;
-    //     modalRef.componentInstance.newTimeZone = timeZone;
-    //     modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
-    //     modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
-
-    //     modalRef.result.then((result: CopyCourseModalResult) => {
-    //       this.setIsCopyingCourse(true);
-    //       this.modifiedSessions = {};
-    //       this.numberOfSessionsCopied = 0;
-    //       this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
-    //       this.copyProgressPercentage = 0;
-
-    //       this.courseService.createCopiedCourse(result);
-    //     }, () => {
-    //     });
-    //   },
-    //   error: (resp: ErrorMessageOutput) => {
-    //     this.statusMessageService.showErrorToast(resp.error.message);
-    //   },
-    // });
-  }
-
-  // /**
-  //  * Creates a new course with the selected feedback sessions
-  //  */
-  // createCopiedCourse(result: CopyCourseModalResult): void {
-  //   this.setIsCopyingCourse(true);
-  //   this.modifiedSessions = {};
-  //   this.numberOfSessionsCopied = 0;
-  //   this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
-  //   this.copyProgressPercentage = 0;
-
-  //   this.courseService.createCourse(result.newCourseInstitute, {
-  //     courseName: result.newCourseName,
-  //     timeZone: result.newTimeZone,
-  //     courseId: result.newCourseId,
-  //   })
-  //   .subscribe({
-  //     next: () => {
-  //       // Wrap in a Promise to wait for all feedback sessions to be copied
-  //       const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
-  //         if (result.selectedFeedbackSessionList.size === 0) {
-  //           this.progressBarService.updateProgress(100);
-  //           resolve();
-
-  //           return;
-  //         }
-
-  //         result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-  //           this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone, result.oldCourseId)
-  //               .pipe(finalize(() => {
-  //                 this.numberOfSessionsCopied += 1;
-  //                 this.copyProgressPercentage =
-  //                     Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
-  //                 this.progressBarService.updateProgress(this.copyProgressPercentage);
-
-  //                 if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
-  //                   resolve();
-  //                 }
-  //               }))
-  //               .subscribe();
-  //         });
-  //       });
-
-  //       promise.then(() => {
-  //         this.courseService
-  //             .getCourseAsInstructor(result.newCourseId)
-  //             .subscribe((course: Course) => {
-  //               this.activeCourses.push(this.getCourseModelFromCourse(course));
-  //               this.activeCoursesList.push(course);
-  //               this.allCoursesList.push(course);
-  //               this.activeCoursesDefaultSort();
-  //               this.setIsCopyingCourse(false);
-  //               if (Object.keys(this.modifiedSessions).length > 0) {
-  //                 this.simpleModalService.openInformationModal('Note On Modified Session Timings',
-  //                     SimpleModalType.WARNING, this.modifiedTimestampsModal);
-  //               } else {
-  //                 this.statusMessageService.showSuccessToast('The course has been added.');
-  //               }
-  //             });
-  //       });
-  //     },
-  //     error: (resp: ErrorMessageOutput) => {
-  //       this.statusMessageService.showErrorToast(resp.error.message);
-  //       this.setIsCopyingCourse(false);
-  //       this.hasLoadingFailed = true;
-  //     },
-  //   });
-  // }
-
-  // /**
-  //  * Gets a CourseModel from courseID
-  //  */
-  // private getCourseModelFromCourse(course: Course): CourseModel {
-  //   let canModifyCourse: boolean = false;
-  //   let canModifyStudent: boolean = false;
-  //   if (course.privileges) {
-  //     canModifyCourse = course.privileges.canModifyCourse;
-  //     canModifyStudent = course.privileges.canModifyStudent;
-  //   }
-  //   const isLoadingCourseStats: boolean = false;
-  //   return { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
-  // }
-
-  // /**
-  //  * Copies a feedback session.
-  //  */
-  // private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string,
-  //                             newTimeZone: string, oldCourseId: string): Observable<FeedbackSession> {
-  //   return this.feedbackSessionsService.createFeedbackSession(newCourseId,
-  //       this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId));
-  // }
-
-  // /**
-  //  * Creates a FeedbackSessionCreateRequest with the provided name.
-  //  */
-  // private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, newTimeZone: string,
-  //                                        oldCourseId: string): FeedbackSessionCreateRequest {
-  //   // Local constants
-  //   const twoHoursBeforeNow = moment().tz(newTimeZone).subtract(2, 'hours')
-  //       .valueOf();
-  //   const twoDaysFromNowRoundedUp = moment().tz(newTimeZone).add(2, 'days').startOf('hour')
-  //       .valueOf();
-  //   const sevenDaysFromNowRoundedUp = moment().tz(newTimeZone).add(7, 'days').startOf('hour')
-  //       .valueOf();
-  //   const ninetyDaysFromNow = moment().tz(newTimeZone).add(90, 'days')
-  //       .valueOf();
-  //   const ninetyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(90, 'days').startOf('hour')
-  //       .valueOf();
-  //   const oneHundredAndEightyDaysFromNow = moment().tz(newTimeZone).add(180, 'days')
-  //       .valueOf();
-  //   const oneHundredAndEightyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(180, 'days')
-  //       .startOf('hour')
-  //       .valueOf();
-
-  //   // Preprocess timestamps to adhere to feedback session timestamps constraints
-  //   let isModified = false;
-
-  //   let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
-  //   if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {
-  //     copiedSubmissionStartTimestamp = twoDaysFromNowRoundedUp;
-  //     isModified = true;
-  //   } else if (copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
-  //     copiedSubmissionStartTimestamp = ninetyDaysFromNowRoundedUp;
-  //     isModified = true;
-  //   }
-
-  //   let copiedSubmissionEndTimestamp = fromFeedbackSession.submissionEndTimestamp;
-  //   if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp) {
-  //     copiedSubmissionEndTimestamp = sevenDaysFromNowRoundedUp;
-  //     isModified = true;
-  //   } else if (copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
-  //     copiedSubmissionEndTimestamp = oneHundredAndEightyDaysFromNowRoundedUp;
-  //     isModified = true;
-  //   }
-
-  //   let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
-  //   let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
-  //   const thirtyDaysBeforeSubmissionStart = moment(copiedSubmissionStartTimestamp)
-  //       .tz(newTimeZone).subtract(30, 'days')
-  //       .valueOf();
-  //   const thirtyDaysBeforeSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
-  //       .tz(newTimeZone).subtract(30, 'days').startOf('hour')
-  //       .valueOf();
-  //   if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-  //     if (copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart) {
-  //       copiedCustomSessionVisibleTimestamp = thirtyDaysBeforeSubmissionStartRoundedUp;
-  //       isModified = true;
-  //     } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
-  //       copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
-  //       isModified = true;
-  //     }
-  //   }
-
-  //   let copiedResponseVisibleSetting = fromFeedbackSession.responseVisibleSetting;
-  //   const copiedCustomResponseVisibleTimestamp = fromFeedbackSession.customResponseVisibleTimestamp!;
-  //   if (copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM
-  //       && ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-  //           && copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp)
-  //           || copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)) {
-  //     copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
-  //     isModified = true;
-  //   }
-
-  //   if (isModified) {
-  //     this.modifiedSessions[fromFeedbackSession.feedbackSessionName] = {
-  //       oldTimestamp: {
-  //         submissionStartTimestamp: this.formatTimestamp(fromFeedbackSession.submissionStartTimestamp,
-  //             fromFeedbackSession.timeZone),
-  //         submissionEndTimestamp: this.formatTimestamp(fromFeedbackSession.submissionEndTimestamp,
-  //             fromFeedbackSession.timeZone),
-  //         sessionVisibleTimestamp: fromFeedbackSession.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-  //             ? 'On submission opening time'
-  //             : this.formatTimestamp(fromFeedbackSession.customSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
-  //         responseVisibleTimestamp: '',
-  //       },
-  //       newTimestamp: {
-  //         submissionStartTimestamp: this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone),
-  //         submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
-  //         sessionVisibleTimestamp: copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-  //             ? 'On submission opening time'
-  //             : this.formatTimestamp(copiedCustomSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
-  //         responseVisibleTimestamp: '',
-  //       },
-  //     };
-
-  //     if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
-  //       this.modifiedSessions[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
-  //           'On session visible time';
-  //     } else if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.LATER) {
-  //       this.modifiedSessions[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
-  //           'Not now (publish manually)';
-  //     } else {
-  //       this.modifiedSessions[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
-  //           this.formatTimestamp(fromFeedbackSession.customResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
-  //     }
-
-  //     if (copiedResponseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
-  //       this.modifiedSessions[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
-  //           'On session visible time';
-  //     } else if (copiedResponseVisibleSetting === ResponseVisibleSetting.LATER) {
-  //       this.modifiedSessions[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
-  //           'Not now (publish manually)';
-  //     } else {
-  //       this.modifiedSessions[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
-  //           this.formatTimestamp(copiedCustomResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
-  //     }
-  //   }
-
-  //   return {
-  //     feedbackSessionName: fromFeedbackSession.feedbackSessionName,
-  //     toCopyCourseId: oldCourseId,
-  //     toCopySessionName: fromFeedbackSession.feedbackSessionName,
-  //     instructions: fromFeedbackSession.instructions,
-
-  //     submissionStartTimestamp: copiedSubmissionStartTimestamp,
-  //     submissionEndTimestamp: copiedSubmissionEndTimestamp,
-  //     gracePeriod: fromFeedbackSession.gracePeriod,
-
-  //     sessionVisibleSetting: copiedSessionVisibleSetting,
-  //     customSessionVisibleTimestamp: copiedCustomSessionVisibleTimestamp,
-
-  //     responseVisibleSetting: copiedResponseVisibleSetting,
-  //     customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
-
-  //     isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
-  //     isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
-  //   };
-  // }
-
-  // private formatTimestamp(timestamp: number, timeZone: string): string {
-  //   return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM YYYY h:mm A');
-  // }
 
   /**
    * Moves an active/archived course to Recycle Bin.
@@ -917,16 +614,4 @@ export class InstructorCoursesPageComponent implements OnInit {
       return this.tableComparatorService.compare(by, order, strA, strB);
     };
   }
-}
-
-interface SessionTimestampData {
-  submissionStartTimestamp: string;
-  submissionEndTimestamp: string;
-  sessionVisibleTimestamp: string;
-  responseVisibleTimestamp: string;
-}
-
-interface TweakedTimestampData {
-  oldTimestamp: SessionTimestampData;
-  newTimestamp: SessionTimestampData;
 }

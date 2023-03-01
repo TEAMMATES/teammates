@@ -138,8 +138,8 @@
                           [queryParams]="{courseid: course.course.courseId}">
                     Edit
                   </a>
-                  <button id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
-                          ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse">
+                  <button #copy *ngIf="course.canModifyCourse" course-copy id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="copy.onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
+                        ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse" (isCopyingCourse)="isCopyingCourse = $event" (onCourseCopy)="onCourseCopy($event)" [allCoursesList]="allCoursesList">
                     Copy
                   </button>
                   <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"
@@ -350,49 +350,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #modifiedTimestampsModal>
-  <p>
-    The course has been added. However, changes are made to some session timings as the existing timings are
-    no longer valid. The changes are as follows:
-  </p>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Session Name</th>
-        <th>Timings</th>
-        <th>Existing</th>
-        <th>Modified</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let session of this.modifiedSessions | keyvalue">
-        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionStartTimestamp === session.value.newTimestamp.submissionStartTimestamp}">
-          <td rowspan="4">{{ session.key }}</td>
-          <td>Submission opening time</td>
-          <td>{{ session.value.oldTimestamp.submissionStartTimestamp }}</td>
-          <td>{{ session.value.newTimestamp.submissionStartTimestamp }}</td>
-        </tr>
-        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionEndTimestamp === session.value.newTimestamp.submissionEndTimestamp}">
-          <td>Submission closing time</td>
-          <td>{{ session.value.oldTimestamp.submissionEndTimestamp }}</td>
-          <td>{{ session.value.newTimestamp.submissionEndTimestamp }}</td>
-        </tr>
-        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.sessionVisibleTimestamp === session.value.newTimestamp.sessionVisibleTimestamp}">
-          <td>Session visible time</td>
-          <td>{{ session.value.oldTimestamp.sessionVisibleTimestamp }}</td>
-          <td>{{ session.value.newTimestamp.sessionVisibleTimestamp }}</td>
-        </tr>
-        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.responseVisibleTimestamp === session.value.newTimestamp.responseVisibleTimestamp}">
-          <td>Response visible time</td>
-          <td>{{ session.value.oldTimestamp.responseVisibleTimestamp }}</td>
-          <td>{{ session.value.newTimestamp.responseVisibleTimestamp }}</td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
-  <br>
-  <p>
-    Please modify the timings as necessary.
-  </p>
-</ng-template>
