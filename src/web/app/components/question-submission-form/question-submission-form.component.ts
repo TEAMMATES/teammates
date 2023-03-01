@@ -169,6 +169,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   handleClick(): void {
     this.model.isTabExpanded = !this.model.isTabExpanded;
+    this.formModelChange.emit(this.model);
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,
