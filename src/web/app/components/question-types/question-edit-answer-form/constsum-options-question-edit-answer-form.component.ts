@@ -29,6 +29,11 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(), DEFAULT_CONSTSUM_RESPONSE_DETAILS());
   }
 
+  getAriaLabelForOption(option: String): String {
+    const baseAriaLabel: String = this.getAriaLabel();
+    return `${baseAriaLabel} for ${option} Option`;
+  }
+
   /**
    * Assigns a point to the option specified by index.
    */
