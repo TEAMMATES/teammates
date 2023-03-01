@@ -25,6 +25,11 @@
   </div>
 </div>
 
+<div *ngIf="isCopyingCourse" style="margin-top: 30px; margin-bottom: 30px">
+  <p>Copy Progress</p>
+  <tm-progress-bar></tm-progress-bar>
+</div>
+
 <tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Something went wrong'" (retryEvent)="loadCourses()">
   <div *tmIsLoading="!hasCoursesLoaded || isCopyLoading">
     <div *ngIf="courseTabModels.length > 0">

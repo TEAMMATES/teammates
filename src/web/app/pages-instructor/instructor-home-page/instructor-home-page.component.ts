@@ -77,6 +77,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
+  isCopyingCourse: boolean = false;
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
