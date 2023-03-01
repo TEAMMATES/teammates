@@ -140,7 +140,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
           }),
           String(perRecipientStats.overallWeightedSum),
           String(perRecipientStats.overallWeightAverage),
-          String(perRecipientStats.overallWeightAverage),
+          String(perRecipientStats.subQuestionWeightAverage.toString()),
         ]);
       });
 
