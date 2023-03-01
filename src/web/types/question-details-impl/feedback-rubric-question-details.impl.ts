@@ -88,6 +88,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
       ...statsCalculation.choices,
       'Total',
       'Average',
+      'Per Criterion Average',
     ]);
 
     Object.values(statsCalculation.perRecipientStatsMap)
@@ -121,6 +122,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
       ...statsCalculation.choices,
       'Total',
       'Average',
+      'Per Criterion Average',
     ]);
 
     Object.values(statsCalculation.perRecipientStatsMap)
@@ -137,6 +139,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
 [${perRecipientStats.weightsAverage[choiceIndex]}]`;
           }),
           String(perRecipientStats.overallWeightedSum),
+          String(perRecipientStats.overallWeightAverage),
           String(perRecipientStats.overallWeightAverage),
         ]);
       });
