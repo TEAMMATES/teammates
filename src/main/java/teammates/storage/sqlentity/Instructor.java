@@ -5,7 +5,9 @@ import java.util.List;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 
 import jakarta.persistence.Column;
@@ -32,7 +34,7 @@ public class Instructor extends User {
     @Enumerated(EnumType.STRING)
     private InstructorPermissionRole role;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="text")
     @Convert(converter = InstructorPrivilegesConverter.class)
     private InstructorPrivileges instructorPrivileges;
 
@@ -107,5 +109,17 @@ public class Instructor extends User {
     @Converter
     public static class InstructorPrivilegesConverter
             extends JsonConverter<InstructorPrivileges> {
+
+        @Override
+        public String convertToDatabaseColumn(InstructorPrivileges instructorPrivileges) {
+            return JsonUtils.toJson(instructorPrivileges.toLegacyFormat(), InstructorPrivilegesLegacy.class);
+        }
+
+        @Override
+        public InstructorPrivileges convertToEntityAttribute(String instructorPriviledgesAsString) {
+            InstructorPrivilegesLegacy privilegesLegacy =
+                    JsonUtils.fromJson(instructorPriviledgesAsString, InstructorPrivilegesLegacy.class);
+            return new InstructorPrivileges(privilegesLegacy);
+        }
     }
 }

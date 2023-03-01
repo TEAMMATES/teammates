@@ -33,8 +33,11 @@ public abstract class User extends BaseEntity {
     @JoinColumn(name = "accountId")
     private Account account;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String courseId;
+
     @ManyToOne
-    @JoinColumn(name = "courseId")
+    @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
     @ManyToOne

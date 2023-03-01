@@ -1,8 +1,7 @@
 package teammates.it.storage.sqlapi;
 
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertSame;
 
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -25,70 +24,43 @@ import teammates.storage.sqlentity.Team;
  */
 public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private static final int SHARED_ID = 1;
-
     private final UsersDb usersDb = UsersDb.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
     private Course course;
-    private Section section;
-    private Team team;
+    private Instructor instructor;
 
     @BeforeTest
     public void setUp() throws EntityAlreadyExistsException, InvalidParametersException {
         HibernateUtil.beginTransaction();
 
-        course = new Course("course-id", "course-name", null, "institute");
+        course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         coursesDb.createCourse(course);
 
-        section = new Section(course, "section-name");
-        section.setId(1);
-        HibernateUtil.getCurrentSession().persist(section);
+        Section section = new Section(course, "section-name");
+        HibernateUtil.persist(section);
 
-        team = new Team(section, "team-name");
-        team.setId(1);
-        HibernateUtil.getCurrentSession().persist(team);
-
-        HibernateUtil.commitTransaction();
-    }
-
-    @AfterTest
-    public void tearDown() {
-        coursesDb.deleteCourse(course);
-
-        HibernateUtil.getCurrentSession().remove(section);
-        HibernateUtil.getCurrentSession().remove(team);
-    }
-
-    @Test
-    public void testGetInstructor() throws EntityAlreadyExistsException, InvalidParametersException {
-        ______TS("success: gets an instructor that already exists");
+        Team team = new Team(section, "team-name");
+        HibernateUtil.persist(team);
 
         InstructorPrivileges instructorPrivileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        Instructor newInstructor = new Instructor(coursesDb.getCourse("course-id"), team, "valid.name", "valid@email.tmt",
+        instructor = new Instructor(course, team, "valid.name", "valid@email.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
+        usersDb.createInstructor(instructor);
 
-        newInstructor.setId(SHARED_ID);
+        HibernateUtil.flushSession();
+    }
 
-//        HibernateUtil.getCurrentSession().merge(newInstructor);
-//        HibernateUtil.getCurrentSession().getTransaction().commit();
-
-        System.out.println("course " + coursesDb.getCourse("course-id"));
-        System.out.println("team " + HibernateUtil.getCurrentSession().get(Team.class, 1));
-        System.out.println("section " + HibernateUtil.getCurrentSession().get(Section.class, 1));
-
-        usersDb.createInstructor(newInstructor);
-
-//        HibernateUtil.commitTransaction();
-
-        Integer instructorId = newInstructor.getId();
-        Instructor actualInstructor = usersDb.getInstructor(instructorId);
-        verifyEquals(newInstructor, actualInstructor);
+    @Test
+    public void testGetInstructor() throws EntityAlreadyExistsException, InvalidParametersException {
+        ______TS("success: gets an instructor that already exists");
+        Instructor actualInstructor = usersDb.getInstructor(instructor.getId());
+        assertSame(instructor, actualInstructor);
 
         ______TS("success: gets an instructor that does not exist");
-        Integer nonExistentId = Integer.MIN_VALUE;
+        Integer nonExistentId = instructor.getId() + 1000;
         Instructor nonExistentInstructor = usersDb.getInstructor(nonExistentId);
         assertNull(nonExistentInstructor);
     }
