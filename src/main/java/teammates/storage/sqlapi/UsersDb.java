@@ -6,12 +6,15 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.UUID;
 
+import jakarta.persistence.criteria.Join;
+
 import org.hibernate.Session;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
@@ -164,13 +167,13 @@ public final class UsersDb extends EntitiesDb<User> {
     private <T extends User> boolean hasExistingInstructor(String courseId, String email) {
         Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        CriteriaQuery<User> cr = cb.createQuery(User.class);
+        Root<User> userRoot = cr.from(User.class);
+        Join<User, Course> userCourseJoin = userRoot.join("course");
 
-        cr.select(instructorRoot.get("id"))
-                .where(cb.and(
-                    cb.equal(instructorRoot.get("courseId"), courseId),
-                    cb.equal(instructorRoot.get("email"), email)));
+        cr.select(userRoot).where(cb.and(
+                cb.equal(userCourseJoin.get("id"), courseId),
+                cb.equal(userRoot.get("email"), email)));
 
         return session.createQuery(cr).getSingleResultOrNull() != null;
     }
