@@ -2,6 +2,8 @@ package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.util.UUID;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -29,7 +31,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
      *
      * @return null if not found
      */
-    public FeedbackSession getFeedbackSession(Integer fsId) {
+    public FeedbackSession getFeedbackSession(UUID fsId) {
         assert fsId != null;
 
         return HibernateUtil.get(FeedbackSession.class, fsId);
@@ -60,12 +62,9 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     /**
      * Deletes a feedback session.
      */
-    public void deleteFeedbackSession(Integer fsId) {
-        assert fsId != null;
-
-        FeedbackSession fs = getFeedbackSession(fsId);
-        if (fs != null) {
-            delete(fs);
+    public void deleteFeedbackSession(FeedbackSession feedbackSession) {
+        if (feedbackSession != null) {
+            delete(feedbackSession);
         }
     }
 }

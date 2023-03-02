@@ -46,7 +46,7 @@ public class AccountsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateAccount_accountAlreadyExists_throwsEntityAlreadyExistsException() {
-        Account existingAccount = getAccountWithId();
+        Account existingAccount = getTypicalAccount();
         mockHibernateUtil.when(() -> HibernateUtil.getBySimpleNaturalId(Account.class, "google-id"))
                 .thenReturn(existingAccount);
         Account account = new Account("google-id", "different name", "email@teammates.com");
@@ -78,7 +78,7 @@ public class AccountsDbTest extends BaseTestCase {
     @Test
     public void testUpdateAccount_accountAlreadyExists_success()
             throws InvalidParametersException, EntityDoesNotExistException {
-        Account account = getAccountWithId();
+        Account account = getTypicalAccount();
         mockHibernateUtil.when(() -> HibernateUtil.get(Account.class, account.getId()))
                 .thenReturn(account);
         account.setName("new name");
@@ -91,7 +91,7 @@ public class AccountsDbTest extends BaseTestCase {
     @Test
     public void testUpdateAccount_accountDoesNotExist_throwsEntityDoesNotExistException()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Account account = getAccountWithId();
+        Account account = getTypicalAccount();
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsDb.updateAccount(account));
@@ -102,7 +102,7 @@ public class AccountsDbTest extends BaseTestCase {
 
     @Test
     public void testUpdateAccount_invalidEmail_throwsInvalidParametersException() {
-        Account account = getAccountWithId();
+        Account account = getTypicalAccount();
         account.setEmail("invalid");
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
@@ -127,9 +127,7 @@ public class AccountsDbTest extends BaseTestCase {
         mockHibernateUtil.verify(() -> HibernateUtil.remove(account));
     }
 
-    private Account getAccountWithId() {
-        Account account = new Account("google-id", "name", "email@teammates.com");
-        account.setId(1);
-        return account;
+    private Account getTypicalAccount() {
+        return new Account("google-id", "name", "email@teammates.com");
     }
 }

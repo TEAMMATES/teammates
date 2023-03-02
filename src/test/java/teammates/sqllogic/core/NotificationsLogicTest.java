@@ -38,7 +38,7 @@ public class NotificationsLogicTest extends BaseTestCase {
     public void testUpdateNotification_entityAlreadyExists_success()
             throws InvalidParametersException, EntityDoesNotExistException {
         Notification notification = getTypicalNotificationWithId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
 
@@ -54,7 +54,7 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         verify(notificationsDb, times(1)).getNotification(notificationId);
 
-        assertEquals(notificationId, updatedNotification.getNotificationId());
+        assertEquals(notificationId, updatedNotification.getId());
         assertEquals(newStartTime, updatedNotification.getStartTime());
         assertEquals(newEndTime, updatedNotification.getEndTime());
         assertEquals(newStyle, updatedNotification.getStyle());
@@ -66,7 +66,7 @@ public class NotificationsLogicTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_invalidNonNullParameter_endTimeBeforeStartTime() {
         Notification notification = getTypicalNotificationWithId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
 
@@ -82,7 +82,7 @@ public class NotificationsLogicTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_invalidNonNullParameter_emptyTitle() {
         Notification notification = getTypicalNotificationWithId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
 
@@ -97,7 +97,7 @@ public class NotificationsLogicTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_invalidNonNullParameter_emptyMessage() {
         Notification notification = getTypicalNotificationWithId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
 
@@ -112,7 +112,7 @@ public class NotificationsLogicTest extends BaseTestCase {
     @Test
     public void testUpdateNotification_entityDoesNotExist() {
         Notification notification = getTypicalNotificationWithId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
 
@@ -135,7 +135,7 @@ public class NotificationsLogicTest extends BaseTestCase {
                 NotificationTargetUser.GENERAL,
                 "A deprecation note",
                 "<p>Deprecation happens in three minutes</p>");
-        notification.setNotificationId(UUID.fromString("00000001-0000-1000-0000-000000000000"));
+        notification.setId(UUID.fromString("00000001-0000-1000-0000-000000000000"));
         return notification;
     }
 }

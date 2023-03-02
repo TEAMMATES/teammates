@@ -4,6 +4,7 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import org.hibernate.Session;
 
@@ -193,7 +194,7 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Checks if a user exists by its {@code id}.
      */
-    private boolean hasExistingUser(Integer id) {
+    private boolean hasExistingUser(UUID id) {
         assert id != null;
 
         return HibernateUtil.getCurrentSession().get(User.class, id) != null;
