@@ -3,6 +3,7 @@ package teammates.storage.sqlentity;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,8 +12,6 @@ import teammates.common.util.StringHelper;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -28,8 +27,7 @@ import jakarta.persistence.Table;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "accountId")
@@ -60,6 +58,7 @@ public abstract class User extends BaseEntity {
     }
 
     public User(Course course, Team team, String name, String email) {
+        this.setId(UUID.randomUUID());
         this.setCourse(course);
         this.setTeam(team);
         this.setName(name);
@@ -67,11 +66,11 @@ public abstract class User extends BaseEntity {
         this.setRegKey(generateRegistrationKey());
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -150,9 +149,7 @@ public abstract class User extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             User otherUser = (User) other;
-            return Objects.equals(this.course, otherUser.course)
-                    && Objects.equals(this.name, otherUser.name)
-                    && Objects.equals(this.email, otherUser.email);
+            return Objects.equals(this.getId(), otherUser.getId());
         } else {
             return false;
         }
@@ -160,6 +157,6 @@ public abstract class User extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.course, this.name, this.email);
+        return this.getId().hashCode();
     }
 }

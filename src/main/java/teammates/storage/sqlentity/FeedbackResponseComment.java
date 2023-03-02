@@ -81,6 +81,7 @@ public class FeedbackResponseComment extends BaseEntity {
             List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
             String lastEditorEmail
     ) {
+        this.setId(UUID.randomUUID());
         this.setFeedbackResponse(feedbackResponse);
         this.setGiver(giver);
         this.setGiverType(giverType);
@@ -232,7 +233,7 @@ public class FeedbackResponseComment extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             FeedbackResponseComment otherResponse = (FeedbackResponseComment) other;
-            return Objects.equals(this.id, otherResponse.id);
+            return Objects.equals(this.getId(), otherResponse.getId());
         } else {
             return false;
         }

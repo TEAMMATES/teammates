@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,8 +13,6 @@ import teammates.common.util.SanitizationHelper;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -27,8 +26,7 @@ import jakarta.persistence.Table;
 @Table(name = "Sections")
 public class Section extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "courseId")
@@ -48,6 +46,7 @@ public class Section extends BaseEntity {
     }
 
     public Section(Course course, String name) {
+        this.setId(UUID.randomUUID());
         this.setCourse(course);
         this.setName(name);
         this.setTeams(new ArrayList<>());
@@ -55,7 +54,7 @@ public class Section extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.course, this.name);
+        return this.getId().hashCode();
     }
 
     @Override
@@ -66,8 +65,7 @@ public class Section extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             Section otherSection = (Section) other;
-            return Objects.equals(this.name, otherSection.name)
-                    && Objects.equals(this.course, otherSection.course);
+            return Objects.equals(this.getId(), otherSection.getId());
         } else {
             return false;
         }
@@ -82,11 +80,11 @@ public class Section extends BaseEntity {
         return errors;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

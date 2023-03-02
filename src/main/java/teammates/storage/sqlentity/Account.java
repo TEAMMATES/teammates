@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,7 +14,6 @@ import teammates.common.util.SanitizationHelper;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -25,8 +25,7 @@ import jakarta.persistence.Table;
 @Table(name = "Accounts")
 public class Account extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private UUID id;
 
     @NaturalId
     private String googleId;
@@ -48,17 +47,18 @@ public class Account extends BaseEntity {
     }
 
     public Account(String googleId, String name, String email) {
+        this.setId(UUID.randomUUID());
         this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
         this.readNotifications = new ArrayList<>();
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -121,7 +121,7 @@ public class Account extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             Account otherAccount = (Account) other;
-            return Objects.equals(this.googleId, otherAccount.googleId);
+            return Objects.equals(this.getId(), otherAccount.getId());
         } else {
             return false;
         }
@@ -129,7 +129,7 @@ public class Account extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return this.getGoogleId().hashCode();
+        return this.getId().hashCode();
     }
 
     @Override

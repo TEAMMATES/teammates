@@ -33,7 +33,7 @@ public class NotificationData extends ApiOutput {
     }
 
     public NotificationData(Notification notification) {
-        this.notificationId = notification.getNotificationId().toString();
+        this.notificationId = notification.getId().toString();
         this.startTimestamp = notification.getStartTime().toEpochMilli();
         this.endTimestamp = notification.getEndTime().toEpochMilli();
         this.createdAt = notification.getCreatedAt().toEpochMilli();

@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,7 +17,6 @@ import teammates.common.util.SanitizationHelper;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -30,8 +30,7 @@ import jakarta.persistence.Table;
 @Table(name = "FeedbackSessions")
 public class FeedbackSession extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "courseId")
@@ -86,6 +85,7 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String name, Course course, String creatorEmail, String instructions, Instant startTime,
             Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, Duration gracePeriod,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+        this.setId(UUID.randomUUID());
         this.setName(name);
         this.setCourse(course);
         this.setCreatorEmail(creatorEmail);
@@ -162,11 +162,11 @@ public class FeedbackSession extends BaseEntity {
         return errors;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -303,7 +303,7 @@ public class FeedbackSession extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.course, this.name);
+        return this.getId().hashCode();
     }
 
     @Override
@@ -314,8 +314,7 @@ public class FeedbackSession extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             FeedbackSession otherFs = (FeedbackSession) other;
-            return Objects.equals(this.name, otherFs.name)
-                    && Objects.equals(this.course, otherFs.course);
+            return Objects.equals(this.getId(), otherFs.getId());
         } else {
             return false;
         }
