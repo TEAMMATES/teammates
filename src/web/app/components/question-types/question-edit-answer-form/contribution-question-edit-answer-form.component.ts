@@ -1,5 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
-import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { Component } from '@angular/core';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
@@ -12,7 +11,6 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
-import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
@@ -27,13 +25,10 @@ export class ContributionQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent
         <FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails> {
 
-  @Input()
-  shouldShowHelpLink: boolean = true;
-
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 
-  constructor(private simpleModalService: SimpleModalService) {
+  constructor() {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS(), DEFAULT_CONTRIBUTION_RESPONSE_DETAILS());
   }
 
@@ -52,10 +47,5 @@ export class ContributionQuestionEditAnswerFormComponent
     }
 
     return points;
-  }
-
-  openHelpModal(modal: TemplateRef<any>): void {
-    const modalHeader: string = 'More info about the <code>Equal Share</code> scale';
-    this.simpleModalService.openInformationModal(modalHeader, SimpleModalType.NEUTRAL, modal);
   }
 }
