@@ -2,7 +2,7 @@ package teammates.it.storage.sqlapi;
 
 import static org.junit.Assert.assertSame;
 
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -17,6 +17,7 @@ import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 
 /**
@@ -26,10 +27,12 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final UsersDb usersDb = UsersDb.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
+    
     private Course course;
     private Instructor instructor;
+    private Student student;
 
-    @BeforeTest
+    @BeforeMethod
     public void setUp() throws EntityAlreadyExistsException, InvalidParametersException {
         HibernateUtil.beginTransaction();
 
@@ -46,15 +49,18 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        instructor = new Instructor(course, team, "valid.name", "valid@email.tmt",
+        instructor = new Instructor(course, "instructor-name", "valid@email.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
         usersDb.createInstructor(instructor);
+
+        student = new Student(course, "student-name", "valid@email.tmt", "comments");
+        usersDb.createStudent(student);
 
         HibernateUtil.flushSession();
     }
 
     @Test
-    public void testGetInstructor() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testGetInstructor() {
         ______TS("success: gets an instructor that already exists");
         Instructor actualInstructor = usersDb.getInstructor(instructor.getId());
         assertSame(instructor, actualInstructor);
@@ -65,26 +71,15 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(nonExistentInstructor);
     }
 
-    /*
     @Test
-    public void testGetStudent() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetStudent() {
         ______TS("success: gets a student that already exists");
-
-        Course course = mock(Course.class);
-        Team team = mock(Team.class);
-        Student newStudent = new Student(course, team, "student-name", "student-email", "comments");
-
-        newStudent.setId(SHARED_ID);
-        usersDb.createStudent(newStudent);
-
-        Integer studentId = newStudent.getId();
-        Student actualstudent = usersDb.getStudent(studentId);
-        verifyEquals(newStudent, actualstudent);
+        Student actualstudent = usersDb.getStudent(student.getId());
+        assertSame(student, actualstudent);
 
         ______TS("success: gets a student that does not exist");
-        Integer nonExistentId = Integer.MIN_VALUE;
+        Integer nonExistentId = student.getId() + 1000;
         Student nonExistentstudent = usersDb.getStudent(nonExistentId);
         assertNull(nonExistentstudent);
     }
-     */
 }

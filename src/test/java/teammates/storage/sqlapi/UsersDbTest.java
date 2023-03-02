@@ -14,7 +14,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
 import teammates.test.BaseTestCase;
 
 /**
