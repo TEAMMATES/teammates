@@ -41,9 +41,8 @@ public class UsersDbTest extends BaseTestCase {
     @Test
     public void testGetInstructor_instructorIdPresent_success() {
         Course course = mock(Course.class);
-        Team team = mock(Team.class);
         InstructorPrivileges instructorPrivileges = mock(InstructorPrivileges.class);
-        Instructor instructor = new Instructor(course, team, "instructor-name", "instructor-email",
+        Instructor instructor = new Instructor(course, "instructor-name", "instructor-email",
                 false, "instructor-display-name",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructorPrivileges);
 
@@ -61,8 +60,7 @@ public class UsersDbTest extends BaseTestCase {
     @Test
     public void testGetStudent_studentIdPresent_success() {
         Course course = mock(Course.class);
-        Team team = mock(Team.class);
-        Student student = new Student(course, team, "student-name", "student-email", "comments");
+        Student student = new Student(course, "student-name", "student-email", "comments");
 
         student.setId(USER_ID);
 
