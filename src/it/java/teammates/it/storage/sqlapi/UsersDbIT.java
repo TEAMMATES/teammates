@@ -2,6 +2,8 @@ package teammates.it.storage.sqlapi;
 
 import static org.junit.Assert.assertSame;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -27,6 +29,8 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final UsersDb usersDb = UsersDb.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
+
+    private Course course;
     private Instructor instructor;
     private Student student;
 
@@ -34,7 +38,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void setUp() throws EntityAlreadyExistsException, InvalidParametersException {
         HibernateUtil.beginTransaction();
 
-        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
+        course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         coursesDb.createCourse(course);
 
         Section section = new Section(course, "section-name");
@@ -43,12 +47,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Team team = new Team(section, "team-name");
         HibernateUtil.persist(team);
 
-        InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        instructor = new Instructor(course, "instructor-name", "valid@email.tmt",
-                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
+        generateInstructor();
         usersDb.createInstructor(instructor);
 
         student = new Student(course, "student-name", "valid@email.tmt", "comments");
@@ -64,7 +63,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertSame(instructor, actualInstructor);
 
         ______TS("success: gets an instructor that does not exist");
-        Integer nonExistentId = instructor.getId() + 1000;
+        UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
         Instructor nonExistentInstructor = usersDb.getInstructor(nonExistentId);
         assertNull(nonExistentInstructor);
     }
@@ -76,8 +75,17 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertSame(student, actualstudent);
 
         ______TS("success: gets a student that does not exist");
-        Integer nonExistentId = student.getId() + 1000;
+        UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
         Student nonExistentstudent = usersDb.getStudent(nonExistentId);
         assertNull(nonExistentstudent);
+    }
+
+    private void generateInstructor() {
+        InstructorPrivileges instructorPrivileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorPermissionRole role = InstructorPermissionRole
+                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        instructor = new Instructor(course, "instructor-name", "valid@email.tmt",
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
     }
 }

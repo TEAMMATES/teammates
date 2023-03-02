@@ -1,5 +1,7 @@
 package teammates.sqllogic.core;
 
+import java.util.UUID;
+
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -34,7 +36,7 @@ public final class UsersLogic {
      * @param id    Id of Instructor.
      * @return      Returns Instructor if found else null.
      */
-    public Instructor getInstructor(Integer id) {
+    public Instructor getInstructor(UUID id) {
         assert id != null;
 
         return usersDb.getInstructor(id);
@@ -46,7 +48,7 @@ public final class UsersLogic {
      * @param id    Id of Student.
      * @return      Returns Student if found else null.
      */
-    public Student getStudent(Integer id) {
+    public Student getStudent(UUID id) {
         assert id != null;
 
         return usersDb.getStudent(id);

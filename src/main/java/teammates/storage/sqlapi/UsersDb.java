@@ -86,7 +86,7 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Gets an instructor by its {@code id}.
      */
-    public Instructor getInstructor(Integer id) {
+    public Instructor getInstructor(UUID id) {
         assert id != null;
 
         return HibernateUtil.get(Instructor.class, id);
@@ -95,7 +95,7 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Gets a student by its {@code id}.
      */
-    public Student getStudent(Integer id) {
+    public Student getStudent(UUID id) {
         assert id != null;
 
         return HibernateUtil.get(Student.class, id);
