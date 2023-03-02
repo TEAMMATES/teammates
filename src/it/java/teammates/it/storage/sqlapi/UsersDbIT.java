@@ -27,8 +27,6 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final UsersDb usersDb = UsersDb.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
-    
-    private Course course;
     private Instructor instructor;
     private Student student;
 
@@ -36,7 +34,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void setUp() throws EntityAlreadyExistsException, InvalidParametersException {
         HibernateUtil.beginTransaction();
 
-        course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
+        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         coursesDb.createCourse(course);
 
         Section section = new Section(course, "section-name");

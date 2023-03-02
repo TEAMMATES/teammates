@@ -34,7 +34,7 @@ public class Instructor extends User {
     @Enumerated(EnumType.STRING)
     private InstructorPermissionRole role;
 
-    @Column(nullable = false, columnDefinition="text")
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = InstructorPrivilegesConverter.class)
     private InstructorPrivileges instructorPrivileges;
 
