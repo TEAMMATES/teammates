@@ -21,7 +21,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -40,7 +39,6 @@ import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
-import teammates.logic.core.FeedbackSessionLogEntriesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.NotificationsLogic;
@@ -67,7 +65,6 @@ public class Logic {
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
-    final FeedbackSessionLogEntriesLogic feedbackSessionLogEntriesLogic = FeedbackSessionLogEntriesLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
@@ -117,16 +114,6 @@ public class Logic {
         return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
     }
 
-    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(
-            String courseId, String email, long startTime, long endTime, String fsName) {
-        return feedbackSessionLogEntriesLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
-    }
-
-    public List<FeedbackSessionLogEntryAttributes> createFeedbackSessionLogs(
-            List<FeedbackSessionLogEntryAttributes> entries) throws InvalidParametersException {
-        return feedbackSessionLogEntriesLogic.createFeedbackSessionLogs(entries);
-    }
-
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
     }
@@ -152,21 +139,6 @@ public class Logic {
      */
     public NotificationAttributes getNotification(String notificationId) {
         return notificationsLogic.getNotification(notificationId);
-    }
-
-    /**
-     * Creates a notification.
-     *
-     * <p>Preconditions:</p>
-     * * All parameters are non-null.
-     *
-     * @return created notification
-     * @throws InvalidParametersException if the notification is not valid
-     * @throws EntityAlreadyExistsException if the notification exists in the database
-     */
-    public NotificationAttributes createNotification(NotificationAttributes notification) throws
-            InvalidParametersException, EntityAlreadyExistsException {
-        return notificationsLogic.createNotification(notification);
     }
 
     /**
@@ -1480,13 +1452,6 @@ public class Logic {
         assert studentEmailAddresses != null;
 
         studentsLogic.verifyAllStudentsExistInCourse(courseId, studentEmailAddresses);
-    }
-
-    public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
-        assert courseId != null;
-        assert student1Email != null;
-        assert student2Email != null;
-        return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
 
     /**

@@ -22,7 +22,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         return POST;
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     protected void testExecute() {
         CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");

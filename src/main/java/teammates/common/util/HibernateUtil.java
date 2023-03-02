@@ -18,6 +18,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
@@ -84,7 +85,8 @@ public final class HibernateUtil {
             FeedbackRankRecipientsResponse.class,
             FeedbackRubricResponse.class,
             FeedbackTextResponse.class,
-            FeedbackResponseComment.class);
+            FeedbackResponseComment.class,
+            FeedbackSessionLogEntry.class);
 
     private HibernateUtil() {
         // Utility class

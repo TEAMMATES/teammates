@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.QueryLogsResults;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
@@ -13,6 +12,7 @@ import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.logic.external.LocalLoggingService;
 import teammates.logic.external.LogService;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 
 /**
  * Allows mocking of {@link LogsProcessor}.
@@ -100,8 +100,8 @@ public class MockLogsProcessor extends LogsProcessor {
      * Mocks getting feedback session logs.
      */
     @Override
-    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) {
+    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(
+            String courseId, String email, long startTime, long endTime, String fsName) {
         return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 

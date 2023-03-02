@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 
 /**
  * The response log of a single feedback session.
@@ -15,9 +15,10 @@ public class FeedbackSessionLogData {
     private final FeedbackSessionData feedbackSessionData;
     private final List<FeedbackSessionLogEntryData> feedbackSessionLogEntries;
 
-    public FeedbackSessionLogData(FeedbackSessionAttributes feedbackSession,
-                                  List<FeedbackSessionLogEntryAttributes> logEntries,
-                                  Map<String, StudentAttributes> studentsMap) {
+    public FeedbackSessionLogData(
+            FeedbackSessionAttributes feedbackSession,
+            List<FeedbackSessionLogEntry> logEntries,
+            Map<String, StudentAttributes> studentsMap) {
         FeedbackSessionData fsData = new FeedbackSessionData(feedbackSession);
         List<FeedbackSessionLogEntryData> fsLogEntryData = logEntries.stream()
                 .map(log -> new FeedbackSessionLogEntryData(log, studentsMap.get(log.getStudentEmail())))

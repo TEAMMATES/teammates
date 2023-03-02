@@ -3,8 +3,8 @@ package teammates.logic.external;
 import java.util.List;
 
 import teammates.common.datatransfer.QueryLogsResults;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.logs.QueryLogsParams;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 
 /**
  * An interface used for logs operations such as reading/writing.
@@ -24,6 +24,6 @@ public interface LogService {
     /**
      * Gets the feedback session logs as filtered by the given parameters.
      */
-    List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(String courseId, String email,
-                                                                   long startTime, long endTime, String fsName);
+    List<FeedbackSessionLogEntry> getFeedbackSessionLogs(
+            String courseId, String email, long startTime, long endTime, String fsName);
 }

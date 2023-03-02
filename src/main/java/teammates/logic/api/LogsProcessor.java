@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 
 import teammates.common.datatransfer.QueryLogsResults;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.QueryLogsParams;
@@ -12,6 +11,7 @@ import teammates.common.util.Config;
 import teammates.logic.external.GoogleCloudLoggingService;
 import teammates.logic.external.LocalLoggingService;
 import teammates.logic.external.LogService;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 
 /**
  * Handles operations related to logs reading/writing.
@@ -54,7 +54,7 @@ public class LogsProcessor {
      * Gets the feedback session logs as filtered by the given parameters.
      * @param email Can be null
      */
-    public List<FeedbackSessionLogEntryAttributes> getFeedbackSessionLogs(
+    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(
             String courseId, String email, long startTime, long endTime, String fsName) {
         return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }

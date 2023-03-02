@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 import teammates.test.ThreadHelper;
 
 /**
@@ -54,11 +54,11 @@ public class FeedbackSessionLogsUpdateActionTest
         action.execute();
 
         Instant currentTime = Instant.now();
-        List<FeedbackSessionLogEntryAttributes> allLogEntries = mockLogsProcessor.getFeedbackSessionLogs(
+        List<FeedbackSessionLogEntry> allLogEntries = mockLogsProcessor.getFeedbackSessionLogs(
                 "idOfTypicalCourse1", "student1InCourse1@gmail.tmt",
                 currentTime.minus(WORKING_WINDOW_IN_SECONDS, ChronoUnit.SECONDS).toEpochMilli(),
                 currentTime.toEpochMilli(), null);
-        List<FeedbackSessionLogEntryAttributes> logs = logic.getFeedbackSessionLogs(
+        List<FeedbackSessionLogEntry> logs = sqlLogic.getFeedbackSessionLogs(
                 "idOfTypicalCourse1", null,
                 currentTime.minus(WORKING_WINDOW_IN_SECONDS, ChronoUnit.SECONDS).toEpochMilli(),
                 currentTime.toEpochMilli(), null);
@@ -66,7 +66,7 @@ public class FeedbackSessionLogsUpdateActionTest
         assertEquals(1, logs.size());
         assertEquals(2, allLogEntries.size());
 
-        FeedbackSessionLogEntryAttributes firstLog = logs.get(0);
+        FeedbackSessionLogEntry firstLog = logs.get(0);
 
         assertEquals(firstLog.getTimestamp(), allLogEntries.get(0).getTimestamp());
         assertEquals("student1InCourse1@gmail.tmt", firstLog.getStudentEmail());
@@ -89,14 +89,14 @@ public class FeedbackSessionLogsUpdateActionTest
         action.execute();
 
         currentTime = Instant.now();
-        logs = logic.getFeedbackSessionLogs("idOfTypicalCourse1", null,
+        logs = sqlLogic.getFeedbackSessionLogs("idOfTypicalCourse1", null,
                 currentTime.minus(WORKING_WINDOW_IN_SECONDS, ChronoUnit.SECONDS).toEpochMilli(),
                 currentTime.toEpochMilli(), null);
 
         assertEquals(2, logs.size());
 
-        FeedbackSessionLogEntryAttributes accessLog = logs.get(0);
-        FeedbackSessionLogEntryAttributes submissionLog = logs.get(1);
+        FeedbackSessionLogEntry accessLog = logs.get(0);
+        FeedbackSessionLogEntry submissionLog = logs.get(1);
 
         assertEquals("student1InCourse1@gmail.tmt", accessLog.getStudentEmail());
         assertEquals("First feedback session", accessLog.getFeedbackSessionName());
@@ -110,25 +110,27 @@ public class FeedbackSessionLogsUpdateActionTest
 
         ______TS("creating 2 logs in different windows should return both logs");
 
-        mockLogsProcessor.createFeedbackSessionLog("idOfTypicalCourse1",
-                "student1InCourse1@gmail.tmt", "First feedback session", FeedbackSessionLogType.ACCESS.getLabel());
+        mockLogsProcessor.createFeedbackSessionLog(
+                "idOfTypicalCourse1","student1InCourse1@gmail.tmt",
+                "First feedback session", FeedbackSessionLogType.ACCESS.getLabel());
 
         ThreadHelper.waitFor(MIN_WINDOW_PERIOD);
 
-        mockLogsProcessor.createFeedbackSessionLog("idOfTypicalCourse1",
-                "student1InCourse1@gmail.tmt", "First feedback session", FeedbackSessionLogType.ACCESS.getLabel());
+        mockLogsProcessor.createFeedbackSessionLog(
+                "idOfTypicalCourse1","student1InCourse1@gmail.tmt",
+                "First feedback session", FeedbackSessionLogType.ACCESS.getLabel());
 
         action.execute();
 
         currentTime = Instant.now();
-        logs = logic.getFeedbackSessionLogs("idOfTypicalCourse1", null,
+        logs = sqlLogic.getFeedbackSessionLogs("idOfTypicalCourse1", null,
                 currentTime.minus(WORKING_WINDOW_IN_SECONDS, ChronoUnit.SECONDS).toEpochMilli(),
                 currentTime.toEpochMilli(), null);
 
         assertEquals(2, logs.size());
 
-        FeedbackSessionLogEntryAttributes accessLog1 = logs.get(0);
-        FeedbackSessionLogEntryAttributes accessLog2 = logs.get(1);
+        FeedbackSessionLogEntry accessLog1 = logs.get(0);
+        FeedbackSessionLogEntry accessLog2 = logs.get(1);
 
         assertTrue(accessLog2.getTimestamp() - accessLog1.getTimestamp() >= MIN_WINDOW_PERIOD);
 

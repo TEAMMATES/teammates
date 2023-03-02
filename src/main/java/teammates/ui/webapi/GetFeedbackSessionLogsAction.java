@@ -9,11 +9,12 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 import teammates.ui.output.FeedbackSessionLogsData;
 
 /**
@@ -33,12 +34,19 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
+        Course course = sqlLogic.getCourse(courseId);
 
-        if (courseAttributes == null) {
+        if (courseAttributes == null && course == null) {
             throw new EntityNotFoundException("Course is not found");
         }
 
+        if (courseAttributes == null) {
+            courseAttributes = CourseAttributes.builder(course.getId()).build();
+        }
+
+        // TODO: fetch Instructor sqlentity too
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+
         gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
@@ -47,15 +55,17 @@ public class GetFeedbackSessionLogsAction extends Action {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if (logic.getCourse(courseId) == null) {
+        if (sqlLogic.getCourse(courseId) == null && logic.getCourse(courseId) == null) {
             throw new EntityNotFoundException("Course not found");
         }
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        // TODO: check for Student sql entity
         if (email != null && logic.getStudentForEmail(courseId, email) == null) {
             throw new EntityNotFoundException("Student not found");
         }
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
+        // TODO: check for FeedbackSession sql entity
         if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -90,8 +100,8 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
-        List<FeedbackSessionLogEntryAttributes> fsLogEntries =
-                logic.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
+        List<FeedbackSessionLogEntry> fsLogEntries =
+                sqlLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
 
         Map<String, StudentAttributes> studentsMap = new HashMap<>();
         Map<String, FeedbackSessionAttributes> sessionsMap = new HashMap<>();
@@ -119,7 +129,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             return sessionsMap.containsKey(logEntry.getFeedbackSessionName());
         }).collect(Collectors.toList());
 
-        Map<String, List<FeedbackSessionLogEntryAttributes>> groupedEntries =
+        Map<String, List<FeedbackSessionLogEntry>> groupedEntries =
                 groupFeedbackSessionLogEntries(fsLogEntries);
         feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getFeedbackSessionName(), new ArrayList<>()));
 
@@ -127,10 +137,10 @@ public class GetFeedbackSessionLogsAction extends Action {
         return new JsonResult(fslData);
     }
 
-    private Map<String, List<FeedbackSessionLogEntryAttributes>> groupFeedbackSessionLogEntries(
-            List<FeedbackSessionLogEntryAttributes> fsLogEntries) {
-        Map<String, List<FeedbackSessionLogEntryAttributes>> groupedEntries = new LinkedHashMap<>();
-        for (FeedbackSessionLogEntryAttributes fsLogEntry : fsLogEntries) {
+    private Map<String, List<FeedbackSessionLogEntry>> groupFeedbackSessionLogEntries(
+            List<FeedbackSessionLogEntry> fsLogEntries) {
+        Map<String, List<FeedbackSessionLogEntry>> groupedEntries = new LinkedHashMap<>();
+        for (FeedbackSessionLogEntry fsLogEntry : fsLogEntries) {
             String fsName = fsLogEntry.getFeedbackSessionName();
             groupedEntries.computeIfAbsent(fsName, k -> new ArrayList<>()).add(fsLogEntry);
         }

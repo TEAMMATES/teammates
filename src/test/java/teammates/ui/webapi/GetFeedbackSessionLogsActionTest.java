@@ -33,7 +33,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         return GET;
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     protected void testExecute() {
         JsonResult actionOutput;

@@ -10,9 +10,11 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.CoursesLogic;
+import teammates.sqllogic.core.FeedbackSessionLogEntriesLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.UsageStatistics;
 
@@ -28,6 +30,7 @@ public class Logic {
     // final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
+    final FeedbackSessionLogEntriesLogic feedbackSessionLogEntriesLogic= FeedbackSessionLogEntriesLogic.inst();
 
     Logic() {
         // prevent initialization
@@ -79,6 +82,16 @@ public class Logic {
     public void createUsageStatistics(UsageStatistics attributes)
             throws EntityAlreadyExistsException, InvalidParametersException {
         usageStatisticsLogic.createUsageStatistics(attributes);
+    }
+
+    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(
+            String courseId, String email, long startTime, long endTime, String fsName) {
+        return feedbackSessionLogEntriesLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
+    }
+
+    public List<FeedbackSessionLogEntry> createFeedbackSessionLogs(
+            List<FeedbackSessionLogEntry> entries) throws InvalidParametersException {
+        return feedbackSessionLogEntriesLogic.createFeedbackSessionLogs(entries);
     }
 
     /**

@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 
 /**
  * Cron job: Sync feedback session logs from GCloud logging service.
@@ -25,21 +25,22 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
     @Override
     public ActionResult execute() {
         Instant currentTime = Instant.now();
-        Map<String, Map<String, List<FeedbackSessionLogEntryAttributes>>> studentToLogs =
+        Map<String, Map<String, List<FeedbackSessionLogEntry>>> studentToLogs =
                 new HashMap<>();
-        List<FeedbackSessionLogEntryAttributes> validLogEntries = new ArrayList<>();
-        List<FeedbackSessionLogEntryAttributes> allLogEntries =
-                logsProcessor.getFeedbackSessionLogs(null, null,
-                        currentTime.minus(15, ChronoUnit.MINUTES).toEpochMilli(), currentTime.toEpochMilli(), null);
+        List<FeedbackSessionLogEntry> validLogEntries = new ArrayList<>();
+        List<FeedbackSessionLogEntry> allLogEntries =
+                logsProcessor.getFeedbackSessionLogs(
+                        null, null, currentTime.minus(15, ChronoUnit.MINUTES).toEpochMilli(),
+                        currentTime.toEpochMilli(), null);
 
         // Arrange logs based on student email and log type.
-        for (FeedbackSessionLogEntryAttributes logEntry : allLogEntries) {
+        for (FeedbackSessionLogEntry logEntry : allLogEntries) {
             String studentEmail = logEntry.getStudentEmail();
             String logType = logEntry.getFeedbackSessionLogType();
-            Map<String, List<FeedbackSessionLogEntryAttributes>> studentLog =
+            Map<String, List<FeedbackSessionLogEntry>> studentLog =
                     studentToLogs.getOrDefault(studentEmail, new HashMap<>());
 
-            List<FeedbackSessionLogEntryAttributes> currList =
+            List<FeedbackSessionLogEntry> currList =
                     studentLog.getOrDefault(logType, new ArrayList<>());
 
             currList.add(logEntry);
@@ -47,18 +48,18 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
             studentToLogs.put(studentEmail, studentLog);
         }
 
-        for (Map.Entry<String, Map<String, List<FeedbackSessionLogEntryAttributes>>>
+        for (Map.Entry<String, Map<String, List<FeedbackSessionLogEntry>>>
                 studentToLog : studentToLogs.entrySet()) {
-            Map<String, List<FeedbackSessionLogEntryAttributes>> studentLog =
+            Map<String, List<FeedbackSessionLogEntry>> studentLog =
                     studentToLog.getValue();
             int windowSize = 0;
 
-            for (Map.Entry<String, List<FeedbackSessionLogEntryAttributes>>
+            for (Map.Entry<String, List<FeedbackSessionLogEntry>>
                     logEntries : studentLog.entrySet()) {
-                List<FeedbackSessionLogEntryAttributes> logs = logEntries.getValue();
-                FeedbackSessionLogEntryAttributes startLog = logs.get(0);
+                List<FeedbackSessionLogEntry> logs = logEntries.getValue();
+                FeedbackSessionLogEntry startLog = logs.get(0);
 
-                for (FeedbackSessionLogEntryAttributes currLog : logs) {
+                for (FeedbackSessionLogEntry currLog : logs) {
                     if (currLog.getTimestamp() - startLog.getTimestamp() < MIN_WINDOW_PERIOD) {
                         windowSize++;
                     } else {
@@ -77,7 +78,7 @@ public class FeedbackSessionLogsUpdateAction extends AdminOnlyAction {
         }
 
         try {
-            logic.createFeedbackSessionLogs(validLogEntries);
+            sqlLogic.createFeedbackSessionLogs(validLogEntries);
         } catch (InvalidParametersException e) {
             log.severe("Unexpected error", e);
         }
