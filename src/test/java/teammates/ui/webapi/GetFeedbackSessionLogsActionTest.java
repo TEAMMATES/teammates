@@ -9,12 +9,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionLogEntryAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackSessionLogEntry;
 import teammates.ui.output.FeedbackSessionLogData;
 import teammates.ui.output.FeedbackSessionLogEntryData;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -33,7 +33,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         return GET;
     }
 
-    @Test(enabled = false)
+    @Test
     @Override
     protected void testExecute() {
         JsonResult actionOutput;
@@ -50,26 +50,26 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         String student2Email = student2.getEmail();
         long endTime = Instant.now().toEpochMilli();
         long startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
-        List<FeedbackSessionLogEntryAttributes> fsa1LogEntries = List.of(
-                new FeedbackSessionLogEntryAttributes(student1Email, courseId, fsa1Name,
+        List<FeedbackSessionLogEntry> fsa1LogEntries = List.of(
+                new FeedbackSessionLogEntry(student1Email, courseId, fsa1Name,
                         FeedbackSessionLogType.ACCESS.getLabel(), startTime),
-                new FeedbackSessionLogEntryAttributes(student2Email, courseId, fsa1Name,
+                new FeedbackSessionLogEntry(student2Email, courseId, fsa1Name,
                         FeedbackSessionLogType.ACCESS.getLabel(), startTime + 3000),
-                new FeedbackSessionLogEntryAttributes(student2Email, courseId, fsa1Name,
+                new FeedbackSessionLogEntry(student2Email, courseId, fsa1Name,
                         FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000));
-        List<FeedbackSessionLogEntryAttributes> fsa2LogEntries = List.of(
-                new FeedbackSessionLogEntryAttributes(student1Email, courseId, fsa2Name,
+        List<FeedbackSessionLogEntry> fsa2LogEntries = List.of(
+                new FeedbackSessionLogEntry(student1Email, courseId, fsa2Name,
                         FeedbackSessionLogType.ACCESS.getLabel(), startTime + 1000),
-                new FeedbackSessionLogEntryAttributes(student1Email, courseId, fsa2Name,
+                new FeedbackSessionLogEntry(student1Email, courseId, fsa2Name,
                         FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000));
 
         try {
-            List<FeedbackSessionLogEntryAttributes> entries = new ArrayList<>();
+            List<FeedbackSessionLogEntry> entries = new ArrayList<>();
 
             entries.addAll(fsa1LogEntries);
             entries.addAll(fsa2LogEntries);
-
-            logic.createFeedbackSessionLogs(entries);
+            
+            sqlLogic.createFeedbackSessionLogs(entries);
         } catch (InvalidParametersException e) {
             e.printStackTrace();
         }
@@ -199,7 +199,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
     private void validateFeedbackSessionLogOutput(
             List<FeedbackSessionLogEntryData> outputEntries,
-            List<FeedbackSessionLogEntryAttributes> inputEntries
+            List<FeedbackSessionLogEntry> inputEntries
     ) {
         assertEquals(inputEntries.size(), outputEntries.size());
 
