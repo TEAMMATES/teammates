@@ -2216,6 +2216,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </ul>
               </div>
               <tm-contribution-question-instruction>
+                <p
+                  class="text-start fw-bold mt-3 mb-0"
+                >
+                  Note:
+                </p>
+                <button
+                  class="btn btn-link mt-3 ms-3 p-0"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-exclamation-circle"
+                  />
+                   More info about the 
+                  <code>
+                    Equal Share
+                  </code>
+                   scale
+                </button>
               </tm-contribution-question-instruction>
               <div
                 class="row margin-top-30px margin-bottom-0px"
@@ -2264,6 +2282,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                         >
                           <select
+                            aria-label="Response for Barry Harris"
                             class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -2516,23 +2535,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               0%
                             </option>
                           </select>
-                        </div>
-                        <div
-                          class="col-lg-7 col-md-12 col-sm-6 col-xs-12"
-                        >
-                          <button
-                            class="btn btn-link"
-                            type="button"
-                          >
-                            <i
-                              class="fas fa-exclamation-circle"
-                            />
-                             More info about the 
-                            <code>
-                              Equal Share
-                            </code>
-                             scale
-                          </button>
                         </div>
                       </div>
                     </tm-contribution-question-edit-answer-form>
@@ -4891,6 +4893,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </ul>
               </div>
               <tm-contribution-question-instruction>
+                <p
+                  class="text-start fw-bold mt-3 mb-0"
+                >
+                  Note:
+                </p>
+                <button
+                  class="btn btn-link mt-3 ms-3 p-0"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-exclamation-circle"
+                  />
+                   More info about the 
+                  <code>
+                    Equal Share
+                  </code>
+                   scale
+                </button>
               </tm-contribution-question-instruction>
               <div
                 class="row margin-top-30px margin-bottom-0px"
@@ -4939,6 +4959,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                         >
                           <select
+                            aria-label="Response for Barry Harris"
                             class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -5191,23 +5212,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               0%
                             </option>
                           </select>
-                        </div>
-                        <div
-                          class="col-lg-7 col-md-12 col-sm-6 col-xs-12"
-                        >
-                          <button
-                            class="btn btn-link"
-                            type="button"
-                          >
-                            <i
-                              class="fas fa-exclamation-circle"
-                            />
-                             More info about the 
-                            <code>
-                              Equal Share
-                            </code>
-                             scale
-                          </button>
                         </div>
                       </div>
                     </tm-contribution-question-edit-answer-form>
