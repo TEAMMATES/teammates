@@ -1,4 +1,4 @@
-<table class="table table-bordered desktop-view">
+<table class="table table-bordered desktop-view" [attr.aria-label]="getAriaLabel()">
   <tbody>
     <tr>
       <td></td>
@@ -9,14 +9,20 @@
       <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
       <td *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;" class="text-secondary answer-cell" (click)="selectAnswer(i, j)">
         <label>
-          <input type="radio" [disabled]="isDisabled"
-                 [name]="id + i + '-desktop'" [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"/> {{ rubricDescriptionCell }}
+          <input 
+            type="radio" 
+            [disabled]="isDisabled"
+            [name]="id + i + '-desktop'" 
+            [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
+            [attr.aria-label]="getAriaLabelForChoice(questionDetails.rubricChoices[j], rubricDescriptionCell, questionDetails.rubricSubQuestions[i])"
+          /> 
+          {{ rubricDescriptionCell }}
         </label>
       </td>
     </tr>
   </tbody>
 </table>
-<div class="mobile-view">
+<div class="mobile-view" [attr.aria-label]="getAriaLabel()">
   <div class="card" *ngFor="let rubricDescriptionRow of questionDetails.rubricDescriptions; let i = index;">
     <div class="card-header bg-light">
       {{ questionDetails.rubricSubQuestions[i] }}
@@ -25,8 +31,14 @@
          [ngClass]="{ 'row-answered': i < responseDetails.answer.length && responseDetails.answer[i] !== RUBRIC_ANSWER_NOT_CHOSEN }">
       <div *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;">
         <label>
-          <input type="radio" [disabled]="isDisabled" (click)="selectAnswer(i, j)"
-                 [name]="id + i + '-mobile'" [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j">
+          <input 
+            type="radio" 
+            [disabled]="isDisabled" 
+            (click)="selectAnswer(i, j)"
+            [name]="id + i + '-mobile'" 
+            [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
+            [attr.aria-label]="getAriaLabelForChoice(questionDetails.rubricChoices[j], rubricDescriptionCell, questionDetails.rubricSubQuestions[i])"
+          >
           {{ questionDetails.rubricChoices[j] }} - {{ rubricDescriptionCell }}
         </label>
       </div>

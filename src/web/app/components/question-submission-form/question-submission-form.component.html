@@ -124,7 +124,9 @@
                                                 [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                 (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                 [isDisabled]="isFormsDisabled"
-                                                [id]="model.feedbackQuestionId + recipientSubmissionFormModel.recipientIdentifier"></tm-rubric-question-edit-answer-form>
+                                                [id]="model.feedbackQuestionId + recipientSubmissionFormModel.recipientIdentifier"
+                                                [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)">
+            </tm-rubric-question-edit-answer-form>
             <tm-constsum-options-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="model.questionDetails"
                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
