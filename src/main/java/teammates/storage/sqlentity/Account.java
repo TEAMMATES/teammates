@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -36,7 +37,7 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<ReadNotification> readNotifications;
 
     @UpdateTimestamp
@@ -56,6 +57,9 @@ public class Account extends BaseEntity {
 
     public UUID getId() {
         return id;
+    }
+    public void addReadNotification(ReadNotification readNotification) {
+        readNotifications.add(readNotification);
     }
 
     public void setId(UUID id) {

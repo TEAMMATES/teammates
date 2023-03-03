@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -54,7 +55,7 @@ public class Notification extends BaseEntity {
     @Column(nullable = false)
     private boolean shown;
 
-    @OneToMany(mappedBy = "notification")
+    @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL)
     private List<ReadNotification> readNotifications;
 
     @UpdateTimestamp
@@ -77,6 +78,10 @@ public class Notification extends BaseEntity {
 
     protected Notification() {
         // required by Hibernate
+    }
+
+    public void addReadNotification(ReadNotification readNotification) {
+        readNotifications.add(readNotification);
     }
 
     @Override

@@ -69,14 +69,11 @@ public class AccountsLogic {
             throw new InvalidParametersException("Trying to mark an expired notification as read.");
         }
 
-        List<ReadNotification> accountReadNotifications = account.getReadNotifications();
-        List<ReadNotification> notificationReadNotifications = notification.getReadNotifications();
-
         ReadNotification readNotification = new ReadNotification(account, notification, Instant.now());
-        accountReadNotifications.add(readNotification);
-        notificationReadNotifications.add(readNotification);
+        account.addReadNotification(readNotification);
+        notification.addReadNotification(readNotification);
 
-        return accountReadNotifications.stream()
+        return account.getReadNotifications().stream()
                 .map(n -> n.getNotification().getNotificationId())
                 .collect(Collectors.toList());
     }
