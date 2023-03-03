@@ -74,6 +74,9 @@ public class FeedbackSession extends BaseEntity {
     @OneToMany(mappedBy = "feedbackSession")
     private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "feedbackSession")
+    private List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
+
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -274,6 +277,14 @@ public class FeedbackSession extends BaseEntity {
         this.deadlineExtensions = deadlineExtensions;
     }
 
+    public List<FeedbackQuestion> getFeedbackQuestions() {
+        return feedbackQuestions;
+    }
+
+    public void setFeedbackQuestions(List<FeedbackQuestion> feedbackQuestions) {
+        this.feedbackQuestions = feedbackQuestions;
+    }
+
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -298,7 +309,8 @@ public class FeedbackSession extends BaseEntity {
                 + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", deadlineExtensions=" + deadlineExtensions
-                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
+                + ", feedbackQuestions=" + feedbackQuestions + ", createdAt=" + getCreatedAt() 
+                + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
     @Override
@@ -319,5 +331,20 @@ public class FeedbackSession extends BaseEntity {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Returns {@code true} if the session is visible; {@code false} if not.
+     *         Does not care if the session has started or not.
+     */
+    public boolean isVisible() {
+        Instant visibleTime = this.sessionVisibleFromTime;
+
+        if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            visibleTime = this.startTime;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(visibleTime) || now.equals(visibleTime);
     }
 }
