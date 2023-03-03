@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
@@ -35,8 +33,9 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     private Student student;
 
     @BeforeMethod
-    public void setUp() throws EntityAlreadyExistsException, InvalidParametersException {
-        HibernateUtil.beginTransaction();
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         coursesDb.createCourse(course);
