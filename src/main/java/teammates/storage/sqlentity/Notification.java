@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -14,6 +13,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -80,6 +80,9 @@ public class Notification extends BaseEntity {
         // required by Hibernate
     }
 
+    /**
+     * Add a read notification to this notification.
+     */
     public void addReadNotification(ReadNotification readNotification) {
         readNotifications.add(readNotification);
     }

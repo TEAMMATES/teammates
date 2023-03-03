@@ -1,21 +1,16 @@
 package teammates.sqllogic.core;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlapi.AccountsDb;
-import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
-
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.storage.sqlapi.AccountsDb;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 
 /**
  * Handles operations related to accounts.
@@ -23,7 +18,7 @@ import java.util.stream.Collectors;
  * @see Account
  * @see AccountsDb
  */
-public class AccountsLogic {
+public final class AccountsLogic {
 
     private static final AccountsLogic instance = new AccountsLogic();
 
@@ -57,11 +52,11 @@ public class AccountsLogic {
     public List<UUID> updateReadNotifications(String googleId, UUID notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
         Account account = accountsDb.getAccountByGoogleId(googleId);
-        Notification notification = notificationsLogic.getNotification(notificationId);
-
         if (account == null) {
             throw new EntityDoesNotExistException("Trying to update the read notifications of a non-existent account.");
         }
+
+        Notification notification = notificationsLogic.getNotification(notificationId);
         if (notification == null) {
             throw new EntityDoesNotExistException("Trying to mark as read a notification that does not exist.");
         }
@@ -69,12 +64,12 @@ public class AccountsLogic {
             throw new InvalidParametersException("Trying to mark an expired notification as read.");
         }
 
-        ReadNotification readNotification = new ReadNotification(account, notification, Instant.now());
+        ReadNotification readNotification = new ReadNotification(account, notification);
         account.addReadNotification(readNotification);
         notification.addReadNotification(readNotification);
 
         return account.getReadNotifications().stream()
-                .map(n -> n.getNotification().getNotificationId())
+                .map(n -> n.getNotification().getId())
                 .collect(Collectors.toList());
     }
 
@@ -83,7 +78,7 @@ public class AccountsLogic {
      */
     public List<UUID> getReadNotificationsId(String googleId) {
         return accountsDb.getAccountByGoogleId(googleId).getReadNotifications().stream()
-                .map(n -> n.getNotification().getNotificationId())
+                .map(n -> n.getNotification().getId())
                 .collect(Collectors.toList());
     }
 }

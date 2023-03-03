@@ -44,9 +44,9 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testUpdateReadNotifications_success() throws InvalidParametersException, EntityDoesNotExistException {
         Account account = generateTypicalAccount();
-        Notification notification = generateTypicalNotificationWithId();
+        Notification notification = generateTypicalNotification();
         String googleId = account.getGoogleId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
@@ -76,9 +76,9 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testUpdateReadNotifications_accountDoesNotExist_throwEntityDoesNotExistException() {
         Account account = generateTypicalAccount();
-        Notification notification = generateTypicalNotificationWithId();
+        Notification notification = generateTypicalNotification();
         String googleId = account.getGoogleId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(null);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
@@ -91,9 +91,9 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testUpdateReadNotifications_notificationDoesNotExist_throwEntityDoesNotExistException() {
         Account account = generateTypicalAccount();
-        Notification notification = generateTypicalNotificationWithId();
+        Notification notification = generateTypicalNotification();
         String googleId = account.getGoogleId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(null);
@@ -106,10 +106,10 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testUpdateReadNotifications_markExpiredNotificationAsRead_throwInvalidParametersException() {
         Account account = generateTypicalAccount();
-        Notification notification = generateTypicalNotificationWithId();
+        Notification notification = generateTypicalNotification();
         notification.setEndTime(Instant.parse("2012-01-01T00:00:00Z"));
         String googleId = account.getGoogleId();
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
 
         when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
@@ -135,9 +135,8 @@ public class AccountsLogicTest extends BaseTestCase {
         Account account = generateTypicalAccount();
         List<ReadNotification> readNotifications = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Notification notification = generateTypicalNotificationWithId();
-            notification.setNotificationId(UUID.randomUUID());
-            ReadNotification readNotification = new ReadNotification(account, notification, Instant.now());
+            Notification notification = generateTypicalNotification();
+            ReadNotification readNotification = new ReadNotification(account, notification);
             readNotifications.add(readNotification);
         }
         account.setReadNotifications(readNotifications);
@@ -150,7 +149,7 @@ public class AccountsLogicTest extends BaseTestCase {
         assertEquals(10, actualReadNotifications.size());
 
         for (int i = 0; i < 10; i++) {
-            assertEquals(readNotifications.get(i).getNotification().getNotificationId(),
+            assertEquals(readNotifications.get(i).getNotification().getId(),
                     actualReadNotifications.get(i));
         }
     }
@@ -159,15 +158,13 @@ public class AccountsLogicTest extends BaseTestCase {
         return new Account("test-googleId", "test-name", "test@test.com");
     }
 
-    private Notification generateTypicalNotificationWithId() {
-        Notification notification = new Notification(
+    private Notification generateTypicalNotification() {
+        return new Notification(
                 Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"),
                 NotificationStyle.DANGER,
                 NotificationTargetUser.GENERAL,
                 "A deprecation note",
                 "<p>Deprecation happens in three minutes</p>");
-        notification.setNotificationId(UUID.fromString("00000001-0000-1000-0000-000000000000"));
-        return notification;
     }
 }

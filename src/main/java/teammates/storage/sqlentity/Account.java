@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -55,11 +55,15 @@ public class Account extends BaseEntity {
         this.readNotifications = new ArrayList<>();
     }
 
-    public UUID getId() {
-        return id;
-    }
+    /**
+     * Add a read notification to this account.
+     */
     public void addReadNotification(ReadNotification readNotification) {
         readNotifications.add(readNotification);
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public void setId(UUID id) {
