@@ -3093,6 +3093,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               >
               </select>
               <button
+               style="position:absolute;right:48px"
                 class="btn btn-primary"
                 disabled=""
                 id="btn-preview-instructor"
