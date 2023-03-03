@@ -1,7 +1,5 @@
 package teammates.it.storage.sqlapi;
 
-import static org.junit.Assert.assertSame;
-
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -59,7 +57,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGetInstructor() {
         ______TS("success: gets an instructor that already exists");
         Instructor actualInstructor = usersDb.getInstructor(instructor.getId());
-        assertSame(instructor, actualInstructor);
+        verifyEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor that does not exist");
         UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
@@ -71,7 +69,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGetStudent() {
         ______TS("success: gets a student that already exists");
         Student actualstudent = usersDb.getStudent(student.getId());
-        assertSame(student, actualstudent);
+        verifyEquals(student, actualstudent);
 
         ______TS("success: gets a student that does not exist");
         UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");

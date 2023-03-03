@@ -17,7 +17,9 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
@@ -88,6 +90,16 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             UsageStatistics actualUsageStatistics = (UsageStatistics) actual;
             equalizeIrrelevantData(expectedUsageStatistics, actualUsageStatistics);
             assertEquals(JsonUtils.toJson(expectedUsageStatistics), JsonUtils.toJson(actualUsageStatistics));
+        } else if (expected instanceof Instructor) {
+            Instructor expectedInstructor = (Instructor) expected;
+            Instructor actualInstructor = (Instructor) actual;
+            equalizeIrrelevantData(expectedInstructor, actualInstructor);
+            assertEquals(JsonUtils.toJson(expectedInstructor), JsonUtils.toJson(actualInstructor));
+        } else if (expected instanceof Student) {
+            Student expectedStudent = (Student) expected;
+            Student actualStudent = (Student) actual;
+            equalizeIrrelevantData(expectedStudent, actualStudent);
+            assertEquals(JsonUtils.toJson(expectedStudent), JsonUtils.toJson(actualStudent));
         } else {
             fail("Unknown entity");
         }
@@ -134,6 +146,16 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     }
 
     private void equalizeIrrelevantData(UsageStatistics expected, UsageStatistics actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+    }
+
+    private void equalizeIrrelevantData(Instructor expected, Instructor actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+    }
+
+    private void equalizeIrrelevantData(Student expected, Student actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
     }
