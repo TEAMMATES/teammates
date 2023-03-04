@@ -62,7 +62,6 @@ public abstract class User extends BaseEntity {
 
     public User(Course course, String name, String email) {
         this.setId(UUID.randomUUID());
-        this.courseId = course.getId();
         this.setCourse(course);
         this.setTeam(null);
         this.setName(name);
