@@ -83,14 +83,14 @@ public class AdminHomePage extends AppPage {
         By by = By.id("instructor-" + i + "-registered-info-button");
         waitForElementVisibility(by);
         WebElement element = browser.driver.findElement(by);
-        element.click();
+        click(element);
         waitForElementVisibility(By.id("reset-account-request-link"));
     }
 
     public void clickResetAccountRequestLink() {
         By by = By.id("reset-account-request-link");
         WebElement element = browser.driver.findElement(by);
-        element.click();
+        click(element);
         ThreadHelper.waitFor(1000); // Modals are stacked, wait briefly to ensure confirmation modal is shown
         List<WebElement> okButtons = browser.driver.findElements(By.className("modal-btn-ok"));
         clickDismissModalButtonAndWaitForModalHidden(okButtons.get(1)); // Second modal is confirmation modal

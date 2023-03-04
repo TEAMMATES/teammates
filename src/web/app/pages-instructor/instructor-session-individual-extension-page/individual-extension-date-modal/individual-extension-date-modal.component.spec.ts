@@ -163,7 +163,7 @@ describe('IndividualExtensionDateModalComponent', () => {
 
   it('should snap with the warning modal', () => {
     // Set mocked picked time to be lesser than current system time
-    jest.useFakeTimers('modern').setSystemTime(new Date('2021-01-01').getTime());
+    jest.useFakeTimers().setSystemTime(new Date('2021-01-01').getTime());
     jest.spyOn(component, 'getExtensionTimestamp').mockReturnValue(new Date('2020-10-10').valueOf());
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(
       () => createMockNgbModalRef({
