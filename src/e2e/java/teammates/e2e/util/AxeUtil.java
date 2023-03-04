@@ -1,5 +1,8 @@
 package teammates.e2e.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.deque.html.axecore.results.CheckedNode;
 import com.deque.html.axecore.results.Results;
 import com.deque.html.axecore.results.Rule;
@@ -11,17 +14,17 @@ import com.deque.html.axecore.selenium.AxeBuilder;
 public final class AxeUtil {
 
     /**
+     * List of rules to be disabled for accessibility tests.
+     */
+    public static final List<String> DISABLED_RULES = Arrays.asList("color-contrast");
+
+    /**
      * Builder for accessibility tests.
      */
-    public static final AxeBuilder AXE_BUILDER = new AxeBuilder();
+    public static final AxeBuilder AXE_BUILDER = new AxeBuilder().disableRules(DISABLED_RULES);
 
     private AxeUtil() {
         // Utility class
-    }
-
-    static {
-        // Disable checking of colour contrast
-        AXE_BUILDER.setOptions("{ \"rules\": { \"color-contrast\": { \"enabled\": false } } }");
     }
 
     /**
