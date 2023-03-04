@@ -209,9 +209,7 @@ public class UsersDbTest extends BaseTestCase {
 
     @Test
     public void testDeleteUser_userNull_shouldFailSilently() {
-        Student student = null;
-
-        usersDb.deleteUser(student);
+        usersDb.deleteUser(null);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
     }
