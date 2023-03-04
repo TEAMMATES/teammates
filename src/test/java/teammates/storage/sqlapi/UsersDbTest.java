@@ -3,8 +3,6 @@ package teammates.storage.sqlapi;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 
-import java.util.UUID;
-
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -26,11 +24,9 @@ public class UsersDbTest extends BaseTestCase {
     private UsersDb usersDb = UsersDb.inst();
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
-    private UUID userId;
 
     @BeforeMethod
     public void setUpMethod() {
-        userId = UUID.randomUUID();
         mockHibernateUtil = mockStatic(HibernateUtil.class);
     }
 
@@ -47,8 +43,6 @@ public class UsersDbTest extends BaseTestCase {
                 false, "instructor-display-name",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructorPrivileges);
 
-        instructor.setId(userId);
-
         mockHibernateUtil
                 .when(() -> HibernateUtil.get(Instructor.class, instructor.getId()))
                 .thenReturn(instructor);
@@ -62,8 +56,6 @@ public class UsersDbTest extends BaseTestCase {
     public void testGetStudent_studentIdPresent_success() {
         Course course = mock(Course.class);
         Student student = new Student(course, "student-name", "student-email", "comments");
-
-        student.setId(userId);
 
         mockHibernateUtil
                 .when(() -> HibernateUtil.get(Student.class, student.getId()))

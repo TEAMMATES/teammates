@@ -44,7 +44,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Team team = new Team(section, "team-name");
         HibernateUtil.persist(team);
 
-        generateInstructor();
+        instructor = getTypicalInstructor();
         usersDb.createInstructor(instructor);
 
         student = new Student(course, "student-name", "valid@email.tmt", "comments");
@@ -77,12 +77,13 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(nonExistentstudent);
     }
 
-    private void generateInstructor() {
+    private Instructor getTypicalInstructor() {
         InstructorPrivileges instructorPrivileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        instructor = new Instructor(course, "instructor-name", "valid@email.tmt",
+
+        return new Instructor(course, "instructor-name", "valid@email.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
     }
 }
