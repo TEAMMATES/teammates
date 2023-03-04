@@ -163,7 +163,7 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Checks if an instructor exists by its {@code courseId} and {@code email}.
      */
-    protected boolean hasExistingInstructor(String courseId, String email) {
+    boolean hasExistingInstructor(String courseId, String email) {
         Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
@@ -179,7 +179,7 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Checks if a student exists by its {@code courseId} and {@code email}.
      */
-    protected boolean hasExistingStudent(String courseId, String email) {
+    boolean hasExistingStudent(String courseId, String email) {
         Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
