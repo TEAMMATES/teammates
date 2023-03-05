@@ -108,9 +108,6 @@ public class FeedbackSession extends BaseEntity {
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
                 FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, name), errors);
 
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
-                FieldValidator.COURSE_ID_FIELD_NAME, course), errors);
-
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("instructions to students", instructions),
                 errors);
 

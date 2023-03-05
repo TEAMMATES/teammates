@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.AccountsDb;
@@ -40,14 +41,38 @@ public final class AccountsLogic {
     }
 
     /**
+     * Gets an account.
+     */
+    public Account getAccount(UUID id) {
+        assert id != null;
+        return accountsDb.getAccount(id);
+    }
+
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException   if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the
+     *                                      database.
+     */
+    public Account createAccount(Account account)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert account != null;
+        return accountsDb.createAccount(account);
+    }
+
+    /**
      * Updates the readNotifications of an account.
      *
-     * @param googleId google ID of the user who read the notification.
+     * @param googleId       google ID of the user who read the notification.
      * @param notificationId ID of notification to be marked as read.
-     * @param endTime the expiry time of the notification, i.e. notification will not be shown after this time.
+     * @param endTime        the expiry time of the notification, i.e. notification
+     *                       will not be shown after this time.
      * @return the account with updated read notifications.
-     * @throws InvalidParametersException if the notification has expired.
-     * @throws EntityDoesNotExistException if account or notification does not exist.
+     * @throws InvalidParametersException  if the notification has expired.
+     * @throws EntityDoesNotExistException if account or notification does not
+     *                                     exist.
      */
     public List<UUID> updateReadNotifications(String googleId, UUID notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
