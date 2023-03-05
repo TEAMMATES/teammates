@@ -9,6 +9,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
@@ -24,6 +25,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 public class Logic {
     private static final Logic instance = new Logic();
 
+    final AccountsLogic accountsLogic = AccountsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     // final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
@@ -136,5 +138,23 @@ public class Logic {
      */
     public void deleteNotification(UUID notificationId) {
         notificationsLogic.deleteNotification(notificationId);
+    }
+
+    /**
+     * Get a list of IDs of the read notifications of the account.
+     */
+    public List<UUID> getReadNotificationsId(String id) {
+        return accountsLogic.getReadNotificationsId(id);
+    }
+
+    /**
+     * Updates user read status for notification with ID {@code notificationId} and expiry time {@code endTime}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null. {@code endTime} must be after current moment.
+     */
+    public List<UUID> updateReadNotifications(String id, UUID notificationId, Instant endTime)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountsLogic.updateReadNotifications(id, notificationId, endTime);
     }
 }

@@ -4,6 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
+import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlapi.NotificationsDb;
@@ -20,11 +21,13 @@ public class LogicStarter implements ServletContextListener {
      * Registers dependencies between different logic classes.
      */
     public static void initializeDependencies() {
+        AccountsLogic accountsLogic = AccountsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         NotificationsLogic notificationsLogic = NotificationsLogic.inst();
         UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
 
+        accountsLogic.initLogicDependencies(AccountsDb.inst(), notificationsLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic);
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst());
