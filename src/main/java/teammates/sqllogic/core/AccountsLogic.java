@@ -66,7 +66,6 @@ public final class AccountsLogic {
 
         ReadNotification readNotification = new ReadNotification(account, notification);
         account.addReadNotification(readNotification);
-        notification.addReadNotification(readNotification);
 
         return account.getReadNotifications().stream()
                 .map(n -> n.getNotification().getId())

@@ -13,13 +13,11 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -55,9 +53,6 @@ public class Notification extends BaseEntity {
     @Column(nullable = false)
     private boolean shown;
 
-    @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL)
-    private List<ReadNotification> readNotifications;
-
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -73,18 +68,10 @@ public class Notification extends BaseEntity {
         this.setTitle(title);
         this.setMessage(message);
         this.setId(UUID.randomUUID());
-        this.readNotifications = new ArrayList<>();
     }
 
     protected Notification() {
         // required by Hibernate
-    }
-
-    /**
-     * Add a read notification to this notification.
-     */
-    public void addReadNotification(ReadNotification readNotification) {
-        readNotifications.add(readNotification);
     }
 
     @Override
@@ -162,14 +149,6 @@ public class Notification extends BaseEntity {
         return shown;
     }
 
-    public List<ReadNotification> getReadNotifications() {
-        return readNotifications;
-    }
-
-    public void setReadNotifications(List<ReadNotification> readNotifications) {
-        this.readNotifications = readNotifications;
-    }
-
     /**
      * Sets the notification as shown to the user.
      * Only allowed to change value from false to true.
@@ -190,8 +169,7 @@ public class Notification extends BaseEntity {
     public String toString() {
         return "Notification [notificationId=" + id + ", startTime=" + startTime + ", endTime=" + endTime
                 + ", style=" + style + ", targetUser=" + targetUser + ", title=" + title + ", message=" + message
-                + ", shown=" + shown + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
-                + ", updatedAt=" + updatedAt + "]";
+                + ", shown=" + shown + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override

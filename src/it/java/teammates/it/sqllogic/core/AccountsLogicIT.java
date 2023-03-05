@@ -47,11 +47,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Account actualAccount = accountsDb.getAccountByGoogleId(googleId);
         List<ReadNotification> accountReadNotifications = actualAccount.getReadNotifications();
         assertEquals(1, accountReadNotifications.size());
-        assertEquals(actualAccount, accountReadNotifications.get(0).getAccount());
-
-        Notification actualNotification = notificationsLogic.getNotification(notificationId);
-        List<ReadNotification> notificationReadNotifications = actualNotification.getReadNotifications();
-        assertEquals(1, notificationReadNotifications.size());
-        assertEquals(actualNotification, notificationReadNotifications.get(0).getNotification());
+        assertSame(actualAccount, accountReadNotifications.get(0).getAccount());
+        assertSame(notification, accountReadNotifications.get(0).getNotification());
     }
 }
