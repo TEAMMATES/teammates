@@ -99,7 +99,9 @@
             <tm-rank-recipients-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="model.questionDetails"
                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
-                                                          [isDisabled]="isFormsDisabled" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-rank-recipients-question-edit-answer-form>
+                                                          [isDisabled]="isFormsDisabled" [numOfRecipients]="model.recipientSubmissionForms.length"
+                                                          [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
+            ></tm-rank-recipients-question-edit-answer-form>
             <tm-num-scale-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="model.questionDetails"
                                                     [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
