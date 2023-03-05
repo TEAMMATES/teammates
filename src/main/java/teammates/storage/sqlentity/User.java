@@ -63,7 +63,6 @@ public abstract class User extends BaseEntity {
     public User(Course course, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setCourse(course);
-        this.setTeam(null);
         this.setName(name);
         this.setEmail(email);
         this.setRegKey(generateRegistrationKey());
@@ -93,8 +92,12 @@ public abstract class User extends BaseEntity {
         return course;
     }
 
+    /**
+     * Sets a course as well as the courseId.
+     */
     public void setCourse(Course course) {
         this.course = course;
+        this.courseId = course.getId();
     }
 
     public Team getTeam() {

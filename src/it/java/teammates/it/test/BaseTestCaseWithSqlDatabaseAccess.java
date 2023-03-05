@@ -153,11 +153,13 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     private void equalizeIrrelevantData(Instructor expected, Instructor actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
     }
 
     private void equalizeIrrelevantData(Student expected, Student actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
     }
 
     /**
