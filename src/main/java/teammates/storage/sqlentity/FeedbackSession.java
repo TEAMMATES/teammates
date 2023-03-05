@@ -159,6 +159,21 @@ public class FeedbackSession extends BaseEntity {
         return errors;
     }
 
+    /**
+     * Returns {@code true} if the session is visible; {@code false} if not.
+     *         Does not care if the session has started or not.
+     */
+    public boolean isVisible() {
+        Instant visibleTime = this.getSessionVisibleFromTime();
+
+        if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            visibleTime = this.startTime;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(visibleTime) || now.equals(visibleTime);
+    }
+
     public UUID getId() {
         return id;
     }
