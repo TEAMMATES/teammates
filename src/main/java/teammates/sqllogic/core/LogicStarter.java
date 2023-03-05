@@ -22,11 +22,13 @@ public class LogicStarter implements ServletContextListener {
     public static void initializeDependencies() {
         CoursesLogic coursesLogic = CoursesLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+        FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         NotificationsLogic notificationsLogic = NotificationsLogic.inst();
         UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
 
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic);
-        fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic);
+        fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic, frLogic, fqLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst());
         usageStatisticsLogic.initLogicDependencies(UsageStatisticsDb.inst());
         log.info("Initialized dependencies between logic classes");
