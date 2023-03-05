@@ -26,6 +26,7 @@ import jakarta.persistence.criteria.Root;
  * @see User
  */
 public final class UsersDb extends EntitiesDb<User> {
+
     private static final UsersDb instance = new UsersDb();
 
     private UsersDb() {
@@ -51,7 +52,8 @@ public final class UsersDb extends EntitiesDb<User> {
         String email = instructor.getEmail();
 
         if (hasExistingInstructor(courseId, email)) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, instructor.toString()));
+            throw new EntityAlreadyExistsException(
+                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, instructor.toString()));
         }
 
         persist(instructor);
@@ -73,7 +75,8 @@ public final class UsersDb extends EntitiesDb<User> {
         String email = student.getEmail();
 
         if (hasExistingStudent(courseId, email)) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, student.toString()));
+            throw new EntityAlreadyExistsException(
+                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, student.toString()));
         }
 
         persist(student);
@@ -83,19 +86,19 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Gets an instructor by its {@code id}.
      */
-    public Instructor getInstructor(Integer id) {
+    public Instructor getInstructor(UUID id) {
         assert id != null;
 
-        return HibernateUtil.getCurrentSession().get(Instructor.class, id);
+        return HibernateUtil.get(Instructor.class, id);
     }
 
     /**
      * Gets a student by its {@code id}.
      */
-    public Student getStudent(Integer id) {
+    public Student getStudent(UUID id) {
         assert id != null;
 
-        return HibernateUtil.getCurrentSession().get(Student.class, id);
+        return HibernateUtil.get(Student.class, id);
     }
 
     /**
@@ -160,16 +163,15 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Checks if an instructor exists by its {@code courseId} and {@code email}.
      */
-    private <T extends User> boolean hasExistingInstructor(String courseId, String email) {
+    private boolean hasExistingInstructor(String courseId, String email) {
         Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
 
-        cr.select(instructorRoot.get("id"))
-                .where(cb.and(
-                    cb.equal(instructorRoot.get("courseId"), courseId),
-                    cb.equal(instructorRoot.get("email"), email)));
+        cr.select(instructorRoot).where(cb.and(
+                cb.equal(instructorRoot.get("courseId"), courseId),
+                cb.equal(instructorRoot.get("email"), email)));
 
         return session.createQuery(cr).getSingleResultOrNull() != null;
     }
@@ -177,16 +179,15 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Checks if a student exists by its {@code courseId} and {@code email}.
      */
-    private <T extends User> boolean hasExistingStudent(String courseId, String email) {
+    private boolean hasExistingStudent(String courseId, String email) {
         Session session = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
 
-        cr.select(studentRoot.get("id"))
-                .where(cb.and(
-                        cb.equal(studentRoot.get("courseId"), courseId),
-                        cb.equal(studentRoot.get("email"), email)));
+        cr.select(studentRoot).where(cb.and(
+                cb.equal(studentRoot.get("courseId"), courseId),
+                cb.equal(studentRoot.get("email"), email)));
 
         return session.createQuery(cr).getSingleResultOrNull() != null;
     }
@@ -197,6 +198,6 @@ public final class UsersDb extends EntitiesDb<User> {
     private boolean hasExistingUser(UUID id) {
         assert id != null;
 
-        return HibernateUtil.getCurrentSession().get(User.class, id) != null;
+        return HibernateUtil.get(User.class, id) != null;
     }
 }
