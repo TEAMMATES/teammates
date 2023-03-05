@@ -186,6 +186,10 @@ public class BaseTestCase {
         Assert.assertNotEquals(first, second);
     }
 
+    protected static void assertSame(Object unexpected, Object actual) {
+        Assert.assertSame(unexpected, actual);
+    }
+
     protected static void assertNotSame(Object unexpected, Object actual) {
         Assert.assertNotSame(unexpected, actual);
     }

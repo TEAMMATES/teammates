@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -36,7 +37,7 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<ReadNotification> readNotifications;
 
     @UpdateTimestamp
@@ -52,6 +53,13 @@ public class Account extends BaseEntity {
         this.setName(name);
         this.setEmail(email);
         this.readNotifications = new ArrayList<>();
+    }
+
+    /**
+     * Add a read notification to this account.
+     */
+    public void addReadNotification(ReadNotification readNotification) {
+        readNotifications.add(readNotification);
     }
 
     public UUID getId() {
