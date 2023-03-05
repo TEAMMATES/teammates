@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -37,7 +38,10 @@ public class Course extends BaseEntity {
     private String institute;
 
     @OneToMany(mappedBy = "course")
-    private List<FeedbackSession> feedbackSessions = new ArrayList<>();
+    private List<FeedbackSession> feedbackSessions;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Section> sections;
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -53,6 +57,8 @@ public class Course extends BaseEntity {
         this.setName(name);
         this.setTimeZone(StringUtils.defaultIfEmpty(timeZone, Const.DEFAULT_TIME_ZONE));
         this.setInstitute(institute);
+        this.sections = new ArrayList<>();
+        this.feedbackSessions = new ArrayList<>();
     }
 
     @Override
@@ -64,6 +70,13 @@ public class Course extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
 
         return errors;
+    }
+
+    /**
+     * Adds a section to the Course.
+     */
+    public void addSection(Section section) {
+        this.sections.add(section);
     }
 
     public String getId() {

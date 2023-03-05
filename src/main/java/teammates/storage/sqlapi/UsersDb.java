@@ -8,12 +8,14 @@ import org.hibernate.Session;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 /**
@@ -89,6 +91,37 @@ public final class UsersDb extends EntitiesDb<User> {
     }
 
     /**
+     * Gets an instructor by {@code regKey}.
+     */
+    public Instructor getInstructorByRegKey(String regKey) {
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+
+        cr.select(instructorRoot).where(cb.equal(instructorRoot.get("regKey"), regKey));
+
+        return session.createQuery(cr).getSingleResultOrNull();
+    }
+
+    /**
+     * Gets an instructor by {@code googleId}.
+     */
+    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
+
+        cr.select(instructorRoot).where(cb.and(
+                cb.equal(instructorRoot.get("courseId"), courseId),
+                cb.equal(accountsJoin.get("googleId"), googleId)));
+
+        return session.createQuery(cr).getSingleResultOrNull();
+    }
+
+    /**
      * Gets a student by its {@code id}.
      */
     public Student getStudent(UUID id) {
@@ -109,6 +142,37 @@ public final class UsersDb extends EntitiesDb<User> {
         cr.select(studentRoot).where(cb.and(
                 cb.equal(studentRoot.get("courseId"), courseId),
                 cb.equal(studentRoot.get("email"), email)));
+
+        return session.createQuery(cr).getSingleResultOrNull();
+    }
+
+    /**
+     * Gets a student by {@code regKey}.
+     */
+    public Student getStudentByRegKey(String regKey) {
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
+        cr.select(studentRoot).where(cb.equal(studentRoot.get("regKey"), regKey));
+
+        return session.createQuery(cr).getSingleResultOrNull();
+    }
+
+    /**
+     * Gets a student by {@code googleId}.
+     */
+    public Student getStudentByGoogleId(String courseId, String googleId) {
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Account> accountsJoin = studentRoot.join("account");
+
+        cr.select(studentRoot).where(cb.and(
+                cb.equal(studentRoot.get("courseId"), courseId),
+                cb.equal(accountsJoin.get("googleId"), googleId)));
 
         return session.createQuery(cr).getSingleResultOrNull();
     }

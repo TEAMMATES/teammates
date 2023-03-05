@@ -6,6 +6,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -21,6 +23,8 @@ import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Section;
 
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
@@ -37,6 +41,7 @@ public final class JsonUtils {
      */
     private static Gson getGsonInstance(boolean prettyPrint) {
         GsonBuilder builder = new GsonBuilder()
+                .setExclusionStrategies(new HibernateExclusionStrategy())
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new DurationMinutesAdapter())
@@ -112,6 +117,25 @@ public final class JsonUtils {
      */
     public static JsonElement parse(String json) {
         return JsonParser.parseString(json);
+    }
+
+    private static class HibernateExclusionStrategy implements ExclusionStrategy {
+        @Override
+        public boolean shouldSkipField(FieldAttributes f) {
+            // Exclude certain fields to avoid circular references when serializing hibernate entities
+            if (f.getDeclaringClass() == Course.class) {
+                return "sections".equals(f.getName());
+            } else if (f.getDeclaringClass() == Section.class) {
+                return "teams".equals(f.getName());
+            }
+            return false;
+        }
+
+        @Override
+        public boolean shouldSkipClass(Class<?> clazz) {
+            return false;
+        }
+
     }
 
     private static class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {

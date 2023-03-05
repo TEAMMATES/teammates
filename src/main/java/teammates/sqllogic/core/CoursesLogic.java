@@ -4,6 +4,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Section;
 
 /**
  * Handles operations related to courses.
@@ -49,5 +50,15 @@ public final class CoursesLogic {
      */
     public Course getCourse(String courseId) {
         return coursesDb.getCourse(courseId);
+    }
+
+    /**
+     * Get section by {@code courseId} and {@code teamName}.
+     */
+    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
+        assert courseId != null;
+        assert teamName != null;
+
+        return coursesDb.getSectionByCourseIdAndTeam(courseId, teamName);
     }
 }

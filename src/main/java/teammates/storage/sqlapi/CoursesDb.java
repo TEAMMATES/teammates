@@ -3,11 +3,20 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import org.hibernate.Session;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Team;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for courses.
@@ -79,4 +88,24 @@ public final class CoursesDb extends EntitiesDb<Course> {
         }
     }
 
+    /**
+     * Get section by {@code courseId} and {@code teamName}.
+     */
+    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
+        assert courseId != null;
+        assert teamName != null;
+
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
+        Root<Section> sectionRoot = cr.from(Section.class);
+        Join<Section, Course> courseJoin = sectionRoot.join("course");
+        Join<Section, Team> teamJoin = sectionRoot.join("teams");
+
+        cr.select(sectionRoot).where(cb.and(
+                cb.equal(courseJoin.get("id"), courseId),
+                cb.equal(teamJoin.get("name"), teamName)));
+
+        return session.createQuery(cr).getSingleResultOrNull();
+    }
 }
