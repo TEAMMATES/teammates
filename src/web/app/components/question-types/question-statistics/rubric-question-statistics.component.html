@@ -6,12 +6,10 @@
       </strong>
       <span container="body" [ngbTooltip]="'Format: Response percentage (Response count)' + (hasWeights ? '[Weight of option]' : '') + ', e.g. 50% (2) ' + (hasWeights ? '[1.0]' : '')" class="fa fa-info-circle"></span>
     </div>
-    <div class="col-sm-8" style="text-align: right;">
-      <div class="form-check">
-        <label class="form-check-label">
-          <input id="exclude-self-checkbox" type="checkbox" [(ngModel)]="excludeSelf" (ngModelChange)="getTableData()" class="form-check-input"> <span container="body" class="ngb-tooltip-class" ngbTooltip="Excludes giver's responses to himself/herself from statistics">Exclude self evaluation</span>
-        </label>
-      </div>
+    <div class="col-sm-8 form-check" style="text-align: right;">
+      <label class="form-check-label">
+        <input id="exclude-self-checkbox" type="checkbox" [(ngModel)]="excludeSelf" (ngModelChange)="getTableData()" class="form-check-input"> <span container="body" class="ngb-tooltip-class" ngbTooltip="Excludes giver's responses to himself/herself from statistics">Exclude self evaluation</span>
+      </label>
     </div>
   </div>
   <div class="row">
