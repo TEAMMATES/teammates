@@ -33,8 +33,11 @@ public abstract class User extends BaseEntity {
     @JoinColumn(name = "accountId")
     private Account account;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String courseId;
+
     @ManyToOne
-    @JoinColumn(name = "courseId")
+    @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
     @ManyToOne
@@ -57,10 +60,9 @@ public abstract class User extends BaseEntity {
         // required by Hibernate
     }
 
-    public User(Course course, Team team, String name, String email) {
+    public User(Course course, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setCourse(course);
-        this.setTeam(team);
         this.setName(name);
         this.setEmail(email);
         this.setRegKey(generateRegistrationKey());
@@ -82,12 +84,20 @@ public abstract class User extends BaseEntity {
         this.account = account;
     }
 
+    public String getCourseId() {
+        return courseId;
+    }
+
     public Course getCourse() {
         return course;
     }
 
+    /**
+     * Sets a course as well as the courseId.
+     */
     public void setCourse(Course course) {
         this.course = course;
+        this.courseId = course.getId();
     }
 
     public Team getTeam() {
