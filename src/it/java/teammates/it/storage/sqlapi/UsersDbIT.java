@@ -14,9 +14,7 @@ import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
 
 /**
  * SUT: {@link UsersDb}.
@@ -38,16 +36,10 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         coursesDb.createCourse(course);
 
-        Section section = new Section(course, "section-name");
-        HibernateUtil.persist(section);
-
-        Team team = new Team(section, "team-name");
-        HibernateUtil.persist(team);
-
-        instructor = generateTypicalInstructor();
+        instructor = getTypicalInstructor();
         usersDb.createInstructor(instructor);
 
-        student = new Student(course, "student-name", "valid@email.tmt", "comments");
+        student = getTypicalStudent();
         usersDb.createStudent(student);
 
         HibernateUtil.flushSession();
@@ -77,7 +69,11 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(nonExistentstudent);
     }
 
-    private Instructor generateTypicalInstructor() {
+    private Student getTypicalStudent() {
+        return new Student(course, "student-name", "valid@email.tmt", "comments");
+    }
+
+    private Instructor getTypicalInstructor() {
         InstructorPrivileges instructorPrivileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole

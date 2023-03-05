@@ -37,13 +37,13 @@ public class UsersDbTest extends BaseTestCase {
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @BeforeMethod
-    public void setUpMethod() {
+    public void setUp() {
         mockHibernateUtil = mockStatic(HibernateUtil.class);
         usersDb = spy(UsersDb.class);
     }
 
     @AfterMethod
-    public void teardownMethod() {
+    public void teardown() {
         mockHibernateUtil.close();
     }
 
