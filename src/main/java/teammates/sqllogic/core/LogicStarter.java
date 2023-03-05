@@ -4,10 +4,13 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
+import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlapi.CoursesDb;
+import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlapi.UsageStatisticsDb;
+import teammates.storage.sqlapi.UsersDb;
 
 /**
  * Setup in web.xml to register logic classes at application startup.
@@ -20,15 +23,21 @@ public class LogicStarter implements ServletContextListener {
      * Registers dependencies between different logic classes.
      */
     public static void initializeDependencies() {
+        AccountsLogic accountsLogic = AccountsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
+        DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         NotificationsLogic notificationsLogic = NotificationsLogic.inst();
         UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
+        UsersLogic usersLogic = UsersLogic.inst();
 
+        accountsLogic.initLogicDependencies(AccountsDb.inst());
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic);
-        fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic);
+        deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst());
+        fsLogic.initLogicDependencies(FeedbackSessionsDb.inst());
         notificationsLogic.initLogicDependencies(NotificationsDb.inst());
         usageStatisticsLogic.initLogicDependencies(UsageStatisticsDb.inst());
+        usersLogic.initLogicDependencies(UsersDb.inst());
         log.info("Initialized dependencies between logic classes");
     }
 

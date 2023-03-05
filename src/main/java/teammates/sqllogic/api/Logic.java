@@ -9,10 +9,16 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
+import teammates.sqllogic.core.DeadlineExtensionsLogic;
+import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.UsageStatistics;
 
@@ -24,8 +30,10 @@ import teammates.storage.sqlentity.UsageStatistics;
 public class Logic {
     private static final Logic instance = new Logic();
 
+    final AccountsLogic accountsLogic = AccountsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
-    // final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
+    final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
 
@@ -37,7 +45,24 @@ public class Logic {
         return instance;
     }
 
-    // Courses
+    /**
+     * Gets an account.
+     */
+    public Account getAccount(UUID id) {
+        return accountsLogic.getAccount(id);
+    }
+
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the database.
+     */
+    public Account createAccount(Account account)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return accountsLogic.createAccount(account);
+    }
 
     /**
      * Gets a course by course id.
@@ -57,6 +82,41 @@ public class Logic {
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesLogic.createCourse(course);
+    }
+
+    /**
+     * Creates a deadline extension.
+     *
+     * @return created deadline extension
+     * @throws InvalidParametersException if the deadline extension is not valid
+     * @throws EntityAlreadyExistsException if the deadline extension already exist
+     */
+    public DeadlineExtension createDeadlineExtension(DeadlineExtension deadlineExtension)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return deadlineExtensionsLogic.createDeadlineExtension(deadlineExtension);
+    }
+
+    /**
+     * Gets a feedback session.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSession getFeedbackSession(UUID id) {
+        assert id != null;
+        return feedbackSessionsLogic.getFeedbackSession(id);
+    }
+
+    /**
+     * Creates a feedback session.
+     *
+     * @return created feedback session
+     * @throws InvalidParametersException if the session is not valid
+     * @throws EntityAlreadyExistsException if the session already exist
+     */
+    public FeedbackSession createFeedbackSession(FeedbackSession session)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert session != null;
+        return feedbackSessionsLogic.createFeedbackSession(session);
     }
 
     /**
