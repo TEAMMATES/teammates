@@ -2,8 +2,10 @@ package teammates.storage.sqlentity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.FieldValidator;
@@ -100,6 +102,41 @@ public class Instructor extends User {
         addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role.getRoleName()), errors);
 
         return errors;
+    }
+
+    /**
+     * Returns a list of sections this instructor has the specified privilege.
+     */
+    public Map<String, InstructorPermissionSet> getSectionsWithPrivilege(String privilegeName) {
+        return this.instructorPrivileges.getSectionsWithPrivilege(privilegeName);
+    }
+
+    /**
+     * Returns true if the instructor has the given privilege in the course.
+     */
+    public boolean isAllowedForPrivilege(String privilegeName) {
+        return this.instructorPrivileges.isAllowedForPrivilege(privilegeName);
+    }
+
+    /**
+     * Returns true if the instructor has the given privilege in the given section for the given feedback session.
+     */
+    public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
+        return instructorPrivileges.isAllowedForPrivilege(sectionName, sessionName, privilegeName);
+    }
+
+    /**
+     * Returns true if the instructor has the given privilege in the given section.
+     */
+    public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
+        return instructorPrivileges.isAllowedForPrivilege(sectionName, privilegeName);
+    }
+
+    /**
+     * Returns true if privilege for session is present for any section.
+     */
+    public boolean isAllowedForPrivilegeAnySection(String sessionName, String privilegeName) {
+        return instructorPrivileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
     }
 
     /**
