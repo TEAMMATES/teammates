@@ -121,10 +121,8 @@ public class DeadlineExtension extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
-        deadlineExtensions.add(this);
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-                feedbackSession.getEndTime(), deadlineExtensions), errors);
+                feedbackSession.getEndTime(), List.of(this)), errors);
 
         return errors;
     }

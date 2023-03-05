@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -78,10 +77,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
     @Column(nullable = false)
     @Convert(converter = FeedbackParticipantTypeListConverter.class)
     private List<FeedbackParticipantType> showRecipientNameTo;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
 
     @UpdateTimestamp
     @Column
@@ -244,7 +239,7 @@ public abstract class FeedbackQuestion extends BaseEntity {
                 + ", questionText=" + questionText + ", giverType=" + giverType + ", recipientType=" + recipientType
                 + ", numOfEntitiesToGiveFeedbackTo=" + numOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                 + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo + ", showRecipientNameTo="
-                + showRecipientNameTo + ", isClosingEmailEnabled=" + ", createdAt=" + createdAt + ", updatedAt="
+                + showRecipientNameTo + ", isClosingEmailEnabled=" + ", createdAt=" + getCreatedAt() + ", updatedAt="
                 + updatedAt + "]";
     }
 
