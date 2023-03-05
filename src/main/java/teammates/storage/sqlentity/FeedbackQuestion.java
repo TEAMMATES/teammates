@@ -266,5 +266,12 @@ public abstract class FeedbackQuestion extends BaseEntity {
             return false;
         }
     }
+
+    /**
+     * Returns true if the response is visible to the given participant type.
+     */
+    public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
+        return showResponsesTo.contains(userType);
+    }
 }
 
