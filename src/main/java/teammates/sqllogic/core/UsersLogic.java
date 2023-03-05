@@ -1,5 +1,8 @@
 package teammates.sqllogic.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -51,7 +54,7 @@ public final class UsersLogic {
      * @param id of instructor.
      * @return the specified instructor.
      */
-    public Instructor geInstructor(Integer id) {
+    public Instructor getInstructor(Integer id) {
         return usersDb.getInstructor(id);
     }
 
@@ -60,7 +63,7 @@ public final class UsersLogic {
      * @param id of student.
      * @return the specified student.
      */
-    public Student geStudent(Integer id) {
+    public Student getStudent(Integer id) {
         return usersDb.getStudent(id);
     }
 
@@ -76,5 +79,46 @@ public final class UsersLogic {
      */
     public <T extends User> void deleteUser(T user) {
         usersDb.deleteUser(user);
+    }
+
+    /**
+     * Gets the list of instructors with co-owner privileges in a course.
+     */
+    public List<Instructor> getCoOwnersForCourse(String courseId) {
+        List<Instructor> instructors = getInstructorsForCourse(courseId);
+        List<Instructor> instructorsWithCoOwnerPrivileges = new ArrayList<>();
+        for (Instructor instructor : instructors) {
+            if (!instructor.hasCoownerPrivileges()) {
+                continue;
+            }
+            instructorsWithCoOwnerPrivileges.add(instructor);
+        }
+        return instructorsWithCoOwnerPrivileges;
+    }
+
+    public List<Instructor> getInstructorsForCourse(String courseId) {
+        List<Instructor> instructorReturnList = usersDb.getInstructorsForCourse(courseId);
+        Instructor.sortByName(instructorReturnList);
+
+        return instructorReturnList;
+    }
+
+    public List<Student> getStudentsForCourse(String courseId) {
+        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId);
+        Student.sortByName(studentReturnList);
+
+        return studentReturnList;
+    }
+
+    public Instructor getInstructorForEmail(String courseId, String userEmail) {
+        return usersDb.getInstructorForEmail(courseId, userEmail);
+    }
+
+    public Student getStudentForEmail(String courseId, String userEmail) {
+        return usersDb.getStudentForEmail(courseId, userEmail);
+    }
+
+    public List<Student> getAllStudentsForEmail(String email) {
+        return usersDb.getAllStudentsForEmail(email);
     }
 }

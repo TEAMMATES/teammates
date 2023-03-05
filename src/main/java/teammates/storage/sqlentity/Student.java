@@ -3,6 +3,8 @@ package teammates.storage.sqlentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
@@ -54,5 +56,12 @@ public class Student extends User {
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
 
         return errors;
+    }
+
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(getRegKey())
+                .withEntityType(Const.EntityType.STUDENT)
+                .toString();
     }
 }

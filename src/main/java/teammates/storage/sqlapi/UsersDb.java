@@ -4,6 +4,7 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.hibernate.Session;
 
@@ -154,6 +155,83 @@ public final class UsersDb extends EntitiesDb<User> {
                 cb.lessThan(root.get("createdAt"), endTime)));
 
         return session.createQuery(cr).getSingleResult();
+    }
+    
+    public List<Instructor> getInstructorsForCourse(String courseId) {
+        assert courseId != null;
+
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> root = cr.from(Instructor.class);
+
+        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+
+        return session.createQuery(cr).getResultList();
+    }
+
+    public List<Student> getStudentsForCourse(String courseId) {
+        assert courseId != null;
+
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> root = cr.from(Student.class);
+
+        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+
+        return session.createQuery(cr).getResultList();
+    }
+
+    public Instructor getInstructorForEmail(String courseId, String userEmail) {
+        assert courseId != null;
+        assert userEmail != null;
+
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+
+        cr.select(instructorRoot)
+                .where(cb.and(
+                    cb.equal(instructorRoot.get("courseId"), courseId),
+                    cb.equal(instructorRoot.get("email"), userEmail)));
+
+        return session.createQuery(cr).getSingleResultOrNull();
+    }
+
+    public Student getStudentForEmail(String courseId, String userEmail) {
+        assert courseId != null;
+        assert userEmail != null;
+
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                    cb.equal(studentRoot.get("courseId"), courseId),
+                    cb.equal(studentRoot.get("email"), userEmail)));
+
+        return session.createQuery(cr).getSingleResultOrNull();
+    }
+
+    /**
+     * Gets list of students by email.
+     */
+    public List<Student> getAllStudentsForEmail(String email) {
+        assert email != null;
+
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
+        cr.select(studentRoot)
+                .where(cb.equal(studentRoot.get("email"), email));
+
+        return session.createQuery(cr).getResultList();
     }
 
     /**
