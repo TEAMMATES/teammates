@@ -2,6 +2,8 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -28,13 +30,14 @@ public class MarkNotificationAsReadAction extends Action {
     public ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         MarkNotificationAsReadRequest readNotificationCreateRequest =
                 getAndValidateRequestBody(MarkNotificationAsReadRequest.class);
-        String notificationId = readNotificationCreateRequest.getNotificationId();
+        UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
         Instant endTime = Instant.ofEpochMilli(readNotificationCreateRequest.getEndTimestamp());
 
         try {
-            List<String> readNotifications =
-                    logic.updateReadNotifications(userInfo.getId(), notificationId, endTime);
-            ReadNotificationsData output = new ReadNotificationsData(readNotifications);
+            List<UUID> readNotifications =
+                    sqlLogic.updateReadNotifications(userInfo.getId(), notificationId, endTime);
+            ReadNotificationsData output = new ReadNotificationsData(
+                    readNotifications.stream().map(UUID::toString).collect(Collectors.toList()));
             return new JsonResult(output);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

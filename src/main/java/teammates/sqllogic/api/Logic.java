@@ -197,4 +197,22 @@ public class Logic {
     public void deleteNotification(UUID notificationId) {
         notificationsLogic.deleteNotification(notificationId);
     }
+
+    /**
+     * Get a list of IDs of the read notifications of the account.
+     */
+    public List<UUID> getReadNotificationsId(String id) {
+        return accountsLogic.getReadNotificationsId(id);
+    }
+
+    /**
+     * Updates user read status for notification with ID {@code notificationId} and expiry time {@code endTime}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null. {@code endTime} must be after current moment.
+     */
+    public List<UUID> updateReadNotifications(String id, UUID notificationId, Instant endTime)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return accountsLogic.updateReadNotifications(id, notificationId, endTime);
+    }
 }
