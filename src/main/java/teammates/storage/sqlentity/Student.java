@@ -48,7 +48,6 @@ public class Student extends User {
 
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(super.getCourse().getId()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForStudentRoleComments(comments), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);

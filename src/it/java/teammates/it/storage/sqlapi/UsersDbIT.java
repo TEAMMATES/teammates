@@ -52,7 +52,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor that does not exist");
-        UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
+        UUID nonExistentId = generateDifferentUuid(actualInstructor.getId());
         Instructor nonExistentInstructor = usersDb.getInstructor(nonExistentId);
         assertNull(nonExistentInstructor);
     }
@@ -64,13 +64,13 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEquals(student, actualstudent);
 
         ______TS("success: gets a student that does not exist");
-        UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
+        UUID nonExistentId = generateDifferentUuid(actualstudent.getId());
         Student nonExistentstudent = usersDb.getStudent(nonExistentId);
         assertNull(nonExistentstudent);
     }
 
     private Student getTypicalStudent() {
-        return new Student(course, "student-name", "valid@email.tmt", "comments");
+        return new Student(course, "student-name", "valid-student@email.tmt", "comments");
     }
 
     private Instructor getTypicalInstructor() {
@@ -79,7 +79,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
-        return new Instructor(course, "instructor-name", "valid@email.tmt",
-                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
+        return new Instructor(course, "instructor-name", "valid-instructor@email.tmt",
+                true, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
     }
 }

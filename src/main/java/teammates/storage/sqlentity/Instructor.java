@@ -94,7 +94,6 @@ public class Instructor extends User {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(super.getCourse().getId()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(displayName), errors);

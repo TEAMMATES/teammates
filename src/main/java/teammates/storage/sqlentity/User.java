@@ -18,12 +18,15 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
  * Represents a User.
  */
 @Entity
-@Table(name = "Users")
+@Table(name = "Users", uniqueConstraints = {
+        @UniqueConstraint(name = "Unique email and courseId", columnNames = { "email", "courseId" })
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User extends BaseEntity {
     @Id
