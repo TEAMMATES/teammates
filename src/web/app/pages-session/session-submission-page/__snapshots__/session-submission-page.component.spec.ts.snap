@@ -3287,6 +3287,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="margin-bottom-15px"
                       >
                         <select
+                          aria-label="Response for Barry Harris"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -5975,6 +5976,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="margin-bottom-15px"
                       >
                         <select
+                          aria-label="Response for Barry Harris"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
