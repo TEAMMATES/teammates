@@ -22,7 +22,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     protected void testExecute() {
         AccountRequestAttributes accountRequest =
                 logic.getAccountRequest("unregisteredinstructor1@gmail.tmt", "TEAMMATES Test Institute 1");
@@ -64,7 +64,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }

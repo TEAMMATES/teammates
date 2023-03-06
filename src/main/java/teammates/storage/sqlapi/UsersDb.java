@@ -3,8 +3,6 @@ package teammates.storage.sqlapi;
 import java.time.Instant;
 import java.util.UUID;
 
-import org.hibernate.Session;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -78,8 +76,7 @@ public final class UsersDb extends EntitiesDb<User> {
      * Gets instructor exists by its {@code courseId} and {@code email}.
      */
     public Instructor getInstructor(String courseId, String email) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
 
@@ -87,7 +84,7 @@ public final class UsersDb extends EntitiesDb<User> {
                 cb.equal(instructorRoot.get("courseId"), courseId),
                 cb.equal(instructorRoot.get("email"), email)));
 
-        return session.createQuery(cr).getSingleResultOrNull();
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**
@@ -134,8 +131,7 @@ public final class UsersDb extends EntitiesDb<User> {
      * Gets a student exists by its {@code courseId} and {@code email}.
      */
     public Student getStudent(String courseId, String email) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
 
@@ -143,7 +139,7 @@ public final class UsersDb extends EntitiesDb<User> {
                 cb.equal(studentRoot.get("courseId"), courseId),
                 cb.equal(studentRoot.get("email"), email)));
 
-        return session.createQuery(cr).getSingleResultOrNull();
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**
@@ -190,8 +186,7 @@ public final class UsersDb extends EntitiesDb<User> {
      * Gets the number of instructors created within a specified time range.
      */
     public long getNumInstructorsByTimeRange(Instant startTime, Instant endTime) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
         Root<Instructor> root = cr.from(Instructor.class);
 
@@ -199,15 +194,14 @@ public final class UsersDb extends EntitiesDb<User> {
                 cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
                 cb.lessThan(root.get("createdAt"), endTime)));
 
-        return session.createQuery(cr).getSingleResult();
+        return HibernateUtil.createQuery(cr).getSingleResult();
     }
 
     /**
      * Gets the number of students created within a specified time range.
      */
     public long getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
         Root<Student> root = cr.from(Student.class);
 
@@ -215,7 +209,7 @@ public final class UsersDb extends EntitiesDb<User> {
                 cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
                 cb.lessThan(root.get("createdAt"), endTime)));
 
-        return session.createQuery(cr).getSingleResult();
+        return HibernateUtil.createQuery(cr).getSingleResult();
     }
 
 }
