@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -162,4 +164,10 @@ public class AccountRequest extends BaseEntity {
                 + ", updatedAt=" + updatedAt + "]";
     }
 
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount("true")
+                .withRegistrationKey(this.getRegistrationKey())
+                .toAbsoluteString();
+    }
 }
