@@ -279,7 +279,6 @@ h6,
 
 // new rules to adapt to Bootstrap 5 changes
 
-a,
 .btn-link {
   text-decoration: none;
 }
@@ -367,3 +366,9 @@ label {
 }
 
 // end of new rules to adapt to Bootstrap 5
+
+// overrides default bootstrap colours to increase contrast
+.navbar-dark {
+  --bs-navbar-color: rgba(255, 255, 255, .75);
+  --bs-navbar-hover-color: white;
+}
