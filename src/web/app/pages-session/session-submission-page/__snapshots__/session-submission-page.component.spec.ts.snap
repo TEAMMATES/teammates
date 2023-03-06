@@ -3028,72 +3028,76 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
-                        class="form-group row text-start"
+                        aria-label="Response for Barry Harris"
                       >
                         <div
-                          class="col-md-5 col-xs-12 text-md-end col-form-label"
+                          class="form-group row text-start"
                         >
-                          <strong>
-                            option 1
-                          </strong>
-                        </div>
-                        <div
-                          class="col-md-7 col-xs-12 text-md-start"
-                        >
-                          <select
-                            aria-label="Response for option 1 Option"
-                            class="form-control form-select ng-untouched ng-pristine ng-valid"
+                          <div
+                            class="col-md-5 col-xs-12 text-md-end col-form-label"
                           >
-                            <option
-                              value="0: -999"
-                            />
-                            <option
-                              value="1: 1"
-                            >
-                              1
-                            </option>
-                            <option
-                              value="2: 2"
-                            >
-                              2
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                      <div
-                        class="form-group row text-start"
-                      >
-                        <div
-                          class="col-md-5 col-xs-12 text-md-end col-form-label"
-                        >
-                          <strong>
-                            option 2
-                          </strong>
-                        </div>
-                        <div
-                          class="col-md-7 col-xs-12 text-md-start"
-                        >
-                          <select
-                            aria-label="Response for option 2 Option"
-                            class="form-control form-select ng-untouched ng-pristine ng-valid"
+                            <strong>
+                              option 1
+                            </strong>
+                          </div>
+                          <div
+                            class="col-md-7 col-xs-12 text-md-start"
                           >
-                            <option
-                              value="0: -999"
-                            />
-                            <option
-                              value="1: 1"
+                            <select
+                              aria-label="Response for Barry Harris for option 1 Option"
+                              class="form-control form-select ng-untouched ng-pristine ng-valid"
                             >
-                              1
-                            </option>
-                            <option
-                              value="2: 2"
-                            >
-                              2
-                            </option>
-                          </select>
+                              <option
+                                value="0: -999"
+                              />
+                              <option
+                                value="1: 1"
+                              >
+                                1
+                              </option>
+                              <option
+                                value="2: 2"
+                              >
+                                2
+                              </option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                      <div>
+                        <div
+                          class="form-group row text-start"
+                        >
+                          <div
+                            class="col-md-5 col-xs-12 text-md-end col-form-label"
+                          >
+                            <strong>
+                              option 2
+                            </strong>
+                          </div>
+                          <div
+                            class="col-md-7 col-xs-12 text-md-start"
+                          >
+                            <select
+                              aria-label="Response for Barry Harris for option 2 Option"
+                              class="form-control form-select ng-untouched ng-pristine ng-valid"
+                            >
+                              <option
+                                value="0: -999"
+                              />
+                              <option
+                                value="1: 1"
+                              >
+                                1
+                              </option>
+                              <option
+                                value="2: 2"
+                              >
+                                2
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div>
+                        </div>
                       </div>
                     </tm-rank-options-question-edit-answer-form>
                   </div>
@@ -5718,72 +5722,76 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
-                        class="form-group row text-start"
+                        aria-label="Response for Barry Harris"
                       >
                         <div
-                          class="col-md-5 col-xs-12 text-md-end col-form-label"
+                          class="form-group row text-start"
                         >
-                          <strong>
-                            option 1
-                          </strong>
-                        </div>
-                        <div
-                          class="col-md-7 col-xs-12 text-md-start"
-                        >
-                          <select
-                            aria-label="Response for option 1 Option"
-                            class="form-control form-select ng-untouched ng-pristine ng-valid"
+                          <div
+                            class="col-md-5 col-xs-12 text-md-end col-form-label"
                           >
-                            <option
-                              value="0: -999"
-                            />
-                            <option
-                              value="1: 1"
-                            >
-                              1
-                            </option>
-                            <option
-                              value="2: 2"
-                            >
-                              2
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-                      <div
-                        class="form-group row text-start"
-                      >
-                        <div
-                          class="col-md-5 col-xs-12 text-md-end col-form-label"
-                        >
-                          <strong>
-                            option 2
-                          </strong>
-                        </div>
-                        <div
-                          class="col-md-7 col-xs-12 text-md-start"
-                        >
-                          <select
-                            aria-label="Response for option 2 Option"
-                            class="form-control form-select ng-untouched ng-pristine ng-valid"
+                            <strong>
+                              option 1
+                            </strong>
+                          </div>
+                          <div
+                            class="col-md-7 col-xs-12 text-md-start"
                           >
-                            <option
-                              value="0: -999"
-                            />
-                            <option
-                              value="1: 1"
+                            <select
+                              aria-label="Response for Barry Harris for option 1 Option"
+                              class="form-control form-select ng-untouched ng-pristine ng-valid"
                             >
-                              1
-                            </option>
-                            <option
-                              value="2: 2"
-                            >
-                              2
-                            </option>
-                          </select>
+                              <option
+                                value="0: -999"
+                              />
+                              <option
+                                value="1: 1"
+                              >
+                                1
+                              </option>
+                              <option
+                                value="2: 2"
+                              >
+                                2
+                              </option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                      <div>
+                        <div
+                          class="form-group row text-start"
+                        >
+                          <div
+                            class="col-md-5 col-xs-12 text-md-end col-form-label"
+                          >
+                            <strong>
+                              option 2
+                            </strong>
+                          </div>
+                          <div
+                            class="col-md-7 col-xs-12 text-md-start"
+                          >
+                            <select
+                              aria-label="Response for Barry Harris for option 2 Option"
+                              class="form-control form-select ng-untouched ng-pristine ng-valid"
+                            >
+                              <option
+                                value="0: -999"
+                              />
+                              <option
+                                value="1: 1"
+                              >
+                                1
+                              </option>
+                              <option
+                                value="2: 2"
+                              >
+                                2
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div>
+                        </div>
                       </div>
                     </tm-rank-options-question-edit-answer-form>
                   </div>
