@@ -13,7 +13,6 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * SUT: {@link CreateAccountRequestAction}.
  */
-@Test(enabled = false)
 public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccountRequestAction> {
 
     @Override
@@ -27,7 +26,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     protected void testExecute() {
         loginAsAdmin();
         String name = "JamesBond";
@@ -121,7 +120,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }

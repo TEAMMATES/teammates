@@ -11,7 +11,6 @@ import teammates.ui.output.JoinLinkData;
 /**
  * SUT: {@link ResetAccountRequestAction}.
  */
-@Test(enabled = false)
 public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRequestAction> {
 
     @Override
@@ -25,7 +24,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     protected void testExecute() {
         AccountRequestAttributes accountRequest = typicalBundle.accountRequests.get("instructor1OfCourse1");
         AccountRequestAttributes unregisteredAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
@@ -98,7 +97,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }

@@ -9,7 +9,6 @@ import teammates.ui.output.MessageOutput;
 /**
  * SUT: {@link DeleteAccountRequestAction}.
  */
-@Test(enabled = false)
 public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccountRequestAction> {
 
     @Override
@@ -23,7 +22,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     protected void testExecute() {
         AccountRequestAttributes registeredAccountRequest = typicalBundle.accountRequests.get("instructor1OfCourse1");
         AccountRequestAttributes unregisteredAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
@@ -71,7 +70,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
     }
 
     @Override
-    @Test
+    @Test(enabled = false)
     protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
