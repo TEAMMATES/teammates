@@ -48,7 +48,6 @@ public class Logic {
         return instance;
     }
 
-    // AccountRequests
     /**
      * Creates an account request.
      *
@@ -98,7 +97,6 @@ public class Logic {
         accountRequestLogic.deleteAccountRequest(email, institute);
     }
 
-    // Courses
     /**
      * Gets an account.
      */
