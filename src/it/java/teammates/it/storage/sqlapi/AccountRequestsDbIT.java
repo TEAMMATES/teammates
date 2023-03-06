@@ -13,7 +13,7 @@ import teammates.storage.sqlentity.AccountRequest;
 /**
  * SUT: {@link CoursesDb}.
  */
-public class AccountRequestDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final AccountRequestsDb accountRequestDb = AccountRequestsDb.inst();
 
