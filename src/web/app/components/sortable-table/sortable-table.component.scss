@@ -10,6 +10,17 @@
       width: 20%;
     }
   }
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+    font: inherit;
+    cursor: pointer;
+  }
 }
 
 .margin-bottom-20px {
