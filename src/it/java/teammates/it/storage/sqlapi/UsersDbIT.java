@@ -86,7 +86,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by googleId that does not exist");
-        actualInstructor = usersDb.getInstructorByRegKey("invalid-google id");
+        actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(), "invalid-google id");
         assertNull(actualInstructor);
     }
 
@@ -122,7 +122,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEquals(student, actualStudent);
 
         ______TS("success: gets a student by googleId that does not exist");
-        actualStudent = usersDb.getStudentByRegKey("invalid-google id");
+        actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), "invalid-google id");
         assertNull(actualStudent);
     }
 
