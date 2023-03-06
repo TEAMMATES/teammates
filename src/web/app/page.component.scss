@@ -21,6 +21,12 @@ nav {
 .footer {
   padding: 5px 70px;
   color: rgba(255, 255, 255, .75);
+
+  a {
+    &:hover {
+      filter: brightness(150%);
+    }
+  }
 }
 
 .container {
