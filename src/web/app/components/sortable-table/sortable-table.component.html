@@ -1,10 +1,10 @@
 <table class="table table-bordered table-striped margin-bottom-20px">
   <thead>
     <tr>
-      <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="column.sortBy && onClickHeader(column.header)">
-        <button [attr.aria-sort]="getAriaSort(sortOrder)">
+      <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="column.sortBy && onClickHeader(column.header)"  [attr.aria-sort]="getAriaSort(column.header)">
+        <button>
           <span [ngbTooltip]=column.headerToolTip container="body">{{ column.header }}</span>
-          <span class="fa-stack" *ngIf="column.sortBy">
+          <span class="fa-stack" *ngIf="column.sortBy" aria-hidden="true">
             <i class="fas fa-sort"></i>
             <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
             <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
