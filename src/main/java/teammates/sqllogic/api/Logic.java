@@ -110,6 +110,13 @@ public class Logic {
     }
 
     /**
+     * Gets an account by googleId.
+     */
+    public Account getAccountByGoogleId(String googleId) {
+        return accountsLogic.getAccountByGoogleId(googleId);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account

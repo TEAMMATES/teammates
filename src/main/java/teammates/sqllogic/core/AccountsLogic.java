@@ -49,6 +49,15 @@ public final class AccountsLogic {
     }
 
     /**
+     * Gets an account by googleId.
+     */
+    public Account getAccountByGoogleId(String googleId) {
+        assert googleId != null;
+
+        return accountsDb.getAccountByGoogleId(googleId);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account
