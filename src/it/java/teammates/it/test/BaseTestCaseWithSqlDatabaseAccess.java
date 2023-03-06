@@ -21,6 +21,7 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
@@ -117,6 +118,11 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             Student actualStudent = (Student) actual;
             equalizeIrrelevantData(expectedStudent, actualStudent);
             assertEquals(JsonUtils.toJson(expectedStudent), JsonUtils.toJson(actualStudent));
+        } else if (expected instanceof Section) {
+            Section expectedSection = (Section) expected;
+            Section actualSection = (Section) actual;
+            equalizeIrrelevantData(expectedSection, actualSection);
+            assertEquals(JsonUtils.toJson(expectedSection), JsonUtils.toJson(actualSection));
         } else {
             fail("Unknown entity");
         }
@@ -193,6 +199,12 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     }
 
     private void equalizeIrrelevantData(Student expected, Student actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+    private void equalizeIrrelevantData(Section expected, Section actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());
