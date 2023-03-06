@@ -58,6 +58,15 @@ public final class AccountsLogic {
     }
 
     /**
+     * Gets accounts associated with email.
+     */
+    public List<Account> getAccountsForEmail(String email) {
+        assert email != null;
+
+        return accountsDb.getAccountsByEmail(email);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account

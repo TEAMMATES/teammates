@@ -2,9 +2,9 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.storage.sqlentity.Account;
 import teammates.ui.output.AccountsData;
 
 /**
@@ -17,7 +17,7 @@ class GetAccountsAction extends AdminOnlyAction {
         String email = getNonNullRequestParamValue(Const.ParamsNames.USER_EMAIL);
         email = SanitizationHelper.sanitizeEmail(email);
 
-        List<AccountAttributes> accounts = logic.getAccountsForEmail(email);
+        List<Account> accounts = sqlLogic.getAccountsForEmail(email);
 
         return new JsonResult(new AccountsData(accounts));
     }
