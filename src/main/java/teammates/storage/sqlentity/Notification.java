@@ -17,9 +17,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -30,8 +28,7 @@ import jakarta.persistence.Table;
 public class Notification extends BaseEntity {
 
     @Id
-    @GeneratedValue
-    private UUID notificationId;
+    private UUID id;
 
     @Column(nullable = false)
     private Instant startTime;
@@ -56,9 +53,6 @@ public class Notification extends BaseEntity {
     @Column(nullable = false)
     private boolean shown;
 
-    @OneToMany(mappedBy = "notification")
-    private List<ReadNotification> readNotifications;
-
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -73,6 +67,7 @@ public class Notification extends BaseEntity {
         this.setTargetUser(targetUser);
         this.setTitle(title);
         this.setMessage(message);
+        this.setId(UUID.randomUUID());
     }
 
     protected Notification() {
@@ -94,12 +89,12 @@ public class Notification extends BaseEntity {
         return errors;
     }
 
-    public UUID getNotificationId() {
-        return notificationId;
+    public UUID getId() {
+        return id;
     }
 
-    public void setNotificationId(UUID notificationId) {
-        this.notificationId = notificationId;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Instant getStartTime() {
@@ -154,14 +149,6 @@ public class Notification extends BaseEntity {
         return shown;
     }
 
-    public List<ReadNotification> getReadNotifications() {
-        return readNotifications;
-    }
-
-    public void setReadNotifications(List<ReadNotification> readNotifications) {
-        this.readNotifications = readNotifications;
-    }
-
     /**
      * Sets the notification as shown to the user.
      * Only allowed to change value from false to true.
@@ -180,16 +167,14 @@ public class Notification extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Notification [notificationId=" + notificationId + ", startTime=" + startTime + ", endTime=" + endTime
+        return "Notification [notificationId=" + id + ", startTime=" + startTime + ", endTime=" + endTime
                 + ", style=" + style + ", targetUser=" + targetUser + ", title=" + title + ", message=" + message
-                + ", shown=" + shown + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
-                + ", updatedAt=" + updatedAt + "]";
+                + ", shown=" + shown + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
     public int hashCode() {
-        // Notification ID uniquely identifies a notification.
-        return this.getNotificationId().hashCode();
+        return this.getId().hashCode();
     }
 
     @Override
@@ -200,15 +185,7 @@ public class Notification extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             Notification otherNotification = (Notification) other;
-            return Objects.equals(this.notificationId, otherNotification.getNotificationId())
-                    && Objects.equals(this.startTime, otherNotification.startTime)
-                    && Objects.equals(this.endTime, otherNotification.endTime)
-                    && Objects.equals(this.style, otherNotification.style)
-                    && Objects.equals(this.targetUser, otherNotification.targetUser)
-                    && Objects.equals(this.title, otherNotification.title)
-                    && Objects.equals(this.message, otherNotification.message)
-                    && Objects.equals(this.shown, otherNotification.shown)
-                    && Objects.equals(this.readNotifications, otherNotification.readNotifications);
+            return Objects.equals(this.getId(), otherNotification.getId());
         } else {
             return false;
         }

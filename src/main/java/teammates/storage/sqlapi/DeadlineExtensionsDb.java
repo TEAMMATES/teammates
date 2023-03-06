@@ -3,6 +3,8 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.util.UUID;
+
 import org.hibernate.Session;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -44,8 +46,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
             throw new InvalidParametersException(de.getInvalidityInfo());
         }
 
-        if (getDeadlineExtension(de.getId()) != null
-                || getDeadlineExtension(de.getUser().getId(), de.getFeedbackSession().getId()) != null) {
+        if (getDeadlineExtension(de.getId()) != null) {
             throw new EntityAlreadyExistsException(
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, de.toString()));
         }
@@ -57,17 +58,16 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
     /**
      * Gets a deadline extension by {@code id}.
      */
-    public DeadlineExtension getDeadlineExtension(Integer id) {
+    public DeadlineExtension getDeadlineExtension(UUID id) {
         assert id != null;
 
-        return HibernateUtil.getCurrentSession()
-                .get(DeadlineExtension.class, id);
+        return HibernateUtil.get(DeadlineExtension.class, id);
     }
 
     /**
      * Get DeadlineExtension by {@code userId} and {@code feedbackSessionId}.
      */
-    public DeadlineExtension getDeadlineExtension(Integer userId, Integer feedbackSessionId) {
+    public DeadlineExtension getDeadlineExtension(UUID userId, UUID feedbackSessionId) {
         Session currentSession = HibernateUtil.getCurrentSession();
         CriteriaBuilder cb = currentSession.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
