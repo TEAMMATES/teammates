@@ -146,7 +146,7 @@ public final class HibernateUtil {
      * @see SessionFactory#getCriteriaBuilder()
      */
     public static CriteriaBuilder getCriteriaBuilder() {
-        return getSessionFactory().getCurrentSession().getCriteriaBuilder();
+        return getCurrentSession().getCriteriaBuilder();
     }
 
     /**
@@ -154,7 +154,7 @@ public final class HibernateUtil {
      * @see Session#createQuery(CriteriaQuery)
      */
     public static <T> TypedQuery<T> createQuery(CriteriaQuery<T> cr) {
-        return getSessionFactory().getCurrentSession().createQuery(cr);
+        return getCurrentSession().createQuery(cr);
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {
