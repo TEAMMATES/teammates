@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -10,7 +9,7 @@ import teammates.ui.output.MessageOutput;
 /**
  * SUT: {@link DeleteAccountRequestAction}.
  */
-@Ignore
+@Test(enabled = false)
 public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccountRequestAction> {
 
     @Override

@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -14,7 +13,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * SUT: {@link CreateAccountRequestAction}.
  */
-@Ignore
+@Test(enabled = false)
 public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccountRequestAction> {
 
     @Override
