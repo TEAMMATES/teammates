@@ -16,12 +16,16 @@ import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
+import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 
 /**
@@ -38,6 +42,7 @@ public class Logic {
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
+    final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
 
     Logic() {
@@ -137,6 +142,13 @@ public class Logic {
     }
 
     /**
+     * Get section by {@code courseId} and {@code teamName}.
+     */
+    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
+        return coursesLogic.getSectionByCourseIdAndTeam(courseId, teamName);
+    }
+
+    /**
      * Creates a deadline extension.
      *
      * @return created deadline extension
@@ -154,7 +166,6 @@ public class Logic {
      * @return null if not found.
      */
     public FeedbackSession getFeedbackSession(UUID id) {
-        assert id != null;
         return feedbackSessionsLogic.getFeedbackSession(id);
     }
 
@@ -167,7 +178,6 @@ public class Logic {
      */
     public FeedbackSession createFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        assert session != null;
         return feedbackSessionsLogic.createFeedbackSession(session);
     }
 
@@ -266,5 +276,67 @@ public class Logic {
     public List<UUID> updateReadNotifications(String id, UUID notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
         return accountsLogic.updateReadNotifications(id, notificationId, endTime);
+    }
+
+    /**
+     * Gets instructor associated with {@code id}.
+     *
+     * @param id    Id of Instructor.
+     * @return      Returns Instructor if found else null.
+     */
+    public Instructor getInstructor(UUID id) {
+        return usersLogic.getInstructor(id);
+    }
+
+    /**
+     * Gets instructor associated with {@code courseId} and {@code email}.
+     */
+    public Instructor getInstructor(String courseId, String email) {
+        return usersLogic.getInstructor(courseId, email);
+    }
+
+    /**
+     * Gets an instructor by associated {@code regkey}.
+     */
+    public Instructor getInstructorByRegistrationKey(String regKey) {
+        return usersLogic.getInstructorByRegistrationKey(regKey);
+    }
+
+    /**
+     * Gets an instructor by associated {@code googleId}.
+     */
+    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
+        return usersLogic.getInstructorByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Gets student associated with {@code id}.
+     *
+     * @param id    Id of Student.
+     * @return      Returns Student if found else null.
+     */
+    public Student getStudent(UUID id) {
+        return usersLogic.getStudent(id);
+    }
+
+    /**
+     * Gets student associated with {@code courseId} and {@code email}.
+     */
+    public Student getStudent(String courseId, String email) {
+        return usersLogic.getStudent(courseId, email);
+    }
+
+    /**
+     * Gets a student by associated {@code regkey}.
+     */
+    public Student getStudentByRegistrationKey(String regKey) {
+        return usersLogic.getStudentByRegistrationKey(regKey);
+    }
+
+    /**
+     * Gets a student by associated {@code googleId}.
+     */
+    public Student getStudentByGoogleId(String courseId, String googleId) {
+        return usersLogic.getStudentByGoogleId(courseId, googleId);
     }
 }

@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -35,7 +36,7 @@ public class Section extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "section")
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
     private List<Team> teams;
 
     @UpdateTimestamp
@@ -78,6 +79,13 @@ public class Section extends BaseEntity {
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("section name", name), errors);
 
         return errors;
+    }
+
+    /**
+     * Adds a team to the section.
+     */
+    public void addTeam(Team team) {
+        this.teams.add(team);
     }
 
     public UUID getId() {

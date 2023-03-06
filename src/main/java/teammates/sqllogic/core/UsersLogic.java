@@ -43,6 +43,35 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets instructor associated with {@code courseId} and {@code email}.
+     */
+    public Instructor getInstructor(String courseId, String email) {
+        assert courseId != null;
+        assert email != null;
+
+        return usersDb.getInstructor(courseId, email);
+    }
+
+    /**
+     * Gets an instructor by associated {@code regkey}.
+     */
+    public Instructor getInstructorByRegistrationKey(String regKey) {
+        assert regKey != null;
+
+        return usersDb.getInstructorByRegKey(regKey);
+    }
+
+    /**
+     * Gets an instructor by associated {@code googleId}.
+     */
+    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
+        assert courseId != null;
+        assert googleId != null;
+
+        return usersDb.getInstructorByGoogleId(courseId, googleId);
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.
@@ -52,5 +81,34 @@ public final class UsersLogic {
         assert id != null;
 
         return usersDb.getStudent(id);
+    }
+
+    /**
+     * Gets student associated with {@code courseId} and {@code email}.
+     */
+    public Student getStudent(String courseId, String email) {
+        assert courseId != null;
+        assert email != null;
+
+        return usersDb.getStudent(courseId, email);
+    }
+
+    /**
+     * Gets a student by associated {@code regkey}.
+     */
+    public Student getStudentByRegistrationKey(String regKey) {
+        assert regKey != null;
+
+        return usersDb.getStudentByRegKey(regKey);
+    }
+
+    /**
+     * Gets a student by associated {@code googleId}.
+     */
+    public Student getStudentByGoogleId(String courseId, String googleId) {
+        assert courseId != null;
+        assert googleId != null;
+
+        return usersDb.getStudentByGoogleId(courseId, googleId);
     }
 }
