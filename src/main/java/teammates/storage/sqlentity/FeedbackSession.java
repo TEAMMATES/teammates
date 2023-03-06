@@ -347,4 +347,53 @@ public class FeedbackSession extends BaseEntity {
         Instant now = Instant.now();
         return now.isAfter(visibleTime) || now.equals(visibleTime);
     }
+
+    /**
+     * Gets the instructions of the feedback session.
+     */
+    public String getInstructionsString() {
+        if (instructions == null) {
+            return null;
+        }
+
+        return SanitizationHelper.sanitizeForRichText(instructions);
+    }
+
+    /**
+     * Checks if the feedback session is closed.
+     * This occurs when the current time is after both the deadline and the grace period.
+     */
+    public boolean isClosed() {
+        return Instant.now().isAfter(endTime.plus(gracePeriod));
+    }
+
+    /**
+     * Checks if the feedback session is open.
+     * This occurs when the current time is either the start time or later but before the deadline.
+     */
+    public boolean isOpened() {
+        Instant now = Instant.now();
+        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(endTime);
+    }
+
+    /**
+     * Returns {@code true} if the results of the feedback session is visible; {@code false} if not.
+     *         Does not care if the session has ended or not.
+     */
+    public boolean isPublished() {
+        Instant publishTime = this.resultsVisibleFromTime;
+
+        if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            return isVisible();
+        }
+        if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            return false;
+        }
+        if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
+            return true;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(publishTime) || now.equals(publishTime);
+    }
 }

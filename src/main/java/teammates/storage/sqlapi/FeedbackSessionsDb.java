@@ -2,10 +2,20 @@ package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.hibernate.Session;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for feedback sessions.
@@ -67,5 +77,53 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
         if (fs != null) {
             delete(fs);
         }
+    }
+
+    /**
+     * Gets a list of all sessions for the given course except those are soft-deleted.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
+        return getFeedbackSessionEntitiesForCourse(courseId).stream()
+                .filter(fs -> fs.getDeletedAt() == null)
+                .collect(Collectors.toList());    
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
+        assert courseId != null;
+
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+
+        return session.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets a list of all sessions starting from some date for the given course except those are soft-deleted.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
+        return getFeedbackSessionEntitiesForCourseStartingAfter(courseId, after).stream()
+                .filter(session -> session.getDeletedAt() == null)
+                .collect(Collectors.toList());
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesForCourseStartingAfter(String courseId, Instant after) {
+        assert courseId != null;
+        assert after != null;
+
+        Session session = HibernateUtil.getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root)
+                .where(cb.and(
+                    cb.greaterThanOrEqualTo(root.get("startTime"), after), 
+                    cb.equal(root.get("courseId"), courseId)));
+
+        return session.createQuery(cr).getResultList();
     }
 }
