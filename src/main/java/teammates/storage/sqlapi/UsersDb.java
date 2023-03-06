@@ -3,8 +3,6 @@ package teammates.storage.sqlapi;
 import java.time.Instant;
 import java.util.UUID;
 
-import org.hibernate.Session;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;

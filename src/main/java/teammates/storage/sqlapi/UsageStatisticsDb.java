@@ -3,8 +3,6 @@ package teammates.storage.sqlapi;
 import java.time.Instant;
 import java.util.List;
 
-import org.hibernate.Session;
-
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.UsageStatistics;
 
