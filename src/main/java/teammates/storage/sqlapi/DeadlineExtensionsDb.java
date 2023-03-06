@@ -115,6 +115,10 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
         }
     }
 
+    /**
+     * Gets the DeadlineExtension with the specified {@code feedbackSessionId} and {@code userId} if it exists.
+     * Otherwise, return null.
+     */
     public DeadlineExtension getDeadlineExtensionForUser(Integer feedbackSessionId, Integer userId) {
         assert feedbackSessionId != null;
         assert userId != null;
@@ -127,7 +131,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
         Join<DeadlineExtension, FeedbackSession> sessionJoin = deadlineExtensionRoot.join("feedbackSession");
 
         cr.select(deadlineExtensionRoot).where(cb.and(
-                cb.equal(sessionJoin.get("id"), feedbackSessionId), 
+                cb.equal(sessionJoin.get("id"), feedbackSessionId),
                 cb.equal(userJoin.get("id"), userId)));
 
         return session.createQuery(cr).getSingleResultOrNull();

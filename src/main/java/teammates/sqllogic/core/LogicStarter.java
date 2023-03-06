@@ -7,6 +7,7 @@ import teammates.common.util.Logger;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
+import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlapi.UsageStatisticsDb;
@@ -35,7 +36,7 @@ public class LogicStarter implements ServletContextListener {
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic);
         deLogic.initLogicDependencies(DeadlineExtensionsDb.inst());
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic, frLogic, fqLogic);
-        frLogic.initLogicDependencies();
+        frLogic.initLogicDependencies(FeedbackResponsesDb.inst());
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst());
         notificationsLogic.initLogicDependencies(NotificationsDb.inst());
         usageStatisticsLogic.initLogicDependencies(UsageStatisticsDb.inst());

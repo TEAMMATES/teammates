@@ -104,14 +104,6 @@ public class Instructor extends User {
     }
 
     /**
-     * Converter for InstructorPrivileges.
-     */
-    @Converter
-    public static class InstructorPrivilegesConverter
-            extends JsonConverter<InstructorPrivileges> {
-    }
-
-    /**
      * Returns true if the instructor has co-owner privilege.
      */
     public boolean hasCoownerPrivileges() {
@@ -123,5 +115,13 @@ public class Instructor extends User {
                 .withRegistrationKey(getRegKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toString();
+    }
+
+    /**
+     * Converter for InstructorPrivileges.
+     */
+    @Converter
+    public static class InstructorPrivilegesConverter
+            extends JsonConverter<InstructorPrivileges> {
     }
 }

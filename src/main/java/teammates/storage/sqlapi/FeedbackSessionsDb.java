@@ -85,7 +85,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
         return getFeedbackSessionEntitiesForCourse(courseId).stream()
                 .filter(fs -> fs.getDeletedAt() == null)
-                .collect(Collectors.toList());    
+                .collect(Collectors.toList());
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
@@ -121,7 +121,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
 
         cr.select(root)
                 .where(cb.and(
-                    cb.greaterThanOrEqualTo(root.get("startTime"), after), 
+                    cb.greaterThanOrEqualTo(root.get("startTime"), after),
                     cb.equal(root.get("courseId"), courseId)));
 
         return session.createQuery(cr).getResultList();

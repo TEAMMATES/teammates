@@ -2,7 +2,6 @@ package teammates.sqllogic.core;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
-import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
@@ -15,6 +14,8 @@ public final class FeedbackResponsesLogic {
 
     private static final FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
 
+    // private FeedbackResponsesDb frDb;
+
     private FeedbackResponsesLogic() {
         // prevent initialization
     }
@@ -26,7 +27,8 @@ public final class FeedbackResponsesLogic {
     /**
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
-    void initLogicDependencies() {
+    void initLogicDependencies(FeedbackResponsesDb frDb) {
+        // this.frDb = frDb;
     }
 
     /**

@@ -40,7 +40,8 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse> {
     /**
      * Creates a feedbackResponse.
      */
-    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse) throws InvalidParametersException, EntityAlreadyExistsException {
+    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         assert feedbackResponse != null;
 
         if (!feedbackResponse.isValid()) {
@@ -48,7 +49,8 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse> {
         }
 
         if (getFeedbackResponse(feedbackResponse.getId()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponse.toString()));
+            throw new EntityAlreadyExistsException(
+                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponse.toString()));
         }
 
         persist(feedbackResponse);
@@ -58,7 +60,8 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse> {
     /**
      * Saves an updated {@code FeedbackResponse} to the db.
      */
-    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse) throws InvalidParametersException, EntityDoesNotExistException {
+    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException {
         assert feedbackResponse != null;
 
         if (!feedbackResponse.isValid()) {

@@ -309,7 +309,7 @@ public class FeedbackSession extends BaseEntity {
                 + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", deadlineExtensions=" + deadlineExtensions
-                + ", feedbackQuestions=" + feedbackQuestions + ", createdAt=" + getCreatedAt() 
+                + ", feedbackQuestions=" + feedbackQuestions + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 

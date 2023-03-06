@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.storage.sqlapi.FeedbackSessionsDb;
-import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * Handles operations related to feedback sessions.
@@ -20,8 +20,8 @@ public final class FeedbackSessionsLogic {
 
     // private CoursesLogic coursesLogic;
     private FeedbackSessionsDb fsDb;
+    private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
-    private FeedbackQuestionsLogic fqLogic; 
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -31,7 +31,8 @@ public final class FeedbackSessionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic, FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic) {
+    void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
+            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;

@@ -156,7 +156,10 @@ public final class UsersDb extends EntitiesDb<User> {
 
         return session.createQuery(cr).getSingleResult();
     }
-    
+
+    /**
+     * Gets the list of instructors for the specified {@code courseId}.
+     */
     public List<Instructor> getInstructorsForCourse(String courseId) {
         assert courseId != null;
 
@@ -170,6 +173,9 @@ public final class UsersDb extends EntitiesDb<User> {
         return session.createQuery(cr).getResultList();
     }
 
+    /**
+     * Gets the list of students for the specified {@code courseId}.
+     */
     public List<Student> getStudentsForCourse(String courseId) {
         assert courseId != null;
 
@@ -183,6 +189,9 @@ public final class UsersDb extends EntitiesDb<User> {
         return session.createQuery(cr).getResultList();
     }
 
+    /**
+     * Gets the instructor with the specified {@code userEmail}.
+     */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
         assert courseId != null;
         assert userEmail != null;
@@ -200,6 +209,9 @@ public final class UsersDb extends EntitiesDb<User> {
         return session.createQuery(cr).getSingleResultOrNull();
     }
 
+    /**
+     * Gets the student with the specified {@code userEmail}.
+     */
     public Student getStudentForEmail(String courseId, String userEmail) {
         assert courseId != null;
         assert userEmail != null;

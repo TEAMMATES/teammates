@@ -71,7 +71,7 @@ public final class FeedbackQuestionsLogic {
         assert feedbackQuestions != null;
         assert giverType != null;
 
-        for (FeedbackQuestion fq: feedbackQuestions) {
+        for (FeedbackQuestion fq : feedbackQuestions) {
             if (fq.getGiverType() == giverType) {
                 return true;
             }
