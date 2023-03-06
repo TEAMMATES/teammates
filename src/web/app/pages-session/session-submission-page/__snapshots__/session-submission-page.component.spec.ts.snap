@@ -3041,6 +3041,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-md-7 col-xs-12 text-md-start"
                         >
                           <select
+                            aria-label="Response for option 1 Option"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -3073,6 +3074,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-md-7 col-xs-12 text-md-start"
                         >
                           <select
+                            aria-label="Response for option 2 Option"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -5729,6 +5731,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-md-7 col-xs-12 text-md-start"
                         >
                           <select
+                            aria-label="Response for option 1 Option"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -5761,6 +5764,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-md-7 col-xs-12 text-md-start"
                         >
                           <select
+                            aria-label="Response for option 2 Option"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option

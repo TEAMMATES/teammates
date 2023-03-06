@@ -4,7 +4,7 @@
   </div>
   <div class="col-md-7 col-xs-12 text-md-start">
     <select class="form-control form-select" [ngModel]="responseDetails.answers[i]"
-            (ngModelChange)="triggerResponse(i, $event)" [disabled]="isDisabled">
+            (ngModelChange)="triggerResponse(i, $event)" [disabled]="isDisabled" [attr.aria-label]="getAriaLabelForOption(questionDetails.options[i])">
       <option [ngValue]="RANK_OPTIONS_ANSWER_NOT_SUBMITTED"></option>
       <option *ngFor="let rank of ranksToBeAssigned" [ngValue]="rank">{{ rank }}</option>
     </select>
