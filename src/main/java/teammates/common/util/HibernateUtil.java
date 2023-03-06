@@ -9,6 +9,9 @@ import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
@@ -123,7 +126,7 @@ public final class HibernateUtil {
     /**
      * Returns the SessionFactory.
      */
-    public static SessionFactory getSessionFactory() {
+    private static SessionFactory getSessionFactory() {
         assert sessionFactory != null;
 
         return sessionFactory;
@@ -133,8 +136,23 @@ public final class HibernateUtil {
      * Returns the current hibernate session.
      * @see SessionFactory#getCurrentSession()
      */
-    public static Session getCurrentSession() {
+    private static Session getCurrentSession() {
         return HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+
+    /**
+     * Returns a CriteriaBuilder object.
+     * @see SessionFactory#getCriteriaBuilder()
+     */
+    public static CriteriaBuilder getCriteriaBuilder() {
+        return getSessionFactory().getCurrentSession().getCriteriaBuilder();
+    }
+
+    /**
+     * Returns a generic typed TypedQuery object.
+     */
+    public static <T extends BaseEntity> TypedQuery<T> createQuery(CriteriaQuery<T> cr) {
+        return getSessionFactory().getCurrentSession().createQuery(cr);
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {
