@@ -74,21 +74,6 @@ public final class UsersDb extends EntitiesDb<User> {
     }
 
     /**
-     * Gets instructor exists by its {@code courseId} and {@code email}.
-     */
-    public Instructor getInstructor(String courseId, String email) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-
-        cr.select(instructorRoot).where(cb.and(
-                cb.equal(instructorRoot.get("courseId"), courseId),
-                cb.equal(instructorRoot.get("email"), email)));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
      * Gets an instructor by {@code regKey}.
      */
     public Instructor getInstructorByRegKey(String regKey) {
@@ -124,21 +109,6 @@ public final class UsersDb extends EntitiesDb<User> {
         assert id != null;
 
         return HibernateUtil.get(Student.class, id);
-    }
-
-    /**
-     * Gets a student exists by its {@code courseId} and {@code email}.
-     */
-    public Student getStudent(String courseId, String email) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-
-        cr.select(studentRoot).where(cb.and(
-                cb.equal(studentRoot.get("courseId"), courseId),
-                cb.equal(studentRoot.get("email"), email)));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**

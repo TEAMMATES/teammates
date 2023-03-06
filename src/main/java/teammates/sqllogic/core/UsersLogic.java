@@ -69,13 +69,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets instructor associated with {@code courseId} and {@code email}.
+     * Gets the instructor with the specified email.
      */
-    public Instructor getInstructor(String courseId, String email) {
-        assert courseId != null;
-        assert email != null;
-
-        return usersDb.getInstructor(courseId, email);
+    public Instructor getInstructorForEmail(String courseId, String userEmail) {
+        return usersDb.getInstructorForEmail(courseId, userEmail);
     }
 
     /**
@@ -130,13 +127,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets the instructor with the specified email.
-     */
-    public Instructor getInstructorForEmail(String courseId, String userEmail) {
-        return usersDb.getInstructorForEmail(courseId, userEmail);
-    }
-
-    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.
@@ -146,16 +136,6 @@ public final class UsersLogic {
         assert id != null;
 
         return usersDb.getStudent(id);
-    }
-
-    /**
-     * Gets student associated with {@code courseId} and {@code email}.
-     */
-    public Student getStudent(String courseId, String email) {
-        assert courseId != null;
-        assert email != null;
-
-        return usersDb.getStudent(courseId, email);
     }
 
     /**

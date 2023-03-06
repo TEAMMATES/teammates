@@ -291,8 +291,8 @@ public class Logic {
     /**
      * Gets instructor associated with {@code courseId} and {@code email}.
      */
-    public Instructor getInstructor(String courseId, String email) {
-        return usersLogic.getInstructor(courseId, email);
+    public Instructor getInstructorForEmail(String courseId, String email) {
+        return usersLogic.getInstructorForEmail(courseId, email);
     }
 
     /**
@@ -322,8 +322,8 @@ public class Logic {
     /**
      * Gets student associated with {@code courseId} and {@code email}.
      */
-    public Student getStudent(String courseId, String email) {
-        return usersLogic.getStudent(courseId, email);
+    public Student getStudentForEmail(String courseId, String email) {
+        return usersLogic.getStudentForEmail(courseId, email);
     }
 
     /**
