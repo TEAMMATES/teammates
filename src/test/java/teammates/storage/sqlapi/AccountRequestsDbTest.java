@@ -20,7 +20,7 @@ import teammates.test.BaseTestCase;
 /**
  * SUT: {@code AccountRequestDb}.
  */
-public class AccountRequestDbTest extends BaseTestCase {
+public class AccountRequestsDbTest extends BaseTestCase {
 
     private AccountRequestsDb accountRequestDb;
 
