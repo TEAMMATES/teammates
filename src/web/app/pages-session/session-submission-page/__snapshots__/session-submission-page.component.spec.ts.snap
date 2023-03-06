@@ -2693,6 +2693,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-rubric-question-edit-answer-form>
                       <table
+                        aria-label="Response for Barry Harris"
                         class="table table-bordered desktop-view"
                       >
                         <tbody>
@@ -2774,6 +2775,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </tbody>
                       </table>
                       <div
+                        aria-label="Response for Barry Harris"
                         class="mobile-view"
                       >
                         <div
@@ -5377,6 +5379,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-rubric-question-edit-answer-form>
                       <table
+                        aria-label="Response for Barry Harris"
                         class="table table-bordered desktop-view"
                       >
                         <tbody>
@@ -5462,6 +5465,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </tbody>
                       </table>
                       <div
+                        aria-label="Response for Barry Harris"
                         class="mobile-view"
                       >
                         <div
