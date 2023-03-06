@@ -38,7 +38,7 @@
             [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
             [attr.aria-label]="getAriaLabelForChoice(questionDetails.rubricChoices[j], rubricDescriptionCell, questionDetails.rubricSubQuestions[i])"
           >
-          {{ questionDetails.rubricChoices[j] }} - {{ rubricDescriptionCell }}
+          {{ getChoiceWithDescription(questionDetails.rubricChoices[j], rubricDescriptionCell) }}
         </label>
       </div>
     </div>

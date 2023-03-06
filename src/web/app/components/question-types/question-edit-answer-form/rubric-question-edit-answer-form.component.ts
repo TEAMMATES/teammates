@@ -60,7 +60,11 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
 
   getAriaLabelForChoice(choice: String, choiceDescription: String, criteria: String): String {
     const baseAriaLabel: String = this.getAriaLabel();
-    const choiceWithDescription = choiceDescription ? `${choice} - ${choiceDescription}` : choice;
+    const choiceWithDescription: String = this.getChoiceWithDescription(choice, choiceDescription);
     return `${choiceWithDescription} ${baseAriaLabel} under Criteria of ${criteria}`;
+  }
+
+  getChoiceWithDescription(choice: String, choiceDescription: String): String {
+    return choiceDescription ? `${choice} - ${choiceDescription}` : choice;
   }
 }
