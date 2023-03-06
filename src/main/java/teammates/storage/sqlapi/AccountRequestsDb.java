@@ -6,8 +6,6 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.List;
 
-import org.hibernate.Session;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -60,14 +58,13 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest> {
      * Get AccountRequest by {@code email} and {@code institute} from database.
      */
     public AccountRequest getAccountRequest(String email, String institute) {
-        Session currentSession = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root).where(cb.and(cb.equal(
                 root.get("email"), email), cb.equal(root.get("institute"), institute)));
 
-        TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);
     }
 
@@ -75,13 +72,12 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest> {
      * Get AccountRequest by {@code registrationKey} from database.
      */
     public AccountRequest getAccountRequest(String registrationKey) {
-        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
-        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root).where(cb.equal(root.get("registrationKey"), registrationKey));
 
-        TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);
     }
 
@@ -89,14 +85,13 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest> {
      * Get AccountRequest with {@code createdTime} within the times {@code startTime} and {@code endTime}.
      */
     public List<AccountRequest> getAccountRequests(Instant startTime, Instant endTime) {
-        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
-        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
                 cb.lessThanOrEqualTo(root.get("createdAt"), endTime)));
 
-        TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultList();
     }
 
