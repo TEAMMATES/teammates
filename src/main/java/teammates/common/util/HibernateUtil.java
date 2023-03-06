@@ -44,6 +44,10 @@ import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+
 /**
  * Utility class for Hibernate related methods.
  */
@@ -123,7 +127,7 @@ public final class HibernateUtil {
     /**
      * Returns the SessionFactory.
      */
-    public static SessionFactory getSessionFactory() {
+    private static SessionFactory getSessionFactory() {
         assert sessionFactory != null;
 
         return sessionFactory;
@@ -133,8 +137,24 @@ public final class HibernateUtil {
      * Returns the current hibernate session.
      * @see SessionFactory#getCurrentSession()
      */
-    public static Session getCurrentSession() {
+    private static Session getCurrentSession() {
         return HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+
+    /**
+     * Returns a CriteriaBuilder object.
+     * @see SessionFactory#getCriteriaBuilder()
+     */
+    public static CriteriaBuilder getCriteriaBuilder() {
+        return getCurrentSession().getCriteriaBuilder();
+    }
+
+    /**
+     * Returns a generic typed TypedQuery object.
+     * @see Session#createQuery(CriteriaQuery)
+     */
+    public static <T> TypedQuery<T> createQuery(CriteriaQuery<T> cr) {
+        return getCurrentSession().createQuery(cr);
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {

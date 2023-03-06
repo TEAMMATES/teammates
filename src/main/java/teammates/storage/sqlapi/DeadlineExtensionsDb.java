@@ -5,8 +5,6 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.UUID;
 
-import org.hibernate.Session;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -68,8 +66,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
      * Get DeadlineExtension by {@code userId} and {@code feedbackSessionId}.
      */
     public DeadlineExtension getDeadlineExtension(UUID userId, UUID feedbackSessionId) {
-        Session currentSession = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
         Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
 
@@ -77,7 +74,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
                 cb.equal(root.get("sessionId"), feedbackSessionId),
                 cb.equal(root.get("userId"), userId)));
 
-        TypedQuery<DeadlineExtension> query = currentSession.createQuery(cr);
+        TypedQuery<DeadlineExtension> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);
     }
 
