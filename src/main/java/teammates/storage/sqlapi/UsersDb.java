@@ -292,4 +292,5 @@ public final class UsersDb extends EntitiesDb<User> {
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
+
 }

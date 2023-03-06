@@ -51,6 +51,20 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets all feedback sessions of a course.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
+        return fsDb.getFeedbackSessionsForCourse(courseId);
+    }
+
+    /**
+     * Gets all feedback sessions of a course started after time.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
+        return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
+    }
+
+    /**
      * Creates a feedback session.
      *
      * @return created feedback session
@@ -74,20 +88,6 @@ public final class FeedbackSessionsLogic {
         return isInstructor
                 ? fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), false)
                 : fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions());
-    }
-
-    /**
-     * Gets all feedback sessions of a course.
-     */
-    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
-        return fsDb.getFeedbackSessionsForCourse(courseId);
-    }
-
-    /**
-     * Gets all feedback sessions of a course started after time.
-     */
-    public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
-        return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
     }
 
     /**
