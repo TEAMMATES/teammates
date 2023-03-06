@@ -380,7 +380,7 @@ a) This student has done a good job.,66.67% (2) [1.25],33.33% (1) [-1.7],0.27
 b) This student has tried his/her best.,75% (3) [1.25],25% (1) [-1.7],0.51
 
 Per Recipient Statistics (Per Criterion)
-Team,Recipient Name,Recipient Email,Sub Question,Yes,No,Total,Average,Per Criterion Average
+Team,Recipient Name,Recipient Email,Sub Question,Yes,No,Total,Average
 \\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,a) This student has done a good job.,100% (1) [1.25],0% (0) [-1.7],1.25,1.25
 \\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,b) This student has tried his/her best.,0% (0) [1.25],100% (1) [-1.7],-1.7,-1.7
 \\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,a) This student has done a good job.,0% (0) [1.25],100% (1) [-1.7],-1.7,-1.7
@@ -430,7 +430,7 @@ a) This student has done a good job.,66.67% (2) [1.25],33.33% (1) [1],1.17
 b) This student has tried his/her best.,0% (0) [1.25],0% (0) [1],0
 
 Per Recipient Statistics (Per Criterion)
-Team,Recipient Name,Recipient Email,Sub Question,Yes,No,Total,Average,Per Criterion Average
+Team,Recipient Name,Recipient Email,Sub Question,Yes,No,Total,Average
 \\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,a) This student has done a good job.,100% (1) [1.25],0% (0) [1],1.25,1.25
 \\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,b) This student has tried his/her best.,0% (0) [1.25],0% (0) [1],0,0
 \\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,a) This student has done a good job.,0% (0) [1.25],100% (1) [1],1,1
