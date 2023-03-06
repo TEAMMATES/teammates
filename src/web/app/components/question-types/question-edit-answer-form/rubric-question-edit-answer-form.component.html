@@ -9,13 +9,13 @@
       <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
       <td *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;" class="text-secondary answer-cell" (click)="selectAnswer(i, j)">
         <label>
-          <input 
-            type="radio" 
+          <input
+            type="radio"
             [disabled]="isDisabled"
-            [name]="id + i + '-desktop'" 
+            [name]="id + i + '-desktop'"
             [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
             [attr.aria-label]="getAriaLabelForChoice(questionDetails.rubricChoices[j], rubricDescriptionCell, questionDetails.rubricSubQuestions[i])"
-          /> 
+          />
           {{ rubricDescriptionCell }}
         </label>
       </td>
@@ -31,11 +31,11 @@
          [ngClass]="{ 'row-answered': i < responseDetails.answer.length && responseDetails.answer[i] !== RUBRIC_ANSWER_NOT_CHOSEN }">
       <div *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index;">
         <label>
-          <input 
-            type="radio" 
-            [disabled]="isDisabled" 
+          <input
+            type="radio"
+            [disabled]="isDisabled"
             (click)="selectAnswer(i, j)"
-            [name]="id + i + '-mobile'" 
+            [name]="id + i + '-mobile'"
             [checked]="i < responseDetails.answer.length && responseDetails.answer[i] === j"
             [attr.aria-label]="getAriaLabelForChoice(questionDetails.rubricChoices[j], rubricDescriptionCell, questionDetails.rubricSubQuestions[i])"
           >
