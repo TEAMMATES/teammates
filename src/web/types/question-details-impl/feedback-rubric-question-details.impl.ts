@@ -88,7 +88,6 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
       ...statsCalculation.choices,
       'Total',
       'Average',
-      'Per Criterion Average',
     ]);
 
     Object.values(statsCalculation.perRecipientStatsMap)
