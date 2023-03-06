@@ -1,11 +1,10 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
-
-import org.hibernate.Session;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -23,14 +22,14 @@ import jakarta.persistence.criteria.Root;
  *
  * @see AccountRequest
  */
-public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
-    private static final AccountRequestDb instance = new AccountRequestDb();
+public final class AccountRequestsDb extends EntitiesDb<AccountRequest> {
+    private static final AccountRequestsDb instance = new AccountRequestsDb();
 
-    private AccountRequestDb() {
+    private AccountRequestsDb() {
         // prevent instantiation
     }
 
-    public static AccountRequestDb inst() {
+    public static AccountRequestsDb inst() {
         return instance;
     }
 
@@ -59,14 +58,13 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
      * Get AccountRequest by {@code email} and {@code institute} from database.
      */
     public AccountRequest getAccountRequest(String email, String institute) {
-        Session currentSession = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root).where(cb.and(cb.equal(
                 root.get("email"), email), cb.equal(root.get("institute"), institute)));
 
-        TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);
     }
 
@@ -74,13 +72,12 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
      * Get AccountRequest by {@code registrationKey} from database.
      */
     public AccountRequest getAccountRequest(String registrationKey) {
-        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
-        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root).where(cb.equal(root.get("registrationKey"), registrationKey));
 
-        TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);
     }
 
@@ -88,14 +85,13 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
      * Get AccountRequest with {@code createdTime} within the times {@code startTime} and {@code endTime}.
      */
     public List<AccountRequest> getAccountRequests(Instant startTime, Instant endTime) {
-        Session currentSession = HibernateUtil.getSessionFactory().getCurrentSession();
-        CriteriaBuilder cb = currentSession.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
                 cb.lessThanOrEqualTo(root.get("createdAt"), endTime)));
 
-        TypedQuery<AccountRequest> query = currentSession.createQuery(cr);
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultList();
     }
 
@@ -112,7 +108,7 @@ public final class AccountRequestDb extends EntitiesDb<AccountRequest> {
 
         if (getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()) == null) {
             throw new EntityDoesNotExistException(
-                String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, accountRequest.toString()));
+                String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
         }
 
         merge(accountRequest);

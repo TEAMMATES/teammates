@@ -85,11 +85,11 @@ public class NotificationsDbTest extends BaseTestCase {
     public void testGetNotification_success() {
         Notification notification = generateTypicalNotificationWithId();
         mockHibernateUtil.when(() ->
-                HibernateUtil.get(Notification.class, notification.getNotificationId())).thenReturn(notification);
+                HibernateUtil.get(Notification.class, notification.getId())).thenReturn(notification);
 
-        Notification actualNotification = notificationsDb.getNotification(notification.getNotificationId());
+        Notification actualNotification = notificationsDb.getNotification(notification.getId());
 
-        mockHibernateUtil.verify(() -> HibernateUtil.get(Notification.class, notification.getNotificationId()));
+        mockHibernateUtil.verify(() -> HibernateUtil.get(Notification.class, notification.getId()));
         assertEquals(notification, actualNotification);
     }
 
@@ -121,7 +121,7 @@ public class NotificationsDbTest extends BaseTestCase {
         Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
-        notification.setNotificationId(UUID.randomUUID());
+        notification.setId(UUID.randomUUID());
         return notification;
     }
 

@@ -3,6 +3,8 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.util.UUID;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -29,7 +31,7 @@ public final class AccountsDb extends EntitiesDb<Account> {
     /**
      * Returns an Account with the {@code id} or null if it does not exist.
      */
-    public Account getAccount(Integer id) {
+    public Account getAccount(UUID id) {
         assert id != null;
 
         return HibernateUtil.get(Account.class, id);

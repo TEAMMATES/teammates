@@ -2,9 +2,9 @@ package teammates.sqllogic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
@@ -12,7 +12,10 @@ import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
 
 /**
- * Handles operations related to users (instructors and students).
+ * Handles operations related to user (instructor & student).
+ *
+ * @see User
+ * @see UsersDb
  */
 public final class UsersLogic {
 
@@ -54,28 +57,44 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets an instructor by instructor id.
-     * @param id of instructor.
-     * @return the specified instructor.
+     * Gets instructor associated with {@code id}.
+     *
+     * @param id    Id of Instructor.
+     * @return      Returns Instructor if found else null.
      */
-    public Instructor getInstructor(Integer id) {
+    public Instructor getInstructor(UUID id) {
+        assert id != null;
+
         return usersDb.getInstructor(id);
     }
 
     /**
-     * Gets an student by student id.
-     * @param id of student.
-     * @return the specified student.
+     * Gets instructor associated with {@code courseId} and {@code email}.
      */
-    public Student getStudent(Integer id) {
-        return usersDb.getStudent(id);
+    public Instructor getInstructor(String courseId, String email) {
+        assert courseId != null;
+        assert email != null;
+
+        return usersDb.getInstructor(courseId, email);
     }
 
     /**
-     * Updates an instructor or student.
+     * Gets an instructor by associated {@code regkey}.
      */
-    public <T extends User> T updateUser(T user) throws InvalidParametersException, EntityDoesNotExistException {
-        return usersDb.updateUser(user);
+    public Instructor getInstructorByRegistrationKey(String regKey) {
+        assert regKey != null;
+
+        return usersDb.getInstructorByRegKey(regKey);
+    }
+
+    /**
+     * Gets an instructor by associated {@code googleId}.
+     */
+    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
+        assert courseId != null;
+        assert googleId != null;
+
+        return usersDb.getInstructorByGoogleId(courseId, googleId);
     }
 
     /**
@@ -111,20 +130,32 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets a list of students for the specified course.
-     */
-    public List<Student> getStudentsForCourse(String courseId) {
-        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId);
-        Student.sortByName(studentReturnList);
-
-        return studentReturnList;
-    }
-
-    /**
      * Gets the instructor with the specified email.
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
         return usersDb.getInstructorForEmail(courseId, userEmail);
+    }
+
+    /**
+     * Gets student associated with {@code id}.
+     *
+     * @param id    Id of Student.
+     * @return      Returns Student if found else null.
+     */
+    public Student getStudent(UUID id) {
+        assert id != null;
+
+        return usersDb.getStudent(id);
+    }
+
+    /**
+     * Gets student associated with {@code courseId} and {@code email}.
+     */
+    public Student getStudent(String courseId, String email) {
+        assert courseId != null;
+        assert email != null;
+
+        return usersDb.getStudent(courseId, email);
     }
 
     /**
@@ -139,5 +170,34 @@ public final class UsersLogic {
      */
     public List<Student> getAllStudentsForEmail(String email) {
         return usersDb.getAllStudentsForEmail(email);
+    }
+
+    /**
+     * Gets a list of students for the specified course.
+     */
+    public List<Student> getStudentsForCourse(String courseId) {
+        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId);
+        Student.sortByName(studentReturnList);
+
+        return studentReturnList;
+    }
+
+    /**
+     * Gets a student by associated {@code regkey}.
+     */
+    public Student getStudentByRegistrationKey(String regKey) {
+        assert regKey != null;
+
+        return usersDb.getStudentByRegKey(regKey);
+    }
+
+    /**
+     * Gets a student by associated {@code googleId}.
+     */
+    public Student getStudentByGoogleId(String courseId, String googleId) {
+        assert courseId != null;
+        assert googleId != null;
+
+        return usersDb.getStudentByGoogleId(courseId, googleId);
     }
 }

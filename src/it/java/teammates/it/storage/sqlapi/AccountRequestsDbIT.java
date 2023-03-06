@@ -7,15 +7,15 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
-import teammates.storage.sqlapi.AccountRequestDb;
+import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * SUT: {@link CoursesDb}.
  */
-public class AccountRequestDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final AccountRequestDb accountRequestDb = AccountRequestDb.inst();
+    private final AccountRequestsDb accountRequestDb = AccountRequestsDb.inst();
 
     @Test
     public void testCreateReadDeleteAccountRequest() throws Exception {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
@@ -97,7 +98,7 @@ public final class SqlEmailGenerator {
 
         if (emailType == EmailType.FEEDBACK_CLOSING) {
             List<DeadlineExtension> deadlines = session.getDeadlineExtensions();
-            Set<Integer> userIds = deadlines.stream()
+            Set<UUID> userIds = deadlines.stream()
                     .map(d -> d.getUser().getId())
                     .collect(Collectors.toSet());
 

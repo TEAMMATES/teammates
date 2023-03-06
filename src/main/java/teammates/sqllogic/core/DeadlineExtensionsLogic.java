@@ -2,6 +2,8 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -16,7 +18,8 @@ import teammates.storage.sqlentity.User;
 public final class DeadlineExtensionsLogic {
 
     private static final DeadlineExtensionsLogic instance = new DeadlineExtensionsLogic();
-    private DeadlineExtensionsDb deDb;
+
+    private DeadlineExtensionsDb deadlineExtensionsDb;
 
     private DeadlineExtensionsLogic() {
         // prevent initialization
@@ -26,22 +29,34 @@ public final class DeadlineExtensionsLogic {
         return instance;
     }
 
-    /**
-     * Initialize dependencies for {@code DeadlineExtensionsLogic}.
-     */
-    void initLogicDependencies(DeadlineExtensionsDb deDb) {
-        this.deDb = deDb;
+    void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb) {
+        this.deadlineExtensionsDb = deadlineExtensionsDb;
     }
 
     /**
      * Get extended deadline for this session and user if it exists, otherwise get the deadline of the session.
      */
     public Instant getDeadlineForUser(FeedbackSession session, User user) {
-        DeadlineExtension de = deDb.getDeadlineExtensionForUser(session.getId(), user.getId());
+        DeadlineExtension deadlineExtension =
+                deadlineExtensionsDb.getDeadlineExtensionForUser(session.getId(), user.getId());
 
-        if (de == null) {
+        if (deadlineExtension == null) {
             return session.getEndTime();
         }
-        return de.getEndTime();
+
+        return deadlineExtension.getEndTime();
+    }
+
+    /**
+     * Creates a deadline extension.
+     *
+     * @return created deadline extension
+     * @throws InvalidParametersException if the deadline extension is not valid
+     * @throws EntityAlreadyExistsException if the deadline extension already exist
+     */
+    public DeadlineExtension createDeadlineExtension(DeadlineExtension deadlineExtension)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert deadlineExtension != null;
+        return deadlineExtensionsDb.createDeadlineExtension(deadlineExtension);
     }
 }

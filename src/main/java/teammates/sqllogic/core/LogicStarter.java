@@ -4,6 +4,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
+import teammates.storage.sqlapi.AccountRequestsDb;
+import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
@@ -24,8 +26,11 @@ public class LogicStarter implements ServletContextListener {
      * Registers dependencies between different logic classes.
      */
     public static void initializeDependencies() {
+
+        AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
+        AccountsLogic accountsLogic = AccountsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
-        DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
+        DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -33,8 +38,10 @@ public class LogicStarter implements ServletContextListener {
         UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
         UsersLogic usersLogic = UsersLogic.inst();
 
+        accountRequestsLogic.initLogicDependencies(AccountRequestsDb.inst());
+        accountsLogic.initLogicDependencies(AccountsDb.inst(), notificationsLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic);
-        deLogic.initLogicDependencies(DeadlineExtensionsDb.inst());
+        deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst());
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic, frLogic, fqLogic);
         frLogic.initLogicDependencies(FeedbackResponsesDb.inst());
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst());

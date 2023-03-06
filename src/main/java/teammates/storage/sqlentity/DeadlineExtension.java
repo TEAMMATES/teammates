@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,7 +12,6 @@ import teammates.common.util.FieldValidator;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -24,8 +24,7 @@ import jakarta.persistence.Table;
 @Table(name = "DeadlineExtensions")
 public class DeadlineExtension extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
@@ -47,16 +46,17 @@ public class DeadlineExtension extends BaseEntity {
     }
 
     public DeadlineExtension(User user, FeedbackSession feedbackSession, Instant endTime) {
+        this.setId(UUID.randomUUID());
         this.setUser(user);
         this.setFeedbackSession(feedbackSession);
         this.setEndTime(endTime);
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -100,7 +100,7 @@ public class DeadlineExtension extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.user, this.feedbackSession);
+        return this.getId().hashCode();
     }
 
     @Override
@@ -111,8 +111,7 @@ public class DeadlineExtension extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             DeadlineExtension otherDe = (DeadlineExtension) other;
-            return Objects.equals(this.user, otherDe.user)
-                    && Objects.equals(this.feedbackSession, otherDe.feedbackSession);
+            return Objects.equals(this.getId(), otherDe.getId());
         } else {
             return false;
         }
@@ -122,10 +121,8 @@ public class DeadlineExtension extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
-        deadlineExtensions.add(this);
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-                feedbackSession.getEndTime(), deadlineExtensions), errors);
+                feedbackSession.getEndTime(), List.of(this)), errors);
 
         return errors;
     }

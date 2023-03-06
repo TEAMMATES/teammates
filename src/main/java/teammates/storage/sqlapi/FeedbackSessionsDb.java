@@ -1,13 +1,14 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.hibernate.Session;
-
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -39,10 +40,29 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
      *
      * @return null if not found
      */
-    public FeedbackSession getFeedbackSession(Integer fsId) {
+    public FeedbackSession getFeedbackSession(UUID fsId) {
         assert fsId != null;
 
         return HibernateUtil.get(FeedbackSession.class, fsId);
+    }
+
+    /**
+     * Creates a feedback session.
+     */
+    public FeedbackSession createFeedbackSession(FeedbackSession session)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert session != null;
+
+        if (!session.isValid()) {
+            throw new InvalidParametersException(session.getInvalidityInfo());
+        }
+
+        if (getFeedbackSession(session.getId()) != null) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
+        }
+
+        persist(session);
+        return session;
     }
 
     /**
@@ -70,12 +90,9 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     /**
      * Deletes a feedback session.
      */
-    public void deleteFeedbackSession(Integer fsId) {
-        assert fsId != null;
-
-        FeedbackSession fs = getFeedbackSession(fsId);
-        if (fs != null) {
-            delete(fs);
+    public void deleteFeedbackSession(FeedbackSession feedbackSession) {
+        if (feedbackSession != null) {
+            delete(feedbackSession);
         }
     }
 
@@ -91,14 +108,13 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         assert courseId != null;
 
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
 
         cr.select(root).where(cb.equal(root.get("courseId"), courseId));
 
-        return session.createQuery(cr).getResultList();
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**
@@ -114,8 +130,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
         assert courseId != null;
         assert after != null;
 
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
 
@@ -124,6 +139,6 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
                     cb.greaterThanOrEqualTo(root.get("startTime"), after),
                     cb.equal(root.get("courseId"), courseId)));
 
-        return session.createQuery(cr).getResultList();
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 }

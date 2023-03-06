@@ -3,7 +3,10 @@ package teammates.sqllogic.core;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -18,7 +21,6 @@ public final class FeedbackSessionsLogic {
 
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
-    // private CoursesLogic coursesLogic;
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
@@ -36,8 +38,29 @@ public final class FeedbackSessionsLogic {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
+    }
 
-        // this.coursesLogic = coursesLogic;
+    /**
+     * Gets a feedback session.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSession getFeedbackSession(UUID id) {
+        assert id != null;
+        return fsDb.getFeedbackSession(id);
+    }
+
+    /**
+     * Creates a feedback session.
+     *
+     * @return created feedback session
+     * @throws InvalidParametersException if the session is not valid
+     * @throws EntityAlreadyExistsException if the session already exist
+     */
+    public FeedbackSession createFeedbackSession(FeedbackSession session)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert session != null;
+        return fsDb.createFeedbackSession(session);
     }
 
     /**

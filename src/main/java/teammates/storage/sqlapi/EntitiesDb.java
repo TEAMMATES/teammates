@@ -2,7 +2,6 @@
 package teammates.storage.sqlapi;
 
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.sqlentity.BaseEntity;
 
@@ -23,7 +22,7 @@ class EntitiesDb<E extends BaseEntity> {
         assert entity != null;
 
         T newEntity = HibernateUtil.merge(entity);
-        log.info("Entity saves: " + JsonUtils.toJson(entity));
+        log.info("Entity saved: " + entity.toString());
         return newEntity;
     }
 
@@ -34,7 +33,7 @@ class EntitiesDb<E extends BaseEntity> {
         assert entity != null;
 
         HibernateUtil.persist(entity);
-        log.info("Entity persisted: " + JsonUtils.toJson(entity));
+        log.info("Entity persisted: " + entity.toString());
     }
 
     /**
@@ -44,6 +43,6 @@ class EntitiesDb<E extends BaseEntity> {
         assert entity != null;
 
         HibernateUtil.remove(entity);
-        log.info("Entity deleted: " + JsonUtils.toJson(entity));
+        log.info("Entity deleted: " + entity.toString());
     }
 }

@@ -27,7 +27,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         notificationsDb.createNotification(newNotification);
 
-        UUID notificationId = newNotification.getNotificationId();
+        UUID notificationId = newNotification.getId();
         Notification actualNotification = notificationsDb.getNotification(notificationId);
         verifyEquals(newNotification, actualNotification);
     }
@@ -39,7 +39,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         notificationsDb.createNotification(newNotification);
 
-        UUID notificationId = newNotification.getNotificationId();
+        UUID notificationId = newNotification.getId();
         Notification actualNotification = notificationsDb.getNotification(notificationId);
         verifyEquals(newNotification, actualNotification);
 
@@ -55,7 +55,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Notification notification = generateTypicalNotification();
 
         notificationsDb.createNotification(notification);
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
         assertNotNull(notificationsDb.getNotification(notificationId));
 
         notificationsDb.deleteNotification(notification);
