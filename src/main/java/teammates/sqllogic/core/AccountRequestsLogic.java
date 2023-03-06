@@ -58,6 +58,10 @@ public final class AccountRequestsLogic {
             throws EntityDoesNotExistException, InvalidParametersException {
         AccountRequest accountRequest = accountRequestDb.getAccountRequest(email, institute);
 
+        if (accountRequest == null) {
+            throw new EntityDoesNotExistException("Failed to reset since AccountRequest with " +
+                "the given email and institute cannot be found.");
+        }
         accountRequest.setRegisteredAt(null);
 
         return accountRequestDb.updateAccountRequest(accountRequest);
