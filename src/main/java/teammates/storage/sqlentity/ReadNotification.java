@@ -1,13 +1,11 @@
 package teammates.storage.sqlentity;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -20,8 +18,7 @@ import jakarta.persistence.Table;
 @Table(name = "ReadNotifications")
 public class ReadNotification extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private UUID id;
 
     @ManyToOne
     private Account account;
@@ -29,27 +26,22 @@ public class ReadNotification extends BaseEntity {
     @ManyToOne
     private Notification notification;
 
-    @Column(nullable = false)
-    private Instant readAt;
-
     protected ReadNotification() {
         // required by Hibernate
     }
 
-    public Integer getId() {
+    public ReadNotification(Account account, Notification notification) {
+        this.setId(UUID.randomUUID());
+        this.setAccount(account);
+        this.setNotification(notification);
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Instant getReadAt() {
-        return readAt;
-    }
-
-    public void setReadAt(Instant readAt) {
-        this.readAt = readAt;
     }
 
     public Account getAccount() {
@@ -80,11 +72,8 @@ public class ReadNotification extends BaseEntity {
         } else if (this == other) {
             return true;
         } else if (this.getClass() == other.getClass()) {
-            ReadNotification otherReadNotifiation = (ReadNotification) other;
-            return Objects.equals(this.account, otherReadNotifiation.account)
-                    && Objects.equals(this.notification, otherReadNotifiation.notification)
-                    && Objects.equals(this.readAt, otherReadNotifiation.readAt)
-                    && Objects.equals(this.id, otherReadNotifiation.id);
+            ReadNotification otherReadNotification = (ReadNotification) other;
+            return Objects.equals(this.getId(), otherReadNotification.getId());
         } else {
             return false;
         }
@@ -97,7 +86,6 @@ public class ReadNotification extends BaseEntity {
 
     @Override
     public String toString() {
-        return "ReadNotification [id=" + id + ", account=" + account + ", notification=" + notification + ", readAt="
-                + readAt + "]";
+        return "ReadNotification [id=" + id + ", account=" + account + ", notification=" + notification + "]";
     }
 }

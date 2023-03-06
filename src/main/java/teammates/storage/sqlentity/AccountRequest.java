@@ -4,6 +4,8 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,8 +16,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -31,8 +31,7 @@ import jakarta.persistence.UniqueConstraint;
         })
 public class AccountRequest extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private UUID id;
 
     private String registrationKey;
 
@@ -52,6 +51,7 @@ public class AccountRequest extends BaseEntity {
     }
 
     public AccountRequest(String email, String name, String institute) {
+        this.setId(UUID.randomUUID());
         this.setEmail(email);
         this.setName(name);
         this.setInstitute(institute);
@@ -82,11 +82,11 @@ public class AccountRequest extends BaseEntity {
         return StringHelper.encrypt(uniqueId + prng.nextInt());
     }
 
-    public int getId() {
+    public UUID getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -136,6 +136,25 @@ public class AccountRequest extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            AccountRequest otherAccountRequest = (AccountRequest) other;
+            return Objects.equals(this.getId(), otherAccountRequest.getId());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getId().hashCode();
     }
 
     @Override
