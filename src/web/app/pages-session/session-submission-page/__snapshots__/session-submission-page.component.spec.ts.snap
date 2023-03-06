@@ -2699,29 +2699,31 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <tbody>
                           <tr>
                             <td />
-                            <td
-                              class="fw-bold"
+                            <th
+                              scope="col"
                             >
                               choice 1
-                            </td>
-                            <td
-                              class="fw-bold"
+                            </th>
+                            <th
+                              scope="col"
                             >
                               choice 2
-                            </td>
+                            </th>
                           </tr>
                           <tr
                             class="row-answered"
                           >
-                            <td>
+                            <th
+                              class="fw-normal"
+                              scope="row"
+                            >
                               subquestion 1
-                            </td>
+                            </th>
                             <td
                               class="text-secondary answer-cell"
                             >
                               <label>
                                 <input
-                                  aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
                                   name="feedback-question-id-rubricbarry-harris-id0-desktop"
                                   type="radio"
                                 />
@@ -2733,7 +2735,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <label>
                                 <input
-                                  aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
                                   name="feedback-question-id-rubricbarry-harris-id0-desktop"
                                   type="radio"
                                 />
@@ -2744,15 +2745,17 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           <tr
                             class="row-answered"
                           >
-                            <td>
+                            <th
+                              class="fw-normal"
+                              scope="row"
+                            >
                               subquestion 2
-                            </td>
+                            </th>
                             <td
                               class="text-secondary answer-cell"
                             >
                               <label>
                                 <input
-                                  aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
                                   name="feedback-question-id-rubricbarry-harris-id1-desktop"
                                   type="radio"
                                 />
@@ -2764,7 +2767,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <label>
                                 <input
-                                  aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
                                   name="feedback-question-id-rubricbarry-harris-id1-desktop"
                                   type="radio"
                                 />
@@ -5385,29 +5387,31 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <tbody>
                           <tr>
                             <td />
-                            <td
-                              class="fw-bold"
+                            <th
+                              scope="col"
                             >
                               choice 1
-                            </td>
-                            <td
-                              class="fw-bold"
+                            </th>
+                            <th
+                              scope="col"
                             >
                               choice 2
-                            </td>
+                            </th>
                           </tr>
                           <tr
                             class="row-answered"
                           >
-                            <td>
+                            <th
+                              class="fw-normal"
+                              scope="row"
+                            >
                               subquestion 1
-                            </td>
+                            </th>
                             <td
                               class="text-secondary answer-cell"
                             >
                               <label>
                                 <input
-                                  aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
                                   disabled=""
                                   name="feedback-question-id-rubricbarry-harris-id0-desktop"
                                   type="radio"
@@ -5420,7 +5424,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <label>
                                 <input
-                                  aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
                                   disabled=""
                                   name="feedback-question-id-rubricbarry-harris-id0-desktop"
                                   type="radio"
@@ -5432,15 +5435,17 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           <tr
                             class="row-answered"
                           >
-                            <td>
+                            <th
+                              class="fw-normal"
+                              scope="row"
+                            >
                               subquestion 2
-                            </td>
+                            </th>
                             <td
                               class="text-secondary answer-cell"
                             >
                               <label>
                                 <input
-                                  aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
                                   disabled=""
                                   name="feedback-question-id-rubricbarry-harris-id1-desktop"
                                   type="radio"
@@ -5453,7 +5458,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <label>
                                 <input
-                                  aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
                                   disabled=""
                                   name="feedback-question-id-rubricbarry-harris-id1-desktop"
                                   type="radio"
