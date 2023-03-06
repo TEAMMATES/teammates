@@ -91,22 +91,20 @@ public final class UsersDb extends EntitiesDb<User> {
      * Gets an instructor by {@code regKey}.
      */
     public Instructor getInstructorByRegKey(String regKey) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
 
         cr.select(instructorRoot).where(cb.equal(instructorRoot.get("regKey"), regKey));
 
-        return session.createQuery(cr).getSingleResultOrNull();
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**
      * Gets an instructor by {@code googleId}.
      */
     public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
         Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
@@ -115,7 +113,7 @@ public final class UsersDb extends EntitiesDb<User> {
                 cb.equal(instructorRoot.get("courseId"), courseId),
                 cb.equal(accountsJoin.get("googleId"), googleId)));
 
-        return session.createQuery(cr).getSingleResultOrNull();
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**
@@ -146,22 +144,20 @@ public final class UsersDb extends EntitiesDb<User> {
      * Gets a student by {@code regKey}.
      */
     public Student getStudentByRegKey(String regKey) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
 
         cr.select(studentRoot).where(cb.equal(studentRoot.get("regKey"), regKey));
 
-        return session.createQuery(cr).getSingleResultOrNull();
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**
      * Gets a student by {@code googleId}.
      */
     public Student getStudentByGoogleId(String courseId, String googleId) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
         Join<Student, Account> accountsJoin = studentRoot.join("account");
@@ -170,7 +166,7 @@ public final class UsersDb extends EntitiesDb<User> {
                 cb.equal(studentRoot.get("courseId"), courseId),
                 cb.equal(accountsJoin.get("googleId"), googleId)));
 
-        return session.createQuery(cr).getSingleResultOrNull();
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**

@@ -3,8 +3,6 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
-import org.hibernate.Session;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -95,8 +93,7 @@ public final class CoursesDb extends EntitiesDb<Course> {
         assert courseId != null;
         assert teamName != null;
 
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Section> cr = cb.createQuery(Section.class);
         Root<Section> sectionRoot = cr.from(Section.class);
         Join<Section, Course> courseJoin = sectionRoot.join("course");
@@ -106,6 +103,6 @@ public final class CoursesDb extends EntitiesDb<Course> {
                 cb.equal(courseJoin.get("id"), courseId),
                 cb.equal(teamJoin.get("name"), teamName)));
 
-        return session.createQuery(cr).getSingleResultOrNull();
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 }
