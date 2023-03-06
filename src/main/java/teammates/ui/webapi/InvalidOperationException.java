@@ -16,10 +16,6 @@ public class InvalidOperationException extends Exception {
         super(message);
     }
 
-    public InvalidOperationException(teammates.common.exception.InvalidOperationException cause) {
-        super(cause.getMessage(), cause);
-    }
-
     public InvalidOperationException(EntityAlreadyExistsException cause) {
         super(cause.getMessage(), cause);
     }

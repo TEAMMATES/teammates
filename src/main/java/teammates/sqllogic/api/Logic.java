@@ -8,7 +8,6 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -52,15 +51,9 @@ public class Logic {
      * @throws InvalidOperationException if the account request cannot be created.
      */
     public AccountRequest createAccountRequest(String name, String email, String institute)
-            throws InvalidParametersException, EntityAlreadyExistsException, InvalidOperationException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
 
-        AccountRequest accountRequest = accountRequestLogic.createAccountRequest(name, email, institute);
-
-        if (accountRequest.getRegisteredAt() != null) {
-            throw new InvalidOperationException("Cannot create account request as instructor has already registered.");
-        }
-
-        return accountRequest;
+        return accountRequestLogic.createAccountRequest(name, email, institute);
     }
 
     /**
@@ -80,8 +73,7 @@ public class Logic {
      *         email and institute.
      */
     public AccountRequest resetAccountRequest(String email, String institute)
-            throws EntityDoesNotExistException, InvalidOperationException,
-            InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidParametersException {
         return accountRequestLogic.resetAccountRequest(email, institute);
     }
 
@@ -95,7 +87,7 @@ public class Logic {
      * <p>Preconditions:</p>
      * All parameters are non-null.
      */
-    public void deleteAccountRequest(String email, String institute) throws InvalidOperationException {
+    public void deleteAccountRequest(String email, String institute) {
         accountRequestLogic.deleteAccountRequest(email, institute);
     }
 

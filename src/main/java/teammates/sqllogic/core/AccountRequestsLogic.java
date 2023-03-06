@@ -2,7 +2,6 @@ package teammates.sqllogic.core;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
@@ -56,17 +55,8 @@ public final class AccountRequestsLogic {
      * Creates/resets the account request with the given email and institute such that it is not registered.
      */
     public AccountRequest resetAccountRequest(String email, String institute)
-            throws EntityDoesNotExistException, InvalidOperationException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidParametersException {
         AccountRequest accountRequest = accountRequestDb.getAccountRequest(email, institute);
-
-        if (accountRequest == null) {
-            throw new EntityDoesNotExistException("Account request for instructor with email: " + email
-            + " and institute: " + institute + " does not exist.");
-        }
-
-        if (accountRequest.getRegisteredAt() == null) {
-            throw new InvalidOperationException("Unable to reset account request as instructor is still unregistered.");
-        }
 
         accountRequest.setRegisteredAt(null);
 
@@ -78,15 +68,9 @@ public final class AccountRequestsLogic {
      *
      * <p>Fails silently if no account requests with the given email and institute to delete can be found.</p>
      *
-     * @throws InvalidOperationException if the account request to delete has already been registered as an account.
      */
-    public void deleteAccountRequest(String email, String institute) throws InvalidOperationException {
+    public void deleteAccountRequest(String email, String institute) {
         AccountRequest toDelete = accountRequestDb.getAccountRequest(email, institute);
-
-        if (toDelete != null && toDelete.getRegisteredAt() != null) {
-            // instructor is already registered and cannot be deleted
-            throw new InvalidOperationException("Account request of a registered instructor cannot be deleted.");
-        }
 
         accountRequestDb.deleteAccountRequest(toDelete);
     }

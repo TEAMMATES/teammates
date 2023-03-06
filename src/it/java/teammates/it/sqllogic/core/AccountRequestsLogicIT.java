@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.AccountRequestsLogic;
@@ -22,8 +21,7 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testResetAccountRequest()
-            throws EntityAlreadyExistsException, InvalidParametersException,
-            InvalidOperationException, EntityDoesNotExistException {
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 
         ______TS("success: create account request and update registeredAt field");
 
