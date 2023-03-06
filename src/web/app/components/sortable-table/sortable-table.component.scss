@@ -4,6 +4,12 @@
   i {
     margin-left: .3em;
   }
+
+  @media (max-width: 768px) {
+    .fa-stack {
+      width: 20%;
+    }
+  }
 }
 
 .margin-bottom-20px {
