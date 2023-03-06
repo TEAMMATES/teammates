@@ -150,6 +150,7 @@ public final class HibernateUtil {
 
     /**
      * Returns a generic typed TypedQuery object.
+     * @see Session#createQuery(CriteriaQuery)
      */
     public static <T> TypedQuery<T> createQuery(CriteriaQuery<T> cr) {
         return getSessionFactory().getCurrentSession().createQuery(cr);
