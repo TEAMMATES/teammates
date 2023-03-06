@@ -70,12 +70,11 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
      * Gets all notifications.
      */
     public List<Notification> getAllNotifications() {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
         Root<Notification> root = cq.from(Notification.class);
         CriteriaQuery<Notification> all = cq.select(root);
-        TypedQuery<Notification> allQuery = session.createQuery(all);
+        TypedQuery<Notification> allQuery = HibernateUtil.createQuery(all);
         return allQuery.getResultList();
     }
 
@@ -85,12 +84,11 @@ public final class NotificationsDb extends EntitiesDb<Notification> {
      * @return a list of notifications for the specified targetUser.
      */
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        Session session = HibernateUtil.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
         Root<Notification> root = cq.from(Notification.class);
-        cq.select(root).where(cb.equal(root.get("target_user"), targetUser));
-        TypedQuery<Notification> query = session.createQuery(cq);
+        cq.select(root).where(cb.equal(root.get("targetUser"), targetUser));
+        TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
         return query.getResultList();
     }
 }

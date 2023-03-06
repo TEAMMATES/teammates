@@ -59,7 +59,6 @@ public class Logic {
      * @return newly created account request.
      * @throws InvalidParametersException if the account request details are invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
-     * @throws InvalidOperationException if the account request cannot be created.
      */
     public AccountRequest createAccountRequest(String name, String email, String institute)
             throws InvalidParametersException, EntityAlreadyExistsException {
