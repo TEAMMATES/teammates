@@ -95,7 +95,8 @@ export class CourseCopyComponent implements OnInit {
     this.courseService.createCopiedCourse(result).subscribe({
       next: ({ course, modified }) => {
         this.modifiedSessions = modified;
-        this.courseCopied.next(course);
+        this.courseCopied.emit(course);
+        this.setIsCopyingCourse(false);
 
         if (Object.keys(this.modifiedSessions).length > 0) {
           this.simpleModalService.openInformationModal('Note On Modified Session Timings',
@@ -103,7 +104,6 @@ export class CourseCopyComponent implements OnInit {
         } else {
           this.statusMessageService.showSuccessToast('The course has been added.');
         }
-
       },
       error: (resp) => {
         this.statusMessageService.showErrorToast(resp.error.message);
