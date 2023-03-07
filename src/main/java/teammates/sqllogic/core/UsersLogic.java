@@ -1,6 +1,7 @@
 package teammates.sqllogic.core;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -121,7 +122,7 @@ public final class UsersLogic {
      */
     public List<Instructor> getInstructorsForCourse(String courseId) {
         List<Instructor> instructorReturnList = usersDb.getInstructorsForCourse(courseId);
-        Instructor.sortByName(instructorReturnList);
+        sortByName(instructorReturnList);
 
         return instructorReturnList;
     }
@@ -157,7 +158,7 @@ public final class UsersLogic {
      */
     public List<Student> getStudentsForCourse(String courseId) {
         List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId);
-        Student.sortByName(studentReturnList);
+        sortByName(studentReturnList);
 
         return studentReturnList;
     }
@@ -179,5 +180,12 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getStudentByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Sorts the instructors list alphabetically by name.
+     */
+    public static <T extends User> void sortByName(List<T> users) {
+        users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
     }
 }

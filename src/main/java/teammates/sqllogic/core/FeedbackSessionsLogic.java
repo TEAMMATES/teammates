@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -51,17 +52,21 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets all feedback sessions of a course.
+     * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
-        return fsDb.getFeedbackSessionsForCourse(courseId);
+        return fsDb.getFeedbackSessionEntitiesForCourse(courseId).stream()
+                .filter(fs -> fs.getDeletedAt() == null)
+                .collect(Collectors.toList());
     }
 
     /**
-     * Gets all feedback sessions of a course started after time.
+     * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
-        return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
+        return fsDb.getFeedbackSessionEntitiesForCourseStartingAfter(courseId, after).stream()
+                .filter(session -> session.getDeletedAt() == null)
+                .collect(Collectors.toList());
     }
 
     /**

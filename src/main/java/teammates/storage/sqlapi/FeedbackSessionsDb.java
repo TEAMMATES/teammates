@@ -6,7 +6,6 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -97,15 +96,9 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     }
 
     /**
-     * Gets a list of all sessions for the given course except those are soft-deleted.
+     * Gets feedback sessions for a given {@code courseId}.
      */
-    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
-        return getFeedbackSessionEntitiesForCourse(courseId).stream()
-                .filter(fs -> fs.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
+    public List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         assert courseId != null;
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -118,15 +111,9 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     }
 
     /**
-     * Gets a list of all sessions starting from some date for the given course except those are soft-deleted.
+     * Gets feedback sessions for a given {@code courseId} that start after {@code after}.
      */
-    public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
-        return getFeedbackSessionEntitiesForCourseStartingAfter(courseId, after).stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesForCourseStartingAfter(String courseId, Instant after) {
+    public List<FeedbackSession> getFeedbackSessionEntitiesForCourseStartingAfter(String courseId, Instant after) {
         assert courseId != null;
         assert after != null;
 
