@@ -95,7 +95,9 @@
             <tm-rank-options-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="model.questionDetails"
                                                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
-                                                      [isDisabled]="isFormsDisabled"></tm-rank-options-question-edit-answer-form>
+                                                      [isDisabled]="isFormsDisabled"
+                                                      [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
+            ></tm-rank-options-question-edit-answer-form>
             <tm-rank-recipients-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="model.questionDetails"
                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
