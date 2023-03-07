@@ -25,6 +25,11 @@
   </div>
 </div>
 
+<div *ngIf="isCopyingCourse" style="margin-top: 30px; margin-bottom: 30px">
+  <p>Copy Progress</p>
+  <tm-progress-bar></tm-progress-bar>
+</div>
+
 <tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Something went wrong'" (retryEvent)="loadCourses()">
   <div *tmIsLoading="!hasCoursesLoaded || isCopyLoading">
     <div *ngIf="courseTabModels.length > 0">
@@ -67,6 +72,10 @@
                 <a id="btn-archive-course" class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                    (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
+                </a>
+                <a id="btn-archive-course" class="btn btn-light btn-sm dropdown-item"
+                   ngbTooltip="Copy the course and its corresponding sessions"
+                   (click)="copyCourse(courseTabModel.course.courseId, courseTabModel.course.courseName, courseTabModel.course.timeZone)"> Copy
                 </a>
                 <a class="btn btn-light btn-sm dropdown-item"
                    tmRouterLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit

@@ -77,6 +77,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
+  isCopyingCourse: boolean = false;
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
@@ -207,6 +208,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             this.statusMessageService.showErrorToast(resp.error.message);
           },
         });
+  }
+
+  copyCourse(courseId: string, courseName: string, timeZone: string): void {
+    alert(`Course id ${courseId} ${courseName} ${timeZone}}`);
   }
 
   /**
