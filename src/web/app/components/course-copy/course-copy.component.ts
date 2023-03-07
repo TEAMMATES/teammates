@@ -28,7 +28,7 @@ interface TweakedTimestampData {
  * Course edit form component.
  */
 @Component({
-  selector: '[course-copy]',
+  selector: 'tm-course-copy',
   templateUrl: './course-copy.component.html',
   styleUrls: ['./course-copy.component.scss'],
 })
@@ -36,7 +36,7 @@ export class CourseCopyComponent implements OnInit {
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
   @Output() isCopyingCourse = new EventEmitter<boolean>(false);
-  @Output() onCourseCopy = new EventEmitter<Course>(false);
+  @Output() courseCopied = new EventEmitter<Course>();
 
   @Input() allCoursesList: Course[] = [];
 
@@ -60,7 +60,7 @@ export class CourseCopyComponent implements OnInit {
     this.courseFormModel.isCopying = value;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.courseService.isCopyingCourse.subscribe((v) => this.setIsCopyingCourse(v));
     this.courseService.copyProgress.subscribe((v) => this.progressBarService.updateProgress(v));
   }
@@ -91,11 +91,11 @@ export class CourseCopyComponent implements OnInit {
     });
   }
 
-  createCopiedCourse(result: CopyCourseModalResult) {
+  createCopiedCourse(result: CopyCourseModalResult): void {
     this.courseService.createCopiedCourse(result).subscribe({
       next: ({ course, modified }) => {
         this.modifiedSessions = modified;
-        this.onCourseCopy.next(course);
+        this.courseCopied.next(course);
 
         if (Object.keys(this.modifiedSessions).length > 0) {
           this.simpleModalService.openInformationModal('Note On Modified Session Timings',

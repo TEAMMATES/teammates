@@ -212,7 +212,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           },
         });
 
-    const appendCourses = (resp: Courses) => this.allCoursesList = [...this.allCoursesList, ...resp.courses];
+    const appendCourses = (resp: Courses): void => {
+      this.allCoursesList = [...this.allCoursesList, ...resp.courses];
+    };
 
     this.courseService.getAllCoursesAsInstructor('active').subscribe({
       next: appendCourses,
@@ -227,7 +229,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     });
   }
 
-  onCourseCopy(_course: Course): void {
+  onCourseCopy(): void {
     this.loadCourses();
   }
 

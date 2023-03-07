@@ -5,21 +5,9 @@ import { CopyCourseModalResult } from '../app/components/copy-course-modal/copy-
 import { ResourceEndpoints } from '../types/api-const';
 import { Course, CourseArchive, Courses, HasResponses, JoinStatus, MessageOutput, Student } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
-import { FeedbackSessionsService } from './feedback-sessions.service';
+import { FeedbackSessionsService, TweakedTimestampData } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
-
-export interface SessionTimestampData {
-  submissionStartTimestamp: string;
-  submissionEndTimestamp: string;
-  sessionVisibleTimestamp: string;
-  responseVisibleTimestamp: string;
-}
-
-export interface TweakedTimestampData {
-  oldTimestamp: SessionTimestampData;
-  newTimestamp: SessionTimestampData;
-}
 
 export interface CourseModel {
   course: Course;
@@ -37,8 +25,11 @@ export interface CourseStatistics {
   numOfStudents: number;
 }
 
-const combineModified = (modified: Record<string, TweakedTimestampData | undefined>[]): Record<string, TweakedTimestampData> =>
-  modified.filter((v) => v !== undefined).reduce((a, v) => ({ ...a, ...v }), {}) as Record<string, TweakedTimestampData>;
+const combineModified = (
+  modified: Record<string, TweakedTimestampData | undefined>[],
+): Record<string, TweakedTimestampData> =>
+  modified.filter((v) => v !== undefined)
+    .reduce((a, v) => ({ ...a, ...v }), {}) as Record<string, TweakedTimestampData>;
 
 /**
  * Handles course related logic provision.
@@ -93,7 +84,10 @@ export class CourseService {
           })),
         );
       }))),
-      mergeMap((modified) => zip(this.instructorService.getCourseAsInstructor(result.newCourseId), of(combineModified(modified)))),
+      mergeMap((modified) => zip(
+        this.instructorService.getCourseAsInstructor(result.newCourseId),
+        of(combineModified(modified)),
+      )),
       map(([course, modified]) => {
         this.isCopyingCourse.next(false);
 

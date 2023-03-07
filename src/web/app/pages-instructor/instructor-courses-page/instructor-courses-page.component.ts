@@ -185,7 +185,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.courseFormModel.allCourses = this.allCoursesList;
   }
 
-  onCourseCopy(course: Course) {
+  onCourseCopy(course: Course): void {
     this.activeCourses.push(this.courseService.getCourseModelFromCourse(course));
     this.activeCoursesList.push(course);
     this.allCoursesList.push(course);
@@ -250,7 +250,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     });
   }
 
-  createCopiedCourse(result: CopyCourseModalResult) {
+  createCopiedCourse(result: CopyCourseModalResult): void {
     this.courseCopyComponent.createCopiedCourse(result);
   }
 

@@ -138,10 +138,12 @@
                           [queryParams]="{courseid: course.course.courseId}">
                     Edit
                   </a>
-                  <button #courseCopy *ngIf="course.canModifyCourse" course-copy id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="courseCopy.onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
-                        ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse" (isCopyingCourse)="isCopyingCourse = $event" (onCourseCopy)="onCourseCopy($event)" [allCoursesList]="allCoursesList">
-                    Copy
-                  </button>
+                  <tm-course-copy #courseCopy (isCopyingCourse)="isCopyingCourse = $event" (courseCopied)="onCourseCopy($event)" [allCoursesList]="allCoursesList">
+                    <button *ngIf="course.canModifyCourse" id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="courseCopy.onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
+                          ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse">
+                      Copy
+                    </button>
+                  </tm-course-copy>
                   <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"
                           ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" placement="left" container="body">
                     Archive

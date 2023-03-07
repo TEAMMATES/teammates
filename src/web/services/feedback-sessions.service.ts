@@ -30,7 +30,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../types/api-request';
-import { TweakedTimestampData } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { SessionResultCsvService } from './session-result-csv.service';
 import { StudentService } from './student.service';
@@ -42,6 +41,18 @@ import { TimezoneService } from './timezone.service';
 export interface TemplateSession {
   name: string;
   questions: FeedbackQuestion[];
+}
+
+export interface SessionTimestampData {
+  submissionStartTimestamp: string;
+  submissionEndTimestamp: string;
+  sessionVisibleTimestamp: string;
+  responseVisibleTimestamp: string;
+}
+
+export interface TweakedTimestampData {
+  oldTimestamp: SessionTimestampData;
+  newTimestamp: SessionTimestampData;
 }
 
 /**
@@ -123,7 +134,11 @@ export class FeedbackSessionsService {
   /**
    * Creates a FeedbackSessionCreateRequest with the provided name.
    */
-  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, newTimeZone: string, oldCourseId: string): {
+  private toFbSessionCreationReqWithName(
+    fromFeedbackSession: FeedbackSession,
+    newTimeZone: string,
+    oldCourseId: string,
+  ): {
     request: FeedbackSessionCreateRequest,
     modified: TweakedTimestampData | undefined,
   } {

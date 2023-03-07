@@ -73,12 +73,12 @@
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                    (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
                 </a>
-                <a #courseCopy course-copy id="btn-archive-course" class="btn btn-light btn-sm dropdown-item"
-                   ngbTooltip="Copy the course and its corresponding sessions"
-                   (onCourseCopy)="onCourseCopy($event)"
-                   (click)="courseCopy.onCopy(courseTabModel.course.courseId, courseTabModel.course.courseName, courseTabModel.course.timeZone)"
-                   [allCoursesList]="allCoursesList"> Copy
+                <tm-course-copy #courseCopy (courseCopied)="onCourseCopy()" [allCoursesList]="allCoursesList">
+                  <a id="btn-archive-course" class="btn btn-light btn-sm dropdown-item"
+                    ngbTooltip="Copy the course and its corresponding sessions"
+                    (click)="courseCopy.onCopy(courseTabModel.course.courseId, courseTabModel.course.courseName, courseTabModel.course.timeZone)"> Copy
                 </a>
+                </tm-course-copy>
                 <a class="btn btn-light btn-sm dropdown-item"
                    tmRouterLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
