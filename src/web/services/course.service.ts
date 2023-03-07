@@ -21,6 +21,13 @@ export interface TweakedTimestampData {
   newTimestamp: SessionTimestampData;
 }
 
+export interface CourseModel {
+  course: Course;
+  canModifyCourse: boolean;
+  canModifyStudent: boolean;
+  isLoadingCourseStats: boolean;
+}
+
 /**
  * The statistics of a course
  */
@@ -96,6 +103,20 @@ export class CourseService {
         };
       })
     );
+  }
+
+  /**
+   * Gets a CourseModel from courseID
+   */
+  getCourseModelFromCourse(course: Course): CourseModel {
+    let canModifyCourse: boolean = false;
+    let canModifyStudent: boolean = false;
+    if (course.privileges) {
+      canModifyCourse = course.privileges.canModifyCourse;
+      canModifyStudent = course.privileges.canModifyStudent;
+    }
+    const isLoadingCourseStats: boolean = false;
+    return { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
   }
 
   /**

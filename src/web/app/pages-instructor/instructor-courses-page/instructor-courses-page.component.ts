@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { CourseService } from '../../../services/course.service';
+import { CourseModel, CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -28,13 +28,6 @@ import {
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-interface CourseModel {
-  course: Course;
-  canModifyCourse: boolean;
-  canModifyStudent: boolean;
-  isLoadingCourseStats: boolean;
-}
 
 /**
  * Instructor courses list page.
@@ -193,24 +186,10 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   onCourseCopy(course: Course) {
-    this.activeCourses.push(this.getCourseModelFromCourse(course));
+    this.activeCourses.push(this.courseService.getCourseModelFromCourse(course));
     this.activeCoursesList.push(course);
     this.allCoursesList.push(course);
     this.activeCoursesDefaultSort();
-  }
-
-  /**
-   * Gets a CourseModel from courseID
-   */
-  private getCourseModelFromCourse(course: Course): CourseModel {
-    let canModifyCourse: boolean = false;
-    let canModifyStudent: boolean = false;
-    if (course.privileges) {
-      canModifyCourse = course.privileges.canModifyCourse;
-      canModifyStudent = course.privileges.canModifyStudent;
-    }
-    const isLoadingCourseStats: boolean = false;
-    return { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
   }
 
   /**
