@@ -11,8 +11,8 @@ import teammates.storage.sqlentity.Notification;
 public class NotificationsData extends ApiOutput {
     private final List<NotificationData> notifications;
 
-    public NotificationsData(List<Notification> notificationAttributesList) {
-        notifications = notificationAttributesList.stream().map(NotificationData::new).collect(Collectors.toList());
+    public NotificationsData(List<Notification> notifications) {
+        this.notifications = notifications.stream().map(NotificationData::new).collect(Collectors.toList());
     }
 
     public List<NotificationData> getNotifications() {
