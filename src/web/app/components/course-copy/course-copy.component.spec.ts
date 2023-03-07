@@ -9,18 +9,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbActiveModal, NgbModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
-import { FeedbackSessionsService, TweakedTimestampData } from '../../../services/feedback-sessions.service';
-import { Course, FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessions, FeedbackSessionSubmissionStatus } from '../../../../web/types/api-output';
-import { ResponseVisibleSetting, SessionVisibleSetting } from '../../../../web/types/api-request';
+import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
+import { FeedbackSessionsService, TweakedTimestampData } from '../../../services/feedback-sessions.service';
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import {
+  Course,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessions,
+  FeedbackSessionSubmissionStatus,
+} from '../../../types/api-output';
+import { ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CopyCourseModalResult } from '../copy-course-modal/copy-course-modal-model';
+import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
 import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { CourseCopyComponent } from './course-copy.component';
-import SpyInstance = jest.SpyInstance;
-import { createMockNgbModalRef } from '../../../../web/test-helpers/mock-ngb-modal-ref';
-import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
 
 describe('CourseEditFormComponent', () => {
   let courseService: CourseService;
@@ -102,18 +108,21 @@ describe('CourseEditFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call copy course', (done) => {
+  it('should call copy course', () => {
     const modalResult: CopyCourseModalResult = {
-      newCourseId: "abc123",
-      newCourseName: "newcourse",
-      newCourseInstitute: "newinstitute",
+      newCourseId: 'abc123',
+      newCourseName: 'newcourse',
+      newCourseInstitute: 'newinstitute',
       oldCourseId: courseCS1231.courseId,
-      newTimeZone: "newtimezone",
+      newTimeZone: 'newtimezone',
       selectedFeedbackSessionList: new Set(),
-      totalNumberOfSessions: 0
+      totalNumberOfSessions: 0,
     };
 
-    let mockModalRef: NgbModalRef = createMockNgbModalRef(copyCourseModalComponent, new Promise(r => r(modalResult)));
+    const mockModalRef: NgbModalRef = createMockNgbModalRef(
+      copyCourseModalComponent,
+      Promise.resolve(modalResult),
+    );
 
     const courseCopied = jest.spyOn(component.courseCopied, 'emit');
     const isCopyingCourse = jest.spyOn(component.isCopyingCourse, 'emit');
@@ -127,32 +136,38 @@ describe('CourseEditFormComponent', () => {
 
         return of({
           course: courseCS1231,
-          modified: {}
+          modified: {},
         });
       });
 
-    const feedbackSessionsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockImplementation(
+    const feedbackSessionsSpy: SpyInstance = jest.spyOn(
+      feedbackSessionsService,
+      'getFeedbackSessionsForInstructor',
+    ).mockImplementation(
       (courseId?: string): Observable<FeedbackSessions> => {
         expect(courseId).toBe(courseCS1231.courseId);
 
         return of({
-          feedbackSessions: [mockFeedbackSession]
+          feedbackSessions: [mockFeedbackSession],
         });
       });
 
-    const modalSpy: SpyInstance = jest.spyOn(modalService, 'open').mockImplementation(() => mockModalRef);
+    const modalSpy: SpyInstance = jest.spyOn(modalService, 'open')
+      .mockImplementation(() => mockModalRef);
 
     component.onCopy(courseCS1231.courseId, courseCS1231.courseName, courseCS1231.timeZone);
 
-    setTimeout(() => {
-      expect(courseSpy).toHaveBeenCalledTimes(1);
-      expect(modalSpy).toHaveBeenCalledTimes(1);
-      expect(feedbackSessionsSpy).toHaveBeenCalledTimes(1);
+    return new Promise((done) => {
+      setTimeout(() => {
+        expect(courseSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(feedbackSessionsSpy).toHaveBeenCalledTimes(1);
 
-      expect(courseCopied).toHaveBeenCalledWith(courseCS1231);
-      expect(isCopyingCourse).toHaveBeenCalledWith(false);
+        expect(courseCopied).toHaveBeenCalledWith(courseCS1231);
+        expect(isCopyingCourse).toHaveBeenCalledWith(false);
 
-      done();
-    }, 0);
+        done(null);
+      }, 0);
+    });
   });
 });

@@ -13,6 +13,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { CourseCopyModule } from '../../components/course-copy/course-copy.module';
 import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -281,6 +282,7 @@ describe('InstructorCoursesPageComponent', () => {
         PanelChevronModule,
         ProgressBarModule,
         FormsModule,
+        CourseCopyModule,
       ],
     })
     .compileComponents();

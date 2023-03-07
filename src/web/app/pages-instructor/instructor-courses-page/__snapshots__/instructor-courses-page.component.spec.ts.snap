@@ -319,7 +319,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__="0"
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -331,7 +331,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   canDeleteAll="false"
   canRestoreAll="false"
   courseAdded={[Function EventEmitter_]}
-  courseCopyComponent={[Function ElementRef]}
+  courseCopyComponent={[Function CourseCopyComponent]}
   courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -1049,7 +1049,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__="0"
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1061,7 +1061,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseAdded={[Function EventEmitter_]}
-  courseCopyComponent={[Function ElementRef]}
+  courseCopyComponent={[Function CourseCopyComponent]}
   courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -1565,7 +1565,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__={[Function Number]}
+  __ngContext__="0"
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1577,7 +1577,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseAdded={[Function EventEmitter_]}
-  courseCopyComponent={[Function ElementRef]}
+  courseCopyComponent={[Function CourseCopyComponent]}
   courseFormModel={[Function Object]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
