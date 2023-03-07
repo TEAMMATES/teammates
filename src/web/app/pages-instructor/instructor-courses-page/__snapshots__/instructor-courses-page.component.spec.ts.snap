@@ -319,7 +319,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__="0"
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1049,7 +1049,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__="0"
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
@@ -1565,7 +1565,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  __ngContext__="0"
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeCoursesList={[Function Array]}
   activeTableSortBy={[Function Number]}
