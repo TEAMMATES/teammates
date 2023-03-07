@@ -5,11 +5,13 @@
     margin-left: .3em;
   }
 
-  @media (max-width: 768px) {
-    .fa-stack {
-      width: 20%;
-    }
+  .fa-stack {
+    width: 20%;
   }
+}
+
+th {
+  vertical-align: middle;
 
   button {
     background: none;
@@ -19,7 +21,7 @@
     text-align: left;
     width: 100%;
     font: inherit;
-    cursor: pointer;
+    cursor: inherit;
   }
 }
 

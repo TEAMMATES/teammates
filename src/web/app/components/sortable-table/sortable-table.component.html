@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="column.sortBy && onClickHeader(column.header)"  [attr.aria-sort]="getAriaSort(column.header)">
-        <button>
+        <button [attr.tabindex]="getTabIndex(column.sortBy)" [attr.role]="getRole(column.sortBy)">
           <span [ngbTooltip]=column.headerToolTip container="body">{{ column.header }}</span>
           <span class="fa-stack" *ngIf="column.sortBy" aria-hidden="true">
             <i class="fas fa-sort"></i>

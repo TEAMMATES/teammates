@@ -83,6 +83,27 @@ export class SortableTableComponent implements OnInit, OnChanges {
     return this.sortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
+  getRole(sortBy: SortBy): String {
+    if (!sortBy) {
+      return 'columnheader';
+    }
+    return 'button';
+  }
+
+  getTabIndex(sortBy: SortBy): String {
+    if (!sortBy) {
+      return '-1';
+    }
+    return '0';
+  }
+
+  getAriaLabel(column: ColumnData): String {
+    if (!column.sortBy) {
+      return column.header;
+    }
+    return '';
+  }
+
   sortRows(): void {
     if (!this.columnToSortBy) {
       return;
