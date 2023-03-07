@@ -173,7 +173,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       });
     }, () => {});
   }
-  
+
   /**
    * Loads courses of current instructor.
    */
