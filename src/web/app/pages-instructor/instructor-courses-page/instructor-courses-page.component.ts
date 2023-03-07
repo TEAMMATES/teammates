@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
@@ -18,6 +18,8 @@ import {
   Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
+import { CourseCopyComponent } from '../../components/course-copy/course-copy.component';
 import {
   CourseAddFormModel,
   CourseEditFormMode,
@@ -44,6 +46,8 @@ interface CourseModel {
   animations: [collapseAnim],
 })
 export class InstructorCoursesPageComponent implements OnInit {
+
+  @ViewChild('courseCopy') courseCopyComponent!: CourseCopyComponent;
 
   activeCourses: CourseModel[] = [];
   archivedCourses: CourseModel[] = [];
@@ -76,14 +80,14 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   isCopyingCourse: boolean = false;
 
-  @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();  
+  @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
-              private courseService: CourseService,
-              private studentService: StudentService,
-              private simpleModalService: SimpleModalService,
-              private tableComparatorService: TableComparatorService) {}
+    private statusMessageService: StatusMessageService,
+    private courseService: CourseService,
+    private studentService: StudentService,
+    private simpleModalService: SimpleModalService,
+    private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -189,8 +193,6 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   onCourseCopy(course: Course) {
-    console.log('Copied', course);
-
     this.activeCourses.push(this.getCourseModelFromCourse(course));
     this.activeCoursesList.push(course);
     this.allCoursesList.push(course);
@@ -223,23 +225,23 @@ export class InstructorCoursesPageComponent implements OnInit {
     }
     course.isLoadingCourseStats = true;
     this.studentService.getStudentsFromCourse({ courseId })
-        .pipe(finalize(() => {
-          course.isLoadingCourseStats = false;
-        }))
-        .subscribe({
-          next: (students: Students) => {
-            this.courseStats[courseId] = {
-              sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
-              teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
-              students: students.students.length,
-              unregistered: students.students
-                  .filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
-            };
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+      .pipe(finalize(() => {
+        course.isLoadingCourseStats = false;
+      }))
+      .subscribe({
+        next: (students: Students) => {
+          this.courseStats[courseId] = {
+            sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
+            teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
+            students: students.students.length,
+            unregistered: students.students
+              .filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
+          };
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -267,6 +269,10 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
+  }
+
+  createCopiedCourse(result: CopyCourseModalResult) {
+    this.courseCopyComponent.createCopiedCourse(result);
   }
 
   /**
@@ -349,20 +355,20 @@ export class InstructorCoursesPageComponent implements OnInit {
       return Promise.resolve();
     }
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Warning: The course will be moved to the recycle bin.',
-        SimpleModalType.WARNING, 'Are you sure you want to continue?');
+      'Warning: The course will be moved to the recycle bin.',
+      SimpleModalType.WARNING, 'Are you sure you want to continue?');
     return modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe({
         next: (course: Course) => {
           this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
           this.statusMessageService.showSuccessToast(
-              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+            `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-    }).catch(() => {});
+    }).catch(() => { });
   }
 
   /**
@@ -412,7 +418,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.componentInstance.courseId = courseId;
 
     return modalRef.result.then(() => {
-     if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
+      if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
         const finalConfModalContent = numTotalCourses === 1
           ? `This is your last course on TEAMMATES for which you have instructor access. 
             Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
@@ -439,7 +445,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-    }).catch(() => {});
+    }).catch(() => { });
   }
 
   /**
@@ -467,7 +473,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onDeleteAll(): void {
     const modalContent: string =
-        `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
+      `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
@@ -506,7 +512,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-    }).catch(() => {});
+    }).catch(() => { });
   }
 
   /**
@@ -534,7 +540,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   sortCoursesEvent(by: SortBy): void {
     this.activeTableSortOrder = this.activeTableSortBy === by && this.activeTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
+      ? SortOrder.DESC : SortOrder.ASC;
     this.activeTableSortBy = by;
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
   }
@@ -553,7 +559,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   sortArchivedCoursesEvent(by: SortBy): void {
     this.archivedTableSortOrder = this.archivedTableSortBy === by && this.archivedTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
+      ? SortOrder.DESC : SortOrder.ASC;
     this.archivedTableSortBy = by;
     this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
   }
@@ -572,7 +578,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   sortDeletedCoursesEvent(by: SortBy): void {
     this.deletedTableSortOrder = this.deletedTableSortBy === by && this.deletedTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
+      ? SortOrder.DESC : SortOrder.ASC;
     this.deletedTableSortBy = by;
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
   }
@@ -590,7 +596,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy, order: SortOrder):
-      ((a: CourseModel, b: CourseModel) => number) {
+    ((a: CourseModel, b: CourseModel) => number) {
     return (a: CourseModel, b: CourseModel): number => {
       let strA: string;
       let strB: string;

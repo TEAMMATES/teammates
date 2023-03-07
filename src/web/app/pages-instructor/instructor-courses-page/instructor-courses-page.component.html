@@ -5,13 +5,13 @@
 </div>
 
 <div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded && !isLoading" @collapseAnim>
-  <!-- <tm-course-edit-form  [formMode]="CourseEditFormMode.ADD"
+  <tm-course-edit-form  [formMode]="CourseEditFormMode.ADD"
                         [(formModel)]="courseFormModel"
                         [resetFormEvent]="resetCourseForm"
                         (closeFormEvent)="isAddNewCourseFormExpanded = false"
                         (createNewCourseEvent)="createNewCourse()"
                         (copyCourseEvent)="createCopiedCourse($event)">
-  </tm-course-edit-form> -->
+  </tm-course-edit-form>
 </div>
 
 <div *ngIf="isCopyingCourse" class="margin-top-30px">
@@ -138,7 +138,7 @@
                           [queryParams]="{courseid: course.course.courseId}">
                     Edit
                   </a>
-                  <button #copy *ngIf="course.canModifyCourse" course-copy id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="copy.onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
+                  <button #courseCopy *ngIf="course.canModifyCourse" course-copy id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="courseCopy.onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
                         ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse" (isCopyingCourse)="isCopyingCourse = $event" (onCourseCopy)="onCourseCopy($event)" [allCoursesList]="allCoursesList">
                     Copy
                   </button>

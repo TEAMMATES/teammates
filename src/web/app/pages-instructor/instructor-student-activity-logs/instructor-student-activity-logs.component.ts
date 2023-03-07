@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { CourseService } from '../../../services/course.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -109,7 +109,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   isSearching: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private courseService: CourseService,
+              private instructorService: InstructorService,
               private feedbackSessionsService: FeedbackSessionsService,
               private studentService: StudentService,
               private logsService: LogService,
@@ -210,7 +210,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
    * Load the course based on the course id
    */
   private loadCourse(courseId: string): void {
-    this.courseService
+    this.instructorService
         .getCourseAsInstructor(courseId)
         .pipe(finalize(() => {
           this.isLoading = false;

@@ -208,7 +208,7 @@ export class SessionResultPageComponent implements OnInit {
         request = this.courseService.getCourseAsStudent(this.courseId, this.regKey);
         break;
       case Intent.INSTRUCTOR_RESULT:
-        request = this.courseService.getCourseAsInstructor(this.courseId, this.regKey);
+        request = this.instructorService.getCourseAsInstructor(this.courseId, this.regKey);
         break;
       default:
         this.isCourseLoading = false;

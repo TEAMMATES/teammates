@@ -245,7 +245,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingFeedbackSession = true;
     // load the course of the feedback session first
-    this.courseService.getCourseAsInstructor(this.courseId).subscribe({
+    this.instructorService.getCourseAsInstructor(this.courseId).subscribe({
       next: (course: Course) => {
         this.courseName = course.courseName;
 

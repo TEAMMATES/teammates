@@ -188,7 +188,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   loadCourseInfo(): void {
     this.hasCourseLoadingFailed = false;
     this.isCourseLoading = true;
-    this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
+    this.instructorService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
       this.isCourseLoading = false;
     })).subscribe({
       next: (resp: Course) => {

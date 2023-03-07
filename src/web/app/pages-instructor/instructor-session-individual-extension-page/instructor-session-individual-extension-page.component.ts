@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -102,7 +101,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     private studentService: StudentService,
     private ngbModal: NgbModal,
     private route: ActivatedRoute,
-    private courseService: CourseService,
     private tableComparatorService: TableComparatorService,
     private instructorService: InstructorService,
   ) {}
@@ -119,7 +117,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.isLoadingAllInstructors = true;
     this.hasLoadedAllStudentsFailed = false;
     forkJoin([
-      this.courseService.getCourseAsInstructor(this.courseId),
+      this.instructorService.getCourseAsInstructor(this.courseId),
       this.feedbackSessionsService.getFeedbackSession({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,

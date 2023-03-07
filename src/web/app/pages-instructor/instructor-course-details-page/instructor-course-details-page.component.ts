@@ -103,7 +103,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the name of the course
    */
   private loadCourseName(courseid: string): void {
-    this.courseService.getCourseAsInstructor(courseid).subscribe({
+    this.instructorService.getCourseAsInstructor(courseid).subscribe({
       next: (course: Course) => {
         this.courseDetails.course = course;
       },
