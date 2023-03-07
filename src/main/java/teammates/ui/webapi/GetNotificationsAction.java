@@ -5,9 +5,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.sqlentity.Notification;

@@ -117,6 +117,7 @@ public final class NotificationsLogic {
      * @return a list of notifications with the specified {@code targetUser}.
      */
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+        assert targetUser != null;
         return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
     }
 }
