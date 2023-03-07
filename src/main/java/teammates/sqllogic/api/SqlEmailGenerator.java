@@ -87,13 +87,13 @@ public final class SqlEmailGenerator {
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
         boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
         List<Instructor> instructorsToNotify = isEmailNeededForStudents
-                ? usersLogic.getCoOwnersForCourse(session.getCourse().getId())
+                ? usersLogic.getCoOwnersForCourse(course.getId())
                 : new ArrayList<>();
         List<Student> students = isEmailNeededForStudents
-                ? usersLogic.getStudentsForCourse(session.getCourse().getId())
+                ? usersLogic.getStudentsForCourse(course.getId())
                 : new ArrayList<>();
         List<Instructor> instructors = isEmailNeededForInstructors
-                ? usersLogic.getInstructorsForCourse(session.getCourse().getId())
+                ? usersLogic.getInstructorsForCourse(course.getId())
                 : new ArrayList<>();
 
         if (emailType == EmailType.FEEDBACK_CLOSING) {
@@ -388,7 +388,7 @@ public final class SqlEmailGenerator {
             List<Student> studentsForEmail) {
         String emailBody;
 
-        var searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
+        Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
         Map<String, StringBuilder> linkFragmentsMap = new HashMap<>();
         String studentName = null;
 

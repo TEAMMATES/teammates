@@ -2,8 +2,6 @@ package teammates.storage.sqlentity;
 
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -175,14 +173,7 @@ public abstract class User extends BaseEntity {
         return this.getId().hashCode();
     }
 
-    /**
-     * Sorts the instructors list alphabetically by name.
-     */
-    public static <T extends User> void sortByName(List<T> users) {
-        users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
-    }
-
     public boolean isRegistered() {
-        return account.getGoogleId() != null && !account.getGoogleId().trim().isEmpty();
+        return this.account != null;
     }
 }

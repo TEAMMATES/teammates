@@ -348,10 +348,6 @@ public class FeedbackSession extends BaseEntity {
      * Gets the instructions of the feedback session.
      */
     public String getInstructionsString() {
-        if (instructions == null) {
-            return null;
-        }
-
         return SanitizationHelper.sanitizeForRichText(instructions);
     }
 
