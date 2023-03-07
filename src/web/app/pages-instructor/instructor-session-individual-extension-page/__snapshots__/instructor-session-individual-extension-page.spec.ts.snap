@@ -7,7 +7,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionName="undefined"
@@ -481,7 +480,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionName="undefined"
@@ -955,7 +953,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionName="undefined"
@@ -1210,7 +1207,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionName="undefined"
@@ -1633,7 +1629,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionName="undefined"
@@ -2021,7 +2016,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionName="undefined"
@@ -2497,7 +2491,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionName="undefined"
@@ -2766,7 +2759,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionName="undefined"
@@ -3023,7 +3015,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionName="undefined"
@@ -3281,7 +3272,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName=""
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionName="undefined"
@@ -3539,7 +3529,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionName="undefined"
@@ -3900,7 +3889,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   __ngContext__={[Function Number]}
   courseId={[Function String]}
   courseName={[Function String]}
-  courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionName="undefined"

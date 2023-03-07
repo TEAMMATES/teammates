@@ -118,7 +118,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   let fixture: ComponentFixture<InstructorSessionIndividualExtensionPageComponent>;
   let studentService: StudentService;
   let instructorService: InstructorService;
-  let courseService: CourseService;
   let feedbackSessionsService: FeedbackSessionsService;
   let timezoneService: TimezoneService;
   let statusMessageService: StatusMessageService;
@@ -152,7 +151,6 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component = fixture.componentInstance;
     studentService = TestBed.inject(StudentService);
     instructorService = TestBed.inject(InstructorService);
-    courseService = TestBed.inject(CourseService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     timezoneService = TestBed.inject(TimezoneService);
     statusMessageService = TestBed.inject(StatusMessageService);
@@ -192,7 +190,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap when there are no students', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
 
@@ -204,7 +202,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap when there are no instructors', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
 
@@ -221,7 +219,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       })),
     );
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
@@ -241,7 +239,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should stop loading if instructor service returns 404', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(
       throwError(() => ({
@@ -266,7 +264,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should stop loading if feedback session service returns 404', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
       throwError(() => ({
         status: 404,
@@ -291,7 +289,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should stop loading if course service returns 404', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(
       throwError(() => ({
         status: 404,
         error: { message: 'This is a test message' },
@@ -317,7 +315,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap with details and extended students', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
 
@@ -332,7 +330,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap when clicking the Select All Students button', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
@@ -348,7 +346,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap when clicking the Select All Instructors button', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
@@ -364,7 +362,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should not select all students and instructors after unselecting', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
@@ -400,7 +398,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should disable extend and delete button when no student selected', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
     fixture.detectChanges();
@@ -416,7 +414,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should enable the extend button when a student is selected', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
     component.studentsOfCourse[1].isSelected = true; // Bob has no extension
@@ -433,7 +431,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should enable extend and delete button when student with extension selected', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
@@ -450,7 +448,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should enable delete button even if one of selected students does not have extension', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     component.ngOnInit();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
@@ -468,7 +466,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should not automatically select students that have not submitted yet if preselectnonsubmitters is false', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
       .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
@@ -494,7 +492,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     });
 
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
       .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet

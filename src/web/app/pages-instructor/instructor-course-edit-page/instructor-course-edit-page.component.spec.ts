@@ -139,7 +139,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct course details for given API output', () => {
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
 
     component.loadCourseInfo();
 

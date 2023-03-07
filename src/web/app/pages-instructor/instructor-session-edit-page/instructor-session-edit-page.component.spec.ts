@@ -358,7 +358,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should load correct feedback session for a given API output', () => {
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
 
     component.loadFeedbackSession();
@@ -376,7 +376,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should display error message when feedback session failed to load', () => {
     component.hasLoadingFeedbackSessionFailed = false;
-    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
+    jest.spyOn(instructorService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CourseService } from 'src/web/services/course.service';
-import { ProgressBarService } from 'src/web/services/progress-bar.service';
-import { SimpleModalService } from 'src/web/services/simple-modal.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { CourseService } from '../../../services/course.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Course, FeedbackSessions } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';

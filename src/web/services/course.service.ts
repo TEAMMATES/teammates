@@ -103,7 +103,7 @@ export class CourseService {
         };
       })
     );
-  }
+  } 
 
   /**
    * Gets a CourseModel from courseID

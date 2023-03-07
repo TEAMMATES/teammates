@@ -156,4 +156,14 @@ describe('InstructorService', () => {
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
         ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, requestBody);
   });
+
+  it('should execute GET on course endpoint with course id as an instructor', () => {
+    const courseId: string = 'test-id';
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'instructor',
+      courseid: courseId,
+    };
+    service.getCourseAsInstructor(courseId);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
+  });
 });

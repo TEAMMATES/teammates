@@ -41,16 +41,6 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSES, paramMap);
   });
 
-  it('should execute GET on course endpoint with course id as an instructor', () => {
-    const courseId: string = 'test-id';
-    const paramMap: { [key: string]: string } = {
-      entitytype: 'instructor',
-      courseid: courseId,
-    };
-    service.getCourseAsInstructor(courseId);
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
-  });
-
   it('should execute GET when getting all courses as student', () => {
     const paramMap: { [key: string]: string } = {
       entitytype: 'student',
