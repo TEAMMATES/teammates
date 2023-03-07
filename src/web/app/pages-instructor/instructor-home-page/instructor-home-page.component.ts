@@ -180,7 +180,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.hasCoursesLoaded = false;
     this.hasCoursesLoadingFailed = false;
     this.courseTabModels = [];
-    this.allCoursesList = []
+    this.allCoursesList = [];
 
     this.courseService.getInstructorCoursesThatAreActive()
         .pipe(finalize(() => {
@@ -215,15 +215,15 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const appendCourses = (resp: Courses) => this.allCoursesList = [...this.allCoursesList, ...resp.courses];
 
     this.courseService.getAllCoursesAsInstructor('active').subscribe({
-      next: appendCourses
+      next: appendCourses,
     });
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe({
-      next: appendCourses
+      next: appendCourses,
     });
 
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
-      next: appendCourses
+      next: appendCourses,
     });
   }
 

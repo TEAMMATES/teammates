@@ -38,7 +38,7 @@ export interface CourseStatistics {
 }
 
 const combineModified = (modified: Record<string, TweakedTimestampData | undefined>[]): Record<string, TweakedTimestampData> =>
-  modified.filter(v => v !== undefined).reduce((a, v) => ({ ...a, ...v }), {}) as Record<string, TweakedTimestampData>;
+  modified.filter((v) => v !== undefined).reduce((a, v) => ({ ...a, ...v }), {}) as Record<string, TweakedTimestampData>;
 
 /**
  * Handles course related logic provision.
@@ -61,7 +61,7 @@ export class CourseService {
    */
   createCopiedCourse(result: CopyCourseModalResult): Observable<{
     course: Course,
-    modified: Record<string, TweakedTimestampData>
+    modified: Record<string, TweakedTimestampData>,
   }> {
     this.isCopyingCourse.next(true);
 
@@ -74,12 +74,12 @@ export class CourseService {
       timeZone: result.newTimeZone,
       courseId: result.newCourseId,
     }).pipe(
-      mergeMap(() => combineLatest([...result.selectedFeedbackSessionList].map(sess => {
+      mergeMap(() => combineLatest([...result.selectedFeedbackSessionList].map((sess) => {
         const { session, modified } = this.feedbackSessionsService.copyFeedbackSession(
           sess,
           result.newCourseId,
           result.newTimeZone,
-          result.oldCourseId
+          result.oldCourseId,
         );
 
         return from(session).pipe(
@@ -89,9 +89,9 @@ export class CourseService {
             this.copyProgress.next(copyProgressPercentage);
           }),
           map(() => ({
-            [sess.feedbackSessionName]: modified
-          }))
-        )
+            [sess.feedbackSessionName]: modified,
+          })),
+        );
       }))),
       mergeMap((modified) => zip(this.instructorService.getCourseAsInstructor(result.newCourseId), of(combineModified(modified)))),
       map(([course, modified]) => {
@@ -99,11 +99,11 @@ export class CourseService {
 
         return {
           course,
-          modified
+          modified,
         };
-      })
+      }),
     );
-  } 
+  }
 
   /**
    * Gets a CourseModel from courseID

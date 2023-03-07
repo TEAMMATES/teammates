@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { SimpleModalService } from '../../../services/simple-modal.service';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { CourseService } from '../../../services/course.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Course, FeedbackSessions } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -52,7 +52,7 @@ export class CourseCopyComponent implements OnInit {
     private courseService: CourseService,
     private simpleModalService: SimpleModalService,
     private feedbackSessionsService: FeedbackSessionsService,
-    private progressBarService: ProgressBarService
+    private progressBarService: ProgressBarService,
   ) { }
 
   setIsCopyingCourse(value: boolean): void {
@@ -61,8 +61,8 @@ export class CourseCopyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.courseService.isCopyingCourse.subscribe(v => this.setIsCopyingCourse(v));
-    this.courseService.copyProgress.subscribe(v => this.progressBarService.updateProgress(v));
+    this.courseService.isCopyingCourse.subscribe((v) => this.setIsCopyingCourse(v));
+    this.courseService.copyProgress.subscribe((v) => this.progressBarService.updateProgress(v));
   }
 
   /**
@@ -109,7 +109,7 @@ export class CourseCopyComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
         this.setIsCopyingCourse(false);
         this.hasLoadingFailed = true;
-      }
-    })
+      },
+    });
   }
 }

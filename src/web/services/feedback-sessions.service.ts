@@ -109,14 +109,14 @@ export class FeedbackSessionsService {
   copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string,
     newTimeZone: string, oldCourseId: string): {
       session: Observable<FeedbackSession>,
-      modified: TweakedTimestampData | undefined
+      modified: TweakedTimestampData | undefined,
     } {
     const { request, modified } = this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId);
     const session = this.createFeedbackSession(newCourseId, request);
 
     return {
       session,
-      modified
+      modified,
     };
   }
 
@@ -124,8 +124,8 @@ export class FeedbackSessionsService {
    * Creates a FeedbackSessionCreateRequest with the provided name.
    */
   private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, newTimeZone: string, oldCourseId: string): {
-    request: FeedbackSessionCreateRequest
-    modified: TweakedTimestampData | undefined
+    request: FeedbackSessionCreateRequest,
+    modified: TweakedTimestampData | undefined,
   } {
     // Local constants
     const twoHoursBeforeNow = moment().tz(newTimeZone).subtract(2, 'hours')
@@ -193,7 +193,7 @@ export class FeedbackSessionsService {
       isModified = true;
     }
 
-    let modified = undefined;
+    let modified;
 
     if (isModified) {
       modified = {
@@ -262,8 +262,8 @@ export class FeedbackSessionsService {
 
     return {
       request,
-      modified
-    }
+      modified,
+    };
   }
 
   private formatTimestamp(timestamp: number, timeZone: string): string {

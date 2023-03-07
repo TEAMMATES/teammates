@@ -32,7 +32,7 @@ describe('CourseEditFormComponent', () => {
         AjaxLoadingModule,
         LoadingRetryModule,
         LoadingSpinnerModule,
-      ]
+      ],
     })
       .compileComponents();
   }));

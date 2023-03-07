@@ -9,10 +9,10 @@ import { CourseCopyComponent } from './course-copy.component';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     CourseCopyComponent,
-  ]
+  ],
 })
 export class CourseCopyModule { }

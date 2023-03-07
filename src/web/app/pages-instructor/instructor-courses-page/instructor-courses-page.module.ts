@@ -46,7 +46,7 @@ const routes: Routes = [
     CopyCourseModalModule,
     ProgressBarModule,
     CourseEditFormModule,
-    CourseCopyModule
+    CourseCopyModule,
   ],
 })
 export class InstructorCoursesPageModule { }
