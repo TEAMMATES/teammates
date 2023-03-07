@@ -121,6 +121,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
       { header: 'Total', sortBy: SortBy.RUBRIC_OVERALL_TOTAL_WEIGHT },
       { header: 'Average', sortBy: SortBy.RUBRIC_OVERALL_WEIGHT_AVERAGE },
+      { header: 'Per Criterion Average', sortBy: SortBy.RUBRIC_OVERALL_WEIGHT_AVERAGE },
     ];
 
     this.perRecipientOverallRowsData = [];
@@ -138,6 +139,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         }),
         { value: perRecipientStats.overallWeightedSum },
         { value: perRecipientStats.overallWeightAverage },
+        { value: perRecipientStats.subQuestionWeightAverage.toString() },
       ]);
     });
   }
