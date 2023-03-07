@@ -7,7 +7,8 @@ import {
   NgbDropdownModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { ProgressBarModule } from 'src/web/app/components/progress-bar/progress-bar.module';
+import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
+import { CourseCopyModule } from '../../components/course-copy/course-copy.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
@@ -40,6 +41,7 @@ const routes: Routes = [
     PanelChevronModule,
     ProgressBarModule,
     TeammatesRouterModule,
+    CourseCopyModule
   ],
   exports: [InstructorHomePageComponent],
 })

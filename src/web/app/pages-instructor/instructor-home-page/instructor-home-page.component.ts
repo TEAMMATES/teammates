@@ -78,6 +78,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   isNewUser: boolean = false;
   isCopyLoading: boolean = false;
   isCopyingCourse: boolean = false;
+  allCoursesList: Course[] = [];
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
@@ -179,6 +180,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.hasCoursesLoaded = false;
     this.hasCoursesLoadingFailed = false;
     this.courseTabModels = [];
+    this.allCoursesList = []
+
     this.courseService.getInstructorCoursesThatAreActive()
         .pipe(finalize(() => {
           this.hasCoursesLoaded = true;
@@ -208,10 +211,24 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             this.statusMessageService.showErrorToast(resp.error.message);
           },
         });
+
+    const appendCourses = (resp: Courses) => this.allCoursesList = [...this.allCoursesList, ...resp.courses];
+
+    this.courseService.getAllCoursesAsInstructor('active').subscribe({
+      next: appendCourses
+    });
+
+    this.courseService.getAllCoursesAsInstructor('archived').subscribe({
+      next: appendCourses
+    });
+
+    this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
+      next: appendCourses
+    });
   }
 
-  copyCourse(courseId: string, courseName: string, timeZone: string): void {
-    alert(`Course id ${courseId} ${courseName} ${timeZone}}`);
+  onCourseCopy(_course: Course): void {
+    this.loadCourses();
   }
 
   /**
