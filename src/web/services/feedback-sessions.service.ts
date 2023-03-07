@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -26,10 +27,14 @@ import {
   FeedbackSessionRespondentRemindRequest,
   FeedbackSessionUpdateRequest,
   Intent,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
 } from '../types/api-request';
+import { TweakedTimestampData } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { SessionResultCsvService } from './session-result-csv.service';
 import { StudentService } from './student.service';
+import { TimezoneService } from './timezone.service';
 
 /**
  * A template session.
@@ -49,6 +54,7 @@ export class FeedbackSessionsService {
 
   constructor(private httpRequestService: HttpRequestService,
               private sessionResultCsvService: SessionResultCsvService,
+              private timezoneService: TimezoneService,
               private studentService: StudentService) {
   }
 
@@ -98,6 +104,170 @@ export class FeedbackSessionsService {
   createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = { courseid: courseId };
     return this.httpRequestService.post(ResourceEndpoints.SESSION, paramMap, request);
+  }
+
+  copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string,
+    newTimeZone: string, oldCourseId: string): {
+      session: Observable<FeedbackSession>,
+      modified: TweakedTimestampData | undefined
+    } {
+    const { request, modified } = this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId);
+    const session = this.createFeedbackSession(newCourseId, request);
+
+    return {
+      session,
+      modified
+    };
+  }
+
+  /**
+   * Creates a FeedbackSessionCreateRequest with the provided name.
+   */
+  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, newTimeZone: string, oldCourseId: string): {
+    request: FeedbackSessionCreateRequest
+    modified: TweakedTimestampData | undefined
+  } {
+    // Local constants
+    const twoHoursBeforeNow = moment().tz(newTimeZone).subtract(2, 'hours')
+      .valueOf();
+    const twoDaysFromNowRoundedUp = moment().tz(newTimeZone).add(2, 'days').startOf('hour')
+      .valueOf();
+    const sevenDaysFromNowRoundedUp = moment().tz(newTimeZone).add(7, 'days').startOf('hour')
+      .valueOf();
+    const ninetyDaysFromNow = moment().tz(newTimeZone).add(90, 'days')
+      .valueOf();
+    const ninetyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(90, 'days').startOf('hour')
+      .valueOf();
+    const oneHundredAndEightyDaysFromNow = moment().tz(newTimeZone).add(180, 'days')
+      .valueOf();
+    const oneHundredAndEightyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(180, 'days')
+      .startOf('hour')
+      .valueOf();
+
+    // Preprocess timestamps to adhere to feedback session timestamps constraints
+    let isModified = false;
+
+    let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
+    if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {
+      copiedSubmissionStartTimestamp = twoDaysFromNowRoundedUp;
+      isModified = true;
+    } else if (copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
+      copiedSubmissionStartTimestamp = ninetyDaysFromNowRoundedUp;
+      isModified = true;
+    }
+
+    let copiedSubmissionEndTimestamp = fromFeedbackSession.submissionEndTimestamp;
+    if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp) {
+      copiedSubmissionEndTimestamp = sevenDaysFromNowRoundedUp;
+      isModified = true;
+    } else if (copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
+      copiedSubmissionEndTimestamp = oneHundredAndEightyDaysFromNowRoundedUp;
+      isModified = true;
+    }
+
+    let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
+    let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
+    const thirtyDaysBeforeSubmissionStart = moment(copiedSubmissionStartTimestamp)
+      .tz(newTimeZone).subtract(30, 'days')
+      .valueOf();
+    const thirtyDaysBeforeSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
+      .tz(newTimeZone).subtract(30, 'days').startOf('hour')
+      .valueOf();
+    if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
+      if (copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart) {
+        copiedCustomSessionVisibleTimestamp = thirtyDaysBeforeSubmissionStartRoundedUp;
+        isModified = true;
+      } else if (copiedCustomSessionVisibleTimestamp > copiedSubmissionStartTimestamp) {
+        copiedSessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
+        isModified = true;
+      }
+    }
+
+    let copiedResponseVisibleSetting = fromFeedbackSession.responseVisibleSetting;
+    const copiedCustomResponseVisibleTimestamp = fromFeedbackSession.customResponseVisibleTimestamp!;
+    if (copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM
+      && ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+        && copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp)
+        || copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)) {
+      copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
+      isModified = true;
+    }
+
+    let modified = undefined;
+
+    if (isModified) {
+      modified = {
+        oldTimestamp: {
+          submissionStartTimestamp: this.formatTimestamp(fromFeedbackSession.submissionStartTimestamp,
+            fromFeedbackSession.timeZone),
+          submissionEndTimestamp: this.formatTimestamp(fromFeedbackSession.submissionEndTimestamp,
+            fromFeedbackSession.timeZone),
+          sessionVisibleTimestamp: fromFeedbackSession.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+            ? 'On submission opening time'
+            : this.formatTimestamp(fromFeedbackSession.customSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
+          responseVisibleTimestamp: '',
+        },
+        newTimestamp: {
+          submissionStartTimestamp: this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone),
+          submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
+          sessionVisibleTimestamp: copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+            ? 'On submission opening time'
+            : this.formatTimestamp(copiedCustomSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
+          responseVisibleTimestamp: '',
+        },
+      };
+
+      if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
+        modified.oldTimestamp.responseVisibleTimestamp =
+          'On session visible time';
+      } else if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.LATER) {
+        modified.oldTimestamp.responseVisibleTimestamp =
+          'Not now (publish manually)';
+      } else {
+        modified.oldTimestamp.responseVisibleTimestamp =
+          this.formatTimestamp(fromFeedbackSession.customResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
+      }
+
+      if (copiedResponseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
+        modified.newTimestamp.responseVisibleTimestamp =
+          'On session visible time';
+      } else if (copiedResponseVisibleSetting === ResponseVisibleSetting.LATER) {
+        modified.newTimestamp.responseVisibleTimestamp =
+          'Not now (publish manually)';
+      } else {
+        modified.newTimestamp.responseVisibleTimestamp =
+          this.formatTimestamp(copiedCustomResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
+      }
+    }
+
+    const request = {
+      feedbackSessionName: fromFeedbackSession.feedbackSessionName,
+      toCopyCourseId: oldCourseId,
+      toCopySessionName: fromFeedbackSession.feedbackSessionName,
+      instructions: fromFeedbackSession.instructions,
+
+      submissionStartTimestamp: copiedSubmissionStartTimestamp,
+      submissionEndTimestamp: copiedSubmissionEndTimestamp,
+      gracePeriod: fromFeedbackSession.gracePeriod,
+
+      sessionVisibleSetting: copiedSessionVisibleSetting,
+      customSessionVisibleTimestamp: copiedCustomSessionVisibleTimestamp,
+
+      responseVisibleSetting: copiedResponseVisibleSetting,
+      customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
+
+      isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
+      isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
+    };
+
+    return {
+      request,
+      modified
+    }
+  }
+
+  private formatTimestamp(timestamp: number, timeZone: string): string {
+    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM YYYY h:mm A');
   }
 
   /**

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { Instructor, InstructorPrivilege, Instructors, RegenerateKey } from '../types/api-output';
+import { Course, Instructor, InstructorPrivilege, Instructors, RegenerateKey } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
@@ -154,4 +154,17 @@ export class InstructorService {
     return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR_KEY, paramsMap);
   }
 
+  /**
+   * Get course data by calling API as an instructor.
+   */
+  getCourseAsInstructor(courseId: string, regKey?: string): Observable<Course> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      entitytype: 'instructor',
+    };
+    if (regKey) {
+      paramMap['key'] = regKey;
+    }
+    return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
+  }
 }

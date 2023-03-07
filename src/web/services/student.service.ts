@@ -6,9 +6,9 @@ import { ResourceEndpoints } from '../types/api-const';
 import { Course, EnrollStudents, MessageOutput, RegenerateKey, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
-import { CourseService } from './course.service';
 import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
+import { InstructorService } from './instructor.service';
 import { TableComparatorService } from './table-comparator.service';
 
 /**
@@ -19,9 +19,11 @@ import { TableComparatorService } from './table-comparator.service';
 })
 export class StudentService {
 
-  constructor(private httpRequestService: HttpRequestService,
-              private tableComparatorService: TableComparatorService,
-              private courseService: CourseService) {
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private tableComparatorService: TableComparatorService,
+    private instructorService: InstructorService,
+  ) {
   }
 
   /**
@@ -68,7 +70,7 @@ export class StudentService {
    * Updates the details of a student in a course by calling API.
    */
   updateStudent(queryParams: { courseId: string, studentEmail: string, requestBody: StudentUpdateRequest }):
-      Observable<MessageOutput> {
+    Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
       studentemail: queryParams.studentEmail,
@@ -138,7 +140,7 @@ export class StudentService {
    * Loads list of students from a course in CSV format by calling API.
    */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
-    return this.courseService.getCourseAsInstructor(queryParams.courseId).pipe(mergeMap((course: Course) => {
+    return this.instructorService.getCourseAsInstructor(queryParams.courseId).pipe(mergeMap((course: Course) => {
       return this.getStudentsFromCourse({ courseId: queryParams.courseId }).pipe(map((students: Students) => {
         return this.processStudentsToCsv(course.courseId, course.courseName, students.students);
       }));
@@ -151,13 +153,13 @@ export class StudentService {
     csvRows.push(['Course Name', courseName]);
     csvRows.push([]);
     const hasSection: boolean =
-        students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
+      students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
     const headers: string[] = ['Team', 'Name', 'Status', 'Email'];
     csvRows.push(hasSection ? ['Section'].concat(headers) : headers);
     students.sort((a: Student, b: Student) => {
       return this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName)
-          || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
-          || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, SortOrder.ASC, a.name, b.name);
+        || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
+        || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, SortOrder.ASC, a.name, b.name);
     });
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     students.forEach((student: Student) => {

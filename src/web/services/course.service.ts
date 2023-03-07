@@ -1,10 +1,25 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, forkJoin, from, Observable, of, Subject, zip } from 'rxjs';
+import { map, mergeMap, tap } from 'rxjs/operators';
+import { CopyCourseModalResult } from '../app/components/copy-course-modal/copy-course-modal-model';
 import { ResourceEndpoints } from '../types/api-const';
 import { Course, CourseArchive, Courses, HasResponses, JoinStatus, MessageOutput, Student } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
+import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
+import { InstructorService } from './instructor.service';
+
+export interface SessionTimestampData {
+  submissionStartTimestamp: string;
+  submissionEndTimestamp: string;
+  sessionVisibleTimestamp: string;
+  responseVisibleTimestamp: string;
+}
+
+export interface TweakedTimestampData {
+  oldTimestamp: SessionTimestampData;
+  newTimestamp: SessionTimestampData;
+}
 
 /**
  * The statistics of a course
@@ -15,6 +30,9 @@ export interface CourseStatistics {
   numOfStudents: number;
 }
 
+const combineModified = (modified: Record<string, TweakedTimestampData | undefined>[]): Record<string, TweakedTimestampData> =>
+  modified.filter(v => v !== undefined).reduce((a, v) => ({ ...a, ...v }), {}) as Record<string, TweakedTimestampData>;
+
 /**
  * Handles course related logic provision.
  */
@@ -22,8 +40,62 @@ export interface CourseStatistics {
   providedIn: 'root',
 })
 export class CourseService {
+  isCopyingCourse = new BehaviorSubject<boolean>(false);
+  copyProgress = new Subject<number>();
 
-  constructor(private httpRequestService: HttpRequestService) {
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private feedbackSessionsService: FeedbackSessionsService,
+    private instructorService: InstructorService,
+  ) { }
+
+  /**
+   * Creates a new course with the selected feedback sessions
+   */
+  createCopiedCourse(result: CopyCourseModalResult): Observable<{
+    course: Course,
+    modified: Record<string, TweakedTimestampData>
+  }> {
+    this.isCopyingCourse.next(true);
+
+    let numberOfSessionsCopied = 0;
+    const totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
+    let copyProgressPercentage = 0;
+
+    return this.createCourse(result.newCourseInstitute, {
+      courseName: result.newCourseName,
+      timeZone: result.newTimeZone,
+      courseId: result.newCourseId,
+    }).pipe(
+      mergeMap(() => combineLatest([...result.selectedFeedbackSessionList].map(sess => {
+        const { session, modified } = this.feedbackSessionsService.copyFeedbackSession(
+          sess,
+          result.newCourseId,
+          result.newTimeZone,
+          result.oldCourseId
+        );
+
+        return from(session).pipe(
+          tap(() => {
+            numberOfSessionsCopied += 1;
+            copyProgressPercentage = Math.round(100 * numberOfSessionsCopied / totalNumberOfSessionsToCopy);
+            this.copyProgress.next(copyProgressPercentage);
+          }),
+          map(() => ({
+            [sess.feedbackSessionName]: modified
+          }))
+        )
+      }))),
+      mergeMap((modified) => zip(this.instructorService.getCourseAsInstructor(result.newCourseId), of(combineModified(modified)))),
+      map(([course, modified]) => {
+        this.isCopyingCourse.next(false);
+
+        return {
+          course,
+          modified
+        };
+      })
+    );
   }
 
   /**
@@ -35,20 +107,6 @@ export class CourseService {
       coursestatus: courseStatus,
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSES, paramMap);
-  }
-
-  /**
-   * Get course data by calling API as an instructor.
-   */
-  getCourseAsInstructor(courseId: string, regKey?: string): Observable<Course> {
-    const paramMap: Record<string, string> = {
-      courseid: courseId,
-      entitytype: 'instructor',
-    };
-    if (regKey) {
-      paramMap['key'] = regKey;
-    }
-    return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }
 
   /**
@@ -105,11 +163,11 @@ export class CourseService {
       this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap),
       this.httpRequestService.get(ResourceEndpoints.COURSES, archivedCoursesParamMap),
     ]).pipe(
-        map((vals: Courses[]) => {
-          return {
-            courses: vals[0].courses.concat(vals[1].courses),
-          };
-        }),
+      map((vals: Courses[]) => {
+        return {
+          courses: vals[0].courses.concat(vals[1].courses),
+        };
+      }),
     );
   }
 

@@ -15,7 +15,6 @@ import {
   Students,
 } from '../types/api-output';
 import { Intent } from '../types/api-request';
-import { CourseService } from './course.service';
 import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
@@ -34,10 +33,9 @@ export class SearchService {
     private instructorService: InstructorService,
     private httpRequestService: HttpRequestService,
     private feedbackSessionService: FeedbackSessionsService,
-    private courseService: CourseService,
     private linkService: LinkService,
-    private timezoneService: TimezoneService,
-  ) {}
+    private timezoneService: TimezoneService
+  ) { }
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
     return this.searchStudents(searchKey, 'instructor').pipe(
@@ -164,7 +162,7 @@ export class SearchService {
     let masqueradeGoogleId: string = '';
     for (const instructor of instructors.instructors) {
       if (instructor.googleId
-          && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
+        && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
         masqueradeGoogleId = instructor.googleId;
         break;
       }
@@ -175,7 +173,7 @@ export class SearchService {
       for (const instructor of instructors.instructors) {
         const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
         if (instructor.googleId
-            && (instructorPrivilege && instructorPrivilege.privileges.courseLevel.canModifyInstructor)) {
+          && (instructorPrivilege && instructorPrivilege.privileges.courseLevel.canModifyInstructor)) {
           masqueradeGoogleId = instructor.googleId;
           break;
         }
@@ -204,8 +202,8 @@ export class SearchService {
     distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap,
   ): InstructorAccountSearchResult[] {
     return instructors.map((instructor: Instructor) =>
-        this.joinAdminInstructor(instructor, distinctCoursesMap[instructor.courseId],
-            distinctFeedbackSessionsMap[instructor.courseId]));
+      this.joinAdminInstructor(instructor, distinctCoursesMap[instructor.courseId],
+        distinctFeedbackSessionsMap[instructor.courseId]));
   }
 
   joinAdminInstructor(
@@ -238,7 +236,7 @@ export class SearchService {
 
     // Generate feedback session urls
     const { awaitingSessions, openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
-        this.classifyFeedbackSessions(feedbackSessions, instructor, true);
+      this.classifyFeedbackSessions(feedbackSessions, instructor, true);
     instructorResult = { ...instructorResult, awaitingSessions, openSessions, notOpenSessions, publishedSessions };
 
     // Generate links for instructors
@@ -252,7 +250,7 @@ export class SearchService {
   }
 
   classifyFeedbackSessions(feedbackSessions: FeedbackSessions, entity: Student | Instructor, isInstructor: boolean):
-      StudentFeedbackSessions {
+    StudentFeedbackSessions {
     const feedbackSessionLinks: StudentFeedbackSessions = {
       awaitingSessions: {},
       openSessions: {},
@@ -264,19 +262,19 @@ export class SearchService {
         feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
-              entity, feedbackSession.feedbackSessionName, isInstructor),
+            entity, feedbackSession.feedbackSessionName, isInstructor),
         };
       } else if (this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
         feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
-              entity, feedbackSession.feedbackSessionName, isInstructor),
+            entity, feedbackSession.feedbackSessionName, isInstructor),
         };
       } else {
         feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
-              entity, feedbackSession.feedbackSessionName, isInstructor),
+            entity, feedbackSession.feedbackSessionName, isInstructor),
         };
       }
 
@@ -284,7 +282,7 @@ export class SearchService {
         feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateResultUrl(
-              entity, feedbackSession.feedbackSessionName, isInstructor),
+            entity, feedbackSession.feedbackSessionName, isInstructor),
         };
       }
     }
@@ -397,7 +395,7 @@ export class SearchService {
 
   private getDistinctCourses(distinctCourseIds: string[]): Observable<DistinctCoursesMap> {
     return forkJoin(
-      distinctCourseIds.map((id: string) => this.courseService.getCourseAsInstructor(id)),
+      distinctCourseIds.map((id: string) => this.instructorService.getCourseAsInstructor(id)),
     ).pipe(
       map((courses: Course[]) => {
         const distinctCoursesMap: DistinctCoursesMap = {};
@@ -414,24 +412,24 @@ export class SearchService {
       distinctCourseIds.map((id: string) =>
         this.feedbackSessionService.getFeedbackSessionsForStudent('admin', id)),
     )
-    .pipe(
-      map((feedbackSessionsArray: FeedbackSessions[]) => {
-        const distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap = {};
-        feedbackSessionsArray.forEach(
-          (feedbackSessions: FeedbackSessions, index: number) => {
-            distinctFeedbackSessionsMap[distinctCourseIds[index]] = feedbackSessions;
-          },
-        );
-        return distinctFeedbackSessionsMap;
-      }),
-    );
+      .pipe(
+        map((feedbackSessionsArray: FeedbackSessions[]) => {
+          const distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap = {};
+          feedbackSessionsArray.forEach(
+            (feedbackSessions: FeedbackSessions, index: number) => {
+              distinctFeedbackSessionsMap[distinctCourseIds[index]] = feedbackSessions;
+            },
+          );
+          return distinctFeedbackSessionsMap;
+        }),
+      );
   }
 
   private formatProperties(feedbackSession: FeedbackSession): { startTime: string, endTime: string } {
     const startTime: string =
-        this.formatTimestampAsString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone);
+      this.formatTimestampAsString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone);
     const endTime: string =
-        this.formatTimestampAsString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone);
+      this.formatTimestampAsString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone);
 
     return { startTime, endTime };
   }
@@ -440,7 +438,7 @@ export class SearchService {
     const dateFormatWithZoneInfo: string = 'ddd, DD MMM YYYY, hh:mm A Z';
 
     return this.timezoneService
-        .formatToString(timestamp, timezone, dateFormatWithZoneInfo);
+      .formatToString(timestamp, timezone, dateFormatWithZoneInfo);
   }
 }
 
