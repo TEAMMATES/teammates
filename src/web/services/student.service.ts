@@ -19,11 +19,9 @@ import { TableComparatorService } from './table-comparator.service';
 })
 export class StudentService {
 
-  constructor(
-    private httpRequestService: HttpRequestService,
-    private tableComparatorService: TableComparatorService,
-    private instructorService: InstructorService,
-  ) {
+  constructor(private httpRequestService: HttpRequestService,
+              private tableComparatorService: TableComparatorService,
+              private instructorService: InstructorService) {
   }
 
   /**
@@ -70,7 +68,7 @@ export class StudentService {
    * Updates the details of a student in a course by calling API.
    */
   updateStudent(queryParams: { courseId: string, studentEmail: string, requestBody: StudentUpdateRequest }):
-    Observable<MessageOutput> {
+      Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
       studentemail: queryParams.studentEmail,
@@ -153,13 +151,13 @@ export class StudentService {
     csvRows.push(['Course Name', courseName]);
     csvRows.push([]);
     const hasSection: boolean =
-      students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
+        students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
     const headers: string[] = ['Team', 'Name', 'Status', 'Email'];
     csvRows.push(hasSection ? ['Section'].concat(headers) : headers);
     students.sort((a: Student, b: Student) => {
       return this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName)
-        || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
-        || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, SortOrder.ASC, a.name, b.name);
+          || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
+          || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, SortOrder.ASC, a.name, b.name);
     });
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     students.forEach((student: Student) => {
