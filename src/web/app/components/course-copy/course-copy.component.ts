@@ -66,7 +66,8 @@ export class CourseCopyComponent implements OnInit {
   }
 
   /**
-   * Creates a copy of a course including the selected sessions.
+   * Opens a modal allowing for the copying of a course,
+   * and copies the course when the user presses ok.
    */
   onCopy(courseId: string, courseName: string, timeZone: string): void {
     if (!courseId) {
@@ -91,6 +92,9 @@ export class CourseCopyComponent implements OnInit {
     });
   }
 
+  /**
+   * Creates a copy of a course given a modal result
+   */
   createCopiedCourse(result: CopyCourseModalResult): void {
     this.courseService.createCopiedCourse(result).subscribe({
       next: ({ course, modified }) => {

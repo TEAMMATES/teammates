@@ -173,6 +173,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       });
     }, () => {});
   }
+  
   /**
    * Loads courses of current instructor.
    */
@@ -229,6 +230,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     });
   }
 
+  /**
+   * When a course was copied, reload all courses.
+   */
   onCourseCopy(): void {
     this.loadCourses();
   }
