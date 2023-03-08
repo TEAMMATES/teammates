@@ -1,14 +1,13 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationsData;
 
 /**
@@ -44,12 +43,12 @@ public class GetNotificationsAction extends Action {
     @Override
     public JsonResult execute() {
         String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-        List<NotificationAttributes> notificationAttributes;
+        List<Notification> notifications;
 
         if (targetUserString == null && userInfo.isAdmin) {
             // if request is from admin and targetUser is not specified, retrieve all notifications
-            notificationAttributes = logic.getAllNotifications();
-            return new JsonResult(new NotificationsData(notificationAttributes));
+            notifications = sqlLogic.getAllNotifications();
+            return new JsonResult(new NotificationsData(notifications));
         } else {
             // retrieve active notification for specified target user
             String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
@@ -60,8 +59,8 @@ public class GetNotificationsAction extends Action {
             if (targetUser == NotificationTargetUser.GENERAL) {
                 throw new InvalidHttpParameterException(INVALID_TARGET_USER);
             }
-            notificationAttributes =
-                    logic.getActiveNotificationsByTargetUser(targetUser);
+            notifications =
+                    sqlLogic.getActiveNotificationsByTargetUser(targetUser);
         }
 
         boolean isFetchingAll = false;
@@ -70,37 +69,27 @@ public class GetNotificationsAction extends Action {
         }
 
         if (isFetchingAll) {
-            return new JsonResult(new NotificationsData(notificationAttributes));
+            return new JsonResult(new NotificationsData(notifications));
         }
 
         // Filter unread notifications
-        List<String> readNotifications = logic.getReadNotificationsId(userInfo.getId());
-        notificationAttributes = notificationAttributes
+        List<UUID> readNotifications = sqlLogic.getReadNotificationsId(userInfo.getId());
+        notifications = notifications
                 .stream()
-                .filter(n -> !readNotifications.contains(n.getNotificationId()))
+                .filter(n -> !readNotifications.contains(n.getId()))
                 .collect(Collectors.toList());
 
         if (userInfo.isAdmin) {
-            return new JsonResult(new NotificationsData(notificationAttributes));
+            return new JsonResult(new NotificationsData(notifications));
         }
 
         // Update shown attribute once a non-admin user fetches unread notifications
-        for (NotificationAttributes n : notificationAttributes) {
+        for (Notification n : notifications) {
             if (n.isShown()) {
                 continue;
             }
-            try {
-                NotificationAttributes.UpdateOptions newNotification =
-                        NotificationAttributes.updateOptionsBuilder(n.getNotificationId())
-                                .withShown()
-                                .build();
-                logic.updateNotification(newNotification);
-            } catch (InvalidParametersException e) {
-                throw new InvalidHttpParameterException(e);
-            } catch (EntityDoesNotExistException ednee) {
-                throw new EntityNotFoundException(ednee);
-            }
+            n.setShown();
         }
-        return new JsonResult(new NotificationsData(notificationAttributes));
+        return new JsonResult(new NotificationsData(notifications));
     }
 }
