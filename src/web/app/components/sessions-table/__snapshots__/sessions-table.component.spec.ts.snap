@@ -34,9 +34,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   <div
     class="row"
   >
-    <div
-      class="col-12"
-    >
+    <div>
       <table
         class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
         id="sessions-table"
@@ -510,9 +508,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   <div
     class="row"
   >
-    <div
-      class="col-12"
-    >
+    <div>
       <table
         class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
         id="sessions-table"

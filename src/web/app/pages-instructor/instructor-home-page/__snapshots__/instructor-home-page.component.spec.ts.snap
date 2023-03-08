@@ -534,9 +534,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="row"
                 >
-                  <div
-                    class="col-12"
-                  >
+                  <div>
                     <table
                       class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
                       id="sessions-table"
@@ -1036,9 +1034,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="row"
                 >
-                  <div
-                    class="col-12"
-                  >
+                  <div>
                     <table
                       class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
                       id="sessions-table"
