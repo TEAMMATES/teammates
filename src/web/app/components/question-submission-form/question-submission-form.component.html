@@ -66,7 +66,7 @@
               <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
             </div>
             <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-              <select id="recipient-dropdown" class="form-control form-select fw-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
+              <select id="recipient-dropdown" class="form-control form-select fw-bold select-flex" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
                       (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
                       [disabled]="isFormsDisabled">
                 <option value=""></option>
