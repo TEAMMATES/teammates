@@ -393,7 +393,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
             class="card-body text-center"
           >
             <div
-              class="form-row form-group"
+              class="row form-group"
             >
               <label
                 class="col-sm-2 control-label"
@@ -413,7 +413,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               </div>
             </div>
             <div
-              class="form-row form-group"
+              class="row form-group"
             >
               <label
                 class="col-sm-2 control-label"
@@ -432,7 +432,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               </div>
             </div>
             <div
-              class="form-row form-group"
+              class="row form-group"
             >
               <label
                 class="col-sm-2 control-label"
@@ -451,7 +451,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               </div>
             </div>
             <div
-              class="form-row form-group"
+              class="row form-group"
             >
               <label
                 class="col-sm-2 control-label"
@@ -482,7 +482,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               </div>
             </div>
             <div
-              class="form-row form-group align-items-start text-start"
+              class="row form-group align-items-start text-start"
             >
               <label
                 class="col-sm-2 control-label text-center text-md-end"

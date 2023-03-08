@@ -5,7 +5,7 @@
   </div>
   <div class="col-11 offset-half margin-top-10px">
     <div class="form-check">
-      <label class="form-row form-check-label">
+      <label class="row form-check-label">
         <div class="col-sm-3">
           <input id="total-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
                  (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
@@ -18,7 +18,7 @@
       </label>
     </div>
     <div class="form-check">
-      <label class="form-check-label form-row">
+      <label class="form-check-label row">
         <div class="col-sm-3">
           <input id="per-option-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
                  (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
@@ -31,7 +31,7 @@
       </label>
     </div>
   </div>
-  <label class="form-row form-check col-sm-12 padding-left-33px margin-top-10px">
+  <label class="row form-check col-sm-12 padding-left-33px margin-top-10px">
     <div class="col-sm-3">
       <input id="uneven-distribution-checkbox" class="form-check-input" type="checkbox"
              [ngModel]="model.forceUnevenDistribution"
