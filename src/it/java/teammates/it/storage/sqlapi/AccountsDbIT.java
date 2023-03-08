@@ -1,5 +1,7 @@
 package teammates.it.storage.sqlapi;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -15,6 +17,36 @@ import teammates.storage.sqlentity.Account;
 public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final AccountsDb accountsDb = AccountsDb.inst();
+
+    @Test
+    public void testGetAccountsByEmail() throws InvalidParametersException, EntityAlreadyExistsException {
+        ______TS("Get accounts by email, none exists, succeeds");
+
+        List<Account> accounts = accountsDb.getAccountsByEmail("email@teammates.com");
+
+        assertEquals(0, accounts.size());
+
+        ______TS("Get accounts by email, multiple exists, succeeds");
+
+        Account firstAccount = getTypicalAccount();
+
+        Account secondAccount = getTypicalAccount();
+        secondAccount.setGoogleId(firstAccount.getGoogleId() + "-2");
+
+        Account thirdAccount = getTypicalAccount();
+        thirdAccount.setGoogleId(firstAccount.getGoogleId() + "-3");
+
+        String email = firstAccount.getEmail();
+
+        accountsDb.createAccount(firstAccount);
+        accountsDb.createAccount(secondAccount);
+        accountsDb.createAccount(thirdAccount);
+
+        accounts = accountsDb.getAccountsByEmail(email);
+
+        assertEquals(3, accounts.size());
+        assertTrue(List.of(firstAccount, secondAccount, thirdAccount).containsAll(accounts));
+    }
 
     @Test
     public void testCreateAccount() throws Exception {
@@ -58,4 +90,7 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(actual);
     }
 
+    private Account getTypicalAccount() {
+        return new Account("google-id", "name", "email@teammates.com");
+    }
 }
