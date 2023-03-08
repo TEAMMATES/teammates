@@ -66,11 +66,11 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(actualInstructor);
 
         ______TS("success: gets an instructor by courseId and email");
-        actualInstructor = usersDb.getInstructor(instructor.getCourseId(), instructor.getEmail());
+        actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
         verifyEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by courseId and email that does not exist");
-        actualInstructor = usersDb.getInstructor(instructor.getCourseId(), "does-not-exist@teammates.tmt");
+        actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), "does-not-exist@teammates.tmt");
         assertNull(actualInstructor);
 
         ______TS("success: gets an instructor by regKey");
@@ -102,11 +102,11 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(actualStudent);
 
         ______TS("success: gets a student by courseId and email");
-        actualStudent = usersDb.getStudent(student.getCourseId(), student.getEmail());
+        actualStudent = usersDb.getStudentForEmail(student.getCourseId(), student.getEmail());
         verifyEquals(student, actualStudent);
 
         ______TS("success: gets a student by courseId and email that does not exist");
-        actualStudent = usersDb.getStudent(student.getCourseId(), "does-not-exist@teammates.tmt");
+        actualStudent = usersDb.getStudentForEmail(student.getCourseId(), "does-not-exist@teammates.tmt");
         assertNull(actualStudent);
 
         ______TS("success: gets a student by regKey");

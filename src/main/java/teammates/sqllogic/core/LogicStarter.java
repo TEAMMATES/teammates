@@ -8,6 +8,8 @@ import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
+import teammates.storage.sqlapi.FeedbackQuestionsDb;
+import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlapi.UsageStatisticsDb;
@@ -30,6 +32,8 @@ public class LogicStarter implements ServletContextListener {
         CoursesLogic coursesLogic = CoursesLogic.inst();
         DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+        FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         NotificationsLogic notificationsLogic = NotificationsLogic.inst();
         UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
         UsersLogic usersLogic = UsersLogic.inst();
@@ -38,7 +42,9 @@ public class LogicStarter implements ServletContextListener {
         accountsLogic.initLogicDependencies(AccountsDb.inst(), notificationsLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst());
-        fsLogic.initLogicDependencies(FeedbackSessionsDb.inst());
+        fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic, frLogic, fqLogic);
+        frLogic.initLogicDependencies(FeedbackResponsesDb.inst());
+        fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst());
         notificationsLogic.initLogicDependencies(NotificationsDb.inst());
         usageStatisticsLogic.initLogicDependencies(UsageStatisticsDb.inst());
         usersLogic.initLogicDependencies(UsersDb.inst());

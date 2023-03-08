@@ -8,6 +8,8 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -102,6 +104,20 @@ public class Instructor extends User {
         addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role.getRoleName()), errors);
 
         return errors;
+    }
+
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(getRegKey())
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toString();
+    }
+
+    /**
+     * Returns true if the instructor has co-owner privilege.
+     */
+    public boolean hasCoownerPrivileges() {
+        return instructorPrivileges.hasCoownerPrivileges();
     }
 
     /**

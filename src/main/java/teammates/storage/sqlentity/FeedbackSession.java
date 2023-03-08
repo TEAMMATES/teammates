@@ -73,6 +73,9 @@ public class FeedbackSession extends BaseEntity {
     @OneToMany(mappedBy = "feedbackSession")
     private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "feedbackSession")
+    private List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
+
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -157,21 +160,6 @@ public class FeedbackSession extends BaseEntity {
                 endTime, deadlineExtensions), errors);
 
         return errors;
-    }
-
-    /**
-     * Returns {@code true} if the session is visible; {@code false} if not.
-     *         Does not care if the session has started or not.
-     */
-    public boolean isVisible() {
-        Instant visibleTime = this.getSessionVisibleFromTime();
-
-        if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            visibleTime = this.startTime;
-        }
-
-        Instant now = Instant.now();
-        return now.isAfter(visibleTime) || now.equals(visibleTime);
     }
 
     public UUID getId() {
@@ -286,6 +274,14 @@ public class FeedbackSession extends BaseEntity {
         this.deadlineExtensions = deadlineExtensions;
     }
 
+    public List<FeedbackQuestion> getFeedbackQuestions() {
+        return feedbackQuestions;
+    }
+
+    public void setFeedbackQuestions(List<FeedbackQuestion> feedbackQuestions) {
+        this.feedbackQuestions = feedbackQuestions;
+    }
+
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -310,7 +306,8 @@ public class FeedbackSession extends BaseEntity {
                 + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", deadlineExtensions=" + deadlineExtensions
-                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
+                + ", feedbackQuestions=" + feedbackQuestions + ", createdAt=" + getCreatedAt()
+                + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
     @Override
@@ -330,5 +327,65 @@ public class FeedbackSession extends BaseEntity {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Returns {@code true} if the session is visible; {@code false} if not.
+     *         Does not care if the session has started or not.
+     */
+    public boolean isVisible() {
+        Instant visibleTime = this.sessionVisibleFromTime;
+
+        if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            visibleTime = this.startTime;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(visibleTime) || now.equals(visibleTime);
+    }
+
+    /**
+     * Gets the instructions of the feedback session.
+     */
+    public String getInstructionsString() {
+        return SanitizationHelper.sanitizeForRichText(instructions);
+    }
+
+    /**
+     * Checks if the feedback session is closed.
+     * This occurs when the current time is after both the deadline and the grace period.
+     */
+    public boolean isClosed() {
+        return Instant.now().isAfter(endTime.plus(gracePeriod));
+    }
+
+    /**
+     * Checks if the feedback session is open.
+     * This occurs when the current time is either the start time or later but before the deadline.
+     */
+    public boolean isOpened() {
+        Instant now = Instant.now();
+        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(endTime);
+    }
+
+    /**
+     * Returns {@code true} if the results of the feedback session is visible; {@code false} if not.
+     *         Does not care if the session has ended or not.
+     */
+    public boolean isPublished() {
+        Instant publishTime = this.resultsVisibleFromTime;
+
+        if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            return isVisible();
+        }
+        if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            return false;
+        }
+        if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
+            return true;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(publishTime) || now.equals(publishTime);
     }
 }

@@ -3,6 +3,8 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -10,6 +12,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for feedback sessions.
@@ -87,5 +93,39 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
         if (feedbackSession != null) {
             delete(feedbackSession);
         }
+    }
+
+    /**
+     * Gets feedback sessions for a given {@code courseId}.
+     */
+    public List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets feedback sessions for a given {@code courseId} that start after {@code after}.
+     */
+    public List<FeedbackSession> getFeedbackSessionEntitiesForCourseStartingAfter(String courseId, Instant after) {
+        assert courseId != null;
+        assert after != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root)
+                .where(cb.and(
+                    cb.greaterThanOrEqualTo(root.get("startTime"), after),
+                    cb.equal(root.get("courseId"), courseId)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 }
