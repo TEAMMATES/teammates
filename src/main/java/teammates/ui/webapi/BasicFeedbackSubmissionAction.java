@@ -95,9 +95,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            return sqlLogic.getStudent(courseId, moderatedPerson);
+            return sqlLogic.getStudentForEmail(courseId, moderatedPerson);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            return sqlLogic.getStudent(courseId, previewAsPerson);
+            return sqlLogic.getStudentForEmail(courseId, previewAsPerson);
         } else {
             return getPossiblyUnregisteredSqlStudent(courseId);
         }
@@ -201,9 +201,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            return sqlLogic.getInstructor(courseId, moderatedPerson);
+            return sqlLogic.getInstructorForEmail(courseId, moderatedPerson);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            return sqlLogic.getInstructor(courseId, previewAsPerson);
+            return sqlLogic.getInstructorForEmail(courseId, previewAsPerson);
         } else {
             return getPossiblyUnregisteredSqlInstructor(courseId);
         }
@@ -327,7 +327,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                 return section == null ? Const.DEFAULT_SECTION : section.getName();
             case STUDENTS:
             case STUDENTS_IN_SAME_SECTION:
-                Student student = sqlLogic.getStudent(courseId, recipientIdentifier);
+                Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
                 return student == null ? Const.DEFAULT_SECTION : student.getTeam().getSection().getName();
             default:
                 assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
@@ -347,7 +347,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         case STUDENTS_IN_SAME_SECTION:
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            Student student = sqlLogic.getStudent(courseId, recipientIdentifier);
+            Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
             return student == null ? Const.DEFAULT_SECTION : student.getTeam().getSection().getName();
         default:
             assert false : "Unknown recipient type " + recipientType;

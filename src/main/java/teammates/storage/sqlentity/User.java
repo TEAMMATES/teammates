@@ -172,4 +172,8 @@ public abstract class User extends BaseEntity {
     public int hashCode() {
         return this.getId().hashCode();
     }
+
+    public boolean isRegistered() {
+        return this.account != null;
+    }
 }

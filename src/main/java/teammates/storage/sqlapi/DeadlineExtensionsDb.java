@@ -10,10 +10,13 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.User;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 /**
@@ -107,5 +110,26 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
         if (de != null) {
             delete(de);
         }
+    }
+
+    /**
+     * Gets the DeadlineExtension with the specified {@code feedbackSessionId} and {@code userId} if it exists.
+     * Otherwise, return null.
+     */
+    public DeadlineExtension getDeadlineExtensionForUser(UUID feedbackSessionId, UUID userId) {
+        assert feedbackSessionId != null;
+        assert userId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
+        Root<DeadlineExtension> deadlineExtensionRoot = cr.from(DeadlineExtension.class);
+        Join<DeadlineExtension, User> userJoin = deadlineExtensionRoot.join("user");
+        Join<DeadlineExtension, FeedbackSession> sessionJoin = deadlineExtensionRoot.join("feedbackSession");
+
+        cr.select(deadlineExtensionRoot).where(cb.and(
+                cb.equal(sessionJoin.get("id"), feedbackSessionId),
+                cb.equal(userJoin.get("id"), userId)));
+
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 }
