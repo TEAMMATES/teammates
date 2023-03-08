@@ -49,6 +49,24 @@ public final class AccountsLogic {
     }
 
     /**
+     * Gets an account by googleId.
+     */
+    public Account getAccountForGoogleId(String googleId) {
+        assert googleId != null;
+
+        return accountsDb.getAccountByGoogleId(googleId);
+    }
+
+    /**
+     * Gets accounts associated with email.
+     */
+    public List<Account> getAccountsForEmail(String email) {
+        assert email != null;
+
+        return accountsDb.getAccountsByEmail(email);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account

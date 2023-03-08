@@ -109,6 +109,20 @@ public class Logic {
     }
 
     /**
+     * Gets an account by googleId.
+     */
+    public Account getAccountForGoogleId(String googleId) {
+        return accountsLogic.getAccountForGoogleId(googleId);
+    }
+
+    /**
+     * Get a list of accounts associated with email provided.
+     */
+    public List<Account> getAccountsForEmail(String email) {
+        return accountsLogic.getAccountsForEmail(email);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account

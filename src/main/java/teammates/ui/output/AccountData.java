@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.storage.sqlentity.Account;
 
 /**
  * Output format of account data.
@@ -26,6 +27,18 @@ public class AccountData extends ApiOutput {
                 e -> e.getKey(),
                 e -> e.getValue().toEpochMilli()
             ));
+    }
+
+    public AccountData(Account account) {
+        this.googleId = account.getGoogleId();
+        this.name = account.getName();
+        this.email = account.getEmail();
+        this.readNotifications = account.getReadNotifications()
+                .stream()
+                .collect(Collectors.toMap(
+                        readNotification -> readNotification.getId().toString(),
+                        readNotification ->
+                                readNotification.getNotification().getEndTime().toEpochMilli()));
     }
 
     public String getEmail() {
