@@ -4,16 +4,17 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -25,10 +26,9 @@ import jakarta.persistence.Table;
 @Table(name = "Accounts")
 public class Account extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private UUID id;
 
-    @Column(nullable = false)
+    @NaturalId
     private String googleId;
 
     @Column(nullable = false)
@@ -37,15 +37,10 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<ReadNotification> readNotifications;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
-
     @UpdateTimestamp
-    @Column
     private Instant updatedAt;
 
     protected Account() {
@@ -53,17 +48,25 @@ public class Account extends BaseEntity {
     }
 
     public Account(String googleId, String name, String email) {
+        this.setId(UUID.randomUUID());
         this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
         this.readNotifications = new ArrayList<>();
     }
 
-    public Integer getId() {
+    /**
+     * Add a read notification to this account.
+     */
+    public void addReadNotification(ReadNotification readNotification) {
+        readNotifications.add(readNotification);
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -99,14 +102,6 @@ public class Account extends BaseEntity {
         this.readNotifications = readNotifications;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -134,7 +129,7 @@ public class Account extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             Account otherAccount = (Account) other;
-            return Objects.equals(this.googleId, otherAccount.googleId);
+            return Objects.equals(this.getId(), otherAccount.getId());
         } else {
             return false;
         }
@@ -142,13 +137,13 @@ public class Account extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return this.getGoogleId().hashCode();
+        return this.getId().hashCode();
     }
 
     @Override
     public String toString() {
         return "Account [id=" + id + ", googleId=" + googleId + ", name=" + name + ", email=" + email
-                + ", readNotifications=" + readNotifications + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-                + "]";
+                + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
+                + ",updatedAt=" + updatedAt + "]";
     }
 }

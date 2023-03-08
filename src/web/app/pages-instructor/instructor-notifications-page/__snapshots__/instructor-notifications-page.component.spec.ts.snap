@@ -2,7 +2,7 @@
 
 exports[`InstructorNotificationsPageComponent should snap with default fields 1`] = `
 <tm-instructor-notifications-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   timezone={[Function String]}
   timezoneService={[Function TimezoneService]}
   userType={[Function String]}

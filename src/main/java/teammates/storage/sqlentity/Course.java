@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
@@ -21,7 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
- * Represents a course entity.
+ * Represents a course.
  */
 @Entity
 @Table(name = "Courses")
@@ -38,18 +37,15 @@ public class Course extends BaseEntity {
     @Column(nullable = false)
     private String institute;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<FeedbackSession> feedbackSessions = new ArrayList<>();
+    @OneToMany(mappedBy = "course")
+    private List<FeedbackSession> feedbackSessions;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Section> sections;
 
     @UpdateTimestamp
-    @Column
     private Instant updatedAt;
 
-    @Column
     private Instant deletedAt;
 
     protected Course() {
@@ -61,6 +57,8 @@ public class Course extends BaseEntity {
         this.setName(name);
         this.setTimeZone(StringUtils.defaultIfEmpty(timeZone, Const.DEFAULT_TIME_ZONE));
         this.setInstitute(institute);
+        this.sections = new ArrayList<>();
+        this.feedbackSessions = new ArrayList<>();
     }
 
     @Override
@@ -72,6 +70,13 @@ public class Course extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
 
         return errors;
+    }
+
+    /**
+     * Adds a section to the Course.
+     */
+    public void addSection(Section section) {
+        this.sections.add(section);
     }
 
     public String getId() {
@@ -114,14 +119,6 @@ public class Course extends BaseEntity {
         this.feedbackSessions = feedbackSessions;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -141,8 +138,8 @@ public class Course extends BaseEntity {
     @Override
     public String toString() {
         return "Course [id=" + id + ", name=" + name + ", timeZone=" + timeZone + ", institute=" + institute
-                + ", feedbackSessions=" + feedbackSessions + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-                + ", deletedAt=" + deletedAt + "]";
+                + ", feedbackSessions=" + feedbackSessions + ", createdAt=" + getCreatedAt()
+                + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
     @Override

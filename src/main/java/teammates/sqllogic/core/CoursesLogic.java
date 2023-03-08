@@ -1,5 +1,7 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.time.Instant;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -7,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Section;
 
 /**
  * Handles operations related to courses.
@@ -20,8 +23,6 @@ public final class CoursesLogic {
 
     private CoursesDb coursesDb;
 
-    // private FeedbackSessionsLogic fsLogic;
-
     private CoursesLogic() {
         // prevent initialization
     }
@@ -30,9 +31,8 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic) {
+    void initLogicDependencies(CoursesDb coursesDb) {
         this.coursesDb = coursesDb;
-        // this.fsLogic = fsLogic;
     }
 
     /**
@@ -59,7 +59,8 @@ public final class CoursesLogic {
      * Fails silently if no such course.
      */
     public void deleteCourseCascade(String courseId) {
-        if (getCourse(courseId) == null) {
+        Course course = coursesDb.getCourse(courseId);
+        if (course == null) {
             return;
         }
 
@@ -75,7 +76,7 @@ public final class CoursesLogic {
         // instructorsLogic.deleteInstructors(query);
         // deadlineExtensionsLogic.deleteDeadlineExtensions(query);
 
-        coursesDb.deleteCourse(courseId);
+        coursesDb.deleteCourse(course);
     }
 
     /**
@@ -83,14 +84,26 @@ public final class CoursesLogic {
      * @return the time when the course is moved to the recycle bin.
      */
     public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
-        return coursesDb.softDeleteCourse(courseId);
+        Course course = coursesDb.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
+        }
+
+        Instant now = Instant.now();
+        course.setDeletedAt(now);
+        return now;
     }
 
     /**
      * Restores a course from Recycle Bin by its given corresponding ID.
      */
     public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
-        coursesDb.restoreDeletedCourse(courseId);
+        Course course = coursesDb.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
+        }
+
+        course.setDeletedAt(null);
     }
 
     /**
@@ -114,5 +127,15 @@ public final class CoursesLogic {
         }
 
         return updatedCourse;
+    }
+
+    /**
+     * Get section by {@code courseId} and {@code teamName}.
+     */
+    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
+        assert courseId != null;
+        assert teamName != null;
+
+        return coursesDb.getSectionByCourseIdAndTeam(courseId, teamName);
     }
 }

@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import com.google.cloud.datastore.DatastoreException;
 
@@ -116,19 +114,15 @@ public class WebApiServlet extends HttpServlet {
     private ActionResult executeWithTransaction(Action action, HttpServletRequest req)
             throws InvalidOperationException, InvalidHttpRequestBodyException, UnauthorizedAccessException {
         try {
-            HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
+            HibernateUtil.beginTransaction();
             action.init(req);
             action.checkAccessControl();
 
             ActionResult result = action.execute();
-            HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
+            HibernateUtil.commitTransaction();
             return result;
         } catch (Exception e) {
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            if (session.getTransaction().getStatus() == TransactionStatus.ACTIVE
-                    || session.getTransaction().getStatus() == TransactionStatus.MARKED_ROLLBACK) {
-                session.getTransaction().rollback();
-            }
+            HibernateUtil.rollbackTransaction();
             throw e;
         }
     }

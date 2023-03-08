@@ -1,14 +1,11 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mockStatic;
 
 import java.time.Instant;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -23,14 +20,16 @@ public class UsageStatisticsDbTest extends BaseTestCase {
 
     private UsageStatisticsDb usageStatisticsDb = UsageStatisticsDb.inst();
 
-    private Session session;
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @BeforeMethod
-    public void setUp() {
-        session = mock(Session.class);
-        SessionFactory sessionFactory = mock(SessionFactory.class);
-        HibernateUtil.setSessionFactory(sessionFactory);
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
+    public void setUpMethod() {
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+    }
+
+    @AfterMethod
+    public void teardownMethod() {
+        mockHibernateUtil.close();
     }
 
     @Test
@@ -40,7 +39,7 @@ public class UsageStatisticsDbTest extends BaseTestCase {
 
         usageStatisticsDb.createUsageStatistics(newUsageStatistics);
 
-        verify(session, times(1)).persist(newUsageStatistics);
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(newUsageStatistics));
     }
 
 }

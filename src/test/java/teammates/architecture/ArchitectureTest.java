@@ -21,6 +21,7 @@ public class ArchitectureTest {
     private static final String STORAGE_PACKAGE = "teammates.storage";
     private static final String STORAGE_API_PACKAGE = STORAGE_PACKAGE + ".api";
     private static final String STORAGE_ENTITY_PACKAGE = STORAGE_PACKAGE + ".entity";
+    private static final String STORAGE_SQL_ENTITY_PACKAGE = STORAGE_PACKAGE + ".sqlentity";
     private static final String STORAGE_SEARCH_PACKAGE = STORAGE_PACKAGE + ".search";
 
     private static final String LOGIC_PACKAGE = "teammates.logic";
@@ -63,6 +64,19 @@ public class ArchitectureTest {
 
     private static JavaClasses forClasses(String... packageNames) {
         return new ClassFileImporter().importPackages(packageNames);
+    }
+
+    @Test
+    public void testArchitecture_uiShouldNotTouchStorage() {
+        noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .should().accessClassesThat(new DescribedPredicate<>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
+                                && !STORAGE_SQL_ENTITY_PACKAGE.equals(input.getPackageName());
+                    }
+                })
+                .check(forClasses(UI_PACKAGE));
     }
 
     @Test

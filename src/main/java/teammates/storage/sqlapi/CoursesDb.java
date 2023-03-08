@@ -1,12 +1,20 @@
 package teammates.storage.sqlapi;
 
-import java.time.Instant;
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Team;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for courses.
@@ -31,7 +39,7 @@ public final class CoursesDb extends EntitiesDb<Course> {
     public Course getCourse(String courseId) {
         assert courseId != null;
 
-        return HibernateUtil.getSessionFactory().getCurrentSession().get(Course.class, courseId);
+        return HibernateUtil.get(Course.class, courseId);
     }
 
     /**
@@ -72,45 +80,29 @@ public final class CoursesDb extends EntitiesDb<Course> {
     /**
      * Deletes a course.
      */
-    public void deleteCourse(String courseId) {
-        assert courseId != null;
-
-        Course course = getCourse(courseId);
+    public void deleteCourse(Course course) {
         if (course != null) {
             delete(course);
         }
     }
 
     /**
-     * Soft-deletes a course by its given corresponding ID.
-     *
-     * @return Soft-deletion time of the course.
+     * Get section by {@code courseId} and {@code teamName}.
      */
-    public Instant softDeleteCourse(String courseId) throws EntityDoesNotExistException {
+    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
         assert courseId != null;
+        assert teamName != null;
 
-        Course course = getCourse(courseId);
-        if (course == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
+        Root<Section> sectionRoot = cr.from(Section.class);
+        Join<Section, Course> courseJoin = sectionRoot.join("course");
+        Join<Section, Team> teamJoin = sectionRoot.join("teams");
 
-        course.setDeletedAt(Instant.now());
+        cr.select(sectionRoot).where(cb.and(
+                cb.equal(courseJoin.get("id"), courseId),
+                cb.equal(teamJoin.get("name"), teamName)));
 
-        return course.getDeletedAt();
-    }
-
-    /**
-     * Restores a soft-deleted course by its given corresponding ID.
-     */
-    public void restoreDeletedCourse(String courseId) throws EntityDoesNotExistException {
-        assert courseId != null;
-
-        Course course = getCourse(courseId);
-
-        if (course == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        course.setDeletedAt(null);
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 }

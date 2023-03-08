@@ -7,7 +7,7 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
@@ -101,7 +101,7 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
@@ -195,7 +195,7 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
@@ -289,7 +289,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
   EditMode={[Function Object]}
   FormValidator={[Function Object]}
   Sections={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
   authService={[Function AuthService]}
@@ -482,10 +482,10 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               </div>
             </div>
             <div
-              class="form-row form-group align-items-start text-left"
+              class="form-row form-group align-items-start text-start"
             >
               <label
-                class="col-sm-2 control-label text-center text-md-right"
+                class="col-sm-2 control-label text-center text-md-end"
               >
                  Access Level: 
               </label>

@@ -1,48 +1,51 @@
 package teammates.storage.sqlentity;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
- * Represents a User entity.
+ * Represents a User.
  */
 @Entity
-@Table(name = "Users")
+@Table(name = "Users", uniqueConstraints = {
+        @UniqueConstraint(name = "Unique email and courseId", columnNames = { "email", "courseId" })
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "accountId")
     private Account account;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String courseId;
+
     @ManyToOne
-    @JoinColumn(name = "courseId")
+    @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
-    /*
     @ManyToOne
     @JoinColumn(name = "teamId")
-    private List<Team> team;
-    */
+    private Team team;
 
     @Column(nullable = false)
     private String name;
@@ -50,23 +53,29 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
+    @Column(nullable = false)
+    private String regKey;
 
     @UpdateTimestamp
-    @Column(nullable = false)
     private Instant updatedAt;
 
     protected User() {
         // required by Hibernate
     }
 
-    public Integer getId() {
+    public User(Course course, String name, String email) {
+        this.setId(UUID.randomUUID());
+        this.setCourse(course);
+        this.setName(name);
+        this.setEmail(email);
+        this.setRegKey(generateRegistrationKey());
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -78,23 +87,29 @@ public abstract class User extends BaseEntity {
         this.account = account;
     }
 
+    public String getCourseId() {
+        return courseId;
+    }
+
     public Course getCourse() {
         return course;
     }
 
+    /**
+     * Sets a course as well as the courseId.
+     */
     public void setCourse(Course course) {
         this.course = course;
+        this.courseId = course.getId();
     }
 
-    /*
-    public List<Team> getTeam() {
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(List<Team> team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
-    */
 
     public String getName() {
         return name;
@@ -112,20 +127,31 @@ public abstract class User extends BaseEntity {
         this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getRegKey() {
+        return this.regKey;
+    }
+
+    public void setRegKey(String regKey) {
+        this.regKey = regKey;
+    }
+
+    /**
+     * Returns unique registration key for the student/instructor.
+     */
+    private String generateRegistrationKey() {
+        String uniqueId = this.email + '%' + this.course.getId();
+
+        SecureRandom prng = new SecureRandom();
+
+        return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
     }
 
     @Override
@@ -136,9 +162,7 @@ public abstract class User extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             User otherUser = (User) other;
-            return Objects.equals(this.course, otherUser.course)
-                    && Objects.equals(this.name, otherUser.name)
-                    && Objects.equals(this.email, otherUser.email);
+            return Objects.equals(this.getId(), otherUser.getId());
         } else {
             return false;
         }
@@ -146,6 +170,10 @@ public abstract class User extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.course, this.name, this.email);
+        return this.getId().hashCode();
+    }
+
+    public boolean isRegistered() {
+        return this.account != null;
     }
 }

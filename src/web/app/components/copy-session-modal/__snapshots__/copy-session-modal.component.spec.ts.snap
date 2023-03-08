@@ -3,7 +3,7 @@
 exports[`CopySessionModalComponent should snap with default fields 1`] = `
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
@@ -26,13 +26,9 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
       </small>
     </h5>
     <button
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <i
-        class="fas fa-times"
-      />
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-course-modal"
@@ -87,7 +83,7 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
 exports[`CopySessionModalComponent should snap with some session and courses candidates 1`] = `
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
@@ -110,13 +106,9 @@ exports[`CopySessionModalComponent should snap with some session and courses can
       </small>
     </h5>
     <button
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <i
-        class="fas fa-times"
-      />
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-course-modal"

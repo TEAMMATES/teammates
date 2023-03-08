@@ -4,7 +4,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -154,7 +154,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -301,7 +301,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -448,7 +448,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -568,12 +568,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Course ID:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="course-id"
         >
           test.exa-demo
@@ -583,12 +583,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Course name:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="course-name"
         >
           Course name
@@ -598,12 +598,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Course institute:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="course-institute"
         >
           Test institute
@@ -613,12 +613,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Session:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="fs-name"
         >
           First team feedback session
@@ -628,12 +628,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Opening time:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="opening-time"
         >
           Sun, 01 Apr, 2012, 11:59 PM +08
@@ -643,12 +643,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Closing time:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="closing-time"
         >
           Mon, 02 Apr, 2012, 11:59 PM +08
@@ -658,12 +658,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Instructions:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="instructions"
         >
           Please give your feedback based on the following questions.
@@ -694,7 +694,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -813,12 +813,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Course ID:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="course-id"
         >
           CS3281
@@ -828,12 +828,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Session:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="fs-name"
         >
           Feedback Session Name
@@ -843,12 +843,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Opening time:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="opening-time"
         >
         </div>
@@ -857,12 +857,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Closing time:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="closing-time"
         >
         </div>
@@ -871,12 +871,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Instructions:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="instructions"
         />
       </div>
@@ -895,7 +895,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -1083,7 +1083,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                   class="fa fa-eye"
                                 />
                                 <div
-                                  class="float-right"
+                                  class="float-end"
                                 >
                                   <button
                                     class="btn btn-outline-primary btn-sm"
@@ -1146,7 +1146,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -1250,7 +1250,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         />
                       </div>
                       <div
-                        class="margin-top-7px text-secondary text-right"
+                        class="margin-top-7px text-secondary text-end"
                       >
                       </div>
                     </tm-text-question-edit-answer-form>
@@ -1373,7 +1373,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -1429,7 +1429,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 class="text-info"
               >
                 <p
-                  class="text-left font-weight-bold"
+                  class="text-start fw-bold"
                 >
                   Note:
                 </p>
@@ -1582,7 +1582,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                   class="fa fa-eye"
                                 />
                                 <div
-                                  class="float-right"
+                                  class="float-end"
                                 >
                                   <button
                                     class="btn btn-outline-primary btn-sm"
@@ -1658,7 +1658,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -1755,7 +1755,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
-                        class="form-row text-left"
+                        class="form-row text-start"
                       >
                         <div
                           class="col-md-2 col-xs-5"
@@ -1833,7 +1833,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -1889,7 +1889,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 class="text-info"
               >
                 <p
-                  class="font-weight-bold"
+                  class="fw-bold"
                 >
                   Note:
                 </p>
@@ -2022,7 +2022,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -2125,13 +2125,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                         >
                           <select
-                            class="form-control color-negative ng-untouched ng-pristine ng-valid"
+                            class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
                           >
                             <option
                               value="0: -999"
                             />
                             <option
-                              class="color-positive font-weight-bold"
+                              class="color-positive fw-bold"
                               value="1: 100"
                             >
                               Equal share
@@ -2440,7 +2440,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -2541,12 +2541,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           <tr>
                             <td />
                             <td
-                              class="font-weight-bold"
+                              class="fw-bold"
                             >
                               choice 1
                             </td>
                             <td
-                              class="font-weight-bold"
+                              class="fw-bold"
                             >
                               choice 2
                             </td>
@@ -2719,7 +2719,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -2775,7 +2775,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 class="text-info"
               >
                 <p
-                  class="font-weight-bold"
+                  class="fw-bold"
                 >
                   Note:
                 </p>
@@ -2849,20 +2849,20 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
-                        class="form-group row text-left"
+                        class="form-group row text-start"
                       >
                         <div
-                          class="col-md-5 col-xs-12 text-md-right col-form-label"
+                          class="col-md-5 col-xs-12 text-md-end col-form-label"
                         >
                           <strong>
                             option 1
                           </strong>
                         </div>
                         <div
-                          class="col-md-7 col-xs-12 text-md-left"
+                          class="col-md-7 col-xs-12 text-md-start"
                         >
                           <select
-                            class="form-control ng-untouched ng-pristine ng-valid"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
                               value="0: -999"
@@ -2881,20 +2881,20 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </div>
                       </div>
                       <div
-                        class="form-group row text-left"
+                        class="form-group row text-start"
                       >
                         <div
-                          class="col-md-5 col-xs-12 text-md-right col-form-label"
+                          class="col-md-5 col-xs-12 text-md-end col-form-label"
                         >
                           <strong>
                             option 2
                           </strong>
                         </div>
                         <div
-                          class="col-md-7 col-xs-12 text-md-left"
+                          class="col-md-7 col-xs-12 text-md-start"
                         >
                           <select
-                            class="form-control ng-untouched ng-pristine ng-valid"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
                               value="0: -999"
@@ -2956,7 +2956,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -3012,7 +3012,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 class="text-info"
               >
                 <p
-                  class="font-weight-bold"
+                  class="fw-bold"
                 >
                   Note:
                 </p>
@@ -3089,7 +3089,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="margin-bottom-15px"
                       >
                         <select
-                          class="form-control ng-untouched ng-pristine ng-valid"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
                             value="0: -999"
@@ -3160,7 +3160,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -3279,12 +3279,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Course ID:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="course-id"
         >
           CS3281
@@ -3294,12 +3294,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Session:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="fs-name"
         >
           Feedback Session Name
@@ -3309,12 +3309,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Opening time:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="opening-time"
         >
         </div>
@@ -3323,12 +3323,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Closing time:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="closing-time"
         >
         </div>
@@ -3337,12 +3337,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <label
-          class="col-md-2 text-md-right"
+          class="col-md-2 text-md-end"
         >
           Instructions:
         </label>
         <div
-          class="col-md-10 text-md-left"
+          class="col-md-10 text-md-start"
           id="instructions"
         />
       </div>
@@ -3361,7 +3361,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -3552,7 +3552,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                   class="fa fa-eye"
                                 />
                                 <div
-                                  class="float-right"
+                                  class="float-end"
                                 >
                                   <button
                                     class="btn btn-outline-primary btn-sm"
@@ -3617,7 +3617,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -3721,7 +3721,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         />
                       </div>
                       <div
-                        class="margin-top-7px text-secondary text-right"
+                        class="margin-top-7px text-secondary text-end"
                       >
                       </div>
                     </tm-text-question-edit-answer-form>
@@ -3844,7 +3844,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -3900,7 +3900,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 class="text-info"
               >
                 <p
-                  class="text-left font-weight-bold"
+                  class="text-start fw-bold"
                 >
                   Note:
                 </p>
@@ -4056,7 +4056,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                   class="fa fa-eye"
                                 />
                                 <div
-                                  class="float-right"
+                                  class="float-end"
                                 >
                                   <button
                                     class="btn btn-outline-primary btn-sm"
@@ -4135,7 +4135,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -4232,7 +4232,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
-                        class="form-row text-left"
+                        class="form-row text-start"
                       >
                         <div
                           class="col-md-2 col-xs-5"
@@ -4311,7 +4311,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -4367,7 +4367,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 class="text-info"
               >
                 <p
-                  class="font-weight-bold"
+                  class="fw-bold"
                 >
                   Note:
                 </p>
@@ -4501,7 +4501,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -4604,13 +4604,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                         >
                           <select
-                            class="form-control color-negative ng-untouched ng-pristine ng-valid"
+                            class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
                           >
                             <option
                               value="0: -999"
                             />
                             <option
-                              class="color-positive font-weight-bold"
+                              class="color-positive fw-bold"
                               value="1: 100"
                             >
                               Equal share
@@ -4920,7 +4920,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -5021,12 +5021,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           <tr>
                             <td />
                             <td
-                              class="font-weight-bold"
+                              class="fw-bold"
                             >
                               choice 1
                             </td>
                             <td
-                              class="font-weight-bold"
+                              class="fw-bold"
                             >
                               choice 2
                             </td>
@@ -5208,7 +5208,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -5264,7 +5264,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 class="text-info"
               >
                 <p
-                  class="font-weight-bold"
+                  class="fw-bold"
                 >
                   Note:
                 </p>
@@ -5338,20 +5338,20 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-rank-options-question-edit-answer-form>
                       <div
-                        class="form-group row text-left"
+                        class="form-group row text-start"
                       >
                         <div
-                          class="col-md-5 col-xs-12 text-md-right col-form-label"
+                          class="col-md-5 col-xs-12 text-md-end col-form-label"
                         >
                           <strong>
                             option 1
                           </strong>
                         </div>
                         <div
-                          class="col-md-7 col-xs-12 text-md-left"
+                          class="col-md-7 col-xs-12 text-md-start"
                         >
                           <select
-                            class="form-control ng-untouched ng-pristine ng-valid"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
                               value="0: -999"
@@ -5370,20 +5370,20 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </div>
                       </div>
                       <div
-                        class="form-group row text-left"
+                        class="form-group row text-start"
                       >
                         <div
-                          class="col-md-5 col-xs-12 text-md-right col-form-label"
+                          class="col-md-5 col-xs-12 text-md-end col-form-label"
                         >
                           <strong>
                             option 2
                           </strong>
                         </div>
                         <div
-                          class="col-md-7 col-xs-12 text-md-left"
+                          class="col-md-7 col-xs-12 text-md-start"
                         >
                           <select
-                            class="form-control ng-untouched ng-pristine ng-valid"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
                               value="0: -999"
@@ -5446,7 +5446,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="card-header bg-primary text-white question-header bg-success"
           >
             <i
-              class="fas fa-check mr-2"
+              class="fas fa-check me-2"
             />
             <span
               id="question-details"
@@ -5502,7 +5502,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 class="text-info"
               >
                 <p
-                  class="font-weight-bold"
+                  class="fw-bold"
                 >
                   Note:
                 </p>
@@ -5579,7 +5579,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         class="margin-bottom-15px"
                       >
                         <select
-                          class="form-control ng-untouched ng-pristine ng-valid"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
                             value="0: -999"
@@ -5652,7 +5652,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -5800,7 +5800,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
 <tm-session-submission-page
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}

@@ -1,15 +1,30 @@
 package teammates.storage.sqlentity;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.google.common.reflect.TypeToken;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.JsonUtils;
+
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Column;
 import jakarta.persistence.Converter;
+import jakarta.persistence.MappedSuperclass;
 
 /**
  * Base class for all entities.
  */
+@MappedSuperclass
 public abstract class BaseEntity {
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Instant createdAt;
 
     BaseEntity() {
         // instantiate as child classes
@@ -46,6 +61,14 @@ public abstract class BaseEntity {
         errors.add(error);
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
     /**
      * Attribute converter between Duration and Long types.
      */
@@ -60,5 +83,40 @@ public abstract class BaseEntity {
         public Duration convertToEntityAttribute(Long minutes) {
             return Duration.ofMinutes(minutes);
         }
+    }
+
+    /**
+     * Generic attribute converter for classes stored in JSON.
+     * @param <T> The type of entity to be converted to and from JSON.
+     */
+    @Converter
+    public static class JsonConverter<T> implements AttributeConverter<T, String> {
+        @Override
+        public String convertToDatabaseColumn(T entity) {
+            return JsonUtils.toJson(entity);
+        }
+
+        @Override
+        public T convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<T>(){}.getType());
+        }
+    }
+
+    /**
+     * Attribute converter between FeedbackParticipantType and JSON.
+     */
+    @Converter
+    public static class FeedbackParticipantTypeConverter
+            extends JsonConverter<FeedbackParticipantType> {
+
+    }
+
+    /**
+     * Attribute converter between a list of FeedbackParticipantTypes and JSON.
+     */
+    @Converter
+    public static class FeedbackParticipantTypeListConverter
+            extends JsonConverter<List<FeedbackParticipantType>> {
+
     }
 }

@@ -1,11 +1,21 @@
 package teammates.storage.sqlapi;
 
-import java.time.Instant;
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for feedback sessions.
@@ -25,39 +35,33 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     }
 
     /**
-     * Gets a feedback session that is not soft-deleted.
+     * Gets a feedback session.
      *
-     * @return null if not found or soft-deleted.
+     * @return null if not found
      */
-    public FeedbackSession getFeedbackSession(Integer fsId) {
+    public FeedbackSession getFeedbackSession(UUID fsId) {
         assert fsId != null;
 
-        FeedbackSession fs = HibernateUtil.getSessionFactory().getCurrentSession().get(FeedbackSession.class, fsId);
-
-        if (fs != null && fs.getDeletedAt() != null) {
-            log.info("Trying to access soft-deleted session: " + fs.getName() + "/" + fs.getCourse().getId());
-            return null;
-        }
-
-        return fs;
+        return HibernateUtil.get(FeedbackSession.class, fsId);
     }
 
     /**
-     * Gets a soft-deleted feedback session.
-     *
-     * @return null if not found or not soft-deleted.
+     * Creates a feedback session.
      */
-    public FeedbackSession getSoftDeletedFeedbackSession(Integer fsId) {
-        assert fsId != null;
+    public FeedbackSession createFeedbackSession(FeedbackSession session)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert session != null;
 
-        FeedbackSession fs = HibernateUtil.getSessionFactory().getCurrentSession().get(FeedbackSession.class, fsId);
-
-        if (fs != null && fs.getDeletedAt() != null) {
-            log.info(fs.getName() + "/" + fs.getCourse().getId() + " is not soft-deleted");
-            return null;
+        if (!session.isValid()) {
+            throw new InvalidParametersException(session.getInvalidityInfo());
         }
 
-        return fs;
+        if (getFeedbackSession(session.getId()) != null) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
+        }
+
+        persist(session);
+        return session;
     }
 
     /**
@@ -83,49 +87,45 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     }
 
     /**
-     * Soft-deletes a feedback session.
-     *
-     * @return Soft-deletion time of the feedback session.
-     */
-    public Instant softDeleteFeedbackSession(Integer fsId)
-            throws EntityDoesNotExistException {
-        assert fsId != null;
-
-        FeedbackSession fs = getFeedbackSession(fsId);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        fs.setDeletedAt(Instant.now());
-
-        return fs.getDeletedAt();
-    }
-
-    /**
-     * Restores a specific soft deleted feedback session.
-     */
-    public void restoreDeletedFeedbackSession(Integer fsId)
-            throws EntityDoesNotExistException {
-        assert fsId != null;
-
-        FeedbackSession fs = getFeedbackSession(fsId);
-
-        if (fs == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        fs.setDeletedAt(null);
-    }
-
-    /**
      * Deletes a feedback session.
      */
-    public void deleteFeedbackSession(Integer fsId) {
-        assert fsId != null;
-
-        FeedbackSession fs = getFeedbackSession(fsId);
-        if (fs != null) {
-            delete(fs);
+    public void deleteFeedbackSession(FeedbackSession feedbackSession) {
+        if (feedbackSession != null) {
+            delete(feedbackSession);
         }
+    }
+
+    /**
+     * Gets feedback sessions for a given {@code courseId}.
+     */
+    public List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets feedback sessions for a given {@code courseId} that start after {@code after}.
+     */
+    public List<FeedbackSession> getFeedbackSessionEntitiesForCourseStartingAfter(String courseId, Instant after) {
+        assert courseId != null;
+        assert after != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root)
+                .where(cb.and(
+                    cb.greaterThanOrEqualTo(root.get("startTime"), after),
+                    cb.equal(root.get("courseId"), courseId)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 }

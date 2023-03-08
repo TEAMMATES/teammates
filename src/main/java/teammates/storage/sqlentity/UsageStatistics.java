@@ -4,13 +4,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -24,36 +21,34 @@ import jakarta.persistence.Table;
 @Table(name = "UsageStatistics")
 public class UsageStatistics extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private UUID id;
 
     @Column(nullable = false)
     private Instant startTime;
 
     @Column(nullable = false)
     private int timePeriod;
+
     @Column(nullable = false)
     private int numResponses;
+
     @Column(nullable = false)
     private int numCourses;
+
     @Column(nullable = false)
     private int numStudents;
+
     @Column(nullable = false)
     private int numInstructors;
+
     @Column(nullable = false)
     private int numAccountRequests;
+
     @Column(nullable = false)
     private int numEmails;
+
     @Column(nullable = false)
     private int numSubmissions;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    @Column
-    private Instant updatedAt;
 
     protected UsageStatistics() {
         // required by Hibernate
@@ -62,6 +57,7 @@ public class UsageStatistics extends BaseEntity {
     public UsageStatistics(
             Instant startTime, int timePeriod, int numResponses, int numCourses,
             int numStudents, int numInstructors, int numAccountRequests, int numEmails, int numSubmissions) {
+        this.setId(UUID.randomUUID());
         this.startTime = startTime;
         this.timePeriod = timePeriod;
         this.numResponses = numResponses;
@@ -73,8 +69,12 @@ public class UsageStatistics extends BaseEntity {
         this.numSubmissions = numSubmissions;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public Instant getStartTime() {
@@ -113,22 +113,6 @@ public class UsageStatistics extends BaseEntity {
         return numSubmissions;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public boolean equals(Object other) {
         if (other == null) {
@@ -137,8 +121,7 @@ public class UsageStatistics extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             UsageStatistics otherUsageStatistics = (UsageStatistics) other;
-            return Objects.equals(this.startTime, otherUsageStatistics.startTime)
-                    && Objects.equals(this.timePeriod, otherUsageStatistics.timePeriod);
+            return Objects.equals(this.getId(), otherUsageStatistics.getId());
         } else {
             return false;
         }
@@ -146,7 +129,7 @@ public class UsageStatistics extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.startTime, this.timePeriod);
+        return this.getId().hashCode();
     }
 
     @Override

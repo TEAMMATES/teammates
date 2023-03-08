@@ -3,6 +3,8 @@ package teammates.storage.sqlentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
@@ -11,7 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 /**
- * Represents a Student entity.
+ * Represents a Student.
  */
 @Entity
 @Table(name = "Students")
@@ -21,6 +23,11 @@ public class Student extends User {
 
     protected Student() {
         // required by Hibernate
+    }
+
+    public Student(Course course, String name, String email, String comments) {
+        super(course, name, email);
+        this.setComments(comments);
     }
 
     public String getComments() {
@@ -43,11 +50,17 @@ public class Student extends User {
 
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(super.getCourse().getId()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForStudentRoleComments(comments), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
 
         return errors;
+    }
+
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(getRegKey())
+                .withEntityType(Const.EntityType.STUDENT)
+                .toString();
     }
 }

@@ -5,9 +5,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
@@ -17,10 +17,10 @@ import teammates.common.util.SanitizationHelper;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -30,8 +30,7 @@ import jakarta.persistence.Table;
 @Table(name = "FeedbackSessions")
 public class FeedbackSession extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Integer id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "courseId")
@@ -71,15 +70,15 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isPublishedEmailEnabled;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
+    @OneToMany(mappedBy = "feedbackSession")
+    private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "feedbackSession")
+    private List<FeedbackQuestion> feedbackQuestions = new ArrayList<>();
 
     @UpdateTimestamp
-    @Column
     private Instant updatedAt;
 
-    @Column
     private Instant deletedAt;
 
     protected FeedbackSession() {
@@ -89,6 +88,7 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String name, Course course, String creatorEmail, String instructions, Instant startTime,
             Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, Duration gracePeriod,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+        this.setId(UUID.randomUUID());
         this.setName(name);
         this.setCourse(course);
         this.setCreatorEmail(creatorEmail);
@@ -110,9 +110,6 @@ public class FeedbackSession extends BaseEntity {
         // Check for null fields.
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
                 FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, name), errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
-                FieldValidator.COURSE_ID_FIELD_NAME, course), errors);
 
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("instructions to students", instructions),
                 errors);
@@ -159,21 +156,17 @@ public class FeedbackSession extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
-        // TODO: add once extended dealines added to entity
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-        // endTime, studentDeadlines), errors);
-
-        // addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-        // endTime, instructorDeadlines), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
+                endTime, deadlineExtensions), errors);
 
         return errors;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -273,12 +266,20 @@ public class FeedbackSession extends BaseEntity {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public List<DeadlineExtension> getDeadlineExtensions() {
+        return deadlineExtensions;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
+    public void setDeadlineExtensions(List<DeadlineExtension> deadlineExtensions) {
+        this.deadlineExtensions = deadlineExtensions;
+    }
+
+    public List<FeedbackQuestion> getFeedbackQuestions() {
+        return feedbackQuestions;
+    }
+
+    public void setFeedbackQuestions(List<FeedbackQuestion> feedbackQuestions) {
+        this.feedbackQuestions = feedbackQuestions;
     }
 
     public Instant getUpdatedAt() {
@@ -304,13 +305,14 @@ public class FeedbackSession extends BaseEntity {
                 + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", createdAt=" + createdAt + ", updatedAt="
-                + updatedAt + ", deletedAt=" + deletedAt + "]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", deadlineExtensions=" + deadlineExtensions
+                + ", feedbackQuestions=" + feedbackQuestions + ", createdAt=" + getCreatedAt()
+                + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.course, this.name);
+        return this.getId().hashCode();
     }
 
     @Override
@@ -321,10 +323,69 @@ public class FeedbackSession extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             FeedbackSession otherFs = (FeedbackSession) other;
-            return Objects.equals(this.name, otherFs.name)
-                    && Objects.equals(this.course, otherFs.course);
+            return Objects.equals(this.getId(), otherFs.getId());
         } else {
             return false;
         }
+    }
+
+    /**
+     * Returns {@code true} if the session is visible; {@code false} if not.
+     *         Does not care if the session has started or not.
+     */
+    public boolean isVisible() {
+        Instant visibleTime = this.sessionVisibleFromTime;
+
+        if (visibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            visibleTime = this.startTime;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(visibleTime) || now.equals(visibleTime);
+    }
+
+    /**
+     * Gets the instructions of the feedback session.
+     */
+    public String getInstructionsString() {
+        return SanitizationHelper.sanitizeForRichText(instructions);
+    }
+
+    /**
+     * Checks if the feedback session is closed.
+     * This occurs when the current time is after both the deadline and the grace period.
+     */
+    public boolean isClosed() {
+        return Instant.now().isAfter(endTime.plus(gracePeriod));
+    }
+
+    /**
+     * Checks if the feedback session is open.
+     * This occurs when the current time is either the start time or later but before the deadline.
+     */
+    public boolean isOpened() {
+        Instant now = Instant.now();
+        return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(endTime);
+    }
+
+    /**
+     * Returns {@code true} if the results of the feedback session is visible; {@code false} if not.
+     *         Does not care if the session has ended or not.
+     */
+    public boolean isPublished() {
+        Instant publishTime = this.resultsVisibleFromTime;
+
+        if (publishTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            return isVisible();
+        }
+        if (publishTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            return false;
+        }
+        if (publishTime.equals(Const.TIME_REPRESENTS_NOW)) {
+            return true;
+        }
+
+        Instant now = Instant.now();
+        return now.isAfter(publishTime) || now.equals(publishTime);
     }
 }

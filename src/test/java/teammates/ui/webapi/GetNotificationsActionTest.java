@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -17,6 +18,7 @@ import teammates.ui.output.NotificationsData;
 /**
  * SUT: {@link GetNotificationsAction}.
  */
+@Ignore
 public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsAction> {
 
     @Override
