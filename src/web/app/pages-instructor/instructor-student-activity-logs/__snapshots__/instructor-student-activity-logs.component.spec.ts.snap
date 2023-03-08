@@ -1258,87 +1258,107 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                   <thead>
                     <tr>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                        <span
-                          container="body"
-                        >
-                          Status
-                        </span>
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                          <span
+                            container="body"
+                          >
+                            Status
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                       <th
+                        aria-sort="ascending"
                         class="sortable-header"
                       >
-                        <span
-                          container="body"
-                        >
-                          Name
-                        </span>
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                          <i
-                            class="fas fa-sort-up"
-                          />
-                        </span>
+                        <button>
+                          <span
+                            container="body"
+                          >
+                            Name
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            <i
+                              class="fas fa-sort-up"
+                            />
+                          </span>
+                        </button>
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                        <span
-                          container="body"
-                        >
-                          Email
-                        </span>
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                          <span
+                            container="body"
+                          >
+                            Email
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                        <span
-                          container="body"
-                        >
-                          Section
-                        </span>
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                          <span
+                            container="body"
+                          >
+                            Section
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                        <span
-                          container="body"
-                        >
-                          Team
-                        </span>
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                          <span
+                            container="body"
+                          >
+                            Team
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                     </tr>
                   </thead>
