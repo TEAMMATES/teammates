@@ -112,8 +112,8 @@ public class Logic {
     /**
      * Gets an account by googleId.
      */
-    public Account getAccountByGoogleId(String googleId) {
-        return accountsLogic.getAccountByGoogleId(googleId);
+    public Account getAccountForGoogleId(String googleId) {
+        return accountsLogic.getAccountForGoogleId(googleId);
     }
 
     /**

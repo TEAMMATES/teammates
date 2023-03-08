@@ -51,7 +51,7 @@ public final class AccountsLogic {
     /**
      * Gets an account by googleId.
      */
-    public Account getAccountByGoogleId(String googleId) {
+    public Account getAccountForGoogleId(String googleId) {
         assert googleId != null;
 
         return accountsDb.getAccountByGoogleId(googleId);
