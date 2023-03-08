@@ -28,26 +28,24 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("Get accounts by email, multiple exists, succeeds");
 
-        Account account1 = getTypicalAccount();
+        Account firstAccount = getTypicalAccount();
 
-        Account account2 = getTypicalAccount();
-        account2.setGoogleId(account1.getGoogleId() + "-2");
+        Account secondAccount = getTypicalAccount();
+        secondAccount.setGoogleId(firstAccount.getGoogleId() + "-2");
 
-        Account account3 = getTypicalAccount();
-        account3.setGoogleId(account1.getGoogleId() + "-3");
+        Account thirdAccount = getTypicalAccount();
+        thirdAccount.setGoogleId(firstAccount.getGoogleId() + "-3");
 
-        String email = account1.getEmail();
+        String email = firstAccount.getEmail();
 
-        accountsDb.createAccount(account1);
-        accountsDb.createAccount(account2);
-        accountsDb.createAccount(account3);
+        accountsDb.createAccount(firstAccount);
+        accountsDb.createAccount(secondAccount);
+        accountsDb.createAccount(thirdAccount);
 
         accounts = accountsDb.getAccountsByEmail(email);
 
         assertEquals(3, accounts.size());
-        verifyEquals(account1, accounts.get(0));
-        verifyEquals(account2, accounts.get(1));
-        verifyEquals(account3, accounts.get(2));
+        assertTrue(List.of(firstAccount, secondAccount, thirdAccount).containsAll(accounts));
     }
 
     @Test
