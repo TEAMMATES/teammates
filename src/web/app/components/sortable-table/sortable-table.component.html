@@ -2,14 +2,16 @@
   <thead>
     <tr>
       <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="column.sortBy && onClickHeader(column.header)"  [attr.aria-sort]="getAriaSort(column.header)">
-        <button [attr.tabindex]="getTabIndex(column.sortBy)" [attr.role]="getRole(column.sortBy)">
+        <button *ngIf="column.sortBy">
           <span [ngbTooltip]=column.headerToolTip container="body">{{ column.header }}</span>
-          <span class="fa-stack" *ngIf="column.sortBy" aria-hidden="true">
+          <span class="fa-stack" aria-hidden="true">
             <i class="fas fa-sort"></i>
             <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
             <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
           </span>
         </button>
+
+        <span *ngIf="!column.sortBy" [ngbTooltip]=column.headerToolTip container="body">{{ column.header }}</span>
       </th>
     </tr>
   </thead>
