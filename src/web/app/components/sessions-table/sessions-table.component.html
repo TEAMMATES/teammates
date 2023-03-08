@@ -1,5 +1,5 @@
 <div class="row" *ngIf="sessionsTableRowModels.length > 0; else noSessionMessage">
-  <div class="col-12">
+  <div>
     <table id="sessions-table" class="table table-responsive-lg table-striped table-bordered margin-bottom-0">
       <thead>
       <tr [ngClass]="{ 'bg-primary text-white': headerColorScheme === SessionsTableHeaderColorScheme.BLUE }">
