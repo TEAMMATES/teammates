@@ -16,11 +16,7 @@ class GetAccountAction extends AdminOnlyAction {
 
         AccountAttributes accountInfo = logic.getAccount(googleId);
 
-        if (accountInfo == null) {
-            throw new EntityNotFoundException("Account does not exist.");
-        }
-
-        if (accountInfo.isMigrated()) {
+        if (accountInfo == null || accountInfo.isMigrated()) {
             Account account = sqlLogic.getAccountForGoogleId(googleId);
 
             if (account == null) {
