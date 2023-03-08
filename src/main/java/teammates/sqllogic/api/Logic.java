@@ -59,7 +59,6 @@ public class Logic {
      * @return newly created account request.
      * @throws InvalidParametersException if the account request details are invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
-     * @throws InvalidOperationException if the account request cannot be created.
      */
     public AccountRequest createAccountRequest(String name, String email, String institute)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -338,5 +337,16 @@ public class Logic {
      */
     public Student getStudentByGoogleId(String courseId, String googleId) {
         return usersLogic.getStudentByGoogleId(courseId, googleId);
+    }
+
+    public List<Notification> getAllNotifications() {
+        return notificationsLogic.getAllNotifications();
+    }
+
+    /**
+     * Returns active notification for general users and the specified {@code targetUser}.
+     */
+    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+        return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
     }
 }
