@@ -42,6 +42,11 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testDeleteAccount_accountExists_shouldDeleteAccountAndAssociatedUsers() {
+        // TODO
+    }
+
+    @Test
     public void testUpdateReadNotifications_shouldReturnCorrectReadNotificationId_success()
             throws InvalidParametersException, EntityDoesNotExistException {
         Account account = generateTypicalAccount();

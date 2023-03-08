@@ -135,6 +135,20 @@ public class Logic {
     }
 
     /**
+     * Deletes account by googleId.
+     *
+     * <ul>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     */
+    public void deleteAccount(String googleId) {
+        accountsLogic.deleteAccount(googleId);
+    }
+
+    /**
      * Gets a course by course id.
      * @param courseId courseId of the course.
      * @return the specified course.

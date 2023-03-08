@@ -81,6 +81,18 @@ public final class AccountsLogic {
     }
 
     /**
+     * Deletes account associated with the {@code googleId}.
+     *
+     * <p>Fails silently if the account doesn't exist.</p>
+     */
+    public void deleteAccount(String googleId) {
+        assert googleId != null;
+
+        Account account = getAccountForGoogleId(googleId);
+        accountsDb.deleteAccount(account);
+    }
+
+    /**
      * Updates the readNotifications of an account.
      *
      * @param googleId       google ID of the user who read the notification.
