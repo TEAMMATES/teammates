@@ -105,12 +105,13 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         HibernateUtil.flushSession();
 
-        List<Instructor> instructors = usersDb.getInstructorsByGoogleId(instructor.getAccount().getGoogleId());
+        List<Instructor> instructors =
+                usersDb.getInstructorsByGoogleId(instructor.getCourseId(), instructor.getAccount().getGoogleId());
 
         assertEquals(3, instructors.size());
 
         ______TS("success: gets all instructors by googleId that does not exist");
-        List<Instructor> emptyInstructors = usersDb.getInstructorsByGoogleId("non-exist-id");
+        List<Instructor> emptyInstructors = usersDb.getInstructorsByGoogleId(instructor.getCourseId(), "non-exist-id");
 
         assertEquals(0, emptyInstructors.size());
     }
@@ -163,12 +164,13 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         HibernateUtil.flushSession();
 
-        List<Student> students = usersDb.getStudentsByGoogleId(student.getAccount().getGoogleId());
+        List<Student> students =
+                usersDb.getStudentsByGoogleId(student.getCourseId(), student.getAccount().getGoogleId());
 
         assertEquals(3, students.size());
 
         ______TS("success: gets all students by googleId that does not exist");
-        List<Student> emptyStudents = usersDb.getStudentsByGoogleId("non-exist-id");
+        List<Student> emptyStudents = usersDb.getStudentsByGoogleId(student.getCourseId(), "non-exist-id");
 
         assertEquals(0, emptyStudents.size());
     }

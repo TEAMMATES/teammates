@@ -340,8 +340,8 @@ public class Logic {
     /**
      * Gets all instructors by associated {@code googleId}.
      */
-    public List<Instructor> getInstructorsByGoogleId(String googleId) {
-        return usersLogic.getInstructorsByGoogleId(googleId);
+    public List<Instructor> getInstructorsByGoogleId(String courseId, String googleId) {
+        return usersLogic.getInstructorsByGoogleId(courseId, googleId);
     }
 
     /**
@@ -378,8 +378,8 @@ public class Logic {
     /**
      * Gets all students by associated {@code googleId}.
      */
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        return usersLogic.getStudentsByGoogleId(googleId);
+    public List<Student> getStudentsByGoogleId(String courseId, String googleId) {
+        return usersLogic.getStudentsByGoogleId(courseId, googleId);
     }
 
     /**

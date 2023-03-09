@@ -105,14 +105,15 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Gets all instructors by {@code googleId}.
      */
-    public List<Instructor> getInstructorsByGoogleId(String googleId) {
+    public List<Instructor> getInstructorsByGoogleId(String courseId, String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
         Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
 
-        cr.select(instructorRoot)
-                .where(cb.equal(accountsJoin.get("googleId"), googleId));
+        cr.select(instructorRoot).where(cb.and(
+                cb.equal(instructorRoot.get("courseId"), courseId),
+                cb.equal(accountsJoin.get("googleId"), googleId)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -158,14 +159,15 @@ public final class UsersDb extends EntitiesDb<User> {
     /**
      * Gets all students by {@code googleId}.
      */
-    public List<Student> getStudentsByGoogleId(String googleId) {
+    public List<Student> getStudentsByGoogleId(String courseId, String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
         Join<Student, Account> accountsJoin = studentRoot.join("account");
 
-        cr.select(studentRoot)
-                .where(cb.equal(accountsJoin.get("googleId"), googleId));
+        cr.select(studentRoot).where(cb.and(
+                cb.equal(studentRoot.get("courseId"), courseId),
+                cb.equal(accountsJoin.get("googleId"), googleId)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
