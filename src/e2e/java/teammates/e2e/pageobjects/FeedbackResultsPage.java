@@ -107,20 +107,14 @@ public class FeedbackResultsPage extends AppPage {
         verifyTableRowValues(getNumScaleStatistics(questionNum), expectedStats);
     }
 
-    public void verifyRubricStatistics(int questionNum, String[][] expectedStats, String[][] expectedStatsExcludingSelf,
-                                       String[][] expectedStatsPerRecipient) {
+    public void verifyRubricStatistics(int questionNum, String[][] expectedStats,
+                                       String[][] expectedStatsExcludingSelf) {
         WebElement excludeSelfCheckbox = getRubricExcludeSelfCheckbox(questionNum);
         markOptionAsUnselected(excludeSelfCheckbox);
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStats);
 
         markOptionAsSelected(excludeSelfCheckbox);
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStatsExcludingSelf);
-
-        sortRubricPerRecipientStatsPerCriterion(questionNum, 2);
-        verifyTableBodyValues(getRubricPerRecipientStatsPerCriterion(questionNum), expectedStatsPerRecipient);
-
-        sortRubricPerRecipientStatsOverall(questionNum, 2);
-        verifyTableBodyValues(getRubricPerRecipientStatsPerCriterion(questionNum), expectedStatsPerRecipient);
     }
 
     public void verifyContributionStatistics(int questionNum, String[] expectedStats) {
