@@ -27,6 +27,7 @@ import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
+import teammates.storage.sqlentity.User;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -337,6 +338,13 @@ public class Logic {
     }
 
     /**
+     * Gets all instructors by associated {@code googleId}.
+     */
+    public List<Instructor> getInstructorsByGoogleId(String googleId) {
+        return usersLogic.getInstructorsByGoogleId(googleId);
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.
@@ -365,6 +373,22 @@ public class Logic {
      */
     public Student getStudentByGoogleId(String courseId, String googleId) {
         return usersLogic.getStudentByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Gets all students by associated {@code googleId}.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        return usersLogic.getStudentsByGoogleId(googleId);
+    }
+
+    /**
+     * Deletes a user.
+     *
+     * <p>Fails silently if the user does not exist.</p>
+     */
+    public <T extends User> void deleteUser(T user) {
+        usersLogic.deleteUser(user);
     }
 
     public List<Notification> getAllNotifications() {

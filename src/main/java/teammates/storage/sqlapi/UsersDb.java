@@ -103,6 +103,21 @@ public final class UsersDb extends EntitiesDb<User> {
     }
 
     /**
+     * Gets all instructors by {@code googleId}.
+     */
+    public List<Instructor> getInstructorsByGoogleId(String googleId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
+
+        cr.select(instructorRoot)
+                .where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets a student by its {@code id}.
      */
     public Student getStudent(UUID id) {
@@ -138,6 +153,21 @@ public final class UsersDb extends EntitiesDb<User> {
                 cb.equal(accountsJoin.get("googleId"), googleId)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets all students by {@code googleId}.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Account> accountsJoin = studentRoot.join("account");
+
+        cr.select(studentRoot)
+                .where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**

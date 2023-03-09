@@ -126,6 +126,15 @@ public final class UsersLogic {
 
         return instructorReturnList;
     }
+    
+    /**
+     * Gets all instructors by associated {@code googleId}.
+     */
+    public List<Instructor> getInstructorsByGoogleId(String googleId) {
+        assert googleId != null;
+
+        return usersDb.getInstructorsByGoogleId(googleId);
+    }
 
     /**
      * Gets student associated with {@code id}.
@@ -180,6 +189,15 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getStudentByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Gets all students by associated {@code googleId}.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        assert googleId != null;
+
+        return usersDb.getStudentsByGoogleId(googleId);
     }
 
     /**
