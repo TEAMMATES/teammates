@@ -338,13 +338,6 @@ public class Logic {
     }
 
     /**
-     * Gets all instructors by associated {@code googleId}.
-     */
-    public List<Instructor> getInstructorsByGoogleId(String courseId, String googleId) {
-        return usersLogic.getInstructorsByGoogleId(courseId, googleId);
-    }
-
-    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.
@@ -376,10 +369,10 @@ public class Logic {
     }
 
     /**
-     * Gets all students by associated {@code googleId}.
+     * Gets all instructors and students by associated {@code googleId}.
      */
-    public List<Student> getStudentsByGoogleId(String courseId, String googleId) {
-        return usersLogic.getStudentsByGoogleId(courseId, googleId);
+    public List<User> getAllUsersByGoogleId(String googleId) {
+        return usersLogic.getAllUsersByGoogleId(googleId);
     }
 
     /**

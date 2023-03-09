@@ -3,6 +3,8 @@ package teammates.storage.sqlapi;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -103,22 +105,6 @@ public final class UsersDb extends EntitiesDb<User> {
     }
 
     /**
-     * Gets all instructors by {@code googleId}.
-     */
-    public List<Instructor> getInstructorsByGoogleId(String courseId, String googleId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-        Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
-
-        cr.select(instructorRoot).where(cb.and(
-                cb.equal(instructorRoot.get("courseId"), courseId),
-                cb.equal(accountsJoin.get("googleId"), googleId)));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Gets a student by its {@code id}.
      */
     public Student getStudent(UUID id) {
@@ -157,19 +143,29 @@ public final class UsersDb extends EntitiesDb<User> {
     }
 
     /**
-     * Gets all students by {@code googleId}.
+     * Gets all instructors and students by {@code googleId}.
      */
-    public List<Student> getStudentsByGoogleId(String courseId, String googleId) {
+    public List<User> getAllUsersByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-        Join<Student, Account> accountsJoin = studentRoot.join("account");
+        CriteriaQuery<Instructor> instructorCr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = instructorCr.from(Instructor.class);
+        Join<Instructor, Account> instructorAccountsJoin = instructorRoot.join("account");
 
-        cr.select(studentRoot).where(cb.and(
-                cb.equal(studentRoot.get("courseId"), courseId),
-                cb.equal(accountsJoin.get("googleId"), googleId)));
+        instructorCr.select(instructorRoot).where(cb.equal(instructorAccountsJoin.get("googleId"), googleId));
 
-        return HibernateUtil.createQuery(cr).getResultList();
+        List<Instructor> instructors = HibernateUtil.createQuery(instructorCr).getResultList();
+
+        CriteriaQuery<Student> studentCr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = studentCr.from(Student.class);
+        Join<Student, Account> studentAccountsJoin = studentRoot.join("account");
+
+        studentCr.select(studentRoot).where(cb.equal(studentAccountsJoin.get("googleId"), googleId));
+
+        List<Student> students = HibernateUtil.createQuery(studentCr).getResultList();
+
+        List<User> users = Stream.concat(instructors.stream(), students.stream()).collect(Collectors.toList());
+
+        return users;
     }
 
     /**

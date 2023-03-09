@@ -96,16 +96,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets all instructors by associated {@code googleId}.
-     */
-    public List<Instructor> getInstructorsByGoogleId(String courseId, String googleId) {
-        assert courseId != null;
-        assert googleId != null;
-
-        return usersDb.getInstructorsByGoogleId(courseId, googleId);
-    }
-
-    /**
      * Deletes an instructor or student.
      */
     public <T extends User> void deleteUser(T user) {
@@ -193,13 +183,12 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets all students by associated {@code googleId}.
+     * Gets all instructors and students by {@code googleId}.
      */
-    public List<Student> getStudentsByGoogleId(String courseId, String googleId) {
-        assert courseId != null;
+    public List<User> getAllUsersByGoogleId(String googleId) {
         assert googleId != null;
 
-        return usersDb.getStudentsByGoogleId(courseId, googleId);
+        return usersDb.getAllUsersByGoogleId(googleId);
     }
 
     /**

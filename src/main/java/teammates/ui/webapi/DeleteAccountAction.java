@@ -4,8 +4,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 
 /**
  * Action: deletes an existing account (either student or instructor).
@@ -18,16 +17,10 @@ class DeleteAccountAction extends AdminOnlyAction {
         AccountAttributes accountInfo = logic.getAccount(googleId);
 
         if (accountInfo == null || accountInfo.isMigrated()) {
-            List<Instructor> instructorsToDelete = sqlLogic.getInstructorsByGoogleId(googleId);
+            List<User> usersToDelete = sqlLogic.getAllUsersByGoogleId(googleId);
 
-            for (Instructor instructor : instructorsToDelete) {
-                sqlLogic.deleteUser(instructor);
-            }
-
-            List<Student> studentsToDelete = sqlLogic.getStudentsByGoogleId(googleId);
-
-            for (Student student : studentsToDelete) {
-                sqlLogic.deleteUser(student);
+            for (User user : usersToDelete) {
+                sqlLogic.deleteUser(user);
             }
 
             sqlLogic.deleteAccount(googleId);
