@@ -42,8 +42,15 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteAccount_accountExists_shouldDeleteAccountAndAssociatedUsers() {
-        // TODO
+    public void testDeleteAccount_accountExists_success() {
+        Account account = generateTypicalAccount();
+        String googleId = account.getGoogleId();
+
+        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+
+        accountsLogic.deleteAccount(googleId);
+
+        verify(accountsDb, times(1)).deleteAccount(account);
     }
 
     @Test
@@ -57,8 +64,8 @@ public class AccountsLogicTest extends BaseTestCase {
         when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
 
-        List<UUID> readNotificationIds =
-                accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        List<UUID> readNotificationIds = accountsLogic.updateReadNotifications(googleId, notificationId,
+                notification.getEndTime());
 
         verify(accountsDb, times(1)).getAccountByGoogleId(googleId);
         verify(notificationsLogic, times(1)).getNotification(notificationId);
