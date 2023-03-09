@@ -163,9 +163,7 @@ public final class UsersDb extends EntitiesDb<User> {
 
         List<Student> students = HibernateUtil.createQuery(studentCr).getResultList();
 
-        List<User> users = Stream.concat(instructors.stream(), students.stream()).collect(Collectors.toList());
-
-        return users;
+        return Stream.concat(instructors.stream(), students.stream()).collect(Collectors.toList());
     }
 
     /**
