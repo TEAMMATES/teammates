@@ -37,6 +37,7 @@ export class RubricQuestionStatisticsCalculation
   hasWeights: boolean = false;
   weights: number[][] = [];
   answers: number[][] = [];
+  isWeightStatsVisible: boolean = false;
 
   percentages: number[][] = [];
   subQuestionWeightAverage: number[] = [];
@@ -59,6 +60,8 @@ export class RubricQuestionStatisticsCalculation
     this.choices = this.question.rubricChoices;
     this.hasWeights = this.question.hasAssignedWeights;
     this.weights = this.question.rubricWeightsForEachCell;
+    this.isWeightStatsVisible =
+      this.hasWeights && this.weights.length > 0 && this.weights[0].length > 0;
 
     const emptyAnswers: number[][] = [];
     for (let i = 0; i < this.question.rubricSubQuestions.length; i += 1) {
@@ -89,7 +92,7 @@ export class RubricQuestionStatisticsCalculation
     this.percentagesExcludeSelf = this.calculatePercentages(this.answersExcludeSelf);
 
     // only apply weights average if applicable
-    if (!this.hasWeights) {
+    if (!this.isWeightStatsVisible) {
       return;
     }
 
