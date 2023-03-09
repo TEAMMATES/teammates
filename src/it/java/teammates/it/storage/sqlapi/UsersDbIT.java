@@ -20,6 +20,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 
 /**
  * SUT: {@link UsersDb}.
@@ -58,7 +59,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetInstructor() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetInstructor() {
         ______TS("success: gets an instructor that already exists");
         Instructor actualInstructor = usersDb.getInstructor(instructor.getId());
         verifyEquals(instructor, actualInstructor);
@@ -91,33 +92,10 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: gets an instructor by googleId that does not exist");
         actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(), "invalid-google id");
         assertNull(actualInstructor);
-
-        ______TS("success: gets all instructors by googleId");
-        Instructor secondInstructor = getTypicalInstructor();
-        secondInstructor.setEmail("valid-instructor-2@email.tmt");
-        usersDb.createInstructor(secondInstructor);
-        secondInstructor.setAccount(instructor.getAccount());
-
-        Instructor thirdInstructor = getTypicalInstructor();
-        thirdInstructor.setEmail("valid-instructor-3@email.tmt");
-        usersDb.createInstructor(thirdInstructor);
-        thirdInstructor.setAccount(instructor.getAccount());
-
-        HibernateUtil.flushSession();
-
-        List<Instructor> instructors =
-                usersDb.getInstructorsByGoogleId(instructor.getCourseId(), instructor.getAccount().getGoogleId());
-
-        assertEquals(3, instructors.size());
-
-        ______TS("success: gets all instructors by googleId that does not exist");
-        List<Instructor> emptyInstructors = usersDb.getInstructorsByGoogleId(instructor.getCourseId(), "non-exist-id");
-
-        assertEquals(0, emptyInstructors.size());
     }
 
     @Test
-    public void testGetStudent() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetStudent() {
         ______TS("success: gets a student that already exists");
         Student actualStudent = usersDb.getStudent(student.getId());
         verifyEquals(student, actualStudent);
@@ -150,29 +128,54 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: gets a student by googleId that does not exist");
         actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), "invalid-google id");
         assertNull(actualStudent);
+    }
 
-        ______TS("success: gets all students by googleId");
+    @Test
+    public void testGetAllUsersByGoogleId() throws InvalidParametersException, EntityAlreadyExistsException {
+        ______TS("success: gets all instructors and students by googleId");
+        Account userSharedAccount = new Account("user-account", "user-name", "valid-user@email.tmt");
+        accountsDb.createAccount(userSharedAccount);
+
+        Instructor firstInstructor = getTypicalInstructor();
+        firstInstructor.setEmail("valid-instructor-1@email.tmt");
+        usersDb.createInstructor(firstInstructor);
+        firstInstructor.setAccount(userSharedAccount);
+
+        Instructor secondInstructor = getTypicalInstructor();
+        secondInstructor.setEmail("valid-instructor-2@email.tmt");
+        usersDb.createInstructor(secondInstructor);
+        secondInstructor.setAccount(userSharedAccount);
+
+        Instructor thirdInstructor = getTypicalInstructor();
+        thirdInstructor.setEmail("valid-instructor-3@email.tmt");
+        usersDb.createInstructor(thirdInstructor);
+        thirdInstructor.setAccount(userSharedAccount);
+
+        Student firstStudent = getTypicalStudent();
+        firstStudent.setEmail("valid-student-1@email.tmt");
+        usersDb.createStudent(firstStudent);
+        firstStudent.setAccount(userSharedAccount);
+
         Student secondStudent = getTypicalStudent();
         secondStudent.setEmail("valid-student-2@email.tmt");
         usersDb.createStudent(secondStudent);
-        secondStudent.setAccount(student.getAccount());
+        secondStudent.setAccount(userSharedAccount);
 
         Student thirdStudent = getTypicalStudent();
         thirdStudent.setEmail("valid-student-3@email.tmt");
         usersDb.createStudent(thirdStudent);
-        thirdStudent.setAccount(student.getAccount());
+        thirdStudent.setAccount(userSharedAccount);
 
         HibernateUtil.flushSession();
 
-        List<Student> students =
-                usersDb.getStudentsByGoogleId(student.getCourseId(), student.getAccount().getGoogleId());
+        List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId());
 
-        assertEquals(3, students.size());
+        assertEquals(6, users.size());
 
         ______TS("success: gets all students by googleId that does not exist");
-        List<Student> emptyStudents = usersDb.getStudentsByGoogleId(student.getCourseId(), "non-exist-id");
+        List<User> emptyUsers = usersDb.getAllUsersByGoogleId("non-exist-id");
 
-        assertEquals(0, emptyStudents.size());
+        assertEquals(0, emptyUsers.size());
     }
 
     private Student getTypicalStudent() {
