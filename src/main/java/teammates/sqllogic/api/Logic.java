@@ -143,10 +143,27 @@ public class Logic {
      * </ul>
      *
      * <p>Preconditions:</p>
-     * * All parameters are non-null.
+     * All parameters are non-null.
      */
     public void deleteAccount(String googleId) {
         accountsLogic.deleteAccount(googleId);
+    }
+
+    /**
+     * Deletes all users and account associated with googleId.
+     * 
+     * <ul>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     */
+    public void deleteAccountCascade(String googleId) {
+        List<User> usersToDelete = getAllUsersByGoogleId(googleId);
+
+        for (User user : usersToDelete) {
+            deleteUser(user);
+        }
+
+        deleteAccount(googleId);
     }
 
     /**
