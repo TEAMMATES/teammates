@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -52,10 +53,11 @@ public abstract class Action {
     UserInfo userInfo;
     AuthType authType;
 
-    // TODO: unregisteredStudent. Instructor, isCourseMigrated can be removed after migration
+    // TODO: unregisteredStudent. Instructor, isCourseMigrated, isAccountMigrated can be removed after migration
     private StudentAttributes unregisteredStudent;
     private InstructorAttributes unregisteredInstructor;
     private Boolean isCourseMigrated;
+    private Boolean isAccountMigrated;
 
     private Student unregisteredSqlStudent;
     private Instructor unregisteredSqlInstructor;
@@ -100,6 +102,17 @@ public abstract class Action {
             isCourseMigrated = course == null || course.isMigrated();
         }
         return isCourseMigrated;
+    }
+
+    /**
+     * Returns true if course has been migrated or does not exist in the datastore.
+     */
+    protected boolean isAccountMigrated(String googleId) {
+        if (isAccountMigrated == null) {
+            AccountAttributes account = logic.getAccount(googleId);
+            isAccountMigrated = account == null || account.isMigrated();
+        }
+        return isAccountMigrated;
     }
 
     /**
