@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { StringHelper } from '../../../../services/string-helper';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
@@ -17,7 +17,7 @@ import {
   styleUrls: ['./rubric-question-statistics.component.scss'],
 })
 export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation
-    implements OnInit, OnChanges {
+    implements OnChanges {
 
   excludeSelf: boolean = false;
 
@@ -32,11 +32,6 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
   }
 
-  ngOnInit(): void {
-    this.calculateStatistics();
-    this.getTableData();
-  }
-
   ngOnChanges(): void {
     this.calculateStatistics();
     this.getTableData();
@@ -47,7 +42,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         { header: 'Question', sortBy: SortBy.RUBRIC_SUBQUESTION },
       ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
     ];
-    if (this.hasWeights) {
+    if (this.isWeightStatsVisible) {
       this.summaryColumnsData.push({ header: 'Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE });
     }
 
@@ -59,17 +54,17 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
             return {
               value: `${this.percentagesExcludeSelf[questionIndex][choiceIndex]}%`
                   + ` (${this.answersExcludeSelf[questionIndex][choiceIndex]})`
-                  + `${this.hasWeights ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
+                  + `${this.isWeightStatsVisible ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
             };
           }
           return {
             value: `${this.percentages[questionIndex][choiceIndex]}%`
                 + ` (${this.answers[questionIndex][choiceIndex]})`
-                + `${this.hasWeights ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
+                + `${this.isWeightStatsVisible ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
           };
         }),
       ];
-      if (this.hasWeights) {
+      if (this.isWeightStatsVisible) {
         if (this.excludeSelf) {
           currRow.push({ value: this.subQuestionWeightAverageExcludeSelf[questionIndex] });
         } else {
@@ -80,7 +75,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       return currRow;
     });
 
-    if (!this.hasWeights) {
+    if (!this.isWeightStatsVisible) {
       return;
     }
 
