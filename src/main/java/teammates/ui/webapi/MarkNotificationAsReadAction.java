@@ -34,6 +34,12 @@ public class MarkNotificationAsReadAction extends Action {
         Instant endTime = Instant.ofEpochMilli(readNotificationCreateRequest.getEndTimestamp());
 
         try {
+            if (!isAccountMigrated(userInfo.getId())) {
+                List<String> readNotifications =
+                        logic.updateReadNotifications(userInfo.getId(), notificationId.toString(), endTime);
+                ReadNotificationsData output = new ReadNotificationsData(readNotifications);
+                return new JsonResult(output);
+            }
             List<UUID> readNotifications =
                     sqlLogic.updateReadNotifications(userInfo.getId(), notificationId, endTime);
             ReadNotificationsData output = new ReadNotificationsData(
