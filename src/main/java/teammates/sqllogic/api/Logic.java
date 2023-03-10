@@ -151,7 +151,7 @@ public class Logic {
 
     /**
      * Deletes all users and account associated with googleId.
-     * 
+     *
      * <ul>
      * <li>Fails silently if no such account.</li>
      * </ul>
