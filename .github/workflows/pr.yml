@@ -4,15 +4,14 @@ on:
     types:
       - opened
       - reopened
+      - synchronize
     branches:
       - master
 
 jobs:
   check-pr:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+    permissions: write-all
     steps:
     - uses: actions/github-script@v6
       with:
