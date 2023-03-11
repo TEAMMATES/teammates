@@ -7,6 +7,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -28,16 +29,19 @@ class UpdateCourseAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        
+        // Datastore
+        InstructorAttributes instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.id);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
-
         if (courseAttributes != null && !courseAttributes.isMigrated()) {
-            gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+            gateKeeper.verifyAccessible(instructorAttributes, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
             return;
         }
+
+        // SQL
         Course course = sqlLogic.getCourse(courseId);
-        // TODO: Migrate once instructor entity is ready.
-        // gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override
