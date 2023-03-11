@@ -59,8 +59,9 @@ class UpdateCourseAction extends Action {
                 return updateWithDatastore(courseId, courseName, courseTimeZone);
             }
 
-            Course updatedCourse = sqlLogic.updateCourseCascade(
-                new Course(courseId, courseName, courseTimeZone, null));
+            Course course = sqlLogic.getCourse(courseId);
+            Course updatedCourse = sqlLogic.updateCourse(course, courseName, courseTimeZone);
+
             return new JsonResult(new CourseData(updatedCourse));
 
         } catch (InvalidParametersException ipe) {

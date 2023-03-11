@@ -115,18 +115,19 @@ public final class CoursesLogic {
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the course cannot be found
      */
-    public Course updateCourseCascade(Course course)
+    public Course updateCourse(Course course, String name, String timezone)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Course oldCourse = coursesDb.getCourse(course.getId());
-        Course updatedCourse = coursesDb.updateCourse(course);
+        if (course == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
+        }
+        course.setName(name);
+        course.setTimeZone(timezone);
 
-        if (!updatedCourse.getTimeZone().equals(oldCourse.getTimeZone())) {
-            // TODO: Migrate once Feedback Session is ready.
-            // feedbackSessionsLogic.updateFeedbackSessionsTimeZoneForCourse(updatedCourse.getId(), 
-            // updatedCourse.getTimeZone());
+        if (!course.isValid()) {
+            throw new InvalidParametersException(course.getInvalidityInfo());
         }
 
-        return updatedCourse;
+        return course;
     }
 
     /**
