@@ -64,7 +64,7 @@
           <button id="btn-add-comment" class="btn btn-light btn-sm btn-margin-left" [disabled]="isDisplayOnly"
                   *ngIf="!response.isMissingResponse && question.questionType !== 'CONTRIB'"
                   (click)="showCommentTableModel(response, commentTableModal)">Add Comment
-            <span *ngIf="instructorCommentTableModel[response.responseId].commentRows.length" class="badge badge-secondary">{{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
+            <span *ngIf="instructorCommentTableModel[response.responseId].commentRows.length" class="badge bg-secondary">{{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
           </button>
         </td>
       </tr>
