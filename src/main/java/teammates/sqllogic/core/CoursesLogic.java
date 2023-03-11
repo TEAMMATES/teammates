@@ -107,9 +107,7 @@ public final class CoursesLogic {
     }
 
     /**
-     * Updates a course by {@link CourseAttributes.UpdateOptions}.
-     *
-     * <p>If the {@code timezone} of the course is changed, cascade the change to its corresponding feedback sessions.
+     * Updates a course.
      *
      * @return updated course
      * @throws InvalidParametersException if attributes to update are not valid
