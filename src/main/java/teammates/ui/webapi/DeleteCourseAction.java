@@ -31,10 +31,8 @@ class DeleteCourseAction extends Action {
         }
 
         Course course = sqlLogic.getCourse(idOfCourseToDelete);
-        // TODO: Migrate once instructor entity is ready.
-        // gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.id),
-        //         courseAttributes,
-        //         Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToDelete, userInfo.id),
+                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override
