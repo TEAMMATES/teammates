@@ -32,6 +32,7 @@
     "@ng-bootstrap/ng-bootstrap": "^13.1.1",
     "@popperjs/core": "~2.10.2",
     "@tinymce/tinymce-angular": "^7.0.0",
+    "bootstrap": "^4.6.2",
     "d3": "^7.8.2",
     "file-saver": "^2.0.5",
     "handsontable": "^12.3.1",
