@@ -3,6 +3,9 @@ package teammates.sqllogic.core;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -136,5 +139,19 @@ public final class CoursesLogic {
         assert teamName != null;
 
         return coursesDb.getSectionByCourseIdAndTeam(courseId, teamName);
+    }
+
+    public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
+        assert courseId != null;
+        Course course = getCourse(courseId);
+
+        if (course == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
+        }
+
+        return course.getSections()
+                .stream()
+                .map(section -> section.getName())
+                .collect(Collectors.toList());
     }
 }

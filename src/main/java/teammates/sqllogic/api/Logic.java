@@ -192,6 +192,11 @@ public class Logic {
         return coursesLogic.updateCourse(course, name, timezone);
     }
 
+    public List<String> getSectionNamesForCourse(String courseId) 
+            throws EntityDoesNotExistException {
+        return coursesLogic.getSectionNamesForCourse(courseId);
+    }
+
     /**
      * Get section by {@code courseId} and {@code teamName}.
      */

@@ -119,6 +119,14 @@ public class Course extends BaseEntity {
         this.feedbackSessions = feedbackSessions;
     }
 
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
+    }
+
     public Instant getUpdatedAt() {
         return updatedAt;
     }
