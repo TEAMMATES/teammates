@@ -985,7 +985,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -1259,7 +1259,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -1409,7 +1409,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
               </div>
               <div
@@ -1557,7 +1557,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -1830,7 +1830,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -1854,7 +1854,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
-                        class="form-row text-start"
+                        class="row text-start"
                       >
                         <div
                           class="col-md-2 col-xs-5"
@@ -2045,7 +2045,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -2252,7 +2252,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -2671,7 +2671,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -3004,7 +3004,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -3266,7 +3266,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -3656,7 +3656,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -3935,7 +3935,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -4085,7 +4085,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
               </div>
               <div
@@ -4233,7 +4233,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -4512,7 +4512,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -4536,7 +4536,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   >
                     <tm-num-scale-question-edit-answer-form>
                       <div
-                        class="form-row text-start"
+                        class="row text-start"
                       >
                         <div
                           class="col-md-2 col-xs-5"
@@ -4728,7 +4728,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -4936,7 +4936,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -5356,7 +5356,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -5698,7 +5698,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"
@@ -5961,7 +5961,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </div>
               </div>
               <div
-                class="col"
+                class="container"
               >
                 <div
                   class="row"

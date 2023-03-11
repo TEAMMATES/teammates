@@ -113,7 +113,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             novalidate=""
           >
             <div
-              class="form-row"
+              class="row mb-3"
             >
               <label
                 class="col-sm-2"
@@ -127,7 +127,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
               </div>
             </div>
             <div
-              class="form-row"
+              class="row mb-3"
             >
               <label
                 class="col-sm-2 col-form-label"
@@ -145,7 +145,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
               </div>
             </div>
             <div
-              class="form-row"
+              class="row mb-3"
             >
               <label
                 class="col-sm-2 col-form-label"
@@ -163,7 +163,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
               </div>
             </div>
             <div
-              class="form-row"
+              class="row mb-3"
             >
               <label
                 class="col-sm-2 col-form-label"
@@ -182,7 +182,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
               </div>
             </div>
             <div
-              class="form-row"
+              class="row mb-3"
             >
               <label
                 class="col-sm-2 col-form-label"
@@ -200,7 +200,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
               </div>
             </div>
             <div
-              class="form-row"
+              class="row mb-3"
             >
               <label
                 class="col-sm-2 col-form-label"

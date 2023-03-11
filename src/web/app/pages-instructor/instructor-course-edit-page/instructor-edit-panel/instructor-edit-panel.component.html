@@ -32,7 +32,7 @@
   </div>
 
   <div class="card-body text-center" [ngClass]="{'fill-plain': editMode === EditMode.ADD}">
-    <div class="form-row form-group" *ngIf="editMode === EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
+    <div class="row form-group" *ngIf="editMode === EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
       <label class="col-sm-2 control-label">
         Google ID:
       </label>
@@ -43,7 +43,7 @@
         Not available. Instructor is yet to join this course.
       </span>
     </div>
-    <div class="form-row form-group">
+    <div class="row form-group">
       <label class="col-sm-2 control-label">
         Name:
       </label>
@@ -52,7 +52,7 @@
                [ngModel]="instructor.name" (ngModelChange)="triggerModelChange('name', $event)" [disabled]="!instructor.isEditing">
       </div>
     </div>
-    <div class="form-row form-group">
+    <div class="row form-group">
       <label class="col-sm-2 control-label">
         Email:
       </label>
@@ -62,7 +62,7 @@
                [disabled]="!instructor.isEditing || (instructor.joinState === JoinState.NOT_JOINED && editMode !== EditMode.ADD)">
       </div>
     </div>
-    <div class="form-row form-group">
+    <div class="row form-group">
       <label class="col-sm-2 control-label">
         <input id="checkbox-display-instructor-{{ instructorIndex + 1 }}" checked=""
                type="checkbox" [ngModel]="instructor.isDisplayedToStudents"
@@ -80,13 +80,13 @@
                [ngModel]="instructor.isDisplayedToStudents ? instructor.displayedToStudentsAs : '(This instructor will NOT be displayed to students)'">
       </div>
     </div>
-    <div class="form-row form-group align-items-start text-start">
+    <div class="row form-group align-items-start text-start">
       <label class="col-sm-2 control-label text-center text-md-end">
         Access Level:
       </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
         <ng-container *ngIf="instructor.isEditing">
-          <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="form-row">
+          <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="row">
             <label>
               <input id="{{role + instructorIndex + 1}}" type="radio" [checked]="role === instructor.role" (click)="triggerModelChange('role', role)" [disabled]="!instructor.isEditing">
               {{ role | instructorRoleDescription }}
