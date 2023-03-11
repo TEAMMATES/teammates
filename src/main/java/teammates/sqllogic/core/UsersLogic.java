@@ -183,6 +183,15 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all instructors and students by {@code googleId}.
+     */
+    public List<User> getAllUsersByGoogleId(String googleId) {
+        assert googleId != null;
+
+        return usersDb.getAllUsersByGoogleId(googleId);
+    }
+
+    /**
      * Sorts the instructors list alphabetically by name.
      */
     public static <T extends User> void sortByName(List<T> users) {

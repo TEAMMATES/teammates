@@ -141,6 +141,20 @@ public final class UsersDb extends EntitiesDb<User> {
     }
 
     /**
+     * Gets all instructors and students by {@code googleId}.
+     */
+    public List<User> getAllUsersByGoogleId(String googleId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<User> usersCr = cb.createQuery(User.class);
+        Root<User> usersRoot = usersCr.from(User.class);
+        Join<User, Account> accountsJoin = usersRoot.join("account");
+
+        usersCr.select(usersRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(usersCr).getResultList();
+    }
+
+    /**
      * Deletes a user.
      */
     public <T extends User> void deleteUser(T user) {
