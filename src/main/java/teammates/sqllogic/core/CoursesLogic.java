@@ -89,7 +89,7 @@ public final class CoursesLogic {
     public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
         Course course = coursesDb.getCourse(courseId);
         if (course == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
+            throw new EntityDoesNotExistException("Trying to move a non-existent course to recycling bin.");
         }
 
         Instant now = Instant.now();
@@ -103,7 +103,7 @@ public final class CoursesLogic {
     public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
         Course course = coursesDb.getCourse(courseId);
         if (course == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
+            throw new EntityDoesNotExistException("Trying to restore a non-existent course from recycling bin.");
         }
 
         course.setDeletedAt(null);
@@ -146,7 +146,7 @@ public final class CoursesLogic {
         Course course = getCourse(courseId);
 
         if (course == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
+            throw new EntityDoesNotExistException("Trying to get section names for a non-existent course.");
         }
 
         return course.getSections()
