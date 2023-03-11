@@ -28,7 +28,7 @@ public enum EmailType {
     USER_COURSE_REGISTER("TEAMMATES: Registered for Course [%s][Course ID: %s]"),
     SEVERE_LOGS_COMPILATION("TEAMMATES (%s): Severe Error Logs Compilation"),
     SESSION_LINKS_RECOVERY("TEAMMATES: Access links for recent feedback sessions"),
-    LOGIN("TEAMMATES: Login to TEAMMATES!");
+    LOGIN("TEAMMATES: Login to TEAMMATES");
 
     private final String subject;
 
