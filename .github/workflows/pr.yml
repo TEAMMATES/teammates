@@ -30,7 +30,7 @@ jobs:
             body += "- Title must start with the issue number the PR is fixing in square brackets, e.g. `[#<issue-number>]`\n"
           }
           if (!isDescriptionValid) {
-            body += "- Description must reference the issue number the PR is fixing, e.g. `Fixes #<issue-number>` (or `Part of #<issue-number>` if the PR does not addres the issue fully)\n"
+            body += "- Description must reference the issue number the PR is fixing, e.g. `Fixes #<issue-number>` (or `Part of #<issue-number>` if the PR does not address the issue fully)\n"
           }
           body += "\nPlease address the above before we proceed to review your PR."
           await github.rest.issues.createComment({
