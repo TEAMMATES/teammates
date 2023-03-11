@@ -1,9 +1,11 @@
 <table class="table table-bordered desktop-view" [attr.aria-label]="getAriaLabel()">
-  <tbody>
+  <thead>
     <tr>
       <td></td>
       <th *ngFor="let choice of questionDetails.rubricChoices" scope="col">{{ choice }}</th>
     </tr>
+  </thead>
+  <tbody>
     <tr *ngFor="let rubricDescriptionRow of questionDetails.rubricDescriptions; let i = index;"
         [ngClass]="{ 'row-answered': i < responseDetails.answer.length && responseDetails.answer[i] !== RUBRIC_ANSWER_NOT_CHOSEN }">
       <th class="fw-normal" scope="row">{{ questionDetails.rubricSubQuestions[i] }}</th>

@@ -2696,7 +2696,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         aria-label="Response for Barry Harris"
                         class="table table-bordered desktop-view"
                       >
-                        <tbody>
+                        <thead>
                           <tr>
                             <td />
                             <th
@@ -2710,6 +2710,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               choice 2
                             </th>
                           </tr>
+                        </thead>
+                        <tbody>
                           <tr
                             class="row-answered"
                           >
@@ -5384,7 +5386,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         aria-label="Response for Barry Harris"
                         class="table table-bordered desktop-view"
                       >
-                        <tbody>
+                        <thead>
                           <tr>
                             <td />
                             <th
@@ -5398,6 +5400,8 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               choice 2
                             </th>
                           </tr>
+                        </thead>
+                        <tbody>
                           <tr
                             class="row-answered"
                           >
