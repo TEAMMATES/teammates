@@ -841,222 +841,226 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   >
     <tm-course-edit-form>
       <div
-        class="card-header bg-primary text-white"
+        class="card"
       >
-        <strong
-          style=""
-        >
-          Create a new Course
-        </strong>
         <div
-          class="card-header-btn-toolbar"
+          class="card-header bg-primary text-white"
         >
-          <button
-            class="btn btn-primary btn-sm"
-            disabled=""
-            id="btn-copy-course"
+          <strong
             style=""
           >
-            <i
-              aria-hidden="true"
-              class="fa fa-copy"
-            />
-             Copy from previous courses 
-          </button>
-          <button
-            class="btn btn-primary btn-sm"
-            id="btn-close-form"
-            style=""
+            Create a new Course
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
           >
-            <i
-              aria-hidden="true"
-              class="fa fa-times"
-            />
-          </button>
+            <button
+              class="btn btn-primary btn-sm"
+              disabled=""
+              id="btn-copy-course"
+              style=""
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-copy"
+              />
+               Copy from previous courses 
+            </button>
+            <button
+              class="btn btn-primary btn-sm"
+              id="btn-close-form"
+              style=""
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-times"
+              />
+            </button>
+          </div>
         </div>
-      </div>
-      <div
-        class="card-body fill-plain"
-      >
-        <form
-          class="ng-untouched ng-pristine ng-valid"
-          novalidate=""
+        <div
+          class="card-body fill-plain"
         >
-          <div
-            class="form-row form-group"
+          <form
+            class="ng-untouched ng-pristine ng-valid"
+            novalidate=""
           >
-            <label
-              class="col-sm-2 fw-bold text-md-end"
-            >
-              Course ID:
-            </label>
             <div
-              class="col-sm-9"
+              class="row form-group"
             >
-              <input
-                class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
-                id="course-id"
-                maxlength="64"
-                name="courseId"
-                placeholder="e.g. CS3215-2013Semester1"
-                required=""
-                tabindex="1"
-                type="text"
-              />
-              <div
-                class="invalid-field"
-                hidden=""
+              <label
+                class="col-sm-2 fw-bold text-md-end"
               >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-exclamation-circle"
+                Course ID:
+              </label>
+              <div
+                class="col-sm-9"
+              >
+                <input
+                  class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
+                  id="course-id"
+                  maxlength="64"
+                  name="courseId"
+                  placeholder="e.g. CS3215-2013Semester1"
+                  required=""
+                  tabindex="1"
+                  type="text"
                 />
-                 The field Course ID should not be empty. 
+                <div
+                  class="invalid-field"
+                  hidden=""
+                >
+                  <i
+                    aria-hidden="true"
+                    class="fa fa-exclamation-circle"
+                  />
+                   The field Course ID should not be empty. 
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            class="form-row form-group"
-          >
-            <label
-              class="col-sm-2 fw-bold text-md-end"
-            >
-              Course Name:
-            </label>
             <div
-              class="col-sm-9"
+              class="row form-group"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="course-name"
-                maxlength="80"
-                name="courseName"
-                placeholder="e.g. Software Engineering"
-                required=""
-                tabindex="2"
-                type="text"
-              />
-              <div
-                class="invalid-field"
-                hidden=""
+              <label
+                class="col-sm-2 fw-bold text-md-end"
               >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-exclamation-circle"
+                Course Name:
+              </label>
+              <div
+                class="col-sm-9"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="course-name"
+                  maxlength="80"
+                  name="courseName"
+                  placeholder="e.g. Software Engineering"
+                  required=""
+                  tabindex="2"
+                  type="text"
                 />
-                 The field Course Name should not be empty. 
+                <div
+                  class="invalid-field"
+                  hidden=""
+                >
+                  <i
+                    aria-hidden="true"
+                    class="fa fa-exclamation-circle"
+                  />
+                   The field Course Name should not be empty. 
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            class="form-row form-group"
-          >
-            <label
-              class="col-sm-2 fw-bold text-md-end"
-            >
-              <span
-                class="ngb-tooltip-class"
-                ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
-                style=""
-              >
-                 Course institute: 
-              </span>
-            </label>
             <div
-              class="col-sm-9"
+              class="row form-group"
             >
-              <select
-                class="col-xs-12 form-control form-select ng-untouched ng-pristine ng-valid"
-                id="course-institute"
-                name="institute"
-                required=""
-                type="text"
+              <label
+                class="col-sm-2 fw-bold text-md-end"
               >
-              </select>
-            </div>
-          </div>
-          <div
-            class="form-row form-group"
-          >
-            <label
-              class="col-xs-12 col-sm-2 fw-bold text-md-end"
-            >
-              <span
-                class="ngb-tooltip-class"
-                ngbtooltip="You should not need to change this as it is auto-detected based on your
-                  device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
-              >
-                 Time Zone:
-              </span>
-            </label>
-            <div
-              class="col-xs-12 col-sm-9"
-            >
+                <span
+                  class="ngb-tooltip-class"
+                  ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+                  style=""
+                >
+                   Course institute: 
+                </span>
+              </label>
               <div
-                class="input-group"
+                class="col-sm-9"
               >
                 <select
-                  class="form-control form-select ng-untouched ng-pristine ng-valid"
-                  id="time-zone"
-                  name="timeZone"
+                  class="col-xs-12 form-control form-select ng-untouched ng-pristine ng-valid"
+                  id="course-institute"
+                  name="institute"
                   required=""
+                  type="text"
                 >
-                  <option
-                    style=""
-                    value="Jamaica"
-                  >
-                    Jamaica (UTC -05:00)
-                  </option>
-                  <option
-                    style=""
-                    value="Portugal"
-                  >
-                    Portugal (UTC)
-                  </option>
-                  <option
-                    style=""
-                    value="Singapore"
-                  >
-                    Singapore (UTC +08:00)
-                  </option>
-                  <option
-                    style=""
-                    value="Turkey"
-                  >
-                    Turkey (UTC +03:00)
-                  </option>
                 </select>
-                <span
-                  class="input-group-btn"
-                >
-                  <button
-                    class="btn btn-primary"
-                    type="button"
-                  >
-                     Auto-Detect 
-                  </button>
-                </span>
               </div>
             </div>
-          </div>
-          <div
-            class="form-group m-0"
-          >
             <div
-              class="col-sm-12 text-center"
+              class="row form-group"
             >
-              <button
-                class="btn btn-success"
-                disabled=""
-                id="btn-submit-course"
-                style=""
-                type="submit"
+              <label
+                class="col-xs-12 col-sm-2 fw-bold text-md-end"
               >
-                 Add Course 
-              </button>
+                <span
+                  class="ngb-tooltip-class"
+                  ngbtooltip="You should not need to change this as it is auto-detected based on your
+                  device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+                >
+                   Time Zone:
+                </span>
+              </label>
+              <div
+                class="col-xs-12 col-sm-9"
+              >
+                <div
+                  class="input-group"
+                >
+                  <select
+                    class="form-control form-select ng-untouched ng-pristine ng-valid"
+                    id="time-zone"
+                    name="timeZone"
+                    required=""
+                  >
+                    <option
+                      style=""
+                      value="Jamaica"
+                    >
+                      Jamaica (UTC -05:00)
+                    </option>
+                    <option
+                      style=""
+                      value="Portugal"
+                    >
+                      Portugal (UTC)
+                    </option>
+                    <option
+                      style=""
+                      value="Singapore"
+                    >
+                      Singapore (UTC +08:00)
+                    </option>
+                    <option
+                      style=""
+                      value="Turkey"
+                    >
+                      Turkey (UTC +03:00)
+                    </option>
+                  </select>
+                  <span
+                    class="input-group-btn"
+                  >
+                    <button
+                      class="btn btn-primary"
+                      type="button"
+                    >
+                       Auto-Detect 
+                    </button>
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
-        </form>
+            <div
+              class="form-group m-0"
+            >
+              <div
+                class="col-sm-12 text-center"
+              >
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="btn-submit-course"
+                  style=""
+                  type="submit"
+                >
+                   Add Course 
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </tm-course-edit-form>
   </div><tm-loading-retry>
