@@ -31,10 +31,8 @@ class RestoreCourseAction extends Action {
         }
 
         Course course = sqlLogic.getCourse(idOfCourseToRestore);
-        // TODO: Migrate once instructor entity is ready.
-        // gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, userInfo.id),
-        //         courseAttributes,
-        //         Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToRestore, userInfo.id),
+                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

@@ -32,9 +32,8 @@ class BinCourseAction extends Action {
         }
 
         Course course = sqlLogic.getCourse(idOfCourseToBin);
-        // TODO: Migrate once instructor entity is ready.
-        // gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
-        //         course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToBin, userInfo.id),
+                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override
@@ -50,7 +49,7 @@ class BinCourseAction extends Action {
 
             Course course = sqlLogic.getCourse(idOfCourseToBin);
             course.setDeletedAt(sqlLogic.moveCourseToRecycleBin(idOfCourseToBin));
-            return new JsonResult(new CourseData(courseAttributes));
+            return new JsonResult(new CourseData(course));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
