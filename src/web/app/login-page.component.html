@@ -48,7 +48,7 @@
               <button type="submit" class="btn btn-primary" [disabled]="isLoggingInWithEmail">
                 <tm-ajax-loading *ngIf="isLoggingInWithEmail"></tm-ajax-loading>Login
               </button>
-              <button class="btn btn-light ml-2" (click)="isLogInWithEmail=false; isLoginPage=true">Cancel</button>
+              <button class="btn btn-light ms-2" (click)="isLogInWithEmail=false; isLoginPage=true">Cancel</button>
             </div>
           </div>
         </form>
@@ -80,7 +80,7 @@
         <p class="mt-3">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
         <div>
           <button class="btn btn-primary" (click)="resendEmail()">Resend</button>
-          <button class="btn btn-light ml-2" (click)="isTroubleGettingEmail=false; isLoginEmailSent=true;">Back</button>
+          <button class="btn btn-light ms-2" (click)="isTroubleGettingEmail=false; isLoginEmailSent=true;">Back</button>
         </div>
       </div>
     </div>
