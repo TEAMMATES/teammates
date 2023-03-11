@@ -150,15 +150,17 @@ public class Logic {
     }
 
     /**
-     * Deletes account associated with googleId.
-     * Part of deleting all users with the same googleId.
+     * Deletes account and all users by googleId.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
      * </ul>
+     *
+     * <p>Preconditions:</p>
+     * All parameters are non-null.
      */
     public void deleteAccountCascade(String googleId) {
-        accountsLogic.deleteAccount(googleId);
+        accountsLogic.deleteAccountCascade(googleId);
     }
 
     /**
