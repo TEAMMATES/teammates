@@ -192,7 +192,10 @@ public class Logic {
         return coursesLogic.updateCourse(course, name, timezone);
     }
 
-    public List<String> getSectionNamesForCourse(String courseId) 
+    /**
+     * Gets a list of section names for the given {@code courseId}.
+     */
+    public List<String> getSectionNamesForCourse(String courseId)
             throws EntityDoesNotExistException {
         return coursesLogic.getSectionNamesForCourse(courseId);
     }

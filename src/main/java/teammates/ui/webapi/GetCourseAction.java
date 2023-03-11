@@ -84,7 +84,7 @@ class GetCourseAction extends Action {
         return new JsonResult(output);
     }
 
-    private JsonResult getFromDatastore(String courseId) throws EntityNotFoundException {
+    private JsonResult getFromDatastore(String courseId) {
         CourseAttributes courseAttributes = logic.getCourse(courseId);
         if (courseAttributes == null) {
             throw new EntityNotFoundException("No course with id: " + courseId);

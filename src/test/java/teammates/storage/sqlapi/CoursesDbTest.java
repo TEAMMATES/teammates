@@ -1,8 +1,7 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.Mockito.never;
-
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
@@ -80,6 +79,6 @@ public class CoursesDbTest extends BaseTestCase {
 
         coursesDb.deleteCourse(c);
 
-        mockHibernateUtil.verify(()-> HibernateUtil.remove(c));
+        mockHibernateUtil.verify(() -> HibernateUtil.remove(c));
     }
 }

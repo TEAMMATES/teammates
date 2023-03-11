@@ -29,12 +29,13 @@ class UpdateCourseAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        
+
         // Datastore
         InstructorAttributes instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.id);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
         if (courseAttributes != null && !courseAttributes.isMigrated()) {
-            gateKeeper.verifyAccessible(instructorAttributes, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+            gateKeeper.verifyAccessible(instructorAttributes, courseAttributes,
+                    Const.InstructorPermissions.CAN_MODIFY_COURSE);
             return;
         }
 
@@ -75,7 +76,7 @@ class UpdateCourseAction extends Action {
         }
     }
 
-    private JsonResult updateWithDatastore(String courseId, String courseName, String courseTimeZone) 
+    private JsonResult updateWithDatastore(String courseId, String courseName, String courseTimeZone)
             throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes updatedCourseAttributes = logic.updateCourseCascade(
                 CourseAttributes.updateOptionsBuilder(courseId)

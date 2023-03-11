@@ -4,7 +4,6 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -141,6 +140,9 @@ public final class CoursesLogic {
         return coursesDb.getSectionByCourseIdAndTeam(courseId, teamName);
     }
 
+    /**
+     * Gets a list of section names for the given {@code courseId}.
+     */
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         assert courseId != null;
         Course course = getCourse(courseId);

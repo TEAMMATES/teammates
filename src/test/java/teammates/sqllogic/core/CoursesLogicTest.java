@@ -33,11 +33,10 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testMoveCourseToRecycleBin_shouldReturnDeletedAt_success() 
+    public void testMoveCourseToRecycleBin_shouldReturnDeletedAt_success()
             throws EntityDoesNotExistException {
         Course course = generateTypicalCourse();
         String courseId = course.getId();
-        assert(course.getDeletedAt() == null);
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
 
@@ -55,12 +54,12 @@ public class CoursesLogicTest extends BaseTestCase {
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> coursesLogic.moveCourseToRecycleBin(courseId));
-        
+
         assertEquals("Trying to move a non-existent course to recycling bin.", ex.getMessage());
     }
 
     @Test
-    public void testRestoreCourseFromRecycleBin_shouldSetDeletedAtToNull_success() 
+    public void testRestoreCourseFromRecycleBin_shouldSetDeletedAtToNull_success()
             throws EntityDoesNotExistException {
         Course course = generateTypicalCourse();
         String courseId = course.getId();
@@ -82,7 +81,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> coursesLogic.restoreCourseFromRecycleBin(courseId));
-        
+
         assertEquals("Trying to restore a non-existent course from recycling bin.", ex.getMessage());
     }
 
@@ -106,14 +105,15 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetSectionNamesForCourse_courseDoesNotExist_throwEntityDoesNotExistException() throws EntityDoesNotExistException {
+    public void testGetSectionNamesForCourse_courseDoesNotExist_throwEntityDoesNotExistException()
+            throws EntityDoesNotExistException {
         String courseId = generateTypicalCourse().getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> coursesLogic.getSectionNamesForCourse(courseId));
-        
+
         assertEquals("Trying to get section names for a non-existent course.", ex.getMessage());
     }
 
