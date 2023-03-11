@@ -361,6 +361,15 @@ public class Logic {
     }
 
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        return usersLogic.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.

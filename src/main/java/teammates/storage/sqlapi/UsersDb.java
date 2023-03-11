@@ -263,4 +263,19 @@ public final class UsersDb extends EntitiesDb<User> {
         return HibernateUtil.createQuery(cr).getResultList();
     }
 
+    /**
+     * Gets all instructors associated with a googleId.
+     */
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        assert googleId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
+        
+        cr.select(instructorRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
 }

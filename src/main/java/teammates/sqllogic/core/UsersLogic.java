@@ -128,6 +128,14 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all instructors associated with a googleId.
+     */
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        assert googleId != null;
+        return usersDb.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.
