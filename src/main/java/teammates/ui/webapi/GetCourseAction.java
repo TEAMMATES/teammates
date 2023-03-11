@@ -5,6 +5,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.CourseData;
 
 /**
@@ -41,15 +42,14 @@ class GetCourseAction extends Action {
             throw new UnauthorizedAccessException("Student or instructor account is required to access this resource.");
         }
 
+        Course course = sqlLogic.getCourse(courseId);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            // TODO: Migrate once Instructor class is ready.
-            // gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), course);
+            gateKeeper.verifyAccessible(getPossiblyUnregisteredSqlInstructor(courseId), course);
             return;
         }
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            // TODO: Migrate once Instructor class is ready.
-            // gateKeeper.verifyAccessible(getPossiblyUnregisteredStudent(courseId), course);
+            gateKeeper.verifyAccessible(getPossiblyUnregisteredSqlStudent(courseId), course);
             return;
         }
 
@@ -73,12 +73,11 @@ class GetCourseAction extends Action {
         CourseData output = new CourseData(course);
         String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            // TODO: Migrate once Instructor class is ready.
-            // InstructorAttributes instructor = getPossiblyUnregisteredInstructor(courseId);
-            // if (instructor != null) {
-            //     InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
-            //     output.setPrivileges(privilege);
-            // }
+            Instructor instructor = getPossiblyUnregisteredSqlInstructor(courseId);
+            if (instructor != null) {
+                InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
+                output.setPrivileges(privilege);
+            }
         } else if (Const.EntityType.STUDENT.equals(entityType)) {
             output.hideInformationForStudent();
         }
