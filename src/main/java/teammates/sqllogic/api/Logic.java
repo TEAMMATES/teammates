@@ -27,6 +27,7 @@ import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
+import teammates.storage.sqlentity.User;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -132,6 +133,34 @@ public class Logic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsLogic.createAccount(account);
+    }
+
+    /**
+     * Deletes account by googleId.
+     *
+     * <ul>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * All parameters are non-null.
+     */
+    public void deleteAccount(String googleId) {
+        accountsLogic.deleteAccount(googleId);
+    }
+
+    /**
+     * Deletes account and all users by googleId.
+     *
+     * <ul>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * All parameters are non-null.
+     */
+    public void deleteAccountCascade(String googleId) {
+        accountsLogic.deleteAccountCascade(googleId);
     }
 
     /**
@@ -351,6 +380,22 @@ public class Logic {
      */
     public Student getStudentByGoogleId(String courseId, String googleId) {
         return usersLogic.getStudentByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Gets all instructors and students by associated {@code googleId}.
+     */
+    public List<User> getAllUsersByGoogleId(String googleId) {
+        return usersLogic.getAllUsersByGoogleId(googleId);
+    }
+
+    /**
+     * Deletes a user.
+     *
+     * <p>Fails silently if the user does not exist.</p>
+     */
+    public <T extends User> void deleteUser(T user) {
+        usersLogic.deleteUser(user);
     }
 
     public List<Notification> getAllNotifications() {
