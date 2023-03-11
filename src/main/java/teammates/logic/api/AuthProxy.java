@@ -2,7 +2,6 @@ package teammates.logic.api;
 
 import teammates.common.exception.AuthException;
 import teammates.common.util.Config;
-import teammates.common.util.LoginLinkOptions;
 import teammates.logic.external.AuthService;
 import teammates.logic.external.EmptyAuthService;
 import teammates.logic.external.FirebaseAuthService;
@@ -39,11 +38,12 @@ public class AuthProxy {
 
     /**
      * Generates login link for the logging in user.
-     * @param loginLinkOptions options to generate the login link.
+     * @param userEmail email of the logging in user.
+     * @param continueUrl URL upon successful login.
      * @return null if error occurs while generating the login link.
      */
-    public String generateLoginLink(LoginLinkOptions loginLinkOptions) {
-        return service.generateLoginLink(loginLinkOptions);
+    public String generateLoginLink(String userEmail, String continueUrl) {
+        return service.generateLoginLink(userEmail, continueUrl);
     }
 
     /**

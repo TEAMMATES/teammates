@@ -1,7 +1,6 @@
 package teammates.logic.api;
 
 import teammates.common.exception.AuthException;
-import teammates.common.util.LoginLinkOptions;
 
 /**
  * Allows mocking of the {@link AuthProxy} used in production.
@@ -9,7 +8,7 @@ import teammates.common.util.LoginLinkOptions;
 public class MockAuthProxy extends AuthProxy {
 
     @Override
-    public String generateLoginLink(LoginLinkOptions loginLinkOptions) {
+    public String generateLoginLink(String userEmail, String continueUrl) {
         return "";
     }
 

@@ -1,7 +1,6 @@
 package teammates.logic.external;
 
 import teammates.common.exception.AuthException;
-import teammates.common.util.LoginLinkOptions;
 
 /**
  * Service that does not execute any authentication operations.
@@ -9,7 +8,7 @@ import teammates.common.util.LoginLinkOptions;
 public class EmptyAuthService implements AuthService {
 
     @Override
-    public String generateLoginLink(LoginLinkOptions loginLinkOptions) {
+    public String generateLoginLink(String userEmail, String continueUrl) {
         return "";
     }
 
