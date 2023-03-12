@@ -55,7 +55,7 @@ public class AccountRequest extends BaseEntity {
         this.setEmail(email);
         this.setName(name);
         this.setInstitute(institute);
-        this.setRegistrationKey(generateRegistrationKey());
+        this.generateNewRegistrationKey();
         this.setCreatedAt(Instant.now());
         this.setRegisteredAt(null);
     }
@@ -69,6 +69,13 @@ public class AccountRequest extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
 
         return errors;
+    }
+
+    /**
+     * Generates a new registration key for the account request.
+     */
+    public void generateNewRegistrationKey() {
+        this.setRegistrationKey(generateRegistrationKey());
     }
 
     /**

@@ -21,8 +21,10 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
@@ -123,6 +125,15 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             Section actualSection = (Section) actual;
             equalizeIrrelevantData(expectedSection, actualSection);
             assertEquals(JsonUtils.toJson(expectedSection), JsonUtils.toJson(actualSection));
+        } else if (expected instanceof Team) {
+            Team expectedTeam = (Team) expected;
+            Team actualTeam = (Team) actual;
+            equalizeIrrelevantData(expectedTeam, actualTeam);
+            assertEquals(JsonUtils.toJson(expectedTeam), JsonUtils.toJson(actualTeam));
+        } else if (expected instanceof ReadNotification) {
+            ReadNotification expectedReadNotification = (ReadNotification) expected;
+            ReadNotification actualReadNotification = (ReadNotification) actual;
+            equalizeIrrelevantData(expectedReadNotification, actualReadNotification);
         } else {
             fail("Unknown entity");
         }
@@ -208,6 +219,17 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+    private void equalizeIrrelevantData(Team expected, Team actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+    private void equalizeIrrelevantData(ReadNotification expected, ReadNotification actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
     }
 
     /**

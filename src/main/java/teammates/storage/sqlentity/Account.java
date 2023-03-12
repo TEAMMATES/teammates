@@ -38,7 +38,7 @@ public class Account extends BaseEntity {
     private String email;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<ReadNotification> readNotifications;
+    private List<ReadNotification> readNotifications = new ArrayList<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -52,7 +52,6 @@ public class Account extends BaseEntity {
         this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
-        this.readNotifications = new ArrayList<>();
     }
 
     /**

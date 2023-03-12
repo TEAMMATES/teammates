@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.JsonUtils;
 
 import jakarta.persistence.AttributeConverter;
@@ -118,5 +119,22 @@ public abstract class BaseEntity {
     public static class FeedbackParticipantTypeListConverter
             extends JsonConverter<List<FeedbackParticipantType>> {
 
+    }
+
+    /**
+     * Converter for InstructorPrivileges.
+     */
+    @Converter
+    public static class InstructorPrivilegesConverter
+            extends JsonConverter<InstructorPrivileges> {
+        @Override
+        public String convertToDatabaseColumn(InstructorPrivileges entity) {
+            return JsonUtils.toJson(entity);
+        }
+
+        @Override
+        public InstructorPrivileges convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, InstructorPrivileges.class);
+        }
     }
 }
