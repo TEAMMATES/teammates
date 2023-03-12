@@ -20,7 +20,7 @@ jobs:
             pull_number: context.issue.number
           })
           const isTitleValid = /^\[#\d\] /.test(pr.data.title)
-          const isDescriptionValid = /(Fixes|Part of) #\d/.test(pr.data.body)
+          const isDescriptionValid = /([Ff]ix(es|ed)?|[Cc]lose(s|d)?|[Rr]esolve(s|d)?|[Pp]art [Oo]f) #\d/.test(pr.data.body)
           if (isTitleValid && isDescriptionValid) {
             return
           }
