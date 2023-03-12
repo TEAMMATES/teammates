@@ -1,0 +1,230 @@
+{
+  "accounts": {
+    "instructor1": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "idOfInstructor1",
+      "name": "Instructor 1",
+      "email": "instr1@teammates.tmt"
+    },
+    "student1": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "idOfStudent1",
+      "name": "Student 1",
+      "email": "student1@teammates.tmt"
+    }
+  },
+  "accountRequests": {
+    "instructor1": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "name": "Instructor 1",
+      "email": "instr1@teammates.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "registeredAt": "1970-02-14T00:00:00Z"
+    }
+  },
+  "courses": {
+    "typicalCourse": {
+      "id": "typical-course-id",
+      "name": "Typical Course",
+      "institute": "TEAMMATES Test Institute",
+      "timeZone": "Africa/Johannesburg"
+    }
+  },
+  "sections": {
+    "section1InTypicalCourse": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "typical-course-id"
+      },
+      "name": "Section 1"
+    }
+  },
+  "teams": {
+    "team1InTypicalCourse": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    }
+  },
+  "deadlineExtensions": {
+    "student1InTypicalCourseSession1": {
+      "id": "00000000-0000-4000-8000-000000000401",
+      "user": {
+        "id": "00000000-0000-4000-8000-000000000601",
+        "type": "student"
+      },
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "endTime": "2027-04-30T23:00:00Z"
+    },
+    "instructor1InTypicalCourseSession1": {
+      "id": "00000000-0000-4000-8000-000000000402",
+      "user": {
+        "id": "00000000-0000-4000-8000-000000000501",
+        "type": "instructor"
+      },
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "endTime": "2027-04-30T23:00:00Z"
+    }
+  },
+  "instructors": {
+    "instructor1OfTypicalCourse": {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "course": {
+        "id": "typical-course-id"
+      },
+      "name": "Instructor 1",
+      "email": "instr1@teammates.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor2OfTypicalCourse": {
+      "id": "00000000-0000-4000-8000-000000000502",
+      "course": {
+        "id": "typical-course-id"
+      },
+      "name": "Instructor 2",
+      "email": "instr2@teammates.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": false,
+          "canModifyInstructor": false,
+          "canModifySession": false,
+          "canModifyStudent": false,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "student1InTypicalCourse": {
+      "id": "00000000-0000-4000-8000-000000000601",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "course": {
+        "id": "typical-course-id"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "email": "student1@teammates.tmt",
+      "name": "student1 In TypicalCourse",
+      "comments": "comment for student1TypicalCourse"
+    },
+    "student2InTypicalCourse": {
+      "id": "00000000-0000-4000-8000-000000000602",
+      "course": {
+        "id": "typical-course-id"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000301"
+      },
+      "email": "student2@teammates.tmt",
+      "name": "student2 In TypicalCourse",
+      "comments": ""
+    }
+  },
+  "feedbackSessions": {
+    "session1InTypicalCourse": {
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "typical-course-id"
+      },
+      "name": "First feedback session",
+      "creatorEmail": "instr1@teammates.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2027-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
+      "gracePeriod": 10,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "session2InTypicalCourse": {
+      "id": "00000000-0000-4000-8000-000000000702",
+      "course": {
+        "id": "typical-course-id"
+      },
+      "name": "Second feedback session",
+      "creatorEmail": "instr1@teammates.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "startTime": "2013-06-01T22:00:00Z",
+      "endTime": "2026-04-28T22:00:00Z",
+      "sessionVisibleFromTime": "2013-03-20T22:00:00Z",
+      "resultsVisibleFromTime": "2026-04-29T22:00:00Z",
+      "gracePeriod": 5,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "notifications": {
+    "notification1": {
+      "id": "00000000-0000-4000-8000-000000001101",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2099-01-01T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "A deprecation note",
+      "message": "<p>Deprecation happens in three minutes</p>",
+      "shown": false
+    }
+  },
+  "readNotifications": {
+    "notification1Instructor1": {
+      "id": "00000000-0000-4000-8000-000000001201",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "notification": {
+        "id": "00000000-0000-4000-8000-000000001101"
+      }
+    },
+    "notification1Student1": {
+      "id": "00000000-0000-4000-8000-000000001101",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "notification": {
+        "id": "00000000-0000-4000-8000-000000001101"
+      }
+    }
+  }
+}

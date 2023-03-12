@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
@@ -23,8 +24,11 @@ import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
+
+import jakarta.persistence.OneToMany;
 
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
@@ -42,6 +46,7 @@ public final class JsonUtils {
     private static Gson getGsonInstance(boolean prettyPrint) {
         GsonBuilder builder = new GsonBuilder()
                 .setExclusionStrategies(new HibernateExclusionStrategy())
+                .registerTypeAdapter(User.class, new UserAdapter())
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new DurationMinutesAdapter())
@@ -120,22 +125,46 @@ public final class JsonUtils {
     }
 
     private static class HibernateExclusionStrategy implements ExclusionStrategy {
+
         @Override
         public boolean shouldSkipField(FieldAttributes f) {
             // Exclude certain fields to avoid circular references when serializing hibernate entities
-            if (f.getDeclaringClass() == Course.class) {
-                return "sections".equals(f.getName());
-            } else if (f.getDeclaringClass() == Section.class) {
-                return "teams".equals(f.getName());
-            }
-            return false;
+            return f.getAnnotation(OneToMany.class) != null;
         }
 
         @Override
         public boolean shouldSkipClass(Class<?> clazz) {
             return false;
         }
+    }
 
+    private static class UserAdapter implements JsonSerializer<User>, JsonDeserializer<User> {
+
+        @Override
+        public JsonElement serialize(User user, Type type, JsonSerializationContext context) {
+            if (user instanceof Instructor) {
+                JsonObject element = (JsonObject) context.serialize(user, Instructor.class);
+                element.addProperty("type", "instructor");
+                return element;
+            }
+
+            // User is a Student
+            JsonObject element = (JsonObject) context.serialize(user, Student.class);
+            element.addProperty("type", "student");
+            return element;
+        }
+
+        @Override
+        public User deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
+            JsonObject obj = (JsonObject) element;
+
+            if ("instructor".equals(obj.get("type").getAsString())) {
+                return context.deserialize(element, Instructor.class);
+            }
+
+            // User is student
+            return context.deserialize(obj, Student.class);
+        }
     }
 
     private static class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {

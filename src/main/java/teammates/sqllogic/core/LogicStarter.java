@@ -26,10 +26,10 @@ public class LogicStarter implements ServletContextListener {
      * Registers dependencies between different logic classes.
      */
     public static void initializeDependencies() {
-
-        AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
         AccountsLogic accountsLogic = AccountsLogic.inst();
+        AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
+        DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
         DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -41,6 +41,9 @@ public class LogicStarter implements ServletContextListener {
         accountRequestsLogic.initLogicDependencies(AccountRequestsDb.inst());
         accountsLogic.initLogicDependencies(AccountsDb.inst(), notificationsLogic, usersLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic);
+        dataBundleLogic.initLogicDependencies(accountsLogic, accountRequestsLogic, coursesLogic,
+                deadlineExtensionsLogic, fsLogic,
+                notificationsLogic, usersLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst());
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic, frLogic, fqLogic);
         frLogic.initLogicDependencies(FeedbackResponsesDb.inst());
