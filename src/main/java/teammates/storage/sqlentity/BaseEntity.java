@@ -88,6 +88,7 @@ public abstract class BaseEntity {
 
     /**
      * Generic attribute converter for classes stored in JSON.
+     *
      * @param <T> The type of entity to be converted to and from JSON.
      */
     @Converter
@@ -99,7 +100,8 @@ public abstract class BaseEntity {
 
         @Override
         public T convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<T>(){}.getType());
+            return JsonUtils.fromJson(dbData, new TypeToken<T>() {
+            }.getType());
         }
     }
 
@@ -125,8 +127,7 @@ public abstract class BaseEntity {
      * Converter for InstructorPrivileges.
      */
     @Converter
-    public static class InstructorPrivilegesConverter
-            extends JsonConverter<InstructorPrivileges> {
+    public static class InstructorPrivilegesConverter implements AttributeConverter<InstructorPrivileges, String> {
         @Override
         public String convertToDatabaseColumn(InstructorPrivileges entity) {
             return JsonUtils.toJson(entity);
