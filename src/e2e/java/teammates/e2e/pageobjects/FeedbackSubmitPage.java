@@ -423,21 +423,26 @@ public class FeedbackSubmitPage extends AppPage {
         List<String> subQuestions = questionDetails.getRubricSubQuestions();
         List<List<String>> descriptions = questionDetails.getRubricDescriptions();
 
-        String[][] expectedTable = new String[subQuestions.size() + 1][choices.size() + 1];
-        expectedTable[0][0] = "";
-        for (int i = 1; i <= choices.size(); i++) {
-            expectedTable[0][i] = choices.get(i - 1);
+        String[][] expectedTableData = new String[subQuestions.size()][choices.size()];
+        String[][] expectedTableRowHeader = new String[1][choices.size()];
+        String[][] expectedTableColumnHeader = new String[subQuestions.size()][1];
+
+        for (int i = 0; i < choices.size(); i++) {
+            expectedTableRowHeader[0][i] = choices.get(i);
         }
-        for (int i = 1; i <= subQuestions.size(); i++) {
-            expectedTable[i][0] = subQuestions.get(i - 1);
+        for (int i = 0; i < subQuestions.size(); i++) {
+            expectedTableColumnHeader[i][0] = subQuestions.get(i);
         }
-        for (int i = 1; i <= descriptions.size(); i++) {
-            List<String> description = descriptions.get(i - 1);
-            for (int j = 1; j <= description.size(); j++) {
-                expectedTable[i][j] = description.get(j - 1);
+        for (int i = 0; i < descriptions.size(); i++) {
+            List<String> description = descriptions.get(i);
+            for (int j = 0; j < description.size(); j++) {
+                expectedTableData[i][j] = description.get(j);
             }
         }
-        verifyTableBodyValues(getRubricTable(qnNumber, recipient), expectedTable);
+        WebElement rubricTable = getRubricTable(qnNumber, recipient);
+        verifyTableBodyValues(rubricTable, expectedTableData);
+        verifyTableRowHeaderValues(rubricTable, expectedTableRowHeader);
+        verifyTableColumnHeaderValues(rubricTable, expectedTableColumnHeader);
     }
 
     public void fillRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {

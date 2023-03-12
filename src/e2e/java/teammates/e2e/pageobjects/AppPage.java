@@ -465,13 +465,48 @@ public abstract class AppPage {
     }
 
     /**
-     * Asserts that all values in the given table row are equal to the expectedRowValues.
+     * Asserts that all values in the row header of the given table are equal to the expectedRowHeaderValues.
+     */
+    protected void verifyTableRowHeaderValues(WebElement table, String[][] expectedTableRowHeaderValues) {
+        List<WebElement> rows = table.findElement(By.tagName("thead")).findElements(By.tagName("tr"));
+        assertTrue(expectedTableRowHeaderValues.length <= rows.size());
+        for (int rowIndex = 0; rowIndex < expectedTableRowHeaderValues.length; rowIndex++) {
+            verifyTableHeaderValues(rows.get(rowIndex), expectedTableRowHeaderValues[rowIndex]);
+        }
+    }
+
+    /**
+     * Asserts that all values in the column header of the given table are equal to the expectedTablColumnHeaderValues.
+     */
+    protected void verifyTableColumnHeaderValues(WebElement table, String[][] expectedTablColumnHeaderValues) {
+        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        assertTrue(expectedTablColumnHeaderValues.length <= rows.size());
+        for (int rowIndex = 0; rowIndex < expectedTablColumnHeaderValues.length; rowIndex++) {
+            verifyTableHeaderValues(rows.get(rowIndex), expectedTablColumnHeaderValues[rowIndex]);
+        }
+    }
+
+    /**
+     * Asserts that all data values in the given table row are equal to the expectedRowValues.
      */
     protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
         List<WebElement> cells = row.findElements(By.tagName("td"));
         assertTrue(expectedRowValues.length <= cells.size());
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
             assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
+        }
+    }
+
+    /**
+     * Asserts that all header values in the given table row are equal to the expectedRowHeaderValues.
+     */
+    protected void verifyTableHeaderValues(WebElement row, String[] expectedRowHeaderValues) {
+        List<WebElement> cells = row.findElements(By.tagName("th"));
+        System.out.println(cells);
+        System.out.println(expectedRowHeaderValues);
+        assertTrue(expectedRowHeaderValues.length <= cells.size());
+        for (int cellIndex = 0; cellIndex < expectedRowHeaderValues.length; cellIndex++) {
+            assertEquals(expectedRowHeaderValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
 
