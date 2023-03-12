@@ -37,8 +37,8 @@ import teammates.storage.sqlentity.User;
 public class Logic {
     private static final Logic instance = new Logic();
 
-    final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final AccountsLogic accountsLogic = AccountsLogic.inst();
+    final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
