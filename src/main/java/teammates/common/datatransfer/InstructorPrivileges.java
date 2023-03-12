@@ -7,8 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gson.annotations.Expose;
-
 import teammates.common.util.Const;
 
 /**
@@ -93,11 +91,8 @@ public final class InstructorPrivileges {
     private static final Set<String> SESSION_LEVEL_ONLY_PRIVILEGES =
             new LinkedHashSet<>(Arrays.asList(SESSION_LEVEL_ONLY_LIST));
 
-    @Expose
     private final InstructorPermissionSet courseLevel;
-    @Expose
     private final Map<String, InstructorPermissionSet> sectionLevel;
-    @Expose
     private final Map<String, Map<String, InstructorPermissionSet>> sessionLevel;
 
     public InstructorPrivileges() {
