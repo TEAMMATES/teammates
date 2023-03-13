@@ -96,7 +96,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "btn-create-session")
     private WebElement createSessionButton;
 
-    @FindBy(id = "sessions-table")
+    @FindBy(className = "sessions-table")
     private WebElement sessionsTable;
 
     @FindBy(id = "deleted-sessions-heading")
@@ -286,11 +286,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public void sortBySessionsName() {
-        click(waitForElementPresence(By.id("sort-session-name")));
+        click(waitForElementPresence(By.className("sort-session-name")));
     }
 
     public void sortByCourseId() {
-        click(waitForElementPresence(By.id("sort-course-id")));
+        click(waitForElementPresence(By.className("sort-course-id")));
     }
 
     private String[] getSessionDetails(FeedbackSessionAttributes session) {

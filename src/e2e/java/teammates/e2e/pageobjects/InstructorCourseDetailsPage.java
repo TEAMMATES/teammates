@@ -83,12 +83,12 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     public void sortByName() {
-        click(browser.driver.findElement(By.id("sort-by-name")));
+        click(browser.driver.findElement(By.className("sort-by-name")));
         waitUntilAnimationFinish();
     }
 
     public void sortByStatus() {
-        click(browser.driver.findElement(By.id("sort-by-status")));
+        click(browser.driver.findElement(By.className("sort-by-status")));
         waitUntilAnimationFinish();
     }
 

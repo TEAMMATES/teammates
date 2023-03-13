@@ -918,14 +918,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private void expandQuestionPanel(WebElement questionPanel) {
         if (!isQuestionPanelExpanded(questionPanel)) {
-            click(questionPanel.findElement(By.id("question-header")));
+            click(questionPanel.findElement(By.className("card-header")));
             waitUntilAnimationFinish();
         }
     }
 
     private void hideQuestionPanel(WebElement questionPanel) {
         if (isQuestionPanelExpanded(questionPanel)) {
-            click(questionPanel.findElement(By.id("question-header")));
+            click(questionPanel.findElement(By.className("card-header")));
             waitUntilAnimationFinish();
         }
     }

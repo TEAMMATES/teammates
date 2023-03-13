@@ -694,7 +694,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getQuestionDescription(int qnNumber) {
-        return getQuestionForm(qnNumber).findElement(By.id("question-description")).getAttribute("innerHTML");
+        return getQuestionForm(qnNumber).findElement(By.className("question-description")).getAttribute("innerHTML");
     }
 
     private WebElement getCommentSection(int qnNumber, String recipient) {
@@ -716,7 +716,8 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement questionForm = getQuestionForm(qnNumber);
         // For questions with flexible recipient.
         try {
-            List<WebElement> recipientDropdowns = questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
+            List<WebElement> recipientDropdowns =
+                    questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
             for (int i = 0; i < recipientDropdowns.size(); i++) {
                 String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
                 if (dropdownText.isEmpty()) {

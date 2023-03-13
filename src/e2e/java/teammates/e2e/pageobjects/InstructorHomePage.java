@@ -151,7 +151,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     private WebElement getSessionsTable(int courseTabIndex) {
-        return getCourseTab(courseTabIndex).findElement(By.id("sessions-table"));
+        return getCourseTab(courseTabIndex).findElement(By.className("sessions-table"));
     }
 
     private String getDateString(Instant instant, String timeZone) {
@@ -189,7 +189,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     private WebElement clickCopyButtonInTable(int courseTabIndex, int sessionIndex) {
-        click(getCourseTab(courseTabIndex).findElement(By.id("btn-copy-" + sessionIndex)));
+        click(getCourseTab(courseTabIndex).findElement(By.className("btn-copy-" + sessionIndex)));
         return waitForElementPresence(By.id("copy-course-modal"));
     }
 

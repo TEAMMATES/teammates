@@ -1,8 +1,8 @@
 <div *ngIf="sessionsTableRowModels.length > 0; else noSessionMessage">
-  <table id="sessions-table" class="table table-responsive-lg table-striped table-bordered margin-bottom-0">
+  <table class="sessions-table table table-responsive-lg table-striped table-bordered margin-bottom-0">
     <thead>
     <tr [ngClass]="{ 'bg-primary text-white': headerColorScheme === SessionsTableHeaderColorScheme.BLUE }">
-      <th id="sort-course-id" class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.COURSE_ID)" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">
+      <th class="sort-course-id sortable-header" (click)="sortSessionsTableRowModels(SortBy.COURSE_ID)" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">
         Course ID
         <span class="fa-stack">
           <i class="fas fa-sort"></i>
@@ -10,7 +10,7 @@
           <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
         </span>
       </th>
-      <th id="sort-session-name" class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_NAME)">
+      <th class="sort-session-name sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_NAME)">
         Session Name
         <span class="fa-stack">
           <i class="fas fa-sort"></i>

@@ -21,7 +21,7 @@
           <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
         </span>
       </th>
-      <th id="sort-by-name" class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)">
+      <th class="sort-by-name sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)">
         Student Name
         <span class="fa-stack">
           <i class="fas fa-sort"></i>
@@ -29,7 +29,7 @@
           <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
         </span>
       </th>
-      <th id="sort-by-status" class="sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)">
+      <th class="sort-by-status sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)">
         Status
         <span class="fa-stack">
           <i class="fas fa-sort"></i>
