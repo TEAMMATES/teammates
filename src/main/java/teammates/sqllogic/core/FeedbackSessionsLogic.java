@@ -52,6 +52,18 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return fsDb.getFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {

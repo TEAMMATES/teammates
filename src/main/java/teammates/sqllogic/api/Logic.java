@@ -212,6 +212,15 @@ public class Logic {
     }
 
     /**
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
+        return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Creates a feedback session.
      *
      * @return created feedback session

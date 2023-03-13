@@ -22,12 +22,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
  * Represents a course entity.
  */
 @Entity
-@Table(name = "FeedbackSessions")
+@Table(name = "FeedbackSessions", uniqueConstraints = @UniqueConstraint(columnNames = {"courseId", "name"}))
 public class FeedbackSession extends BaseEntity {
     @Id
     private UUID id;
