@@ -45,7 +45,7 @@ import teammates.storage.search.StudentSearchManager;
 @Test(singleThreaded = true)
 public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWithDatabaseAccess {
     private static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
-    
+
     private static final LocalDatastoreHelper LOCAL_DATASTORE_HELPER = LocalDatastoreHelper.newBuilder()
             .setConsistency(1.0)
             .setPort(TestProperties.TEST_LOCALDATASTORE_PORT)
