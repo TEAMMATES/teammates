@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -26,33 +27,49 @@ class ResetAccountAction extends AdminOnlyAction {
             if (existingStudent == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
+
+            AccountAttributes accountInfo = logic.getAccount(existingStudent.getGoogleId());
+
             wrongGoogleId = existingStudent.getGoogleId();
 
-            try {
-                logic.resetStudentGoogleId(studentEmail, courseId);
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
+            if (accountInfo == null || accountInfo.isMigrated()) {
+                // TODO
+            } else {
+                try {
+                    logic.resetStudentGoogleId(studentEmail, courseId);
+                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
+                }
             }
         } else if (instructorEmail != null) {
             InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
             if (existingInstructor == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
+
+            AccountAttributes accountInfo = logic.getAccount(existingInstructor.getGoogleId());
+
             wrongGoogleId = existingInstructor.getGoogleId();
 
-            try {
-                logic.resetInstructorGoogleId(instructorEmail, courseId);
-                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
+            if (accountInfo == null || accountInfo.isMigrated()) {
+                // TODO
+            } else {
+                try {
+                    logic.resetInstructorGoogleId(instructorEmail, courseId);
+                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
+                }
             }
         }
 
+        // To modify
         if (wrongGoogleId != null
                 && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             logic.deleteAccountCascade(wrongGoogleId);
+            // sqlLogic.deleteAccountCascade(wrongGoogleId);
         }
 
         return new JsonResult("Account is successfully reset.");
