@@ -11,10 +11,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 /**
@@ -43,6 +45,22 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         assert fsId != null;
 
         return HibernateUtil.get(FeedbackSession.class, fsId);
+    }
+
+    /**
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
+     *
+     * @return null if not found
+     */
+    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+        cq.select(fsRoot).where(cb.and(
+                cb.equal(fsRoot.get("name"), feedbackSessionName),
+                cb.equal(fsJoin.get("id"), courseId)));
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
     }
 
     /**
