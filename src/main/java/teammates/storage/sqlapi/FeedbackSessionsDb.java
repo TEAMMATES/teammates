@@ -48,7 +48,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
     }
 
     /**
-     * Gets a feedback session.
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
      *
      * @return null if not found
      */
