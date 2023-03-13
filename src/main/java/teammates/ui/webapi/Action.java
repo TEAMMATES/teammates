@@ -74,6 +74,17 @@ public abstract class Action {
         initAuthInfo();
     }
 
+    /**
+     * Inject logic class for use in tests.
+     */
+    public void setLogic(Logic logic) {
+        this.sqlLogic = logic;
+        // TODO: remove these temporary hacks after migration
+        this.isCourseMigrated = true;
+        this.isAccountMigrated = true;
+
+    }
+
     public void setUserProvision(UserProvision userProvision) {
         this.userProvision = userProvision;
     }
