@@ -1,5 +1,5 @@
 <div class="card border-{{ isSelfResponses ? 'info' : 'primary' }} mt-4">
-  <div class="card-header bg-{{ isSelfResponses ? 'info' : 'primary' }} text-white">
+  <div class="card-header bg-{{ isSelfResponses ? 'info' : 'primary' }}" [ngClass]="{ 'text-white': !isSelfResponses }">
     <span id="response-recipient"><b>To:</b> {{ recipient }}</span>
   </div>
   <div class="card-body" style="padding: 0;">

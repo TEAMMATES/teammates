@@ -69,7 +69,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -172,7 +172,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -219,7 +219,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -322,7 +322,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -499,7 +499,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -546,7 +546,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -593,7 +593,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -690,7 +690,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
