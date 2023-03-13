@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
@@ -24,6 +26,8 @@ public final class UsersLogic {
 
     private UsersDb usersDb;
 
+    private AccountsLogic accountsLogic;
+
     private UsersLogic() {
         // prevent initialization
     }
@@ -32,8 +36,9 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic) {
         this.usersDb = usersDb;
+        this.accountsLogic = accountsLogic;
     }
 
     /**
@@ -203,6 +208,40 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getAllUsersByGoogleId(googleId);
+    }
+
+    /**
+     * Resets the googleId associated with the instructor.
+     */
+    public void resetInstructorGoogleId(String email, String courseId)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert courseId != null;
+
+        usersDb.resetInstructorGoogleId(email, courseId);
+
+        List<Account> accounts = accountsLogic.getAccountsForEmail(email);
+
+        for (Account account : accounts) {
+            accountsLogic.deleteAccount(account.getGoogleId());
+        }
+    }
+
+    /**
+     * Resets the googleId associated with the student.
+     */
+    public void resetStudentGoogleId(String email, String courseId)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert courseId != null;
+
+        usersDb.resetStudentGoogleId(email, courseId);
+
+        List<Account> accounts = accountsLogic.getAccountsForEmail(email);
+
+        for (Account account : accounts) {
+            accountsLogic.deleteAccount(account.getGoogleId());
+        }
     }
 
     /**

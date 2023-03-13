@@ -34,12 +34,11 @@ class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 if (accountInfo == null || accountInfo.isMigrated()) {
-                    // TODO
+                    sqlLogic.resetStudentGoogleId(studentEmail, courseId);
                 } else {
                     logic.resetStudentGoogleId(studentEmail, courseId);
+                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
                 }
-
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
@@ -55,12 +54,11 @@ class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 if (accountInfo == null || accountInfo.isMigrated()) {
-                    // TODO
+                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId);
                 } else {
                     logic.resetInstructorGoogleId(instructorEmail, courseId);
+                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
                 }
-
-                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
@@ -71,7 +69,6 @@ class ResetAccountAction extends AdminOnlyAction {
                 && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             logic.deleteAccountCascade(wrongGoogleId);
-            // sqlLogic.deleteAccountCascade(wrongGoogleId);
         }
 
         return new JsonResult("Account is successfully reset.");
