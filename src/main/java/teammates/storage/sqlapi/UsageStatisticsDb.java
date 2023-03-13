@@ -15,7 +15,7 @@ import jakarta.persistence.criteria.Root;
  *
  * @see UsageStatistics
  */
-public final class UsageStatisticsDb extends EntitiesDb<UsageStatistics> {
+public final class UsageStatisticsDb extends EntitiesDb {
 
     private static final UsageStatisticsDb instance = new UsageStatisticsDb();
 
