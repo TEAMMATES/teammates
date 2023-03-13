@@ -27,11 +27,11 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Course course1 = new Course("test-id1", "test-name1", "UTC", "NUS");
         coursesDb.createCourse(course1);
         FeedbackSession fs1 = new FeedbackSession("name1", course1, "test1@test.com", "test-instruction",
-                Instant.now(), Instant.now().plus(Duration.ofDays(7)), Instant.now(), Instant.now().plus(Duration.ofDays(7)),
-                Duration.ofMinutes(10), true, true, true);
+                Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
+                Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true, true);
         FeedbackSession fs2 = new FeedbackSession("name2", course1, "test1@test.com", "test-instruction",
-                Instant.now(), Instant.now().plus(Duration.ofDays(7)), Instant.now(), Instant.now().plus(Duration.ofDays(7)),
-                Duration.ofMinutes(10), true, true, true);
+                Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
+                Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true, true);
         fsDb.createFeedbackSession(fs1);
         fsDb.createFeedbackSession(fs2);
 
