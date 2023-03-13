@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.criteria.Join;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
