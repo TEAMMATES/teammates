@@ -32,15 +32,16 @@ class ResetAccountAction extends AdminOnlyAction {
 
             wrongGoogleId = existingStudent.getGoogleId();
 
-            if (accountInfo == null || accountInfo.isMigrated()) {
-                // TODO
-            } else {
-                try {
+            try {
+                if (accountInfo == null || accountInfo.isMigrated()) {
+                    // TODO
+                } else {
                     logic.resetStudentGoogleId(studentEmail, courseId);
-                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
-                } catch (EntityDoesNotExistException e) {
-                    throw new EntityNotFoundException(e);
                 }
+
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
             }
         } else if (instructorEmail != null) {
             InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
@@ -52,15 +53,16 @@ class ResetAccountAction extends AdminOnlyAction {
 
             wrongGoogleId = existingInstructor.getGoogleId();
 
-            if (accountInfo == null || accountInfo.isMigrated()) {
-                // TODO
-            } else {
-                try {
+            try {
+                if (accountInfo == null || accountInfo.isMigrated()) {
+                    // TODO
+                } else {
                     logic.resetInstructorGoogleId(instructorEmail, courseId);
-                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
-                } catch (EntityDoesNotExistException e) {
-                    throw new EntityNotFoundException(e);
                 }
+
+                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
             }
         }
 
