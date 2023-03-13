@@ -69,6 +69,9 @@ export class FeedbackPathPanelComponent {
   @Input()
   allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
+  @Input()
+  testMap: Map<FeedbackParticipantType, boolean> = new Map();
+
   @Output()
   customFeedbackPath: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -93,6 +96,38 @@ export class FeedbackPathPanelComponent {
 
   triggerCustomFeedbackPath(): void {
     this.customFeedbackPath.emit(true);
+  }
+
+  toggleSubMenu(menu: FeedbackParticipantType): void {
+    this.testMap.set(menu, !this.testMap.get(menu));
+  }
+
+  resetMenu(): void {
+    this.testMap.forEach((_, k) => this.testMap.set(k, false));
+  }
+
+  // showSubMenu(menuToShow: FeedbackParticipantType): void {
+  //   this.testMap.set(menuToShow, true);
+  // }
+
+  // hideSubMenu(menuToHide: FeedbackParticipantType): void {
+  //   this.testMap.set(menuToHide, false);
+  // }
+
+  isSubMenuOpen(menu: FeedbackParticipantType): boolean {
+    let subMenuState: boolean | undefined = this.testMap.get(menu);
+    if (subMenuState === undefined) {
+      subMenuState = false;
+    }
+    return subMenuState;
+    // const boolThing: boolean = this.testMap.get(menu);
+    // return boolThing;
+    // if (this.testMap.get(menu) == undefined) {
+    //   return false;
+    // } else {
+    //   return this.testMap.get(menu);
+    // }
+    //return this.testMap.get(menu);
   }
 
   /**
