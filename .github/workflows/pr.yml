@@ -19,8 +19,8 @@ jobs:
             repo: context.repo.repo,
             pull_number: context.issue.number
           })
-          const isTitleValid = /^\[#\d\] /.test(pr.data.title)
-          const isDescriptionValid = /([Ff]ix(es|ed)?|[Cc]lose(s|d)?|[Rr]esolve(s|d)?|[Pp]art [Oo]f) #\d/.test(pr.data.body)
+          const isTitleValid = /^\[#\d+\] /.test(pr.data.title)
+          const isDescriptionValid = /([Ff]ix(es|ed)?|[Cc]lose(s|d)?|[Rr]esolve(s|d)?|[Pp]art [Oo]f) #\d+/.test(pr.data.body)
           if (isTitleValid && isDescriptionValid) {
             return
           }
