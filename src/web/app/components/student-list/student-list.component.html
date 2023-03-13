@@ -67,7 +67,7 @@
             {{name}}</a>
         </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {
-          id: 'btn-view-details-' + idx,
+          id: 'btn-view-details-' + courseId + '-' + idx,
           isEnabled: studentModel.isAllowedToViewStudentInSection && isActionButtonsEnabled,
           tooltip: 'View the details of the student',
           name: 'View',
@@ -75,7 +75,7 @@
           queryParams: {courseid: courseId, studentemail: studentModel.student.email}
         }"></ng-container>
         <ng-container *ngTemplateOutlet="actionButton; context: {
-          id: 'btn-edit-details-' + idx,
+          id: 'btn-edit-details-' + courseId + '-' + idx,
           isEnabled: studentModel.isAllowedToModifyStudent && isActionButtonsEnabled,
           tooltip: 'Use this to edit the details of this student. To edit multiple students'
             + ' in one go, you can use the enroll page: '
@@ -86,7 +86,7 @@
         }"></ng-container>
       <ng-container *ngIf="enableRemindButton">
         <ng-container *ngIf="studentModel.student.joinState === JoinState.NOT_JOINED">
-          <button id="btn-send-invite-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
+          <button id="btn-send-invite-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
             [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
             [disabled]=!isActionButtonsEnabled
             [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
@@ -97,7 +97,7 @@
             (click)="openRemindModal(studentModel)">Send Invite</button>
         </ng-container>
       </ng-container>
-      <button id="btn-delete-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
+      <button id="btn-delete-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
         [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
         [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
           ? 'Delete the student and the corresponding submissions from the course'
@@ -105,7 +105,7 @@
         [disabled]="!isActionButtonsEnabled"
         (click)="openDeleteModal(studentModel)">Delete</button>
       <ng-container *ngTemplateOutlet="actionButton; context: {
-        id: 'btn-view-records-' + idx,
+        id: 'btn-view-records-' + courseId + '-' + idx,
         isEnabled: isActionButtonsEnabled,
         tooltip: 'View all data about this student',
         name: 'All Records',

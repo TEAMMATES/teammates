@@ -183,8 +183,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </span>
                     </th>
                     <th
-                      class="sortable-header"
-                      id="sort-by-name"
+                      class="sort-by-name sortable-header"
                     >
                        Student Name 
                       <span
@@ -196,8 +195,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </span>
                     </th>
                     <th
-                      class="sortable-header"
-                      id="sort-by-status"
+                      class="sort-by-status sortable-header"
                     >
                        Status 
                       <span
@@ -252,7 +250,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
-                        id="btn-view-details-0"
+                        id="btn-view-details-test-exa.demo-0"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -261,7 +259,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
-                        id="btn-edit-details-0"
+                        id="btn-edit-details-test-exa.demo-0"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -269,14 +267,14 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </a>
                       <button
                         class="btn btn-light btn-sm btn-margin-right"
-                        id="btn-delete-0"
+                        id="btn-delete-test-exa.demo-0"
                       >
                         Delete
                       </button>
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
-                        id="btn-view-records-0"
+                        id="btn-view-records-test-exa.demo-0"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -308,7 +306,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                        id="btn-view-details-1"
+                        id="btn-view-details-test-exa.demo-1"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -317,7 +315,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                        id="btn-edit-details-1"
+                        id="btn-edit-details-test-exa.demo-1"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -325,14 +323,14 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </a>
                       <button
                         class="btn btn-light btn-sm btn-margin-right"
-                        id="btn-delete-1"
+                        id="btn-delete-test-exa.demo-1"
                       >
                         Delete
                       </button>
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                        id="btn-view-records-1"
+                        id="btn-view-records-test-exa.demo-1"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -364,7 +362,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                        id="btn-view-details-2"
+                        id="btn-view-details-test-exa.demo-2"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -373,7 +371,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                        id="btn-edit-details-2"
+                        id="btn-edit-details-test-exa.demo-2"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -381,14 +379,14 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </a>
                       <button
                         class="btn btn-light btn-sm btn-margin-right"
-                        id="btn-delete-2"
+                        id="btn-delete-test-exa.demo-2"
                       >
                         Delete
                       </button>
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                        id="btn-view-records-2"
+                        id="btn-view-records-test-exa.demo-2"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -420,7 +418,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                        id="btn-view-details-3"
+                        id="btn-view-details-test-exa.demo-3"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -429,7 +427,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                        id="btn-edit-details-3"
+                        id="btn-edit-details-test-exa.demo-3"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -437,14 +435,14 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </a>
                       <button
                         class="btn btn-light btn-sm btn-margin-right"
-                        id="btn-delete-3"
+                        id="btn-delete-test-exa.demo-3"
                       >
                         Delete
                       </button>
                       <a
                         class="btn btn-light btn-sm btn-margin-right"
                         href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                        id="btn-view-records-3"
+                        id="btn-view-records-test-exa.demo-3"
                         rel="noopener noreferrer"
                         target="_blank"
                       >

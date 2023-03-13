@@ -61,50 +61,50 @@ public class InstructorHomePage extends AppPage {
 
     public void publishSessionResults(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-results-" + sessionIndex)));
-        List<WebElement> publishButtons = browser.driver.findElements(By.id("btn-publish-" + sessionIndex));
+        click(courseTab.findElement(By.className("btn-results-" + sessionIndex)));
+        List<WebElement> publishButtons = browser.driver.findElements(By.className("btn-publish-" + sessionIndex));
         clickAndConfirm(publishButtons.get(publishButtons.size() - 1));
     }
 
     public void unpublishSessionResults(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-results-" + sessionIndex)));
-        List<WebElement> unpublishButtons = browser.driver.findElements(By.id("btn-unpublish-" + sessionIndex));
+        click(courseTab.findElement(By.className("btn-results-" + sessionIndex)));
+        List<WebElement> unpublishButtons = browser.driver.findElements(By.className("btn-unpublish-" + sessionIndex));
         clickAndConfirm(unpublishButtons.get(unpublishButtons.size() - 1));
     }
 
     public void sendReminderEmailToSelectedStudent(int courseTabIndex, int sessionIndex, StudentAttributes student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-remind-" + sessionIndex)));
-        click(waitForElementPresence(By.id("btn-remind-selected-" + sessionIndex)));
+        click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
+        click(waitForElementPresence(By.className("btn-remind-selected-" + sessionIndex)));
         selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
     }
 
     public void sendReminderEmailToNonSubmitters(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-remind-" + sessionIndex)));
-        click(waitForElementPresence(By.id("btn-remind-all-" + sessionIndex)));
+        click(courseTab.findElement(By.className("btn-remind-" + sessionIndex)));
+        click(waitForElementPresence(By.className("btn-remind-all-" + sessionIndex)));
         click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
 
     public void resendResultsLink(int courseTabIndex, int sessionIndex, StudentAttributes student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-results-" + sessionIndex)));
-        click(waitForElementPresence(By.id("btn-resend-" + sessionIndex)));
+        click(courseTab.findElement(By.className("btn-results-" + sessionIndex)));
+        click(waitForElementPresence(By.className("btn-resend-" + sessionIndex)));
         selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-resend-results")));
     }
 
     public void downloadResults(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-results-" + sessionIndex)));
-        click(waitForElementPresence(By.id("btn-download-" + sessionIndex)));
+        click(courseTab.findElement(By.className("btn-results-" + sessionIndex)));
+        click(waitForElementPresence(By.className("btn-download-" + sessionIndex)));
     }
 
     public void deleteSession(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        clickAndConfirm(courseTab.findElement(By.id("btn-soft-delete-" + sessionIndex)));
+        clickAndConfirm(courseTab.findElement(By.className("btn-soft-delete-" + sessionIndex)));
         waitUntilAnimationFinish();
     }
 

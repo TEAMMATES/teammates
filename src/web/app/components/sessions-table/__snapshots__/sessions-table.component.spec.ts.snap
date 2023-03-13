@@ -33,16 +33,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
 >
   <div>
     <table
-      class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-      id="sessions-table"
+      class="sessions-table table table-responsive-lg table-striped table-bordered margin-bottom-0"
     >
       <thead>
         <tr
           class="bg-primary text-white"
         >
           <th
-            class="sortable-header"
-            id="sort-session-name"
+            class="sort-session-name sortable-header"
           >
              Session Name 
             <span
@@ -486,16 +484,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
 >
   <div>
     <table
-      class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-      id="sessions-table"
+      class="sessions-table table table-responsive-lg table-striped table-bordered margin-bottom-0"
     >
       <thead>
         <tr
           class="bg-primary text-white"
         >
           <th
-            class="sortable-header"
-            id="sort-course-id"
+            class="sort-course-id sortable-header"
           >
              Course ID 
             <span
@@ -507,8 +503,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-session-name"
+            class="sort-session-name sortable-header"
           >
              Session Name 
             <span
