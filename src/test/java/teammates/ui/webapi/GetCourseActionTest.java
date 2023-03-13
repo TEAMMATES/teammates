@@ -5,7 +5,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 
 import org.testng.annotations.Test;
@@ -41,10 +40,9 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     protected String getRequestMethod() {
         return GET;
     }
-    
+
     @Test
-    public void testExecute_success() throws InstantiationException, IllegalAccessException, 
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    public void testExecute_success() {
         Course course = generateTypicalCourse();
 
         GetCourseAction action = generateGetCourseAction();
@@ -77,12 +75,11 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges(instructorPermissionRole.getRoleName());
 
         return new Instructor(
-                course, "test-instructorName", "test@test.com", true, 
+                course, "test-instructorName", "test@test.com", true,
                 "test-instructorDisplayName", instructorPermissionRole, instructorPrivileges);
     }
 
-    private GetCourseAction generateGetCourseAction() throws InstantiationException, IllegalAccessException, 
-            IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+    private GetCourseAction generateGetCourseAction() {
         // Create mock classes
         TaskQueuer mockTaskQueuer = mock(TaskQueuer.class);
         EmailSender mockEmailSender = mock(EmailSender.class);
@@ -93,29 +90,32 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         Logic sqlLogic = mock(Logic.class);
         teammates.logic.api.Logic logic = mock(teammates.logic.api.Logic.class);
 
-
         MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, generateTypicalCoOwnerInstructor().getCourseId(),
-            Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.COURSE_ID, generateTypicalCoOwnerInstructor().getCourseId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         for (int i = 0; i < params.length; i = i + 2) {
             req.addParam(params[i], params[i + 1]);
         }
 
-        GetCourseAction action = (GetCourseAction.class).getDeclaredConstructor().newInstance();
-        action.req = req;
-        action.setTaskQueuer(mockTaskQueuer);
-        action.setEmailSender(mockEmailSender);
-        action.setLogsProcessor(mockLogsProcessor);
-        action.setUserProvision(mockUserProvision);
-        action.setRecaptchaVerifier(mockRecaptchaVerifier);
-        action.sqlLogic = sqlLogic;
-        action.logic = logic;
+        try {
+            GetCourseAction action = (GetCourseAction.class).getDeclaredConstructor().newInstance();
+            action.req = req;
+            action.setTaskQueuer(mockTaskQueuer);
+            action.setEmailSender(mockEmailSender);
+            action.setLogsProcessor(mockLogsProcessor);
+            action.setUserProvision(mockUserProvision);
+            action.setRecaptchaVerifier(mockRecaptchaVerifier);
+            action.sqlLogic = sqlLogic;
+            action.logic = logic;
 
-        return action;
+            return action;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // OLD TESTS:
