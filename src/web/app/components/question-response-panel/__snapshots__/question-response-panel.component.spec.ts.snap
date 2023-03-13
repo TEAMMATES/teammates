@@ -27,21 +27,21 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
               <h2
-                class="col-auto question-number"
+                class="question-number"
               >
-                 Question 1:  
+                 Question 1: 
               </h2>
               <span
-                class="col-auto"
+                class="mx-sm-2"
                 id="question-text"
               >
-                 How well did team member perform?
+                How well did team member perform?
               </span>
               <button
-                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
                 id="additional-info-button"
               >
                  [more] 
@@ -130,21 +130,21 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
               <h2
-                class="col-auto question-number"
+                class="question-number"
               >
-                 Question 2:  
+                 Question 2: 
               </h2>
               <span
-                class="col-auto"
+                class="mx-sm-2"
                 id="question-text"
               >
-                 Rate your teammates in contribution
+                Rate your teammates in contribution
               </span>
               <button
-                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
                 id="additional-info-button"
               >
                  [more] 
@@ -280,21 +280,21 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
               <h2
-                class="col-auto question-number"
+                class="question-number"
               >
-                 Question 3:  
+                 Question 3: 
               </h2>
               <span
-                class="col-auto"
+                class="mx-sm-2"
                 id="question-text"
               >
-                 Rate your teammates proficiency
+                Rate your teammates proficiency
               </span>
               <button
-                class="info-font-size ms-1 border-0 bg-transparent text-primary"
+                class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
                 id="additional-info-button"
               >
                  [more] 
@@ -463,18 +463,18 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
               <h2
-                class="col-auto question-number"
+                class="question-number"
               >
-                 Question 1:  
+                 Question 1: 
               </h2>
               <span
-                class="col-auto"
+                class="mx-sm-2"
                 id="question-text"
               >
-                 What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).
+                What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).
               </span>
             </span>
           </tm-question-text-with-info>
@@ -654,18 +654,18 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             class="question-text"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
               <h2
-                class="col-auto question-number"
+                class="question-number"
               >
-                 Question 2:  
+                 Question 2: 
               </h2>
               <span
-                class="col-auto"
+                class="mx-sm-2"
                 id="question-text"
               >
-                 How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).
+                How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).
               </span>
             </span>
           </tm-question-text-with-info>
