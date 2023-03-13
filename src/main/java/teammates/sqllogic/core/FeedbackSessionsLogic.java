@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.NonUniqueResultException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
