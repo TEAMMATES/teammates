@@ -157,8 +157,16 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         secondStudent.setAccount(userSharedAccount);
 
         List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId());
-
         assertEquals(4, users.size());
+        assertTrue(List.of(firstInstructor, secondInstructor, firstStudent, secondStudent).containsAll(users));
+
+        List<Instructor> instructors = usersDb.getAllInstructorsByGoogleId(userSharedAccount.getGoogleId());
+        assertEquals(2, instructors.size());
+        assertTrue(List.of(firstInstructor, secondInstructor).containsAll(instructors));
+
+        List<Student> students = usersDb.getAllStudentsByGoogleId(userSharedAccount.getGoogleId());
+        assertEquals(2, students.size());
+        assertTrue(List.of(firstStudent, secondStudent).containsAll(students));
 
         ______TS("success: gets all instructors and students by googleId that does not exist");
         List<User> emptyUsers = usersDb.getAllUsersByGoogleId("non-exist-id");

@@ -19,6 +19,8 @@
             <package name="teammates.ui.request" />
             <package name="teammates.ui.servlets" />
             <package name="teammates.ui.webapi" />
+            <package name="teammates.sqlui.webapi" />
+            <package name="teammates.sqllogic.api" />
         </packages>
     </test>
 </suite>

@@ -1,8 +1,11 @@
 package teammates.test;
 
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -24,6 +27,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.HibernateUtil;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
@@ -40,6 +44,8 @@ import teammates.storage.search.StudentSearchManager;
  */
 @Test(singleThreaded = true)
 public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWithDatabaseAccess {
+    private static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
+    
     private static final LocalDatastoreHelper LOCAL_DATASTORE_HELPER = LocalDatastoreHelper.newBuilder()
             .setConsistency(1.0)
             .setPort(TestProperties.TEST_LOCALDATASTORE_PORT)
@@ -50,6 +56,10 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
 
     @BeforeSuite
     public void setupDbLayer() throws Exception {
+        PGSQL.start();
+        HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+        teammates.sqllogic.core.LogicStarter.initializeDependencies();
+
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
         ObjectifyService.init(new ObjectifyFactory(
@@ -88,7 +98,18 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
 
     @AfterSuite
     public void tearDownLocalDatastoreHelper() throws Exception {
+        PGSQL.close();
         LOCAL_DATASTORE_HELPER.stop();
+    }
+
+    @BeforeMethod
+    protected void setUp() throws Exception {
+        HibernateUtil.beginTransaction();
+    }
+
+    @AfterMethod
+    protected void tearDown() {
+        HibernateUtil.rollbackTransaction();
     }
 
     @Override
