@@ -24,7 +24,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -125,7 +125,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -273,7 +273,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -453,7 +453,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -643,7 +643,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"

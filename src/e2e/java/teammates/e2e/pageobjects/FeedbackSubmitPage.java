@@ -78,7 +78,8 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyLimitedRecipients(int qnNumber, int numRecipients, List<String> recipientNames) {
-        List<WebElement> recipientDropdowns = getQuestionForm(qnNumber).findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
+        List<WebElement> recipientDropdowns = getQuestionForm(qnNumber)
+                .findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
         assertEquals(numRecipients, recipientDropdowns.size());
         List<WebElement> recipients = recipientDropdowns.get(0).findElements(By.tagName("option"));
         assertEquals(recipientNames.size(), recipients.size() - 1);
@@ -730,7 +731,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
         int limit = 20; // we are not likely to set test data exceeding this number
         for (int i = 0; i < limit; i++) {
-            if (questionForm.findElement(By.id("recipient-name-" + i)).getText().contains(recipient)) {
+            if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i)).getText().contains(recipient)) {
                 return i;
             }
         }

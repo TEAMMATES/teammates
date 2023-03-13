@@ -32,10 +32,10 @@
 
           <div class="mb-0" *ngIf="notificationTab.hasTabExpanded" @collapseAnim>
             <div [ngClass]="getBodyTextClass(notificationTab)">
-              <div id="notification-message" [innerHtml]="notificationTab.notification.message"></div>
+              <div class="notification-message" [innerHtml]="notificationTab.notification.message"></div>
             </div>
             <div class="d-flex flex-row-reverse me-4 mb-3" *ngIf="!notificationTab.isRead">
-              <button id="btn-mark-as-read" type="button" [ngClass]="getButtonClass(notificationTab)" (click)="markNotificationAsRead(notificationTab)">
+              <button class="btn-mark-as-read" type="button" [ngClass]="getButtonClass(notificationTab)" (click)="markNotificationAsRead(notificationTab)">
                 Mark as Read
               </button>
             </div>

@@ -73,10 +73,10 @@ public class UserNotificationsPage extends AppPage {
         }
 
         // Check notification message
-        WebElement notifMessage = notificationTab.findElement(By.id("notification-message"));
+        WebElement notifMessage = notificationTab.findElement(By.className("notification-message"));
         assertEquals(notification.getMessage(), notifMessage.getAttribute("innerHTML"));
 
-        List<WebElement> markAsReadBtnList = notificationTab.findElements(By.id("btn-mark-as-read"));
+        List<WebElement> markAsReadBtnList = notificationTab.findElements(By.className("btn-mark-as-read"));
 
         if (isRead) {
             // Check that mark as read button cannot be found if notification is read
@@ -93,7 +93,7 @@ public class UserNotificationsPage extends AppPage {
 
     public void markNotificationAsRead(NotificationAttributes notification) {
         WebElement notificationTab = notificationTabs.findElement(By.id(notification.getNotificationId()));
-        click(notificationTab.findElement(By.id("btn-mark-as-read")));
+        click(notificationTab.findElement(By.className("btn-mark-as-read")));
         waitForPageToLoad(true);
     }
 
