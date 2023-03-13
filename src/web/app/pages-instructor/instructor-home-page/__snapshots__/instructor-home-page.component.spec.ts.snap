@@ -232,15 +232,13 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       <div>
         <div
           class="card"
-          id="course-tab"
+          id="course-tab-0"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
-            id="course-tab-header"
           >
             <b
-              class="text-break"
-              id="course-details"
+              class="course-details text-break"
             >
               [CS3281]: Thematic Systems I
             </b>
@@ -379,15 +377,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       <div>
         <div
           class="card"
-          id="course-tab"
+          id="course-tab-0"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
-            id="course-tab-header"
           >
             <b
-              class="text-break"
-              id="course-details"
+              class="course-details text-break"
             >
               [CS1231]: Discrete Structures
             </b>
@@ -479,8 +475,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               >
                 <button
                   aria-expanded="false"
-                  class="dropdown-toggle btn btn-primary btn-sm"
-                  id="btn-course"
+                  class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -490,8 +485,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-archive-course"
+                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -504,8 +498,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                      View / Edit 
                   </a>
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-delete-course"
+                    class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -889,15 +882,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       <div>
         <div
           class="card"
-          id="course-tab"
+          id="course-tab-0"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
-            id="course-tab-header"
           >
             <b
-              class="text-break"
-              id="course-details"
+              class="course-details text-break"
             >
               [CS3281]: Thematic Systems I
             </b>
@@ -982,8 +973,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               >
                 <button
                   aria-expanded="false"
-                  class="dropdown-toggle btn btn-primary btn-sm"
-                  id="btn-course"
+                  class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -993,8 +983,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-archive-course"
+                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1559,15 +1548,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       <div>
         <div
           class="card"
-          id="course-tab"
+          id="course-tab-0"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
-            id="course-tab-header"
           >
             <b
-              class="text-break"
-              id="course-details"
+              class="course-details text-break"
             >
               [CS3281]: Thematic Systems I
             </b>
@@ -1659,8 +1646,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               >
                 <button
                   aria-expanded="false"
-                  class="dropdown-toggle btn btn-primary btn-sm"
-                  id="btn-course"
+                  class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1670,8 +1656,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-archive-course"
+                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1684,8 +1669,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                      View / Edit 
                   </a>
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-delete-course"
+                    class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -1804,15 +1788,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       <div>
         <div
           class="card"
-          id="course-tab"
+          id="course-tab-0"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
-            id="course-tab-header"
           >
             <b
-              class="text-break"
-              id="course-details"
+              class="course-details text-break"
             >
               [CS3281]: Thematic Systems I
             </b>
@@ -1904,8 +1886,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
               >
                 <button
                   aria-expanded="false"
-                  class="dropdown-toggle btn btn-primary btn-sm"
-                  id="btn-course"
+                  class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1915,8 +1896,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-archive-course"
+                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1929,8 +1909,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                      View / Edit 
                   </a>
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-delete-course"
+                    class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -2073,15 +2052,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       <div>
         <div
           class="card"
-          id="course-tab"
+          id="course-tab-0"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
-            id="course-tab-header"
           >
             <b
-              class="text-break"
-              id="course-details"
+              class="course-details text-break"
             >
               [CS1231]: Discrete Structures
             </b>
@@ -2173,8 +2150,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
               >
                 <button
                   aria-expanded="false"
-                  class="dropdown-toggle btn btn-primary btn-sm"
-                  id="btn-course"
+                  class="dropdown-toggle btn-course btn btn-primary btn-sm"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2184,8 +2160,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-archive-course"
+                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2198,8 +2173,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                      View / Edit 
                   </a>
                   <a
-                    class="btn btn-light btn-sm dropdown-item"
-                    id="btn-delete-course"
+                    class="btn-delete-course btn btn-light btn-sm dropdown-item"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 

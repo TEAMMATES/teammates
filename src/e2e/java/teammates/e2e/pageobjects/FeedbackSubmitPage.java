@@ -594,7 +594,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getQuestionBrief(int qnNumber) {
-        String questionDetails = getQuestionForm(qnNumber).findElement(By.id("question-details")).getText();
+        String questionDetails = getQuestionForm(qnNumber).findElement(By.className("question-details")).getText();
         return questionDetails.split(": ")[1];
     }
 
@@ -731,7 +731,8 @@ public class FeedbackSubmitPage extends AppPage {
         }
         int limit = 20; // we are not likely to set test data exceeding this number
         for (int i = 0; i < limit; i++) {
-            if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i)).getText().contains(recipient)) {
+            if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
+                    .getText().contains(recipient)) {
                 return i;
             }
         }

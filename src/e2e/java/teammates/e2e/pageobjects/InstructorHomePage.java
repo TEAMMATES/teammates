@@ -110,15 +110,15 @@ public class InstructorHomePage extends AppPage {
 
     public void archiveCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-course")));
-        clickAndConfirm(courseTab.findElement(By.id("btn-archive-course")));
+        click(courseTab.findElement(By.className("btn-course")));
+        clickAndConfirm(courseTab.findElement(By.className("btn-archive-course")));
         waitUntilAnimationFinish();
     }
 
     public void deleteCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        click(courseTab.findElement(By.id("btn-course")));
-        clickAndConfirm(courseTab.findElement(By.id("btn-delete-course")));
+        click(courseTab.findElement(By.className("btn-course")));
+        clickAndConfirm(courseTab.findElement(By.className("btn-delete-course")));
         waitUntilAnimationFinish();
     }
 
@@ -138,16 +138,16 @@ public class InstructorHomePage extends AppPage {
     }
 
     private int getNumCourses() {
-        return browser.driver.findElements(By.id("course-tab")).size();
+        return browser.driver.findElements(By.cssSelector("[id^='course-tab-']")).size();
     }
 
     private WebElement getCourseTab(int courseTabIndex) {
-        return browser.driver.findElements(By.id("course-tab")).get(courseTabIndex);
+        return browser.driver.findElement(By.id("course-tab-" + courseTabIndex));
     }
 
     private String getCourseDetails(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
-        return courseTab.findElement(By.id("course-details")).getText();
+        return courseTab.findElement(By.className("course-details")).getText();
     }
 
     private WebElement getSessionsTable(int courseTabIndex) {

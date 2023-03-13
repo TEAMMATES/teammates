@@ -498,7 +498,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-view-details"
+                      id="btn-view-details-0"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -507,7 +507,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-edit-details"
+                      id="btn-edit-details-0"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -515,20 +515,20 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     </a>
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
-                      id="btn-send-invite"
+                      id="btn-send-invite-0"
                     >
                       Send Invite
                     </button>
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
-                      id="btn-delete"
+                      id="btn-delete-0"
                     >
                       Delete
                     </button>
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-view-records"
+                      id="btn-view-records-0"
                       rel="noopener noreferrer"
                       target="_blank"
                     >

@@ -171,7 +171,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorCourseStudentDetailsViewPage clickViewStudent(CourseAttributes course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
-        WebElement viewButton = studentRow.findElement(By.id("btn-view-details"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -180,7 +180,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(CourseAttributes course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
-        WebElement viewButton = studentRow.findElement(By.id("btn-edit-details"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -189,7 +189,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorStudentRecordsPage clickViewAllRecords(CourseAttributes course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
-        WebElement viewButton = studentRow.findElement(By.id("btn-view-records"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
