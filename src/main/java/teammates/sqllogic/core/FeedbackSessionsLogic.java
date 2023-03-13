@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
@@ -49,6 +51,18 @@ public final class FeedbackSessionsLogic {
     public FeedbackSession getFeedbackSession(UUID id) {
         assert id != null;
         return fsDb.getFeedbackSession(id);
+    }
+
+    /**
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return fsDb.getFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**

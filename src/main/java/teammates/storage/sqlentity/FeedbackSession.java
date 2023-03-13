@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.persistence.UniqueConstraint;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -27,7 +28,7 @@ import jakarta.persistence.Table;
  * Represents a course entity.
  */
 @Entity
-@Table(name = "FeedbackSessions")
+@Table(name = "FeedbackSessions", uniqueConstraints = @UniqueConstraint(columnNames = {"courseId", "name"}))
 public class FeedbackSession extends BaseEntity {
     @Id
     private UUID id;
