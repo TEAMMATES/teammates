@@ -24,7 +24,7 @@ import jakarta.persistence.criteria.Root;
  *
  * @see FeedbackSession
  */
-public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
+public final class FeedbackSessionsDb extends EntitiesDb {
 
     private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
 

@@ -22,7 +22,7 @@ import jakarta.persistence.criteria.Root;
  *
  * @see User
  */
-public final class UsersDb extends EntitiesDb<User> {
+public final class UsersDb extends EntitiesDb {
 
     private static final UsersDb instance = new UsersDb();
 
@@ -152,6 +152,34 @@ public final class UsersDb extends EntitiesDb<User> {
         usersCr.select(usersRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
 
         return HibernateUtil.createQuery(usersCr).getResultList();
+    }
+
+    /**
+     * Gets all instructors and students by {@code googleId}.
+     */
+    public List<Instructor> getAllInstructorsByGoogleId(String googleId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> instructorsCr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorsRoot = instructorsCr.from(Instructor.class);
+        Join<Instructor, Account> accountsJoin = instructorsRoot.join("account");
+
+        instructorsCr.select(instructorsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(instructorsCr).getResultList();
+    }
+
+    /**
+     * Gets all instructors and students by {@code googleId}.
+     */
+    public List<Student> getAllStudentsByGoogleId(String googleId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> studentsCr = cb.createQuery(Student.class);
+        Root<Student> studentsRoot = studentsCr.from(Student.class);
+        Join<Student, Account> accountsJoin = studentsRoot.join("account");
+
+        studentsCr.select(studentsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(studentsCr).getResultList();
     }
 
     /**

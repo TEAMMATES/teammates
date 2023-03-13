@@ -14,7 +14,7 @@ import teammates.storage.sqlentity.FeedbackResponse;
  *
  * @see FeedbackResponse
  */
-public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse> {
+public final class FeedbackResponsesDb extends EntitiesDb {
 
     private static final FeedbackResponsesDb instance = new FeedbackResponsesDb();
 

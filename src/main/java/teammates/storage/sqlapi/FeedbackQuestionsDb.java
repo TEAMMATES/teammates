@@ -10,7 +10,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
  *
  * @see FeedbackQuestion
  */
-public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion> {
+public final class FeedbackQuestionsDb extends EntitiesDb {
 
     private static final FeedbackQuestionsDb instance = new FeedbackQuestionsDb();
 

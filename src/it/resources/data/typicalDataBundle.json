@@ -2,13 +2,19 @@
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "idOfInstructor1",
+      "googleId": "instructor1",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt"
     },
-    "student1": {
+    "instructor2": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "idOfStudent1",
+      "googleId": "instructor2",
+      "name": "Instructor 2",
+      "email": "instr2@teammates.tmt"
+    },
+    "student1": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "idOfStudent1Course1",
       "name": "Student 1",
       "email": "student1@teammates.tmt"
     }
@@ -19,28 +25,42 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "registeredAt": "2010-02-14T00:00:00Z"
+    },
+    "instructor2": {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "name": "Instructor 2",
+      "email": "instr2@teammates.tmt",
+      "institute": "TEAMMATES Test Institute 1",
       "registeredAt": "2015-02-14T00:00:00Z"
     }
   },
   "courses": {
-    "typicalCourse": {
-      "id": "typical-course-id",
-      "name": "Typical Course",
-      "institute": "TEAMMATES Test Institute",
+    "course1": {
+      "id": "course-1",
+      "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 0",
       "timeZone": "Africa/Johannesburg"
+    },
+    "course2": {
+      "createdAt": "2012-04-01T23:59:00Z",
+      "id": "idOfCourse2",
+      "name": "Typical Course 2",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Asia/Singapore"
     }
   },
   "sections": {
-    "section1InTypicalCourse": {
+    "section1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000201",
       "course": {
-        "id": "typical-course-id"
+        "id": "course-1"
       },
       "name": "Section 1"
     }
   },
   "teams": {
-    "team1InTypicalCourse": {
+    "team1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000301",
       "section": {
         "id": "00000000-0000-4000-8000-000000000201"
@@ -49,7 +69,7 @@
     }
   },
   "deadlineExtensions": {
-    "student1InTypicalCourseSession1": {
+    "student1InCourse1Session1": {
       "id": "00000000-0000-4000-8000-000000000401",
       "user": {
         "id": "00000000-0000-4000-8000-000000000601",
@@ -60,7 +80,7 @@
       },
       "endTime": "2027-04-30T23:00:00Z"
     },
-    "instructor1InTypicalCourseSession1": {
+    "instructor1InCourse1Session1": {
       "id": "00000000-0000-4000-8000-000000000402",
       "user": {
         "id": "00000000-0000-4000-8000-000000000501",
@@ -73,13 +93,13 @@
     }
   },
   "instructors": {
-    "instructor1OfTypicalCourse": {
+    "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000501",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "course": {
-        "id": "typical-course-id"
+        "id": "course-1"
       },
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
@@ -101,10 +121,10 @@
         "sessionLevel": {}
       }
     },
-    "instructor2OfTypicalCourse": {
+    "instructor2OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000502",
       "course": {
-        "id": "typical-course-id"
+        "id": "course-1"
       },
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
@@ -128,39 +148,39 @@
     }
   },
   "students": {
-    "student1InTypicalCourse": {
+    "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
+        "id": "00000000-0000-4000-8000-000000000003"
       },
       "course": {
-        "id": "typical-course-id"
+        "id": "course-1"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "email": "student1@teammates.tmt",
-      "name": "student1 In TypicalCourse",
-      "comments": "comment for student1TypicalCourse"
+      "name": "student1 In Course1",
+      "comments": "comment for student1Course1"
     },
-    "student2InTypicalCourse": {
+    "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000602",
       "course": {
-        "id": "typical-course-id"
+        "id": "course-1"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "email": "student2@teammates.tmt",
-      "name": "student2 In TypicalCourse",
+      "name": "student2 In Course1",
       "comments": ""
     }
   },
   "feedbackSessions": {
-    "session1InTypicalCourse": {
+    "session1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000701",
       "course": {
-        "id": "typical-course-id"
+        "id": "course-1"
       },
       "name": "First feedback session",
       "creatorEmail": "instr1@teammates.tmt",
@@ -177,7 +197,7 @@
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
       "course": {
-        "id": "typical-course-id"
+        "id": "course-1"
       },
       "name": "Second feedback session",
       "creatorEmail": "instr1@teammates.tmt",

@@ -207,9 +207,8 @@ public final class DataBundleLogic {
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
         Collection<Course> courses = dataBundle.courses.values();
-        // Collection<Section> sections = dataBundle.sections.values(); // TODO:
-        // sections db
-        // Collection<Team> teams = dataBundle.teams.values();
+        Collection<Section> sections = dataBundle.sections.values();
+        Collection<Team> teams = dataBundle.teams.values();
         Collection<Instructor> instructors = dataBundle.instructors.values();
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
@@ -232,6 +231,14 @@ public final class DataBundleLogic {
 
         for (Course course : courses) {
             coursesLogic.createCourse(course);
+        }
+
+        for (Section section : sections) {
+            coursesLogic.createSection(section);
+        }
+
+        for (Team team : teams) {
+            coursesLogic.createTeam(team);
         }
 
         for (FeedbackSession session : sessions) {
