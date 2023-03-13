@@ -550,7 +550,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private boolean isCommentByResponseGiver(WebElement commentField) {
-        return commentField.findElements(By.id("by-response-giver")).size() > 0;
+        return commentField.findElements(By.className("by-response-giver")).size() > 0;
     }
 
     private String getCommentGiver(WebElement commentField) {
@@ -570,7 +570,7 @@ public class FeedbackResultsPage extends AppPage {
     private WebElement getCommentField(int questionNum, String commentString) {
         List<WebElement> commentFields = getCommentFields(questionNum);
         for (WebElement comment : commentFields) {
-            if (comment.findElement(By.id("comment-text")).getText().equals(commentString)) {
+            if (comment.findElement(By.className("comment-text")).getText().equals(commentString)) {
                 return comment;
             }
         }

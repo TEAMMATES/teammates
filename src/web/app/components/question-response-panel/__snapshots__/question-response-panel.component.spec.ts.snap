@@ -401,8 +401,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                                               </div>
                                             </div>
                                             <div
-                                              class="col-12"
-                                              id="comment-text"
+                                              class="comment-text col-12"
                                             >
                                               this is a text
                                             </div>

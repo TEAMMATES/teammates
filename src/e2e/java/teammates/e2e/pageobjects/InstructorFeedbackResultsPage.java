@@ -1018,7 +1018,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     private WebElement getCommentField(WebElement commentSection, String commentString) {
         List<WebElement> commentFields = getCommentFields(commentSection);
         for (WebElement comment : commentFields) {
-            if (comment.findElement(By.id("comment-text")).getText().equals(commentString)) {
+            if (comment.findElement(By.className("comment-text")).getText().equals(commentString)) {
                 return comment;
             }
         }
