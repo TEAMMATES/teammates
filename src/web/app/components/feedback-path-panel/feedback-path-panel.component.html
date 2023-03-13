@@ -3,7 +3,8 @@
     <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
   </div>
   <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px w-100" autoClose="outside">
-    <button id="btn-feedback-path" class="btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block" ngbDropdownToggle [disabled]="!model.isEditable || commonFeedbackPaths.size === 1" (click)="resetMenu()">
+    <button id="btn-feedback-path" class="btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block" ngbDropdownToggle 
+            [disabled]="!model.isEditable || commonFeedbackPaths.size === 1" (click)="resetMenu()" aria-label="Feedback Path Dropdown">
       <span *ngIf="!model.isUsingOtherFeedbackPath" class="text-wrap">
         {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
       </span>
@@ -12,13 +13,16 @@
     <ul id="feedback-path-dropdown" ngbDropdownMenu>
       <li class="dropdown-header">Common feedback path combinations</li>
       <li *ngFor="let path of commonFeedbackPaths | keyvalue">
-        <div ngbDropdown #subMenu="ngbDropdown" (click)="toggleSubMenu(path.key)">
-          <div class="text-wrap dropdown-item"> {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i> </div>
+        <button class="dropdown-button" ngbDropdown #subMenu="ngbDropdown" (click)="toggleSubMenu(path.key)">
+          <div class="text-wrap dropdown-item"> {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-{{ isSubMenuOpen(path.key) ? 'down' : 'right' }}"></i> </div>
           <ul *ngIf="isSubMenuOpen(path.key)">
-            <li class="text-wrap dropdown-item" *ngFor="let recipient of path.value"
-                (click)="changeGiverRecipientType(path.key, recipient); mainMenu.close()">{{ recipient | recipientTypeDescription }}</li>
+            <li class="text-wrap dropdown-item" *ngFor="let recipient of path.value">
+              <button class="dropdown-button" (click)="changeGiverRecipientType(path.key, recipient); mainMenu.close()">
+                {{ recipient | recipientTypeDescription }}
+              </button>
+            </li>
           </ul>
-        </div>
+        </button>
       </li>
       <li class="dropdown-divider"></li>
       <li class="text-wrap dropdown-item" (click)="triggerCustomFeedbackPath(); mainMenu.close()">Custom feedback path...</li>

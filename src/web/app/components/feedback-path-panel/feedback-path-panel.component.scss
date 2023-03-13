@@ -17,3 +17,11 @@
 .dropdown-item {
   cursor: pointer;
 }
+
+.dropdown-button {
+  border: none;
+  background: none;
+  cursor: inherit;
+  width: 100%;
+  text-align: left;
+}

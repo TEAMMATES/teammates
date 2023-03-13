@@ -69,9 +69,6 @@ export class FeedbackPathPanelComponent {
   @Input()
   allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
-  @Input()
-  subMenuStatuses: Map<FeedbackParticipantType, boolean> = new Map();
-
   @Output()
   customFeedbackPath: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -86,6 +83,8 @@ export class FeedbackPathPanelComponent {
   triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
     new EventEmitter<Partial<QuestionEditFormModel>>();
 
+  subMenuStatuses: Map<FeedbackParticipantType, boolean> = new Map();
+  
   triggerCustomNumberOfEntities(data: number): void {
     this.customNumberOfEntitiesToGiveFeedbackTo.emit(data);
   }
