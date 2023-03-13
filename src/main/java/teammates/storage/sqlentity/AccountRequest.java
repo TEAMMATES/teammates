@@ -4,16 +4,18 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -29,8 +31,7 @@ import jakarta.persistence.UniqueConstraint;
         })
 public class AccountRequest extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private UUID id;
 
     private String registrationKey;
 
@@ -50,10 +51,11 @@ public class AccountRequest extends BaseEntity {
     }
 
     public AccountRequest(String email, String name, String institute) {
+        this.setId(UUID.randomUUID());
         this.setEmail(email);
         this.setName(name);
         this.setInstitute(institute);
-        this.setRegistrationKey(generateRegistrationKey());
+        this.generateNewRegistrationKey();
         this.setCreatedAt(Instant.now());
         this.setRegisteredAt(null);
     }
@@ -70,6 +72,13 @@ public class AccountRequest extends BaseEntity {
     }
 
     /**
+     * Generates a new registration key for the account request.
+     */
+    public void generateNewRegistrationKey() {
+        this.setRegistrationKey(generateRegistrationKey());
+    }
+
+    /**
      * Generate unique registration key for the account request.
      * The key contains random elements to avoid being guessed.
      */
@@ -80,11 +89,11 @@ public class AccountRequest extends BaseEntity {
         return StringHelper.encrypt(uniqueId + prng.nextInt());
     }
 
-    public int getId() {
+    public UUID getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -137,10 +146,35 @@ public class AccountRequest extends BaseEntity {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            AccountRequest otherAccountRequest = (AccountRequest) other;
+            return Objects.equals(this.getId(), otherAccountRequest.getId());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getId().hashCode();
+    }
+
+    @Override
     public String toString() {
         return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
                 + email + ", institute=" + institute + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + "]";
     }
 
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount("true")
+                .withRegistrationKey(this.getRegistrationKey())
+                .toAbsoluteString();
+    }
 }

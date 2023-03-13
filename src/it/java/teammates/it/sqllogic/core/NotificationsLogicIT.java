@@ -37,11 +37,11 @@ public class NotificationsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         notificationsLogic.createNotification(notification);
 
-        UUID notificationId = notification.getNotificationId();
+        UUID notificationId = notification.getId();
         Notification expectedNotification = notificationsLogic.updateNotification(notificationId, newStartTime, newEndTime,
                 newStyle, newTargetUser, newTitle, newMessage);
 
-        assertEquals(notificationId, expectedNotification.getNotificationId());
+        assertEquals(notificationId, expectedNotification.getId());
         assertEquals(newStartTime, expectedNotification.getStartTime());
         assertEquals(newEndTime, expectedNotification.getEndTime());
         assertEquals(newStyle, expectedNotification.getStyle());

@@ -3,6 +3,8 @@ package teammates.storage.sqlentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
@@ -23,8 +25,8 @@ public class Student extends User {
         // required by Hibernate
     }
 
-    public Student(Course course, Team team, String name, String email, String comments) {
-        super(course, team, name, email);
+    public Student(Course course, String name, String email, String comments) {
+        super(course, name, email);
         this.setComments(comments);
     }
 
@@ -48,11 +50,17 @@ public class Student extends User {
 
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(super.getCourse().getId()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForStudentRoleComments(comments), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
 
         return errors;
+    }
+
+    public String getRegistrationUrl() {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(getRegKey())
+                .withEntityType(Const.EntityType.STUDENT)
+                .toString();
     }
 }

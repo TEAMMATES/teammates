@@ -20,16 +20,16 @@ import teammates.test.BaseTestCase;
 /**
  * SUT: {@code AccountRequestDb}.
  */
-public class AccountRequestDbTest extends BaseTestCase {
+public class AccountRequestsDbTest extends BaseTestCase {
 
-    private AccountRequestDb accountRequestDb;
+    private AccountRequestsDb accountRequestDb;
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @BeforeMethod
     public void setUpMethod() {
         mockHibernateUtil = mockStatic(HibernateUtil.class);
-        accountRequestDb = spy(AccountRequestDb.class);
+        accountRequestDb = spy(AccountRequestsDb.class);
     }
 
     @AfterMethod

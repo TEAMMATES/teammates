@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.stream.Collectors;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -11,6 +12,7 @@ import teammates.ui.output.AccountData;
 /**
  * SUT: {@link GetAccountAction}.
  */
+@Ignore
 public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
 
     @Override

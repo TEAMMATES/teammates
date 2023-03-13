@@ -3,11 +3,18 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.util.List;
+import java.util.UUID;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for accounts.
@@ -29,7 +36,7 @@ public final class AccountsDb extends EntitiesDb<Account> {
     /**
      * Returns an Account with the {@code id} or null if it does not exist.
      */
-    public Account getAccount(Integer id) {
+    public Account getAccount(UUID id) {
         assert id != null;
 
         return HibernateUtil.get(Account.class, id);
@@ -42,6 +49,21 @@ public final class AccountsDb extends EntitiesDb<Account> {
         assert googleId != null;
 
         return HibernateUtil.getBySimpleNaturalId(Account.class, googleId);
+    }
+
+    /**
+     * Gets accounts based on email.
+     */
+    public List<Account> getAccountsByEmail(String email) {
+        assert email != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Account> cr = cb.createQuery(Account.class);
+        Root<Account> accountRoot = cr.from(Account.class);
+
+        cr.select(accountRoot).where(cb.equal(accountRoot.get("email"), email));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**

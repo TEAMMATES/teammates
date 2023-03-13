@@ -67,6 +67,7 @@ public abstract class FeedbackResponse extends BaseEntity {
             FeedbackQuestion feedbackQuestion, FeedbackQuestionType type, String giver,
             Section giverSection, String receiver, Section receiverSection
     ) {
+        this.setId(UUID.randomUUID());
         this.setFeedbackQuestion(feedbackQuestion);
         this.setFeedbackQuestionType(type);
         this.setGiver(giver);
@@ -171,7 +172,7 @@ public abstract class FeedbackResponse extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             FeedbackResponse otherResponse = (FeedbackResponse) other;
-            return Objects.equals(this.id, otherResponse.id);
+            return Objects.equals(this.getId(), otherResponse.getId());
         } else {
             return false;
         }

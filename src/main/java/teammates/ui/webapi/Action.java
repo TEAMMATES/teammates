@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -25,6 +27,8 @@ import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.sqllogic.api.Logic;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -48,8 +52,15 @@ public abstract class Action {
     HttpServletRequest req;
     UserInfo userInfo;
     AuthType authType;
+
+    // TODO: unregisteredStudent. Instructor, isCourseMigrated, isAccountMigrated can be removed after migration
     private StudentAttributes unregisteredStudent;
     private InstructorAttributes unregisteredInstructor;
+    private Boolean isCourseMigrated;
+    private Boolean isAccountMigrated;
+
+    private Student unregisteredSqlStudent;
+    private Instructor unregisteredSqlInstructor;
 
     // buffer to store the request body
     private String requestBody;
@@ -80,6 +91,28 @@ public abstract class Action {
 
     public void setLogsProcessor(LogsProcessor logsProcessor) {
         this.logsProcessor = logsProcessor;
+    }
+
+    /**
+     * Returns true if course has been migrated or does not exist in the datastore.
+     */
+    protected boolean isCourseMigrated(String courseId) {
+        if (isCourseMigrated == null) {
+            CourseAttributes course = logic.getCourse(courseId);
+            isCourseMigrated = course == null || course.isMigrated();
+        }
+        return isCourseMigrated;
+    }
+
+    /**
+     * Returns true if course has been migrated or does not exist in the datastore.
+     */
+    protected boolean isAccountMigrated(String googleId) {
+        if (isAccountMigrated == null) {
+            AccountAttributes account = logic.getAccount(googleId);
+            isAccountMigrated = account == null || account.isMigrated();
+        }
+        return isAccountMigrated;
     }
 
     /**
@@ -115,14 +148,21 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         user.setGoogleId(googleId);
-        if (unregisteredStudent == null && unregisteredInstructor == null) {
+        if (unregisteredStudent == null && unregisteredInstructor == null
+                && unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
         } else if (unregisteredStudent != null) {
             user.setRegkey(unregisteredStudent.getKey());
             user.setEmail(unregisteredStudent.getEmail());
-        } else {
+        } else if (unregisteredInstructor != null) {
             user.setRegkey(unregisteredInstructor.getKey());
             user.setEmail(unregisteredInstructor.getEmail());
+        } else if (unregisteredSqlStudent != null) {
+            user.setRegkey(unregisteredSqlStudent.getRegKey());
+            user.setEmail(unregisteredSqlStudent.getEmail());
+        } else {
+            user.setRegkey(unregisteredSqlInstructor.getRegKey());
+            user.setEmail(unregisteredSqlInstructor.getEmail());
         }
         return user;
     }
@@ -268,6 +308,23 @@ public abstract class Action {
     }
 
     /**
+     * Gets the unregistered student by the HTTP param.
+     */
+    Optional<Student> getUnregisteredSqlStudent() {
+        // TODO: Remove Sql from method name after migration
+        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
+        if (!StringHelper.isEmpty(key)) {
+            Student student = sqlLogic.getStudentByRegistrationKey(key);
+            if (student == null) {
+                return Optional.empty();
+            }
+            unregisteredSqlStudent = student;
+            return Optional.of(student);
+        }
+        return Optional.empty();
+    }
+
+    /**
      * Gets the unregistered instructor by the HTTP param.
      */
     Optional<InstructorAttributes> getUnregisteredInstructor() {
@@ -283,12 +340,38 @@ public abstract class Action {
         return Optional.empty();
     }
 
+    /**
+     * Gets the unregistered instructor by the HTTP param.
+     */
+    Optional<Instructor> getUnregisteredSqlInstructor() {
+        // TODO: Remove Sql from method name after migration
+        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
+        if (!StringHelper.isEmpty(key)) {
+            Instructor instructor = sqlLogic.getInstructorByRegistrationKey(key);
+            if (instructor == null) {
+                return Optional.empty();
+            }
+            unregisteredSqlInstructor = instructor;
+            return Optional.of(instructor);
+        }
+        return Optional.empty();
+    }
+
     InstructorAttributes getPossiblyUnregisteredInstructor(String courseId) {
         return getUnregisteredInstructor().orElseGet(() -> {
             if (userInfo == null) {
                 return null;
             }
             return logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        });
+    }
+
+    Instructor getPossiblyUnregisteredSqlInstructor(String courseId) {
+        return getUnregisteredSqlInstructor().orElseGet(() -> {
+            if (userInfo == null) {
+                return null;
+            }
+            return sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
         });
     }
 
@@ -301,7 +384,36 @@ public abstract class Action {
         });
     }
 
+    Student getPossiblyUnregisteredSqlStudent(String courseId) {
+        return getUnregisteredSqlStudent().orElseGet(() -> {
+            if (userInfo == null) {
+                return null;
+            }
+            return sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+        });
+    }
+
     InstructorPermissionSet constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
+        InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
+        if (feedbackSessionName != null) {
+            privilege.setCanSubmitSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+            privilege.setCanViewSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+            privilege.setCanModifySessionCommentsInSections(
+                    instructor.isAllowedForPrivilege(
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        }
+        return privilege;
+    }
+
+    InstructorPermissionSet constructInstructorPrivileges(Instructor instructor, String feedbackSessionName) {
         InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(

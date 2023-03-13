@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.JsonUtils;
 
 import jakarta.persistence.AttributeConverter;
@@ -87,18 +88,20 @@ public abstract class BaseEntity {
 
     /**
      * Generic attribute converter for classes stored in JSON.
+     *
      * @param <T> The type of entity to be converted to and from JSON.
      */
     @Converter
     public static class JsonConverter<T> implements AttributeConverter<T, String> {
         @Override
-        public String convertToDatabaseColumn(T questionDetails) {
-            return JsonUtils.toJson(questionDetails);
+        public String convertToDatabaseColumn(T entity) {
+            return JsonUtils.toJson(entity);
         }
 
         @Override
         public T convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<T>(){}.getType());
+            return JsonUtils.fromJson(dbData, new TypeToken<T>() {
+            }.getType());
         }
     }
 
@@ -118,5 +121,21 @@ public abstract class BaseEntity {
     public static class FeedbackParticipantTypeListConverter
             extends JsonConverter<List<FeedbackParticipantType>> {
 
+    }
+
+    /**
+     * Converter for InstructorPrivileges.
+     */
+    @Converter
+    public static class InstructorPrivilegesConverter implements AttributeConverter<InstructorPrivileges, String> {
+        @Override
+        public String convertToDatabaseColumn(InstructorPrivileges entity) {
+            return JsonUtils.toJson(entity);
+        }
+
+        @Override
+        public InstructorPrivileges convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, InstructorPrivileges.class);
+        }
     }
 }

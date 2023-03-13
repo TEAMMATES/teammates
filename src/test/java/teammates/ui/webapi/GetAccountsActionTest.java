@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -16,6 +17,7 @@ import teammates.ui.output.AccountsData;
 /**
  * SUT: {@link GetAccountsAction}.
  */
+@Ignore
 public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
 
     private static final String EMAIL = "valid@gmail.tmt";

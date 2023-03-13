@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -79,10 +78,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
     @Convert(converter = FeedbackParticipantTypeListConverter.class)
     private List<FeedbackParticipantType> showRecipientNameTo;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private Instant createdAt;
-
     @UpdateTimestamp
     @Column
     private Instant updatedAt;
@@ -98,6 +93,7 @@ public abstract class FeedbackQuestion extends BaseEntity {
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo
     ) {
+        this.setId(UUID.randomUUID());
         this.setFeedbackSession(feedbackSession);
         this.setQuestionNumber(questionNumber);
         this.setDescription(description);
@@ -243,7 +239,7 @@ public abstract class FeedbackQuestion extends BaseEntity {
                 + ", questionText=" + questionText + ", giverType=" + giverType + ", recipientType=" + recipientType
                 + ", numOfEntitiesToGiveFeedbackTo=" + numOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                 + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo + ", showRecipientNameTo="
-                + showRecipientNameTo + ", isClosingEmailEnabled=" + ", createdAt=" + createdAt + ", updatedAt="
+                + showRecipientNameTo + ", isClosingEmailEnabled=" + ", createdAt=" + getCreatedAt() + ", updatedAt="
                 + updatedAt + "]";
     }
 
@@ -261,10 +257,17 @@ public abstract class FeedbackQuestion extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             FeedbackQuestion otherQuestion = (FeedbackQuestion) other;
-            return Objects.equals(this.id, otherQuestion.id);
+            return Objects.equals(this.getId(), otherQuestion.getId());
         } else {
             return false;
         }
+    }
+
+    /**
+     * Returns true if the response is visible to the given participant type.
+     */
+    public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
+        return showResponsesTo.contains(userType);
     }
 }
 
