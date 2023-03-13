@@ -43,7 +43,7 @@ public class CoursesLogicTest extends BaseTestCase {
         Instant deletedAt = coursesLogic.moveCourseToRecycleBin(courseId);
 
         verify(coursesDb, times(1)).getCourse(courseId);
-        assertTrue(deletedAt != null);
+        assertNotNull(deletedAt);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class CoursesLogicTest extends BaseTestCase {
         coursesLogic.restoreCourseFromRecycleBin(courseId);
 
         verify(coursesDb, times(1)).getCourse(courseId);
-        assertTrue(course.getDeletedAt() == null);
+        assertNull(course.getDeletedAt());
     }
 
     @Test
@@ -97,9 +97,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
         verify(coursesDb, times(1)).getCourse(courseId);
 
-        List<String> expectedSectionNames = new ArrayList<>();
-        expectedSectionNames.add("test-sectionName1");
-        expectedSectionNames.add("test-sectionName2");
+        List<String> expectedSectionNames = List.of("test-sectionName1", "test-sectionName2");
 
         assertEquals(sectionNames, expectedSectionNames);
     }

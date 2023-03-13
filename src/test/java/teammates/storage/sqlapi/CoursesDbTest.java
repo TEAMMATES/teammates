@@ -2,6 +2,7 @@ package teammates.storage.sqlapi;
 
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
@@ -63,14 +64,17 @@ public class CoursesDbTest extends BaseTestCase {
         mockHibernateUtil.when(() -> HibernateUtil.get(Course.class, "course-id")).thenReturn(c);
         Course courseFetched = coursesDb.getCourse("course-id");
 
+        mockHibernateUtil.verify(() -> HibernateUtil.get(Course.class, "course-id"), times(1));
         assertEquals(c, courseFetched);
     }
 
     @Test
     public void testGetCourse_courseDoesNotExist_returnsNull() {
+        mockHibernateUtil.when(() -> HibernateUtil.get(Course.class, "course-id-not-in-db")).thenReturn(null);
         Course courseFetched = coursesDb.getCourse("course-id-not-in-db");
 
-        assertEquals(courseFetched, null);
+        mockHibernateUtil.verify(() -> HibernateUtil.get(Course.class, "course-id-not-in-db"), times(1));
+        assertNull(courseFetched);
     }
 
     @Test
