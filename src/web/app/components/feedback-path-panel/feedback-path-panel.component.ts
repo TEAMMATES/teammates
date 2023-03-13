@@ -70,7 +70,7 @@ export class FeedbackPathPanelComponent {
   allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
   @Input()
-  testMap: Map<FeedbackParticipantType, boolean> = new Map();
+  subMenuStatuses: Map<FeedbackParticipantType, boolean> = new Map();
 
   @Output()
   customFeedbackPath: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -99,35 +99,19 @@ export class FeedbackPathPanelComponent {
   }
 
   toggleSubMenu(menu: FeedbackParticipantType): void {
-    this.testMap.set(menu, !this.testMap.get(menu));
+    this.subMenuStatuses.set(menu, !this.subMenuStatuses.get(menu));
   }
 
   resetMenu(): void {
-    this.testMap.forEach((_, k) => this.testMap.set(k, false));
+    this.subMenuStatuses.forEach((_, key) => this.subMenuStatuses.set(key, false));
   }
 
-  // showSubMenu(menuToShow: FeedbackParticipantType): void {
-  //   this.testMap.set(menuToShow, true);
-  // }
-
-  // hideSubMenu(menuToHide: FeedbackParticipantType): void {
-  //   this.testMap.set(menuToHide, false);
-  // }
-
   isSubMenuOpen(menu: FeedbackParticipantType): boolean {
-    let subMenuState: boolean | undefined = this.testMap.get(menu);
+    let subMenuState: boolean | undefined = this.subMenuStatuses.get(menu);
     if (subMenuState === undefined) {
       subMenuState = false;
     }
     return subMenuState;
-    // const boolThing: boolean = this.testMap.get(menu);
-    // return boolThing;
-    // if (this.testMap.get(menu) == undefined) {
-    //   return false;
-    // } else {
-    //   return this.testMap.get(menu);
-    // }
-    //return this.testMap.get(menu);
   }
 
   /**
