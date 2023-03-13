@@ -8,7 +8,7 @@
     <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card bg-light mt-4" *ngIf="question.hasResponse">
       <div class="card-body">
         <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
-        <div id="other-responses" *ngIf="canUserSeeResponses(question), else nonViewableResponse">
+        <div class="other-responses" *ngIf="canUserSeeResponses(question), else nonViewableResponse">
           <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
                                 [responses]="question.allResponses"
                                 [statistics]="question.questionStatistics"

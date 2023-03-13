@@ -313,7 +313,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getQuestionText(int questionNum) {
-        return getQuestionResponsesSection(questionNum).findElement(By.id("question-text")).getText().trim();
+        return getQuestionResponsesSection(questionNum).findElement(By.className("question-text")).getText().trim();
     }
 
     private String getMcqAddInfo(FeedbackMcqQuestionDetails questionDetails) {
@@ -406,7 +406,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void showAdditionalInfo(int qnNumber) {
-        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber).findElement(By.id("additional-info-button"));
+        WebElement additionalInfoLink =
+                getQuestionResponsesSection(qnNumber).findElement(By.className("additional-info-button"));
         if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
             waitUntilAnimationFinish();
@@ -415,7 +416,7 @@ public class FeedbackResultsPage extends AppPage {
 
     private String getAdditionalInfo(int questionNum) {
         showAdditionalInfo(questionNum);
-        return getQuestionResponsesSection(questionNum).findElement(By.id("additional-info")).getText();
+        return getQuestionResponsesSection(questionNum).findElement(By.className("additional-info")).getText();
     }
 
     private WebElement getGivenResponseField(int questionNum, String receiver) {

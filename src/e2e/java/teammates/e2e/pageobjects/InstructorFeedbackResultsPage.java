@@ -936,7 +936,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getQuestionText(WebElement questionPanel) {
-        return questionPanel.findElement(By.id("question-text")).getText().trim();
+        return questionPanel.findElement(By.className("question-text")).getText().trim();
     }
 
     private WebElement getResponseTable(WebElement questionPanel) {
