@@ -11,18 +11,18 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex align-items-center"
+    class="d-flex flex-column flex-sm-row align-items-sm-center"
   >
     <h2
-      class="col-auto question-number"
+      class="question-number"
     >
-       Question 0:  
+       Question 0: 
     </h2>
     <span
-      class="col-auto"
+      class="mx-sm-2"
       id="question-text"
     >
-       Text question details
+      Text question details
     </span>
   </span>
 </tm-question-text-with-info>
@@ -39,21 +39,21 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex align-items-center"
+    class="d-flex flex-column flex-sm-row align-items-sm-center"
   >
     <h2
-      class="col-auto question-number"
+      class="question-number"
     >
-       Question 0:  
+       Question 0: 
     </h2>
     <span
-      class="col-auto"
+      class="mx-sm-2"
       id="question-text"
     >
-       MCQ question details
+      MCQ question details
     </span>
     <button
-      class="info-font-size ms-1 border-0 bg-transparent text-primary"
+      class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
       id="additional-info-button"
     >
        [more] 
@@ -73,21 +73,21 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex align-items-center"
+    class="d-flex flex-column flex-sm-row align-items-sm-center"
   >
     <h2
-      class="col-auto question-number"
+      class="question-number"
     >
-       Question 0:  
+       Question 0: 
     </h2>
     <span
-      class="col-auto"
+      class="mx-sm-2"
       id="question-text"
     >
-       MCQ question details
+      MCQ question details
     </span>
     <button
-      class="info-font-size ms-1 border-0 bg-transparent text-primary"
+      class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
       id="additional-info-button"
     >
        [less] 
