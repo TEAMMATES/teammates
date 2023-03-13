@@ -64,8 +64,7 @@ class UpdateCourseAction extends Action {
                 return updateWithDatastore(courseId, courseName, courseTimeZone);
             }
 
-            Course course = sqlLogic.getCourse(courseId);
-            Course updatedCourse = sqlLogic.updateCourse(course, courseName, courseTimeZone);
+            Course updatedCourse = sqlLogic.updateCourse(courseId, courseName, courseTimeZone);
 
             return new JsonResult(new CourseData(updatedCourse));
 

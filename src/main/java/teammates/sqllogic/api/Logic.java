@@ -179,17 +179,15 @@ public class Logic {
     }
 
     /**
-     * Updates a course by {@link CourseAttributes.UpdateOptions}.
-     *
-     * <p>If the {@code timezone} of the course is changed, cascade the change to its corresponding feedback sessions.
+     * Updates a course.
      *
      * @return updated course
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the course cannot be found
      */
-    public Course updateCourse(Course course, String name, String timezone)
+    public Course updateCourse(String courseId, String name, String timezone)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return coursesLogic.updateCourse(course, name, timezone);
+        return coursesLogic.updateCourse(courseId, name, timezone);
     }
 
     /**

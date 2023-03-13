@@ -115,8 +115,9 @@ public final class CoursesLogic {
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the course cannot be found
      */
-    public Course updateCourse(Course course, String name, String timezone)
+    public Course updateCourse(String courseId, String name, String timezone)
             throws InvalidParametersException, EntityDoesNotExistException {
+        Course course = getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Course.class);
         }
