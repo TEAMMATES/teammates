@@ -611,7 +611,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void verifyVisibilityStringPresent(int qnNumber, String expectedString) {
-        List<WebElement> visibilityStrings = getQuestionForm(qnNumber).findElement(By.id("visibility-list"))
+        List<WebElement> visibilityStrings = getQuestionForm(qnNumber).findElement(By.className("visibility-list"))
                 .findElements(By.tagName("li"));
         for (WebElement visibilityString : visibilityStrings) {
             if (visibilityString.getText().equals(expectedString)) {
@@ -716,7 +716,7 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement questionForm = getQuestionForm(qnNumber);
         // For questions with flexible recipient.
         try {
-            List<WebElement> recipientDropdowns = questionForm.findElements(By.id("recipient-dropdown"));
+            List<WebElement> recipientDropdowns = questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
             for (int i = 0; i < recipientDropdowns.size(); i++) {
                 String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
                 if (dropdownText.isEmpty()) {

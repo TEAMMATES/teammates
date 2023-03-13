@@ -178,14 +178,14 @@ public class InstructorHomePage extends AppPage {
     private String getResponseRate(int courseTabIndex, int sessionIndex) {
         WebElement showButton = null;
         try {
-            showButton = getCourseTab(courseTabIndex).findElement(By.id("show-response-rate-" + sessionIndex));
+            showButton = getCourseTab(courseTabIndex).findElement(By.className("show-response-rate-" + sessionIndex));
         } catch (NoSuchElementException e) {
             // continue
         }
         if (showButton != null) {
             click(showButton);
         }
-        return waitForElementPresence(By.id("response-rate-" + sessionIndex)).getText();
+        return waitForElementPresence(By.className("response-rate-" + sessionIndex)).getText();
     }
 
     private WebElement clickCopyButtonInTable(int courseTabIndex, int sessionIndex) {

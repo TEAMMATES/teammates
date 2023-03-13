@@ -142,7 +142,7 @@ public class InstructorStudentListPage extends AppPage {
 
     private WebElement getDeleteButton(CourseAttributes course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
-        return studentRow.findElement(By.id("btn-delete"));
+        return studentRow.findElement(By.cssSelector("[id^='btn-delete-']"));
     }
 
     private WebElement getStudentRow(CourseAttributes course, String studentEmail) {
