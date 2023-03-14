@@ -699,7 +699,7 @@ public class FeedbackSubmitPage extends AppPage {
 
     private WebElement getCommentSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
-        return getQuestionForm(qnNumber).findElements(By.id("comment-section")).get(recipientIndex);
+        return getQuestionForm(qnNumber).findElement(By.id("comment-section-qn-" + qnNumber + "-idx-" + recipientIndex));
     }
 
     private void writeToCommentEditor(WebElement commentSection, String comment) {

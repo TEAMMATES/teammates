@@ -846,9 +846,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     private WebElement getQuestionPanel(WebElement parentPanel, int qnNum) {
         List<WebElement> questionPanels;
         if (parentPanel == null) {
-            questionPanels = browser.driver.findElements(By.id("question-panel"));
+            questionPanels = browser.driver.findElements(By.cssSelector("[id^='question-panel-']"));
         } else {
-            questionPanels = parentPanel.findElements(By.id("question-panel"));
+            questionPanels = parentPanel.findElements(By.cssSelector("[id^='question-panel-']"));
         }
 
         for (WebElement questionPanel : questionPanels) {
