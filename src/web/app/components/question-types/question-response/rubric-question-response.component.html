@@ -10,7 +10,7 @@
       <tr *ngFor="let answer of answers; let i = index">
         <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
         <td class="text-center" *ngFor="let choice of questionDetails.rubricChoices">
-          <i *ngIf="answer.answer === choice" class="fas fa-check"></i>
+          <i *ngIf="answer.answer === choice" aria-label="selected" class="fas fa-check"></i>
         </td>
       </tr>
     </tbody>
