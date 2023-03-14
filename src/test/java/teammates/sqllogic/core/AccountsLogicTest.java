@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -56,19 +57,22 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteAccount_accountExists_success() {
+    public void testDeleteAccount_accountExists_success()
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Account account = generateTypicalAccount();
         String googleId = account.getGoogleId();
 
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(accountsLogic.createAccount(account)).thenReturn(account);
 
         accountsLogic.deleteAccount(googleId);
 
-        verify(accountsDb, times(1)).deleteAccount(account);
+        verify(accountsDb, times(1))
+                .deleteAccount(accountsLogic.getAccountForGoogleId(googleId));
     }
 
     @Test
-    public void testDeleteAccountCascade_googleIdExists_success() {
+    public void testDeleteAccountCascade_googleIdExists_success()
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Account account = generateTypicalAccount();
         String googleId = account.getGoogleId();
         List<User> users = new ArrayList<>();
@@ -78,15 +82,16 @@ public class AccountsLogicTest extends BaseTestCase {
             users.add(getTypicalStudent());
         }
 
+        when(accountsLogic.createAccount(account)).thenReturn(account);
         when(usersLogic.getAllUsersByGoogleId(googleId)).thenReturn(users);
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
 
         accountsLogic.deleteAccountCascade(googleId);
 
         for (User user : users) {
             verify(usersLogic, times(1)).deleteUser(user);
         }
-        verify(accountsDb, times(1)).deleteAccount(account);
+        verify(accountsDb, times(1))
+                .deleteAccount(accountsLogic.getAccountForGoogleId(googleId));
     }
 
     @Test
