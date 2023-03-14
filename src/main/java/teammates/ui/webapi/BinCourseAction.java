@@ -24,8 +24,8 @@ class BinCourseAction extends Action {
 
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
-        if (courseAttributes != null && !courseAttributes.isMigrated()) {
+        if (!isCourseMigrated(idOfCourseToBin)) {
+            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
                     courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
             return;
@@ -40,9 +40,8 @@ class BinCourseAction extends Action {
     public JsonResult execute() {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
-
-            if (courseAttributes != null && !courseAttributes.isMigrated()) {
+            if (!isCourseMigrated(idOfCourseToBin)) {
+                CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
                 courseAttributes.setDeletedAt(logic.moveCourseToRecycleBin(idOfCourseToBin));
                 return new JsonResult(new CourseData(courseAttributes));
             }

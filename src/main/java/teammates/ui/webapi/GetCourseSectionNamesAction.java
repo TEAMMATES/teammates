@@ -23,9 +23,9 @@ class GetCourseSectionNamesAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        CourseAttributes courseAttributes = logic.getCourse(courseId);
 
-        if (courseAttributes != null && !courseAttributes.isMigrated()) {
+        if (!isCourseMigrated(courseId)) {
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
             gateKeeper.verifyAccessible(instructor, courseAttributes);
             return;
@@ -40,9 +40,7 @@ class GetCourseSectionNamesAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            // courseAttributes is only for checking if in datastore or postgresql
-            CourseAttributes courseAttributes = logic.getCourse(courseId);
-            if (courseAttributes != null && !courseAttributes.isMigrated()) {
+            if (!isCourseMigrated(courseId)) {
                 List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
                 return new JsonResult(new CourseSectionNamesData(sectionNames));
             }

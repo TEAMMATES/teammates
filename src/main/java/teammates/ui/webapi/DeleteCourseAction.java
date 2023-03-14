@@ -22,8 +22,8 @@ class DeleteCourseAction extends Action {
         }
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        CourseAttributes courseAttributes = logic.getCourse(idOfCourseToDelete);
-        if (courseAttributes != null && !courseAttributes.isMigrated()) {
+        if (!isCourseMigrated(idOfCourseToDelete)) {
+            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToDelete);
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.id),
                     courseAttributes,
                     Const.InstructorPermissions.CAN_MODIFY_COURSE);
@@ -39,9 +39,7 @@ class DeleteCourseAction extends Action {
     public JsonResult execute() {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        // courseAttributes is used only for checking if the course has been migrated.
-        CourseAttributes courseAttributes = logic.getCourse(idOfCourseToDelete);
-        if (courseAttributes != null && !courseAttributes.isMigrated()) {
+        if (!isCourseMigrated(idOfCourseToDelete)) {
             logic.deleteCourseCascade(idOfCourseToDelete);
             return new JsonResult(new MessageOutput("OK"));
         }

@@ -11,7 +11,7 @@ import teammates.ui.output.CourseData;
 /**
  * Get a course for an instructor or student.
  */
-class GetCourseAction extends Action {
+public class GetCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -27,8 +27,8 @@ class GetCourseAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
-        CourseAttributes courseAttributes = logic.getCourse(courseId);
-        if (courseAttributes != null && !courseAttributes.isMigrated()) {
+        if (!isCourseMigrated(courseId)) {
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
             if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), courseAttributes);
                 return;
@@ -60,8 +60,7 @@ class GetCourseAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        CourseAttributes courseAttributes = logic.getCourse(courseId);
-        if (courseAttributes != null && !courseAttributes.isMigrated()) {
+        if (!isCourseMigrated(courseId)) {
             return this.getFromDatastore(courseId);
         }
 

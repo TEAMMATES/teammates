@@ -30,16 +30,14 @@ class UpdateCourseAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        // Datastore
-        InstructorAttributes instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.id);
-        CourseAttributes courseAttributes = logic.getCourse(courseId);
-        if (courseAttributes != null && !courseAttributes.isMigrated()) {
+        if (!isCourseMigrated(courseId)) {
+            InstructorAttributes instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            CourseAttributes courseAttributes = logic.getCourse(courseId);
             gateKeeper.verifyAccessible(instructorAttributes, courseAttributes,
                     Const.InstructorPermissions.CAN_MODIFY_COURSE);
             return;
         }
 
-        // SQL
         Course course = sqlLogic.getCourse(courseId);
         Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
@@ -59,8 +57,7 @@ class UpdateCourseAction extends Action {
         String courseName = courseUpdateRequest.getCourseName();
 
         try {
-            CourseAttributes courseAttributes = logic.getCourse(courseId);
-            if (courseAttributes != null && !courseAttributes.isMigrated()) {
+            if (!isCourseMigrated(courseId)) {
                 return updateWithDatastore(courseId, courseName, courseTimeZone);
             }
 
