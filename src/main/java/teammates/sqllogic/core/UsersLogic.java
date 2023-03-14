@@ -1,5 +1,7 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -218,7 +220,15 @@ public final class UsersLogic {
         assert email != null;
         assert courseId != null;
 
-        usersDb.resetInstructorGoogleId(email, courseId);
+        Instructor instructor = getInstructorForEmail(courseId, email);
+
+        if (instructor == null) {
+            // Is there a better message?
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT +
+                    "Instructor [courseId=" + courseId + ", email=" + email + "]");
+        }
+
+        instructor.setAccount(null);
 
         List<Account> accounts = accountsLogic.getAccountsForEmail(email);
 
@@ -235,7 +245,15 @@ public final class UsersLogic {
         assert email != null;
         assert courseId != null;
 
-        usersDb.resetStudentGoogleId(email, courseId);
+        Student student = getStudentForEmail(courseId, email);
+
+        if (student == null) {
+            // Is there a better message?
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT +
+                    "Student [courseId=" + courseId + ", email=" + email + "]");
+        }
+
+        student.setAccount(null);
 
         List<Account> accounts = accountsLogic.getAccountsForEmail(email);
 

@@ -1,13 +1,10 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -306,48 +303,6 @@ public final class UsersDb extends EntitiesDb {
                 .where(cb.equal(studentRoot.get("email"), email));
 
         return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
-     * Resets instructor's account by {@code userEmail} and {@code courseId}.
-     */
-    public void resetInstructorGoogleId(String userEmail, String courseId)
-            throws EntityDoesNotExistException {
-        assert userEmail != null;
-        assert courseId != null;
-
-        Instructor instructor = getInstructorForEmail(courseId, userEmail);
-
-        if (instructor == null) {
-            // What is a better message?
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT +
-                    "Instructor [courseId=" + courseId + ", email=" + userEmail + "]");
-        }
-
-        instructor.setAccount(null);
-
-        merge(instructor);
-    }
-
-    /**
-     * Resets student's account by {@code userEmail} and {@code courseId}.
-     */
-    public void resetStudentGoogleId(String userEmail, String courseId)
-            throws EntityDoesNotExistException {
-        assert userEmail != null;
-        assert courseId != null;
-
-        Student student = getStudentForEmail(courseId, userEmail);
-
-        if (student == null) {
-            // What is a better message?
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT +
-                    "Student [courseId=" + courseId + ", email=" + userEmail + "]");
-        }
-
-        student.setAccount(null);
-
-        merge(student);
     }
 
 }
