@@ -4,7 +4,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -139,15 +138,6 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         verifyHttpParameterFailure(params);
     }
 
-    // @Test
-    // void testExecute_invalidEntityType_throwsInvalidHttpParameterException() {
-    //     String[] params = {
-    //         Const.ParamsNames.COURSE_ID, "course-id",
-    //         Const.ParamsNames.ENTITY_TYPE, "invalid-entity-type"
-    //     };
-    //     verifyHttpParameterFailure(params);
-    // }
-
     @Test
     void testExecute_courseDoesNotExist_throwsEntityNotFoundException() {
         when(mockLogic.getCourse("course-id")).thenReturn(null);
@@ -160,7 +150,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     }
 
     @Test
-    void textExecute_asInstructorGetFullDetail_success() {
+    void textExecute_asInstructor_success() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         course.setCreatedAt(Instant.parse("2022-01-01T00:00:00Z"));
 
