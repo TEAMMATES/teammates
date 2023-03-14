@@ -42,10 +42,10 @@ public class RestoreCourseAction extends Action {
         String statusMessage;
 
         try {
-            if (!isCourseMigrated(idOfCourseToRestore)) {
-                logic.restoreCourseFromRecycleBin(idOfCourseToRestore);
-            } else {
+            if (isCourseMigrated(idOfCourseToRestore)) {
                 sqlLogic.restoreCourseFromRecycleBin(idOfCourseToRestore);
+            } else {
+                logic.restoreCourseFromRecycleBin(idOfCourseToRestore);
             }
 
             statusMessage = "The course " + idOfCourseToRestore + " has been restored.";

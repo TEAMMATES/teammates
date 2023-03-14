@@ -10,7 +10,6 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.CourseData;
@@ -41,7 +40,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         when(mockLogic.moveCourseToRecycleBin(courseId)).thenThrow(new EntityDoesNotExistException(""));
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         verifyEntityNotFound(params);
@@ -59,13 +58,13 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         when(mockLogic.moveCourseToRecycleBin(course.getId())).thenReturn(expectedDeletedAt);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         Course expectedCourse = new Course(course.getId(), course.getName(), course.getTimeZone(), course.getInstitute());
         expectedCourse.setCreatedAt(course.getCreatedAt());
         expectedCourse.setDeletedAt(expectedDeletedAt);
-        
+
         BinCourseAction action = getAction(params);
         CourseData actionOutput = (CourseData) getJsonResult(action).getOutput();
 
@@ -76,14 +75,15 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
     void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, new InstructorPrivileges());
+        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
+                false, "", null, new InstructorPrivileges());
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCannotAccess(params);
@@ -94,15 +94,16 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_COURSE, true);
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, instructorPrivileges);
+        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, true);
+        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
+                false, "", null, instructorPrivileges);
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCanAccess(params);
@@ -111,7 +112,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
     @Test
     void testSpecificAccessControl_notInstructor_cannotAccess() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, "course-id"
+                Const.ParamsNames.COURSE_ID, "course-id",
         };
 
         loginAsStudent(googleId);

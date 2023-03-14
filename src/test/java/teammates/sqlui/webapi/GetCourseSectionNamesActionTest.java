@@ -39,7 +39,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         when(mockLogic.getSectionNamesForCourse(courseId)).thenThrow(new EntityDoesNotExistException(""));
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         verifyEntityNotFound(params);
@@ -53,7 +53,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         when(mockLogic.getSectionNamesForCourse(course.getId())).thenReturn(sectionNames);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         GetCourseSectionNamesAction action = getAction(params);
@@ -66,14 +66,15 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
     void testSpecificAccessControl_instructor_canAccess() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
-        Instructor instructorOfCourse = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, new InstructorPrivileges());
+        Instructor instructorOfCourse = new Instructor(course, "name", "instructoremail@tm.tmt",
+                false, "", null, new InstructorPrivileges());
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructorOfCourse);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCanAccess(params);
@@ -84,14 +85,15 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Course anotherCourse = new Course("another-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
-        Instructor instructorOfAnotherCourse = new Instructor(anotherCourse, "name", "instructoremail@tm.tmt", false, "", null, new InstructorPrivileges());
+        Instructor instructorOfAnotherCourse = new Instructor(anotherCourse, "name", "instructoremail@tm.tmt",
+                false, "", null, new InstructorPrivileges());
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructorOfAnotherCourse);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCannotAccess(params);
@@ -106,7 +108,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(null);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCannotAccess(params);

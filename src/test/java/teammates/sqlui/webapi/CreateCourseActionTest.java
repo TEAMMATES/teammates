@@ -69,8 +69,8 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         request.setCourseId(course.getId());
 
         String[] params = {
-            Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute()
-        };        
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute(),
+        };
 
         CreateCourseAction action = getAction(request, params);
         JsonResult result = getJsonResult(action);
@@ -87,7 +87,8 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
     }
 
     @Test
-    void textExecute_courseAlreadyExists_throwsInvalidOperationException() throws InvalidParametersException, EntityAlreadyExistsException {
+    void textExecute_courseAlreadyExists_throwsInvalidOperationException()
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = new Course("existing-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         when(mockLogic.createCourse(course)).thenThrow(new EntityAlreadyExistsException(""));
@@ -98,14 +99,15 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         request.setCourseId(course.getId());
 
         String[] params = {
-            Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute()
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute(),
         };
 
         verifyInvalidOperation(request, params);
     }
 
     @Test
-    void textExecute_invalidCourseName_throwsInvalidHttpRequestBodyException() throws InvalidParametersException, EntityAlreadyExistsException {
+    void textExecute_invalidCourseName_throwsInvalidHttpRequestBodyException()
+            throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = new Course("invalid-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         when(mockLogic.createCourse(course)).thenThrow(new InvalidParametersException(""));
@@ -116,7 +118,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         request.setCourseId(course.getId());
 
         String[] params = {
-            Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute()
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute(),
         };
 
         verifyHttpRequestBodyFailure(request, params);
@@ -129,11 +131,12 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         when(mockLogic.canInstructorCreateCourse(googleId, institute)).thenReturn(true);
 
         String[] params = {
-            Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
         };
 
         verifyCanAccess(params);
     }
+
     @Test
     void testSpecificAccessControl_asInstructorAndCannotCreateCourse_cannotAccess() {
         String institute = "institute";
@@ -141,15 +144,16 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         when(mockLogic.canInstructorCreateCourse(googleId, institute)).thenReturn(false);
 
         String[] params = {
-            Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
         };
 
         verifyCannotAccess(params);
     }
+
     @Test
     void testSpecificAccessControl_notInstructor_cannotAccess() {
         String[] params = {
-            Const.ParamsNames.INSTRUCTOR_INSTITUTION, "institute"
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, "institute",
         };
         loginAsStudent(googleId);
         verifyCannotAccess(params);

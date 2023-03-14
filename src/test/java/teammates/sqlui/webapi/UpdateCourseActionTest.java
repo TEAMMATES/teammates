@@ -11,7 +11,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.CourseData;
@@ -34,21 +33,24 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     protected String getRequestMethod() {
         return PUT;
     }
+
     @Test
-    void textExecute_courseDoesNotExist_throwsEntityDoesNotExistException() throws EntityDoesNotExistException, InvalidParametersException {
+    void textExecute_courseDoesNotExist_throwsEntityDoesNotExistException()
+            throws EntityDoesNotExistException, InvalidParametersException {
         Course course = new Course("invalid-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         String expectedCourseName = "new-name";
         String expectedTimeZone = "GMT";
 
-        when(mockLogic.updateCourse(course.getId(), expectedCourseName, expectedTimeZone)).thenThrow(new EntityDoesNotExistException(""));
+        when(mockLogic.updateCourse(course.getId(), expectedCourseName, expectedTimeZone))
+                .thenThrow(new EntityDoesNotExistException(""));
 
         CourseUpdateRequest request = new CourseUpdateRequest();
         request.setCourseName(expectedCourseName);
         request.setTimeZone(expectedTimeZone);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyEntityNotFound(request, params);
@@ -72,7 +74,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         request.setTimeZone(expectedTimeZone);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         UpdateCourseAction action = getAction(request, params);
@@ -82,20 +84,22 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     }
 
     @Test
-    void textExecute_invalidCourseName_throwsInvalidHttpRequestBodyException() throws EntityDoesNotExistException, InvalidParametersException {
+    void textExecute_invalidCourseName_throwsInvalidHttpRequestBodyException()
+            throws EntityDoesNotExistException, InvalidParametersException {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         String expectedCourseName = ""; // invalid
         String expectedTimeZone = "GMT";
 
-        when(mockLogic.updateCourse(course.getId(), expectedCourseName, expectedTimeZone)).thenThrow(new InvalidParametersException(""));
+        when(mockLogic.updateCourse(course.getId(), expectedCourseName, expectedTimeZone))
+                .thenThrow(new InvalidParametersException(""));
 
         CourseUpdateRequest request = new CourseUpdateRequest();
         request.setCourseName(expectedCourseName);
         request.setTimeZone(expectedTimeZone);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyHttpRequestBodyFailure(request, params);
@@ -105,14 +109,15 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, new InstructorPrivileges());
+        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
+                false, "", null, new InstructorPrivileges());
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCannotAccess(params);
@@ -123,15 +128,16 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_COURSE, true);
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, instructorPrivileges);
+        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, true);
+        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
+                false, "", null, instructorPrivileges);
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCanAccess(params);
@@ -140,7 +146,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     @Test
     void testSpecificAccessControl_notInstructor_cannotAccess() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, "course-id",
+                Const.ParamsNames.COURSE_ID, "course-id",
         };
         loginAsStudent(googleId);
         verifyCannotAccess(params);

@@ -39,7 +39,7 @@ public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction>
         doThrow(new EntityDoesNotExistException("")).when(mockLogic).restoreCourseFromRecycleBin(courseId);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         verifyEntityNotFound(params);
@@ -52,9 +52,9 @@ public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction>
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
-        
+
         RestoreCourseAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
@@ -65,14 +65,15 @@ public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction>
     void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, new InstructorPrivileges());
+        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
+                false, "", null, new InstructorPrivileges());
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCannotAccess(params);
@@ -84,14 +85,15 @@ public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction>
 
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_COURSE, true);
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, instructorPrivileges);
+        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
+                false, "", null, instructorPrivileges);
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId()
+                Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         verifyCanAccess(params);
@@ -100,7 +102,7 @@ public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction>
     @Test
     void testSpecificAccessControl_notInstructor_cannotAccess() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, "course-id"
+                Const.ParamsNames.COURSE_ID, "course-id",
         };
 
         loginAsStudent(googleId);

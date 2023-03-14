@@ -1,9 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.List;
-import java.util.Objects;
-
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;

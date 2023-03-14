@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Const.EntityType;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -38,8 +37,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         when(mockLogic.getCourse("course-id")).thenReturn(null);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, "course-id",
-            Const.ParamsNames.ENTITY_TYPE, EntityType.INSTRUCTOR.toString()
+                Const.ParamsNames.COURSE_ID, "course-id",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         verifyCannotAccess(params);
     }
@@ -54,8 +53,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.ENTITY_TYPE, EntityType.INSTRUCTOR.toString()
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         verifyCanAccess(params);
@@ -70,9 +69,9 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         when(mockLogic.getInstructorByRegistrationKey(instructor.getRegKey())).thenReturn(instructor);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.REGKEY, instructor.getRegKey(),
-            Const.ParamsNames.ENTITY_TYPE, EntityType.INSTRUCTOR.toString()
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.REGKEY, instructor.getRegKey(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         verifyCanAccess(params);
@@ -89,8 +88,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         when(mockLogic.getStudentByGoogleId(course.getId(), googleId)).thenReturn(student);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.ENTITY_TYPE, EntityType.STUDENT.toString()
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         verifyCanAccess(params);
     }
@@ -101,8 +100,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.ENTITY_TYPE, EntityType.INSTRUCTOR.toString()
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         verifyCannotAccess(params);
     }
@@ -110,8 +109,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     void testExecute_invalidEntityType_cannotAccess() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, "course-id",
-            Const.ParamsNames.ENTITY_TYPE, "invalid-entity-type"
+                Const.ParamsNames.COURSE_ID, "course-id",
+                Const.ParamsNames.ENTITY_TYPE, "invalid-entity-type",
         };
         verifyCannotAccess(params);
     }
@@ -124,7 +123,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     void testExecute_notEnoughParameters_throwsInvalidHttpParameterException() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, null
+                Const.ParamsNames.COURSE_ID, null,
         };
         verifyHttpParameterFailure(params);
     }
@@ -132,8 +131,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     void testExecute_invalidCourseId_throwsInvalidHttpParameterException() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, null,
-            Const.ParamsNames.ENTITY_TYPE, EntityType.STUDENT.toString()
+                Const.ParamsNames.COURSE_ID, null,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         verifyHttpParameterFailure(params);
     }
@@ -143,8 +142,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         when(mockLogic.getCourse("course-id")).thenReturn(null);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, "course-id",
-            Const.ParamsNames.ENTITY_TYPE, EntityType.INSTRUCTOR.toString()
+                Const.ParamsNames.COURSE_ID, "course-id",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         verifyEntityNotFound(params);
     }
@@ -157,8 +156,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.ENTITY_TYPE, EntityType.INSTRUCTOR.toString()
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         GetCourseAction getCourseAction = getAction(params);
         CourseData actionOutput = (CourseData) getJsonResult(getCourseAction).getOutput();
@@ -174,10 +173,10 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
 
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.ENTITY_TYPE, EntityType.STUDENT.toString()
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
-        
+
         GetCourseAction getCourseAction = getAction(params);
         CourseData actionOutput = (CourseData) getJsonResult(getCourseAction).getOutput();
 

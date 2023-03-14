@@ -413,8 +413,8 @@ public class Logic {
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         return usersLogic.getInstructorsForGoogleId(googleId);
     }
-    
-    /*
+
+    /**
      * Creates an instructor.
      */
     public Instructor createInstructor(Instructor instructor)

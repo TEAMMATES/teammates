@@ -168,7 +168,7 @@ public final class CoursesLogic {
                 .map(section -> section.getName())
                 .collect(Collectors.toList());
     }
-    
+
     /**
      * Creates a team.
      */
