@@ -24,12 +24,14 @@ import teammates.test.BaseTestCase;
 public class CoursesLogicTest extends BaseTestCase {
 
     private CoursesLogic coursesLogic = CoursesLogic.inst();
+    private FeedbackSessionsLogic fsLogic;
     private CoursesDb coursesDb;
 
     @BeforeMethod
     public void setUp() {
         coursesDb = mock(CoursesDb.class);
-        coursesLogic.initLogicDependencies(coursesDb);
+        fsLogic = mock(FeedbackSessionsLogic.class);
+        coursesLogic.initLogicDependencies(coursesDb, fsLogic);
     }
 
     @Test
