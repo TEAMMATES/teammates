@@ -70,6 +70,10 @@ public class BaseTestCase {
         }
     }
 
+    protected SqlDataBundle getTypicalSqlDataBundle() {
+        return loadSqlDataBundle("/typicalDataBundle.json");
+    }
+
     protected SqlDataBundle loadSqlDataBundle(String jsonFileName) {
         try {
             // TODO: rename to loadDataBundle after migration
@@ -199,8 +203,8 @@ public class BaseTestCase {
         Assert.assertNotEquals(first, second);
     }
 
-    protected static void assertSame(Object unexpected, Object actual) {
-        Assert.assertSame(unexpected, actual);
+    protected static void assertSame(Object expected, Object actual) {
+        Assert.assertSame(expected, actual);
     }
 
     protected static void assertNotSame(Object unexpected, Object actual) {

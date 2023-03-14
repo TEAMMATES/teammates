@@ -7,10 +7,8 @@ import teammates.storage.sqlentity.BaseEntity;
 
 /**
  * Base class for all classes performing CRUD operations against the database.
- *
- * @param <E> subclass of BaseEntity
  */
-class EntitiesDb<E extends BaseEntity> {
+class EntitiesDb {
 
     static final Logger log = Logger.getLogger();
 
@@ -18,7 +16,7 @@ class EntitiesDb<E extends BaseEntity> {
      * Copy the state of the given object onto the persistent object with the same identifier.
      * If there is no persistent instance currently associated with the session, it will be loaded.
      */
-    protected <T extends E> T merge(T entity) {
+    protected <T extends BaseEntity> T merge(T entity) {
         assert entity != null;
 
         T newEntity = HibernateUtil.merge(entity);
@@ -29,7 +27,7 @@ class EntitiesDb<E extends BaseEntity> {
     /**
      * Associate {@code entity} with the persistence context.
      */
-    protected void persist(E entity) {
+    protected void persist(BaseEntity entity) {
         assert entity != null;
 
         HibernateUtil.persist(entity);
@@ -39,7 +37,7 @@ class EntitiesDb<E extends BaseEntity> {
     /**
      * Deletes {@code entity} from persistence context.
      */
-    protected void delete(E entity) {
+    protected void delete(BaseEntity entity) {
         assert entity != null;
 
         HibernateUtil.remove(entity);

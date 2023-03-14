@@ -27,6 +27,7 @@ import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.sqllogic.api.Logic;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.request.BasicRequest;
@@ -71,6 +72,17 @@ public abstract class Action {
     public void init(HttpServletRequest req) {
         this.req = req;
         initAuthInfo();
+    }
+
+    /**
+     * Inject logic class for use in tests.
+     */
+    public void setLogic(Logic logic) {
+        this.sqlLogic = logic;
+        // TODO: remove these temporary hacks after migration
+        this.isCourseMigrated = true;
+        this.isAccountMigrated = true;
+
     }
 
     public void setUserProvision(UserProvision userProvision) {
@@ -273,6 +285,15 @@ public abstract class Action {
 
     FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
+        return feedbackSession;
+    }
+
+    // TODO: Remove Sql from method name after migration
+    FeedbackSession getNonNullSqlFeedbackSession(String feedbackSessionName, String courseId) {
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }

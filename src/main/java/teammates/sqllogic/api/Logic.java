@@ -6,12 +6,14 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
+import teammates.sqllogic.core.DataBundleLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
@@ -45,6 +47,7 @@ public class Logic {
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
+    final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     Logic() {
         // prevent initialization
@@ -212,6 +215,15 @@ public class Logic {
     }
 
     /**
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
+        return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Creates a feedback session.
      *
      * @return created feedback session
@@ -352,6 +364,14 @@ public class Logic {
     }
 
     /**
+     * Creates an instructor.
+     */
+    public Instructor createInstructor(Instructor instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return usersLogic.createInstructor(instructor);
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.
@@ -383,6 +403,17 @@ public class Logic {
     }
 
     /**
+     * Creates a student.
+     *
+     * @return the created student
+     * @throws InvalidParametersException if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the database.
+     */
+    public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
+        return usersLogic.createStudent(student);
+    }
+
+    /**
      * Gets all instructors and students by associated {@code googleId}.
      */
     public List<User> getAllUsersByGoogleId(String googleId) {
@@ -407,5 +438,13 @@ public class Logic {
      */
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
+    }
+
+    /**
+     * Persists the given data bundle to the database.
+     */
+    public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return dataBundleLogic.persistDataBundle(dataBundle);
     }
 }
