@@ -6,12 +6,14 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
+import teammates.sqllogic.core.DataBundleLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
@@ -27,6 +29,7 @@ import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
+import teammates.storage.sqlentity.User;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -36,14 +39,15 @@ import teammates.storage.sqlentity.UsageStatistics;
 public class Logic {
     private static final Logic instance = new Logic();
 
-    final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final AccountsLogic accountsLogic = AccountsLogic.inst();
+    final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
+    final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     Logic() {
         // prevent initialization
@@ -132,6 +136,34 @@ public class Logic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsLogic.createAccount(account);
+    }
+
+    /**
+     * Deletes account by googleId.
+     *
+     * <ul>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * All parameters are non-null.
+     */
+    public void deleteAccount(String googleId) {
+        accountsLogic.deleteAccount(googleId);
+    }
+
+    /**
+     * Deletes account and all users by googleId.
+     *
+     * <ul>
+     * <li>Fails silently if no such account.</li>
+     * </ul>
+     *
+     * <p>Preconditions:</p>
+     * All parameters are non-null.
+     */
+    public void deleteAccountCascade(String googleId) {
+        accountsLogic.deleteAccountCascade(googleId);
     }
 
     /**
@@ -224,6 +256,15 @@ public class Logic {
      */
     public FeedbackSession getFeedbackSession(UUID id) {
         return feedbackSessionsLogic.getFeedbackSession(id);
+    }
+
+    /**
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
+     *
+     * @return null if not found.
+     */
+    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
+        return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
@@ -367,12 +408,18 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return Empty list if none found.
+     * Gets list of instructors by {@code googleId}.
      */
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         return usersLogic.getInstructorsForGoogleId(googleId);
+    }
+    
+    /*
+     * Creates an instructor.
+     */
+    public Instructor createInstructor(Instructor instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return usersLogic.createInstructor(instructor);
     }
 
     /**
@@ -406,6 +453,33 @@ public class Logic {
         return usersLogic.getStudentByGoogleId(courseId, googleId);
     }
 
+    /**
+     * Creates a student.
+     *
+     * @return the created student
+     * @throws InvalidParametersException if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the database.
+     */
+    public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
+        return usersLogic.createStudent(student);
+    }
+
+    /**
+     * Gets all instructors and students by associated {@code googleId}.
+     */
+    public List<User> getAllUsersByGoogleId(String googleId) {
+        return usersLogic.getAllUsersByGoogleId(googleId);
+    }
+
+    /**
+     * Deletes a user.
+     *
+     * <p>Fails silently if the user does not exist.</p>
+     */
+    public <T extends User> void deleteUser(T user) {
+        usersLogic.deleteUser(user);
+    }
+
     public List<Notification> getAllNotifications() {
         return notificationsLogic.getAllNotifications();
     }
@@ -415,5 +489,13 @@ public class Logic {
      */
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
+    }
+
+    /**
+     * Persists the given data bundle to the database.
+     */
+    public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return dataBundleLogic.persistDataBundle(dataBundle);
     }
 }

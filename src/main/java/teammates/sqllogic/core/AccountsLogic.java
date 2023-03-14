@@ -12,6 +12,7 @@ import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
+import teammates.storage.sqlentity.User;
 
 /**
  * Handles operations related to accounts.
@@ -27,13 +28,16 @@ public final class AccountsLogic {
 
     private NotificationsLogic notificationsLogic;
 
+    private UsersLogic usersLogic;
+
     private AccountsLogic() {
         // prevent initialization
     }
 
-    void initLogicDependencies(AccountsDb accountsDb, NotificationsLogic notificationsLogic) {
+    void initLogicDependencies(AccountsDb accountsDb, NotificationsLogic notificationsLogic, UsersLogic usersLogic) {
         this.accountsDb = accountsDb;
         this.notificationsLogic = notificationsLogic;
+        this.usersLogic = usersLogic;
     }
 
     public static AccountsLogic inst() {
@@ -78,6 +82,35 @@ public final class AccountsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
         return accountsDb.createAccount(account);
+    }
+
+    /**
+     * Deletes account associated with the {@code googleId}.
+     *
+     * <p>Fails silently if the account doesn't exist.</p>
+     */
+    public void deleteAccount(String googleId) {
+        assert googleId != null;
+
+        Account account = getAccountForGoogleId(googleId);
+        accountsDb.deleteAccount(account);
+    }
+
+    /**
+     * Deletes account and all users associated with the {@code googleId}.
+     *
+     * <p>Fails silently if the account doesn't exist.</p>
+     */
+    public void deleteAccountCascade(String googleId) {
+        assert googleId != null;
+
+        List<User> usersToDelete = usersLogic.getAllUsersByGoogleId(googleId);
+
+        for (User user : usersToDelete) {
+            usersLogic.deleteUser(user);
+        }
+
+        deleteAccount(googleId);
     }
 
     /**

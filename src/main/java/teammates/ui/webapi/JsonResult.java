@@ -47,7 +47,7 @@ public class JsonResult extends ActionResult {
         this.cookies = new ArrayList<>();
     }
 
-    ApiOutput getOutput() {
+    public ApiOutput getOutput() {
         return output;
     }
 

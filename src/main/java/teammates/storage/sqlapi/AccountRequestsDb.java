@@ -22,7 +22,7 @@ import jakarta.persistence.criteria.Root;
  *
  * @see AccountRequest
  */
-public final class AccountRequestsDb extends EntitiesDb<AccountRequest> {
+public final class AccountRequestsDb extends EntitiesDb {
     private static final AccountRequestsDb instance = new AccountRequestsDb();
 
     private AccountRequestsDb() {

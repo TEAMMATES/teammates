@@ -63,12 +63,12 @@ public abstract class User extends BaseEntity {
         // required by Hibernate
     }
 
-    public User(Course course, String name, String email) {
+    protected User(Course course, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setCourse(course);
         this.setName(name);
         this.setEmail(email);
-        this.setRegKey(generateRegistrationKey());
+        this.generateNewRegistrationKey();
     }
 
     public UUID getId() {
@@ -144,7 +144,14 @@ public abstract class User extends BaseEntity {
     }
 
     /**
-     * Returns unique registration key for the student/instructor.
+     * Generates a new registration key for the user.
+     */
+    public void generateNewRegistrationKey() {
+        this.setRegKey(generateRegistrationKey());
+    }
+
+    /**
+     * Returns unique registration key for the user.
      */
     private String generateRegistrationKey() {
         String uniqueId = this.email + '%' + this.course.getId();

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -26,6 +27,7 @@ import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.sqllogic.api.Logic;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.request.BasicRequest;
@@ -52,10 +54,11 @@ public abstract class Action {
     UserInfo userInfo;
     AuthType authType;
 
-    // TODO: unregisteredStudent. Instructor, isCourseMigrated can be removed after migration
+    // TODO: unregisteredStudent. Instructor, isCourseMigrated, isAccountMigrated can be removed after migration
     private StudentAttributes unregisteredStudent;
     private InstructorAttributes unregisteredInstructor;
     private Boolean isCourseMigrated;
+    private Boolean isAccountMigrated;
 
     private Student unregisteredSqlStudent;
     private Instructor unregisteredSqlInstructor;
@@ -69,6 +72,17 @@ public abstract class Action {
     public void init(HttpServletRequest req) {
         this.req = req;
         initAuthInfo();
+    }
+
+    /**
+     * Inject logic class for use in tests.
+     */
+    public void setLogic(Logic logic) {
+        this.sqlLogic = logic;
+        // TODO: remove these temporary hacks after migration
+        this.isCourseMigrated = true;
+        this.isAccountMigrated = true;
+
     }
 
     public void setUserProvision(UserProvision userProvision) {
@@ -100,6 +114,17 @@ public abstract class Action {
             isCourseMigrated = course == null || course.isMigrated();
         }
         return isCourseMigrated;
+    }
+
+    /**
+     * Returns true if course has been migrated or does not exist in the datastore.
+     */
+    protected boolean isAccountMigrated(String googleId) {
+        if (isAccountMigrated == null) {
+            AccountAttributes account = logic.getAccount(googleId);
+            isAccountMigrated = account == null || account.isMigrated();
+        }
+        return isAccountMigrated;
     }
 
     /**
@@ -266,6 +291,15 @@ public abstract class Action {
         return feedbackSession;
     }
 
+    // TODO: Remove Sql from method name after migration
+    FeedbackSession getNonNullSqlFeedbackSession(String feedbackSessionName, String courseId) {
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
+        return feedbackSession;
+    }
+
     /**
      * Deserializes and validates the request body payload.
      */
@@ -401,7 +435,7 @@ public abstract class Action {
     }
 
     InstructorPermissionSet constructInstructorPrivileges(Instructor instructor, String feedbackSessionName) {
-        InstructorPermissionSet privilege = instructor.getInstructorPrivileges().getCourseLevelPrivileges();
+        InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)

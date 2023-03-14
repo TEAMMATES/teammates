@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * The API output format of an instructor.
@@ -36,6 +37,17 @@ public class InstructorData extends ApiOutput {
         this.name = instructorAttributes.getName();
 
         this.joinState = instructorAttributes.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
+    }
+
+    public InstructorData(Instructor instructor) {
+        this.courseId = instructor.getCourseId();
+        this.email = instructor.getEmail();
+        this.role = instructor.getRole();
+        this.isDisplayedToStudents = instructor.isDisplayedToStudents();
+        this.displayedToStudentsAs = instructor.getDisplayName();
+        this.name = instructor.getName();
+        this.joinState = instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED;
+        this.institute = instructor.getCourse().getInstitute();
     }
 
     public String getGoogleId() {

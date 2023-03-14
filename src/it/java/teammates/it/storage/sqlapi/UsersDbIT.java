@@ -1,5 +1,6 @@
 package teammates.it.storage.sqlapi;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -7,6 +8,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
@@ -17,6 +20,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 
 /**
  * SUT: {@link UsersDb}.
@@ -124,6 +128,50 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: gets a student by googleId that does not exist");
         actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), "invalid-google id");
         assertNull(actualStudent);
+    }
+
+    @Test
+    public void testGetAllUsersByGoogleId() throws InvalidParametersException, EntityAlreadyExistsException {
+        ______TS("success: gets all instructors and students by googleId");
+        Account userSharedAccount = new Account("user-account", "user-name", "valid-user@email.tmt");
+        accountsDb.createAccount(userSharedAccount);
+
+        Instructor firstInstructor = getTypicalInstructor();
+        firstInstructor.setEmail("valid-instructor-1@email.tmt");
+        usersDb.createInstructor(firstInstructor);
+        firstInstructor.setAccount(userSharedAccount);
+
+        Instructor secondInstructor = getTypicalInstructor();
+        secondInstructor.setEmail("valid-instructor-2@email.tmt");
+        usersDb.createInstructor(secondInstructor);
+        secondInstructor.setAccount(userSharedAccount);
+
+        Student firstStudent = getTypicalStudent();
+        firstStudent.setEmail("valid-student-1@email.tmt");
+        usersDb.createStudent(firstStudent);
+        firstStudent.setAccount(userSharedAccount);
+
+        Student secondStudent = getTypicalStudent();
+        secondStudent.setEmail("valid-student-2@email.tmt");
+        usersDb.createStudent(secondStudent);
+        secondStudent.setAccount(userSharedAccount);
+
+        List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId());
+        assertEquals(4, users.size());
+        assertTrue(List.of(firstInstructor, secondInstructor, firstStudent, secondStudent).containsAll(users));
+
+        List<Instructor> instructors = usersDb.getAllInstructorsByGoogleId(userSharedAccount.getGoogleId());
+        assertEquals(2, instructors.size());
+        assertTrue(List.of(firstInstructor, secondInstructor).containsAll(instructors));
+
+        List<Student> students = usersDb.getAllStudentsByGoogleId(userSharedAccount.getGoogleId());
+        assertEquals(2, students.size());
+        assertTrue(List.of(firstStudent, secondStudent).containsAll(students));
+
+        ______TS("success: gets all instructors and students by googleId that does not exist");
+        List<User> emptyUsers = usersDb.getAllUsersByGoogleId("non-exist-id");
+
+        assertEquals(0, emptyUsers.size());
     }
 
     private Student getTypicalStudent() {

@@ -38,10 +38,10 @@ public class Course extends BaseEntity {
     private String institute;
 
     @OneToMany(mappedBy = "course")
-    private List<FeedbackSession> feedbackSessions;
+    private List<FeedbackSession> feedbackSessions = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Section> sections;
+    private List<Section> sections = new ArrayList<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -57,8 +57,6 @@ public class Course extends BaseEntity {
         this.setName(name);
         this.setTimeZone(StringUtils.defaultIfEmpty(timeZone, Const.DEFAULT_TIME_ZONE));
         this.setInstitute(institute);
-        this.sections = new ArrayList<>();
-        this.feedbackSessions = new ArrayList<>();
     }
 
     @Override

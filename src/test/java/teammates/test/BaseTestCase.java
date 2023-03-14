@@ -10,8 +10,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.sqllogic.core.DataBundleLogic;
 
 /**
  * Base class for all test cases.
@@ -63,6 +65,21 @@ public class BaseTestCase {
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return JsonUtils.fromJson(jsonString, DataBundle.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected SqlDataBundle getTypicalSqlDataBundle() {
+        return loadSqlDataBundle("/typicalDataBundle.json");
+    }
+
+    protected SqlDataBundle loadSqlDataBundle(String jsonFileName) {
+        try {
+            // TODO: rename to loadDataBundle after migration
+            String pathToJsonFile = getTestDataFolder() + jsonFileName;
+            String jsonString = FileHelper.readFile(pathToJsonFile);
+            return DataBundleLogic.deserializeDataBundle(jsonString);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -186,8 +203,8 @@ public class BaseTestCase {
         Assert.assertNotEquals(first, second);
     }
 
-    protected static void assertSame(Object unexpected, Object actual) {
-        Assert.assertSame(unexpected, actual);
+    protected static void assertSame(Object expected, Object actual) {
+        Assert.assertSame(expected, actual);
     }
 
     protected static void assertNotSame(Object unexpected, Object actual) {

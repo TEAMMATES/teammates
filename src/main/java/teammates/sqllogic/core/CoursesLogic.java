@@ -12,6 +12,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Team;
 
 /**
  * Handles operations related to courses.
@@ -25,6 +26,8 @@ public final class CoursesLogic {
 
     private CoursesDb coursesDb;
 
+    // private FeedbackSessionsLogic fsLogic;
+
     private CoursesLogic() {
         // prevent initialization
     }
@@ -33,8 +36,9 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb) {
+    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic) {
         this.coursesDb = coursesDb;
+        // this.fsLogic = fsLogic;
     }
 
     /**
@@ -132,6 +136,13 @@ public final class CoursesLogic {
     }
 
     /**
+     * Creates a section.
+     */
+    public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
+        return coursesDb.createSection(section);
+    }
+
+    /**
      * Get section by {@code courseId} and {@code teamName}.
      */
     public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
@@ -156,5 +167,12 @@ public final class CoursesLogic {
                 .stream()
                 .map(section -> section.getName())
                 .collect(Collectors.toList());
+    }
+    
+    /**
+     * Creates a team.
+     */
+    public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
+        return coursesDb.createTeam(team);
     }
 }
