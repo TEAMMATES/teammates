@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -32,7 +31,7 @@ class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 if (isAccountMigrated(wrongGoogleId)) {
-                    sqlLogic.resetStudentGoogleId(studentEmail, courseId);
+                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
@@ -47,18 +46,11 @@ class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 if (isAccountMigrated(wrongGoogleId)) {
-                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId);
+                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
-        }
-
-        // To modify
-        if (wrongGoogleId != null
-                && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
-                && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
-            logic.deleteAccountCascade(wrongGoogleId);
         }
 
         return new JsonResult("Account is successfully reset.");

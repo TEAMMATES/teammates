@@ -215,10 +215,11 @@ public final class UsersLogic {
     /**
      * Resets the googleId associated with the instructor.
      */
-    public void resetInstructorGoogleId(String email, String courseId)
+    public void resetInstructorGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
+        assert googleId != null;
 
         Instructor instructor = getInstructorForEmail(courseId, email);
 
@@ -235,15 +236,18 @@ public final class UsersLogic {
         for (Account account : accounts) {
             accountsLogic.deleteAccount(account.getGoogleId());
         }
+
+        accountsLogic.deleteAccountCascade(googleId);
     }
 
     /**
      * Resets the googleId associated with the student.
      */
-    public void resetStudentGoogleId(String email, String courseId)
+    public void resetStudentGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
+        assert googleId != null;
 
         Student student = getStudentForEmail(courseId, email);
 
@@ -260,6 +264,8 @@ public final class UsersLogic {
         for (Account account : accounts) {
             accountsLogic.deleteAccount(account.getGoogleId());
         }
+
+        accountsLogic.deleteAccountCascade(googleId);
     }
 
     /**

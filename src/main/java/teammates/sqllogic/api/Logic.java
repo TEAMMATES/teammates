@@ -467,12 +467,13 @@ public class Logic {
      *
      * @throws EntityDoesNotExistException If instructor cannot be found with given email and courseId.
      */
-    public void resetInstructorGoogleId(String email, String courseId)
+    public void resetInstructorGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
+        assert googleId != null;
 
-        usersLogic.resetInstructorGoogleId(email, courseId);
+        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
     }
 
     /**
@@ -483,12 +484,13 @@ public class Logic {
      *
      * @throws EntityDoesNotExistException If student cannot be found with given email and courseId.
      */
-    public void resetStudentGoogleId(String email, String courseId)
+    public void resetStudentGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
+        assert googleId != null;
 
-        usersLogic.resetStudentGoogleId(email, courseId);
+        usersLogic.resetStudentGoogleId(email, courseId, googleId);
     }
 
     /**
