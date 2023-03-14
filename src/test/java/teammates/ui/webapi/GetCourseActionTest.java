@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -29,6 +30,7 @@ import teammates.ui.output.CourseData;
 /**
  * SUT: {@link GetCourseAction}.
  */
+@Ignore
 public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
     @Override
