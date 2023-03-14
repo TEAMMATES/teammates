@@ -9,7 +9,7 @@ import teammates.ui.output.CourseData;
 /**
  * Move a course to the recycle bin.
  */
-class BinCourseAction extends Action {
+public class BinCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

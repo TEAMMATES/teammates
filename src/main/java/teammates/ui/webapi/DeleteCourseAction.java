@@ -8,7 +8,7 @@ import teammates.ui.output.MessageOutput;
 /**
  * Delete a course.
  */
-class DeleteCourseAction extends Action {
+public class DeleteCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
