@@ -28,16 +28,11 @@ class ResetAccountAction extends AdminOnlyAction {
                 throw new EntityNotFoundException("Student does not exist.");
             }
 
-            AccountAttributes accountInfo = logic.getAccount(existingStudent.getGoogleId());
-
             wrongGoogleId = existingStudent.getGoogleId();
 
             try {
-                if (accountInfo == null || accountInfo.isMigrated()) {
+                if (isAccountMigrated(wrongGoogleId)) {
                     sqlLogic.resetStudentGoogleId(studentEmail, courseId);
-                } else {
-                    logic.resetStudentGoogleId(studentEmail, courseId);
-                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
@@ -48,16 +43,11 @@ class ResetAccountAction extends AdminOnlyAction {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
 
-            AccountAttributes accountInfo = logic.getAccount(existingInstructor.getGoogleId());
-
             wrongGoogleId = existingInstructor.getGoogleId();
 
             try {
-                if (accountInfo == null || accountInfo.isMigrated()) {
+                if (isAccountMigrated(wrongGoogleId)) {
                     sqlLogic.resetInstructorGoogleId(instructorEmail, courseId);
-                } else {
-                    logic.resetInstructorGoogleId(instructorEmail, courseId);
-                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
