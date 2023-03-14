@@ -15,7 +15,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Updates a course.
  */
-class UpdateCourseAction extends Action {
+public class UpdateCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {

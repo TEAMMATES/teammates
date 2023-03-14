@@ -13,7 +13,7 @@ import teammates.ui.output.CourseSectionNamesData;
 /**
  * Gets the section names of a course.
  */
-class GetCourseSectionNamesAction extends Action {
+public class GetCourseSectionNamesAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
