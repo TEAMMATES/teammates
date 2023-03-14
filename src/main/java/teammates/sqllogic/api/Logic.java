@@ -423,6 +423,13 @@ public class Logic {
     }
 
     /**
+     * Checks if an instructor with {@code googleId} can create a course with {@code institute}.
+     */
+    public boolean canInstructorCreateCourse(String googleId, String institute) {
+        return usersLogic.canInstructorCreateCourse(googleId, institute);
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.

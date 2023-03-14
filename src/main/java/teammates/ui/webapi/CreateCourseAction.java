@@ -34,13 +34,7 @@ class CreateCourseAction extends Action {
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
         // SQL Logic
-        List<Instructor> existingInstructors = sqlLogic.getInstructorsForGoogleId(userInfo.getId());
-        boolean canCreateCourse = existingInstructors
-                .stream()
-                .filter(Instructor::hasCoownerPrivileges)
-                .map(instructor -> instructor.getCourse())
-                .filter(Objects::nonNull)
-                .anyMatch(course -> institute.equals(course.getInstitute()));
+        boolean canCreateCourse = sqlLogic.canInstructorCreateCourse(userInfo.getId(), institute);
 
         // Datastore Logic
         List<InstructorAttributes> existingInstructorsAttributes = logic.getInstructorsForGoogleId(userInfo.getId());
