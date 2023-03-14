@@ -154,7 +154,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void addFeedbackSession(FeedbackSessionAttributes newSession, boolean isUsingTemplate) {
         clickAddSessionButton();
-        waitForElementPresence(By.cssSelector("#instructions iframe"));
+        waitForElementPresence(By.id("session-edit-form"));
 
         if (isUsingTemplate) {
             selectDropdownOptionByText(sessionTypeDropdown,
@@ -211,7 +211,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         showDeleteTable();
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getFeedbackSessionName());
-        click(browser.driver.findElement(By.className("btn-restore-" + rowId)));
+        click(browser.driver.findElement(By.id("btn-restore-" + rowId)));
         waitUntilAnimationFinish();
     }
 
@@ -219,7 +219,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         showDeleteTable();
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getFeedbackSessionName());
-        clickAndConfirm(browser.driver.findElement(By.className("btn-delete-" + rowId)));
+        clickAndConfirm(browser.driver.findElement(By.id("btn-delete-" + rowId)));
         waitUntilAnimationFinish();
     }
 
