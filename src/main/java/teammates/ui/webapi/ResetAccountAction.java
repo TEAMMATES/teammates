@@ -20,18 +20,18 @@ class ResetAccountAction extends AdminOnlyAction {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String wrongGoogleId = null;
+
         if (studentEmail != null) {
             StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
             if (existingStudent == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
 
-            wrongGoogleId = existingStudent.getGoogleId();
+            String existingGoogleId = existingStudent.getGoogleId();
 
             try {
-                if (isAccountMigrated(wrongGoogleId)) {
-                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
+                if (isAccountMigrated(existingGoogleId)) {
+                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingGoogleId);
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
@@ -42,11 +42,11 @@ class ResetAccountAction extends AdminOnlyAction {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
 
-            wrongGoogleId = existingInstructor.getGoogleId();
+            String existingGoogleId = existingInstructor.getGoogleId();
 
             try {
-                if (isAccountMigrated(wrongGoogleId)) {
-                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
+                if (isAccountMigrated(existingGoogleId)) {
+                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingGoogleId);
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);

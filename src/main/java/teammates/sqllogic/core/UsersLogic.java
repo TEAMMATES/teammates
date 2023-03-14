@@ -213,6 +213,18 @@ public final class UsersLogic {
     }
 
     /**
+     * Common requirement between reset user by googleId function.
+     * Refer to {@link #resetInstructorGoogleId(String, String, String)} or
+     * {@link #resetStudentGoogleId(String, String, String)}.
+     */
+    private void deleteAccountCascadeAll(String googleId) {
+        if (usersDb.getAllInstructorsByGoogleId(googleId).isEmpty()
+                && usersDb.getAllStudentsByGoogleId(googleId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(googleId);
+        }
+    }
+
+    /**
      * Resets the googleId associated with the instructor.
      */
     public void resetInstructorGoogleId(String email, String courseId, String googleId)
@@ -225,8 +237,8 @@ public final class UsersLogic {
 
         if (instructor == null) {
             // Is there a better message?
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT +
-                    "Instructor [courseId=" + courseId + ", email=" + email + "]");
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
+                    + "Instructor [courseId=" + courseId + ", email=" + email + "]");
         }
 
         instructor.setAccount(null);
@@ -237,7 +249,7 @@ public final class UsersLogic {
             accountsLogic.deleteAccount(account.getGoogleId());
         }
 
-        accountsLogic.deleteAccountCascade(googleId);
+        deleteAccountCascadeAll(googleId);
     }
 
     /**
@@ -253,8 +265,8 @@ public final class UsersLogic {
 
         if (student == null) {
             // Is there a better message?
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT +
-                    "Student [courseId=" + courseId + ", email=" + email + "]");
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
+                    + "Student [courseId=" + courseId + ", email=" + email + "]");
         }
 
         student.setAccount(null);
@@ -265,7 +277,7 @@ public final class UsersLogic {
             accountsLogic.deleteAccount(account.getGoogleId());
         }
 
-        accountsLogic.deleteAccountCascade(googleId);
+        deleteAccountCascadeAll(googleId);
     }
 
     /**
