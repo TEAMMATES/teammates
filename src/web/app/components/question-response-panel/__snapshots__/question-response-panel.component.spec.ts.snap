@@ -81,7 +81,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -184,7 +184,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -231,7 +231,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -334,7 +334,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -511,7 +511,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -558,7 +558,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -605,7 +605,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -702,7 +702,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
