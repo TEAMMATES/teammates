@@ -18,7 +18,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Create a new course for an instructor.
  */
-class CreateCourseAction extends Action {
+public class CreateCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -33,17 +33,7 @@ class CreateCourseAction extends Action {
 
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
-        // SQL Logic
         boolean canCreateCourse = sqlLogic.canInstructorCreateCourse(userInfo.getId(), institute);
-
-        // Datastore Logic
-        List<InstructorAttributes> existingInstructorsAttributes = logic.getInstructorsForGoogleId(userInfo.getId());
-        canCreateCourse = canCreateCourse || existingInstructorsAttributes
-                .stream()
-                .filter(InstructorAttributes::hasCoownerPrivileges)
-                .map(instructor -> logic.getCourse(instructor.getCourseId()))
-                .filter(Objects::nonNull)
-                .anyMatch(course -> institute.equals(course.getInstitute()));
 
         if (!canCreateCourse) {
             throw new UnauthorizedAccessException("You are not allowed to create a course under this institute. "
@@ -70,7 +60,7 @@ class CreateCourseAction extends Action {
         Course course = new Course(newCourseId, newCourseName, newCourseTimeZone, institute);
 
         try {
-            sqlLogic.createCourse(course);
+            course = sqlLogic.createCourse(course);
 
             Instructor instructorCreatedForCourse = sqlLogic.getInstructorByGoogleId(newCourseId, userInfo.getId());
             taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
