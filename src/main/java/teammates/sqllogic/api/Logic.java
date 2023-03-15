@@ -558,10 +558,66 @@ public class Logic {
     }
 
     /**
+     * Gets all questions for a feedback session.<br>
+     * Returns an empty list if they are no questions
+     * for the session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackQuestion> getFeedbackQuestionsForSession(FeedbackSession feedbackSession) {
+        assert feedbackSession != null;
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSession);
+    }
+
+    /**
+     * Gets a list of all questions for the given session that
+     * students can view/submit.
+     */
+    public List<FeedbackQuestion> getFeedbackQuestionsForStudents(FeedbackSession feedbackSession) {
+        assert feedbackSession != null;
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForStudents(feedbackSession);
+    }
+
+    /**
+     * Gets a {@code List} of all questions for the given session that
+     * instructor can view/submit.
+     */
+    public List<FeedbackQuestion> getFeedbackQuestionsForInstructors(
+            FeedbackSession feedbackSession, String instructorEmail) {
+        assert feedbackSession != null;
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructorEmail);
+    }
+
+    /**
      * Persists the given data bundle to the database.
      */
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return dataBundleLogic.persistDataBundle(dataBundle);
+    }
+
+    /**
+     * Populates fields that need dynamic generation in a question.
+     *
+     * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
+     *
+     * @param feedbackQuestion the question to populate
+     * @param courseId the ID of the course
+     * @param emailOfEntityDoingQuestion the email of the entity doing the question
+     * @param teamOfEntityDoingQuestion the team of the entity doing the question. If the entity is an instructor,
+     *                                  it can be {@code null}.
+     */
+    public void populateFieldsToGenerateInQuestion(FeedbackQuestion feedbackQuestion,
+            String courseId, String emailOfEntityDoingQuestion,
+            String teamOfEntityDoingQuestion) {
+        assert feedbackQuestion != null;
+        assert courseId != null;
+        assert emailOfEntityDoingQuestion != null;
+
+        feedbackQuestionsLogic.populateFieldsToGenerateInQuestion(
+                feedbackQuestion, courseId, emailOfEntityDoingQuestion, teamOfEntityDoingQuestion);
     }
 }
