@@ -62,11 +62,11 @@ public class AccountsLogicTest extends BaseTestCase {
         Account account = generateTypicalAccount();
         String googleId = account.getGoogleId();
 
-        accountsLogic.createAccount(account);
+        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+
         accountsLogic.deleteAccount(googleId);
 
-        verify(accountsDb, times(1))
-                .deleteAccount(accountsLogic.getAccountForGoogleId(googleId));
+        verify(accountsDb, times(1)).deleteAccount(account);
     }
 
     @Test
@@ -81,8 +81,7 @@ public class AccountsLogicTest extends BaseTestCase {
             users.add(getTypicalStudent());
         }
 
-        accountsLogic.createAccount(account);
-
+        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
         when(usersLogic.getAllUsersByGoogleId(googleId)).thenReturn(users);
 
         accountsLogic.deleteAccountCascade(googleId);
@@ -90,8 +89,7 @@ public class AccountsLogicTest extends BaseTestCase {
         for (User user : users) {
             verify(usersLogic, times(1)).deleteUser(user);
         }
-        verify(accountsDb, times(1))
-                .deleteAccount(accountsLogic.getAccountForGoogleId(googleId));
+        verify(accountsDb, times(1)).deleteAccount(account);
     }
 
     @Test
@@ -234,8 +232,8 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     private Instructor getTypicalInstructor() {
-        InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
