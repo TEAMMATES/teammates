@@ -82,7 +82,7 @@ public class AccountsLogicTest extends BaseTestCase {
         }
 
         accountsLogic.createAccount(account);
-        
+
         when(usersLogic.getAllUsersByGoogleId(googleId)).thenReturn(users);
 
         accountsLogic.deleteAccountCascade(googleId);
