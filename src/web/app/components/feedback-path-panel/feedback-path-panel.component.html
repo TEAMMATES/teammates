@@ -13,7 +13,7 @@
     <ul id="feedback-path-dropdown" ngbDropdownMenu>
       <li class="dropdown-header">Common feedback path combinations</li>
       <li *ngFor="let path of commonFeedbackPaths | keyvalue" ngbDropdown #subMenu="ngbDropdown">
-        <div class="dropdown-item">
+        <div class="text-wrap dropdown-item">
           <button class="dropdown-button" (click)="toggleSubMenu(path.key)">
             {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-{{ isSubMenuOpen(path.key) ? 'down' : 'right' }}"></i>
           </button>

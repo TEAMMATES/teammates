@@ -1478,7 +1478,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           style=""
                         >
                           <div
-                            class="dropdown-item"
+                            class="text-wrap dropdown-item"
                           >
                             <button
                               class="dropdown-button"
@@ -1495,7 +1495,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           style=""
                         >
                           <div
-                            class="dropdown-item"
+                            class="text-wrap dropdown-item"
                           >
                             <button
                               class="dropdown-button"
@@ -1512,7 +1512,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           style=""
                         >
                           <div
-                            class="dropdown-item"
+                            class="text-wrap dropdown-item"
                           >
                             <button
                               class="dropdown-button"
@@ -2147,7 +2147,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           style=""
                         >
                           <div
-                            class="dropdown-item"
+                            class="text-wrap dropdown-item"
                           >
                             <button
                               class="dropdown-button"
@@ -2164,7 +2164,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           style=""
                         >
                           <div
-                            class="dropdown-item"
+                            class="text-wrap dropdown-item"
                           >
                             <button
                               class="dropdown-button"
@@ -2181,7 +2181,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           style=""
                         >
                           <div
-                            class="dropdown-item"
+                            class="text-wrap dropdown-item"
                           >
                             <button
                               class="dropdown-button"
@@ -3895,7 +3895,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       style=""
                     >
                       <div
-                        class="dropdown-item"
+                        class="text-wrap dropdown-item"
                       >
                         <button
                           class="dropdown-button"
@@ -3912,7 +3912,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       style=""
                     >
                       <div
-                        class="dropdown-item"
+                        class="text-wrap dropdown-item"
                       >
                         <button
                           class="dropdown-button"
@@ -3929,7 +3929,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       style=""
                     >
                       <div
-                        class="dropdown-item"
+                        class="text-wrap dropdown-item"
                       >
                         <button
                           class="dropdown-button"
