@@ -150,7 +150,7 @@ public final class UsersDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
-        
+
         studentRoot.alias("student");
 
         Join<Student, Team> teamsJoin = studentRoot.join("team");

@@ -126,7 +126,7 @@ class GetStudentsAction extends Action {
                     && instructor.isAllowedForPrivilege(privilegeName);
             boolean hasSectionPrivilege = instructor != null
                     && instructor.getSectionsWithPrivilege(privilegeName).size() != 0;
-    
+
             if (teamName == null && hasCoursePrivilege) {
                 // request to get all course students by instructor with course privilege
                 List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
