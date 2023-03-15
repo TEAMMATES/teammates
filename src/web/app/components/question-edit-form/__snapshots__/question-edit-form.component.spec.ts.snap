@@ -376,7 +376,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   class="dropdown-item"
                   style=""
                 >
-                  Custom visibility options...
+                  <button
+                    class="dropdown-button"
+                  >
+                    Custom visibility options...
+                  </button>
                 </li>
               </ul>
             </div>

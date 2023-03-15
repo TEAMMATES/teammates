@@ -101,9 +101,9 @@ export class VisibilityPanelComponent {
     } else if (visibilityType === FeedbackVisibilityType.GIVER_TEAM_MEMBERS) {
       group = 'Giver\'s Team Members';
     } else if (visibilityType === FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS) {
-      group = 'Recipient\'s Team Members'
+      group = 'Recipient\'s Team Members';
     } else if (visibilityType === FeedbackVisibilityType.STUDENTS) {
-      group = 'Other Students'
+      group = 'Other Students';
     } else if (visibilityType === FeedbackVisibilityType.INSTRUCTORS) {
       group = 'Instructors';
     }
