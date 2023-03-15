@@ -84,7 +84,7 @@ export class FeedbackPathPanelComponent {
     new EventEmitter<Partial<QuestionEditFormModel>>();
 
   subMenuStatuses: Map<FeedbackParticipantType, boolean> = new Map();
-  
+
   triggerCustomNumberOfEntities(data: number): void {
     this.customNumberOfEntitiesToGiveFeedbackTo.emit(data);
   }
