@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
@@ -55,4 +56,18 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertTrue(expectedQuestions.containsAll(actualQuestions));
     }
 
+    @Test
+    public void testGetFeedbackQuestionsForGiverType() {
+        ______TS("success: typical case");
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackQuestion fq2 = typicalDataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+
+        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);
+
+        List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.STUDENTS);
+
+        assertEquals(expectedQuestions.size(), actualQuestions.size());
+        assertTrue(expectedQuestions.containsAll(actualQuestions));
+    }
 }
