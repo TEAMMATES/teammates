@@ -12,20 +12,26 @@
     </button>
     <ul id="feedback-path-dropdown" ngbDropdownMenu>
       <li class="dropdown-header">Common feedback path combinations</li>
-      <li *ngFor="let path of commonFeedbackPaths | keyvalue">
-        <button class="dropdown-button" ngbDropdown #subMenu="ngbDropdown" (click)="toggleSubMenu(path.key)">
-          <div class="text-wrap dropdown-item"> {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-{{ isSubMenuOpen(path.key) ? 'down' : 'right' }}"></i> </div>
-          <ul *ngIf="isSubMenuOpen(path.key)">
-            <li class="text-wrap dropdown-item" *ngFor="let recipient of path.value">
-              <button class="dropdown-button" (click)="changeGiverRecipientType(path.key, recipient); mainMenu.close()">
-                {{ recipient | recipientTypeDescription }}
-              </button>
-            </li>
-          </ul>
-        </button>
+      <li *ngFor="let path of commonFeedbackPaths | keyvalue" ngbDropdown #subMenu="ngbDropdown">
+        <div class="dropdown-item">
+          <button class="dropdown-button" (click)="toggleSubMenu(path.key)">
+            {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-{{ isSubMenuOpen(path.key) ? 'down' : 'right' }}"></i>
+          </button>
+        </div>
+        <ul *ngIf="isSubMenuOpen(path.key)">
+          <li class="text-wrap dropdown-item" *ngFor="let recipient of path.value">
+            <button class="dropdown-button" (click)="changeGiverRecipientType(path.key, recipient); mainMenu.close()">
+              {{ recipient | recipientTypeDescription }}
+            </button>
+          </li>
+        </ul>
       </li>
       <li class="dropdown-divider"></li>
-      <li class="text-wrap dropdown-item" (click)="triggerCustomFeedbackPath(); mainMenu.close()">Custom feedback path...</li>
+      <li class="text-wrap dropdown-item">
+        <button class="dropdown-button" (click)="triggerCustomFeedbackPath(); mainMenu.close()">
+          Custom feedback path...
+        </button>
+      </li>
     </ul>
   </div>
   <div class="row margin-top-15px" *ngIf="model.isUsingOtherFeedbackPath">
