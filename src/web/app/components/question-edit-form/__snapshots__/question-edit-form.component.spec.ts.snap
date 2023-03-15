@@ -274,7 +274,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <button
                     class="dropdown-button"
                   >
-                     Custom feedback path... 
+                    Custom feedback path...
                   </button>
                 </li>
               </ul>

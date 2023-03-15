@@ -1081,8 +1081,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement dropdown = feedbackPathPanel.findElement(By.id("feedback-path-dropdown"));
         List<WebElement> options = dropdown.findElements(By.className("dropdown-item"));
         for (WebElement option : options) {
-            if (option.findElement(By.className("dropdown-button")).getText().equals(text)) {
-                click(option);
+            WebElement dropdownButton = option.findElement(By.className("dropdown-button"));
+            if (dropdownButton.getText().equals(text)) {
+                click(dropdownButton);
                 return;
             }
         }

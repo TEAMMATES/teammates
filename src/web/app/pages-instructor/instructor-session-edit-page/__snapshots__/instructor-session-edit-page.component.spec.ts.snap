@@ -1532,7 +1532,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                             Custom feedback path... 
+                            Custom feedback path...
                           </button>
                         </li>
                       </ul>
@@ -2200,7 +2200,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                             Custom feedback path... 
+                            Custom feedback path...
                           </button>
                         </li>
                       </ul>
@@ -3947,7 +3947,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                         Custom feedback path... 
+                        Custom feedback path...
                       </button>
                     </li>
                   </ul>
