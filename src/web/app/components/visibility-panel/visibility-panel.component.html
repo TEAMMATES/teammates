@@ -6,7 +6,7 @@
     </div>
     <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
   </div>
-  <div ngbDropdown class="margin-top-15px">
+  <div #mainMenu="ngbDropdown" ngbDropdown class="margin-top-15px">
     <button id="btn-question-visibility" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable">
       <span *ngIf="!model.isUsingOtherVisibilitySetting">
         {{ model.commonVisibilitySettingName }}
@@ -15,10 +15,13 @@
     </button>
     <ul id="question-visibility-dropdown" ngbDropdownMenu>
       <li class="dropdown-header">Common visibility options</li>
-      <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
-          (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
+      <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings">
+        <button class="dropdown-button" (click)="applyCommonVisibilitySettings(visibilityOption); mainMenu.close()">{{ visibilityOption.name }}</button>
+      </li>
       <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
-      <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerCustomVisibilitySetting()">Custom visibility options...</li>
+      <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed">
+        <button class="dropdown-button" (click)="triggerCustomVisibilitySetting(); mainMenu.close()">Custom visibility options...</button>
+      </li>
     </ul>
   </div>
   <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
@@ -36,7 +39,8 @@
           <input type="checkbox"
                  (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
                  [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
-                 [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable">
+                 [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable"
+                 [attr.aria-label]="getCheckboxAriaLabel(visibilityType, visibilityControl)">
         </td>
       </tr>
     </ng-container>

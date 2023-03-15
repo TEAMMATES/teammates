@@ -94,6 +94,32 @@ export class VisibilityPanelComponent {
     this.customVisibilitySetting.emit(true);
   }
 
+  getCheckboxAriaLabel(visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): string {
+    let group: string = '';
+    if (visibilityType === FeedbackVisibilityType.RECIPIENT) {
+      group = 'Recipient(s)';
+    } else if (visibilityType === FeedbackVisibilityType.GIVER_TEAM_MEMBERS) {
+      group = 'Giver\'s Team Members';
+    } else if (visibilityType === FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS) {
+      group = 'Recipient\'s Team Members'
+    } else if (visibilityType === FeedbackVisibilityType.STUDENTS) {
+      group = 'Other Students'
+    } else if (visibilityType === FeedbackVisibilityType.INSTRUCTORS) {
+      group = 'Instructors';
+    }
+
+    let groupVisibility: string = '';
+    if (visibilityControl === VisibilityControl.SHOW_RESPONSE) {
+      groupVisibility = 'Answer';
+    } else if (visibilityControl === VisibilityControl.SHOW_GIVER_NAME) {
+      groupVisibility = 'Giver\'s Name';
+    } else if (visibilityControl === VisibilityControl.SHOW_RECIPIENT_NAME) {
+      groupVisibility = 'Recipient\'s Name';
+    }
+
+    return `${group} can see ${groupVisibility}`;
+  }
+
   /**
    * Applies the common visibility setting.
    */
