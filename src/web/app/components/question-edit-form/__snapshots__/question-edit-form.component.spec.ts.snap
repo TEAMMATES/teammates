@@ -239,7 +239,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             >
               <button
                 aria-expanded="false"
-                aria-label="Feedback Path Dropdown"
                 class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
                 disabled=""
                 id="btn-feedback-path"

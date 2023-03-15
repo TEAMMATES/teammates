@@ -4,7 +4,7 @@
   </div>
   <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px w-100" autoClose="outside">
     <button id="btn-feedback-path" class="btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block" ngbDropdownToggle
-            [disabled]="!model.isEditable || commonFeedbackPaths.size === 1" (click)="resetMenu()" aria-label="Feedback Path Dropdown">
+            [disabled]="!model.isEditable || commonFeedbackPaths.size === 1" (click)="resetMenu()">
       <span *ngIf="!model.isUsingOtherFeedbackPath" class="text-wrap">
         {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
       </span>
