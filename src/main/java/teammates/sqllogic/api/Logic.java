@@ -558,6 +558,40 @@ public class Logic {
     }
 
     /**
+     * Gets all questions for a feedback session.<br>
+     * Returns an empty list if they are no questions
+     * for the session.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<FeedbackQuestion> getFeedbackQuestionsForSession(FeedbackSession feedbackSession) {
+        assert feedbackSession != null;
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSession);
+    }
+
+    /**
+     * Gets a list of all questions for the given session that
+     * students can view/submit.
+     */
+    public List<FeedbackQuestion> getFeedbackQuestionsForStudents(FeedbackSession feedbackSession) {
+        assert feedbackSession != null;
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForStudents(feedbackSession);
+    }
+
+    /**
+     * Gets a {@code List} of all questions for the given session that
+     * instructor can view/submit.
+     */
+    public List<FeedbackQuestion> getFeedbackQuestionsForInstructors(
+            FeedbackSession feedbackSession, String instructorEmail) {
+        assert feedbackSession != null;
+
+        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructorEmail);
+    }
+
+    /**
      * Persists the given data bundle to the database.
      */
     public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
