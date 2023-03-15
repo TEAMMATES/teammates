@@ -62,8 +62,7 @@ public class AccountsLogicTest extends BaseTestCase {
         Account account = generateTypicalAccount();
         String googleId = account.getGoogleId();
 
-        when(accountsLogic.createAccount(account)).thenReturn(account);
-
+        accountsLogic.createAccount(account);
         accountsLogic.deleteAccount(googleId);
 
         verify(accountsDb, times(1))
@@ -82,7 +81,8 @@ public class AccountsLogicTest extends BaseTestCase {
             users.add(getTypicalStudent());
         }
 
-        when(accountsLogic.createAccount(account)).thenReturn(account);
+        accountsLogic.createAccount(account);
+        
         when(usersLogic.getAllUsersByGoogleId(googleId)).thenReturn(users);
 
         accountsLogic.deleteAccountCascade(googleId);
