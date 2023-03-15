@@ -469,10 +469,6 @@ public class Logic {
      */
     public void resetInstructorGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
-        assert email != null;
-        assert courseId != null;
-        assert googleId != null;
-
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
     }
 
@@ -486,10 +482,6 @@ public class Logic {
      */
     public void resetStudentGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
-        assert email != null;
-        assert courseId != null;
-        assert googleId != null;
-
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
     }
 

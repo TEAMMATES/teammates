@@ -20,6 +20,7 @@ class ResetAccountAction extends AdminOnlyAction {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String wrongGoogleId = null;
 
         if (studentEmail != null) {
             StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
@@ -27,11 +28,14 @@ class ResetAccountAction extends AdminOnlyAction {
                 throw new EntityNotFoundException("Student does not exist.");
             }
 
-            String existingGoogleId = existingStudent.getGoogleId();
+            wrongGoogleId = existingStudent.getGoogleId();
 
             try {
-                if (isAccountMigrated(existingGoogleId)) {
-                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingGoogleId);
+                if (isAccountMigrated(wrongGoogleId)) {
+                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
+                } else {
+                    logic.resetStudentGoogleId(studentEmail, courseId);
+                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
@@ -42,15 +46,25 @@ class ResetAccountAction extends AdminOnlyAction {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
 
-            String existingGoogleId = existingInstructor.getGoogleId();
+            wrongGoogleId = existingInstructor.getGoogleId();
 
             try {
-                if (isAccountMigrated(existingGoogleId)) {
-                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingGoogleId);
+                if (isAccountMigrated(wrongGoogleId)) {
+                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
+                } else {
+                    logic.resetInstructorGoogleId(instructorEmail, courseId);
+                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
                 }
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
+        }
+
+        if (wrongGoogleId != null
+                && !isAccountMigrated(wrongGoogleId)
+                && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
+                && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
+            logic.deleteAccountCascade(wrongGoogleId);
         }
 
         return new JsonResult("Account is successfully reset.");
