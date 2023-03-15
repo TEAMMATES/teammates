@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -98,6 +99,38 @@ public final class FeedbackQuestionsLogic {
         }
 
         return hasQuestions;
+    }
+
+    /**
+     * Gets a {@code List} of all questions for the given session that instructors can view/submit.
+     */
+    public List<FeedbackQuestion> getFeedbackQuestionsForInstructors(
+            FeedbackSession feedbackSession, String userEmail) {
+        List<FeedbackQuestion> questions = new ArrayList<>();
+
+        questions.addAll(
+                fqDb.getFeedbackQuestionsForGiverType(
+                    feedbackSession, FeedbackParticipantType.INSTRUCTORS));
+
+        if (userEmail != null && feedbackSession.getCreatorEmail().equals(userEmail)) {
+            questions.addAll(
+                    fqDb.getFeedbackQuestionsForGiverType(
+                        feedbackSession, FeedbackParticipantType.SELF));
+        }
+
+        return questions;
+    }
+
+    /**
+     * Gets a {@code List} of all questions for the given session that students can view/submit.
+     */
+    public List<FeedbackQuestion> getFeedbackQuestionsForStudents(FeedbackSession feedbackSession) {
+        List<FeedbackQuestion> questions = new ArrayList<>();
+
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.STUDENTS));
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.SELF));
+
+        return questions;
     }
 
     /**
