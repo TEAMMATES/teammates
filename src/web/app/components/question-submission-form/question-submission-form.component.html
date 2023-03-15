@@ -50,8 +50,8 @@
           </p>
         </div>
         <div class="form-check" *ngIf="hasSectionTeam">
-            <input type="checkbox" class="showSectionTeam" name="showSectionTeam" value="sectionTeam" (change)="toggleSectionTeam($event)">
-            <label class="form-check-label ms-1" for="showSectionTeam">Show Section/Team</label>
+            <input type="checkbox" id="show-section-team-{{ model.questionNumber }}" name="show-section-team" value="sectionTeam" (change)="toggleSectionTeam($event)">
+            <label class="form-check-label ms-1" for="show-section-team-{{ model.questionNumber }}">Show Section/Team</label>
           </div>
       </div>
 
