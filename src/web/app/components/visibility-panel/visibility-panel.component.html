@@ -18,13 +18,13 @@
       <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings">
         <button class="dropdown-button" (click)="applyCommonVisibilitySettings(visibilityOption); mainMenu.close()">{{ visibilityOption.name }}</button>
       </li>
-      <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
+      <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed" aria-hidden="true"></li>
       <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed">
         <button class="dropdown-button" (click)="triggerCustomVisibilitySetting(); mainMenu.close()">Custom visibility options...</button>
       </li>
     </ul>
   </div>
-  <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
+  <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting" aria-label="Custom Visibility Options Table">
     <thead>
     <tr>
       <th scope="col" class="text-start">User/Group</th>

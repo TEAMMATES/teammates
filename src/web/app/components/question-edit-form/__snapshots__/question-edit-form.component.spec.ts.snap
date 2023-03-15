@@ -369,6 +369,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   Common visibility options
                 </li>
                 <li
+                  aria-hidden="true"
                   class="dropdown-divider"
                   style=""
                 />

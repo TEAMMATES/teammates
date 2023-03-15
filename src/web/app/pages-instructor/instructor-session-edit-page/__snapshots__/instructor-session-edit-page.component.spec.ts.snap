@@ -1750,6 +1750,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
+                          aria-hidden="true"
                           class="dropdown-divider"
                           style=""
                         />
@@ -1766,6 +1767,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       </ul>
                     </div>
                     <table
+                      aria-label="Custom Visibility Options Table"
                       class="table margin-top-15px background-color-white table-striped"
                       style=""
                     >
@@ -2525,6 +2527,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
+                          aria-hidden="true"
                           class="dropdown-divider"
                           style=""
                         />
@@ -2541,6 +2544,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       </ul>
                     </div>
                     <table
+                      aria-label="Custom Visibility Options Table"
                       class="table margin-top-15px background-color-white table-striped"
                       style=""
                     >
@@ -4531,6 +4535,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       </button>
                     </li>
                     <li
+                      aria-hidden="true"
                       class="dropdown-divider"
                       style=""
                     />
@@ -4547,6 +4552,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </ul>
                 </div>
                 <table
+                  aria-label="Custom Visibility Options Table"
                   class="table margin-top-15px background-color-white table-striped"
                   style=""
                 >
