@@ -1,14 +1,14 @@
-<span class="d-inline-flex align-items-center">
-  <h2 *ngIf="shouldShowDownloadQuestionResult" class="col-auto question-number">
-    <button ngbTooltip="Download Question Results" type="button" class="btn btn-link padding-0" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
+<span class="d-flex flex-column flex-sm-row align-items-sm-center">
+  <h2 *ngIf="shouldShowDownloadQuestionResult" class="question-number">
+    <button ngbTooltip="Download Question Results" type="button" class="btn btn-link p-0" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
       Question {{ questionNumber }}:
     </button>
   </h2>
-  <h2 *ngIf="!shouldShowDownloadQuestionResult" class="col-auto question-number">
-    Question {{ questionNumber }}:&nbsp;
+  <h2 *ngIf="!shouldShowDownloadQuestionResult" class="question-number">
+    Question {{ questionNumber }}:
   </h2>
-  <span id="question-text" class="col-auto">&nbsp;{{ questionDetails.questionText }}</span>
-  <button id="additional-info-button" class="info-font-size ms-1 border-0 bg-transparent text-primary" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)">
+  <span id="question-text" class="mx-sm-2">{{ questionDetails.questionText }}</span>
+  <button id="additional-info-button" class="info-font-size me-auto border-0 p-0 bg-transparent text-primary" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)">
     [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
   </button>
 </span>

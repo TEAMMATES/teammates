@@ -67,4 +67,8 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
   getChoiceWithDescription(choice: String, choiceDescription: String): String {
     return choiceDescription ? `${choice} - ${choiceDescription}` : choice;
   }
+
+  getInputId(id: String, row: Number, col: Number, platform: String): String {
+    return `${id}-row${row}-col${col}-${platform}`;
+  }
 }
