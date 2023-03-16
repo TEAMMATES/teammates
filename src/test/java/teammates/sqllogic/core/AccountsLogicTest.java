@@ -17,7 +17,6 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -57,11 +56,10 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteAccount_accountExists_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testDeleteAccount_accountExists_success() {
         Account account = generateTypicalAccount();
         String googleId = account.getGoogleId();
-
+        
         when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
 
         accountsLogic.deleteAccount(googleId);
@@ -70,8 +68,7 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteAccountCascade_googleIdExists_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testDeleteAccountCascade_googleIdExists_success() {
         Account account = generateTypicalAccount();
         String googleId = account.getGoogleId();
         List<User> users = new ArrayList<>();
@@ -81,8 +78,8 @@ public class AccountsLogicTest extends BaseTestCase {
             users.add(getTypicalStudent());
         }
 
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
         when(usersLogic.getAllUsersByGoogleId(googleId)).thenReturn(users);
+        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
 
         accountsLogic.deleteAccountCascade(googleId);
 

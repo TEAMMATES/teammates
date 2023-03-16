@@ -35,8 +35,9 @@ class ResetAccountAction extends AdminOnlyAction {
                     sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
                 } else {
                     logic.resetStudentGoogleId(studentEmail, courseId);
-                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
                 }
+
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
@@ -53,8 +54,9 @@ class ResetAccountAction extends AdminOnlyAction {
                     sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
                 } else {
                     logic.resetInstructorGoogleId(instructorEmail, courseId);
-                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
                 }
+                
+                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
