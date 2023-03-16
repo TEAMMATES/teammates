@@ -90,33 +90,27 @@ export class VisibilityPanelComponent {
   @Output()
   visibilityStateMachineChange: EventEmitter<VisibilityStateMachine> = new EventEmitter<VisibilityStateMachine>();
 
+  visibilityTypeAriaLabels: Map<FeedbackVisibilityType, string> = new Map([
+    [FeedbackVisibilityType.RECIPIENT, 'Recipient(s)'],
+    [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, 'Giver\'s Team Members'],
+    [FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, 'Recipient\'s Team Members'],
+    [FeedbackVisibilityType.STUDENTS, 'Other Students'],
+    [FeedbackVisibilityType.INSTRUCTORS, 'Instructors'],
+  ]);
+
+  visibilityControlAriaLabels: Map<VisibilityControl, string> = new Map([
+    [VisibilityControl.SHOW_RESPONSE, 'Answer'],
+    [VisibilityControl.SHOW_GIVER_NAME, 'Giver\'s Name'],
+    [VisibilityControl.SHOW_RECIPIENT_NAME, 'Recipient\'s Name'],
+  ])
+
   triggerCustomVisibilitySetting(): void {
     this.customVisibilitySetting.emit(true);
   }
 
   getCheckboxAriaLabel(visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): string {
-    let group: string = '';
-    if (visibilityType === FeedbackVisibilityType.RECIPIENT) {
-      group = 'Recipient(s)';
-    } else if (visibilityType === FeedbackVisibilityType.GIVER_TEAM_MEMBERS) {
-      group = 'Giver\'s Team Members';
-    } else if (visibilityType === FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS) {
-      group = 'Recipient\'s Team Members';
-    } else if (visibilityType === FeedbackVisibilityType.STUDENTS) {
-      group = 'Other Students';
-    } else if (visibilityType === FeedbackVisibilityType.INSTRUCTORS) {
-      group = 'Instructors';
-    }
-
-    let groupVisibility: string = '';
-    if (visibilityControl === VisibilityControl.SHOW_RESPONSE) {
-      groupVisibility = 'Answer';
-    } else if (visibilityControl === VisibilityControl.SHOW_GIVER_NAME) {
-      groupVisibility = 'Giver\'s Name';
-    } else if (visibilityControl === VisibilityControl.SHOW_RECIPIENT_NAME) {
-      groupVisibility = 'Recipient\'s Name';
-    }
-
+    let group: string = this.visibilityTypeAriaLabels.get(visibilityType) || '';
+    let groupVisibility: string = this.visibilityControlAriaLabels.get(visibilityControl) || '';
     return `${group} can see ${groupVisibility}`;
   }
 
