@@ -272,9 +272,15 @@ public final class FeedbackQuestionsLogic {
             if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
                 Student student =
                         usersLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
-                teams = coursesLogic.getTeamsForSection(student.getTeam().getSection()).stream().map(team -> { return team.getName(); }).collect(Collectors.toList());
+                teams = coursesLogic.getTeamsForSection(student.getTeam().getSection())
+                                    .stream()
+                                    .map(team -> { return team.getName(); })
+                                    .collect(Collectors.toList());
             } else {
-                teams = coursesLogic.getTeamsForCourse(courseId).stream().map(team -> { return team.getName(); }).collect(Collectors.toList());
+                teams = coursesLogic.getTeamsForCourse(courseId)
+                                    .stream()
+                                    .map(team -> { return team.getName(); })
+                                    .collect(Collectors.toList());
             }
 
             if (generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {

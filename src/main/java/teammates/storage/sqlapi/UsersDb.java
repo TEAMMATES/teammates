@@ -361,8 +361,6 @@ public final class UsersDb extends EntitiesDb {
                     cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
-
-
     }
 
 }
