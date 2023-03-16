@@ -432,7 +432,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         } else if (expectedSession.isInGracePeriod()) {
             assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, data.getSubmissionStatus());
         } else if (expectedSession.isVisible() && !expectedSession.isOpened()) {
-            assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, data.getSubmissionStatus());
+            assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_YET_OPEN, data.getSubmissionStatus());
         }
 
         if (expectedSession.getDeletedTime() == null) {
@@ -489,7 +489,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         } else if (expectedSession.isInGracePeriod()) {
             assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, data.getSubmissionStatus());
         } else if (expectedSession.isVisible() && !expectedSession.isOpened()) {
-            assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, data.getSubmissionStatus());
+            assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_YET_OPEN, data.getSubmissionStatus());
         }
 
         if (expectedSession.isPublished()) {

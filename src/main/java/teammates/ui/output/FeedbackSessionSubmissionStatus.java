@@ -11,9 +11,9 @@ public enum FeedbackSessionSubmissionStatus {
     NOT_VISIBLE,
 
     /**
-     * Feedback session is visible to view but not open for submission.
+     * Feedback session is visible to view but not yet open for submission.
      */
-    VISIBLE_NOT_OPEN,
+    VISIBLE_NOT_YET_OPEN,
 
     /**
      * Feedback session is open for submission.
