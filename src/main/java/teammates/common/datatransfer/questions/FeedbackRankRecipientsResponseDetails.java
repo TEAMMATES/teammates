@@ -46,7 +46,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
             isUpdateNeeded = false; // will be set to true again once invalid rank appears after update
 
             maxUnusedRank = getMaxUnusedRank(responses, maxRank, maxUnusedRank);
-            
+
             assert maxUnusedRank > 0; // if update is needed, there must be at least one unused rank
 
             for (FeedbackResponseAttributes response : responses) {
@@ -128,13 +128,14 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
                 isRankUsed[answer - 1] = true;
             }
         }
+        int newMaxUnusedRank = maxUnusedRank;
         for (int i = maxRank - 1; i >= 0; i--) {
             if (!isRankUsed[i]) {
-                maxUnusedRank = i + 1;
+                newMaxUnusedRank = i + 1;
                 break;
             }
         }
-        return maxUnusedRank;
+        return newMaxUnusedRank;
     }
 
     @Override
