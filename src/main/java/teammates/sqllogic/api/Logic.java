@@ -598,4 +598,26 @@ public class Logic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
+
+    /**
+     * Populates fields that need dynamic generation in a question.
+     *
+     * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
+     *
+     * @param feedbackQuestion the question to populate
+     * @param courseId the ID of the course
+     * @param emailOfEntityDoingQuestion the email of the entity doing the question
+     * @param teamOfEntityDoingQuestion the team of the entity doing the question. If the entity is an instructor,
+     *                                  it can be {@code null}.
+     */
+    public void populateFieldsToGenerateInQuestion(FeedbackQuestion feedbackQuestion,
+            String courseId, String emailOfEntityDoingQuestion,
+            String teamOfEntityDoingQuestion) {
+        assert feedbackQuestion != null;
+        assert courseId != null;
+        assert emailOfEntityDoingQuestion != null;
+
+        feedbackQuestionsLogic.populateFieldsToGenerateInQuestion(
+                feedbackQuestion, courseId, emailOfEntityDoingQuestion, teamOfEntityDoingQuestion);
+    }
 }

@@ -11,6 +11,8 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.request.Intent;
@@ -29,33 +31,63 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        switch (intent) {
-        case STUDENT_SUBMISSION:
-            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-            checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
-            break;
-        case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
-            break;
-        case INSTRUCTOR_SUBMISSION:
-            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-            checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
-            break;
-        case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-            break;
-        case STUDENT_RESULT:
-            gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
-            break;
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        if (!isCourseMigrated(courseId)) {
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+            switch (intent) {
+                case STUDENT_SUBMISSION:
+                    StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+                    checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
+                    break;
+                case FULL_DETAIL:
+                    gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                    gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
+                    break;
+                case INSTRUCTOR_SUBMISSION:
+                    InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+                    checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
+                    break;
+                case INSTRUCTOR_RESULT:
+                    gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                    gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                            feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                    break;
+                case STUDENT_RESULT:
+                    gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
+                    break;
+                default:
+                    throw new InvalidHttpParameterException("Unknown intent " + intent);
+                }
+        } else {
+            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+            switch (intent) {
+                case STUDENT_SUBMISSION:
+                    Student student = getSqlStudentOfCourseFromRequest(courseId);
+                    checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
+                    break;
+                case FULL_DETAIL:
+                    gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                    gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()), feedbackSession);
+                    break;
+                case INSTRUCTOR_SUBMISSION:
+                    Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+                    checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
+                    break;
+                case INSTRUCTOR_RESULT:
+                    gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                    gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                            feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                    break;
+                case STUDENT_RESULT:
+                    gateKeeper.verifyAccessible(getSqlStudentOfCourseFromRequest(courseId), feedbackSession);
+                    break;
+                default:
+                    throw new InvalidHttpParameterException("Unknown intent " + intent);
+                }
         }
+
+
     }
 
     @Override
@@ -108,27 +140,26 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
 
-        List<FeedbackQuestionAttributes> questions;
+        List<FeedbackQuestion> questions;
         switch (intent) {
         case STUDENT_SUBMISSION:
-            questions = convertToFeedbackQuestionAttributes(sqlLogic.getFeedbackQuestionsForStudents(feedbackSession));
+            questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             questions.forEach(question ->
-                    logic.populateFieldsToGenerateInQuestion(question,
+                    sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
                             studentAttributes.getEmail(), studentAttributes.getTeam()));
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructor = getInstructorOfCourseFromRequest(courseId);
-            questions = convertToFeedbackQuestionAttributes(
-                            sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail()));
+            questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
             questions.forEach(question ->
-                    logic.populateFieldsToGenerateInQuestion(question,
+                    sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
                             instructor.getEmail(), null));
             break;
         case FULL_DETAIL:
         case INSTRUCTOR_RESULT:
         case STUDENT_RESULT:
-            questions = convertToFeedbackQuestionAttributes(sqlLogic.getFeedbackQuestionsForSession(feedbackSession));
+            questions = sqlLogic.getFeedbackQuestionsForSession(feedbackSession);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -148,14 +179,5 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             }
         }
         return new JsonResult(response);
-    }
-
-    private List<FeedbackQuestionAttributes> convertToFeedbackQuestionAttributes(List<FeedbackQuestion> questions) {
-        List<FeedbackQuestionAttributes> newQuestions = new ArrayList<>();
-
-        for (FeedbackQuestion question : questions) {
-            newQuestions.add(new FeedbackQuestionAttributes(question));
-        }
-        return newQuestions;
     }
 }
