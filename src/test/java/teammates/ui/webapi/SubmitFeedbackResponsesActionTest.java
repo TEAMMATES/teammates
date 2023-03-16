@@ -124,4 +124,86 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .build());
         verifyCanAccess(submissionParams);
     }
+    @Test
+    public void testExecute_submitResponse() throws Exception {
+        // set up the feedback session and question
+        FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestionAttributes feedbackQuestion = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+    
+        // set up the user who is submitting the response
+        StudentAttributes student = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student.getGoogleId());
+
+        // set up the submission parameters
+        String[] submissionParams = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestion.getId(),
+                Const.ParamsNames.RESPONSE_TEXT, "This is my response."
+         };
+
+         // execute the action
+         SubmitFeedbackResponsesAction action = getAction(submissionParams);
+         ActionResult result = action.execute();
+    
+        // verify that the response was submitted successfully
+        FeedbackQuestionAttributes updatedQuestion = logic.getFeedbackQuestion(feedbackSession.getFeedbackSessionName(),
+        feedbackSession.getCourseId(), feedbackQuestion.getQuestionNumber());
+         List<FeedbackResponseAttributes> responses = updatedQuestion.getResponses();
+         FeedbackResponseAttributes response = responses.stream()
+        .filter(r -> r.giverEmail.equals(student.getEmail()))
+        .findFirst()
+        .orElse(null);
+         assertNotNull(response);
+         assertEquals(submissionParams[Const.ParamsNames.RESPONSE_TEXT], response.getResponseText());
+    
+        // verify that the action succeeded
+         assertEquals(Const.StatusCodes.OK, result.getStatusCode());
+        }
+
+        @Test
+        public void testEmptySubmission() {
+            // Define session and feedback question configuration
+            FeedbackSession session = new FeedbackSession();
+            FeedbackQuestion question = new FeedbackQuestion(1, "How did you find the lecture?", 
+                FeedbackQuestion.Type.TEXT);
+        
+            // Define user and submission parameters
+            User student = new User("John Doe");
+            Map<String, String> submissionParams = new HashMap<>();
+            submissionParams.put("questionId", "1");
+            submissionParams.put("answerText", "");
+        
+            // Submit empty answer and verify that it fails
+            SubmitFeedbackResponsesAction action = new SubmitFeedbackResponsesAction();
+            action.setSession(session);
+            action.setQuestion(question);
+            action.setUser(student);
+            action.setSubmissionParams(submissionParams);
+            ActionResult result = action.execute();
+            assertEquals(Const.StatusCodes.ERROR, result.getStatus());
+        }
+        
+        @Test
+        public void testClosedSession() {
+            // Define session and feedback question configuration
+            FeedbackSession session = new FeedbackSession();
+            session.setStatus(FeedbackSession.Status.CLOSED);
+            FeedbackQuestion question = new FeedbackQuestion(1, "How did you find the lecture?", 
+                FeedbackQuestion.Type.TEXT);
+        
+            // Define user and submission parameters
+            User student = new User("John Doe");
+            Map<String, String> submissionParams = new HashMap<>();
+            submissionParams.put("questionId", "1");
+            submissionParams.put("answerText", "It was good");
+        
+            // Submit answer after session has closed and verify that it fails
+            SubmitFeedbackResponsesAction action = new SubmitFeedbackResponsesAction();
+            action.setSession(session);
+            action.setQuestion(question);
+            action.setUser(student);
+            action.setSubmissionParams(submissionParams);
+            ActionResult result = action.execute();
+            assertEquals(Const.StatusCodes.ERROR, result.getStatus());
+        }
+        
 }
