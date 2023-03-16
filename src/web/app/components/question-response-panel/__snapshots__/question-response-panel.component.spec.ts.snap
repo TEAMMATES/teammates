@@ -24,7 +24,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -35,14 +35,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                  Question 1: 
               </h2>
               <span
-                class="mx-sm-2"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
                 How well did team member perform?
               </span>
               <button
-                class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
-                id="additional-info-button"
+                class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
               >
                  [more] 
               </button>
@@ -127,7 +125,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -138,14 +136,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                  Question 2: 
               </h2>
               <span
-                class="mx-sm-2"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
                 Rate your teammates in contribution
               </span>
               <button
-                class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
-                id="additional-info-button"
+                class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
               >
                  [more] 
               </button>
@@ -277,7 +273,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -288,14 +284,12 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                  Question 3: 
               </h2>
               <span
-                class="mx-sm-2"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
                 Rate your teammates proficiency
               </span>
               <button
-                class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
-                id="additional-info-button"
+                class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
               >
                  [more] 
               </button>
@@ -407,8 +401,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                                               </div>
                                             </div>
                                             <div
-                                              class="col-12"
-                                              id="comment-text"
+                                              class="comment-text col-12"
                                             >
                                               this is a text
                                             </div>
@@ -460,7 +453,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -471,8 +464,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                  Question 1: 
               </h2>
               <span
-                class="mx-sm-2"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
                 What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).
               </span>
@@ -651,7 +643,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
               class="d-flex flex-column flex-sm-row align-items-sm-center"
@@ -662,8 +654,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                  Question 2: 
               </h2>
               <span
-                class="mx-sm-2"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
                 How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).
               </span>

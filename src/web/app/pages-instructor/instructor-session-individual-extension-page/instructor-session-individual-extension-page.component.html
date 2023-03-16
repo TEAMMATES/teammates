@@ -5,7 +5,7 @@
       <div class="card-body">
         <div class="row text-center">
           <div class="col-md-2 text-md-end font-bold">Course ID</div>
-          <div id="time-zone" class="col-md-3 text-md-start">
+          <div id="course-id" class="col-md-3 text-md-start">
             {{ courseId }}
           </div>
         </div>
@@ -23,13 +23,13 @@
         </div>
         <div class="row text-center">
           <div class="col-md-2 text-md-end font-bold">Session Name</div>
-          <div id="course-name" class="col-md-10 text-md-start">
+          <div id="session-name" class="col-md-10 text-md-start">
             {{ feedbackSessionName }}
           </div>
         </div>
         <div class="row text-center">
           <div class="col-md-2 text-md-end font-bold">Original Deadline</div>
-          <div id="course-name" class="col-md-10 text-md-start">
+          <div id="original-deadline" class="col-md-10 text-md-start">
             {{ feedbackSessionEndingTimestamp | formatDateDetail: feedbackSessionTimeZone }}
           </div>
         </div>
@@ -40,7 +40,6 @@
   </div>
 </tm-loading-retry>
 
-<!-- TODO: Use lazy loading toggleable dropdowns-->
 <tm-loading-retry [shouldShowRetry]="hasLoadedAllStudentsFailed" [message]="'Failed to load students'"
   (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingAllStudents">
