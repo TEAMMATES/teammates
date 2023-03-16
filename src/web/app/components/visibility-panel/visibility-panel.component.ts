@@ -102,15 +102,15 @@ export class VisibilityPanelComponent {
     [VisibilityControl.SHOW_RESPONSE, 'Answer'],
     [VisibilityControl.SHOW_GIVER_NAME, 'Giver\'s Name'],
     [VisibilityControl.SHOW_RECIPIENT_NAME, 'Recipient\'s Name'],
-  ])
+  ]);
 
   triggerCustomVisibilitySetting(): void {
     this.customVisibilitySetting.emit(true);
   }
 
   getCheckboxAriaLabel(visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): string {
-    let group: string = this.visibilityTypeAriaLabels.get(visibilityType) || '';
-    let groupVisibility: string = this.visibilityControlAriaLabels.get(visibilityControl) || '';
+    const group: string = this.visibilityTypeAriaLabels.get(visibilityType) || '';
+    const groupVisibility: string = this.visibilityControlAriaLabels.get(visibilityControl) || '';
     return `${group} can see ${groupVisibility}`;
   }
 
