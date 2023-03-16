@@ -83,67 +83,24 @@ class GetInstructorsAction extends Action {
         String intentStr = getRequestParamValue(Const.ParamsNames.INTENT);
         InstructorsData data;
 
-        if (isCourseMigrated(courseId)) {
-            List<Instructor> instructorsOfCourse = sqlLogic.getInstructorsByCourse(courseId);
+        if (!isCourseMigrated(courseId)) {
+            List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(courseId);
 
             if (intentStr == null) {
-                instructorsOfCourse = instructorsOfCourse
-                        .stream()
-                        .filter(Instructor::isDisplayedToStudents)
-                        .collect(Collectors.toList());
                 data = new InstructorsData();
+                instructorsOfCourse =
+                        instructorsOfCourse.stream()
+                                .filter(InstructorAttributes::isDisplayedToStudents)
+                                .collect(Collectors.toList());
 
+                // To map each InstructorAttributes object to InstructorData format
+                // in order to fill the list in InstructorsData via the setter method.
                 List<InstructorData> instructorDataList = instructorsOfCourse
                         .stream()
                         .map(InstructorData::new)
                         .collect(Collectors.toList());
 
                 data.setInstructors(instructorDataList);
-
-                // hide information
-                data.getInstructors().forEach(i -> {
-                    i.setGoogleId(null);
-                    i.setJoinState(null);
-                    i.setIsDisplayedToStudents(null);
-                    i.setRole(null);
-                });
-            } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
-                // get all instructors of a course without information hiding
-                // adds googleId if caller is admin or has the appropriate privilege to modify instructor
-                if (userInfo.isAdmin || sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()).getPrivileges()
-                        .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
-                    data = new InstructorsData();
-
-                    for (Instructor instructor : instructorsOfCourse) {
-                        InstructorData instructorData = new InstructorData(instructor);
-                        instructorData.setGoogleId(instructor.getAccount().getGoogleId());
-                        if (userInfo.isAdmin) {
-                            instructorData.setKey(instructor.getRegKey());
-                        }
-                        data.getInstructors().add(instructorData);
-                    }
-                } else {
-                    data = new InstructorsData();
-
-                    List<InstructorData> instructorDataList = instructorsOfCourse
-                            .stream()
-                            .map(InstructorData::new)
-                            .collect(Collectors.toList());
-
-                    data.setInstructors(instructorDataList);
-                }
-            } else {
-                throw new InvalidHttpParameterException("unknown intent");
-            }
-        } else {
-            List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(courseId);
-
-            if (intentStr == null) {
-                instructorsOfCourse =
-                        instructorsOfCourse.stream()
-                                .filter(InstructorAttributes::isDisplayedToStudents)
-                                .collect(Collectors.toList());
-                data = new InstructorsData(instructorsOfCourse);
 
                 // hide information
                 data.getInstructors().forEach(i -> {
@@ -167,11 +124,60 @@ class GetInstructorsAction extends Action {
                         data.getInstructors().add(instructorData);
                     }
                 } else {
-                    data = new InstructorsData(instructorsOfCourse);
+                    data = new InstructorsData();
+
+                    // To map each InstructorAttributes object to InstructorData format
+                    // in order to fill the list in InstructorsData via the setter method.
+                    List<InstructorData> instructorDataList = instructorsOfCourse
+                            .stream()
+                            .map(InstructorData::new)
+                            .collect(Collectors.toList());
+
+                    data.setInstructors(instructorDataList);
                 }
             } else {
                 throw new InvalidHttpParameterException("unknown intent");
             }
+
+            return new JsonResult(data);
+        }
+
+        List<Instructor> instructorsOfCourse = sqlLogic.getInstructorsByCourse(courseId);
+
+        if (intentStr == null) {
+            instructorsOfCourse = instructorsOfCourse
+                    .stream()
+                    .filter(Instructor::isDisplayedToStudents)
+                    .collect(Collectors.toList());
+            data = new InstructorsData(instructorsOfCourse);
+
+            // hide information
+            data.getInstructors().forEach(i -> {
+                i.setGoogleId(null);
+                i.setJoinState(null);
+                i.setIsDisplayedToStudents(null);
+                i.setRole(null);
+            });
+        } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
+            // get all instructors of a course without information hiding
+            // adds googleId if caller is admin or has the appropriate privilege to modify instructor
+            if (userInfo.isAdmin || sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()).getPrivileges()
+                    .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+                data = new InstructorsData();
+
+                for (Instructor instructor : instructorsOfCourse) {
+                    InstructorData instructorData = new InstructorData(instructor);
+                    instructorData.setGoogleId(instructor.getGoogleId());
+                    if (userInfo.isAdmin) {
+                        instructorData.setKey(instructor.getRegKey());
+                    }
+                    data.getInstructors().add(instructorData);
+                }
+            } else {
+                data = new InstructorsData(instructorsOfCourse);
+            }
+        } else {
+            throw new InvalidHttpParameterException("unknown intent");
         }
 
         return new JsonResult(data);
