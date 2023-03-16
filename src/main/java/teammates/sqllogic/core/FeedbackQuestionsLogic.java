@@ -5,13 +5,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
+
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
 
 /**
  * Handles operations related to feedback questions.
@@ -25,6 +34,8 @@ public final class FeedbackQuestionsLogic {
 
     private static final FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
     private FeedbackQuestionsDb fqDb;
+    private CoursesLogic coursesLogic;
+    private UsersLogic usersLogic;
 
     private FeedbackQuestionsLogic() {
         // prevent initialization
@@ -34,8 +45,10 @@ public final class FeedbackQuestionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(FeedbackQuestionsDb fqDb) {
+    void initLogicDependencies(FeedbackQuestionsDb fqDb, CoursesLogic coursesLogic, UsersLogic usersLogic) {
         this.fqDb = fqDb;
+        this.coursesLogic = coursesLogic;
+        this.usersLogic = usersLogic;
     }
 
     /**
@@ -191,6 +204,129 @@ public final class FeedbackQuestionsLogic {
                 FeedbackQuestion question = questions.get(i - 1);
                 question.setQuestionNumber(question.getQuestionNumber() - 1);
             }
+        }
+    }
+
+    /**
+     * Populates fields that need dynamic generation in a question.
+     *
+     * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
+     *
+     * @param feedbackQuestion the question to populate
+     * @param courseId the ID of the course
+     * @param emailOfEntityDoingQuestion the email of the entity doing the question
+     * @param teamOfEntityDoingQuestion the team of the entity doing the question. If the entity is an instructor,
+     *                                  it can be {@code null}.
+     */
+    public void populateFieldsToGenerateInQuestion(FeedbackQuestion feedbackQuestion,
+            String courseId, String emailOfEntityDoingQuestion, String teamOfEntityDoingQuestion) {
+        List<String> optionList;
+
+        FeedbackParticipantType generateOptionsFor;
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
+
+        if (questionType == FeedbackQuestionType.MCQ) {
+            FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
+                    (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+            optionList = feedbackMcqQuestionDetails.getMcqChoices();
+            generateOptionsFor = feedbackMcqQuestionDetails.getGenerateOptionsFor();
+        } else if (questionType == FeedbackQuestionType.MSQ) {
+            FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
+                    (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+            optionList = feedbackMsqQuestionDetails.getMsqChoices();
+            generateOptionsFor = feedbackMsqQuestionDetails.getGenerateOptionsFor();
+        } else {
+            // other question types
+            return;
+        }
+
+        switch (generateOptionsFor) {
+        case NONE:
+            break;
+        case STUDENTS:
+        case STUDENTS_IN_SAME_SECTION:
+        case STUDENTS_EXCLUDING_SELF:
+            List<Student> studentList;
+            if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                Student student =
+                        usersLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
+                studentList = usersLogic.getStudentsForSection(student.getTeam().getSection(), courseId);
+            } else {
+                studentList = usersLogic.getStudentsForCourse(courseId);
+            }
+
+            if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+                studentList.removeIf(studentInList -> studentInList.getEmail().equals(emailOfEntityDoingQuestion));
+            }
+
+            for (Student student : studentList) {
+                optionList.add(student.getName() + " (" + student.getTeam() + ")");
+            }
+
+            optionList.sort(null);
+            break;
+        case TEAMS:
+        case TEAMS_IN_SAME_SECTION:
+        case TEAMS_EXCLUDING_SELF:
+            List<String> teams;
+            if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                Student student =
+                        usersLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
+                teams = coursesLogic.getTeamsForSection(student.getTeam().getSection()).stream().map(team -> { return team.getName(); }).collect(Collectors.toList());
+            } else {
+                teams = coursesLogic.getTeamsForCourse(courseId).stream().map(team -> { return team.getName(); }).collect(Collectors.toList());
+            }
+
+            if (generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
+                teams.removeIf(team -> team.equals(teamOfEntityDoingQuestion));
+            }
+
+            for (String team : teams) {
+                optionList.add(team);
+            }
+
+            optionList.sort(null);
+            break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+        case OWN_TEAM_MEMBERS:
+            if (teamOfEntityDoingQuestion != null) {
+                List<Student> teamMembers = usersLogic.getStudentsForTeam(teamOfEntityDoingQuestion,
+                        courseId);
+
+                if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                    teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
+                }
+
+                teamMembers.forEach(teamMember -> optionList.add(teamMember.getName()));
+
+                optionList.sort(null);
+            }
+            break;
+        case INSTRUCTORS:
+            List<Instructor> instructorList =
+                    usersLogic.getInstructorsForCourse(courseId);
+
+            for (Instructor instructor : instructorList) {
+                optionList.add(instructor.getName());
+            }
+
+            optionList.sort(null);
+            break;
+        default:
+            assert false : "Trying to generate options for neither students, teams nor instructors";
+            break;
+        }
+
+        if (questionType == FeedbackQuestionType.MCQ) {
+            FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
+                    (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+            feedbackMcqQuestionDetails.setMcqChoices(optionList);
+            ((FeedbackMcqQuestion) feedbackQuestion).setFeedBackQuestionDetails(feedbackMcqQuestionDetails);
+        } else if (questionType == FeedbackQuestionType.MSQ) {
+            FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
+                    (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+            feedbackMsqQuestionDetails.setMsqChoices(optionList);
+            ((FeedbackMsqQuestion) feedbackQuestion).setFeedBackQuestionDetails(feedbackMsqQuestionDetails);
         }
     }
 }
