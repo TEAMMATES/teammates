@@ -33,6 +33,12 @@ public class UsersLogicTest extends BaseTestCase {
 
     private UsersDb usersDb;
 
+    private Instructor instructor;
+
+    private Student student;
+
+    private Account account;
+
     private Course course;
 
     @BeforeMethod
@@ -42,19 +48,20 @@ public class UsersLogicTest extends BaseTestCase {
         usersLogic.initLogicDependencies(usersDb, accountsLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
+        instructor = getTypicalInstructor();
+        student = getTypicalStudent();
+        account = generateTypicalAccount();
+
+        instructor.setAccount(account);
+        student.setAccount(account);
     }
 
     @Test
-    public void testResetInstructorGoogleId_entityExistsWithNoUserAssociatedWithGoogleId_success()
+    public void testResetInstructorGoogleId_instructorExistsWithEmptyUsersListFromGoogleId_success()
             throws EntityDoesNotExistException {
-        Account account = generateTypicalAccount();
-        Instructor instructor = getTypicalInstructor();
         String courseId = instructor.getCourseId();
         String email = instructor.getEmail();
-
-        instructor.setAccount(account);
-
-        String googleId = instructor.getAccount().getGoogleId();
+        String googleId = account.getGoogleId();
 
         when(usersLogic.getInstructorForEmail(courseId, email)).thenReturn(instructor);
         when(usersDb.getAllUsersByGoogleId(googleId)).thenReturn(Collections.emptyList());
@@ -67,16 +74,11 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testResetInstructorGoogleId_entityDoesNotExists_throwsEntityDoesNotExistException()
+    public void testResetInstructorGoogleId_instructorDoesNotExists_throwsEntityDoesNotExistException()
             throws EntityDoesNotExistException {
-        Account account = generateTypicalAccount();
-        Instructor instructor = getTypicalInstructor();
         String courseId = instructor.getCourseId();
         String email = instructor.getEmail();
-
-        instructor.setAccount(account);
-
-        String googleId = instructor.getAccount().getGoogleId();
+        String googleId = account.getGoogleId();
 
         when(usersLogic.getInstructorForEmail(courseId, email)).thenReturn(null);
 
@@ -88,16 +90,11 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testResetStudentGoogleId_entityExistsWithNoUserAssociatedWithGoogleId_success()
+    public void testResetStudentGoogleId_studentExistsWithEmptyUsersListFromGoogleId_success()
             throws EntityDoesNotExistException {
-        Account account = generateTypicalAccount();
-        Student student = getTypicalStudent();
         String courseId = student.getCourseId();
         String email = student.getEmail();
-
-        student.setAccount(account);
-
-        String googleId = student.getAccount().getGoogleId();
+        String googleId = account.getGoogleId();
 
         when(usersLogic.getStudentForEmail(courseId, email)).thenReturn(student);
         when(usersDb.getAllUsersByGoogleId(googleId)).thenReturn(Collections.emptyList());
@@ -105,21 +102,16 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 
-        assertEquals(null, student.getAccount());
+        assertNull(student.getAccount());
         verify(accountsLogic, times(1)).deleteAccountCascade(googleId);
     }
 
     @Test
     public void testResetStudentGoogleId_entityDoesNotExists_throwsEntityDoesNotExistException()
             throws EntityDoesNotExistException {
-        Account account = generateTypicalAccount();
-        Student student = getTypicalStudent();
         String courseId = student.getCourseId();
         String email = student.getEmail();
-
-        student.setAccount(account);
-
-        String googleId = student.getAccount().getGoogleId();
+        String googleId = account.getGoogleId();
 
         when(usersLogic.getStudentForEmail(courseId, email)).thenReturn(null);
 
