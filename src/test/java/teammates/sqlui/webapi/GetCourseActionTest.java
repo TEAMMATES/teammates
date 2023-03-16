@@ -149,7 +149,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     }
 
     @Test
-    void textExecute_asInstructor_success() {
+    void testExecute_asInstructor_success() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         course.setCreatedAt(Instant.parse("2022-01-01T00:00:00Z"));
 
@@ -165,7 +165,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     }
 
     @Test
-    void textExecute_asStudentHideCreatedAtAndDeletedAt_success() {
+    void testExecute_asStudentHideCreatedAtAndDeletedAt_success() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         course.setCreatedAt(Instant.parse("2022-01-01T00:00:00Z"));
         course.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));

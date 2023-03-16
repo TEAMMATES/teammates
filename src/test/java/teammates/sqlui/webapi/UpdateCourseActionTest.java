@@ -35,7 +35,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     }
 
     @Test
-    void textExecute_courseDoesNotExist_throwsEntityDoesNotExistException()
+    void testExecute_courseDoesNotExist_throwsEntityDoesNotExistException()
             throws EntityDoesNotExistException, InvalidParametersException {
         Course course = new Course("invalid-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
@@ -57,7 +57,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     }
 
     @Test
-    void textExecute_courseExists_success() throws EntityDoesNotExistException, InvalidParametersException {
+    void testExecute_courseExists_success() throws EntityDoesNotExistException, InvalidParametersException {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         course.setCreatedAt(Instant.parse("2022-01-01T00:00:00Z"));
 
@@ -84,7 +84,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     }
 
     @Test
-    void textExecute_invalidCourseName_throwsInvalidHttpRequestBodyException()
+    void testExecute_invalidCourseName_throwsInvalidHttpRequestBodyException()
             throws EntityDoesNotExistException, InvalidParametersException {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 

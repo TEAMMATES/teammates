@@ -51,7 +51,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
     }
 
     @Test
-    void textExecute_courseDoesNotExist_success() throws InvalidParametersException, EntityAlreadyExistsException {
+    void testExecute_courseDoesNotExist_success() throws InvalidParametersException, EntityAlreadyExistsException {
         loginAsInstructor(googleId);
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, null);
@@ -80,14 +80,13 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         assertEquals(course.getId(), actionOutput.getCourseId());
         assertEquals(course.getName(), actionOutput.getCourseName());
         assertEquals(course.getTimeZone(), actionOutput.getTimeZone());
-        assertEquals(course.getTimeZone(), actionOutput.getTimeZone());
 
         assertNull(course.getCreatedAt());
         assertNotNull(actionOutput.getCreationTimestamp());
     }
 
     @Test
-    void textExecute_courseAlreadyExists_throwsInvalidOperationException()
+    void testExecute_courseAlreadyExists_throwsInvalidOperationException()
             throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = new Course("existing-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
@@ -106,7 +105,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
     }
 
     @Test
-    void textExecute_invalidCourseName_throwsInvalidHttpRequestBodyException()
+    void testExecute_invalidCourseName_throwsInvalidHttpRequestBodyException()
             throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = new Course("invalid-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 

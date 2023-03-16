@@ -30,7 +30,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
     }
 
     @Test
-    void textExecute_courseDoesNotExist_failSilently() {
+    void testExecute_courseDoesNotExist_failSilently() {
         String courseId = "course-id";
 
         when(mockLogic.getCourse(courseId)).thenReturn(null);
@@ -46,7 +46,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
     }
 
     @Test
-    void textExecute_courseExists_success() {
+    void testExecute_courseExists_success() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -62,7 +62,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
     }
 
     @Test
-    void textExecute_invalidCourseId_failSilently() {
+    void testExecute_invalidCourseId_failSilently() {
         when(mockLogic.getCourse("invalid-course-id")).thenReturn(null);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "invalid-course-id",
@@ -75,7 +75,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
     }
 
     @Test
-    void textExecute_missingCourseId_throwsInvalidHttpParameterException() {
+    void testExecute_missingCourseId_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, null,
         };

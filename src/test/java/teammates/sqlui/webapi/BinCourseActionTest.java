@@ -33,7 +33,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
     }
 
     @Test
-    void textExecute_courseDoesNotExist_throwsEntityDoesNotExistException() throws EntityDoesNotExistException {
+    void testExecute_courseDoesNotExist_throwsEntityDoesNotExistException() throws EntityDoesNotExistException {
         String courseId = "invalid-course-id";
 
         when(mockLogic.getCourse(courseId)).thenReturn(null);
@@ -47,7 +47,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
     }
 
     @Test
-    void textExecute_courseExists_success() throws EntityDoesNotExistException {
+    void testExecute_courseExists_success() throws EntityDoesNotExistException {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         course.setCreatedAt(Instant.parse("2021-01-01T00:00:00Z"));
         course.setDeletedAt(null);

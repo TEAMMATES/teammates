@@ -33,7 +33,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
     }
 
     @Test
-    void textExecute_courseDoesNotExist_throwsEntityDoesNotExistException() throws EntityDoesNotExistException {
+    void testExecute_courseDoesNotExist_throwsEntityDoesNotExistException() throws EntityDoesNotExistException {
         String courseId = "invalid-course-id";
 
         when(mockLogic.getSectionNamesForCourse(courseId)).thenThrow(new EntityDoesNotExistException(""));
@@ -46,7 +46,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
     }
 
     @Test
-    void textExecute_courseExists_success() throws EntityDoesNotExistException {
+    void testExecute_courseExists_success() throws EntityDoesNotExistException {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         List<String> sectionNames = List.of("section-name-1", "section-name-2");
 
