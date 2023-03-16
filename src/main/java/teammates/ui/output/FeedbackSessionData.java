@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.User;
 
 /**
  * The API output format of {@link FeedbackSessionAttributes}.
@@ -151,8 +150,10 @@ public class FeedbackSessionData extends ApiOutput {
                 feedbackSession.getStartTime(), timeZone, true).toEpochMilli();
         this.submissionEndTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 feedbackSession.getEndTime(), timeZone, true).toEpochMilli();
+        // If no deadline extension time is provided, then the end time with extension is assumed to be
+        // just the end time.
         this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-            feedbackSession.getUserDeadline(null), timeZone, true).toEpochMilli();
+            feedbackSession.getEndTime(), timeZone, true).toEpochMilli();
         this.gracePeriod = feedbackSession.getGracePeriod().toMinutes();
 
         Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
@@ -211,12 +212,12 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
-     * Constructs FeedbackSessionData for a specific user.
+     * Constructs FeedbackSessionData for a given user deadline.
      */
-    public FeedbackSessionData(FeedbackSession feedbackSession, User user) {
+    public FeedbackSessionData(FeedbackSession feedbackSession, Instant userDeadline) {
         this(feedbackSession);
         this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-            feedbackSession.getUserDeadline(user), timeZone, true).toEpochMilli();
+            userDeadline, timeZone, true).toEpochMilli();
     }
 
     public String getCourseId() {

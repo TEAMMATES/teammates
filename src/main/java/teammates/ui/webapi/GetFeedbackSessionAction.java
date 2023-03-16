@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -87,17 +89,20 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             case STUDENT_SUBMISSION:
             case STUDENT_RESULT:
                 Student student = getSqlStudentOfCourseFromRequest(courseId);
-                response = new FeedbackSessionData(feedbackSession, student);
+                Instant studentDeadline = sqlLogic.getDeadlineForUser(feedbackSession, student);
+                response = new FeedbackSessionData(feedbackSession, studentDeadline);
                 response.hideInformationForStudent();
                 break;
             case INSTRUCTOR_SUBMISSION:
                 response = new FeedbackSessionData(feedbackSession,
-                    getSqlInstructorOfCourseFromRequest(courseId));
+                        sqlLogic.getDeadlineForUser(feedbackSession,
+                                getSqlInstructorOfCourseFromRequest(courseId)));
                 response.hideInformationForInstructorSubmission();
                 break;
             case INSTRUCTOR_RESULT:
                 response = new FeedbackSessionData(feedbackSession,
-                    getSqlInstructorOfCourseFromRequest(courseId));
+                        sqlLogic.getDeadlineForUser(feedbackSession,
+                                getSqlInstructorOfCourseFromRequest(courseId)));
                 response.hideInformationForInstructor();
                 break;
             case FULL_DETAIL:
