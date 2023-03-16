@@ -9,7 +9,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -320,4 +322,47 @@ public final class UsersDb extends EntitiesDb {
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
+
+    /**
+     * Gets all students of a section of a course.
+     */
+    public List<Student> getStudentsForSection(Section section, String courseId) {
+        assert section != null;
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                    cb.equal(studentRoot.get("courseId"), courseId),
+                    cb.equal(teamsJoin.get("sectionId"), section.getId())));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets all students of a team of a course.
+     */
+    public List<Student> getStudentsForTeam(String teamName, String courseId) {
+        assert teamName != null;
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                    cb.equal(studentRoot.get("courseId"), courseId),
+                    cb.equal(teamsJoin.get("name"), teamName)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+
+
+    }
+
 }
