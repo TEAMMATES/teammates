@@ -10,6 +10,8 @@ import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.User;
 
 /**
  * The API output format of {@link FeedbackSessionAttributes}.
@@ -23,7 +25,7 @@ public class FeedbackSessionData extends ApiOutput {
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
     @Nullable
-    private final Long submissionEndWithExtensionTimestamp;
+    private Long submissionEndWithExtensionTimestamp;
     @Nullable
     private Long sessionVisibleFromTimestamp;
     @Nullable
@@ -137,6 +139,84 @@ public class FeedbackSessionData extends ApiOutput {
                 .collect(Collectors.toMap(Map.Entry::getKey, entry ->
                         TimeHelper.getMidnightAdjustedInstantBasedOnZone(entry.getValue(), timeZone, true)
                                 .toEpochMilli()));
+    }
+
+    public FeedbackSessionData(FeedbackSession feedbackSession) {
+        String timeZone = feedbackSession.getCourse().getTimeZone();
+        this.courseId = feedbackSession.getCourse().getId();
+        this.timeZone = timeZone;
+        this.feedbackSessionName = feedbackSession.getName();
+        this.instructions = feedbackSession.getInstructions();
+        this.submissionStartTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                feedbackSession.getStartTime(), timeZone, true).toEpochMilli();
+        this.submissionEndTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                feedbackSession.getEndTime(), timeZone, true).toEpochMilli();
+        this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+            feedbackSession.getUserDeadline(null), timeZone, true).toEpochMilli();
+        this.gracePeriod = feedbackSession.getGracePeriod().toMinutes();
+
+        Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
+        this.sessionVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                sessionVisibleTime, timeZone, true).toEpochMilli();
+        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            this.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
+        } else {
+            this.sessionVisibleSetting = SessionVisibleSetting.CUSTOM;
+            this.customSessionVisibleTimestamp = this.sessionVisibleFromTimestamp;
+        }
+
+        Instant responseVisibleTime = feedbackSession.getResultsVisibleFromTime();
+        this.resultVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                responseVisibleTime, timeZone, true).toEpochMilli();
+        if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
+            this.responseVisibleSetting = ResponseVisibleSetting.AT_VISIBLE;
+        } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
+            this.responseVisibleSetting = ResponseVisibleSetting.LATER;
+        } else {
+            this.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
+            this.customResponseVisibleTimestamp = this.resultVisibleFromTimestamp;
+        }
+
+        if (!feedbackSession.isVisible()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
+        }
+        if (feedbackSession.isVisible() && !feedbackSession.isOpened()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+        }
+        if (feedbackSession.isOpened()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
+        }
+        if (feedbackSession.isInGracePeriod()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
+        }
+        if (feedbackSession.isClosed()) {
+            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
+        }
+
+        if (feedbackSession.isPublished()) {
+            this.publishStatus = FeedbackSessionPublishStatus.PUBLISHED;
+        } else {
+            this.publishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
+        }
+
+        this.isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
+        this.isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
+
+        this.createdAtTimestamp = feedbackSession.getCreatedAt().toEpochMilli();
+        if (feedbackSession.getDeletedAt() == null) {
+            this.deletedAtTimestamp = null;
+        } else {
+            this.deletedAtTimestamp = feedbackSession.getDeletedAt().toEpochMilli();
+        }
+    }
+
+    /**
+     * Constructs FeedbackSessionData for a specific user.
+     */
+    public FeedbackSessionData(FeedbackSession feedbackSession, User user) {
+        this(feedbackSession);
+        this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+            feedbackSession.getUserDeadline(user), timeZone, true).toEpochMilli();
     }
 
     public String getCourseId() {

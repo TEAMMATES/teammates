@@ -299,6 +299,8 @@ public class FeedbackSession extends BaseEntity {
         this.deletedAt = deletedAt;
     }
 
+
+
     @Override
     public String toString() {
         return "FeedbackSession [id=" + id + ", course=" + course + ", name=" + name + ", creatorEmail=" + creatorEmail
@@ -370,6 +372,35 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
+     * Checks if the feedback session is during the grace period.
+     * This occurs when the current time is after end time, but before the end of the grace period.
+     */
+    public boolean isInGracePeriod() {
+        return Instant.now().isAfter(endTime) && !isClosed();
+    }
+
+    /**
+     * Returns the deadline for the given user based on the stored deadline extensions.
+     * If there is a deadline extension for the user, return the extended deadline.
+     * Else, return the default endtime for this feedback session.
+     */
+    public Instant getUserDeadline(User user) {
+        if (user == null) {
+            return endTime;
+        }
+
+        DeadlineExtension dExtension = deadlineExtensions.stream()
+            .filter(de -> de.getUser().equals(user) && de.getFeedbackSession().equals(this))
+            .findFirst().orElse(null);
+
+        if (dExtension != null) {
+            return dExtension.getEndTime();
+        } else {
+            return endTime;
+        }
+    }
+
+    /**
      * Returns {@code true} if the results of the feedback session is visible; {@code false} if not.
      *         Does not care if the session has ended or not.
      */
@@ -389,4 +420,5 @@ public class FeedbackSession extends BaseEntity {
         Instant now = Instant.now();
         return now.isAfter(publishTime) || now.equals(publishTime);
     }
+
 }
