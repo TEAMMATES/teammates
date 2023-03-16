@@ -19,8 +19,7 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
        Question 0: 
     </h2>
     <span
-      class="mx-sm-2"
-      id="question-text"
+      class="question-text mx-sm-2"
     >
       Text question details
     </span>
@@ -47,14 +46,12 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
        Question 0: 
     </h2>
     <span
-      class="mx-sm-2"
-      id="question-text"
+      class="question-text mx-sm-2"
     >
       MCQ question details
     </span>
     <button
-      class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
-      id="additional-info-button"
+      class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
     >
        [more] 
     </button>
@@ -81,20 +78,17 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
        Question 0: 
     </h2>
     <span
-      class="mx-sm-2"
-      id="question-text"
+      class="question-text mx-sm-2"
     >
       MCQ question details
     </span>
     <button
-      class="info-font-size me-auto border-0 p-0 bg-transparent text-primary"
-      id="additional-info-button"
+      class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
     >
        [less] 
     </button>
   </span><div
-    class="info-font-size"
-    id="additional-info"
+    class="additional-info info-font-size"
   >
     <tm-mcq-question-additional-info>
       Multiple-choice (single answer) question options:

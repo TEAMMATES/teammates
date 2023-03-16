@@ -408,6 +408,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
       >
         <div
           class="card card-plain"
+          id="session-edit-form"
         >
           <div
             class="close-header"
