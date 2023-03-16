@@ -1500,6 +1500,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         ngbdropdowntoggle=""
                       >
                         <span
+                          class="text-wrap"
                           style=""
                         >
                            Students in this course will give feedback on 
@@ -1520,139 +1521,67 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           Common feedback path combinations
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Instructors in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
+                               Instructors in this course will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Feedback session creator (i.e., me) will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
+                               Feedback session creator (i.e., me) will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Students in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members and Giver
-                              </li>
-                            </ul>
+                               Students in this course will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
                           class="dropdown-divider"
                         />
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                         >
-                          Custom feedback path...
+                          <button
+                            class="dropdown-button"
+                          >
+                            Custom feedback path...
+                          </button>
                         </li>
                       </ul>
                     </div>
@@ -2239,6 +2168,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         ngbdropdowntoggle=""
                       >
                         <span
+                          class="text-wrap"
                           style=""
                         >
                            Students in this course will give feedback on 
@@ -2259,139 +2189,67 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           Common feedback path combinations
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Instructors in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
+                               Instructors in this course will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Feedback session creator (i.e., me) will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
+                               Feedback session creator (i.e., me) will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Students in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members and Giver
-                              </li>
-                            </ul>
+                               Students in this course will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
                           class="dropdown-divider"
                         />
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                         >
-                          Custom feedback path...
+                          <button
+                            class="dropdown-button"
+                          >
+                            Custom feedback path...
+                          </button>
                         </li>
                       </ul>
                     </div>
@@ -4126,139 +3984,67 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       Common feedback path combinations
                     </li>
                     <li
-                      class="dropdown-item"
+                      ngbdropdown=""
                       style=""
                     >
                       <div
-                        ngbdropdown=""
-                        placement="right"
+                        class="text-wrap dropdown-item"
                       >
-                        <span
-                          aria-expanded="false"
-                          class="dropdown-toggle float-end invisible"
-                          ngbdropdownanchor=""
-                        />
-                         Instructors in this course will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
+                        <button
+                          class="dropdown-button"
                         >
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                        </ul>
+                           Instructors in this course will give feedback on ... 
+                          <i
+                            class="fa-caret-right fas"
+                          />
+                        </button>
                       </div>
                     </li>
                     <li
-                      class="dropdown-item"
+                      ngbdropdown=""
                       style=""
                     >
                       <div
-                        ngbdropdown=""
-                        placement="right"
+                        class="text-wrap dropdown-item"
                       >
-                        <span
-                          aria-expanded="false"
-                          class="dropdown-toggle float-end invisible"
-                          ngbdropdownanchor=""
-                        />
-                         Feedback session creator (i.e., me) will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
+                        <button
+                          class="dropdown-button"
                         >
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                        </ul>
+                           Feedback session creator (i.e., me) will give feedback on ... 
+                          <i
+                            class="fa-caret-right fas"
+                          />
+                        </button>
                       </div>
                     </li>
                     <li
-                      class="dropdown-item"
+                      ngbdropdown=""
                       style=""
                     >
                       <div
-                        ngbdropdown=""
-                        placement="right"
+                        class="text-wrap dropdown-item"
                       >
-                        <span
-                          aria-expanded="false"
-                          class="dropdown-toggle float-end invisible"
-                          ngbdropdownanchor=""
-                        />
-                         Students in this course will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
+                        <button
+                          class="dropdown-button"
                         >
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver's team members
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver's team members and Giver
-                          </li>
-                        </ul>
+                           Students in this course will give feedback on ... 
+                          <i
+                            class="fa-caret-right fas"
+                          />
+                        </button>
                       </div>
                     </li>
                     <li
                       class="dropdown-divider"
                     />
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                     >
-                      Custom feedback path...
+                      <button
+                        class="dropdown-button"
+                      >
+                        Custom feedback path...
+                      </button>
                     </li>
                   </ul>
                 </div>

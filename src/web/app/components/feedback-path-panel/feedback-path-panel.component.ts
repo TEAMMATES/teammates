@@ -83,6 +83,8 @@ export class FeedbackPathPanelComponent {
   triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
     new EventEmitter<Partial<QuestionEditFormModel>>();
 
+  subMenuStatuses: Map<FeedbackParticipantType, boolean> = new Map();
+
   triggerCustomNumberOfEntities(data: number): void {
     this.customNumberOfEntitiesToGiveFeedbackTo.emit(data);
   }
@@ -93,6 +95,22 @@ export class FeedbackPathPanelComponent {
 
   triggerCustomFeedbackPath(): void {
     this.customFeedbackPath.emit(true);
+  }
+
+  toggleSubMenu(menu: FeedbackParticipantType): void {
+    this.subMenuStatuses.set(menu, !this.subMenuStatuses.get(menu));
+  }
+
+  resetMenu(): void {
+    this.subMenuStatuses.forEach((_, key) => this.subMenuStatuses.set(key, false));
+  }
+
+  isSubMenuOpen(menu: FeedbackParticipantType): boolean {
+    let subMenuState: boolean | undefined = this.subMenuStatuses.get(menu);
+    if (subMenuState === undefined) {
+      subMenuState = false;
+    }
+    return subMenuState;
   }
 
   /**
