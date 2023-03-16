@@ -130,7 +130,7 @@ describe('UserNotificationsListComponent', () => {
     component.notificationTabs = getNotificationTabs([testNotificationOne]);
     fixture.detectChanges();
     expect(component.notificationTabs[0].hasTabExpanded).toBeTruthy();
-    fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement.click();
+    fixture.debugElement.query(By.css('.btn-mark-as-read')).nativeElement.click();
     expect(apiSpy).toHaveBeenCalledTimes(1);
     expect(messageSpy).toHaveBeenCalledTimes(1);
     // check that it is no longer expanded

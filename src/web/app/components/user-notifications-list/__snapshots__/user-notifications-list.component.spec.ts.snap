@@ -271,7 +271,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 1
               </div>
@@ -281,8 +281,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               style=""
             >
               <button
-                class="btn btn-success"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-success"
                 type="button"
               >
                  Mark as Read 
@@ -326,7 +325,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 2
               </div>
@@ -336,8 +335,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               style=""
             >
               <button
-                class="btn btn-danger"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-danger"
                 type="button"
               >
                  Mark as Read 
@@ -450,7 +448,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 1
               </div>
@@ -460,8 +458,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               style=""
             >
               <button
-                class="btn btn-success"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-success"
                 type="button"
               >
                  Mark as Read 
@@ -505,7 +502,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 2
               </div>
@@ -515,8 +512,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               style=""
             >
               <button
-                class="btn btn-danger"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-danger"
                 type="button"
               >
                  Mark as Read 
@@ -629,7 +625,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 2
               </div>
@@ -639,8 +635,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               style=""
             >
               <button
-                class="btn btn-danger"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-danger"
                 type="button"
               >
                  Mark as Read 
@@ -684,7 +679,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 1
               </div>
@@ -694,8 +689,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               style=""
             >
               <button
-                class="btn btn-success"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-success"
                 type="button"
               >
                  Mark as Read 

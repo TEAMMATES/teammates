@@ -70,8 +70,8 @@
     </div>
     <div *ngIf="userExpanded[userInfo]" @collapseAnim>
       <div class="card-body top-padded-0">
-        <div id="question-panel" class="card top-padded alert-primary-border" *ngFor="let question of responsesToShow[userInfo]">
-          <div id="question-header" class="card-header alert alert-primary alert-no-bottom cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
+        <div id="question-panel-{{ question.questionOutput.feedbackQuestion.questionNumber }}" class="card top-padded alert-primary-border" *ngFor="let question of responsesToShow[userInfo]">
+          <div class="card-header alert alert-primary alert-no-bottom cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
             ></tm-question-text-with-info>

@@ -313,7 +313,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getQuestionText(int questionNum) {
-        return getQuestionResponsesSection(questionNum).findElement(By.id("question-text")).getText().trim();
+        return getQuestionResponsesSection(questionNum).findElement(By.className("question-text")).getText().trim();
     }
 
     private String getMcqAddInfo(FeedbackMcqQuestionDetails questionDetails) {
@@ -406,7 +406,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void showAdditionalInfo(int qnNumber) {
-        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber).findElement(By.id("additional-info-button"));
+        WebElement additionalInfoLink =
+                getQuestionResponsesSection(qnNumber).findElement(By.className("additional-info-button"));
         if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
             waitUntilAnimationFinish();
@@ -415,7 +416,7 @@ public class FeedbackResultsPage extends AppPage {
 
     private String getAdditionalInfo(int questionNum) {
         showAdditionalInfo(questionNum);
-        return getQuestionResponsesSection(questionNum).findElement(By.id("additional-info")).getText();
+        return getQuestionResponsesSection(questionNum).findElement(By.className("additional-info")).getText();
     }
 
     private WebElement getGivenResponseField(int questionNum, String receiver) {
@@ -549,7 +550,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private boolean isCommentByResponseGiver(WebElement commentField) {
-        return commentField.findElements(By.id("by-response-giver")).size() > 0;
+        return commentField.findElements(By.className("by-response-giver")).size() > 0;
     }
 
     private String getCommentGiver(WebElement commentField) {
@@ -569,7 +570,7 @@ public class FeedbackResultsPage extends AppPage {
     private WebElement getCommentField(int questionNum, String commentString) {
         List<WebElement> commentFields = getCommentFields(questionNum);
         for (WebElement comment : commentFields) {
-            if (comment.findElement(By.id("comment-text")).getText().equals(commentString)) {
+            if (comment.findElement(By.className("comment-text")).getText().equals(commentString)) {
                 return comment;
             }
         }

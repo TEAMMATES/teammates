@@ -846,9 +846,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     private WebElement getQuestionPanel(WebElement parentPanel, int qnNum) {
         List<WebElement> questionPanels;
         if (parentPanel == null) {
-            questionPanels = browser.driver.findElements(By.id("question-panel"));
+            questionPanels = browser.driver.findElements(By.cssSelector("[id^='question-panel-']"));
         } else {
-            questionPanels = parentPanel.findElements(By.id("question-panel"));
+            questionPanels = parentPanel.findElements(By.cssSelector("[id^='question-panel-']"));
         }
 
         for (WebElement questionPanel : questionPanels) {
@@ -918,14 +918,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private void expandQuestionPanel(WebElement questionPanel) {
         if (!isQuestionPanelExpanded(questionPanel)) {
-            click(questionPanel.findElement(By.id("question-header")));
+            click(questionPanel.findElement(By.className("card-header")));
             waitUntilAnimationFinish();
         }
     }
 
     private void hideQuestionPanel(WebElement questionPanel) {
         if (isQuestionPanelExpanded(questionPanel)) {
-            click(questionPanel.findElement(By.id("question-header")));
+            click(questionPanel.findElement(By.className("card-header")));
             waitUntilAnimationFinish();
         }
     }
@@ -936,7 +936,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getQuestionText(WebElement questionPanel) {
-        return questionPanel.findElement(By.id("question-text")).getText().trim();
+        return questionPanel.findElement(By.className("question-text")).getText().trim();
     }
 
     private WebElement getResponseTable(WebElement questionPanel) {
@@ -1018,7 +1018,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     private WebElement getCommentField(WebElement commentSection, String commentString) {
         List<WebElement> commentFields = getCommentFields(commentSection);
         for (WebElement comment : commentFields) {
-            if (comment.findElement(By.id("comment-text")).getText().equals(commentString)) {
+            if (comment.findElement(By.className("comment-text")).getText().equals(commentString)) {
                 return comment;
             }
         }

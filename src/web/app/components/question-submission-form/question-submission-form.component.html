@@ -1,11 +1,11 @@
-<div id="question-submission-form" class="card">
+<div id="question-submission-form-qn-{{ model.questionNumber }}" class="card">
   <button class="card-header bg-primary text-white question-header cursor-pointer border-0" (click)="toggleQuestionTab();"
     [ngClass]="isSaved ? 'bg-success' : 'bg-primary'" [attr.aria-expanded]="this.model.isTabExpanded">
     <div class="collapse-caret">
       <tm-panel-chevron [isExpanded]="model.isTabExpanded" aria-hidden="true"></tm-panel-chevron>
     </div>
     <i class="fas fa-check me-2" *ngIf="isSaved" aria-hidden="true"></i>
-    <h2 id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</h2>
+    <h2 class="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</h2>
   </button>
 
   <div *ngIf="model.isTabExpanded" @collapseAnim>
@@ -14,12 +14,12 @@
         <div class="card-header">
           <b>More details</b>
         </div>
-        <div id="question-description" class="card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
+        <div class="question-description card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
       </div>
 
       <div class="card-body visibility-card">
         <p class="text-secondary">Only the following persons can see your responses: </p>
-        <ul id="visibility-list" class="text-secondary">
+        <ul class="visibility-list text-secondary">
           <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
           <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
             <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
@@ -50,8 +50,8 @@
           </p>
         </div>
         <div class="form-check" *ngIf="hasSectionTeam">
-            <input type="checkbox" id="showSectionTeam" name="showSectionTeam" value="sectionTeam" (change)="toggleSectionTeam($event)">
-            <label class="form-check-label ms-1" for="showSectionTeam">Show Section/Team</label>
+            <input type="checkbox" id="show-section-team-{{ model.questionNumber }}" name="show-section-team" value="sectionTeam" (change)="toggleSectionTeam($event)">
+            <label class="form-check-label ms-1" for="show-section-team-{{ model.questionNumber }}">Show Section/Team</label>
           </div>
       </div>
 
@@ -62,11 +62,11 @@
       <div class="container">
         <div class="row" *ngFor="let recipientSubmissionFormModel of model.recipientSubmissionForms; let i = index; trackBy: trackRecipientSubmissionFormByFn">
           <div class="col-md-5 col-xs-12 margin-top-20px" *ngIf="model.recipientType !== FeedbackParticipantType.SELF && model.recipientType !== FeedbackParticipantType.NONE">
-            <div id="recipient-name-{{ i }}" *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
+            <div id="recipient-name-qn-{{ model.questionNumber }}-idx-{{ i }}" *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
               <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
             </div>
             <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-              <select id="recipient-dropdown" class="form-control form-select fw-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
+              <select id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}" class="form-control form-select fw-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
                       (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
                       [disabled]="isFormsDisabled">
                 <option value=""></option>
@@ -145,7 +145,7 @@
             </tm-constsum-recipients-question-edit-answer-form>
           </div>
 
-          <div id="comment-section" *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
+          <div id="comment-section-qn-{{ model.questionNumber }}-idx-{{ i }}" *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
             <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
               <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
                               [model]="recipientSubmissionFormModel.commentByGiver"
@@ -162,7 +162,7 @@
             </div>
             <ng-template #newComment>
               <div style="display: inline-block;" [ngbTooltip]="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails) ? 'Give a valid response in order to comment' : ''">
-                <button id="btn-add-comment" *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-light btn-sm"
+                <button *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn-add-comment btn btn-light btn-sm"
                         (click)="addNewParticipantCommentToResponse(i)"
                         [disabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
                   <i class="fas fa-comment"></i> [Optional] Comment on your response

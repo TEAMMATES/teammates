@@ -96,7 +96,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "btn-create-session")
     private WebElement createSessionButton;
 
-    @FindBy(id = "sessions-table")
+    @FindBy(className = "sessions-table")
     private WebElement sessionsTable;
 
     @FindBy(id = "deleted-sessions-heading")
@@ -154,7 +154,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void addFeedbackSession(FeedbackSessionAttributes newSession, boolean isUsingTemplate) {
         clickAddSessionButton();
-        waitForElementPresence(By.cssSelector("#instructions iframe"));
+        waitForElementPresence(By.id("session-edit-form"));
 
         if (isUsingTemplate) {
             selectDropdownOptionByText(sessionTypeDropdown,
@@ -203,7 +203,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void moveToRecycleBin(FeedbackSessionAttributes sessionToDelete) {
         int rowId = getFeedbackSessionRowId(sessionToDelete.getCourseId(), sessionToDelete.getFeedbackSessionName());
-        clickAndConfirm(browser.driver.findElement(By.id("btn-soft-delete-" + rowId)));
+        clickAndConfirm(browser.driver.findElement(By.className("btn-soft-delete-" + rowId)));
         waitUntilAnimationFinish();
     }
 
@@ -243,8 +243,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     public void sendReminderEmailToSelectedStudent(FeedbackSessionAttributes session, StudentAttributes student) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getFeedbackSessionName());
 
-        click(browser.driver.findElement(By.id("btn-remind-" + rowId)));
-        click(waitForElementPresence(By.id("btn-remind-selected-" + rowId)));
+        click(browser.driver.findElement(By.className("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.className("btn-remind-selected-" + rowId)));
         selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
     }
@@ -252,16 +252,16 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     public void sendReminderEmailToNonSubmitters(FeedbackSessionAttributes session) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getFeedbackSessionName());
 
-        click(browser.driver.findElement(By.id("btn-remind-" + rowId)));
-        click(waitForElementPresence(By.id("btn-remind-all-" + rowId)));
+        click(browser.driver.findElement(By.className("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.className("btn-remind-all-" + rowId)));
         click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
 
     public void resendResultsLink(FeedbackSessionAttributes session, StudentAttributes student) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getFeedbackSessionName());
 
-        click(browser.driver.findElement(By.id("btn-results-" + rowId)));
-        click(waitForElementPresence(By.id("btn-resend-" + rowId)));
+        click(browser.driver.findElement(By.className("btn-results-" + rowId)));
+        click(waitForElementPresence(By.className("btn-resend-" + rowId)));
         selectStudentToEmail(student.getEmail());
 
         click(browser.driver.findElement(By.id("btn-confirm-resend-results")));
@@ -269,28 +269,28 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void publishSessionResults(FeedbackSessionAttributes sessionToPublish) {
         int rowId = getFeedbackSessionRowId(sessionToPublish.getCourseId(), sessionToPublish.getFeedbackSessionName());
-        click(browser.driver.findElement(By.id("btn-results-" + rowId)));
-        clickAndConfirm(waitForElementPresence(By.id("btn-publish-" + rowId)));
+        click(browser.driver.findElement(By.className("btn-results-" + rowId)));
+        clickAndConfirm(waitForElementPresence(By.className("btn-publish-" + rowId)));
     }
 
     public void unpublishSessionResults(FeedbackSessionAttributes sessionToPublish) {
         int rowId = getFeedbackSessionRowId(sessionToPublish.getCourseId(), sessionToPublish.getFeedbackSessionName());
-        click(browser.driver.findElement(By.id("btn-results-" + rowId)));
-        clickAndConfirm(waitForElementPresence(By.id("btn-unpublish-" + rowId)));
+        click(browser.driver.findElement(By.className("btn-results-" + rowId)));
+        clickAndConfirm(waitForElementPresence(By.className("btn-unpublish-" + rowId)));
     }
 
     public void downloadResults(FeedbackSessionAttributes session) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getFeedbackSessionName());
-        click(browser.driver.findElement(By.id("btn-results-" + rowId)));
-        click(waitForElementPresence(By.id("btn-download-" + rowId)));
+        click(browser.driver.findElement(By.className("btn-results-" + rowId)));
+        click(waitForElementPresence(By.className("btn-download-" + rowId)));
     }
 
     public void sortBySessionsName() {
-        click(waitForElementPresence(By.id("sort-session-name")));
+        click(waitForElementPresence(By.className("sort-session-name")));
     }
 
     public void sortByCourseId() {
-        click(waitForElementPresence(By.id("sort-course-id")));
+        click(waitForElementPresence(By.className("sort-course-id")));
     }
 
     private String[] getSessionDetails(FeedbackSessionAttributes session) {
@@ -330,11 +330,11 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     private String getResponseRate(int rowId) {
-        By showButtonId = By.id("show-response-rate-" + rowId);
+        By showButtonId = By.className("show-response-rate-" + rowId);
         if (isElementPresent(showButtonId)) {
             click(showButtonId);
         }
-        return waitForElementPresence(By.id("response-rate-" + rowId)).getText();
+        return waitForElementPresence(By.className("response-rate-" + rowId)).getText();
     }
 
     private void clickAddSessionButton() {
@@ -456,7 +456,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     private WebElement clickCopyButtonInTable(String courseId, String sessionName) {
         int rowId = getFeedbackSessionRowId(courseId, sessionName);
-        click(browser.driver.findElement(By.id("btn-copy-" + rowId)));
+        click(browser.driver.findElement(By.className("btn-copy-" + rowId)));
         return waitForElementPresence(By.id("copy-course-modal"));
     }
 

@@ -514,6 +514,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
     <tm-session-edit-form>
       <div
         class="card card-plain"
+        id="session-edit-form"
       >
         <div
           class="card-body"
@@ -2974,6 +2975,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
     <tm-session-edit-form>
       <div
         class="card card-plain"
+        id="session-edit-form"
       >
         <div
           class="card-body"
