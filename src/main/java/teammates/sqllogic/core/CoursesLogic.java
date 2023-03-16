@@ -175,4 +175,18 @@ public final class CoursesLogic {
     public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesDb.createTeam(team);
     }
+
+    /**
+     * Returns teams for a particular section.
+     */
+    public List<Team> getTeamsForSection(Section section) {
+        return coursesDb.getTeamsForSection(section);
+    }
+
+    /**
+     * Returns teams for a course.
+     */
+    public List<Team> getTeamsForCourse(String courseId) {
+        return coursesDb.getTeamsForCourse(courseId);
+    }
 }
