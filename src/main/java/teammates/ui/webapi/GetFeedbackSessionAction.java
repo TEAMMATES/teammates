@@ -26,7 +26,29 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        if (!isCourseMigrated(courseId)) {
+        if (isCourseMigrated(courseId)) {
+            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+
+            switch (intent) {
+            case STUDENT_SUBMISSION:
+            case STUDENT_RESULT:
+                Student student = getSqlStudentOfCourseFromRequest(courseId);
+                checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
+                break;
+            case INSTRUCTOR_SUBMISSION:
+            case INSTRUCTOR_RESULT:
+                Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+                checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
+                break;
+            case FULL_DETAIL:
+                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                        feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                break;
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
+            }
+        } else {
             FeedbackSessionAttributes feedbackSessionAttributes = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
             switch (intent) {
@@ -43,33 +65,11 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             case FULL_DETAIL:
                 gateKeeper.verifyLoggedInUserPrivileges(userInfo);
                 gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    feedbackSessionAttributes, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                        feedbackSessionAttributes, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
                 break;
             default:
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
             }
-        } else {
-            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
-
-            switch (intent) {
-                case STUDENT_SUBMISSION:
-                case STUDENT_RESULT:
-                    Student student = getSqlStudentOfCourseFromRequest(courseId);
-                    checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
-                    break;
-                case INSTRUCTOR_SUBMISSION:
-                case INSTRUCTOR_RESULT:
-                    Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
-                    checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
-                    break;
-                case FULL_DETAIL:
-                    gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-                    gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
-                        feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-                    break;
-                default:
-                    throw new InvalidHttpParameterException("Unknown intent " + intent);
-                }
         }
     }
 
@@ -80,57 +80,57 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackSessionData response;
 
-        if (!isCourseMigrated(courseId)) {
-            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
-            switch (intent) {
-                case STUDENT_SUBMISSION:
-                case STUDENT_RESULT:
-                    response = getStudentFeedbackSessionData(feedbackSession);
-                    response.hideInformationForStudent();
-                    break;
-                case INSTRUCTOR_SUBMISSION:
-                    response = getInstructorFeedbackSessionData(feedbackSession);
-                    response.hideInformationForInstructorSubmission();
-                    break;
-                case INSTRUCTOR_RESULT:
-                    response = getInstructorFeedbackSessionData(feedbackSession);
-                    response.hideInformationForInstructor();
-                    break;
-                case FULL_DETAIL:
-                    response = new FeedbackSessionData(feedbackSession);
-                    break;
-                default:
-                    throw new InvalidHttpParameterException("Unknown intent " + intent);
-                }
-                return new JsonResult(response);
-        } else {
+        if (isCourseMigrated(courseId)) {
             FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
 
             switch (intent) {
-                case STUDENT_SUBMISSION:
-                case STUDENT_RESULT:
-                    Student student = getSqlStudentOfCourseFromRequest(courseId);
-                    response = new FeedbackSessionData(feedbackSession, student);
-                    response.hideInformationForStudent();
-                    break;
-                case INSTRUCTOR_SUBMISSION:
-                    response = new FeedbackSessionData(feedbackSession,
-                        getSqlInstructorOfCourseFromRequest(courseId));
-                    response.hideInformationForInstructorSubmission();
-                    break;
-                case INSTRUCTOR_RESULT:
-                    response = new FeedbackSessionData(feedbackSession,
-                        getSqlInstructorOfCourseFromRequest(courseId));
-                    response.hideInformationForInstructor();
-                    break;
-                case FULL_DETAIL:
-                    response = new FeedbackSessionData(feedbackSession);
-                    break;
-                default:
-                    throw new InvalidHttpParameterException("Unknown intent " + intent);
-                }
-                return new JsonResult(response);
+            case STUDENT_SUBMISSION:
+            case STUDENT_RESULT:
+                Student student = getSqlStudentOfCourseFromRequest(courseId);
+                response = new FeedbackSessionData(feedbackSession, student);
+                response.hideInformationForStudent();
+                break;
+            case INSTRUCTOR_SUBMISSION:
+                response = new FeedbackSessionData(feedbackSession,
+                    getSqlInstructorOfCourseFromRequest(courseId));
+                response.hideInformationForInstructorSubmission();
+                break;
+            case INSTRUCTOR_RESULT:
+                response = new FeedbackSessionData(feedbackSession,
+                    getSqlInstructorOfCourseFromRequest(courseId));
+                response.hideInformationForInstructor();
+                break;
+            case FULL_DETAIL:
+                response = new FeedbackSessionData(feedbackSession);
+                break;
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
+            }
+            return new JsonResult(response);
+        } else {
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+
+            switch (intent) {
+            case STUDENT_SUBMISSION:
+            case STUDENT_RESULT:
+                response = getStudentFeedbackSessionData(feedbackSession);
+                response.hideInformationForStudent();
+                break;
+            case INSTRUCTOR_SUBMISSION:
+                response = getInstructorFeedbackSessionData(feedbackSession);
+                response.hideInformationForInstructorSubmission();
+                break;
+            case INSTRUCTOR_RESULT:
+                response = getInstructorFeedbackSessionData(feedbackSession);
+                response.hideInformationForInstructor();
+                break;
+            case FULL_DETAIL:
+                response = new FeedbackSessionData(feedbackSession);
+                break;
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
+            }
+            return new JsonResult(response);
         }
     }
 

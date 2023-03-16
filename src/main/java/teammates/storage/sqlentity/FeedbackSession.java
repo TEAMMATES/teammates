@@ -299,8 +299,6 @@ public class FeedbackSession extends BaseEntity {
         this.deletedAt = deletedAt;
     }
 
-
-
     @Override
     public String toString() {
         return "FeedbackSession [id=" + id + ", course=" + course + ", name=" + name + ", creatorEmail=" + creatorEmail
@@ -390,8 +388,8 @@ public class FeedbackSession extends BaseEntity {
         }
 
         DeadlineExtension dExtension = deadlineExtensions.stream()
-            .filter(de -> de.getUser().equals(user) && de.getFeedbackSession().equals(this))
-            .findFirst().orElse(null);
+                .filter(de -> de.getUser().equals(user) && de.getFeedbackSession().equals(this))
+                .findFirst().orElse(null);
 
         if (dExtension != null) {
             return dExtension.getEndTime();
