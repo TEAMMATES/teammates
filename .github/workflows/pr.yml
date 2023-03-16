@@ -1,6 +1,6 @@
 name: Pull Request Checker
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - reopened
@@ -10,6 +10,8 @@ on:
 jobs:
   check-pr:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
     - uses: actions/github-script@v6
       with:
