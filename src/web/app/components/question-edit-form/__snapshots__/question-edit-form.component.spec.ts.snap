@@ -245,6 +245,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 ngbdropdowntoggle=""
               >
                 <span
+                  class="text-wrap"
                   style=""
                 >
                    Students in this course will give feedback on 
@@ -268,9 +269,13 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   class="dropdown-divider"
                 />
                 <li
-                  class="dropdown-item"
+                  class="text-wrap dropdown-item"
                 >
-                  Custom feedback path...
+                  <button
+                    class="dropdown-button"
+                  >
+                    Custom feedback path...
+                  </button>
                 </li>
               </ul>
             </div>
