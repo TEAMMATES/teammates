@@ -236,6 +236,25 @@ public class Logic {
     }
 
     /**
+     * Publishes a feedback session.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return the published feedback session
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     * @throws InvalidParametersException if session is already published
+     */
+    public FeedbackSession publishFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
