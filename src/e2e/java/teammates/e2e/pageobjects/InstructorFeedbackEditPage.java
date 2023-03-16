@@ -1173,7 +1173,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void clickSaveNewQuestionButton() {
         WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
-        click(saveButton);
+        WebElement actualButton = saveButton.findElement(By.xpath("./.."));
+        click(actualButton);
+        // click(saveButton);
         waitForElementStaleness(saveButton);
     }
 
