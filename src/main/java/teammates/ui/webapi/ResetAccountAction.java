@@ -55,7 +55,7 @@ class ResetAccountAction extends AdminOnlyAction {
                 } else {
                     logic.resetInstructorGoogleId(instructorEmail, courseId);
                 }
-                
+
                 taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);

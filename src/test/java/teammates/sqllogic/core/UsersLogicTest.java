@@ -26,7 +26,7 @@ import teammates.test.BaseTestCase;
  * SUT: {@link UsersLogic}.
  */
 public class UsersLogicTest extends BaseTestCase {
-    
+
     private UsersLogic usersLogic = UsersLogic.inst();
 
     private AccountsLogic accountsLogic;
@@ -61,7 +61,7 @@ public class UsersLogicTest extends BaseTestCase {
         when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
 
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
-        
+
         assertEquals(null, instructor.getAccount());
         verify(accountsLogic, times(1)).deleteAccountCascade(googleId);
     }
@@ -86,7 +86,7 @@ public class UsersLogicTest extends BaseTestCase {
         assertEquals(ERROR_UPDATE_NON_EXISTENT
                 + "Instructor [courseId=" + courseId + ", email=" + email + "]", exception.getMessage());
     }
-    
+
     @Test
     public void testResetStudentGoogleId_entityExistsWithNoUserAssociatedWithGoogleId_success()
             throws EntityDoesNotExistException {
@@ -104,7 +104,7 @@ public class UsersLogicTest extends BaseTestCase {
         when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
 
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
-        
+
         assertEquals(null, student.getAccount());
         verify(accountsLogic, times(1)).deleteAccountCascade(googleId);
     }

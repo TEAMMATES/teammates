@@ -59,7 +59,7 @@ public class AccountsLogicTest extends BaseTestCase {
     public void testDeleteAccount_accountExists_success() {
         Account account = generateTypicalAccount();
         String googleId = account.getGoogleId();
-        
+
         when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
 
         accountsLogic.deleteAccount(googleId);
