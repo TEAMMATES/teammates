@@ -6,8 +6,10 @@
 }
 
 .close-header {
-  padding-top: .75rem;
-  padding-right: 1.25rem;
+  display: flex;
+  justify-content: right;
+  padding-top: .3rem;
+  padding-right: .3rem;
   margin-bottom: 0;
 }
 
