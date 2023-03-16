@@ -124,6 +124,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .build());
         verifyCanAccess(submissionParams);
     }
+    // This test method tests the behavior of the SubmitFeedbackResponsesAction class
+    // when a user (a student in this case) submits a response to a feedback question.
     @Test
     public void testExecute_submitResponse() throws Exception {
         // set up the feedback session and question
