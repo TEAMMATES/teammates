@@ -13,6 +13,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
  * The API output format of {@link FeedbackQuestionAttributes}.
@@ -65,6 +66,56 @@ public class FeedbackQuestionData extends ApiOutput {
         this.showGiverNameTo = convertToFeedbackVisibilityType(feedbackQuestionAttributes.getShowGiverNameTo());
         this.showRecipientNameTo =
                 convertToFeedbackVisibilityType(feedbackQuestionAttributes.getShowRecipientNameTo());
+
+        // specially handling for contribution questions
+        // TODO: remove the hack
+        if (this.questionType == FeedbackQuestionType.CONTRIB
+                && this.giverType == FeedbackParticipantType.STUDENTS
+                && this.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
+                && this.showResponsesTo.contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS)) {
+            // remove the redundant visibility type as GIVER_TEAM_MEMBERS is just RECIPIENT_TEAM_MEMBERS
+            // contribution question keep the redundancy for legacy reason
+            this.showResponsesTo.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
+        }
+
+        if (this.questionType == FeedbackQuestionType.CONSTSUM) {
+            FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
+                    (FeedbackConstantSumQuestionDetails) this.questionDetails;
+            this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
+                    ? FeedbackQuestionType.CONSTSUM_RECIPIENTS : FeedbackQuestionType.CONSTSUM_OPTIONS;
+            this.questionDetails.setQuestionType(this.questionType);
+        }
+    }
+
+    public FeedbackQuestionData(FeedbackQuestion feedbackQuestion) {
+        FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestion.getQuestionDetailsCopy();
+
+        this.feedbackQuestionId = feedbackQuestion.getId().toString();
+        this.questionNumber = feedbackQuestion.getQuestionNumber();
+        this.questionBrief = feedbackQuestionDetails.getQuestionText();
+        this.questionDescription = feedbackQuestion.getDescription();
+
+        this.questionDetails = feedbackQuestionDetails;
+
+        this.questionType = feedbackQuestion.getQuestionType();
+        this.giverType = feedbackQuestion.getGiverType();
+        this.recipientType = feedbackQuestion.getRecipientType();
+
+        if (feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+            this.numberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED;
+            this.customNumberOfEntitiesToGiveFeedbackTo = null;
+        } else {
+            this.numberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
+            this.customNumberOfEntitiesToGiveFeedbackTo =
+                    feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo();
+        }
+
+        // the visibility types are mixed in feedback participant type
+        // therefore, we convert them to visibility types
+        this.showResponsesTo = convertToFeedbackVisibilityType(feedbackQuestion.getShowResponsesTo());
+        this.showGiverNameTo = convertToFeedbackVisibilityType(feedbackQuestion.getShowGiverNameTo());
+        this.showRecipientNameTo =
+                convertToFeedbackVisibilityType(feedbackQuestion.getShowRecipientNameTo());
 
         // specially handling for contribution questions
         // TODO: remove the hack

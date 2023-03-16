@@ -1,7 +1,13 @@
 package teammates.storage.sqlentity.questions;
 
+import java.util.List;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -20,6 +26,24 @@ public class FeedbackMsqQuestion extends FeedbackQuestion {
 
     protected FeedbackMsqQuestion() {
         // required by Hibernate
+    }
+
+    public FeedbackMsqQuestion(
+            FeedbackSession feedbackSession, Integer questionNumber,
+            String description, FeedbackQuestionType questionType,
+            FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
+            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
+            FeedbackQuestionDetails feedbackQuestionDetails
+    ) {
+        super(feedbackSession, questionNumber, description, questionType, giverType, recipientType,
+                numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
+        setFeedBackQuestionDetails((FeedbackMsqQuestionDetails) feedbackQuestionDetails);
+    }
+
+    @Override
+    public FeedbackQuestionDetails getQuestionDetailsCopy() {
+        return questionDetails.getDeepCopy();
     }
 
     @Override
@@ -41,6 +65,6 @@ public class FeedbackMsqQuestion extends FeedbackQuestion {
      */
     @Converter
     public static class FeedbackMsqQuestionDetailsConverter
-            extends JsonConverter<FeedbackMsqQuestionDetails> {
+            extends FeedbackQuestionDetailsConverter {
     }
 }

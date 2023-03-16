@@ -41,6 +41,6 @@ public class FeedbackConstantSumResponse extends FeedbackResponse {
      */
     @Converter
     public static class FeedbackConstantSumResponseDetailsConverter
-            extends JsonConverter<FeedbackConstantSumResponseDetails> {
+            extends FeedbackQuestionDetailsConverter {
     }
 }

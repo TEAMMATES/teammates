@@ -7,16 +7,21 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -24,6 +29,7 @@ import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 import teammates.test.FileHelper;
 
 /**
@@ -161,6 +167,19 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 true, true, true);
         expectedSession1.setId(actualSession1.getId());
         verifyEquals(expectedSession1, actualSession1);
+
+        ______TS("verify feedback questions deserialized correctly");
+
+        FeedbackQuestion actualQuestion1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackQuestionDetails questionDetails1 =
+                new FeedbackTextQuestionDetails("What is the best selling point of your product?");
+        FeedbackQuestion expectedQuestion1 = new FeedbackTextQuestion(expectedSession1, 1, "This is a text question.",
+                FeedbackQuestionType.TEXT, FeedbackParticipantType.STUDENTS,
+                FeedbackParticipantType.SELF, 1,
+                List.of(FeedbackParticipantType.INSTRUCTORS), List.of(FeedbackParticipantType.INSTRUCTORS),
+                List.of(FeedbackParticipantType.INSTRUCTORS), questionDetails1);
+        expectedQuestion1.setId(actualQuestion1.getId());
+        verifyEquals(expectedQuestion1, actualQuestion1);
     }
 
     @Test

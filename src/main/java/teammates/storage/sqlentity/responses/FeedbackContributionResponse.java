@@ -41,6 +41,6 @@ public class FeedbackContributionResponse extends FeedbackResponse {
      */
     @Converter
     public static class FeedbackContributionResponseDetailsConverter
-            extends JsonConverter<FeedbackContributionResponseDetails> {
+            extends FeedbackQuestionDetailsConverter {
     }
 }

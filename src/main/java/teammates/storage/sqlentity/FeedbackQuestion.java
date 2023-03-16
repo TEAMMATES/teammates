@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.FieldValidator;
 
@@ -31,7 +32,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "FeedbackQuestions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class FeedbackQuestion extends BaseEntity {
+public abstract class FeedbackQuestion extends BaseEntity implements Comparable<FeedbackQuestion> {
     @Id
     private UUID id;
 
@@ -51,9 +52,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private FeedbackQuestionType questionType;
-
-    @Column(nullable = false)
-    private String questionText;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -89,7 +87,7 @@ public abstract class FeedbackQuestion extends BaseEntity {
     public FeedbackQuestion(
             FeedbackSession feedbackSession, Integer questionNumber,
             String description, FeedbackQuestionType questionType,
-            String questionText, FeedbackParticipantType giverType,
+            FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo
     ) {
@@ -98,7 +96,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
         this.setQuestionNumber(questionNumber);
         this.setDescription(description);
         this.setQuestionType(questionType);
-        this.setQuestionText(questionText);
         this.setGiverType(giverType);
         this.setRecipientType(recipientType);
         this.setNumOfEntitiesToGiveFeedbackTo(numOfEntitiesToGiveFeedbackTo);
@@ -106,6 +103,11 @@ public abstract class FeedbackQuestion extends BaseEntity {
         this.setShowGiverNameTo(showGiverNameTo);
         this.setShowRecipientNameTo(showRecipientNameTo);
     }
+
+    /**
+     * Gets a copy of the question details of the feedback question.
+     */
+    public abstract FeedbackQuestionDetails getQuestionDetailsCopy();
 
     @Override
     public List<String> getInvalidityInfo() {
@@ -168,14 +170,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
         this.questionType = questionType;
     }
 
-    public String getQuestionText() {
-        return questionText;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
-
     public FeedbackParticipantType getGiverType() {
         return giverType;
     }
@@ -236,11 +230,28 @@ public abstract class FeedbackQuestion extends BaseEntity {
     public String toString() {
         return "Question [id=" + id + ", questionNumber=" + questionNumber + ", description=" + description
                 + ", questionType=" + questionType
-                + ", questionText=" + questionText + ", giverType=" + giverType + ", recipientType=" + recipientType
+                + ", giverType=" + giverType + ", recipientType=" + recipientType
                 + ", numOfEntitiesToGiveFeedbackTo=" + numOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                 + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo + ", showRecipientNameTo="
                 + showRecipientNameTo + ", isClosingEmailEnabled=" + ", createdAt=" + getCreatedAt() + ", updatedAt="
                 + updatedAt + "]";
+    }
+
+    @Override
+    public int compareTo(FeedbackQuestion o) {
+        if (o == null) {
+            return 1;
+        }
+
+        if (!this.questionNumber.equals(o.questionNumber)) {
+            return Integer.compare(this.questionNumber, o.questionNumber);
+        }
+        // Although question numbers ought to be unique in a feedback session,
+        // eventual consistency can result in duplicate questions numbers.
+        // Therefore, to ensure that the question order is always consistent to the user,
+        // compare feedbackQuestionId, which is guaranteed to be unique,
+        // when the questionNumbers are the same.
+        return this.id.compareTo(o.id);
     }
 
     @Override

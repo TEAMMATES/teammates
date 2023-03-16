@@ -1,7 +1,13 @@
 package teammates.storage.sqlentity.questions;
 
+import java.util.List;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -20,6 +26,24 @@ public class FeedbackRankRecipientsQuestion extends FeedbackQuestion {
 
     protected FeedbackRankRecipientsQuestion() {
         // required by Hibernate
+    }
+
+    public FeedbackRankRecipientsQuestion(
+            FeedbackSession feedbackSession, Integer questionNumber,
+            String description, FeedbackQuestionType questionType,
+            FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
+            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
+            FeedbackQuestionDetails feedbackQuestionDetails
+    ) {
+        super(feedbackSession, questionNumber, description, questionType, giverType, recipientType,
+                numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
+        setFeedBackQuestionDetails((FeedbackRankRecipientsQuestionDetails) feedbackQuestionDetails);
+    }
+
+    @Override
+    public FeedbackQuestionDetails getQuestionDetailsCopy() {
+        return questionDetails.getDeepCopy();
     }
 
     @Override
@@ -41,6 +65,6 @@ public class FeedbackRankRecipientsQuestion extends FeedbackQuestion {
      */
     @Converter
     public static class FeedbackRankRecipientsQuestionDetailsConverter
-            extends JsonConverter<FeedbackRankRecipientsQuestionDetails> {
+            extends FeedbackQuestionDetailsConverter {
     }
 }

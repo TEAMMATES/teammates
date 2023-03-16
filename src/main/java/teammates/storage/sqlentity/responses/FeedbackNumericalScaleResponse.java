@@ -41,6 +41,6 @@ public class FeedbackNumericalScaleResponse extends FeedbackResponse {
      */
     @Converter
     public static class FeedbackNumericalScaleResponseDetailsConverter
-            extends JsonConverter<FeedbackNumericalScaleResponseDetails> {
+            extends FeedbackQuestionDetailsConverter {
     }
 }
