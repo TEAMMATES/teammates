@@ -230,10 +230,8 @@ public class FeedbackSessionData extends ApiOutput {
      * Constructs FeedbackSessionData for a given user deadline.
      */
     public FeedbackSessionData(FeedbackSession feedbackSession, String userEmail, Instant extendedDeadline) {
-        String timeZone = feedbackSession.getCourse().getTimeZone();
-        this.courseId = feedbackSession.getCourse().getId();
-        this.timeZone = timeZone;
-        this.feedbackSessionName = feedbackSession.getName();
+        FeedbackSessionData(feedbackSession);
+        // Changed fields
         this.instructions = feedbackSession.getInstructions();
         this.submissionStartTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 feedbackSession.getStartTime(), timeZone, true).toEpochMilli();
