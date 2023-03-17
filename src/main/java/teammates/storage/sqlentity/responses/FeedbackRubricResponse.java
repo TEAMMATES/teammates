@@ -41,6 +41,6 @@ public class FeedbackRubricResponse extends FeedbackResponse {
      */
     @Converter
     public static class FeedbackRubricResponseDetailsConverter
-            extends FeedbackQuestionDetailsConverter {
+            extends FeedbackResponseDetailsConverter {
     }
 }

@@ -11,6 +11,8 @@ import com.google.common.reflect.TypeToken;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.JsonUtils;
 
 import jakarta.persistence.AttributeConverter;
@@ -88,7 +90,7 @@ public abstract class BaseEntity {
     }
 
     /**
-     * Generic attribute converter for classes stored in JSON.
+     * Converter for {@code FeedbackQuestionDetails} stored in JSON.
      *
      */
     @Converter
@@ -101,6 +103,42 @@ public abstract class BaseEntity {
         @Override
         public FeedbackQuestionDetails convertToEntityAttribute(String dbData) {
             return JsonUtils.fromJson(dbData, new TypeToken<FeedbackQuestionDetails>() {
+            }.getType());
+        }
+    }
+
+    /**
+     * Converter for {@code FeedbackResponseDetails} stored in JSON.
+     *
+     */
+    @Converter
+    public static class FeedbackResponseDetailsConverter implements AttributeConverter<FeedbackResponseDetails, String> {
+        @Override
+        public String convertToDatabaseColumn(FeedbackResponseDetails entity) {
+            return JsonUtils.toJson(entity);
+        }
+
+        @Override
+        public FeedbackResponseDetails convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackResponseDetails>() {
+            }.getType());
+        }
+    }
+
+    /**
+     * Converter for {@code FeedbackQuestionType} stored in JSON.
+     *
+     */
+    @Converter
+    public static class FeedbackQuestionTypeConverter implements AttributeConverter<FeedbackQuestionType, String> {
+        @Override
+        public String convertToDatabaseColumn(FeedbackQuestionType entity) {
+            return JsonUtils.toJson(entity);
+        }
+
+        @Override
+        public FeedbackQuestionType convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackQuestionType>() {
             }.getType());
         }
     }

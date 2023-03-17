@@ -8,15 +8,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
-import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
-import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
-import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
-import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
-import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -57,137 +48,18 @@ public class CreateFeedbackQuestionAction extends Action {
 
         FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
 
-        FeedbackQuestion feedbackQuestion = null;
-        switch (request.getQuestionDetails().getQuestionType()) {
-        case TEXT:
-            feedbackQuestion = new FeedbackTextQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        case MCQ:
-            feedbackQuestion = new FeedbackMcqQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        case MSQ:
-            feedbackQuestion = new FeedbackMsqQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        case NUMSCALE:
-            feedbackQuestion = new FeedbackNumericalScaleQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        case CONSTSUM:
-        case CONSTSUM_OPTIONS:
-        case CONSTSUM_RECIPIENTS:
-            feedbackQuestion = new FeedbackConstantSumQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        case CONTRIB:
-            feedbackQuestion = new FeedbackContributionQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        case RUBRIC:
-            feedbackQuestion = new FeedbackRubricQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        case RANK_OPTIONS:
-            feedbackQuestion = new FeedbackRankOptionsQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        case RANK_RECIPIENTS:
-            feedbackQuestion = new FeedbackRankRecipientsQuestion(
-                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
-                    request.getQuestionNumber(),
-                    request.getQuestionDescription(),
-                    request.getGiverType(),
-                    request.getRecipientType(),
-                    request.getNumberOfEntitiesToGiveFeedbackTo(),
-                    request.getShowResponsesTo(),
-                    request.getShowGiverNameTo(),
-                    request.getShowRecipientNameTo(),
-                    request.getQuestionDetails()
-            );
-            break;
-        }
+        FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
+                getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
+                request.getQuestionNumber(),
+                request.getQuestionDescription(),
+                request.getGiverType(),
+                request.getRecipientType(),
+                request.getNumberOfEntitiesToGiveFeedbackTo(),
+                request.getShowResponsesTo(),
+                request.getShowGiverNameTo(),
+                request.getShowRecipientNameTo(),
+                request.getQuestionDetails()
+        );
 
         try {
             // validate questions (giver & recipient)

@@ -10,8 +10,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.FieldValidator;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -102,6 +110,87 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
      * Gets a copy of the question details of the feedback question.
      */
     public abstract FeedbackQuestionDetails getQuestionDetailsCopy();
+
+    /**
+     * Creates a feedback question according to its {@code FeedbackQuestionType}.
+     */
+    public static FeedbackQuestion makeQuestion(
+            FeedbackSession feedbackSession, Integer questionNumber,
+            String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
+            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
+            FeedbackQuestionDetails feedbackQuestionDetails
+    ) {
+        FeedbackQuestion feedbackQuestion = null;
+        switch (feedbackQuestionDetails.getQuestionType()) {
+        case TEXT:
+            feedbackQuestion = new FeedbackTextQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case MCQ:
+            feedbackQuestion = new FeedbackMcqQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case MSQ:
+            feedbackQuestion = new FeedbackMsqQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case NUMSCALE:
+            feedbackQuestion = new FeedbackNumericalScaleQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case CONSTSUM:
+        case CONSTSUM_OPTIONS:
+        case CONSTSUM_RECIPIENTS:
+            feedbackQuestion = new FeedbackConstantSumQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case CONTRIB:
+            feedbackQuestion = new FeedbackContributionQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case RUBRIC:
+            feedbackQuestion = new FeedbackRubricQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case RANK_OPTIONS:
+            feedbackQuestion = new FeedbackRankOptionsQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case RANK_RECIPIENTS:
+            feedbackQuestion = new FeedbackRankRecipientsQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        }
+        return feedbackQuestion;
+    }
 
     @Override
     public List<String> getInvalidityInfo() {
