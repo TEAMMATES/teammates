@@ -41,6 +41,6 @@ public class FeedbackRankOptionsResponse extends FeedbackResponse {
      */
     @Converter
     public static class FeedbackRankOptionsResponseDetailsConverter
-            extends JsonConverter<FeedbackRankOptionsResponseDetails> {
+            extends FeedbackResponseDetailsConverter {
     }
 }

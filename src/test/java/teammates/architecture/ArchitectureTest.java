@@ -73,7 +73,7 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
-                                && !STORAGE_SQL_ENTITY_PACKAGE.equals(input.getPackageName());
+                                && !input.getPackageName().startsWith(STORAGE_SQL_ENTITY_PACKAGE);
                     }
                 })
                 .check(forClasses(UI_PACKAGE));
