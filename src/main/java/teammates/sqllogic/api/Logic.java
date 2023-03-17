@@ -14,6 +14,7 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
