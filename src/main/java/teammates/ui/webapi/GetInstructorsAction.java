@@ -17,7 +17,7 @@ import teammates.ui.request.Intent;
 /**
  * Get a list of instructors of a course.
  */
-class GetInstructorsAction extends Action {
+public class GetInstructorsAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
