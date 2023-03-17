@@ -36,7 +36,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     private FeedbackQuestion feedbackQuestion;
 
     @Column(nullable = false)
-    @Convert(converter = FeedbackParticipantTypeConverter.class)
+    @Convert(converter = FeedbackQuestionTypeConverter.class)
     private FeedbackQuestionType type;
 
     @OneToMany(mappedBy = "feedbackResponse")

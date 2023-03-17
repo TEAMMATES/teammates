@@ -13,6 +13,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -36,6 +37,7 @@ public final class DataBundleLogic {
     private CoursesLogic coursesLogic;
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
     private FeedbackSessionsLogic fsLogic;
+    private FeedbackQuestionsLogic fqLogic;
     private NotificationsLogic notificationsLogic;
     private UsersLogic usersLogic;
 
@@ -50,12 +52,14 @@ public final class DataBundleLogic {
     void initLogicDependencies(AccountsLogic accountsLogic, AccountRequestsLogic accountRequestsLogic,
             CoursesLogic coursesLogic,
             DeadlineExtensionsLogic deadlineExtensionsLogic, FeedbackSessionsLogic fsLogic,
+            FeedbackQuestionsLogic fqLogic,
             NotificationsLogic notificationsLogic, UsersLogic usersLogic) {
         this.accountsLogic = accountsLogic;
         this.accountRequestsLogic = accountRequestsLogic;
         this.coursesLogic = coursesLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
         this.fsLogic = fsLogic;
+        this.fqLogic = fqLogic;
         this.notificationsLogic = notificationsLogic;
         this.usersLogic = usersLogic;
     }
@@ -78,8 +82,7 @@ public final class DataBundleLogic {
         Collection<Instructor> instructors = dataBundle.instructors.values();
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
-        // Collection<FeedbackQuestion> questions =
-        // dataBundle.feedbackQuestions.values();
+        Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         // Collection<FeedbackResponse> responses =
         // dataBundle.feedbackResponses.values();
         // Collection<FeedbackResponseComment> responseComments =
@@ -93,6 +96,7 @@ public final class DataBundleLogic {
         Map<UUID, Section> sectionsMap = new HashMap<>();
         Map<UUID, Team> teamsMap = new HashMap<>();
         Map<UUID, FeedbackSession> sessionsMap = new HashMap<>();
+        // Map<UUID, FeedbackQuestion> questionMap = new HashMap<>();
         Map<UUID, Account> accountsMap = new HashMap<>();
         Map<UUID, User> usersMap = new HashMap<>();
         Map<UUID, Notification> notificationsMap = new HashMap<>();
@@ -131,6 +135,14 @@ public final class DataBundleLogic {
             sessionsMap.put(placeholderId, session);
             Course course = coursesMap.get(session.getCourse().getId());
             session.setCourse(course);
+        }
+
+        for (FeedbackQuestion question : questions) {
+            // UUID placeholderId = question.getId();
+            question.setId(UUID.randomUUID());
+            // questionMap.put(placeholderId, question);
+            FeedbackSession fs = sessionsMap.get(question.getFeedbackSession().getId());
+            question.setFeedbackSession(fs);
         }
 
         for (Account account : accounts) {
@@ -212,8 +224,7 @@ public final class DataBundleLogic {
         Collection<Instructor> instructors = dataBundle.instructors.values();
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
-        // Collection<FeedbackQuestion> questions =
-        // dataBundle.feedbackQuestions.values();
+        Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         // Collection<FeedbackResponse> responses =
         // dataBundle.feedbackResponses.values();
         // Collection<FeedbackResponseComment> responseComments =
@@ -243,6 +254,10 @@ public final class DataBundleLogic {
 
         for (FeedbackSession session : sessions) {
             fsLogic.createFeedbackSession(session);
+        }
+
+        for (FeedbackQuestion question : questions) {
+            fqLogic.createFeedbackQuestion(question);
         }
 
         for (Account account : accounts) {

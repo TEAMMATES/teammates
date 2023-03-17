@@ -1,7 +1,12 @@
 package teammates.storage.sqlentity.questions;
 
+import java.util.List;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -20,6 +25,23 @@ public class FeedbackConstantSumQuestion extends FeedbackQuestion {
 
     protected FeedbackConstantSumQuestion() {
         // required by Hibernate
+    }
+
+    public FeedbackConstantSumQuestion(
+            FeedbackSession feedbackSession, Integer questionNumber,
+            String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
+            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
+            FeedbackQuestionDetails feedbackQuestionDetails
+    ) {
+        super(feedbackSession, questionNumber, description, giverType, recipientType,
+                numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
+        setFeedBackQuestionDetails((FeedbackConstantSumQuestionDetails) feedbackQuestionDetails);
+    }
+
+    @Override
+    public FeedbackQuestionDetails getQuestionDetailsCopy() {
+        return questionDetails.getDeepCopy();
     }
 
     @Override
@@ -41,6 +63,6 @@ public class FeedbackConstantSumQuestion extends FeedbackQuestion {
      */
     @Converter
     public static class FeedbackConstantSumQuestionDetailsConverter
-            extends JsonConverter<FeedbackConstantSumQuestionDetails> {
+            extends FeedbackQuestionDetailsConverter {
     }
 }

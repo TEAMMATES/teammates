@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for rubric feedback questions.
@@ -178,6 +179,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestion feedbackQuestion) {
         return "";
     }
 

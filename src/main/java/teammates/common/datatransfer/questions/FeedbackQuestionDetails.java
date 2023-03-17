@@ -6,6 +6,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.JsonUtils;
+import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
  * A class holding the details for a specific question type.
@@ -77,6 +78,15 @@ public abstract class FeedbackQuestionDetails {
      * @return error message detailing the error, or an empty string if valid.
      */
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
+
+    /**
+     * Validates if giverType and recipientType are valid for the question type.
+     * Validates visibility options as well.
+     *
+     * <p>Override in Feedback*QuestionDetails if necessary.
+     * @return error message detailing the error, or an empty string if valid.
+     */
+    public abstract String validateGiverRecipientVisibility(FeedbackQuestion feedbackQuestion);
 
     /**
      * Checks whether instructor comments are allowed for the question.
