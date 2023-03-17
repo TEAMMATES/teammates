@@ -1145,7 +1145,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         click(visibilityPanel.findElement(By.id("btn-question-visibility")));
         WebElement dropdown = visibilityPanel.findElement(By.id("question-visibility-dropdown"));
-        List<WebElement> options = dropdown.findElements(By.className("dropdown-item"));
+        List<WebElement> options = dropdown.findElements(By.className("dropdown-button"));
         for (WebElement option : options) {
             if (option.getText().equals(text)) {
                 click(option);

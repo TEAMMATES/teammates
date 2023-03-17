@@ -90,8 +90,28 @@ export class VisibilityPanelComponent {
   @Output()
   visibilityStateMachineChange: EventEmitter<VisibilityStateMachine> = new EventEmitter<VisibilityStateMachine>();
 
+  visibilityTypeAriaLabels: Map<FeedbackVisibilityType, string> = new Map([
+    [FeedbackVisibilityType.RECIPIENT, 'Recipient(s)'],
+    [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, 'Giver\'s Team Members'],
+    [FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, 'Recipient\'s Team Members'],
+    [FeedbackVisibilityType.STUDENTS, 'Other Students'],
+    [FeedbackVisibilityType.INSTRUCTORS, 'Instructors'],
+  ]);
+
+  visibilityControlAriaLabels: Map<VisibilityControl, string> = new Map([
+    [VisibilityControl.SHOW_RESPONSE, 'Answer'],
+    [VisibilityControl.SHOW_GIVER_NAME, 'Giver\'s Name'],
+    [VisibilityControl.SHOW_RECIPIENT_NAME, 'Recipient\'s Name'],
+  ]);
+
   triggerCustomVisibilitySetting(): void {
     this.customVisibilitySetting.emit(true);
+  }
+
+  getCheckboxAriaLabel(visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): string {
+    const group: string = this.visibilityTypeAriaLabels.get(visibilityType) || '';
+    const groupVisibility: string = this.visibilityControlAriaLabels.get(visibilityControl) || '';
+    return `${group} can see ${groupVisibility}`;
   }
 
   /**
