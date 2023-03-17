@@ -17,7 +17,7 @@ import teammates.ui.webapi.ResetAccountAction;
  * SUT: {@link ResetAccountAction}.
  */
 public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
-    
+
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
@@ -47,7 +47,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         ______TS("Typical Success Case with Student Email param given and Student exists");
         String[] params = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-                Const.ParamsNames.COURSE_ID, student.getCourseId()
+                Const.ParamsNames.COURSE_ID, student.getCourseId(),
         };
 
         ResetAccountAction resetAccountAction = getAction(params);
@@ -63,7 +63,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         String invalidEmail = "does-not-exist-email@teammates.tmt";
         String[] invalidParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail,
-                Const.ParamsNames.COURSE_ID, student.getCourseId()
+                Const.ParamsNames.COURSE_ID, student.getCourseId(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(invalidParams);
@@ -72,13 +72,13 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         ______TS("Typical Success Case with Instructor Email param given and Instructor exists");
         params = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId()
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
 
         resetAccountAction = getAction(params);
         actionOutput = getJsonResult(resetAccountAction);
         response = (MessageOutput) actionOutput.getOutput();
-        
+
         assertEquals(response.getMessage(), "Account is successfully reset.");
         assertNotNull(instructor);
         assertNull(instructor.getAccount());
@@ -87,7 +87,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         ______TS("Instructor Email param given but Student is non existent");
         invalidParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId()
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
 
         enfe = verifyEntityNotFound(invalidParams);
