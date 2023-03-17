@@ -445,20 +445,22 @@ public class FeedbackSessionData extends ApiOutput {
         setCreatedAtTimestamp(0);
 
         // filter deadline extensions for a specific user's email
-        this.studentDeadlines = new HashMap<>();
-        this.instructorDeadlines = new HashMap<>();
+        if (this.feedbackSession != null) {
+            this.studentDeadlines = new HashMap<>();
+            this.instructorDeadlines = new HashMap<>();
 
-        for (DeadlineExtension de : this.feedbackSession.getDeadlineExtensions()) {
-            if (de.getUser().getEmail().equals(this.feedbackSessionUserEmail)) {
-                if (de.getUser() instanceof Student) {
-                    this.studentDeadlines.put(de.getUser().getEmail(),
-                            TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                    de.getEndTime(), timeZone, true).toEpochMilli());
-                }
-                if (de.getUser() instanceof Instructor) {
-                    this.instructorDeadlines.put(de.getUser().getEmail(),
-                            TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                    de.getEndTime(), timeZone, true).toEpochMilli());
+            for (DeadlineExtension de : this.feedbackSession.getDeadlineExtensions()) {
+                if (de.getUser().getEmail().equals(this.feedbackSessionUserEmail)) {
+                    if (de.getUser() instanceof Student) {
+                        this.studentDeadlines.put(de.getUser().getEmail(),
+                                TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                                        de.getEndTime(), timeZone, true).toEpochMilli());
+                    }
+                    if (de.getUser() instanceof Instructor) {
+                        this.instructorDeadlines.put(de.getUser().getEmail(),
+                                TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                                        de.getEndTime(), timeZone, true).toEpochMilli());
+                    }
                 }
             }
         }
