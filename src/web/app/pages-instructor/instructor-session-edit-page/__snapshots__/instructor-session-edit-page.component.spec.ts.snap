@@ -1633,33 +1633,54 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           class="dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient and instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient and instructors
+                          </button>
                         </li>
                         <li
                           class="dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient, visible to instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient, visible to instructors
+                          </button>
                         </li>
                         <li
                           class="dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient and giver's team members, visible to instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient and giver's team members, visible to instructors
+                          </button>
                         </li>
                         <li
                           class="dropdown-item"
                           style=""
                         >
-                          Visible to instructors only
+                          <button
+                            class="dropdown-button"
+                          >
+                            Visible to instructors only
+                          </button>
                         </li>
                         <li
                           class="dropdown-item"
                           style=""
                         >
-                          Visible to recipient and instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Visible to recipient and instructors
+                          </button>
                         </li>
                         <li
+                          aria-hidden="true"
                           class="dropdown-divider"
                           style=""
                         />
@@ -1667,11 +1688,16 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           class="dropdown-item"
                           style=""
                         >
-                          Custom visibility options...
+                          <button
+                            class="dropdown-button"
+                          >
+                            Custom visibility options...
+                          </button>
                         </li>
                       </ul>
                     </div>
                     <table
+                      aria-label="Custom Visibility Options Table"
                       class="table margin-top-15px background-color-white table-striped"
                       style=""
                     >
@@ -1719,6 +1745,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -1726,6 +1753,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1733,6 +1761,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Recipient's Name"
                               disabled=""
                               type="checkbox"
                             />
@@ -1751,6 +1780,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -1758,6 +1788,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1765,6 +1796,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1782,6 +1814,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -1789,6 +1822,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1796,6 +1830,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1813,6 +1848,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -1820,6 +1856,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1827,6 +1864,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2301,33 +2339,54 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           class="dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient and instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient and instructors
+                          </button>
                         </li>
                         <li
                           class="dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient, visible to instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient, visible to instructors
+                          </button>
                         </li>
                         <li
                           class="dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient and giver's team members, visible to instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient and giver's team members, visible to instructors
+                          </button>
                         </li>
                         <li
                           class="dropdown-item"
                           style=""
                         >
-                          Visible to instructors only
+                          <button
+                            class="dropdown-button"
+                          >
+                            Visible to instructors only
+                          </button>
                         </li>
                         <li
                           class="dropdown-item"
                           style=""
                         >
-                          Visible to recipient and instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Visible to recipient and instructors
+                          </button>
                         </li>
                         <li
+                          aria-hidden="true"
                           class="dropdown-divider"
                           style=""
                         />
@@ -2335,11 +2394,16 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           class="dropdown-item"
                           style=""
                         >
-                          Custom visibility options...
+                          <button
+                            class="dropdown-button"
+                          >
+                            Custom visibility options...
+                          </button>
                         </li>
                       </ul>
                     </div>
                     <table
+                      aria-label="Custom Visibility Options Table"
                       class="table margin-top-15px background-color-white table-striped"
                       style=""
                     >
@@ -2387,6 +2451,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -2394,6 +2459,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2401,6 +2467,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Recipient's Name"
                               disabled=""
                               type="checkbox"
                             />
@@ -2419,6 +2486,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -2426,6 +2494,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2433,6 +2502,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2450,6 +2520,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -2457,6 +2528,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2464,6 +2536,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2481,6 +2554,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -2488,6 +2562,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2495,6 +2570,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -4190,39 +4266,64 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       class="dropdown-item"
                       style=""
                     >
-                      Shown anonymously to recipient and instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Shown anonymously to recipient and instructors
+                      </button>
                     </li>
                     <li
                       class="dropdown-item"
                       style=""
                     >
-                      Shown anonymously to recipient, visible to instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Shown anonymously to recipient, visible to instructors
+                      </button>
                     </li>
                     <li
                       class="dropdown-item"
                       style=""
                     >
-                      Shown anonymously to recipient and giver/recipient's team members, visible to instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Shown anonymously to recipient and giver/recipient's team members, visible to instructors
+                      </button>
                     </li>
                     <li
                       class="dropdown-item"
                       style=""
                     >
-                      Shown anonymously to recipient and giver's team members, visible to instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Shown anonymously to recipient and giver's team members, visible to instructors
+                      </button>
                     </li>
                     <li
                       class="dropdown-item"
                       style=""
                     >
-                      Visible to instructors only
+                      <button
+                        class="dropdown-button"
+                      >
+                        Visible to instructors only
+                      </button>
                     </li>
                     <li
                       class="dropdown-item"
                       style=""
                     >
-                      Visible to recipient and instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Visible to recipient and instructors
+                      </button>
                     </li>
                     <li
+                      aria-hidden="true"
                       class="dropdown-divider"
                       style=""
                     />
@@ -4230,11 +4331,16 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       class="dropdown-item"
                       style=""
                     >
-                      Custom visibility options...
+                      <button
+                        class="dropdown-button"
+                      >
+                        Custom visibility options...
+                      </button>
                     </li>
                   </ul>
                 </div>
                 <table
+                  aria-label="Custom Visibility Options Table"
                   class="table margin-top-15px background-color-white table-striped"
                   style=""
                 >
@@ -4282,6 +4388,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient(s) can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4289,6 +4396,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient(s) can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4296,6 +4404,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient(s) can see Recipient's Name"
                           disabled=""
                           type="checkbox"
                         />
@@ -4314,6 +4423,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Giver's Team Members can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4321,6 +4431,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Giver's Team Members can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4328,6 +4439,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Giver's Team Members can see Recipient's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4345,6 +4457,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient's Team Members can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4352,6 +4465,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient's Team Members can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4359,6 +4473,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient's Team Members can see Recipient's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4376,6 +4491,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Other Students can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4383,6 +4499,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Other Students can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4390,6 +4507,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Other Students can see Recipient's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4407,6 +4525,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Instructors can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4414,6 +4533,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Instructors can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4421,6 +4541,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Instructors can see Recipient's Name"
                           type="checkbox"
                         />
                       </td>
