@@ -1,5 +1,7 @@
 package teammates.it.ui.webapi;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -7,8 +9,11 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.InstructorsData;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetInstructorsAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetInstructorsAction}.
@@ -36,7 +41,53 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     @Test
     @Override
     protected void testExecute() throws Exception {
-        
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        loginAsInstructor(instructor.getGoogleId());
+
+        ______TS("Typical Success Case with FULL_DETAIL");
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
+        };
+
+        GetInstructorsAction action = getAction(params);
+        JsonResult jsonResult = getJsonResult(action);
+
+        InstructorsData output = (InstructorsData) jsonResult.getOutput();
+        List<InstructorData> instructors = output.getInstructors();
+
+        // TODO: Integrate sqlLogic so we can getInstructorsForCourse.
+        assertEquals(2, instructors.size());
+
+        ______TS("Typical Success Case with no intent");
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INTENT, null,
+        };
+
+        action = getAction(params);
+        jsonResult = getJsonResult(action);
+
+        output = (InstructorsData) jsonResult.getOutput();
+        instructors = output.getInstructors();
+
+        assertEquals(2, instructors.size());
+
+        for (InstructorData instructorData : instructors) {
+            assertNull(instructorData.getGoogleId());
+            assertNull(instructorData.getJoinState());
+            assertNull(instructorData.getIsDisplayedToStudents());
+            assertNull(instructorData.getRole());
+        }
+
+        ______TS("Unknown intent");
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INTENT, "Unknown",
+        };
+
+        verifyHttpParameterFailure(params);
     }
 
     @Test
