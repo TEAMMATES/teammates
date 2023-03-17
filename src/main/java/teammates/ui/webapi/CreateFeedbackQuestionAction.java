@@ -36,7 +36,7 @@ public class CreateFeedbackQuestionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        if (instructorDetailForCourse != null) {
+        if (!isCourseMigrated(courseId)) {
             gateKeeper.verifyAccessible(instructorDetailForCourse,
                     getNonNullFeedbackSession(feedbackSessionName, courseId),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
