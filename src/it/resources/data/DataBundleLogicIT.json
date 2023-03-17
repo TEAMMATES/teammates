@@ -204,7 +204,6 @@
       },
       "description": "This is a text question.",
       "questionNumber": 1,
-      "questionType": "TEXT",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,

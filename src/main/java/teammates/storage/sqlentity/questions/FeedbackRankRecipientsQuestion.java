@@ -30,13 +30,12 @@ public class FeedbackRankRecipientsQuestion extends FeedbackQuestion {
 
     public FeedbackRankRecipientsQuestion(
             FeedbackSession feedbackSession, Integer questionNumber,
-            String description, FeedbackQuestionType questionType,
-            FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
             FeedbackQuestionDetails feedbackQuestionDetails
     ) {
-        super(feedbackSession, questionNumber, description, questionType, giverType, recipientType,
+        super(feedbackSession, questionNumber, description, giverType, recipientType,
                 numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
         setFeedBackQuestionDetails((FeedbackRankRecipientsQuestionDetails) feedbackQuestionDetails);
     }

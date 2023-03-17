@@ -97,7 +97,7 @@ public class FeedbackQuestionData extends ApiOutput {
 
         this.questionDetails = feedbackQuestionDetails;
 
-        this.questionType = feedbackQuestion.getQuestionType();
+        this.questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
         this.giverType = feedbackQuestion.getGiverType();
         this.recipientType = feedbackQuestion.getRecipientType();
 

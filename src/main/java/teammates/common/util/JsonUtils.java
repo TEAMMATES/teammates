@@ -276,7 +276,8 @@ public final class JsonUtils {
         @Override
         public FeedbackQuestion deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
             FeedbackQuestionType questionType =
-                    FeedbackQuestionType.valueOf(json.getAsJsonObject().get("questionType").getAsString());
+                    FeedbackQuestionType.valueOf(json.getAsJsonObject().get("questionDetails")
+                            .getAsJsonObject().get("questionType").getAsString());
             switch (questionType) {
             case MCQ:
                 return context.deserialize(json, FeedbackMcqQuestion.class);

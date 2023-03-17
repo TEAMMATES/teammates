@@ -51,10 +51,6 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private FeedbackQuestionType questionType;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private FeedbackParticipantType giverType;
 
     @Column(nullable = false)
@@ -86,8 +82,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
 
     public FeedbackQuestion(
             FeedbackSession feedbackSession, Integer questionNumber,
-            String description, FeedbackQuestionType questionType,
-            FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo
     ) {
@@ -95,7 +90,6 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         this.setFeedbackSession(feedbackSession);
         this.setQuestionNumber(questionNumber);
         this.setDescription(description);
-        this.setQuestionType(questionType);
         this.setGiverType(giverType);
         this.setRecipientType(recipientType);
         this.setNumOfEntitiesToGiveFeedbackTo(numOfEntitiesToGiveFeedbackTo);
@@ -162,14 +156,6 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         this.description = description;
     }
 
-    public FeedbackQuestionType getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionType(FeedbackQuestionType questionType) {
-        this.questionType = questionType;
-    }
-
     public FeedbackParticipantType getGiverType() {
         return giverType;
     }
@@ -229,7 +215,6 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @Override
     public String toString() {
         return "Question [id=" + id + ", questionNumber=" + questionNumber + ", description=" + description
-                + ", questionType=" + questionType
                 + ", giverType=" + giverType + ", recipientType=" + recipientType
                 + ", numOfEntitiesToGiveFeedbackTo=" + numOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                 + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo + ", showRecipientNameTo="

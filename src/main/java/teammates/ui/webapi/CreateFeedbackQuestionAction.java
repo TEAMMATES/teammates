@@ -24,7 +24,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Creates a feedback question.
  */
-class CreateFeedbackQuestionAction extends Action {
+public class CreateFeedbackQuestionAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -64,7 +64,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),
@@ -79,7 +78,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),
@@ -94,7 +92,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),
@@ -109,7 +106,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),
@@ -126,7 +122,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),
@@ -141,7 +136,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),
@@ -156,7 +150,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),
@@ -171,7 +164,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),
@@ -186,7 +178,6 @@ class CreateFeedbackQuestionAction extends Action {
                     getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
                     request.getQuestionNumber(),
                     request.getQuestionDescription(),
-                    request.getQuestionDetails().getQuestionType(),
                     request.getGiverType(),
                     request.getRecipientType(),
                     request.getNumberOfEntitiesToGiveFeedbackTo(),

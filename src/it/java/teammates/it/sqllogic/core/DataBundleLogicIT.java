@@ -174,8 +174,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackQuestionDetails questionDetails1 =
                 new FeedbackTextQuestionDetails("What is the best selling point of your product?");
         FeedbackQuestion expectedQuestion1 = new FeedbackTextQuestion(expectedSession1, 1, "This is a text question.",
-                FeedbackQuestionType.TEXT, FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.SELF, 1,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.SELF, 1,
                 List.of(FeedbackParticipantType.INSTRUCTORS), List.of(FeedbackParticipantType.INSTRUCTORS),
                 List.of(FeedbackParticipantType.INSTRUCTORS), questionDetails1);
         expectedQuestion1.setId(actualQuestion1.getId());

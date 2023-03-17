@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -50,8 +49,8 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         List<FeedbackParticipantType> showTos = new ArrayList<>();
         showTos.add(FeedbackParticipantType.INSTRUCTORS);
         FeedbackQuestion newQuestion = new FeedbackTextQuestion(fs, 6, "This is a new text question",
-                FeedbackQuestionType.TEXT, FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.OWN_TEAM_MEMBERS, -100, showTos, showTos, showTos, newQuestionDetails);
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS, -100,
+                showTos, showTos, showTos, newQuestionDetails);
 
         newQuestion = fqLogic.createFeedbackQuestion(newQuestion);
 
