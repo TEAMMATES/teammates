@@ -4,11 +4,13 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Action: resets an account ID.
  */
-class ResetAccountAction extends AdminOnlyAction {
+public class ResetAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
@@ -23,12 +25,19 @@ class ResetAccountAction extends AdminOnlyAction {
         String wrongGoogleId = null;
 
         if (studentEmail != null) {
-            StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
-            if (existingStudent == null) {
-                throw new EntityNotFoundException("Student does not exist.");
-            }
+            Student student = sqlLogic.getStudentForEmail(courseId, studentEmail);
 
-            wrongGoogleId = existingStudent.getGoogleId();
+            // To handle check for migration for IT. To remove once migrated.
+            if (student != null) {
+                wrongGoogleId = student.getGoogleId();
+            } else {
+                StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
+                if (existingStudent == null) {
+                    throw new EntityNotFoundException("Student does not exist.");
+                }
+
+                wrongGoogleId = existingStudent.getGoogleId();
+            }
 
             try {
                 if (isAccountMigrated(wrongGoogleId)) {
@@ -42,12 +51,19 @@ class ResetAccountAction extends AdminOnlyAction {
                 throw new EntityNotFoundException(e);
             }
         } else if (instructorEmail != null) {
-            InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
-            if (existingInstructor == null) {
-                throw new EntityNotFoundException("Instructor does not exist.");
-            }
+            Instructor instructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
 
-            wrongGoogleId = existingInstructor.getGoogleId();
+            // To handle check for migration for IT. To remove once migrated.
+            if (instructor != null) {
+                wrongGoogleId = instructor.getGoogleId();
+            } else {
+                InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
+                if (existingInstructor == null) {
+                    throw new EntityNotFoundException("Instructor does not exist.");
+                }
+
+                wrongGoogleId = existingInstructor.getGoogleId();
+            }
 
             try {
                 if (isAccountMigrated(wrongGoogleId)) {
