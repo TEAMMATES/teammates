@@ -22,7 +22,10 @@ import teammates.storage.sqlentity.Student;
 public class FeedbackSessionData extends ApiOutput {
     private final String courseId;
     private final String timeZone;
+    // TODO: set as final after migration
+    private FeedbackSession feedbackSession;
     private final String feedbackSessionName;
+    private String feedbackSessionUserEmail;
     private final String instructions;
 
     private final Long submissionStartTimestamp;
@@ -98,7 +101,7 @@ public class FeedbackSessionData extends ApiOutput {
             this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
         }
         if (feedbackSessionAttributes.isVisible() && !feedbackSessionAttributes.isOpened()) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_YET_OPEN;
+            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
         }
         if (feedbackSessionAttributes.isOpened()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
@@ -145,6 +148,7 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     public FeedbackSessionData(FeedbackSession feedbackSession) {
+        this.feedbackSession = feedbackSession;
         String timeZone = feedbackSession.getCourse().getTimeZone();
         this.courseId = feedbackSession.getCourse().getId();
         this.timeZone = timeZone;
@@ -186,7 +190,7 @@ public class FeedbackSessionData extends ApiOutput {
             this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
         } else if (feedbackSession.isVisible() && !feedbackSession.isOpened()
                 && !feedbackSession.isClosed()) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_YET_OPEN;
+            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
         } else if (feedbackSession.isInGracePeriod()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
         } else if (feedbackSession.isOpened()) {
@@ -230,84 +234,23 @@ public class FeedbackSessionData extends ApiOutput {
      * Constructs FeedbackSessionData for a given user deadline.
      */
     public FeedbackSessionData(FeedbackSession feedbackSession, String userEmail, Instant extendedDeadline) {
-        FeedbackSessionData(feedbackSession);
-        // Changed fields
-        this.instructions = feedbackSession.getInstructions();
-        this.submissionStartTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                feedbackSession.getStartTime(), timeZone, true).toEpochMilli();
-        this.submissionEndTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                feedbackSession.getEndTime(), timeZone, true).toEpochMilli();
+        this(feedbackSession);
+
+        this.feedbackSessionUserEmail = userEmail;
         this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
             extendedDeadline, timeZone, true).toEpochMilli();
-        this.gracePeriod = feedbackSession.getGracePeriod().toMinutes();
-
-        Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
-        this.sessionVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                sessionVisibleTime, timeZone, true).toEpochMilli();
-        if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            this.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
-        } else {
-            this.sessionVisibleSetting = SessionVisibleSetting.CUSTOM;
-            this.customSessionVisibleTimestamp = this.sessionVisibleFromTimestamp;
-        }
-
-        Instant responseVisibleTime = feedbackSession.getResultsVisibleFromTime();
-        this.resultVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                responseVisibleTime, timeZone, true).toEpochMilli();
-        if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            this.responseVisibleSetting = ResponseVisibleSetting.AT_VISIBLE;
-        } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
-            this.responseVisibleSetting = ResponseVisibleSetting.LATER;
-        } else {
-            this.responseVisibleSetting = ResponseVisibleSetting.CUSTOM;
-            this.customResponseVisibleTimestamp = this.resultVisibleFromTimestamp;
-        }
 
         if (!feedbackSession.isVisible()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
         } else if (feedbackSession.isVisible() && !feedbackSession.isOpenedGivenExtendedDeadline(extendedDeadline)
                 && !feedbackSession.isClosedGivenExtendedDeadline(extendedDeadline)) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_YET_OPEN;
+            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
         } else if (feedbackSession.isInGracePeriodGivenExtendedDeadline(extendedDeadline)) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
         } else if (feedbackSession.isOpenedGivenExtendedDeadline(extendedDeadline)) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
         } else if (feedbackSession.isClosedGivenExtendedDeadline(extendedDeadline)) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
-        }
-
-        if (feedbackSession.isPublished()) {
-            this.publishStatus = FeedbackSessionPublishStatus.PUBLISHED;
-        } else {
-            this.publishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
-        }
-
-        this.isClosingEmailEnabled = feedbackSession.isClosingEmailEnabled();
-        this.isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
-
-        this.createdAtTimestamp = feedbackSession.getCreatedAt().toEpochMilli();
-        if (feedbackSession.getDeletedAt() == null) {
-            this.deletedAtTimestamp = null;
-        } else {
-            this.deletedAtTimestamp = feedbackSession.getDeletedAt().toEpochMilli();
-        }
-
-        this.studentDeadlines = new HashMap<>();
-        this.instructorDeadlines = new HashMap<>();
-
-        for (DeadlineExtension de : feedbackSession.getDeadlineExtensions()) {
-            if (de.getUser().getEmail().equals(userEmail)) {
-                if (de.getUser() instanceof Student) {
-                    this.studentDeadlines.put(de.getUser().getEmail(),
-                            TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                    de.getEndTime(), timeZone, true).toEpochMilli());
-                }
-                if (de.getUser() instanceof Instructor) {
-                    this.instructorDeadlines.put(de.getUser().getEmail(),
-                            TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                    de.getEndTime(), timeZone, true).toEpochMilli());
-                }
-            }
         }
     }
 
@@ -498,5 +441,24 @@ public class FeedbackSessionData extends ApiOutput {
         setPublishedEmailEnabled(null);
         setGracePeriod(null);
         setCreatedAtTimestamp(0);
+
+        // filter deadline extensions for a specific user's email
+        this.studentDeadlines = new HashMap<>();
+        this.instructorDeadlines = new HashMap<>();
+
+        for (DeadlineExtension de : this.feedbackSession.getDeadlineExtensions()) {
+            if (de.getUser().getEmail().equals(this.feedbackSessionUserEmail)) {
+                if (de.getUser() instanceof Student) {
+                    this.studentDeadlines.put(de.getUser().getEmail(),
+                            TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                                    de.getEndTime(), timeZone, true).toEpochMilli());
+                }
+                if (de.getUser() instanceof Instructor) {
+                    this.instructorDeadlines.put(de.getUser().getEmail(),
+                            TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                                    de.getEndTime(), timeZone, true).toEpochMilli());
+                }
+            }
+        }
     }
 }
