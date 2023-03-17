@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -27,6 +28,9 @@ import teammates.ui.webapi.JsonResult;
  */
 public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSessionAction> {
 
+    private Student student1;
+    private FeedbackSession feedbackSession1;
+
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.SESSION;
@@ -37,19 +41,19 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         return GET;
     }
 
-    @Test
-    protected void textExecute_studentSubmission() {
-
-        // init instances for test
+    @BeforeMethod
+    void setUp() {
         Course course1 = generateCourse1();
-        Student student1 = generateStudent1InCourse(course1);
-
-        loginAsStudent(student1.getAccount().getGoogleId());
-
-        FeedbackSession feedbackSession1 = generateSession1InCourse(course1);
+        student1 = generateStudent1InCourse(course1);
+        feedbackSession1 = generateSession1InCourse(course1);
 
         when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
         when(mockLogic.getStudentByGoogleId(course1.getId(), student1.getAccount().getGoogleId())).thenReturn(student1);
+    }
+
+    @Test
+    protected void textExecute_studentSubmissionNoExtensionAndBeforeEndTime_statusOpen() {
+        loginAsStudent(student1.getAccount().getGoogleId());
 
         String courseId = feedbackSession1.getCourse().getId();
         String feedbackSessionName = feedbackSession1.getName();
@@ -114,11 +118,28 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
 
+        logoutUser();
+    }
+
+    @Test
+    protected void textExecute_studentSubmissionNoExtensionAfterEndTimeWithinGracePeriod_statusGracePeriod() {
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+
+        String courseId = feedbackSession1.getCourse().getId();
+        String feedbackSessionName = feedbackSession1.getName();
+        String timeZone = feedbackSession1.getCourse().getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
         ______TS("get submission by student with no extension; after end time but within grace period");
 
-        newStartTime = Instant.now().plusSeconds(-120);
-        newEndTime = newStartTime.plusSeconds(60);
-        newGracePeriod = Duration.ofDays(2);
+        Instant newStartTime = Instant.now().plusSeconds(-120);
+        Instant newEndTime = newStartTime.plusSeconds(60);
+        Duration newGracePeriod = Duration.ofDays(2);
 
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
@@ -127,9 +148,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         // mock no deadline extension
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(feedbackSession1.getEndTime());
 
-        a = getAction(params);
-        r = getJsonResult(a);
-        response = (FeedbackSessionData) r.getOutput();
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
@@ -139,11 +160,28 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
+        logoutUser();
+    }
+
+    @Test
+    protected void textExecute_studentSubmissionNoExtensionAfterEndTimeBeyondGracePeriod_statusClosed() {
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+
+        String courseId = feedbackSession1.getCourse().getId();
+        String feedbackSessionName = feedbackSession1.getName();
+        String timeZone = feedbackSession1.getCourse().getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
         ______TS("get submission by student with no extension; after end time and beyond grace period");
 
-        newStartTime = Instant.now().plusSeconds(-60);
-        newEndTime = newStartTime.plusSeconds(20);
-        newGracePeriod = Duration.ofSeconds(10);
+        Instant newStartTime = Instant.now().plusSeconds(-60);
+        Instant newEndTime = newStartTime.plusSeconds(20);
+        Duration newGracePeriod = Duration.ofSeconds(10);
 
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
@@ -152,9 +190,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         // mock no deadline extension
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(feedbackSession1.getEndTime());
 
-        a = getAction(params);
-        r = getJsonResult(a);
-        response = (FeedbackSessionData) r.getOutput();
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
@@ -164,11 +202,28 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
+        logoutUser();
+    }
+
+    @Test
+    protected void textExecute_studentSubmissionWithExtensionBeforeEndTime_statusOpen() {
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+
+        String courseId = feedbackSession1.getCourse().getId();
+        String feedbackSessionName = feedbackSession1.getName();
+        String timeZone = feedbackSession1.getCourse().getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
         ______TS("get submission by student with extension; before end time");
 
-        newStartTime = Instant.now();
-        newEndTime = newStartTime.plusSeconds(60 * 60);
-        newGracePeriod = Duration.ZERO;
+        Instant newStartTime = Instant.now();
+        Instant newEndTime = newStartTime.plusSeconds(60 * 60);
+        Duration newGracePeriod = Duration.ZERO;
         Instant extendedEndTime = newStartTime.plusSeconds(60 * 60 * 21);
 
         feedbackSession1.setStartTime(newStartTime);
@@ -180,9 +235,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
 
-        a = getAction(params);
-        r = getJsonResult(a);
-        response = (FeedbackSessionData) r.getOutput();
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
@@ -192,13 +247,30 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
+
+        logoutUser();
+    }
+
+    @Test
+    protected void textExecute_studentSubmissionWithExtensionAfterEndTimeBeforeExtendedDeadline_statusOpen() {
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+
+        String courseId = feedbackSession1.getCourse().getId();
+        String feedbackSessionName = feedbackSession1.getName();
+        String timeZone = feedbackSession1.getCourse().getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
 
         ______TS("get submission by student with extension; after end time but before extended deadline");
 
-        newStartTime = Instant.now().plusSeconds(-60);
-        newEndTime = newStartTime.plusSeconds(20);
-        newGracePeriod = Duration.ZERO;
-        extendedEndTime = Instant.now().plusSeconds(60 * 60);
+        Instant newStartTime = Instant.now().plusSeconds(-60);
+        Instant newEndTime = newStartTime.plusSeconds(20);
+        Duration newGracePeriod = Duration.ZERO;
+        Instant extendedEndTime = Instant.now().plusSeconds(60 * 60);
 
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
@@ -209,9 +281,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
 
-        a = getAction(params);
-        r = getJsonResult(a);
-        response = (FeedbackSessionData) r.getOutput();
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
@@ -222,12 +294,29 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
+        logoutUser();
+    }
+
+    @Test
+    protected void textExecute_studentSubmissionWithExtensionAfterExtendedDeadlineWithinGracePeriod_statusGracePeriod() {
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+
+        String courseId = feedbackSession1.getCourse().getId();
+        String feedbackSessionName = feedbackSession1.getName();
+        String timeZone = feedbackSession1.getCourse().getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
         ______TS("get submission by student with extension; after extended deadline but within grace period");
 
-        newStartTime = Instant.now().plusSeconds(-120);
-        newEndTime = newStartTime.plusSeconds(20);
-        extendedEndTime = newEndTime.plusSeconds(20);
-        newGracePeriod = Duration.ofDays(1);
+        Instant newStartTime = Instant.now().plusSeconds(-120);
+        Instant newEndTime = newStartTime.plusSeconds(20);
+        Instant extendedEndTime = newEndTime.plusSeconds(20);
+        Duration newGracePeriod = Duration.ofDays(1);
 
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
@@ -238,9 +327,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
 
-        a = getAction(params);
-        r = getJsonResult(a);
-        response = (FeedbackSessionData) r.getOutput();
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
@@ -251,12 +340,29 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
+        logoutUser();
+    }
+
+    @Test
+    protected void textExecute_studentSubmissionWithExtensionAfterExtendedDeadlineBeyondGracePeriod_statusClosed() {
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+
+        String courseId = feedbackSession1.getCourse().getId();
+        String feedbackSessionName = feedbackSession1.getName();
+        String timeZone = feedbackSession1.getCourse().getTimeZone();
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
         ______TS("get submission by student with extension; after extended deadline and beyond grace period");
 
-        newStartTime = Instant.now().plusSeconds(-60 * 60 * 24);
-        newEndTime = newStartTime.plusSeconds(10);
-        extendedEndTime = newEndTime.plusSeconds(10);
-        newGracePeriod = Duration.ofSeconds(10);
+        Instant newStartTime = Instant.now().plusSeconds(-60 * 60 * 24);
+        Instant newEndTime = newStartTime.plusSeconds(10);
+        Instant extendedEndTime = newEndTime.plusSeconds(10);
+        Duration newGracePeriod = Duration.ofSeconds(10);
 
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
@@ -267,9 +373,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
 
-        a = getAction(params);
-        r = getJsonResult(a);
-        response = (FeedbackSessionData) r.getOutput();
+        GetFeedbackSessionAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 

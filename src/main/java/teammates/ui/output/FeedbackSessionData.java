@@ -22,11 +22,12 @@ import teammates.storage.sqlentity.Student;
 public class FeedbackSessionData extends ApiOutput {
     private final String courseId;
     private final String timeZone;
-    // TODO: set as final after migration
-    private FeedbackSession feedbackSession;
     private final String feedbackSessionName;
     private String feedbackSessionUserEmail;
     private final String instructions;
+
+    // TODO: set as final after migration, cant do so now since the attributes constructor does not have this.
+    private FeedbackSession feedbackSession;
 
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
@@ -62,6 +63,7 @@ public class FeedbackSessionData extends ApiOutput {
     private Map<String, Long> instructorDeadlines;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
+        this.feedbackSessionUserEmail = feedbackSessionAttributes.getUserEmail();
         String timeZone = feedbackSessionAttributes.getTimeZone();
         this.courseId = feedbackSessionAttributes.getCourseId();
         this.timeZone = timeZone;
