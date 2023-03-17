@@ -16,7 +16,6 @@ import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
@@ -48,7 +47,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         FeedbackTextQuestionDetails newQuestionDetails = new FeedbackTextQuestionDetails("New question text.");
         List<FeedbackParticipantType> showTos = new ArrayList<>();
         showTos.add(FeedbackParticipantType.INSTRUCTORS);
-        FeedbackQuestion newQuestion = new FeedbackTextQuestion(fs, 6, "This is a new text question",
+        FeedbackQuestion newQuestion = FeedbackQuestion.makeQuestion(fs, 6, "This is a new text question",
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS, -100,
                 showTos, showTos, showTos, newQuestionDetails);
 

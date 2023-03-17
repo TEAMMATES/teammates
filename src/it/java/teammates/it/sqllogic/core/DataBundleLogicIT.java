@@ -28,7 +28,6 @@ import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
-import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 import teammates.test.FileHelper;
 
 /**
@@ -172,9 +171,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackQuestion actualQuestion1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackQuestionDetails questionDetails1 =
                 new FeedbackTextQuestionDetails("What is the best selling point of your product?");
-        FeedbackQuestion expectedQuestion1 = new FeedbackTextQuestion(expectedSession1, 1, "This is a text question.",
-                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.SELF, 1,
-                List.of(FeedbackParticipantType.INSTRUCTORS), List.of(FeedbackParticipantType.INSTRUCTORS),
+        FeedbackQuestion expectedQuestion1 = FeedbackQuestion.makeQuestion(expectedSession1, 1,
+                "This is a text question.", FeedbackParticipantType.STUDENTS, FeedbackParticipantType.SELF,
+                1, List.of(FeedbackParticipantType.INSTRUCTORS), List.of(FeedbackParticipantType.INSTRUCTORS),
                 List.of(FeedbackParticipantType.INSTRUCTORS), questionDetails1);
         expectedQuestion1.setId(actualQuestion1.getId());
         verifyEquals(expectedQuestion1, actualQuestion1);
