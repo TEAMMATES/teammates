@@ -54,8 +54,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         String email = instructor.getEmail();
         String courseId = instructor.getCourseId();
-        // TODO: Change after Get Instructors Action merged.
-        String googleId = instructor.getAccount().getGoogleId();
+        String googleId = instructor.getGoogleId();
 
         ______TS("success: reset instructor that does not exist");
         assertThrows(EntityDoesNotExistException.class,
@@ -77,8 +76,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         String email = student.getEmail();
         String courseId = student.getCourseId();
-        // TODO: Change after Get Instructors Action merged.
-        String googleId = student.getAccount().getGoogleId();
+        String googleId = student.getGoogleId();
 
         ______TS("success: reset student that does not exist");
         assertThrows(EntityDoesNotExistException.class,
