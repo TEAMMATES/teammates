@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
@@ -106,8 +105,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
         InstructorData instructorData = new InstructorData(instructor);
         if (intent == Intent.FULL_DETAIL) {
-            Account account = instructor.getAccount();
-            instructorData.setGoogleId(account != null ? instructor.getAccount().getGoogleId() : null);
+            instructorData.setGoogleId(instructor.getGoogleId());
         }
 
         return new JsonResult(instructorData);

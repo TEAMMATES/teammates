@@ -161,6 +161,17 @@ public abstract class User extends BaseEntity {
         return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
     }
 
+    /**
+     * Returns google id of the user if account is not null.
+     */
+    public String getGoogleId() {
+        if (getAccount() != null) {
+            return getAccount().getGoogleId();
+        }
+
+        return null;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {
