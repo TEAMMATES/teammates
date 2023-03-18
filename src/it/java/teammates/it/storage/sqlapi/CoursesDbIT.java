@@ -1,5 +1,7 @@
 package teammates.it.storage.sqlapi;
 
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -76,6 +78,55 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEquals(section, actualSection);
     }
 
+    @Test
+    public void testGetTeamsForSection() throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = getTypicalCourse();
+        Section section = new Section(course, "section-name");
+        course.addSection(section);
+        Team team1 = new Team(section, "team-name1");
+        section.addTeam(team1);
+        Team team2 = new Team(section, "team-name2");
+        section.addTeam(team2);
+
+        List<Team> expectedTeams = List.of(team1, team2);
+
+        coursesDb.createCourse(course);
+
+        ______TS("success: typical case");
+        List<Team> actualTeams = coursesDb.getTeamsForSection(section);
+        assertEquals(expectedTeams.size(), actualTeams.size());
+        assertTrue(expectedTeams.containsAll(actualTeams));
+    }
+
+    @Test
+    public void testGetTeamsForCourse() throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = getTypicalCourse();
+
+        Section section1 = new Section(course, "section-name1");
+        course.addSection(section1);
+        Team team1 = new Team(section1, "team-name1");
+        section1.addTeam(team1);
+        Team team2 = new Team(section1, "team-name2");
+        section1.addTeam(team2);
+
+        Section section2 = new Section(course, "section-name2");
+        course.addSection(section2);
+        Team team3 = new Team(section2, "team-name3");
+        section2.addTeam(team3);
+        Team team4 = new Team(section2, "team-name4");
+        section2.addTeam(team4);
+
+        List<Team> expectedTeams = List.of(team1, team2, team3, team4);
+
+        coursesDb.createCourse(course);
+
+        ______TS("success: typical case");
+        List<Team> actualTeams = coursesDb.getTeamsForCourse(course.getId());
+        assertEquals(expectedTeams.size(), actualTeams.size());
+        assertTrue(expectedTeams.containsAll(actualTeams));
+    }
+
+    
     private Course getTypicalCourse() {
         return new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "teammates");
     }

@@ -155,9 +155,10 @@ public final class CoursesDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Team> cr = cb.createQuery(Team.class);
         Root<Team> teamRoot = cr.from(Team.class);
+        Join<Team, Section> teamJoin = teamRoot.join("section");
 
         cr.select(teamRoot).where(
-                cb.equal(teamRoot.get("sectionId"), section.getId()));
+                cb.equal(teamJoin.get("id"), section.getId()));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -172,7 +173,7 @@ public final class CoursesDb extends EntitiesDb {
         CriteriaQuery<Team> cr = cb.createQuery(Team.class);
         Root<Team> teamRoot = cr.from(Team.class);
         Join<Team, Section> sectionJoin = teamRoot.join("section");
-        Join<Join<Team, Section>, Course> courseJoin = sectionJoin.join("course");
+        Join<Section, Course> courseJoin = sectionJoin.join("course");
 
         cr.select(teamRoot).where(
                 cb.equal(courseJoin.get("id"), courseId));

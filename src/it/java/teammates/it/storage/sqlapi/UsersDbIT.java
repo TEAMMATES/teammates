@@ -19,7 +19,9 @@ import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
 
 /**
@@ -32,6 +34,8 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     private final AccountsDb accountsDb = AccountsDb.inst();
 
     private Course course;
+    private Section section;
+    private Team team;
     private Instructor instructor;
     private Student student;
 
@@ -41,6 +45,10 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         super.setUp();
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
+        section = new Section(course, "section-name");
+        course.addSection(section);
+        team = new Team(section, "team-name");
+        section.addTeam(team);
         coursesDb.createCourse(course);
 
         Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
@@ -173,6 +181,29 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(0, emptyUsers.size());
     }
+
+    // @Test
+    // public void testGetStudentsForTeam() throws InvalidParametersException, EntityAlreadyExistsException {
+    //     Account userSharedAccount = new Account("user-account", "user-name", "valid-user@email.tmt");
+    //     accountsDb.createAccount(userSharedAccount);
+
+    //     ______TS("success: typical case");
+    //     Student firstStudent = getTypicalStudent();
+    //     firstStudent.setEmail("valid-student-1@email.tmt");
+    //     firstStudent.setTeam(team);
+    //     usersDb.createStudent(firstStudent);
+    //     firstStudent.setAccount(userSharedAccount);
+
+    //     Student secondStudent = getTypicalStudent();
+    //     secondStudent.setEmail("valid-student-2@email.tmt");
+    //     firstStudent.setTeam(team);
+    //     usersDb.createStudent(secondStudent);
+    //     secondStudent.setAccount(userSharedAccount);
+
+    //     List<Student> expectedStudents = List.of(firstStudent, secondStudent);
+
+    //     List<Student> actualStudents = 
+    // }
 
     private Student getTypicalStudent() {
         return new Student(course, "student-name", "valid-student@email.tmt", "comments");
