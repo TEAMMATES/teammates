@@ -1399,9 +1399,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <input
                                   type="checkbox"
                                 />
-                                <a>
-                                   Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                                </a>
+                                 Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                               </label>
                             </div>
                             <div
@@ -1416,6 +1414,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               </span>
                                for the response: 
                               <input
+                                aria-label="Recommended Length Input"
                                 class="form-control ng-untouched ng-pristine ng-valid"
                                 id="recommended-length"
                                 min="1"
@@ -2105,9 +2104,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <input
                                   type="checkbox"
                                 />
-                                <a>
-                                   Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                                </a>
+                                 Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                               </label>
                             </div>
                             <div
@@ -2122,6 +2119,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                               </span>
                                for the response: 
                               <input
+                                aria-label="Recommended Length Input"
                                 class="form-control ng-untouched ng-pristine ng-valid"
                                 id="recommended-length"
                                 min="1"
@@ -3896,9 +3894,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             <input
                               type="checkbox"
                             />
-                            <a>
-                               Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                            </a>
+                             Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                           </label>
                         </div>
                         <div
@@ -3913,6 +3909,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           </span>
                            for the response: 
                           <input
+                            aria-label="Recommended Length Input"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             id="recommended-length"
                             min="1"

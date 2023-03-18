@@ -189,9 +189,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                           disabled=""
                           type="checkbox"
                         />
-                        <a>
-                           Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                        </a>
+                         Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                       </label>
                     </div>
                     <div
@@ -206,6 +204,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                       </span>
                        for the response: 
                       <input
+                        aria-label="Recommended Length Input"
                         class="form-control ng-untouched ng-pristine ng-valid"
                         disabled=""
                         id="recommended-length"
