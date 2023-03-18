@@ -24,9 +24,19 @@ import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 
 import jakarta.persistence.OneToMany;
 
@@ -50,6 +60,7 @@ public final class JsonUtils {
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new DurationMinutesAdapter())
+                .registerTypeAdapter(FeedbackQuestion.class, new FeedbackQuestionAdapter())
                 .registerTypeAdapter(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsAdapter())
                 .registerTypeAdapter(FeedbackResponseDetails.class, new FeedbackResponseDetailsAdapter())
                 .registerTypeAdapter(LogDetails.class, new LogDetailsAdapter())
@@ -233,6 +244,65 @@ public final class JsonUtils {
             return context.deserialize(json, questionType.getResponseDetailsClass());
         }
 
+    }
+
+    private static class FeedbackQuestionAdapter implements JsonSerializer<FeedbackQuestion>,
+            JsonDeserializer<FeedbackQuestion> {
+
+        @Override
+        public JsonElement serialize(FeedbackQuestion src, Type typeOfSrc, JsonSerializationContext context) {
+            if (src instanceof FeedbackMcqQuestion) {
+                return context.serialize(src, FeedbackMcqQuestion.class);
+            } else if (src instanceof FeedbackMsqQuestion) {
+                return context.serialize(src, FeedbackMsqQuestion.class);
+            } else if (src instanceof FeedbackTextQuestion) {
+                return context.serialize(src, FeedbackTextQuestion.class);
+            } else if (src instanceof FeedbackNumericalScaleQuestion) {
+                return context.serialize(src, FeedbackNumericalScaleQuestion.class);
+            } else if (src instanceof FeedbackConstantSumQuestion) {
+                return context.serialize(src, FeedbackConstantSumQuestion.class);
+            } else if (src instanceof FeedbackContributionQuestion) {
+                return context.serialize(src, FeedbackContributionQuestion.class);
+            } else if (src instanceof FeedbackRubricQuestion) {
+                return context.serialize(src, FeedbackRubricQuestion.class);
+            } else if (src instanceof FeedbackRankOptionsQuestion) {
+                return context.serialize(src, FeedbackRankOptionsQuestion.class);
+            } else if (src instanceof FeedbackRankRecipientsQuestion) {
+                return context.serialize(src, FeedbackRankRecipientsQuestion.class);
+            }
+            return null;
+        }
+
+        @Override
+        public FeedbackQuestion deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            FeedbackQuestionType questionType =
+                    FeedbackQuestionType.valueOf(json.getAsJsonObject().get("questionDetails")
+                            .getAsJsonObject().get("questionType").getAsString());
+            switch (questionType) {
+            case MCQ:
+                return context.deserialize(json, FeedbackMcqQuestion.class);
+            case MSQ:
+                return context.deserialize(json, FeedbackMsqQuestion.class);
+            case TEXT:
+                return context.deserialize(json, FeedbackTextQuestion.class);
+            case RUBRIC:
+                return context.deserialize(json, FeedbackRubricQuestion.class);
+            case CONTRIB:
+                return context.deserialize(json, FeedbackContributionQuestion.class);
+            case CONSTSUM:
+            case CONSTSUM_RECIPIENTS:
+            case CONSTSUM_OPTIONS:
+                return context.deserialize(json, FeedbackConstantSumQuestion.class);
+            case NUMSCALE:
+                return context.deserialize(json, FeedbackNumericalScaleQuestion.class);
+            case RANK_OPTIONS:
+                return context.deserialize(json, FeedbackRankOptionsQuestion.class);
+            case RANK_RECIPIENTS:
+                return context.deserialize(json, FeedbackRankRecipientsQuestion.class);
+            default:
+                return null;
+            }
+        }
     }
 
     private static class FeedbackQuestionDetailsAdapter implements JsonSerializer<FeedbackQuestionDetails>,
