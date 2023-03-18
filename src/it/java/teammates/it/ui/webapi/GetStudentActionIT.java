@@ -42,7 +42,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         Course course = typicalBundle.courses.get("course1");
         Student student = typicalBundle.students.get("student1InCourse1");
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        
+
         ______TS("Typical Success Case logged in as instructor, Registered Student");
         loginAsInstructor(instructor.getGoogleId());
 
@@ -151,5 +151,5 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
 
         verifyInaccessibleForUnregisteredUsers(params);
     }
-    
+
 }

@@ -60,7 +60,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         assertEquals(2, students.size());
 
         StudentData firstStudentInStudents = students.get(0);
-        
+
         assertNull(firstStudentInStudents.getGoogleId());
         assertNull(firstStudentInStudents.getKey());
         assertEquals(student.getName(), firstStudentInStudents.getName());
@@ -135,5 +135,5 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         verifyCannotAccess(params);
     }
-    
+
 }
