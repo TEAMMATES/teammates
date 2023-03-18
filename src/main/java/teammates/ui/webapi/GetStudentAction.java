@@ -118,7 +118,7 @@ class GetStudentAction extends Action {
                 // hide information if not an instructor
                 studentData.hideInformationForStudent();
                 // add student institute
-                studentData.setInstitute(sqlLogic.getCourse(courseId).getInstitute());
+                studentData.setInstitute(student.getCourse().getInstitute());
             }
 
             return new JsonResult(studentData);
