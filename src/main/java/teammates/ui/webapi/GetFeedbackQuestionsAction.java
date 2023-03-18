@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -171,7 +170,7 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             questions.removeIf(question -> !canInstructorSeeQuestion(question));
         }
 
-        FeedbackQuestionsData response = new FeedbackQuestionsData(questions);
+        FeedbackQuestionsData response = FeedbackQuestionsData.makeFeedbackQuestionsData(questions);
         response.normalizeQuestionNumber();
         if (intent.equals(Intent.STUDENT_SUBMISSION) || intent.equals(Intent.STUDENT_RESULT)) {
             for (FeedbackQuestionData questionData : response.getQuestions()) {
