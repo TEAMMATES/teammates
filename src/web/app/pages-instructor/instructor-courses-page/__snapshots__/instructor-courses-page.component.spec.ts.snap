@@ -904,7 +904,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                   name="courseId"
                   placeholder="e.g. CS3215-2013Semester1"
                   required=""
-                  tabindex="1"
                   type="text"
                 />
                 <div
@@ -938,7 +937,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                   name="courseName"
                   placeholder="e.g. Software Engineering"
                   required=""
-                  tabindex="2"
                   type="text"
                 />
                 <div
