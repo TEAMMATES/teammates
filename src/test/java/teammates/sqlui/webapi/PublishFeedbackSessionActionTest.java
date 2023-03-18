@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -27,7 +29,7 @@ import teammates.ui.webapi.PublishFeedbackSessionAction;
 public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeedbackSessionAction> {
 
     private Course course1;
-    private FeedbackSession feedbackSession1;
+    private FeedbackSession feedbackSession1, feedbackSession2;
     private Instructor instructor1;
 
     @Override
@@ -41,21 +43,24 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @BeforeMethod
-    void setUp() {
+    void setUp() throws InvalidParametersException, EntityDoesNotExistException {
         course1 = generateCourse1();
         feedbackSession1 = generateSession1InCourse(course1);
+        feedbackSession2 = generateSession2InCourse(course1);
         instructor1 = generateInstructor1InCourse(course1);
 
         when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
+        when(mockLogic.publishFeedbackSession(
+                feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession2);
         when(mockLogic.getInstructorByGoogleId(
                 course1.getId(), instructor1.getAccount().getGoogleId())).thenReturn(instructor1);
+
+        loginAsInstructor(instructor1.getAccount().getGoogleId());
     }
 
     @Test
     protected void testExecute() {
         ______TS("Typical case");
-
-        loginAsInstructor(instructor1.getAccount().getGoogleId());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course1.getId(),
@@ -66,6 +71,8 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         JsonResult result = getJsonResult(publishFeedbackSessionAction);
         FeedbackSessionData feedbackSessionData = (FeedbackSessionData) result.getOutput();
+
+        when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession2);
 
         assertEquals(feedbackSessionData.getFeedbackSessionName(), feedbackSession1.getName());
         assertEquals(FeedbackSessionPublishStatus.PUBLISHED, feedbackSessionData.getPublishStatus());
@@ -85,8 +92,6 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     @Test
     public void testExecute_invalidRequests_shouldFail() {
         ______TS("non existent session name");
-
-        loginAsInstructor(instructor1.getAccount().getGoogleId());
 
         String randomSessionName = "randomName";
 
@@ -129,6 +134,18 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 "instructor1@gmail.com", "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
+                Duration.ofHours(10), true, true, true);
+        fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
+        fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
+
+        return fs;
+    }
+
+    private FeedbackSession generateSession2InCourse(Course course) {
+        FeedbackSession fs = new FeedbackSession("feedbacksession-1", course,
+                "instructor1@gmail.com", "generic instructions",
+                Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2020-04-30T22:00:00Z"),
+                Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2020-05-01T22:00:00Z"),
                 Duration.ofHours(10), true, true, true);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
