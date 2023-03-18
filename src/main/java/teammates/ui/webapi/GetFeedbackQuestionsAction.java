@@ -32,33 +32,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        if (!isCourseMigrated(courseId)) {
-            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-            switch (intent) {
-            case STUDENT_SUBMISSION:
-                StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-                checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
-                break;
-            case FULL_DETAIL:
-                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
-                break;
-            case INSTRUCTOR_SUBMISSION:
-                InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-                checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
-                break;
-            case INSTRUCTOR_RESULT:
-                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                        feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-                break;
-            case STUDENT_RESULT:
-                gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
-                break;
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
-            }
-        } else {
+        if (isCourseMigrated(courseId)) {
             FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
             switch (intent) {
             case STUDENT_SUBMISSION:
@@ -81,6 +55,32 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                 break;
             case STUDENT_RESULT:
                 gateKeeper.verifyAccessible(getSqlStudentOfCourseFromRequest(courseId), feedbackSession);
+                break;
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
+            }
+        } else {
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+            switch (intent) {
+            case STUDENT_SUBMISSION:
+                StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+                checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
+                break;
+            case FULL_DETAIL:
+                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
+                break;
+            case INSTRUCTOR_SUBMISSION:
+                InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+                checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
+                break;
+            case INSTRUCTOR_RESULT:
+                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                        feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                break;
+            case STUDENT_RESULT:
+                gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
                 break;
             default:
                 throw new InvalidHttpParameterException("Unknown intent " + intent);

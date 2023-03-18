@@ -124,7 +124,7 @@ public final class FeedbackQuestionsLogic {
                 fqDb.getFeedbackQuestionsForGiverType(
                     feedbackSession, FeedbackParticipantType.INSTRUCTORS));
 
-        if (userEmail != null && feedbackSession.getCreatorEmail().equals(userEmail)) {
+        if (feedbackSession.getCreatorEmail().equals(userEmail)) {
             questions.addAll(
                     fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSession, FeedbackParticipantType.SELF));
