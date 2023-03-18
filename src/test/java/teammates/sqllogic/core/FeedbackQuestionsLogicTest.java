@@ -23,6 +23,8 @@ import teammates.test.BaseTestCase;
 public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private CoursesLogic coursesLogic = CoursesLogic.inst();
+    private UsersLogic usersLogic = UsersLogic.inst();
 
     private FeedbackQuestionsDb fqDb;
 
@@ -36,7 +38,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         fqDb = mock(FeedbackQuestionsDb.class);
-        fqLogic.initLogicDependencies(fqDb);
+        fqLogic.initLogicDependencies(fqDb, coursesLogic, usersLogic);
     }
 
     @Test(enabled = false)
