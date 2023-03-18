@@ -76,9 +76,10 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackQuestion> cq = cb.createQuery(FeedbackQuestion.class);
         Root<FeedbackQuestion> root = cq.from(FeedbackQuestion.class);
+        Join<FeedbackQuestion, FeedbackSession> fqJoin = root.join("feedbackSession");
         cq.select(root)
                 .where(cb.and(
-                        cb.equal(root.get("sessionId"), feedbackSession.getId()),
+                        cb.equal(fqJoin.get("id"), feedbackSession.getId()),
                         cb.equal(root.get("giverType"), giverType)));
         return HibernateUtil.createQuery(cq).getResultList();
     }
