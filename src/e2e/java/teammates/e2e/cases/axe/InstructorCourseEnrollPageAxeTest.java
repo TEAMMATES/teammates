@@ -1,7 +1,5 @@
 package teammates.e2e.cases.axe;
 
-import java.util.Arrays;
-
 import org.testng.annotations.Test;
 
 import com.deque.html.axecore.results.Results;
@@ -31,10 +29,7 @@ public class InstructorCourseEnrollPageAxeTest extends BaseE2ETestCase {
         InstructorCourseEnrollPage enrollPage = loginToPage(url, InstructorCourseEnrollPage.class,
                 testData.instructors.get("ICEnroll.teammates.test").getGoogleId());
 
-        // The empty-table-headers rule is disabled for this test because the instuctor course enroll page
-        // uses Handsontable, which does not yet support accessibility
-        Results results = AxeUtil.AXE_BUILDER.disableRules(Arrays.asList("empty-table-headers"))
-                .analyze(enrollPage.getBrowser().getDriver());
+        Results results = AxeUtil.AXE_BUILDER.analyze(enrollPage.getBrowser().getDriver());
         assertTrue(AxeUtil.formatViolations(results), results.violationFree());
     }
 
