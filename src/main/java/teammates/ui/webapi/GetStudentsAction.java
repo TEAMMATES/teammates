@@ -16,7 +16,7 @@ import teammates.ui.output.StudentsData;
 /**
  * Get a list of students.
  */
-class GetStudentsAction extends Action {
+public class GetStudentsAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
