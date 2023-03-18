@@ -23,8 +23,8 @@ import teammates.test.BaseTestCase;
 public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private CoursesLogic coursesLogic = CoursesLogic.inst();
-    private UsersLogic usersLogic = UsersLogic.inst();
+    private CoursesLogic coursesLogic;
+    private UsersLogic usersLogic;
 
     private FeedbackQuestionsDb fqDb;
 
@@ -38,6 +38,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         fqDb = mock(FeedbackQuestionsDb.class);
+        coursesLogic = mock(CoursesLogic.class);
+        usersLogic = mock(UsersLogic.class);
         fqLogic.initLogicDependencies(fqDb, coursesLogic, usersLogic);
     }
 
@@ -173,4 +175,32 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         assertEquals(4, fq4.getQuestionNumber().intValue());
     }
 
+    @Test(enabled = false)
+    public void testGetFeedbackQuestionsForStudents() {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackQuestion fq2 = typicalDataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+
+        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);
+
+        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForStudents(fs);
+        
+        assertEquals(expectedQuestions.size(), actualQuestions.size());
+        assertTrue(actualQuestions.containsAll(actualQuestions));
+    }
+
+    @Test(enabled = false)
+    public void testGetFeedbackQuestionsForInstructors() {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackQuestion fq3 = typicalDataBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        FeedbackQuestion fq4 = typicalDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
+        FeedbackQuestion fq5 = typicalDataBundle.feedbackQuestions.get("qn5InSession1InCourse1");
+
+        List<FeedbackQuestion> expectedQuestions = List.of(fq3, fq4, fq5);
+
+        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr1@teammates.tmt");
+        
+        assertEquals(expectedQuestions.size(), actualQuestions.size());
+        assertTrue(actualQuestions.containsAll(actualQuestions));
+    }
 }
