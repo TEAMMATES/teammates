@@ -46,6 +46,8 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         instructor1 = generateInstructor1InCourse(course1);
 
         when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
+        when(mockLogic.getInstructorByGoogleId(
+                course1.getId(), instructor1.getAccount().getGoogleId())).thenReturn(instructor1);
     }
 
     @Test
