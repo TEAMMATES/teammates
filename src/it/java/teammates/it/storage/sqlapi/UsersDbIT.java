@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -34,8 +35,6 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     private final AccountsDb accountsDb = AccountsDb.inst();
 
     private Course course;
-    private Section section;
-    private Team team;
     private Instructor instructor;
     private Student student;
 
@@ -45,10 +44,6 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         super.setUp();
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        section = new Section(course, "section-name");
-        course.addSection(section);
-        team = new Team(section, "team-name");
-        section.addTeam(team);
         coursesDb.createCourse(course);
 
         Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
@@ -182,28 +177,83 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(0, emptyUsers.size());
     }
 
-    // @Test
-    // public void testGetStudentsForTeam() throws InvalidParametersException, EntityAlreadyExistsException {
-    //     Account userSharedAccount = new Account("user-account", "user-name", "valid-user@email.tmt");
-    //     accountsDb.createAccount(userSharedAccount);
+    @Test
+    public void testGetStudentsForSection() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        ______TS("success: typical case");
+        Section firstSection = new Section(course, "section-name1");
+        course.addSection(firstSection);
+        Team firstTeam = new Team(firstSection, "team-name1");
+        firstSection.addTeam(firstTeam);
 
-    //     ______TS("success: typical case");
-    //     Student firstStudent = getTypicalStudent();
-    //     firstStudent.setEmail("valid-student-1@email.tmt");
-    //     firstStudent.setTeam(team);
-    //     usersDb.createStudent(firstStudent);
-    //     firstStudent.setAccount(userSharedAccount);
+        Section secondSection = new Section(course, "section-name2");
+        course.addSection(secondSection);
+        Team secondTeam = new Team(secondSection, "team-name2");
+        secondSection.addTeam(secondTeam);
 
-    //     Student secondStudent = getTypicalStudent();
-    //     secondStudent.setEmail("valid-student-2@email.tmt");
-    //     firstStudent.setTeam(team);
-    //     usersDb.createStudent(secondStudent);
-    //     secondStudent.setAccount(userSharedAccount);
+        coursesDb.updateCourse(course);
 
-    //     List<Student> expectedStudents = List.of(firstStudent, secondStudent);
+        Student firstStudent = getTypicalStudent();
+        firstStudent.setEmail("valid-student-1@email.tmt");
+        firstStudent.setTeam(firstTeam);
+        usersDb.createStudent(firstStudent);
 
-    //     List<Student> actualStudents = 
-    // }
+        Student secondStudent = getTypicalStudent();
+        secondStudent.setEmail("valid-student-2@email.tmt");
+        secondStudent.setTeam(firstTeam);
+        usersDb.createStudent(secondStudent);
+
+        Student thirdStudent = getTypicalStudent();
+        thirdStudent.setEmail("valid-student-3@email.tmt");
+        thirdStudent.setTeam(secondTeam);
+        usersDb.createStudent(thirdStudent);
+
+        List<Student> expectedStudents = List.of(firstStudent, secondStudent);
+
+        List<Student> actualStudents = usersDb.getStudentsForSection(firstSection, course.getId());
+
+        assertEquals(expectedStudents.size(), actualStudents.size());
+        assertTrue(expectedStudents.containsAll(actualStudents));
+    }
+
+
+
+    @Test
+    public void testGetStudentsForTeam() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        ______TS("success: typical case");
+        Section firstSection = new Section(course, "section-name1");
+        course.addSection(firstSection);
+        Team firstTeam = new Team(firstSection, "team-name1");
+        firstSection.addTeam(firstTeam);
+
+        Section secondSection = new Section(course, "section-name2");
+        course.addSection(secondSection);
+        Team secondTeam = new Team(secondSection, "team-name2");
+        secondSection.addTeam(secondTeam);
+
+        coursesDb.updateCourse(course);
+
+        Student firstStudent = getTypicalStudent();
+        firstStudent.setEmail("valid-student-1@email.tmt");
+        firstStudent.setTeam(firstTeam);
+        usersDb.createStudent(firstStudent);
+
+        Student secondStudent = getTypicalStudent();
+        secondStudent.setEmail("valid-student-2@email.tmt");
+        secondStudent.setTeam(firstTeam);
+        usersDb.createStudent(secondStudent);
+
+        Student thirdStudent = getTypicalStudent();
+        thirdStudent.setEmail("valid-student-3@email.tmt");
+        thirdStudent.setTeam(secondTeam);
+        usersDb.createStudent(thirdStudent);
+
+        List<Student> expectedStudents = List.of(firstStudent, secondStudent);
+
+        List<Student> actualStudents = usersDb.getStudentsForTeam(firstTeam.getName(), course.getId());
+
+        assertEquals(expectedStudents.size(), actualStudents.size());
+        assertTrue(expectedStudents.containsAll(actualStudents));
+    }
 
     private Student getTypicalStudent() {
         return new Student(course, "student-name", "valid-student@email.tmt", "comments");
