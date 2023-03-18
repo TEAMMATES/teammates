@@ -93,8 +93,6 @@ public class GetInstructorsAction extends Action {
                                 .filter(InstructorAttributes::isDisplayedToStudents)
                                 .collect(Collectors.toList());
 
-                // To map each InstructorAttributes object to InstructorData format
-                // in order to fill the list in InstructorsData via the setter method.
                 List<InstructorData> instructorDataList = instructorsOfCourse
                         .stream()
                         .map(InstructorData::new)
@@ -126,8 +124,6 @@ public class GetInstructorsAction extends Action {
                 } else {
                     data = new InstructorsData();
 
-                    // To map each InstructorAttributes object to InstructorData format
-                    // in order to fill the list in InstructorsData via the setter method.
                     List<InstructorData> instructorDataList = instructorsOfCourse
                             .stream()
                             .map(InstructorData::new)

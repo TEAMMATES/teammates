@@ -57,7 +57,6 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         InstructorsData output = (InstructorsData) jsonResult.getOutput();
         List<InstructorData> instructors = output.getInstructors();
 
-        // TODO: Integrate sqlLogic so we can getInstructorsForCourse.
         assertEquals(2, instructors.size());
 
         ______TS("Typical Success Case with no intent");
