@@ -84,7 +84,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         assertNull(instructor.getAccount());
         assertNull(instructor.getGoogleId());
 
-        ______TS("Instructor Email param given but Student is non existent");
+        ______TS("Instructor Email param given but Instructor is non existent");
         invalidParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
