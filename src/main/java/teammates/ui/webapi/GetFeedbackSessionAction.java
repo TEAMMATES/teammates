@@ -91,22 +91,21 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
                 Student student = getSqlStudentOfCourseFromRequest(courseId);
                 Instant studentDeadline = sqlLogic.getDeadlineForUser(feedbackSession, student);
                 response = new FeedbackSessionData(feedbackSession, studentDeadline);
-                response.hideInformationForStudent(feedbackSession.getDeadlineExtensions(), student.getEmail());
+                response.hideInformationForStudent(student.getEmail());
                 break;
             case INSTRUCTOR_SUBMISSION:
                 Instructor instructorSubmission = getSqlInstructorOfCourseFromRequest(courseId);
                 response = new FeedbackSessionData(feedbackSession,
                         sqlLogic.getDeadlineForUser(feedbackSession,
                         instructorSubmission));
-                response.hideInformationForInstructorSubmission(feedbackSession.getDeadlineExtensions(),
-                        instructorSubmission.getEmail());
+                response.hideInformationForInstructorSubmission(instructorSubmission.getEmail());
                 break;
             case INSTRUCTOR_RESULT:
                 Instructor instructorResult = getSqlInstructorOfCourseFromRequest(courseId);
                 response = new FeedbackSessionData(feedbackSession,
                         sqlLogic.getDeadlineForUser(feedbackSession,
                         instructorResult));
-                response.hideInformationForInstructor(feedbackSession.getDeadlineExtensions(), instructorResult.getEmail());
+                response.hideInformationForInstructor(instructorResult.getEmail());
                 break;
             case FULL_DETAIL:
                 response = new FeedbackSessionData(feedbackSession);
