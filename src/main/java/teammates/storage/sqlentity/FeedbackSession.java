@@ -98,7 +98,7 @@ public class FeedbackSession extends BaseEntity {
         this.setEndTime(endTime);
         this.setSessionVisibleFromTime(sessionVisibleFromTime);
         this.setResultsVisibleFromTime(resultsVisibleFromTime);
-        this.setGracePeriod(Objects.requireNonNullElse(gracePeriod, Duration.ZERO));
+        this.setGracePeriod(gracePeriod);
         this.setOpeningEmailEnabled(isOpeningEmailEnabled);
         this.setClosingEmailEnabled(isClosingEmailEnabled);
         this.setPublishedEmailEnabled(isPublishedEmailEnabled);
@@ -240,7 +240,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public void setGracePeriod(Duration gracePeriod) {
-        this.gracePeriod = gracePeriod;
+        this.gracePeriod = Objects.requireNonNullElse(gracePeriod, Duration.ZERO);
     }
 
     public boolean isOpeningEmailEnabled() {
@@ -354,10 +354,10 @@ public class FeedbackSession extends BaseEntity {
 
     /**
      * Checks if the feedback session is closed.
-     * This occurs when the current time is after both the deadline and the grace period.
+     * This occurs only when the current time is after both the deadline and the grace period.
      */
     public boolean isClosed() {
-        return Instant.now().isAfter(endTime.plus(gracePeriod));
+        return !isOpened() && Instant.now().isAfter(endTime);
     }
 
     /**
@@ -367,6 +367,41 @@ public class FeedbackSession extends BaseEntity {
     public boolean isOpened() {
         Instant now = Instant.now();
         return (now.isAfter(startTime) || now.equals(startTime)) && now.isBefore(endTime);
+    }
+
+    /**
+     * Checks if the feedback session is during the grace period.
+     * This occurs when the current time is after end time, but before the end of the grace period.
+     */
+    public boolean isInGracePeriod() {
+        return Instant.now().isAfter(endTime) && !isClosed();
+    }
+
+    /**
+     * Checks if the feedback session is opened given the extendedDeadline and grace period.
+     */
+    public boolean isOpenedGivenExtendedDeadline(Instant extendedDeadline) {
+        Instant now = Instant.now();
+        return (now.isAfter(startTime) || now.equals(startTime))
+                && now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod));
+    }
+
+    /**
+     * Checks if the feedback session is closed given the extendedDeadline and grace period.
+     * This occurs only when it is after the extended deadline or end time plus grace period.
+     */
+    public boolean isClosedGivenExtendedDeadline(Instant extendedDeadline) {
+        Instant now = Instant.now();
+        return !isOpenedGivenExtendedDeadline(extendedDeadline)
+                && now.isAfter(endTime.plus(gracePeriod)) && now.isAfter(extendedDeadline.plus(gracePeriod));
+    }
+
+    /**
+     * Checks if the feedback session is during the grace period given the extendedDeadline.
+     */
+    public boolean isInGracePeriodGivenExtendedDeadline(Instant extendedDeadline) {
+        Instant now = Instant.now();
+        return now.isAfter(endTime) && now.isAfter(extendedDeadline) && !isClosedGivenExtendedDeadline(extendedDeadline);
     }
 
     /**
@@ -389,4 +424,5 @@ public class FeedbackSession extends BaseEntity {
         Instant now = Instant.now();
         return now.isAfter(publishTime) || now.equals(publishTime);
     }
+
 }
