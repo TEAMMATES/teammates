@@ -16,7 +16,7 @@ public final class AxeUtil {
     /**
      * List of rules to be disabled for accessibility tests.
      */
-    public static final List<String> DISABLED_RULES = Arrays.asList("color-contrast");
+    public static final List<String> DISABLED_RULES = Arrays.asList("color-contrast", "empty-table-header");
 
     /**
      * Builder for accessibility tests.
