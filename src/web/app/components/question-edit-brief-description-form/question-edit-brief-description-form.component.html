@@ -9,7 +9,10 @@
   </div>
   <div class="row padding-15px text-start">
     <div class="col-md-2">
-      <div class="question-basic-info">[Optional]<br/>Description</div>
+      <pre role="text" class="question-basic-info">
+        [Optional]
+        Description
+      </pre>
     </div>
     <div class="col-md-10">
       <tm-rich-text-editor [richText]="description" (richTextChange)="triggerDescriptionChange($event)" [isDisabled]="isDescriptionDisabled" minHeightInPx="100" [placeholderText]="'More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;'"></tm-rich-text-editor>
