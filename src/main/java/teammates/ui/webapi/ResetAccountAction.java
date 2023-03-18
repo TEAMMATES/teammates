@@ -24,57 +24,87 @@ public class ResetAccountAction extends AdminOnlyAction {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String wrongGoogleId = null;
 
-        if (studentEmail != null) {
-            Student student = sqlLogic.getStudentForEmail(courseId, studentEmail);
+        if (isCourseMigrated(courseId)) {
+            if (studentEmail != null) {
+                Student existingStudent = sqlLogic.getStudentForEmail(courseId, studentEmail);
 
-            // To handle check for migration for IT. To remove once migrated.
-            if (student != null) {
-                wrongGoogleId = student.getGoogleId();
-            } else {
+                if (existingStudent == null) {
+                    throw new EntityNotFoundException("Student does not exist.");
+                }
+
+                wrongGoogleId = existingStudent.getGoogleId();
+
+                try {
+                    if (isAccountMigrated(wrongGoogleId)) {
+                        sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
+                    } else {
+                        logic.resetStudentGoogleId(studentEmail, courseId);
+                    }
+
+                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
+                }
+            } else if (instructorEmail != null) {
+                Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
+
+                if (existingInstructor == null) {
+                    throw new EntityNotFoundException("Instructor does not exist.");
+                }
+
+                wrongGoogleId = existingInstructor.getGoogleId();
+
+                try {
+                    if (isAccountMigrated(wrongGoogleId)) {
+                        sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
+                    } else {
+                        logic.resetInstructorGoogleId(instructorEmail, courseId);
+                    }
+
+                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
+                }
+            }
+        } else {
+            if (studentEmail != null) {
                 StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
                 if (existingStudent == null) {
                     throw new EntityNotFoundException("Student does not exist.");
                 }
 
                 wrongGoogleId = existingStudent.getGoogleId();
-            }
 
-            try {
-                if (isAccountMigrated(wrongGoogleId)) {
-                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
-                } else {
-                    logic.resetStudentGoogleId(studentEmail, courseId);
+                try {
+                    if (isAccountMigrated(wrongGoogleId)) {
+                        sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
+                    } else {
+                        logic.resetStudentGoogleId(studentEmail, courseId);
+                    }
+
+                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
                 }
-
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
-            }
-        } else if (instructorEmail != null) {
-            Instructor instructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
-
-            // To handle check for migration for IT. To remove once migrated.
-            if (instructor != null) {
-                wrongGoogleId = instructor.getGoogleId();
-            } else {
+            } else if (instructorEmail != null) {
                 InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
                 if (existingInstructor == null) {
                     throw new EntityNotFoundException("Instructor does not exist.");
                 }
 
                 wrongGoogleId = existingInstructor.getGoogleId();
-            }
 
-            try {
-                if (isAccountMigrated(wrongGoogleId)) {
-                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
-                } else {
-                    logic.resetInstructorGoogleId(instructorEmail, courseId);
+                try {
+                    if (isAccountMigrated(wrongGoogleId)) {
+                        sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
+                    } else {
+                        logic.resetInstructorGoogleId(instructorEmail, courseId);
+                    }
+
+                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
                 }
-
-                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
             }
         }
 
