@@ -9,12 +9,13 @@
     </label>
   </div>
   <div class="col-12 question-recommended-length">
-    [Optional]
-    <span class="ngb-tooltip-class" ngbTooltip="The recommended length is shown to the respondent but not enforced">
-      Recommended length
-    </span>
-    for the response:
+    <label for="recommended-length">
+      [Optional]
+      <span class="ngb-tooltip-class" ngbTooltip="The recommended length is shown to the respondent but not enforced">
+        Recommended length
+      </span>
+      (in words) for the response:
+    </label>
     <input id="recommended-length" type="number" class="form-control" [ngModel]="model.recommendedLength" (ngModelChange)="triggerModelChange('recommendedLength', $event)" [disabled]="!isEditable" min="1" aria-label="Recommended Length Input">
-    words
   </div>
 </div>
