@@ -3,7 +3,7 @@
 exports[`AdminNotificationsPageComponent should snap when notification edit form expanded for adding notification 1`] = `
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
-  __ngContext__="0"
+  __ngContext__={[Function Number]}
   currentNotificationEditFormMode="0"
   guessTimezone={[Function String]}
   hasNotificationLoadingFailed="false"
