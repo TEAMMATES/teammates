@@ -890,6 +890,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <label
                 class="col-sm-2 fw-bold text-md-end"
+                for="course-id"
               >
                 Course ID:
               </label>
@@ -923,6 +924,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <label
                 class="col-sm-2 fw-bold text-md-end"
+                for="course-name"
               >
                 Course Name:
               </label>
@@ -956,6 +958,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <label
                 class="col-sm-2 fw-bold text-md-end"
+                for="course-institute"
               >
                 <span
                   class="ngb-tooltip-class"
@@ -983,6 +986,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <label
                 class="col-xs-12 col-sm-2 fw-bold text-md-end"
+                for="time-zone"
               >
                 <span
                   class="ngb-tooltip-class"
