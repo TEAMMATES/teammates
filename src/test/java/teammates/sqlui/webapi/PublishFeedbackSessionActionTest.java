@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -141,8 +142,12 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
-        return new Instructor(course, "instructor-name", "valid-instructor@email.tmt",
+        Instructor instructor = new Instructor(course, "instructor-name", "valid-instructor@email.tmt",
                 true, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
+
+        instructor.setAccount(new Account("valid-instructor", "instructor-name", "valid-instructor@email.tmt"));
+
+        return instructor;
     }
 
 }
