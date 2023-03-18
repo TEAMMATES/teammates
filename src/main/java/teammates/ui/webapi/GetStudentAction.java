@@ -12,7 +12,7 @@ import teammates.ui.output.StudentData;
 /**
  * Get the information of a student inside a course.
  */
-class GetStudentAction extends Action {
+public class GetStudentAction extends Action {
 
     /** Message indicating that a student not found. */
     static final String STUDENT_NOT_FOUND = "No student found";
