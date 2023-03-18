@@ -65,6 +65,24 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
 
         assertNull(instructor.getAccount());
+        assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
+
+        ______TS("found at least one other user with same googleId, should not delete account");
+        Account anotherAccount = getTypicalAccount();
+        accountsLogic.createAccount(anotherAccount);
+
+        instructor.setCourse(course);
+        instructor.setAccount(anotherAccount);
+
+        Student anotherUser = getTypicalStudent();
+        anotherUser.setCourse(course);
+        anotherUser.setAccount(anotherAccount);
+
+        usersLogic.createStudent(anotherUser);
+        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+
+        assertNull(instructor.getAccount());
+        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
     }
 
     @Test
@@ -87,6 +105,24 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 
         assertNull(student.getAccount());
+        assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
+
+        ______TS("found at least one other user with same googleId, should not delete account");
+        Account anotherAccount = getTypicalAccount();
+        accountsLogic.createAccount(anotherAccount);
+
+        student.setCourse(course);
+        student.setAccount(anotherAccount);
+
+        Instructor anotherUser = getTypicalInstructor();
+        anotherUser.setCourse(course);
+        anotherUser.setAccount(anotherAccount);
+
+        usersLogic.createInstructor(anotherUser);
+        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+
+        assertNull(student.getAccount());
+        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
     }
 
     private Course getTypicalCourse() {
