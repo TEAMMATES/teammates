@@ -460,6 +460,32 @@ public class Logic {
     }
 
     /**
+     * Resets the googleId associated with the instructor.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @throws EntityDoesNotExistException If instructor cannot be found with given email and courseId.
+     */
+    public void resetInstructorGoogleId(String email, String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+    }
+
+    /**
+     * Resets the googleId associated with the student.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @throws EntityDoesNotExistException If student cannot be found with given email and courseId.
+     */
+    public void resetStudentGoogleId(String email, String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+    }
+
+    /**
      * Returns active notification for general users and the specified {@code targetUser}.
      */
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
