@@ -14,8 +14,8 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetFeedbackQuestionsAction;
@@ -83,7 +83,9 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
         GetFeedbackQuestionsAction getFeedbackQuestionsAction = getAction(params);
         FeedbackQuestionsData actionOutput = (FeedbackQuestionsData) getJsonResult(getFeedbackQuestionsAction).getOutput();
-        assertEquals(JsonUtils.toJson(FeedbackQuestionsData.makeFeedbackQuestionsData(feedbackQuestions)), JsonUtils.toJson(actionOutput));
+        assertEquals(JsonUtils.toJson(
+                                    FeedbackQuestionsData.makeFeedbackQuestionsData(feedbackQuestions)),
+                                    JsonUtils.toJson(actionOutput));
     }
 
     private FeedbackSession generateSession1InCourse(Course course) {
@@ -99,22 +101,25 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
     }
 
     private List<FeedbackQuestion> generateFeedbackQuestionsInSession(FeedbackSession feedbackSession) {
-        List<FeedbackParticipantType> feedbackQuestionParticipantTypes = List.of(FeedbackParticipantType.INSTRUCTORS);
+        List<FeedbackParticipantType> feedbackQuestionParticipantTypes =
+                List.of(FeedbackParticipantType.INSTRUCTORS);
 
-        FeedbackTextQuestionDetails fq1Details = new FeedbackTextQuestionDetails("What is the best selling point of your product?");
+        FeedbackTextQuestionDetails fq1Details =
+                new FeedbackTextQuestionDetails("What is the best selling point of your product?");
         FeedbackQuestion fq1 = FeedbackQuestion.makeQuestion(
                                     feedbackSession, 1, "This is a text question.",
                                     FeedbackParticipantType.STUDENTS, FeedbackParticipantType.SELF, 1,
-                                    feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes,
-                                    fq1Details);
+                                    feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes,
+                                    feedbackQuestionParticipantTypes, fq1Details);
 
-        FeedbackTextQuestionDetails fq2Details = new FeedbackTextQuestionDetails("Rate 1 other student's product");
+        FeedbackTextQuestionDetails fq2Details =
+                new FeedbackTextQuestionDetails("Rate 1 other student's product");
         fq2Details.setRecommendedLength(0);
         FeedbackQuestion fq2 = FeedbackQuestion.makeQuestion(
-            feedbackSession, 2, "This is a text question.",
-            FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, 1,
-            feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes,
-            fq2Details);
+                feedbackSession, 2, "This is a text question.",
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, 1,
+                feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes,
+                fq2Details);
         return List.of(fq1, fq2);
     }
 

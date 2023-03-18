@@ -126,7 +126,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertTrue(expectedTeams.containsAll(actualTeams));
     }
 
-    
     private Course getTypicalCourse() {
         return new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "teammates");
     }
