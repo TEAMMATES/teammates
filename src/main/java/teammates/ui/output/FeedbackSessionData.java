@@ -2,6 +2,7 @@ package teammates.ui.output;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,11 +24,7 @@ public class FeedbackSessionData extends ApiOutput {
     private final String courseId;
     private final String timeZone;
     private final String feedbackSessionName;
-    private String feedbackSessionUserEmail;
     private final String instructions;
-
-    // TODO: set as final after migration, cant do so now since the attributes constructor does not have this.
-    private FeedbackSession feedbackSession;
 
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
@@ -63,7 +60,6 @@ public class FeedbackSessionData extends ApiOutput {
     private Map<String, Long> instructorDeadlines;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
-        this.feedbackSessionUserEmail = feedbackSessionAttributes.getUserEmail();
         String timeZone = feedbackSessionAttributes.getTimeZone();
         this.courseId = feedbackSessionAttributes.getCourseId();
         this.timeZone = timeZone;
@@ -150,7 +146,6 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     public FeedbackSessionData(FeedbackSession feedbackSession) {
-        this.feedbackSession = feedbackSession;
         String timeZone = feedbackSession.getCourse().getTimeZone();
         this.courseId = feedbackSession.getCourse().getId();
         this.timeZone = timeZone;
@@ -235,10 +230,9 @@ public class FeedbackSessionData extends ApiOutput {
     /**
      * Constructs FeedbackSessionData for a given user deadline.
      */
-    public FeedbackSessionData(FeedbackSession feedbackSession, String userEmail, Instant extendedDeadline) {
+    public FeedbackSessionData(FeedbackSession feedbackSession, Instant extendedDeadline) {
         this(feedbackSession);
 
-        this.feedbackSessionUserEmail = userEmail;
         this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
             extendedDeadline, timeZone, true).toEpochMilli();
 
@@ -414,6 +408,15 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
+     * Hides some attributes to student.
+     */
+    public void hideInformationForStudent(List<DeadlineExtension> deadlineExtensions, String userEmail) {
+        hideInformationForStudentAndInstructor(deadlineExtensions, userEmail);
+        hideSessionVisibilityTimestamps();
+        instructorDeadlines.clear();
+    }
+
+    /**
      * Hides some attributes to instructor without appropriate privilege.
      */
     public void hideInformationForInstructor() {
@@ -422,10 +425,26 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
+     * Hides some attributes to instructor without appropriate privilege.
+     */
+    public void hideInformationForInstructor(List<DeadlineExtension> deadlineExtensions, String userEmail) {
+        hideInformationForStudentAndInstructor(deadlineExtensions, userEmail);
+        studentDeadlines.clear();
+    }
+
+    /**
      * Hides some attributes for instructor who is submitting feedback session.
      */
     public void hideInformationForInstructorSubmission() {
         hideInformationForInstructor();
+        hideSessionVisibilityTimestamps();
+    }
+
+    /**
+     * Hides some attributes for instructor who is submitting feedback session.
+     */
+    public void hideInformationForInstructorSubmission(List<DeadlineExtension> deadlineExtensions, String userEmail) {
+        hideInformationForInstructor(deadlineExtensions, userEmail);
         hideSessionVisibilityTimestamps();
     }
 
@@ -443,14 +462,17 @@ public class FeedbackSessionData extends ApiOutput {
         setPublishedEmailEnabled(null);
         setGracePeriod(null);
         setCreatedAtTimestamp(0);
+    }
 
+    private void hideInformationForStudentAndInstructor(List<DeadlineExtension> deadlineExtensions, String userEmail) {
+        hideInformationForStudentAndInstructor();
         // filter deadline extensions for a specific user's email
-        if (this.feedbackSession != null) {
+        if (deadlineExtensions != null) {
             this.studentDeadlines = new HashMap<>();
             this.instructorDeadlines = new HashMap<>();
 
-            for (DeadlineExtension de : this.feedbackSession.getDeadlineExtensions()) {
-                if (de.getUser().getEmail().equals(this.feedbackSessionUserEmail)) {
+            for (DeadlineExtension de : deadlineExtensions) {
+                if (userEmail == null || de.getUser().getEmail().equals(userEmail)) {
                     if (de.getUser() instanceof Student) {
                         this.studentDeadlines.put(de.getUser().getEmail(),
                                 TimeHelper.getMidnightAdjustedInstantBasedOnZone(
