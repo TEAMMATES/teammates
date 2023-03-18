@@ -312,6 +312,17 @@ public class ArchitectureTest {
                 .should().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
+                                && !"OfyHelper".equals(input.getSimpleName())
+                                && !"AccountRequestSearchManager".equals(input.getSimpleName())
+                                && !"InstructorSearchManager".equals(input.getSimpleName())
+                                && !"StudentSearchManager".equals(input.getSimpleName())
+                                && !"SearchManagerFactory".equals(input.getSimpleName());
+                    }
+                })
+                .orShould().accessClassesThat(new DescribedPredicate<>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(LOGIC_CORE_PACKAGE)
                                 && !"LogicStarter".equals(input.getSimpleName());
                     }
