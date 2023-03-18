@@ -149,13 +149,13 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     <div
                       class="col-md-2"
                     >
-                      <div
+                      <pre
                         class="question-basic-info"
+                        role="text"
                       >
-                        [Optional]
-                        <br />
-                        Description
-                      </div>
+                                [Optional]
+          Description
+                      </pre>
                     </div>
                     <div
                       class="col-md-10"

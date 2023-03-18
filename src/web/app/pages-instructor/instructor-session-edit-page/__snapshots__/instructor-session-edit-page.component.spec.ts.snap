@@ -1360,13 +1360,13 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             <div
                               class="col-md-2"
                             >
-                              <div
+                              <pre
                                 class="question-basic-info"
+                                role="text"
                               >
-                                [Optional]
-                                <br />
-                                Description
-                              </div>
+                                        [Optional]
+          Description
+                              </pre>
                             </div>
                             <div
                               class="col-md-10"
@@ -2066,13 +2066,13 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             <div
                               class="col-md-2"
                             >
-                              <div
+                              <pre
                                 class="question-basic-info"
+                                role="text"
                               >
-                                [Optional]
-                                <br />
-                                Description
-                              </div>
+                                        [Optional]
+          Description
+                              </pre>
                             </div>
                             <div
                               class="col-md-10"
@@ -3857,13 +3857,13 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         <div
                           class="col-md-2"
                         >
-                          <div
+                          <pre
                             class="question-basic-info"
+                            role="text"
                           >
-                            [Optional]
-                            <br />
-                            Description
-                          </div>
+                                    [Optional]
+          Description
+                          </pre>
                         </div>
                         <div
                           class="col-md-10"
