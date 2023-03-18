@@ -178,7 +178,8 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetStudentsForSection() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public void testGetStudentsForSection()
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
         course.addSection(firstSection);
@@ -215,10 +216,9 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertTrue(expectedStudents.containsAll(actualStudents));
     }
 
-
-
     @Test
-    public void testGetStudentsForTeam() throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public void testGetStudentsForTeam()
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
         course.addSection(firstSection);

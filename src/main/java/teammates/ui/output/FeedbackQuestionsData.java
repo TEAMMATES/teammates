@@ -16,11 +16,17 @@ public class FeedbackQuestionsData extends ApiOutput {
         questions = questionAttributesList.stream().map(FeedbackQuestionData::new).collect(Collectors.toList());
     }
 
-    private FeedbackQuestionsData() {}
+    private FeedbackQuestionsData() {
 
+    }
+
+    /**
+     * Generates FeedbackQuestionsData for a list of FeedbackQuestions.
+     */
     public static FeedbackQuestionsData makeFeedbackQuestionsData(List<FeedbackQuestion> feedbackQuestions) {
         FeedbackQuestionsData feedbackQuestionsData = new FeedbackQuestionsData();
-        List<FeedbackQuestionData> questions = feedbackQuestions.stream().map(FeedbackQuestionData::new).collect(Collectors.toList());
+        List<FeedbackQuestionData> questions =
+                feedbackQuestions.stream().map(FeedbackQuestionData::new).collect(Collectors.toList());
         feedbackQuestionsData.setQuestions(questions);
         return feedbackQuestionsData;
     }
