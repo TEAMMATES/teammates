@@ -165,7 +165,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
           >
             <label
               class="fw-bold"
-              for="logs-from-datepicker"
             >
               Search period from
             </label>
@@ -178,12 +177,14 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               id="logs-from-datepicker"
             >
               <input
+                aria-label="Date to search from"
                 class="form-control ng-untouched ng-pristine ng-valid"
                 ngbdatepicker=""
                 readonly=""
                 type="text"
               />
               <button
+                aria-label="Change date"
                 class="btn btn-light"
                 type="button"
               >
@@ -380,12 +381,14 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               id="logs-to-datepicker"
             >
               <input
+                aria-label="Date to search until"
                 class="form-control ng-untouched ng-pristine ng-valid"
                 ngbdatepicker=""
                 readonly=""
                 type="text"
               />
               <button
+                aria-label="Change date"
                 class="btn btn-light"
                 type="button"
               >
@@ -398,6 +401,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
               class="col-md-3"
             >
               <tm-timepicker
+                aria-label="Search period until time"
                 id="logs-to-timepicker"
               >
                 <select
@@ -791,7 +795,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
           >
             <label
               class="fw-bold"
-              for="logs-from-datepicker"
             >
               Search period from
             </label>
@@ -804,12 +807,14 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               id="logs-from-datepicker"
             >
               <input
+                aria-label="Date to search from"
                 class="form-control ng-untouched ng-pristine ng-valid"
                 ngbdatepicker=""
                 readonly=""
                 type="text"
               />
               <button
+                aria-label="Change date"
                 class="btn btn-light"
                 type="button"
               >
@@ -1001,12 +1006,14 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               id="logs-to-datepicker"
             >
               <input
+                aria-label="Date to search until"
                 class="form-control ng-untouched ng-pristine ng-valid"
                 ngbdatepicker=""
                 readonly=""
                 type="text"
               />
               <button
+                aria-label="Change date"
                 class="btn btn-light"
                 type="button"
               >
@@ -1019,6 +1026,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
               class="col-md-3"
             >
               <tm-timepicker
+                aria-label="Search period until time"
                 id="logs-to-timepicker"
               >
                 <select
