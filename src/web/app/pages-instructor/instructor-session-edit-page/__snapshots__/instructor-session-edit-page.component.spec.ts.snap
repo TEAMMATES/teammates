@@ -1399,29 +1399,31 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <input
                                   type="checkbox"
                                 />
-                                <a>
-                                   Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                                </a>
+                                 Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                               </label>
                             </div>
                             <div
                               class="col-12 question-recommended-length"
                             >
-                               [Optional] 
-                              <span
-                                class="ngb-tooltip-class"
-                                ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                              <label
+                                for="recommended-length"
                               >
-                                 Recommended length 
-                              </span>
-                               for the response: 
+                                 [Optional] 
+                                <span
+                                  class="ngb-tooltip-class"
+                                  ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                                >
+                                   Recommended length 
+                                </span>
+                                 (in words) for the response: 
+                              </label>
                               <input
+                                aria-label="Recommended Length Input"
                                 class="form-control ng-untouched ng-pristine ng-valid"
                                 id="recommended-length"
                                 min="1"
                                 type="number"
                               />
-                               words 
                             </div>
                           </div>
                         </tm-text-question-edit-details-form>
@@ -2105,29 +2107,31 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <input
                                   type="checkbox"
                                 />
-                                <a>
-                                   Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                                </a>
+                                 Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                               </label>
                             </div>
                             <div
                               class="col-12 question-recommended-length"
                             >
-                               [Optional] 
-                              <span
-                                class="ngb-tooltip-class"
-                                ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                              <label
+                                for="recommended-length"
                               >
-                                 Recommended length 
-                              </span>
-                               for the response: 
+                                 [Optional] 
+                                <span
+                                  class="ngb-tooltip-class"
+                                  ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                                >
+                                   Recommended length 
+                                </span>
+                                 (in words) for the response: 
+                              </label>
                               <input
+                                aria-label="Recommended Length Input"
                                 class="form-control ng-untouched ng-pristine ng-valid"
                                 id="recommended-length"
                                 min="1"
                                 type="number"
                               />
-                               words 
                             </div>
                           </div>
                         </tm-text-question-edit-details-form>
@@ -3896,29 +3900,31 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             <input
                               type="checkbox"
                             />
-                            <a>
-                               Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                            </a>
+                             Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                           </label>
                         </div>
                         <div
                           class="col-12 question-recommended-length"
                         >
-                           [Optional] 
-                          <span
-                            class="ngb-tooltip-class"
-                            ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                          <label
+                            for="recommended-length"
                           >
-                             Recommended length 
-                          </span>
-                           for the response: 
+                             [Optional] 
+                            <span
+                              class="ngb-tooltip-class"
+                              ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                            >
+                               Recommended length 
+                            </span>
+                             (in words) for the response: 
+                          </label>
                           <input
+                            aria-label="Recommended Length Input"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             id="recommended-length"
                             min="1"
                             type="number"
                           />
-                           words 
                         </div>
                       </div>
                     </tm-text-question-edit-details-form>
