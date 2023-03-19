@@ -57,6 +57,13 @@
         "id": "course-1"
       },
       "name": "Section 1"
+    },
+    "section1InCourse2": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "idOfCourse2"
+      },
+      "name": "Section 2"
     }
   },
   "teams": {
@@ -64,6 +71,13 @@
       "id": "00000000-0000-4000-8000-000000000301",
       "section": {
         "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "team1InCourse2": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
       },
       "name": "Team 1"
     }
@@ -173,6 +187,18 @@
       },
       "email": "student2@teammates.tmt",
       "name": "student2 In Course1",
+      "comments": ""
+    },
+    "student1InCourse2": {
+      "id": "00000000-0000-4000-8000-000000000603",
+      "course": {
+        "id": "idOfCourse2"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "email": "student1@teammates.tmt",
+      "name": "student1 In Course2",
       "comments": ""
     }
   },
