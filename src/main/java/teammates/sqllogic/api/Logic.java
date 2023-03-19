@@ -390,6 +390,13 @@ public class Logic {
     }
 
     /**
+     * Gets instructors by associated {@code courseId}.
+     */
+    public List<Instructor> getInstructorsByCourse(String courseId) {
+        return usersLogic.getInstructorsForCourse(courseId);
+    }
+
+    /**
      * Creates an instructor.
      */
     public Instructor createInstructor(Instructor instructor)
