@@ -264,12 +264,14 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                       class="input-group"
                     >
                       <input
+                        aria-label="Date"
                         class="form-control ng-untouched ng-pristine ng-valid"
                         ngbdatepicker=""
                         readonly=""
                         type="text"
                       />
                       <button
+                        aria-label="Change date"
                         class="btn btn-light input-group-text"
                         type="button"
                       >
@@ -448,12 +450,14 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                       class="input-group"
                     >
                       <input
+                        aria-label="Date"
                         class="form-control ng-untouched ng-pristine ng-valid"
                         ngbdatepicker=""
                         readonly=""
                         type="text"
                       />
                       <button
+                        aria-label="Change date"
                         class="btn btn-light input-group-text"
                         type="button"
                       >
@@ -895,12 +899,14 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                       class="input-group"
                     >
                       <input
+                        aria-label="Date"
                         class="form-control ng-untouched ng-pristine ng-invalid"
                         ngbdatepicker=""
                         readonly=""
                         type="text"
                       />
                       <button
+                        aria-label="Change date"
                         class="btn btn-light input-group-text"
                         type="button"
                       >
@@ -1079,12 +1085,14 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                       class="input-group"
                     >
                       <input
+                        aria-label="Date"
                         class="form-control ng-untouched ng-pristine ng-invalid"
                         ngbdatepicker=""
                         readonly=""
                         type="text"
                       />
                       <button
+                        aria-label="Change date"
                         class="btn btn-light input-group-text"
                         type="button"
                       >
@@ -1543,12 +1551,14 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                       class="input-group"
                     >
                       <input
+                        aria-label="Date"
                         class="form-control ng-untouched ng-pristine ng-invalid"
                         ngbdatepicker=""
                         readonly=""
                         type="text"
                       />
                       <button
+                        aria-label="Change date"
                         class="btn btn-light input-group-text"
                         type="button"
                       >
@@ -1727,12 +1737,14 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                       class="input-group"
                     >
                       <input
+                        aria-label="Date"
                         class="form-control ng-untouched ng-pristine ng-invalid"
                         ngbdatepicker=""
                         readonly=""
                         type="text"
                       />
                       <button
+                        aria-label="Change date"
                         class="btn btn-light input-group-text"
                         type="button"
                       >

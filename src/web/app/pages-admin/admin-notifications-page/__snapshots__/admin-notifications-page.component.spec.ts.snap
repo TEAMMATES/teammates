@@ -296,12 +296,14 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             ngbdatepicker=""
                             readonly=""
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
                             type="button"
                           >
@@ -475,12 +477,14 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             ngbdatepicker=""
                             readonly=""
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
                             type="button"
                           >
