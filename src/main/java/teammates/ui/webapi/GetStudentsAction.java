@@ -73,15 +73,8 @@ public class GetStudentsAction extends Action {
             if (teamName == null && hasCoursePrivilege) {
                 // request to get all course students by instructor with course privilege
                 List<Student> studentsForCourse = sqlLogic.getStudentsForCourse(courseId);
-                StudentsData data = new StudentsData();
-                List<StudentData> studentDataList = studentsForCourse
-                        .stream()
-                        .map(StudentData::new)
-                        .collect(Collectors.toList());
 
-                data.setStudents(studentDataList);
-
-                return new JsonResult(data);
+                return new JsonResult(new StudentsData(studentsForCourse));
             } else if (teamName == null && hasSectionPrivilege) {
                 // request to get students by instructor with section privilege
                 List<Student> studentsForCourse = sqlLogic.getStudentsForCourse(courseId);
@@ -95,25 +88,11 @@ public class GetStudentsAction extends Action {
                     }
                 });
 
-                StudentsData data = new StudentsData();
-                List<StudentData> studentDataList = studentsToReturn
-                        .stream()
-                        .map(StudentData::new)
-                        .collect(Collectors.toList());
-
-                data.setStudents(studentDataList);
-
-                return new JsonResult(data);
+                return new JsonResult(new StudentsData(studentsToReturn));
             } else {
                 // request to get team members by current student
                 List<Student> studentsForTeam = sqlLogic.getStudentsByTeamName(teamName, courseId);
-                StudentsData data = new StudentsData();
-                List<StudentData> studentDataList = studentsForTeam
-                        .stream()
-                        .map(StudentData::new)
-                        .collect(Collectors.toList());
-
-                data.setStudents(studentDataList);
+                StudentsData data = new StudentsData(studentsForTeam);
 
                 data.getStudents().forEach(StudentData::hideInformationForStudent);
 
@@ -130,7 +109,15 @@ public class GetStudentsAction extends Action {
             if (teamName == null && hasCoursePrivilege) {
                 // request to get all course students by instructor with course privilege
                 List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
-                return new JsonResult(new StudentsData(studentsForCourse));
+                StudentsData data = new StudentsData();
+                List<StudentData> studentDataList = studentsForCourse
+                        .stream()
+                        .map(StudentData::new)
+                        .collect(Collectors.toList());
+
+                data.setStudents(studentDataList);
+
+                return new JsonResult(data);
             } else if (teamName == null && hasSectionPrivilege) {
                 // request to get students by instructor with section privilege
                 List<StudentAttributes> studentsForCourse = logic.getStudentsForCourse(courseId);
@@ -141,13 +128,29 @@ public class GetStudentsAction extends Action {
                         studentsToReturn.add(student);
                     }
                 });
-                return new JsonResult(new StudentsData(studentsToReturn));
+
+                StudentsData data = new StudentsData();
+                List<StudentData> studentDataList = studentsToReturn
+                        .stream()
+                        .map(StudentData::new)
+                        .collect(Collectors.toList());
+
+                data.setStudents(studentDataList);
+
+                return new JsonResult(data);
             } else {
                 // request to get team members by current student
                 List<StudentAttributes> studentsForTeam = logic.getStudentsForTeam(teamName, courseId);
-                StudentsData studentsData = new StudentsData(studentsForTeam);
-                studentsData.getStudents().forEach(StudentData::hideInformationForStudent);
-                return new JsonResult(studentsData);
+                StudentsData data = new StudentsData();
+                List<StudentData> studentDataList = studentsForTeam
+                        .stream()
+                        .map(StudentData::new)
+                        .collect(Collectors.toList());
+
+                studentDataList.forEach(StudentData::hideInformationForStudent);
+                data.setStudents(studentDataList);
+
+                return new JsonResult(data);
             }
         }
     }
