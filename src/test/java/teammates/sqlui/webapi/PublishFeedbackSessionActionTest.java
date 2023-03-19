@@ -30,7 +30,6 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     private Course course1;
     private FeedbackSession feedbackSession1, feedbackSession2;
-    private Instructor instructor1;
 
     @Override
     protected String getActionUri() {
@@ -47,7 +46,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         course1 = generateCourse1();
         feedbackSession1 = generateSession1InCourse(course1);
         feedbackSession2 = generateSession2InCourse(course1);
-        instructor1 = generateInstructor1InCourse(course1);
+        Instructor instructor1 = generateInstructor1InCourse(course1);
 
         when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
         when(mockLogic.publishFeedbackSession(
