@@ -461,6 +461,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
               id="submission-end-time"
             >
               <select
+                aria-label="Select time"
                 class="form-control form-select ng-untouched ng-pristine ng-valid"
               >
                 <option

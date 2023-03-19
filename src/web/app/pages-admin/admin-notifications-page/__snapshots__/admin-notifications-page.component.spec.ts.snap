@@ -321,6 +321,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                         id="notification-start-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -502,6 +503,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                         id="notification-end-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option

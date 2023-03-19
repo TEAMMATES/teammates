@@ -289,6 +289,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                     id="notification-start-time"
                   >
                     <select
+                      aria-label="Select time"
                       class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
@@ -475,6 +476,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                     id="notification-end-time"
                   >
                     <select
+                      aria-label="Select time"
                       class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
@@ -924,6 +926,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                     id="notification-start-time"
                   >
                     <select
+                      aria-label="Select time"
                       class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
@@ -1110,6 +1113,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                     id="notification-end-time"
                   >
                     <select
+                      aria-label="Select time"
                       class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
@@ -1576,6 +1580,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                     id="notification-start-time"
                   >
                     <select
+                      aria-label="Select time"
                       class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option
@@ -1762,6 +1767,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                     id="notification-end-time"
                   >
                     <select
+                      aria-label="Select time"
                       class="form-control form-select ng-untouched ng-pristine ng-valid"
                     >
                       <option

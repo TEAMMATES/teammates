@@ -710,6 +710,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-start-time"
                         >
                           <select
+                            aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -891,6 +892,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-end-time"
                         >
                           <select
+                            aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
