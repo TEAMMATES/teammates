@@ -468,6 +468,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     class="col-1 col-md-1"
                   >
                     <a
+                      aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
@@ -1032,6 +1033,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       >
                         <label
                           class="control-label font-bold"
+                          for="grace-period"
                         >
                            Grace period 
                         </label>
