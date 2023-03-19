@@ -49,8 +49,8 @@
         <thead>
           <tr>
             <th (click)="selectAllStudents()">
-              <label><input type="checkbox" id="select-all-student-btn" [checked]="isAllStudentsSelected" /> Select
-                all</label>
+              <input type="checkbox" id="select-all-student-btn" [checked]="isAllStudentsSelected" aria-label="Select all students" />
+              Select all
             </th>
             <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SECTION_NAME)">
               Section
@@ -108,7 +108,7 @@
           <tr *ngFor="let student of studentsOfCourse; index as i" id="student-row-{{ i }}" (click)="selectStudent(i)"
             [ngClass]="{ 'table-warning': student.hasExtension === true }">
             <td class="align-center">
-              <label><input type="checkbox" id="student-checkbox-{{ i }}" [checked]="student.isSelected" /></label>
+              <input type="checkbox" id="student-checkbox-{{ i }}" [checked]="student.isSelected" [attr.aria-label]="getAriaLabel(student)" />
             </td>
             <td>{{ student.sectionName }}</td>
             <td>{{ student.teamName }}</td>
@@ -133,8 +133,8 @@
         <thead>
           <tr>
             <th (click)="selectAllInstructors()">
-              <label><input type="checkbox" id="select-all-instructor-btn" [checked]="isAllInstructorsSelected" />
-                Select all</label>
+              <input type="checkbox" id="select-all-instructor-btn" [checked]="isAllInstructorsSelected" aria-label="Select all instructors" />
+              Select all
             </th>
             <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_NAME)">
               Name
@@ -182,7 +182,7 @@
           <tr *ngFor="let instructor of instructorsOfCourse; index as i" id="instructor-row-{{ i }}" (click)="selectIntructor(i)"
             [ngClass]="{ 'table-warning': instructor.hasExtension === true }">
             <td class="align-center">
-              <label><input type="checkbox" id="instructor-checkbox-{{ i }}" [checked]="instructor.isSelected" /></label>
+              <input type="checkbox" id="instructor-checkbox-{{ i }}" [checked]="instructor.isSelected" [attr.aria-label]="getAriaLabel(instructor)" />
             </td>
             <td>{{ instructor.name }}</td>
             <td>{{ instructor.email }}</td>

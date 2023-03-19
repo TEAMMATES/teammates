@@ -526,4 +526,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       return this.tableComparatorService.compare(by, this.sortInstructorOrder, strA, strB);
     };
   }
+
+  getAriaLabel(user: StudentExtensionTableColumnModel | InstructorExtensionTableColumnModel): string {
+    return `Select ${user.name}`;
+  }
 }
