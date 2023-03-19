@@ -29,7 +29,8 @@ import teammates.ui.webapi.PublishFeedbackSessionAction;
 public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeedbackSessionAction> {
 
     private Course course1;
-    private FeedbackSession feedbackSession1, feedbackSession2;
+    private FeedbackSession feedbackSession1;
+    private FeedbackSession feedbackSession2;
 
     @Override
     protected String getActionUri() {
