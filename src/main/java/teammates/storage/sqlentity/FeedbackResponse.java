@@ -25,7 +25,7 @@ import jakarta.persistence.Table;
  * Represents a Feedback Response.
  */
 @Entity
-@Table(name = "FeedbackReponses")
+@Table(name = "FeedbackResponses")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class FeedbackResponse extends BaseEntity {
     @Id
