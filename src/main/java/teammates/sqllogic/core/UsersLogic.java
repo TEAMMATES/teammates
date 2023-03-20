@@ -1,11 +1,14 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
@@ -24,6 +27,8 @@ public final class UsersLogic {
 
     private UsersDb usersDb;
 
+    private AccountsLogic accountsLogic;
+
     private UsersLogic() {
         // prevent initialization
     }
@@ -32,8 +37,9 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic) {
         this.usersDb = usersDb;
+        this.accountsLogic = accountsLogic;
     }
 
     /**
@@ -211,6 +217,52 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getAllUsersByGoogleId(googleId);
+    }
+
+    /**
+     * Resets the googleId associated with the instructor.
+     */
+    public void resetInstructorGoogleId(String email, String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert courseId != null;
+        assert googleId != null;
+
+        Instructor instructor = getInstructorForEmail(courseId, email);
+
+        if (instructor == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
+                    + "Instructor [courseId=" + courseId + ", email=" + email + "]");
+        }
+
+        instructor.setAccount(null);
+
+        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(googleId);
+        }
+    }
+
+    /**
+     * Resets the googleId associated with the student.
+     */
+    public void resetStudentGoogleId(String email, String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert courseId != null;
+        assert googleId != null;
+
+        Student student = getStudentForEmail(courseId, email);
+
+        if (student == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
+                    + "Student [courseId=" + courseId + ", email=" + email + "]");
+        }
+
+        student.setAccount(null);
+
+        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(googleId);
+        }
     }
 
     /**

@@ -15,6 +15,7 @@ import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
+import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
@@ -23,6 +24,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -43,6 +45,7 @@ public class Logic {
     final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
+    final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
@@ -250,6 +253,16 @@ public class Logic {
     }
 
     /**
+     * Fetch the deadline extension for a given user and session feedback.
+     *
+     * @return deadline extension instant if exists, else the default end time instant
+     *         for the session feedback.
+     */
+    public Instant getDeadlineForUser(FeedbackSession session, User user) {
+        return deadlineExtensionsLogic.getDeadlineForUser(session, user);
+    }
+
+    /**
      * Gets a feedback session.
      *
      * @return null if not found.
@@ -277,6 +290,19 @@ public class Logic {
     public FeedbackSession createFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return feedbackSessionsLogic.createFeedbackSession(session);
+    }
+
+    /**
+     * Creates a new feedback question.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return the created question
+     * @throws InvalidParametersException if the question is invalid
+     */
+    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
+        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
     }
 
     /**
@@ -415,6 +441,13 @@ public class Logic {
     }
 
     /**
+     * Gets instructors by associated {@code courseId}.
+     */
+    public List<Instructor> getInstructorsByCourse(String courseId) {
+        return usersLogic.getInstructorsForCourse(courseId);
+    }
+
+    /**
      * Creates an instructor.
      */
     public Instructor createInstructor(Instructor instructor)
@@ -489,6 +522,32 @@ public class Logic {
 
     public List<Notification> getAllNotifications() {
         return notificationsLogic.getAllNotifications();
+    }
+
+    /**
+     * Resets the googleId associated with the instructor.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @throws EntityDoesNotExistException If instructor cannot be found with given email and courseId.
+     */
+    public void resetInstructorGoogleId(String email, String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+    }
+
+    /**
+     * Resets the googleId associated with the student.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @throws EntityDoesNotExistException If student cannot be found with given email and courseId.
+     */
+    public void resetStudentGoogleId(String email, String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        usersLogic.resetStudentGoogleId(email, courseId, googleId);
     }
 
     /**

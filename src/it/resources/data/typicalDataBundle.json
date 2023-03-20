@@ -57,6 +57,13 @@
         "id": "course-1"
       },
       "name": "Section 1"
+    },
+    "section1InCourse2": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "idOfCourse2"
+      },
+      "name": "Section 2"
     }
   },
   "teams": {
@@ -64,6 +71,13 @@
       "id": "00000000-0000-4000-8000-000000000301",
       "section": {
         "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "team1InCourse2": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
       },
       "name": "Team 1"
     }
@@ -174,6 +188,18 @@
       "email": "student2@teammates.tmt",
       "name": "student2 In Course1",
       "comments": ""
+    },
+    "student1InCourse2": {
+      "id": "00000000-0000-4000-8000-000000000603",
+      "course": {
+        "id": "idOfCourse2"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000302"
+      },
+      "email": "student1@teammates.tmt",
+      "name": "student1 In Course2",
+      "comments": ""
     }
   },
   "feedbackSessions": {
@@ -212,7 +238,146 @@
       "isPublishedEmailEnabled": true
     }
   },
-  "feedbackQuestions": {},
+  "feedbackQuestions": {
+    "qn1InSession1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000801",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn2InSession1InCourse1": {
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "recommendedLength": 0,
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 2,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn3InSession1InCourse1": {
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "My comments on the class"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 3,
+      "giverType": "SELF",
+      "recipientType": "NONE",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn4InSession1InCourse1": {
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Instructor comments on the class"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 4,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "NONE",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn5InSession1InCourse1": {
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 5,
+      "giverType": "SELF",
+      "recipientType": "NONE",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
   "notifications": {
