@@ -3,6 +3,7 @@ package teammates.ui.output;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.Student;
 
 /**
  * The API output format of {@link StudentAttributes}.
@@ -35,6 +36,16 @@ public class StudentData extends ApiOutput {
         this.comments = studentAttributes.getComments();
         this.teamName = studentAttributes.getTeam();
         this.sectionName = studentAttributes.getSection();
+    }
+
+    public StudentData(Student student) {
+        this.email = student.getEmail();
+        this.courseId = student.getCourseId();
+        this.name = student.getName();
+        this.joinState = student.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
+        this.comments = student.getComments();
+        this.teamName = student.getTeam().getName();
+        this.sectionName = student.getTeam().getSection().getName();
     }
 
     public String getEmail() {

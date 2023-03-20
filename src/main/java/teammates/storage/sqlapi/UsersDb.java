@@ -144,6 +144,25 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets a list of students by {@code teamName} and {@code courseId}.
+     */
+    public List<Student> getStudentsByTeamName(String teamName, String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
+        studentRoot.alias("student");
+
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(studentRoot).where(cb.and(
+                cb.equal(studentRoot.get("courseId"), courseId),
+                cb.equal(teamsJoin.get("name"), teamName)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets all instructors and students by {@code googleId}.
      */
     public List<User> getAllUsersByGoogleId(String googleId) {
