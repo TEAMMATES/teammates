@@ -39,16 +39,14 @@
         <br>
       </div>
       <div class="row">
-        <div class="col-sm-6">
-          <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
-                  [disabled]="!isEditable" (click)="increaseNumberOfMsqOptions()">
-            <i class="fas fa-plus"></i> Add More Options
-          </button>
-        </div>
+        <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
+                [disabled]="!isEditable" (click)="increaseNumberOfMsqOptions()">
+          <i class="fas fa-plus"></i> Add More Options
+        </button>
       </div>
       <br/>
-      <div class="row">
-        <div class="checkbox col-sm-9 padding-left-35px">
+      <div>
+        <div class="checkbox padding-left-35px">
           <label class="bold-label">
             <input id="other-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.otherEnabled"
                    (ngModelChange)="triggerOtherEnabled($event)" [disabled]="!isEditable">
