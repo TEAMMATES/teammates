@@ -46,9 +46,8 @@ public class BinCourseAction extends Action {
                 return new JsonResult(new CourseData(courseAttributes));
             }
 
-            Course course = sqlLogic.getCourse(idOfCourseToBin);
-            course.setDeletedAt(sqlLogic.moveCourseToRecycleBin(idOfCourseToBin));
-            return new JsonResult(new CourseData(course));
+            Course binnedCourse = sqlLogic.moveCourseToRecycleBin(idOfCourseToBin);
+            return new JsonResult(new CourseData(binnedCourse));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

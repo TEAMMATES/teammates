@@ -50,25 +50,20 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
     void testExecute_courseExists_success() throws EntityDoesNotExistException {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         course.setCreatedAt(Instant.parse("2021-01-01T00:00:00Z"));
-        course.setDeletedAt(null);
 
         Instant expectedDeletedAt = Instant.parse("2022-01-01T00:00:00Z");
+        course.setDeletedAt(expectedDeletedAt);
 
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.moveCourseToRecycleBin(course.getId())).thenReturn(expectedDeletedAt);
+        when(mockLogic.moveCourseToRecycleBin(course.getId())).thenReturn(course);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-        Course expectedCourse = new Course(course.getId(), course.getName(), course.getTimeZone(), course.getInstitute());
-        expectedCourse.setCreatedAt(course.getCreatedAt());
-        expectedCourse.setDeletedAt(expectedDeletedAt);
-
         BinCourseAction action = getAction(params);
         CourseData actionOutput = (CourseData) getJsonResult(action).getOutput();
 
-        assertEquals(JsonUtils.toJson(new CourseData(expectedCourse)), JsonUtils.toJson(actionOutput));
+        assertEquals(JsonUtils.toJson(new CourseData(course)), JsonUtils.toJson(actionOutput));
     }
 
     @Test

@@ -89,7 +89,7 @@ public final class CoursesLogic {
      * Moves a course to Recycle Bin by its given corresponding ID.
      * @return the time when the course is moved to the recycle bin.
      */
-    public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
+    public Course moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
         Course course = coursesDb.getCourse(courseId);
         if (course == null) {
             throw new EntityDoesNotExistException("Trying to move a non-existent course to recycling bin.");
@@ -97,7 +97,7 @@ public final class CoursesLogic {
 
         Instant now = Instant.now();
         course.setDeletedAt(now);
-        return now;
+        return course;
     }
 
     /**

@@ -198,7 +198,7 @@ public class Logic {
      * Moves a course to Recycle Bin by its given corresponding ID.
      * @return the deletion timestamp assigned to the course.
      */
-    public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
+    public Course moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
         return coursesLogic.moveCourseToRecycleBin(courseId);
     }
 
