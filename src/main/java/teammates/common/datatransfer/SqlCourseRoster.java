@@ -112,9 +112,9 @@ public class SqlCourseRoster {
     public static Map<String, List<Student>> buildTeamToMembersTable(List<Student> students) {
         Map<String, List<Student>> teamToMembersTable = new HashMap<>();
         // group students by team
-        for (Student Student : students) {
-            teamToMembersTable.computeIfAbsent(Student.getTeam().getName(), key -> new ArrayList<>())
-                    .add(Student);
+        for (Student student : students) {
+            teamToMembersTable.computeIfAbsent(student.getTeam().getName(), key -> new ArrayList<>())
+                    .add(student);
         }
         return teamToMembersTable;
     }
