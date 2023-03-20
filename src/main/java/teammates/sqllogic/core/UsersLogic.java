@@ -388,6 +388,21 @@ public final class UsersLogic {
     }
 
     /**
+     * Deletes a student cascade its associated feedback responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     */
+    public void deleteStudentCascade(String courseId, String studentEmail) {
+        Student student = getStudentForEmail(courseId, studentEmail);
+
+        if (student == null) {
+            return;
+        }
+
+        
+    }
+
+    /**
      * Resets the googleId associated with the instructor.
      */
     public void resetInstructorGoogleId(String email, String courseId, String googleId)

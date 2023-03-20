@@ -752,6 +752,24 @@ public class Logic {
     }
 
     /**
+     * Deletes a student cascade its associated feedback responses, deadline
+     * extensions and comments.
+     *
+     * <p>
+     * Fails silently if the student does not exist.
+     *
+     * <br/>
+     * Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteStudentCascade(String courseId, String studentEmail) {
+        assert courseId != null;
+        assert studentEmail != null;
+
+        usersLogic.deleteStudentCascade(courseId, studentEmail);
+    }
+
+    /**
      * Gets all instructors and students by associated {@code googleId}.
      */
     public List<User> getAllUsersByGoogleId(String googleId) {
