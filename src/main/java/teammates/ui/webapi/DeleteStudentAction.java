@@ -67,7 +67,7 @@ class DeleteStudentAction extends Action {
 
         // if student is not found, fail silently
         if (studentEmail != null) {
-            // TODO
+            sqlLogic.deleteStudentCascade(courseId, studentEmail);
         }
 
         return new JsonResult("Student is successfully deleted.");

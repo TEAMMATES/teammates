@@ -36,6 +36,8 @@ public final class UsersLogic {
 
     private AccountsLogic accountsLogic;
 
+    private FeedbackResponsesLogic feedbackResponsesLogic;
+
     private UsersLogic() {
         // prevent initialization
     }
@@ -44,9 +46,11 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
+            FeedbackResponsesLogic feedbackResponsesLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
+        this.feedbackResponsesLogic = feedbackResponsesLogic;
     }
 
     /**
@@ -399,6 +403,17 @@ public final class UsersLogic {
             return;
         }
 
+        feedbackResponsesLogic
+                .deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
+        
+        if (usersDb.getStudentCountForTeam(student.getTeam().getName(), student.getCourseId()) == 1) {
+            // the student is the only student in the team, delete responses related to the team
+            feedbackResponsesLogic
+                    .deleteFeedbackResponsesInvolvedEntityOfCourseCascade(
+                        student.getCourse().getId(), student.getTeam().getName());
+        }
+
+        usersDb.deleteUser(student);
         
     }
 

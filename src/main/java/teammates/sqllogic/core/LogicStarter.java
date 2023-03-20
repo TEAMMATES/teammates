@@ -48,12 +48,12 @@ public class LogicStarter implements ServletContextListener {
                 notificationsLogic, usersLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst());
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic, frLogic, fqLogic);
-        frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic);
+        frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, frcLogic);
         frcLogic.initLogicDependencies(FeedbackResponseCommentsDb.inst());
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst(), coursesLogic, frLogic, usersLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst());
         usageStatisticsLogic.initLogicDependencies(UsageStatisticsDb.inst());
-        usersLogic.initLogicDependencies(UsersDb.inst(), accountsLogic);
+        usersLogic.initLogicDependencies(UsersDb.inst(), accountsLogic, frLogic);
         log.info("Initialized dependencies between logic classes");
     }
 

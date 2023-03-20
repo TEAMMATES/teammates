@@ -436,4 +436,25 @@ public final class UsersDb extends EntitiesDb {
         return HibernateUtil.createQuery(cr).getResultList();
     }
 
+    /**
+     * Gets count of students of a team of a course.
+     */
+    public long getStudentCountForTeam(String teamName, String courseId) {
+        assert teamName != null;
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> courseJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(cb.count(studentRoot.get("id")))
+                .where(cb.and(
+                    cb.equal(courseJoin.get("id"), courseId),
+                    cb.equal(teamsJoin.get("name"), teamName)));
+
+        return HibernateUtil.createQuery(cr).getSingleResult();
+    }
+
 }
