@@ -42,10 +42,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
 
-        Instant deletedAt = coursesLogic.moveCourseToRecycleBin(courseId);
+        Course binnedCourse = coursesLogic.moveCourseToRecycleBin(courseId);
 
         verify(coursesDb, times(1)).getCourse(courseId);
-        assertNotNull(deletedAt);
+        assertNotNull(binnedCourse);
     }
 
     @Test
