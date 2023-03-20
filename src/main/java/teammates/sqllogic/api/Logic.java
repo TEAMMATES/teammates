@@ -2,8 +2,12 @@ package teammates.sqllogic.api;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
@@ -495,6 +499,16 @@ public class Logic {
     }
 
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<Student> getStudentsForCourse(String courseId) {
+        assert courseId != null;
+        return usersLogic.getStudentsForCourse(courseId);
+    }
+
+    /**
      * Gets a student by associated {@code regkey}.
      */
     public Student getStudentByRegistrationKey(String regKey) {
@@ -657,6 +671,19 @@ public class Logic {
      */
     public FeedbackQuestion getFeedbackQuestion(UUID id) {
         return feedbackQuestionsLogic.getFeedbackQuestion(id);
+    }
+
+    /**
+     * Gets the recipients of a feedback question for student.
+     *
+     * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
+     */
+    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
+            FeedbackQuestion question,
+            @Nullable Instructor instructorGiver, @Nullable Student studentGiver) {
+        assert question != null;
+
+        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
     }
 
 }
