@@ -94,12 +94,10 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
             switch (intent) {
             case STUDENT_SUBMISSION:
                 StudentAttributes studentAttributes = getStudentOfCourseFromRequest(question.getCourseId());
-
                 recipient = logic.getRecipientsOfQuestion(question, null, studentAttributes);
                 break;
             case INSTRUCTOR_SUBMISSION:
                 InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(question.getCourseId());
-
                 recipient = logic.getRecipientsOfQuestion(question, instructorAttributes, null);
                 break;
             default:
