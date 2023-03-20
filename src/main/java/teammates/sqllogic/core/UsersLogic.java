@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
 
@@ -134,6 +135,14 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all instructors associated with a googleId.
+     */
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        assert googleId != null;
+        return usersDb.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
      * Returns true if the user associated with the googleId is an instructor in any course in the system.
      */
     public boolean isInstructorInAnyCourse(String googleId) {
@@ -174,6 +183,20 @@ public final class UsersLogic {
         sortByName(studentReturnList);
 
         return studentReturnList;
+    }
+
+    /**
+     * Gets all students of a section.
+     */
+    public List<Student> getStudentsForSection(Section section, String courseId) {
+        return usersDb.getStudentsForSection(section, courseId);
+    }
+
+    /**
+     * Gets all students of a team.
+     */
+    public List<Student> getStudentsForTeam(String teamName, String courseId) {
+        return usersDb.getStudentsForTeam(teamName, courseId);
     }
 
     /**
@@ -262,5 +285,21 @@ public final class UsersLogic {
      */
     public static <T extends User> void sortByName(List<T> users) {
         users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
+    }
+
+    /**
+     * Checks if an instructor with {@code googleId} can create a course with {@code institute}
+     * (ie. has an existing course(s) with the same {@code institute}).
+     */
+    public boolean canInstructorCreateCourse(String googleId, String institute) {
+        assert googleId != null;
+        assert institute != null;
+
+        List<Instructor> existingInstructors = getInstructorsForGoogleId(googleId);
+        return existingInstructors
+                .stream()
+                .filter(Instructor::hasCoownerPrivileges)
+                .map(instructor -> instructor.getCourse())
+                .anyMatch(course -> institute.equals(course.getInstitute()));
     }
 }
