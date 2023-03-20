@@ -336,7 +336,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
         class="card-body"
       >
         <span
-          class="d-inline sort-by"
+          class="d-inline h5 fw-bold"
         >
           Sort By: 
         </span>

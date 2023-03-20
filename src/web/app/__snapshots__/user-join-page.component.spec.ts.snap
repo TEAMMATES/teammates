@@ -29,7 +29,7 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
         class="card-header bg-warning"
       >
         <h1
-          class="mb-0 header-text"
+          class="mb-0 h3"
         >
           Not logged in
         </h1>
@@ -111,7 +111,7 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
         class="card-header bg-warning"
       >
         <h1
-          class="mb-0 header-text"
+          class="mb-0 h3"
         >
           Invalid course join link
         </h1>
@@ -155,7 +155,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
         class="card-header bg-warning"
       >
         <h1
-          class="mb-0 header-text"
+          class="mb-0 h3"
         >
           Invalid course join link
         </h1>
@@ -199,7 +199,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
         class="card-header bg-primary text-white"
       >
         <h1
-          class="mb-0 header-text"
+          class="mb-0 h3"
         >
           Confirm your Google account
         </h1>

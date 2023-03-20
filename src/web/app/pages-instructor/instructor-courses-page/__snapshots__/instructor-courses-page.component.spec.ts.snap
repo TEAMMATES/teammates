@@ -76,14 +76,12 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
     class="course-section"
   >
     <h2
-      class="text-muted"
+      class="h3 text-muted"
     >
-      <small>
-        <span
-          class="fa fa-file-archive"
-        />
-         Archived courses 
-      </small>
+      <span
+        class="fa fa-file-archive"
+      />
+       Archived courses 
     </h2>
     <div
       class="card top-padded"
@@ -392,10 +390,10 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       <div
         class="course-section"
       >
-        <h2>
-          <small>
-            Active courses
-          </small>
+        <h2
+          class="h3"
+        >
+          Active courses
         </h2>
         <div
           class="table table-responsive"
@@ -690,14 +688,12 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
     class="course-section"
   >
     <h2
-      class="text-muted"
+      class="h3 text-muted"
     >
-      <small>
-        <span
-          class="fa fa-file-archive"
-        />
-         Archived courses 
-      </small>
+      <span
+        class="fa fa-file-archive"
+      />
+       Archived courses 
     </h2>
     <div
       class="card top-padded"
@@ -731,14 +727,12 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       class="col-12"
     >
       <h2
-        class="text-muted"
+        class="h3 text-muted"
       >
-        <small>
-          <span
-            class="fa fa-trash-alt"
-          />
-           Deleted courses 
-        </small>
+        <span
+          class="fa fa-trash-alt"
+        />
+         Deleted courses 
       </h2>
       <div
         class="card bg-light top-padded"
@@ -1146,10 +1140,10 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       <div
         class="course-section"
       >
-        <h2>
-          <small>
-            Active courses
-          </small>
+        <h2
+          class="h3"
+        >
+          Active courses
         </h2>
         <div
           class="table table-responsive"
@@ -1444,14 +1438,12 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
     class="course-section"
   >
     <h2
-      class="text-muted"
+      class="h3 text-muted"
     >
-      <small>
-        <span
-          class="fa fa-file-archive"
-        />
-         Archived courses 
-      </small>
+      <span
+        class="fa fa-file-archive"
+      />
+       Archived courses 
     </h2>
     <div
       class="card top-padded"
@@ -1485,14 +1477,12 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       class="col-12"
     >
       <h2
-        class="text-muted"
+        class="h3 text-muted"
       >
-        <small>
-          <span
-            class="fa fa-trash-alt"
-          />
-           Deleted courses 
-        </small>
+        <span
+          class="fa fa-trash-alt"
+        />
+         Deleted courses 
       </h2>
       <div
         class="card bg-light top-padded"
@@ -1680,10 +1670,10 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
       <div
         class="course-section"
       >
-        <h2>
-          <small>
-            Active courses
-          </small>
+        <h2
+          class="h3"
+        >
+          Active courses
         </h2>
         <div
           class="table table-responsive"

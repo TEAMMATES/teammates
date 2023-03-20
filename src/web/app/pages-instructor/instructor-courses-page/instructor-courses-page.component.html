@@ -27,7 +27,7 @@
   </ng-template>
   <div *tmIsLoading="isLoading">
     <div class="course-section" *ngIf="activeCourses.length; else addCourseAlert;">
-      <h2><small>Active courses</small></h2>
+      <h2 class="h3">Active courses</h2>
       <div class="table table-responsive">
         <table id="active-courses-table" class="table table-striped table-bordered margin-0">
           <thead>
@@ -179,10 +179,8 @@
 </tm-loading-retry>
 
 <div class="course-section" *ngIf="archivedCourses.length">
-  <h2 class="text-muted">
-    <small>
-      <span class="fa fa-file-archive"></span> Archived courses
-    </small>
+  <h2 class="h3 text-muted">
+    <span class="fa fa-file-archive"></span> Archived courses
   </h2>
   <div class="card top-padded">
     <div id="archived-table-heading" class="card-header bg-info cursor-pointer" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
@@ -250,10 +248,8 @@
 
 <div class="row course-section margin-top-30px" *ngIf="softDeletedCourses.length">
   <div class="col-12">
-   <h2 class="text-muted">
-      <small>
-        <span class="fa fa-trash-alt"></span> Deleted courses
-      </small>
+    <h2 class="h3 text-muted">
+      <span class="fa fa-trash-alt"></span> Deleted courses
     </h2>
     <div class="card bg-light top-padded">
       <div id="deleted-table-heading" class="card-header bg-secondary text-white cursor-pointer" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
