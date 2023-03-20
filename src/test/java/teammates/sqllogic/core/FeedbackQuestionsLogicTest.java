@@ -10,11 +10,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCase;
 
 /**
@@ -25,6 +27,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     private FeedbackQuestionsDb fqDb;
+    private UsersLogic usersLogic;
 
     private SqlDataBundle typicalDataBundle;
 
@@ -37,7 +40,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     public void setUpMethod() {
         fqDb = mock(FeedbackQuestionsDb.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        UsersLogic usersLogic = mock(UsersLogic.class);
+        usersLogic = mock(UsersLogic.class);
         fqLogic.initLogicDependencies(fqDb, coursesLogic, usersLogic);
     }
 
@@ -200,5 +203,23 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(actualQuestions.containsAll(actualQuestions));
+    }
+
+    @Test(enabled = false)
+    public void testGetRecipientsOfQuestion_giverTypeStudents() {
+        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+
+        Student s1 = typicalDataBundle.students.get("student1InCourse1");
+        Student s2 = typicalDataBundle.students.get("student2InCourse1");
+        List<Student> studentsInCourse = List.of(s1, s2);
+
+        SqlCourseRoster courseRoster = new SqlCourseRoster(studentsInCourse, null);
+
+        when(usersLogic.getStudentsForCourse("course-1")).thenReturn(studentsInCourse);
+
+        ______TS("response to students except self");
+        assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, null).size(), studentsInCourse.size() - 1);
+        assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, courseRoster).size(), studentsInCourse.size() - 1);
+
     }
 }

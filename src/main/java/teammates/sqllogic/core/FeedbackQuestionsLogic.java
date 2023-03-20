@@ -1,17 +1,25 @@
 package teammates.sqllogic.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
+import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -28,6 +36,8 @@ import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
  * @see FeedbackQuestionsDb
  */
 public final class FeedbackQuestionsLogic {
+
+    static final String USER_NAME_FOR_SELF = "Myself";
 
     private static final Logger log = Logger.getLogger();
 
@@ -333,5 +343,188 @@ public final class FeedbackQuestionsLogic {
             feedbackMsqQuestionDetails.setMsqChoices(optionList);
             ((FeedbackMsqQuestion) feedbackQuestion).setFeedBackQuestionDetails(feedbackMsqQuestionDetails);
         }
+    }
+
+    /**
+     * Gets the recipients of a feedback question including recipient section and team.
+     *
+     * @param question the feedback question
+     * @param instructorGiver can be null for student giver
+     * @param studentGiver can be null for instructor giver
+     * @param courseRoster if provided, the function can be completed without touching database
+     * @return a Map of {@code FeedbackQuestionRecipient} as the value and identifier as the key.
+     */
+    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
+            FeedbackQuestion question,
+            @Nullable Instructor instructorGiver, @Nullable Student studentGiver,
+            @Nullable SqlCourseRoster courseRoster) {
+        assert instructorGiver != null || studentGiver != null;
+
+        String courseId = question.getCourseId();
+
+        Map<String, FeedbackQuestionRecipient> recipients = new HashMap<>();
+
+        boolean isStudentGiver = studentGiver != null;
+        boolean isInstructorGiver = instructorGiver != null;
+
+        String giverEmail = "";
+        String giverTeam = "";
+        String giverSection = "";
+        if (isStudentGiver) {
+            giverEmail = studentGiver.getEmail();
+            giverTeam = studentGiver.getTeam().getName();
+            giverSection = studentGiver.getTeam().getSection().getName();
+        } else if (isInstructorGiver) {
+            giverEmail = instructorGiver.getEmail();
+            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+            giverSection = Const.DEFAULT_SECTION;
+        }
+
+        FeedbackParticipantType recipientType = question.getRecipientType();
+        FeedbackParticipantType generateOptionsFor = recipientType;
+
+        switch (recipientType) {
+        case SELF:
+            if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
+                recipients.put(giverTeam,
+                       new FeedbackQuestionRecipient(giverTeam, giverTeam));
+            } else {
+                recipients.put(giverEmail,
+                        new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail));
+            }
+            break;
+        case STUDENTS:
+        case STUDENTS_EXCLUDING_SELF:
+        case STUDENTS_IN_SAME_SECTION:
+            List<Student> studentList;
+            if (courseRoster == null) {
+                if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                    studentList = usersLogic.getStudentsForSection(giverSection, courseId);
+                } else {
+                    studentList = usersLogic.getStudentsForCourse(courseId);
+                }
+            } else {
+                if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                    final String finalGiverSection = giverSection;
+                    studentList = courseRoster.getStudents().stream()
+                            .filter(studentAttributes -> studentAttributes.getTeam().getSection().getName()
+                                    .equals(finalGiverSection)).collect(Collectors.toList());
+                } else {
+                    studentList = courseRoster.getStudents();
+                }
+            }
+            for (Student student : studentList) {
+                if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
+                        student.getTeam().getSection().getName(), question.getFeedbackSession().getName(),
+                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
+                    // instructor can only see students in allowed sections for him/her
+                    continue;
+                }
+                // Ensure student does not evaluate him/herself if it's STUDENTS_EXCLUDING_SELF or
+                // STUDENTS_IN_SAME_SECTION
+                if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
+                    continue;
+                }
+                recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                        student.getTeam().getSection().getName(), student.getTeam().getName()));
+            }
+            break;
+        case INSTRUCTORS:
+            List<Instructor> instructorsInCourse;
+            if (courseRoster == null) {
+                instructorsInCourse = usersLogic.getInstructorsForCourse(courseId);
+            } else {
+                instructorsInCourse = courseRoster.getInstructors();
+            }
+            for (Instructor instr : instructorsInCourse) {
+                // remove hidden instructors for students
+                if (isStudentGiver && !instr.isDisplayedToStudents()) {
+                    continue;
+                }
+                // Ensure instructor does not evaluate himself
+                if (!giverEmail.equals(instr.getEmail())) {
+                    recipients.put(instr.getEmail(),
+                            new FeedbackQuestionRecipient(instr.getName(), instr.getEmail()));
+                }
+            }
+            break;
+        case TEAMS:
+        case TEAMS_EXCLUDING_SELF:
+        case TEAMS_IN_SAME_SECTION:
+            Map<String, List<Student>> teamToTeamMembersTable;
+            List<Student> teamStudents;
+            if (courseRoster == null) {
+                if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                    teamStudents = usersLogic.getStudentsForSection(giverSection, courseId);
+                } else {
+                    teamStudents = usersLogic.getStudentsForCourse(courseId);
+                }
+                teamToTeamMembersTable = SqlCourseRoster.buildTeamToMembersTable(teamStudents);
+            } else {
+                if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                    final String finalGiverSection = giverSection;
+                    teamStudents = courseRoster.getStudents().stream()
+                            .filter(student -> student.getTeam().getSection().getName().equals(finalGiverSection))
+                            .collect(Collectors.toList());
+                    teamToTeamMembersTable = SqlCourseRoster.buildTeamToMembersTable(teamStudents);
+                } else {
+                    teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
+                }
+            }
+            for (Map.Entry<String, List<Student>> team : teamToTeamMembersTable.entrySet()) {
+                if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
+                        team.getValue().iterator().next().getTeam().getSection().getName(),
+                        question.getFeedbackSession().getName(),
+                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
+                    // instructor can only see teams in allowed sections for him/her
+                    continue;
+                }
+                // Ensure student('s team) does not evaluate own team if it's TEAMS_EXCLUDING_SELF or
+                // TEAMS_IN_SAME_SECTION
+                if (giverTeam.equals(team.getKey()) && generateOptionsFor != FeedbackParticipantType.TEAMS) {
+                    continue;
+                }
+                // recipientEmail doubles as team name in this case.
+                recipients.put(team.getKey(), new FeedbackQuestionRecipient(team.getKey(), team.getKey()));
+            }
+            break;
+        case OWN_TEAM:
+            recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam));
+            break;
+        case OWN_TEAM_MEMBERS:
+            List<Student> students;
+            if (courseRoster == null) {
+                students = usersLogic.getStudentsForTeam(giverTeam, courseId);
+            } else {
+                students = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
+            }
+            for (Student student : students) {
+                if (!student.getEmail().equals(giverEmail)) {
+                    recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                            student.getTeam().getSection().getName(), student.getTeam().getName()));
+                }
+            }
+            break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            List<Student> teamMembers;
+            if (courseRoster == null) {
+                teamMembers = usersLogic.getStudentsForTeam(giverTeam, courseId);
+            } else {
+                teamMembers = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
+            }
+            for (Student student : teamMembers) {
+                // accepts self feedback too
+                recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
+                        student.getTeam().getSection().getName(), student.getTeam().getName()));
+            }
+            break;
+        case NONE:
+            recipients.put(Const.GENERAL_QUESTION,
+                    new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
+            break;
+        default:
+            break;
+        }
+        return recipients;
     }
 }
