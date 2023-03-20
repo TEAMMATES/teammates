@@ -100,15 +100,21 @@ h6,
   }
 }
 
-@media (max-width: 768px) {
-  .modal-dialog {
-    max-width: 80vw;
-    min-width: 65vw;
-  }
-}
-
 .modal-large .modal-dialog {
   width: 1000px;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: none;
+    min-width: 65vw;
+    max-height: none;
+    width: 95vw;
+  }
+
+  .modal-large .modal-dialog {
+    width: 95vw;
+  }
 }
 
 .close:focus {
