@@ -147,7 +147,7 @@ public final class CoursesDb extends EntitiesDb {
     }
 
     /**
-     * Get team by {@code section}.
+     * Get teams by {@code section}.
      */
     public List<Team> getTeamsForSection(Section section) {
         assert section != null;
@@ -164,7 +164,7 @@ public final class CoursesDb extends EntitiesDb {
     }
 
     /**
-     * Get team by {@code course}.
+     * Get teams by {@code course}.
      */
     public List<Team> getTeamsForCourse(String courseId) {
         assert courseId != null;
