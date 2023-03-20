@@ -23,7 +23,6 @@ public class InstructorCourseJoinEmailWorkerActionTest
     Course course;
     Instructor instructor;
     Account inviter;
-    String instructorGoogleId;
 
     @Override
     protected String getActionUri() {
@@ -40,7 +39,6 @@ public class InstructorCourseJoinEmailWorkerActionTest
         course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         inviter = new Account("user-id", "inviter name", "account_email@test.tmt");
-        instructorGoogleId = "user-id";
         loginAsAdmin();
     }
 
@@ -74,7 +72,7 @@ public class InstructorCourseJoinEmailWorkerActionTest
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
                 Const.ParamsNames.IS_INSTRUCTOR_REJOINING, "false",
-                Const.ParamsNames.INVITER_ID, instructorGoogleId,
+                Const.ParamsNames.INVITER_ID, inviter.getGoogleId(),
         };
 
         InstructorCourseJoinEmailWorkerAction action = getAction(params);
@@ -125,7 +123,7 @@ public class InstructorCourseJoinEmailWorkerActionTest
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
                 Const.ParamsNames.IS_INSTRUCTOR_REJOINING, "false",
-                Const.ParamsNames.INVITER_ID, instructorGoogleId,
+                Const.ParamsNames.INVITER_ID, inviter.getGoogleId(),
         };
 
         verifyCanAccess(params);
@@ -137,7 +135,7 @@ public class InstructorCourseJoinEmailWorkerActionTest
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
                 Const.ParamsNames.IS_INSTRUCTOR_REJOINING, "false",
-                Const.ParamsNames.INVITER_ID, instructorGoogleId,
+                Const.ParamsNames.INVITER_ID, inviter.getGoogleId(),
         };
 
         loginAsInstructor("user-id");
