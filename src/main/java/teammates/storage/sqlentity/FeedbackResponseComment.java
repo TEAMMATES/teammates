@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
  * Represents a feedback response comment.
  */
 @Entity
-@Table(name = "FeedbackReponseComments")
+@Table(name = "FeedbackResponseComments")
 public class FeedbackResponseComment extends BaseEntity {
     @Id
     private UUID id;
