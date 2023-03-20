@@ -134,6 +134,14 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all instructors associated with a googleId.
+     */
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        assert googleId != null;
+        return usersDb.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
      * Returns true if the user associated with the googleId is an instructor in any course in the system.
      */
     public boolean isInstructorInAnyCourse(String googleId) {
@@ -262,5 +270,21 @@ public final class UsersLogic {
      */
     public static <T extends User> void sortByName(List<T> users) {
         users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
+    }
+
+    /**
+     * Checks if an instructor with {@code googleId} can create a course with {@code institute}
+     * (ie. has an existing course(s) with the same {@code institute}).
+     */
+    public boolean canInstructorCreateCourse(String googleId, String institute) {
+        assert googleId != null;
+        assert institute != null;
+
+        List<Instructor> existingInstructors = getInstructorsForGoogleId(googleId);
+        return existingInstructors
+                .stream()
+                .filter(Instructor::hasCoownerPrivileges)
+                .map(instructor -> instructor.getCourse())
+                .anyMatch(course -> institute.equals(course.getInstitute()));
     }
 }
