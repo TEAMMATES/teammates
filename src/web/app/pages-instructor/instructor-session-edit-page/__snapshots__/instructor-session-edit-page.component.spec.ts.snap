@@ -1242,14 +1242,14 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </tm-panel-chevron>
               </div>
               <div
-                class="d-flex flex-column"
+                class="d-flex flex-column text-start"
                 id="question-header"
               >
                 <div
                   class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                 >
                   <h2
-                    class="question-details fw-bold"
+                    class="question-number fw-bold"
                   >
                     Question 
                     <select
@@ -1268,9 +1268,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       </option>
                     </select>
                   </h2>
-                  <span
-                    class="text-start"
-                  >
+                  <span>
                     Essay question
                   </span>
                 </div>
@@ -1961,14 +1959,14 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </tm-panel-chevron>
               </div>
               <div
-                class="d-flex flex-column"
+                class="d-flex flex-column text-start"
                 id="question-header"
               >
                 <div
                   class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                 >
                   <h2
-                    class="question-details fw-bold"
+                    class="question-number fw-bold"
                   >
                     Question 
                     <select
@@ -1987,9 +1985,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       </option>
                     </select>
                   </h2>
-                  <span
-                    class="text-start"
-                  >
+                  <span>
                     Essay question
                   </span>
                 </div>
@@ -3802,14 +3798,14 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             </tm-panel-chevron>
           </div>
           <div
-            class="d-flex flex-column"
+            class="d-flex flex-column text-start"
             id="question-header"
           >
             <div
               class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
             >
               <h2
-                class="question-details fw-bold"
+                class="question-number fw-bold"
               >
                 Question 
                 <select
@@ -3823,9 +3819,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </option>
                 </select>
               </h2>
-              <span
-                class="text-start"
-              >
+              <span>
                 Essay question
               </span>
             </div>
