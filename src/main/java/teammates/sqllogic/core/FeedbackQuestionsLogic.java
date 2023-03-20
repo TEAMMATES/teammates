@@ -249,7 +249,7 @@ public final class FeedbackQuestionsLogic {
             if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
                 Student student =
                         usersLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
-                studentList = usersLogic.getStudentsForSection(student.getTeam().getSection(), courseId);
+                studentList = usersLogic.getStudentsForSection(student.getTeam().getSection().getName(), courseId);
             } else {
                 studentList = usersLogic.getStudentsForCourse(courseId);
             }

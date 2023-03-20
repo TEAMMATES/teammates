@@ -346,8 +346,8 @@ public final class UsersDb extends EntitiesDb {
     /**
      * Gets all students of a section of a course.
      */
-    public List<Student> getStudentsForSection(Section section, String courseId) {
-        assert section != null;
+    public List<Student> getStudentsForSection(String sectionName, String courseId) {
+        assert sectionName != null;
         assert courseId != null;
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -360,7 +360,7 @@ public final class UsersDb extends EntitiesDb {
         cr.select(studentRoot)
                 .where(cb.and(
                     cb.equal(courseJoin.get("id"), courseId),
-                    cb.equal(sectionJoin.get("id"), section.getId())));
+                    cb.equal(sectionJoin.get("name"), sectionName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

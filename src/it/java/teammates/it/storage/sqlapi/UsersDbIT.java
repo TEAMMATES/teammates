@@ -210,7 +210,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         List<Student> expectedStudents = List.of(firstStudent, secondStudent);
 
-        List<Student> actualStudents = usersDb.getStudentsForSection(firstSection, course.getId());
+        List<Student> actualStudents = usersDb.getStudentsForSection(firstSection.getName(), course.getId());
 
         assertEquals(expectedStudents.size(), actualStudents.size());
         assertTrue(expectedStudents.containsAll(actualStudents));
