@@ -301,6 +301,10 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         this.updatedAt = updatedAt;
     }
 
+    public String getCourseId() {
+        return this.feedbackSession.getCourse().getId();
+    }
+
     @Override
     public String toString() {
         return "Question [id=" + id + ", questionNumber=" + questionNumber + ", description=" + description
