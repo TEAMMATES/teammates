@@ -188,6 +188,7 @@ public class Browser {
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
+            options.addArguments("--remote-allow-origins=*");
             if (TestProperties.isDevServer()) {
                 options.addArguments("incognito");
             }
