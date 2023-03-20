@@ -64,11 +64,12 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackSession feedbackSession =
-            getNonNullSqlFeedbackSession(sqlFeedbackQuestion.getFeedbackSession().getName(), sqlFeedbackQuestion.getCourseId());
+                getNonNullSqlFeedbackSession(sqlFeedbackQuestion.getFeedbackSession().getName(),
+                                                sqlFeedbackQuestion.getCourseId());
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(sqlFeedbackQuestion);
-            Student student= getSqlStudentOfCourseFromRequest(feedbackSession.getCourse().getId());
+            Student student = getSqlStudentOfCourseFromRequest(feedbackSession.getCourse().getId());
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
@@ -92,12 +93,12 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
             switch (intent) {
             case STUDENT_SUBMISSION:
                 StudentAttributes studentAttributes = getStudentOfCourseFromRequest(question.getCourseId());
-    
+
                 recipient = logic.getRecipientsOfQuestion(question, null, studentAttributes);
                 break;
             case INSTRUCTOR_SUBMISSION:
                 InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(question.getCourseId());
-    
+
                 recipient = logic.getRecipientsOfQuestion(question, instructorAttributes, null);
                 break;
             default:
