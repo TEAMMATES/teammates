@@ -190,6 +190,50 @@ public class Logic {
     }
 
     /**
+     * Deletes a course by course id.
+     * @param courseId of course.
+     */
+    public void deleteCourseCascade(String courseId) {
+        coursesLogic.deleteCourseCascade(courseId);
+    }
+
+    /**
+     * Moves a course to Recycle Bin by its given corresponding ID.
+     * @return the deletion timestamp assigned to the course.
+     */
+    public Course moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
+        return coursesLogic.moveCourseToRecycleBin(courseId);
+    }
+
+    /**
+     * Restores a course and all data related to the course from Recycle Bin by
+     * its given corresponding ID.
+     */
+    public void restoreCourseFromRecycleBin(String courseId) throws EntityDoesNotExistException {
+        coursesLogic.restoreCourseFromRecycleBin(courseId);
+    }
+
+    /**
+     * Updates a course.
+     *
+     * @return updated course
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the course cannot be found
+     */
+    public Course updateCourse(String courseId, String name, String timezone)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return coursesLogic.updateCourse(courseId, name, timezone);
+    }
+
+    /**
+     * Gets a list of section names for the given {@code courseId}.
+     */
+    public List<String> getSectionNamesForCourse(String courseId)
+            throws EntityDoesNotExistException {
+        return coursesLogic.getSectionNamesForCourse(courseId);
+    }
+
+    /**
      * Get section by {@code courseId} and {@code teamName}.
      */
     public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
@@ -390,6 +434,13 @@ public class Logic {
     }
 
     /**
+     * Gets list of instructors by {@code googleId}.
+     */
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        return usersLogic.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
      * Gets instructors by associated {@code courseId}.
      */
     public List<Instructor> getInstructorsByCourse(String courseId) {
@@ -402,6 +453,13 @@ public class Logic {
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return usersLogic.createInstructor(instructor);
+    }
+
+    /**
+     * Checks if an instructor with {@code googleId} can create a course with {@code institute}.
+     */
+    public boolean canInstructorCreateCourse(String googleId, String institute) {
+        return usersLogic.canInstructorCreateCourse(googleId, institute);
     }
 
     /**
