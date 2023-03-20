@@ -1,12 +1,14 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
 
 /**
  * Action: Restores a course from Recycle Bin.
  */
-class RestoreCourseAction extends Action {
+public class RestoreCourseAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -19,9 +21,18 @@ class RestoreCourseAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, userInfo.id),
-                logic.getCourse(idOfCourseToRestore),
-                Const.InstructorPermissions.CAN_MODIFY_COURSE);
+
+        if (!isCourseMigrated(idOfCourseToRestore)) {
+            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToRestore);
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToRestore, userInfo.id),
+                    courseAttributes,
+                    Const.InstructorPermissions.CAN_MODIFY_COURSE);
+            return;
+        }
+
+        Course course = sqlLogic.getCourse(idOfCourseToRestore);
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToRestore, userInfo.id),
+                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override
@@ -31,7 +42,11 @@ class RestoreCourseAction extends Action {
         String statusMessage;
 
         try {
-            logic.restoreCourseFromRecycleBin(idOfCourseToRestore);
+            if (isCourseMigrated(idOfCourseToRestore)) {
+                sqlLogic.restoreCourseFromRecycleBin(idOfCourseToRestore);
+            } else {
+                logic.restoreCourseFromRecycleBin(idOfCourseToRestore);
+            }
 
             statusMessage = "The course " + idOfCourseToRestore + " has been restored.";
         } catch (EntityDoesNotExistException e) {
