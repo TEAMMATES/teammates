@@ -26,6 +26,7 @@ import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.api.MockUserProvision;
+import teammates.sqllogic.api.SqlEmailGenerator;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.ui.request.BasicRequest;
@@ -60,6 +61,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
+    SqlEmailGenerator mockSqlEmailGenerator = mock(SqlEmailGenerator.class);
 
     abstract String getActionUri();
 
@@ -106,6 +108,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setLogsProcessor(mockLogsProcessor);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
+            action.setSqlEmailGenerator(mockSqlEmailGenerator);
             action.init(req);
             return action;
         } catch (ActionMappingException e) {
