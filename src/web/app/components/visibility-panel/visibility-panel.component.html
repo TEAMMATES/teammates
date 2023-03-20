@@ -1,7 +1,7 @@
 <div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
   <div>
     <div *ngIf="model.isQuestionHasResponses">
-      <h5>Changing the visibility after collecting responses is not recommended.</h5>
+      <p class="fs-6 fw-bold">Changing the visibility after collecting responses is not recommended.</p>
       <p>Reason: The existing responses were submitted under the 'promise' of a certain visibility and changing the visibility later 'breaks' that promise.</p>
     </div>
     <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)

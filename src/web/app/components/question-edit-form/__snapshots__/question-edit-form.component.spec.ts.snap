@@ -32,8 +32,8 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
     class="card"
     id="question-form-0"
   >
-    <div
-      class="card-header bg-primary text-white cursor-pointer"
+    <button
+      class="card-header bg-primary text-white cursor-pointer border-0"
     >
       <div
         class="collapse-caret"
@@ -49,17 +49,28 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         </tm-panel-chevron>
       </div>
       <div
+        class="d-flex flex-column"
         id="question-header"
       >
-        <strong>
-          Question 
-          <span
-            id="question-number"
+        <div
+          class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
+        >
+          <h2
+            class="question-details fw-bold"
           >
-            0
+            Question 
+            <span
+              id="question-number"
+            >
+              0 
+            </span>
+          </h2>
+          <span
+            class="text-start"
+          >
+            Essay question
           </span>
-        </strong>
-         Essay question 
+        </div>
       </div>
       <div
         class="card-header-btn-toolbar"
@@ -99,7 +110,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           </button>
         </div>
       </div>
-    </div>
+    </button>
     <div
       class="ng-trigger ng-trigger-collapseAnim"
       style=""

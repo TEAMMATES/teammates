@@ -1225,8 +1225,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="card"
             id="question-form-1"
           >
-            <div
-              class="card-header bg-primary text-white cursor-pointer"
+            <button
+              class="card-header bg-primary text-white cursor-pointer border-0"
             >
               <div
                 class="collapse-caret"
@@ -1242,27 +1242,38 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </tm-panel-chevron>
               </div>
               <div
+                class="d-flex flex-column"
                 id="question-header"
               >
-                <strong>
-                  Question 
-                </strong>
-                <select
-                  class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-                  id="question-number-dropdown"
+                <div
+                  class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                 >
-                  <option
-                    value="0: 1"
+                  <h2
+                    class="question-details fw-bold"
                   >
-                    1
-                  </option>
-                  <option
-                    value="1: 2"
+                    Question 
+                    <select
+                      class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                      id="question-number-dropdown"
+                    >
+                      <option
+                        value="0: 1"
+                      >
+                        1
+                      </option>
+                      <option
+                        value="1: 2"
+                      >
+                        2
+                      </option>
+                    </select>
+                  </h2>
+                  <span
+                    class="text-start"
                   >
-                    2
-                  </option>
-                </select>
-                 Essay question 
+                    Essay question
+                  </span>
+                </div>
               </div>
               <div
                 class="card-header-btn-toolbar"
@@ -1311,7 +1322,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </button>
                 </div>
               </div>
-            </div>
+            </button>
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
               style=""
@@ -1933,8 +1944,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="card"
             id="question-form-2"
           >
-            <div
-              class="card-header bg-primary text-white cursor-pointer"
+            <button
+              class="card-header bg-primary text-white cursor-pointer border-0"
             >
               <div
                 class="collapse-caret"
@@ -1950,27 +1961,38 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </tm-panel-chevron>
               </div>
               <div
+                class="d-flex flex-column"
                 id="question-header"
               >
-                <strong>
-                  Question 
-                </strong>
-                <select
-                  class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-                  id="question-number-dropdown"
+                <div
+                  class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                 >
-                  <option
-                    value="0: 1"
+                  <h2
+                    class="question-details fw-bold"
                   >
-                    1
-                  </option>
-                  <option
-                    value="1: 2"
+                    Question 
+                    <select
+                      class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                      id="question-number-dropdown"
+                    >
+                      <option
+                        value="0: 1"
+                      >
+                        1
+                      </option>
+                      <option
+                        value="1: 2"
+                      >
+                        2
+                      </option>
+                    </select>
+                  </h2>
+                  <span
+                    class="text-start"
                   >
-                    2
-                  </option>
-                </select>
-                 Essay question 
+                    Essay question
+                  </span>
+                </div>
               </div>
               <div
                 class="card-header-btn-toolbar"
@@ -2019,7 +2041,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </button>
                 </div>
               </div>
-            </div>
+            </button>
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
               style=""
@@ -3763,8 +3785,8 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
         class="card"
         id="question-form-0"
       >
-        <div
-          class="card-header bg-primary text-white cursor-pointer"
+        <button
+          class="card-header bg-primary text-white cursor-pointer border-0"
         >
           <div
             class="collapse-caret"
@@ -3780,22 +3802,33 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             </tm-panel-chevron>
           </div>
           <div
+            class="d-flex flex-column"
             id="question-header"
           >
-            <strong>
-              Question 
-            </strong>
-            <select
-              class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-              id="question-number-dropdown"
+            <div
+              class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
             >
-              <option
-                value="0: 1"
+              <h2
+                class="question-details fw-bold"
               >
-                1
-              </option>
-            </select>
-             Essay question 
+                Question 
+                <select
+                  class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                  id="question-number-dropdown"
+                >
+                  <option
+                    value="0: 1"
+                  >
+                    1
+                  </option>
+                </select>
+              </h2>
+              <span
+                class="text-start"
+              >
+                Essay question
+              </span>
+            </div>
           </div>
           <div
             class="card-header-btn-toolbar"
@@ -3812,7 +3845,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               </button>
             </div>
           </div>
-        </div>
+        </button>
         <div
           class="ng-trigger ng-trigger-collapseAnim ng-animating"
           style=""
