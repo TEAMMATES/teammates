@@ -14,9 +14,9 @@ import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.StudentCourseJoinEmailWorkerAction;
 
 /**
- * SUT: {@link StudentCourseJoinEmailWorkerAction}
+ * SUT: {@link StudentCourseJoinEmailWorkerAction}.
  */
-public class StudentCourseJoinEmailWorkerActionTest 
+public class StudentCourseJoinEmailWorkerActionTest
         extends BaseActionTest<StudentCourseJoinEmailWorkerAction> {
 
     Course course;
@@ -105,7 +105,7 @@ public class StudentCourseJoinEmailWorkerActionTest
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper emailCreated = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(), 
+        assertEquals(String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId()),
                 emailCreated.getSubject());
         assertEquals(student.getEmail(), emailCreated.getRecipient());
@@ -116,7 +116,7 @@ public class StudentCourseJoinEmailWorkerActionTest
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-                Const.ParamsNames.IS_STUDENT_REJOINING, "false"
+                Const.ParamsNames.IS_STUDENT_REJOINING, "false",
         };
 
         verifyCanAccess(params);

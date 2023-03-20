@@ -3,9 +3,9 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
-import teammates.common.util.EmailWrapper;
 
 /**
  * Task queue worker action: sends registration email for a student of a course.

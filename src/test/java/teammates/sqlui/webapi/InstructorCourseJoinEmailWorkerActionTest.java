@@ -15,9 +15,9 @@ import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.InstructorCourseJoinEmailWorkerAction;
 
 /**
- * SUT: {@link InstructorCourseJoinEmailWorkerAction}
+ * SUT: {@link InstructorCourseJoinEmailWorkerAction}.
  */
-public class InstructorCourseJoinEmailWorkerActionTest 
+public class InstructorCourseJoinEmailWorkerActionTest
         extends BaseActionTest<InstructorCourseJoinEmailWorkerAction> {
 
     Course course;
@@ -97,7 +97,8 @@ public class InstructorCourseJoinEmailWorkerActionTest
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getAccountForGoogleId(inviter.getGoogleId())).thenReturn(inviter);
-        when(mockSqlEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor, course)).thenReturn(email);
+        when(mockSqlEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor, course))
+                .thenReturn(email);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -111,7 +112,7 @@ public class InstructorCourseJoinEmailWorkerActionTest
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper emailCreated = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(), 
+        assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId()),
                 emailCreated.getSubject());
         assertEquals(instructor.getEmail(), emailCreated.getRecipient());
