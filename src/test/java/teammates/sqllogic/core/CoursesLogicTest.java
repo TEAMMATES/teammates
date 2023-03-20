@@ -35,7 +35,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testMoveCourseToRecycleBin_shouldReturnDeletedAt_success()
+    public void testMoveCourseToRecycleBin_shouldReturnBinnedCourse_success()
             throws EntityDoesNotExistException {
         Course course = generateTypicalCourse();
         String courseId = course.getId();
