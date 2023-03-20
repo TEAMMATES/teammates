@@ -519,7 +519,7 @@ public class Logic {
      * Gets students by associated {@code teamName} and {@code courseId}.
      */
     public List<Student> getStudentsByTeamName(String teamName, String courseId) {
-        return usersLogic.getStudentsByTeamName(teamName, courseId);
+        return usersLogic.getStudentsForTeam(teamName, courseId);
     }
 
     /**
