@@ -14,6 +14,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.ui.output.EnrollStudentsData;
+import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentsEnrollRequest;
@@ -107,6 +108,15 @@ class EnrollStudentsAction extends Action {
                 }
             }
         }
-        return new JsonResult(new EnrollStudentsData(new StudentsData(enrolledStudents), failToEnrollStudents));
+
+        List<StudentData> studentDataList = enrolledStudents
+                .stream()
+                .map(StudentData::new)
+                .collect(Collectors.toList());
+        StudentsData data = new StudentsData();
+
+        data.setStudents(studentDataList);
+
+        return new JsonResult(new EnrollStudentsData(data, failToEnrollStudents));
     }
 }
