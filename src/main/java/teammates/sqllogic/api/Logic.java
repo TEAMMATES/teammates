@@ -306,6 +306,21 @@ public class Logic {
     }
 
     /**
+     * Publishes a feedback session.
+     * @return the published feedback session
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     * @throws InvalidParametersException if session is already published
+     */
+    public FeedbackSession publishFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
@@ -491,6 +506,20 @@ public class Logic {
      */
     public Student getStudentByGoogleId(String courseId, String googleId) {
         return usersLogic.getStudentByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Gets students by associated {@code courseId}.
+     */
+    public List<Student> getStudentsForCourse(String courseId) {
+        return usersLogic.getStudentsForCourse(courseId);
+    }
+
+    /**
+     * Gets students by associated {@code teamName} and {@code courseId}.
+     */
+    public List<Student> getStudentsByTeamName(String teamName, String courseId) {
+        return usersLogic.getStudentsForTeam(teamName, courseId);
     }
 
     /**
