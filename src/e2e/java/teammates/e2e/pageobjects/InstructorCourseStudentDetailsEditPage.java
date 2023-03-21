@@ -13,19 +13,19 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class InstructorCourseStudentDetailsEditPage extends AppPage {
 
-    @FindBy (id = "courseid")
+    @FindBy (id = "course-id")
     private WebElement courseId;
 
-    @FindBy (id = "studentname")
+    @FindBy (id = "student-name")
     private WebElement studentNameTextbox;
 
-    @FindBy (id = "sectionname")
+    @FindBy (id = "section-name")
     private WebElement sectionNameTextbox;
 
-    @FindBy (id = "teamname")
+    @FindBy (id = "team-name")
     private WebElement teamNameTextbox;
 
-    @FindBy (id = "newstudentemail")
+    @FindBy (id = "new-student-email")
     private WebElement studentEmailTextbox;
 
     @FindBy (id = "comments")
