@@ -4,8 +4,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -14,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -37,6 +40,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
+    private DeadlineExtensionsLogic deLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -47,10 +51,12 @@ public final class FeedbackSessionsLogic {
     }
 
     void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
-            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic) {
+            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
+            DeadlineExtensionsLogic deLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
+        this.deLogic = deLogic;
     }
 
     /**
@@ -299,4 +305,60 @@ public final class FeedbackSessionsLogic {
         // if there is no question for instructor, session is attempted
         return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
     }
+    
+    /**
+     * Deletes the student email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void deleteFeedbackSessionsDeadlinesForStudent(String courseId, String emailAddress) {
+        deleteFeedbackSessionsDeadlinesForUser(courseId, emailAddress, false);
+    }
+
+    private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor) {
+        updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, isInstructor,
+                deadlines -> deadlines.remove(emailAddress));
+    }
+
+    private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor,
+            Consumer<Map<String, Instant>> deadlinesUpdater) {
+        List<FeedbackSession> feedbackSessions = fsDb.getFeedbackSessionEntitiesForCourse(courseId)
+                .stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
+
+        feedbackSessions.forEach(feedbackSession -> {
+            if (isInstructor) {
+                if (!instructorDeadlines.containsKey(emailAddress)) {
+                    return;
+                }
+
+                deadlinesUpdater.accept(instructorDeadlines);
+                updateOptionsBuilder.withInstructorDeadlines(instructorDeadlines);
+            }
+
+            FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
+                    .updateOptionsBuilder(feedbackSession.getFeedbackSessionName(), courseId);
+            if (isInstructor) {
+                Map<String, Instant> instructorDeadlines = feedbackSession.getInstructorDeadlines();
+                if (!instructorDeadlines.containsKey(emailAddress)) {
+                    return;
+                }
+                deadlinesUpdater.accept(instructorDeadlines);
+                updateOptionsBuilder.withInstructorDeadlines(instructorDeadlines);
+            } else {
+                Map<String, Instant> studentDeadlines = feedbackSession.getStudentDeadlines();
+                if (!studentDeadlines.containsKey(emailAddress)) {
+                    return;
+                }
+                deadlinesUpdater.accept(studentDeadlines);
+                updateOptionsBuilder.withStudentDeadlines(studentDeadlines);
+            }
+            try {
+                fsDb.updateFeedbackSession(updateOptionsBuilder.build());
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                // Both Exceptions should not be thrown.
+                log.severe("Unexpected error", e);
+            }
+        });
+    }
+    
 }

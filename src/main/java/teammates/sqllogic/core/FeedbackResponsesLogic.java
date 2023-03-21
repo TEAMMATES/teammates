@@ -2,6 +2,7 @@ package teammates.sqllogic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -9,6 +10,9 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -29,6 +33,7 @@ public final class FeedbackResponsesLogic {
     private FeedbackResponsesDb frDb;
     private UsersLogic usersLogic;
     private FeedbackResponseCommentsLogic feedbackResponseCommentsLogic;
+    private FeedbackQuestionsLogic fqLogic;
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -42,10 +47,11 @@ public final class FeedbackResponsesLogic {
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
     void initLogicDependencies(FeedbackResponsesDb frDb, UsersLogic usersLogic,
-            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic) {
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, FeedbackQuestionsLogic fqLogic) {
         this.frDb = frDb;
         this.usersLogic = usersLogic;
         this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
+        this.fqLogic = fqLogic;
     }
 
     /**
@@ -238,4 +244,96 @@ public final class FeedbackResponsesLogic {
 
         frDb.deleteFeedbackResponse(feedbackResponseToDelete);
     }
+
+    /**
+     * Updates the relevant responses before the deletion of a student.
+     * This method takes care of the following:
+     * <ul>
+     *     <li>
+     *         Making existing responses of 'rank recipient question' consistent.
+     *     </li>
+     * </ul>
+     */
+    public void updateFeedbackResponsesForDeletingStudent(String courseId) {
+        updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
+    }
+
+    private void updateRankRecipientQuestionResponsesAfterDeletingStudent(String courseId) {
+        List<FeedbackQuestion> filteredQuestions =
+                fqLogic.getFeedbackQuestionForCourseWithType(courseId, FeedbackQuestionType.RANK_RECIPIENTS);
+        CourseRoster roster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
+        for (FeedbackQuestion question : filteredQuestions) {
+            makeRankRecipientQuestionResponsesConsistent(question, roster);
+        }
+    }
+
+    // TODO: Below
+    /**
+     * Makes the rankings by one giver in the response to a 'rank recipient question' consistent, after deleting a
+     * student.
+     * <p>
+     *     Fails silently if the question type is not 'rank recipient question'.
+     * </p>
+     */
+    private void makeRankRecipientQuestionResponsesConsistent(
+            FeedbackQuestion question, CourseRoster roster) {
+        if (!question.getQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS)) {
+            return;
+        }
+
+        FeedbackParticipantType giverType = question.getGiverType();
+        List<FeedbackResponse> responses;
+
+        int numberOfRecipients;
+        List<FeedbackResponseAttributes.UpdateOptions> updates = new ArrayList<>();
+
+        switch (giverType) {
+        case INSTRUCTORS:
+        case SELF:
+            for (Instructor instructor : roster.getInstructors()) {
+                numberOfRecipients =
+                        fqLogic.getRecipientsOfQuestion(question, instructor, null, roster).size();
+                responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail());
+                updates.addAll(FeedbackRankRecipientsResponseDetails
+                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
+            }
+            break;
+        case TEAMS:
+        case TEAMS_IN_SAME_SECTION:
+            Student firstMemberOfTeam;
+            String team;
+            Map<String, List<Student>> teams = roster.getTeamToMembersTable();
+            for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
+                team = entry.getKey();
+                firstMemberOfTeam = entry.getValue().get(0);
+                numberOfRecipients =
+                        fqLogic.getRecipientsOfQuestion(question, null, firstMemberOfTeam, roster).size();
+                responses =
+                        getFeedbackResponsesFromTeamForQuestion(question.getId(), question.getCourseId(), team, roster);
+                updates.addAll(FeedbackRankRecipientsResponseDetails
+                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
+            }
+            break;
+        default:
+            for (Student student : roster.getStudents()) {
+                numberOfRecipients =
+                        fqLogic.getRecipientsOfQuestion(question, null, student, roster).size();
+                responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
+                updates.addAll(FeedbackRankRecipientsResponseDetails
+                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
+            }
+            break;
+        }
+
+        for (FeedbackResponseAttributes.UpdateOptions update : updates) {
+            try {
+                frDb.updateFeedbackResponse(update);
+            } catch (EntityAlreadyExistsException | EntityDoesNotExistException | InvalidParametersException e) {
+                assert false : "Exception occurred when updating responses after deleting students.";
+            }
+        }
+    }
+
 }
