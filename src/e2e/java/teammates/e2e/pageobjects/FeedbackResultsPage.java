@@ -107,14 +107,20 @@ public class FeedbackResultsPage extends AppPage {
         verifyTableRowValues(getNumScaleStatistics(questionNum), expectedStats);
     }
 
-    public void verifyRubricStatistics(int questionNum, String[][] expectedStats,
-                                       String[][] expectedStatsExcludingSelf) {
+    public void verifyRubricStatistics(int questionNum, String[][] expectedStats, String[][] expectedStatsExcludingSelf,
+                                       String[][] expectedStatsPerRecipient) {
         WebElement excludeSelfCheckbox = getRubricExcludeSelfCheckbox(questionNum);
         markOptionAsUnselected(excludeSelfCheckbox);
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStats);
 
         markOptionAsSelected(excludeSelfCheckbox);
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStatsExcludingSelf);
+
+        sortRubricPerRecipientStatsPerCriterion(questionNum, 2);
+        verifyTableBodyValues(getRubricPerRecipientStatsPerCriterion(questionNum), expectedStatsPerRecipient);
+
+        sortRubricPerRecipientStatsOverall(questionNum, 2);
+        verifyTableBodyValues(getRubricPerRecipientStatsPerCriterion(questionNum), expectedStatsPerRecipient);
     }
 
     public void verifyContributionStatistics(int questionNum, String[] expectedStats) {
@@ -524,6 +530,22 @@ public class FeedbackResultsPage extends AppPage {
 
     private WebElement getRubricStatistics(int questionNum) {
         return getQuestionResponsesSection(questionNum).findElement(By.id("rubric-statistics"));
+    }
+
+    private WebElement getRubricPerRecipientStatsPerCriterion(int questionNum) {
+        return getQuestionResponsesSection(questionNum).findElement(By.id("rubric-recipient-statistics-per-criterion"));
+    }
+
+    private void sortRubricPerRecipientStatsPerCriterion(int questionNum, int colNum) {
+        click(getRubricPerRecipientStatsPerCriterion(questionNum).findElements(By.tagName("th")).get(colNum - 1));
+    }
+
+    private WebElement getRubricPerRecipientStatsOverall(int questionNum) {
+        return getQuestionResponsesSection(questionNum).findElement(By.id("rubric-recipient-statistics-overall"));
+    }
+
+    private void sortRubricPerRecipientStatsOverall(int questionNum, int colNum) {
+        click(getRubricPerRecipientStatsOverall(questionNum).findElements(By.tagName("th")).get(colNum - 1));
     }
 
     private boolean isCommentByResponseGiver(WebElement commentField) {

@@ -61,25 +61,19 @@ export abstract class InstructorSessionBasePageComponent {
   protected copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string,
       oldCourseId: string): Observable<FeedbackSession> {
     // Local constants
-    const startHour = moment.utc(fromFeedbackSession.submissionStartTimestamp).tz(fromFeedbackSession.timeZone).hours();
-    const endHour = moment(fromFeedbackSession.submissionEndTimestamp).tz(fromFeedbackSession.timeZone).hours();
-    const twoHoursBeforeNow = moment().subtract(2, 'hours')
+    const twoHoursBeforeNow = moment().tz(fromFeedbackSession.timeZone).subtract(2, 'hours')
         .valueOf();
-    const twoDaysFromNowSameHour = moment().tz(fromFeedbackSession.timeZone).add(2, 'days')
-        .set('hour', startHour)
-        .startOf('hour')
+    const twoDaysFromNowRoundedUp = moment().tz(fromFeedbackSession.timeZone).add(2, 'days').startOf('hour')
         .valueOf();
-    const sevenDaysFromNowSameHour = moment().tz(fromFeedbackSession.timeZone).add(7, 'days')
-        .set('hour', endHour)
-        .startOf('hour')
+    const sevenDaysFromNowRoundedUp = moment().tz(fromFeedbackSession.timeZone).add(7, 'days').startOf('hour')
         .valueOf();
     const ninetyDaysFromNow = moment().tz(fromFeedbackSession.timeZone).add(90, 'days')
         .valueOf();
-    const ninetyDaysFromNowRoundedDown = moment().tz(fromFeedbackSession.timeZone).add(90, 'days').startOf('hour')
+    const ninetyDaysFromNowRoundedUp = moment().tz(fromFeedbackSession.timeZone).add(90, 'days').startOf('hour')
         .valueOf();
     const oneHundredAndEightyDaysFromNow = moment().tz(fromFeedbackSession.timeZone).add(180, 'days')
         .valueOf();
-    const oneHundredAndEightyDaysFromNowRoundedDown = moment().tz(fromFeedbackSession.timeZone).add(180, 'days')
+    const oneHundredAndEightyDaysFromNowRoundedUp = moment().tz(fromFeedbackSession.timeZone).add(180, 'days')
         .startOf('hour')
         .valueOf();
 
@@ -88,19 +82,19 @@ export abstract class InstructorSessionBasePageComponent {
 
     let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
     if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {
-      copiedSubmissionStartTimestamp = twoDaysFromNowSameHour;
+      copiedSubmissionStartTimestamp = twoDaysFromNowRoundedUp;
       isModified = true;
     } else if (copiedSubmissionStartTimestamp > ninetyDaysFromNow) {
-      copiedSubmissionStartTimestamp = ninetyDaysFromNowRoundedDown;
+      copiedSubmissionStartTimestamp = ninetyDaysFromNowRoundedUp;
       isModified = true;
     }
 
     let copiedSubmissionEndTimestamp = fromFeedbackSession.submissionEndTimestamp;
     if (copiedSubmissionEndTimestamp < copiedSubmissionStartTimestamp) {
-      copiedSubmissionEndTimestamp = sevenDaysFromNowSameHour;
+      copiedSubmissionEndTimestamp = sevenDaysFromNowRoundedUp;
       isModified = true;
     } else if (copiedSubmissionEndTimestamp > oneHundredAndEightyDaysFromNow) {
-      copiedSubmissionEndTimestamp = oneHundredAndEightyDaysFromNowRoundedDown;
+      copiedSubmissionEndTimestamp = oneHundredAndEightyDaysFromNowRoundedUp;
       isModified = true;
     }
 

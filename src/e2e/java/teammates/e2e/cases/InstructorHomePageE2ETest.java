@@ -100,16 +100,12 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         copiedSession.setCourseId(otherCourse.getId());
         copiedSession.setFeedbackSessionName(newName);
         copiedSession.setCreatedTime(Instant.now());
-        int startHour = ZonedDateTime.ofInstant(copiedSession.getStartTime(), ZoneId.of(copiedSession.getTimeZone()))
-                .getHour();
         copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(2))
-                .withHour(startHour).truncatedTo(ChronoUnit.HOURS).toInstant());
-        int endHour = ZonedDateTime.ofInstant(copiedSession.getEndTime(), ZoneId.of(copiedSession.getTimeZone()))
-                .getHour();
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(7))
-                .withHour(endHour).truncatedTo(ChronoUnit.HOURS).toInstant());
+                .truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setSessionVisibleFromTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone()))
-                .minus(Duration.ofDays(28)).withHour(startHour).truncatedTo(ChronoUnit.HOURS).toInstant());
+                .minus(Duration.ofDays(28)).truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         copiedSession.setTimeZone(otherCourse.getTimeZone());
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
