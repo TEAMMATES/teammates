@@ -27,6 +27,7 @@ import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.sqllogic.api.Logic;
+import teammates.sqllogic.api.SqlEmailGenerator;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -45,6 +46,7 @@ public abstract class Action {
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
     EmailGenerator emailGenerator = EmailGenerator.inst();
+    SqlEmailGenerator sqlEmailGenerator = SqlEmailGenerator.inst();
     TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
@@ -103,6 +105,10 @@ public abstract class Action {
 
     public void setLogsProcessor(LogsProcessor logsProcessor) {
         this.logsProcessor = logsProcessor;
+    }
+
+    public void setSqlEmailGenerator(SqlEmailGenerator sqlEmailGenerator) {
+        this.sqlEmailGenerator = sqlEmailGenerator;
     }
 
     /**
