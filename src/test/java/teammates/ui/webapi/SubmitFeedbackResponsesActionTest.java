@@ -787,7 +787,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] submissionParams = buildSubmissionParams(question, Intent.STUDENT_SUBMISSION);
 
         List<StudentAttributes> recipients = getStudents("student3InCourse1");
-        FeedbackResponsesRequest requestBody = this.buildRequestBodyWithStudentRecipientsEmail(recipients);
+        FeedbackResponsesRequest requestBody = buildRequestBodyWithStudentRecipientsEmail(recipients);
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
         validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), recipients);
@@ -863,7 +863,3 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
 }
-
-
-
-
