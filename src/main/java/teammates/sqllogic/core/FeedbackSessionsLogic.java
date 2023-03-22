@@ -26,11 +26,8 @@ public final class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
             + "Session has already been published.";
-<<<<<<< HEAD
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
             + "Session has already been unpublished.";
-=======
->>>>>>> v9-migration
 
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
