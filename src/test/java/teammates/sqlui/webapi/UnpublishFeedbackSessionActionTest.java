@@ -1,7 +1,13 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.when;
+
+import java.time.Duration;
+import java.time.Instant;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -16,11 +22,6 @@ import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UnpublishFeedbackSessionAction;
-
-import java.time.Duration;
-import java.time.Instant;
-
-import static org.mockito.Mockito.when;
 
 /**
  * SUT: {@link UnpublishFeedbackSessionAction}.
