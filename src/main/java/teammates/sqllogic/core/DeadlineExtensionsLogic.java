@@ -97,10 +97,11 @@ public final class DeadlineExtensionsLogic {
      *
      * <p>Fails silently if the deadline extension doesn't exist.</p>
      */
-    public void deleteDeadlineExtensions(String courseId, String userEmail, boolean isInstructor) {
+    public void deleteDeadlineExtensionsForCourseAndEmail(String courseId, String userEmail) {
         assert courseId != null;
         assert userEmail != null;
 
-        deadlineExtensionsDb.deleteDeadlineExtensions(courseId, userEmail, isInstructor);
+        deadlineExtensionsDb.deleteDeadlineExtensionsForCourseAndEmail(courseId, userEmail);
     }
+
 }

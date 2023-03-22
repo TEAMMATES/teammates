@@ -143,7 +143,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
     /**
      * Deletes deadline extensions associated with {@code courseId} and {@code userEmail}.
      */
-    public void deleteDeadlineExtensions(String courseId, String userEmail, boolean isInstructor) {
+    public void deleteDeadlineExtensionsForCourseAndEmail(String courseId, String userEmail) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
         Root<DeadlineExtension> deadlineExtensionRoot = cr.from(DeadlineExtension.class);

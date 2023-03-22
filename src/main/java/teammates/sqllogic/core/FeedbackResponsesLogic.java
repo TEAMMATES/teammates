@@ -35,6 +35,8 @@ public final class FeedbackResponsesLogic {
     private FeedbackResponseCommentsLogic feedbackResponseCommentsLogic;
     private FeedbackQuestionsLogic fqLogic;
 
+    private UsersLogic uLogic;
+
     private FeedbackResponsesLogic() {
         // prevent initialization
     }
@@ -52,6 +54,7 @@ public final class FeedbackResponsesLogic {
         this.usersLogic = usersLogic;
         this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.fqLogic = fqLogic;
+        this.uLogic = uLogic;
     }
 
     /**
@@ -262,14 +265,13 @@ public final class FeedbackResponsesLogic {
         List<FeedbackQuestion> filteredQuestions =
                 fqLogic.getFeedbackQuestionForCourseWithType(courseId, FeedbackQuestionType.RANK_RECIPIENTS);
         CourseRoster roster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(courseId),
-                instructorsLogic.getInstructorsForCourse(courseId));
+                uLogic.getStudentsForCourse(courseId),
+                uLogic.getInstructorsForCourse(courseId));
         for (FeedbackQuestion question : filteredQuestions) {
             makeRankRecipientQuestionResponsesConsistent(question, roster);
         }
     }
 
-    // TODO: Below
     /**
      * Makes the rankings by one giver in the response to a 'rank recipient question' consistent, after deleting a
      * student.

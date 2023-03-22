@@ -4,10 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -307,56 +305,21 @@ public final class FeedbackSessionsLogic {
     }
     
     /**
-     * Deletes the student email address for all their deadlines in the feedback sessions of the given course.
+     * Deletes the user email address for all their deadlines in the feedback sessions of the given course.
      */
-    public void deleteFeedbackSessionsDeadlinesForStudent(String courseId, String emailAddress) {
-        deleteFeedbackSessionsDeadlinesForUser(courseId, emailAddress, false);
-    }
-
-    private void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor) {
-        updateFeedbackSessionsDeadlinesForUser(courseId, emailAddress, isInstructor,
-                deadlines -> deadlines.remove(emailAddress));
-    }
-
-    private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor,
-            Consumer<Map<String, Instant>> deadlinesUpdater) {
-        List<FeedbackSession> feedbackSessions = fsDb.getFeedbackSessionEntitiesForCourse(courseId)
-                .stream()
-                .filter(session -> !session.isSessionDeleted())
-                .collect(Collectors.toList());
-
+    public void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress) {
+        List<FeedbackSession> feedbackSessions = fsDb.getFeedbackSessionEntitiesForCourse(courseId);
+        
         feedbackSessions.forEach(feedbackSession -> {
-            if (isInstructor) {
-                if (!instructorDeadlines.containsKey(emailAddress)) {
-                    return;
-                }
+            List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
 
-                deadlinesUpdater.accept(instructorDeadlines);
-                updateOptionsBuilder.withInstructorDeadlines(instructorDeadlines);
-            }
+            deadlineExtensions
+                    .stream()
+                    .filter(deadlineExtension ->
+                            deadlineExtension.getUser().getEmail().equalsIgnoreCase(emailAddress));
 
-            FeedbackSessionAttributes.UpdateOptions.Builder updateOptionsBuilder = FeedbackSessionAttributes
-                    .updateOptionsBuilder(feedbackSession.getFeedbackSessionName(), courseId);
-            if (isInstructor) {
-                Map<String, Instant> instructorDeadlines = feedbackSession.getInstructorDeadlines();
-                if (!instructorDeadlines.containsKey(emailAddress)) {
-                    return;
-                }
-                deadlinesUpdater.accept(instructorDeadlines);
-                updateOptionsBuilder.withInstructorDeadlines(instructorDeadlines);
-            } else {
-                Map<String, Instant> studentDeadlines = feedbackSession.getStudentDeadlines();
-                if (!studentDeadlines.containsKey(emailAddress)) {
-                    return;
-                }
-                deadlinesUpdater.accept(studentDeadlines);
-                updateOptionsBuilder.withStudentDeadlines(studentDeadlines);
-            }
-            try {
-                fsDb.updateFeedbackSession(updateOptionsBuilder.build());
-            } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                // Both Exceptions should not be thrown.
-                log.severe("Unexpected error", e);
+            for (DeadlineExtension deadlineExtension : deadlineExtensions) {
+                deLogic.deleteDeadlineExtension(deadlineExtension);
             }
         });
     }
