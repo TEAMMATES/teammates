@@ -19,7 +19,7 @@
       <div id="options-section" cdkDropList (cdkDropListDropped)="onMsqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div class="margin-top-22px d-flex" *ngFor="let num of model.msqChoices; let i = index; trackBy: trackMsqOption" cdkDrag cdkDragLockAxis="y">
           <br>
-          <div cdkDragHandle>
+          <div cdkDragHandle aria-hidden="true">
             <span class="btn input-group-addon">&#8597; </span>
           </div>
           <div class="flex-grow-1">
@@ -30,7 +30,7 @@
                           [numberOfMsqChoices]="model.msqChoices.length"
                           [text]="model.msqChoices[i]"></tm-msq-field>
           </div>
-          <div class="col-md-3" *ngIf="model.hasAssignedWeights">
+          <div class="col-2" *ngIf="model.hasAssignedWeights">
             <tm-weight-field [isEditable]="isEditable"
                              [weight]="model.msqWeights[i]"
                              (weightEntered)="onMsqWeightEntered($event, i)"></tm-weight-field>
@@ -38,15 +38,14 @@
         </div>
         <br>
       </div>
-      <div>
+      <div class="mb-2">
         <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
                 [disabled]="!isEditable" (click)="increaseNumberOfMsqOptions()">
           <i class="fas fa-plus"></i> Add More Options
         </button>
       </div>
-      <br/>
-      <div>
-        <div class="checkbox padding-left-35px">
+      <div class="mb-2 ps-5">
+        <div class="checkbox">
           <label class="bold-label">
             <input id="other-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.otherEnabled"
                    (ngModelChange)="triggerOtherEnabled($event)" [disabled]="!isEditable">
@@ -60,36 +59,42 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6 col-lg-5 col-lg-offset-1 form-check">
-    <label class="form-check-label">
-      <input id="generate-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
-             [ngModel]="isGeneratedOptionsEnabled"
-             (ngModelChange)="triggerGeneratedOptionsChange($event)">
-      <b>Or, generate options from the list of all</b>
-    </label>
+  <div class="col-md-6 col-lg-5 col-lg-offset-1 form">
+    <div class="form-check">
+      <label class="form-check-label">
+        <input id="generate-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
+              [ngModel]="isGeneratedOptionsEnabled"
+              (ngModelChange)="triggerGeneratedOptionsChange($event)">
+        <b>Or, generate options from the list of all</b>
+      </label>
+    </div>
     <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
             [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
       <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option | generatedChoice }}</option>
     </select>
     <br>
-    <label class="form-check-label">
-      <input id="max-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
-             [ngModel]="isMaxSelectableChoicesEnabled"
-             (ngModelChange)="triggerMaxSelectableOptionsChange($event)">
-      <b>Maximum number of options a respondent is allowed to select</b>
-    </label>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input id="max-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
+              [ngModel]="isMaxSelectableChoicesEnabled"
+              (ngModelChange)="triggerMaxSelectableOptionsChange($event)">
+        <b>Maximum number of options a respondent is allowed to select</b>
+      </label>
+    </div>
     <input id="max-options" type="number" class="form-control" [disabled]="!isMaxSelectableChoicesEnabled || !isEditable"
            [ngModel]="displayValueForMaxSelectableOption"
            (ngModelChange)="triggerModelChange('maxSelectableChoices', $event)"
            [min]="isMinSelectableChoicesEnabled ? model.minSelectableChoices : 2"
            [max]="totalSelectableChoices">
     <br>
-    <label class="form-check-label">
-      <input id="min-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
-             [ngModel]="isMinSelectableChoicesEnabled"
-             (ngModelChange)="triggerMinSelectableOptionsChange($event)">
-      <b>Minimum number of options a respondent is allowed to select</b>
-    </label>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input id="min-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
+              [ngModel]="isMinSelectableChoicesEnabled"
+              (ngModelChange)="triggerMinSelectableOptionsChange($event)">
+        <b>Minimum number of options a respondent is allowed to select</b>
+      </label>
+    </div>
     <input id="min-options" type="number" class="form-control" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"
            [ngModel]="displayValueForMinSelectableOption"
            (ngModelChange)="triggerModelChange('minSelectableChoices', $event)" min="1" [max]="maxMinSelectableValue">
