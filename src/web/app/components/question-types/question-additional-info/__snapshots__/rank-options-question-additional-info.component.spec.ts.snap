@@ -2,7 +2,7 @@
 
 exports[`RankOptionsQuestionAdditionalInfoComponent should show options 1`] = `
 <tm-rank-options-question-additional-info
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   questionDetails={[Function Object]}
 >
   Rank (options) question options:
@@ -22,7 +22,7 @@ exports[`RankOptionsQuestionAdditionalInfoComponent should show options 1`] = `
 
 exports[`RankOptionsQuestionAdditionalInfoComponent should snap with default view 1`] = `
 <tm-rank-options-question-additional-info
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   questionDetails={[Function Object]}
 >
   Rank (options) question options:

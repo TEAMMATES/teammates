@@ -1,0 +1,43 @@
+name: Pull Request Checker
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+    branches:
+      - master
+
+jobs:
+  check-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+    - uses: actions/github-script@v6
+      with:
+        script: |
+          const pr = await github.rest.pulls.get({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.issue.number
+          })
+          const isTitleValid = /^\[#\d+\] /.test(pr.data.title)
+          const isDescriptionValid = /([Ff]ix(es|ed)?|[Cc]lose(s|d)?|[Rr]esolve(s|d)?|[Pp]art [Oo]f) #\d+/.test(pr.data.body)
+          if (isTitleValid && isDescriptionValid) {
+            return
+          }
+          let body = `Hi @${pr.data.user.login}, thank you for your interest in contributing to TEAMMATES!
+            However, your PR does not appear to follow our [contribution guidelines](https://teammates.github.io/teammates/process.html#step-4-submit-a-pr):\n\n`
+          if (!isTitleValid) {
+            body += "- Title must start with the issue number the PR is fixing in square brackets, e.g. `[#<issue-number>]`\n"
+          }
+          if (!isDescriptionValid) {
+            body += "- Description must reference the issue number the PR is fixing, e.g. `Fixes #<issue-number>` (or `Part of #<issue-number>` if the PR does not address the issue fully)\n"
+          }
+          body += "\nPlease address the above before we proceed to review your PR."
+          await github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body,
+          })

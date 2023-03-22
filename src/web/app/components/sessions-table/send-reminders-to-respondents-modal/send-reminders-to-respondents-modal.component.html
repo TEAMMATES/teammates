@@ -4,20 +4,20 @@
       <i class="fas fa-exclamation-circle margin-right-5px"></i>Remind Particular Students or Instructors in {{ feedbackSessionName }}
       <small>(select the student(s) or instructor(s) you want to remind)</small>
     </h5>
-    <div class="form-check form-check-inline" *ngIf="studentListInfoTableRowModels.length > 0">
+    <div *ngIf="studentListInfoTableRowModels.length > 0">
       <input id="remindAllStu" class="form-check-input" type="checkbox" [ngModel]="isAllStudentsSelected" (ngModelChange)="changeSelectionStatusForAllStudentsHandler($event)"/>
       <label for="remindAllStu" class="remind-all form-check-label">Select all students</label>
       <input id="remindNotSubmittedStu" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitStudentsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedStudentsHandler($event)"/>
       <label for="remindNotSubmittedStu" class="form-check-label">Select all students not yet submitted</label>
     </div>
-    <div class="form-check form-check-inline" *ngIf="instructorListInfoTableRowModels.length > 0">
+    <div *ngIf="instructorListInfoTableRowModels.length > 0">
       <input id="remindAllIns" class="form-check-input" type="checkbox" [ngModel]="isAllInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllInstructorsHandler($event)"/>
       <label for="remindAllIns" class="remind-all form-check-label">Select all instructors</label>
       <input id="remindNotSubmittedIns" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedInstructorsHandler($event)"/>
       <label for="remindNotSubmittedIns" class="form-check-label">Select all instructors not yet submitted</label>
     </div>
   </div>
-  <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
   <div class="table-responsive" *ngIf="studentListInfoTableRowModels.length > 0; else noRespondentsToRemind">
@@ -28,7 +28,7 @@
     ></tm-respondent-list-info-table>
   </div>
   <ng-template #noRespondentsToRemind>
-    <h4 class="p-2 bg-info text-white">
+    <h4 class="p-2 bg-info">
       There are no participants to remind.
     </h4>
   </ng-template>
@@ -38,6 +38,6 @@
     <input id="sendCopyToIns" class="form-check-input" type="checkbox" [ngModel]="isSendingCopyToInstructor" (ngModelChange)="changeSelectionStatusForSendingCopyToInstructorHandler($event)"/>
     <label for="sendCopyToIns" class="form-check-label">Send me a copy</label>
   </span>
-  <button type="button" class="btn btn-light mr-2" (click)="activeModal.dismiss()">Cancel</button>
+  <button type="button" class="btn btn-light me-2" (click)="activeModal.dismiss()">Cancel</button>
   <button id="btn-confirm-send-reminder" type="button" class="btn btn-primary" (click)="activeModal.close(collateReminderResponseHandler())">Remind</button>
 </div>

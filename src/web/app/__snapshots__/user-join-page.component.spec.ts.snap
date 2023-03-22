@@ -2,7 +2,7 @@
 
 exports[`UserJoinPageComponent should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -46,7 +46,7 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
 
 exports[`UserJoinPageComponent should snap with default fields 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -84,7 +84,7 @@ exports[`UserJoinPageComponent should snap with default fields 1`] = `
 
 exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -128,7 +128,7 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 
 exports[`UserJoinPageComponent should snap with valid course join link that has been used 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -172,7 +172,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
 
 exports[`UserJoinPageComponent should snap with valid course join link that has not been used 1`] = `
 <tm-user-join-page
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}

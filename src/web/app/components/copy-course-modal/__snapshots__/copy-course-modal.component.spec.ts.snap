@@ -4,7 +4,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -35,13 +35,9 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
       </div>
     </h5>
     <button
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <i
-        class="fas fa-times"
-      />
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-course-modal"
@@ -109,7 +105,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
             class="input-group"
           >
             <select
-              class="form-control ng-untouched ng-pristine ng-valid"
+              class="form-control form-select ng-untouched ng-pristine ng-valid"
               id="copy-course-institute"
             >
             </select>
@@ -132,7 +128,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
             class="input-group"
           >
             <select
-              class="form-control ng-untouched ng-pristine ng-valid"
+              class="form-control form-select ng-untouched ng-pristine ng-valid"
               id="copy-time-zone"
             >
               <option
@@ -168,7 +164,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
             class="input-group"
           >
             <select
-              class="form-control ng-untouched ng-pristine ng-valid"
+              class="form-control form-select ng-untouched ng-pristine ng-valid"
               id="course-to-copy-from"
             >
             </select>
@@ -201,7 +197,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -237,13 +233,9 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
       </small>
     </h5>
     <button
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <i
-        class="fas fa-times"
-      />
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-course-modal"
@@ -311,7 +303,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
             class="input-group"
           >
             <select
-              class="form-control ng-untouched ng-pristine ng-valid"
+              class="form-control form-select ng-untouched ng-pristine ng-valid"
               id="copy-course-institute"
             >
             </select>
@@ -334,7 +326,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
             class="input-group"
           >
             <select
-              class="form-control ng-untouched ng-pristine ng-valid"
+              class="form-control form-select ng-untouched ng-pristine ng-valid"
               id="copy-time-zone"
             >
               <option
@@ -387,7 +379,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
-  __ngContext__={[Function LRootView]}
+  __ngContext__={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -423,13 +415,9 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
       </small>
     </h5>
     <button
-      class="close"
+      class="btn-close"
       type="button"
-    >
-      <i
-        class="fas fa-times"
-      />
-    </button>
+    />
   </div><div
     class="modal-body"
     id="copy-course-modal"
@@ -497,7 +485,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
             class="input-group"
           >
             <select
-              class="form-control ng-untouched ng-pristine ng-valid"
+              class="form-control form-select ng-untouched ng-pristine ng-valid"
               id="copy-course-institute"
             >
             </select>
@@ -520,7 +508,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
             class="input-group"
           >
             <select
-              class="form-control ng-untouched ng-pristine ng-valid"
+              class="form-control form-select ng-untouched ng-pristine ng-valid"
               id="copy-time-zone"
             >
               <option

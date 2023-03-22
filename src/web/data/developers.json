@@ -104,6 +104,10 @@
       "username": "The-Lady"
     },
     {
+      "name": "Akanksha",
+      "username": "asn001013"
+    },
+    {
       "name": "Akash Deep",
       "username": "akash1994deep"
     },
@@ -185,6 +189,7 @@
       "username": "Andrew-Lev"
     },
     {
+      "multiple": true,
       "name": "André Alves",
       "username": "andremralves"
     },
@@ -359,6 +364,10 @@
     {
       "name": "Carson Shoupe",
       "username": "carsonshoupe"
+    },
+    {
+      "name": "Cedric Ong",
+      "username": "cedricongjh"
     },
     {
       "multiple": true,
@@ -578,6 +587,9 @@
       "username": "eliotw"
     },
     {
+      "username": "ellaella12"
+    },
+    {
       "username": "Emp923"
     },
     {
@@ -587,6 +599,10 @@
     {
       "name": "Erik Dodge",
       "username": "dodgees"
+    },
+    {
+      "name": "Erik Hellman",
+      "username": "Trumerik"
     },
     {
       "name": "Ethan Gallagher",
@@ -1276,6 +1292,10 @@
       "username": "Naman-sopho"
     },
     {
+      "name": "Napawan Srisuksawad",
+      "username": "ohmoomtang"
+    },
+    {
       "multiple": true,
       "name": "Nashmia Riaz",
       "username": "nashmia-riaz"
@@ -1291,6 +1311,15 @@
     {
       "name": "Nathan Baihly",
       "username": "ncbaihly"
+    },
+    {
+      "multiple": true,
+      "name": "Naveen Joy",
+      "username": "NaveenJoyGit"
+    },
+    {
+      "name": "Neo Wei Qing",
+      "username": "weiquu"
     },
     {
       "multiple": true,
@@ -1797,6 +1826,10 @@
       "username": "sudarsangp"
     },
     {
+      "name": "Sudarshan Hegde",
+      "username": "SudarshanSirsi"
+    },
+    {
       "multiple": true,
       "name": "Suhas Bhatt",
       "username": "suhas355"
@@ -1805,6 +1838,10 @@
       "major": true,
       "name": "Sujeet Kumar",
       "username": "sujeet14108"
+    },
+    {
+      "name": "Sumit Shinde",
+      "username": "sumitshinde-84"
     },
     {
       "multiple": true,
@@ -1942,6 +1979,10 @@
       "username": "thngkaiyuan"
     },
     {
+      "name": "Tillman Jex",
+      "username": "tjex"
+    },
+    {
       "username": "tlhuynh"
     },
     {
@@ -2025,6 +2066,10 @@
       "multiple": true,
       "name": "Vishnu H Nair",
       "username": "malayaleecoder"
+    },
+    {
+      "name": "Vitor Manoel",
+      "username": "vitormanoel17"
     },
     {
       "multiple": true,
