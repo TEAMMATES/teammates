@@ -3,12 +3,13 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 
 /**
  * Action: deletes a student from a course.
  */
-class DeleteStudentAction extends Action {
+public class DeleteStudentAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -26,9 +27,18 @@ class DeleteStudentAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+
+        if (!isCourseMigrated(courseId)) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+            gateKeeper.verifyAccessible(
+                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+
+            return;
+        }
+
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
