@@ -15,7 +15,7 @@ import teammates.ui.output.FeedbackSessionData;
 /**
  * Unpublish a feedback session.
  */
-class UnpublishFeedbackSessionAction extends Action {
+public class UnpublishFeedbackSessionAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 

@@ -10,6 +10,9 @@ import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.JsonUtils;
 
 import jakarta.persistence.AttributeConverter;
@@ -87,20 +90,55 @@ public abstract class BaseEntity {
     }
 
     /**
-     * Generic attribute converter for classes stored in JSON.
+     * Converter for {@code FeedbackQuestionDetails} stored in JSON.
      *
-     * @param <T> The type of entity to be converted to and from JSON.
      */
     @Converter
-    public static class JsonConverter<T> implements AttributeConverter<T, String> {
+    public static class FeedbackQuestionDetailsConverter implements AttributeConverter<FeedbackQuestionDetails, String> {
         @Override
-        public String convertToDatabaseColumn(T entity) {
+        public String convertToDatabaseColumn(FeedbackQuestionDetails entity) {
             return JsonUtils.toJson(entity);
         }
 
         @Override
-        public T convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<T>() {
+        public FeedbackQuestionDetails convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackQuestionDetails>() {
+            }.getType());
+        }
+    }
+
+    /**
+     * Converter for {@code FeedbackResponseDetails} stored in JSON.
+     *
+     */
+    @Converter
+    public static class FeedbackResponseDetailsConverter implements AttributeConverter<FeedbackResponseDetails, String> {
+        @Override
+        public String convertToDatabaseColumn(FeedbackResponseDetails entity) {
+            return JsonUtils.toJson(entity);
+        }
+
+        @Override
+        public FeedbackResponseDetails convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackResponseDetails>() {
+            }.getType());
+        }
+    }
+
+    /**
+     * Converter for {@code FeedbackQuestionType} stored in JSON.
+     *
+     */
+    @Converter
+    public static class FeedbackQuestionTypeConverter implements AttributeConverter<FeedbackQuestionType, String> {
+        @Override
+        public String convertToDatabaseColumn(FeedbackQuestionType entity) {
+            return JsonUtils.toJson(entity);
+        }
+
+        @Override
+        public FeedbackQuestionType convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackQuestionType>() {
             }.getType());
         }
     }
@@ -109,9 +147,18 @@ public abstract class BaseEntity {
      * Attribute converter between FeedbackParticipantType and JSON.
      */
     @Converter
-    public static class FeedbackParticipantTypeConverter
-            extends JsonConverter<FeedbackParticipantType> {
+    public static class FeedbackParticipantTypeConverter implements AttributeConverter<FeedbackParticipantType, String> {
 
+        @Override
+        public String convertToDatabaseColumn(FeedbackParticipantType attribute) {
+            return JsonUtils.toJson(attribute);
+        }
+
+        @Override
+        public FeedbackParticipantType convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackParticipantType>() {
+            }.getType());
+        }
     }
 
     /**
@@ -119,8 +166,18 @@ public abstract class BaseEntity {
      */
     @Converter
     public static class FeedbackParticipantTypeListConverter
-            extends JsonConverter<List<FeedbackParticipantType>> {
+            implements AttributeConverter<List<FeedbackParticipantType>, String> {
 
+        @Override
+        public String convertToDatabaseColumn(List<FeedbackParticipantType> attribute) {
+            return JsonUtils.toJson(attribute);
+        }
+
+        @Override
+        public List<FeedbackParticipantType> convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeToken<List<FeedbackParticipantType>>() {
+            }.getType());
+        }
     }
 
     /**

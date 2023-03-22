@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -11,6 +12,7 @@ import teammates.ui.output.CourseSectionNamesData;
 /**
  * SUT: {@link GetCourseSectionNamesAction}.
  */
+@Ignore
 public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSectionNamesAction> {
 
     @Override

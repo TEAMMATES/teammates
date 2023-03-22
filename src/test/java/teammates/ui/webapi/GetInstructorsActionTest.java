@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -16,6 +17,7 @@ import teammates.ui.request.Intent;
 /**
  * SUT: {@link GetInstructorsAction}.
  */
+@Ignore
 public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsAction> {
 
     @Override

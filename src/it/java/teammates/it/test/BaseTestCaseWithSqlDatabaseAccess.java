@@ -30,6 +30,7 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -136,6 +137,11 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             FeedbackSession actualSession = (FeedbackSession) actual;
             equalizeIrrelevantData(expectedSession, actualSession);
             assertEquals(JsonUtils.toJson(expectedSession), JsonUtils.toJson(actualSession));
+        } else if (expected instanceof FeedbackQuestion) {
+            FeedbackQuestion expectedQuestion = (FeedbackQuestion) expected;
+            FeedbackQuestion actualQuestion = (FeedbackQuestion) actual;
+            equalizeIrrelevantData(expectedQuestion, actualQuestion);
+            assertEquals(JsonUtils.toJson(expectedQuestion), JsonUtils.toJson(actualQuestion));
         } else if (expected instanceof Notification) {
             Notification expectedNotification = (Notification) expected;
             Notification actualNotification = (Notification) actual;
@@ -221,6 +227,12 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     }
 
     private void equalizeIrrelevantData(FeedbackSession expected, FeedbackSession actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+    private void equalizeIrrelevantData(FeedbackQuestion expected, FeedbackQuestion actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());

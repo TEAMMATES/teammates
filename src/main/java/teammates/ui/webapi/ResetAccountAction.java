@@ -4,11 +4,13 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Action: resets an account ID.
  */
-class ResetAccountAction extends AdminOnlyAction {
+public class ResetAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
@@ -21,35 +23,93 @@ class ResetAccountAction extends AdminOnlyAction {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String wrongGoogleId = null;
-        if (studentEmail != null) {
-            StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
-            if (existingStudent == null) {
-                throw new EntityNotFoundException("Student does not exist.");
-            }
-            wrongGoogleId = existingStudent.getGoogleId();
 
-            try {
-                logic.resetStudentGoogleId(studentEmail, courseId);
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
-            }
-        } else if (instructorEmail != null) {
-            InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
-            if (existingInstructor == null) {
-                throw new EntityNotFoundException("Instructor does not exist.");
-            }
-            wrongGoogleId = existingInstructor.getGoogleId();
+        if (isCourseMigrated(courseId)) {
+            if (studentEmail != null) {
+                Student existingStudent = sqlLogic.getStudentForEmail(courseId, studentEmail);
 
-            try {
-                logic.resetInstructorGoogleId(instructorEmail, courseId);
-                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
+                if (existingStudent == null) {
+                    throw new EntityNotFoundException("Student does not exist.");
+                }
+
+                wrongGoogleId = existingStudent.getGoogleId();
+
+                try {
+                    if (isAccountMigrated(wrongGoogleId)) {
+                        sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
+                    } else {
+                        logic.resetStudentGoogleId(studentEmail, courseId);
+                    }
+
+                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
+                }
+            } else if (instructorEmail != null) {
+                Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
+
+                if (existingInstructor == null) {
+                    throw new EntityNotFoundException("Instructor does not exist.");
+                }
+
+                wrongGoogleId = existingInstructor.getGoogleId();
+
+                try {
+                    if (isAccountMigrated(wrongGoogleId)) {
+                        sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
+                    } else {
+                        logic.resetInstructorGoogleId(instructorEmail, courseId);
+                    }
+
+                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
+                }
+            }
+        } else {
+            if (studentEmail != null) {
+                StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
+                if (existingStudent == null) {
+                    throw new EntityNotFoundException("Student does not exist.");
+                }
+
+                wrongGoogleId = existingStudent.getGoogleId();
+
+                try {
+                    if (isAccountMigrated(wrongGoogleId)) {
+                        sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
+                    } else {
+                        logic.resetStudentGoogleId(studentEmail, courseId);
+                    }
+
+                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
+                }
+            } else if (instructorEmail != null) {
+                InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
+                if (existingInstructor == null) {
+                    throw new EntityNotFoundException("Instructor does not exist.");
+                }
+
+                wrongGoogleId = existingInstructor.getGoogleId();
+
+                try {
+                    if (isAccountMigrated(wrongGoogleId)) {
+                        sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
+                    } else {
+                        logic.resetInstructorGoogleId(instructorEmail, courseId);
+                    }
+
+                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+                } catch (EntityDoesNotExistException e) {
+                    throw new EntityNotFoundException(e);
+                }
             }
         }
 
         if (wrongGoogleId != null
+                && !isAccountMigrated(wrongGoogleId)
                 && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             logic.deleteAccountCascade(wrongGoogleId);

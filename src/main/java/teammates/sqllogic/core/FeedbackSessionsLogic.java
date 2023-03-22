@@ -128,6 +128,30 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Publishes a feedback session.
+     *
+     * @return the published feedback session
+     * @throws InvalidParametersException if session is already published
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     */
+    public FeedbackSession publishFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        FeedbackSession sessionToPublish = getFeedbackSession(feedbackSessionName, courseId);
+
+        if (sessionToPublish == null) {
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
+        }
+        if (sessionToPublish.isPublished()) {
+            throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
+        }
+
+        sessionToPublish.setResultsVisibleFromTime(Instant.now());
+
+        return sessionToPublish;
+    }
+
+    /**
      * Returns true if there are any questions for the specified user type (students/instructors) to answer.
      */
     public boolean isFeedbackSessionForUserTypeToAnswer(FeedbackSession session, boolean isInstructor) {

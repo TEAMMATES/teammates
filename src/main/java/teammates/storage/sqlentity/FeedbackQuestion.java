@@ -9,8 +9,17 @@ import java.util.UUID;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.util.FieldValidator;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -31,7 +40,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "FeedbackQuestions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class FeedbackQuestion extends BaseEntity {
+public abstract class FeedbackQuestion extends BaseEntity implements Comparable<FeedbackQuestion> {
     @Id
     private UUID id;
 
@@ -47,13 +56,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
 
     @Column(nullable = false)
     private String description;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private FeedbackQuestionType questionType;
-
-    @Column(nullable = false)
-    private String questionText;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -88,8 +90,7 @@ public abstract class FeedbackQuestion extends BaseEntity {
 
     public FeedbackQuestion(
             FeedbackSession feedbackSession, Integer questionNumber,
-            String description, FeedbackQuestionType questionType,
-            String questionText, FeedbackParticipantType giverType,
+            String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo
     ) {
@@ -97,14 +98,98 @@ public abstract class FeedbackQuestion extends BaseEntity {
         this.setFeedbackSession(feedbackSession);
         this.setQuestionNumber(questionNumber);
         this.setDescription(description);
-        this.setQuestionType(questionType);
-        this.setQuestionText(questionText);
         this.setGiverType(giverType);
         this.setRecipientType(recipientType);
         this.setNumOfEntitiesToGiveFeedbackTo(numOfEntitiesToGiveFeedbackTo);
         this.setShowResponsesTo(showResponsesTo);
         this.setShowGiverNameTo(showGiverNameTo);
         this.setShowRecipientNameTo(showRecipientNameTo);
+    }
+
+    /**
+     * Gets a copy of the question details of the feedback question.
+     */
+    public abstract FeedbackQuestionDetails getQuestionDetailsCopy();
+
+    /**
+     * Creates a feedback question according to its {@code FeedbackQuestionType}.
+     */
+    public static FeedbackQuestion makeQuestion(
+            FeedbackSession feedbackSession, Integer questionNumber,
+            String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
+            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
+            FeedbackQuestionDetails feedbackQuestionDetails
+    ) {
+        FeedbackQuestion feedbackQuestion = null;
+        switch (feedbackQuestionDetails.getQuestionType()) {
+        case TEXT:
+            feedbackQuestion = new FeedbackTextQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case MCQ:
+            feedbackQuestion = new FeedbackMcqQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case MSQ:
+            feedbackQuestion = new FeedbackMsqQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case NUMSCALE:
+            feedbackQuestion = new FeedbackNumericalScaleQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case CONSTSUM:
+        case CONSTSUM_OPTIONS:
+        case CONSTSUM_RECIPIENTS:
+            feedbackQuestion = new FeedbackConstantSumQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case CONTRIB:
+            feedbackQuestion = new FeedbackContributionQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case RUBRIC:
+            feedbackQuestion = new FeedbackRubricQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case RANK_OPTIONS:
+            feedbackQuestion = new FeedbackRankOptionsQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case RANK_RECIPIENTS:
+            feedbackQuestion = new FeedbackRankRecipientsQuestion(
+                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        }
+        return feedbackQuestion;
     }
 
     @Override
@@ -158,22 +243,6 @@ public abstract class FeedbackQuestion extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public FeedbackQuestionType getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionType(FeedbackQuestionType questionType) {
-        this.questionType = questionType;
-    }
-
-    public String getQuestionText() {
-        return questionText;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
     }
 
     public FeedbackParticipantType getGiverType() {
@@ -235,12 +304,28 @@ public abstract class FeedbackQuestion extends BaseEntity {
     @Override
     public String toString() {
         return "Question [id=" + id + ", questionNumber=" + questionNumber + ", description=" + description
-                + ", questionType=" + questionType
-                + ", questionText=" + questionText + ", giverType=" + giverType + ", recipientType=" + recipientType
+                + ", giverType=" + giverType + ", recipientType=" + recipientType
                 + ", numOfEntitiesToGiveFeedbackTo=" + numOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                 + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo + ", showRecipientNameTo="
                 + showRecipientNameTo + ", isClosingEmailEnabled=" + ", createdAt=" + getCreatedAt() + ", updatedAt="
                 + updatedAt + "]";
+    }
+
+    @Override
+    public int compareTo(FeedbackQuestion o) {
+        if (o == null) {
+            return 1;
+        }
+
+        if (!this.questionNumber.equals(o.questionNumber)) {
+            return Integer.compare(this.questionNumber, o.questionNumber);
+        }
+        // Although question numbers ought to be unique in a feedback session,
+        // eventual consistency can result in duplicate questions numbers.
+        // Therefore, to ensure that the question order is always consistent to the user,
+        // compare feedbackQuestionId, which is guaranteed to be unique,
+        // when the questionNumbers are the same.
+        return this.id.compareTo(o.id);
     }
 
     @Override
