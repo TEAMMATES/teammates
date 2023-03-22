@@ -65,7 +65,7 @@
         </div>
         <div class="col-md-3" *ngIf="model.hasAssignedWeights && model.otherEnabled">
           <input id="other-weight" type="number" class="form-control" step="0.01" min="0" [ngModel]="model.mcqOtherWeight"
-                (ngModelChange)="triggerModelChange('mcqOtherWeight', $event)" [disabled]="!isEditable">
+                (ngModelChange)="triggerModelChange('mcqOtherWeight', $event)" [disabled]="!isEditable" aria-label="Option Weight">
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
       </label>
     </div>
     <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
-          [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
+          [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)" aria-label="Generate Option List Dropdown">
       <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option | generatedChoice }}</option>
     </select>
   </div>
