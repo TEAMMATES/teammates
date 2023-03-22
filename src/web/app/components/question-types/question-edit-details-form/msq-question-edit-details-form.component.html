@@ -4,15 +4,15 @@
   <div class="col-md-6">
     <div class="col-md-12">
       <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
-        <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
+        <label class="form-check-label fw-bold" ngbTooltip="Assign weights to the choices for calculating statistics."
               container="body">
           <input id="weights-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
                 [disabled]="!isEditable" (ngModelChange)="triggerWeightsColumn($event)">
-          <b>Choices are weighted</b>
+          Options are weighted
         </label>
       </div>
       <div *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled"
-          class="form-check float-end">Weights&#8595;
+          class="form-check float-end" aria-hidden="true">Weights&#8595;
       </div>
     </div>
     <div *ngIf="!isGeneratedOptionsEnabled" class="row">
@@ -54,18 +54,18 @@
         </div>
         <div class="col-md-3" *ngIf="model.hasAssignedWeights && model.otherEnabled">
           <input id="other-weight" type="number" class="form-control" step="0.01" min="0" [ngModel]="model.msqOtherWeight"
-                 (ngModelChange)="triggerModelChange('msqOtherWeight', $event)" [disabled]="!isEditable" aria-label="Option Weight">
+                 (ngModelChange)="triggerModelChange('msqOtherWeight', $event)" [disabled]="!isEditable" aria-label="Weight of Other Option">
         </div>
       </div>
     </div>
   </div>
   <div class="col-md-6 col-lg-5 col-lg-offset-1 form">
     <div class="form-check">
-      <label class="form-check-label">
+      <label class="form-check-label fw-bold">
         <input id="generate-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
               [ngModel]="isGeneratedOptionsEnabled"
               (ngModelChange)="triggerGeneratedOptionsChange($event)">
-        <b>Or, generate options from the list of all</b>
+        Or, generate options from the list of all
       </label>
     </div>
     <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
@@ -74,11 +74,11 @@
     </select>
     <br>
     <div class="form-check">
-      <label class="form-check-label">
+      <label class="form-check-label fw-bold">
         <input id="max-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
               [ngModel]="isMaxSelectableChoicesEnabled"
               (ngModelChange)="triggerMaxSelectableOptionsChange($event)">
-        <b>Maximum number of options a respondent is allowed to select</b>
+        Maximum number of options a respondent is allowed to select
       </label>
     </div>
     <input id="max-options" type="number" class="form-control" [disabled]="!isMaxSelectableChoicesEnabled || !isEditable"
@@ -89,11 +89,11 @@
            aria-label="Max Number of Options">
     <br>
     <div class="form-check">
-      <label class="form-check-label">
+      <label class="form-check-label fw-bold">
         <input id="min-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
               [ngModel]="isMinSelectableChoicesEnabled"
               (ngModelChange)="triggerMinSelectableOptionsChange($event)">
-        <b>Minimum number of options a respondent is allowed to select</b>
+        Minimum number of options a respondent is allowed to select
       </label>
     </div>
     <input id="min-options" type="number" class="form-control" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"

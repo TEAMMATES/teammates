@@ -2,10 +2,10 @@
   <br>
   <div class="col-md-12">
     <div class="form-check">
-      <label class="bold-label">
+      <label class="fw-bold">
         <input id="make-question-dropdown" class="form-check-input" type="checkbox" [ngModel]="model.questionDropdownEnabled" checked="model.questionDropdownEnabled"
                (ngModelChange)="triggerQuestionDropdownEnabled($event)" [disabled]="!isEditable">
-        <b>Show options as a drop-down</b>
+        Show options as a drop-down
       </label>
     </div>
   </div>
@@ -13,15 +13,15 @@
   <div class="col-md-6">
     <div class="col-md-12">
       <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
-        <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
+        <label class="form-check-label fw-bold" ngbTooltip="Assign weights to the choices for calculating statistics."
                container="body">
           <input id="weights-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
                  [disabled]="!isEditable"
                  (ngModelChange)="triggerWeightsColumn($event)">
-          <b>Options are weighted</b>
+          Options are weighted
         </label>
       </div>
-      <div class="form-check float-end" *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled">
+      <div class="form-check float-end" *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled" aria-hidden="true">
         Weights &#8595;
       </div>
     </div>
@@ -65,18 +65,18 @@
         </div>
         <div class="col-md-3" *ngIf="model.hasAssignedWeights && model.otherEnabled">
           <input id="other-weight" type="number" class="form-control" step="0.01" min="0" [ngModel]="model.mcqOtherWeight"
-                (ngModelChange)="triggerModelChange('mcqOtherWeight', $event)" [disabled]="!isEditable" aria-label="Option Weight">
+                (ngModelChange)="triggerModelChange('mcqOtherWeight', $event)" [disabled]="!isEditable" aria-label="Weight of Other Option">
         </div>
       </div>
     </div>
   </div>
   <div class="col-md-6 col-lg-5 col-lg-offset-1 form">
     <div class="form-check">
-      <label class="form-check-label">
+      <label class="form-check-label fw-bold">
         <input id="generate-checkbox" class="form-check-input" type="checkbox"  [disabled]="!isEditable"
             [ngModel]="isGeneratedOptionsEnabled"
             (ngModelChange)="triggerGeneratedOptionsChange($event)">
-        <b>Or, generate options from the list of all</b>
+        Or, generate options from the list of all
       </label>
     </div>
     <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"

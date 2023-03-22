@@ -1,2 +1,2 @@
 <input type="number" class="form-control" step=".01" min="0" [ngModel]="weight"
-       [disabled]="!isEditable" (ngModelChange)="onWeightEntered($event)">
+       [disabled]="!isEditable" (ngModelChange)="onWeightEntered($event)" aria-label="Weight of Option">
