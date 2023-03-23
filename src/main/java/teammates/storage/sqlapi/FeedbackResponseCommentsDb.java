@@ -4,9 +4,14 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 
 import java.util.UUID;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 
 /**
@@ -62,6 +67,21 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         if (feedbackResponseComment != null) {
             delete(feedbackResponseComment);
         }
+    }
+
+    /**
+     * Gets the comment associated with the feedback response.
+     */
+    public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
+            UUID feedbackResponseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(frJoin.get("id"), feedbackResponseId)));
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
     }
 
 }
