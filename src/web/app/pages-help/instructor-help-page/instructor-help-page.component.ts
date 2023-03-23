@@ -107,7 +107,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
       document: this.document,
       duration: 500,
       scrollTarget: `#${section}`,
-      scrollOffset: 70
+      scrollOffset: 70,
     });
   }
 
