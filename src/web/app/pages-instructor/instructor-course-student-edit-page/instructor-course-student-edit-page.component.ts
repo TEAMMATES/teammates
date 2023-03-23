@@ -108,24 +108,24 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    */
   private initEditForm(): void {
     this.editForm = new UntypedFormGroup({
-      studentname: new UntypedFormControl(this.student.name,
+      'student-name': new UntypedFormControl(this.student.name,
           [Validators.required, Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)]),
-      sectionname: new UntypedFormControl(this.student.sectionName,
+      'section-name': new UntypedFormControl(this.student.sectionName,
           [Validators.required, Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH)]),
-      teamname: new UntypedFormControl(this.student.teamName,
+      'team-name': new UntypedFormControl(this.student.teamName,
           [Validators.required, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
-      newstudentemail: new UntypedFormControl(this.student.email, // original student email initialized
+      'new-student-email': new UntypedFormControl(this.student.email, // original student email initialized
           [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)]),
       comments: new UntypedFormControl(this.student.comments),
     });
     this.teamFieldSubscription =
-        (this.editForm.get('teamname') as AbstractControl).valueChanges
+        (this.editForm.get('team-name') as AbstractControl).valueChanges
             .subscribe(() => {
               this.isTeamnameFieldChanged = true;
             });
 
     this.emailFieldSubscription =
-        (this.editForm.get('newstudentemail') as AbstractControl).valueChanges
+        (this.editForm.get('new-student-email') as AbstractControl).valueChanges
             .subscribe(() => {
               this.isEmailFieldChanged = true;
             });
@@ -187,10 +187,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    */
   submitEditForm(shouldResendPastSessionLinks: boolean): void {
     const reqBody: StudentUpdateRequest = {
-      name: this.editForm.value.studentname,
-      email: this.editForm.value.newstudentemail,
-      team: this.editForm.value.teamname,
-      section: this.editForm.value.sectionname,
+      name: this.editForm.value['student-name'],
+      email: this.editForm.value['new-student-email'],
+      team: this.editForm.value['team-name'],
+      section: this.editForm.value['section-name'],
       comments: this.editForm.value.comments,
       isSessionSummarySendEmail: shouldResendPastSessionLinks,
     };

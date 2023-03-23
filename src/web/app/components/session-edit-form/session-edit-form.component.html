@@ -15,7 +15,7 @@
             </select>
           </div>
           <div class="col-1 col-md-1">
-            <a type="button" class="btn btn-link" tmRouterLink="/web/instructor/help" [queryParams]="{ questionId: 'sessions', section: 'sessions' }" target="_blank"><i class="fas fa-info-circle"></i></a>
+            <a type="button" class="btn btn-link" tmRouterLink="/web/instructor/help" [queryParams]="{ questionId: 'sessions', section: 'sessions' }" target="_blank" aria-label="Help for feedback sessions"><i class="fas fa-info-circle"></i></a>
           </div>
         </div>
       </div>
@@ -176,7 +176,7 @@
           <div class="col-md-4 border-left-gray">
             <div class="row text-center">
               <div class="ngb-tooltip-class col-12 text-md-start ms-md-2" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
-                <label class="control-label font-bold">
+                <label for="grace-period" class="control-label font-bold">
                   Grace period
                 </label>
               </div>
