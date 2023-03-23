@@ -274,6 +274,21 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets the list of students for the specified {@code courseId} in batches with {@code batchSize}.
+     */
+    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> root = cr.from(Student.class);
+
+        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+
+        return HibernateUtil.createQuery(cr).setMaxResults(batchSize).getResultList();
+    }
+
+    /**
      * Gets the instructor with the specified {@code userEmail}.
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {

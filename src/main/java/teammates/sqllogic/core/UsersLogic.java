@@ -10,6 +10,7 @@ import java.util.UUID;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.RequestTracer;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
@@ -186,6 +187,16 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets a list of students for the specified course in specified batches.
+     */
+    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
+        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId, batchSize);
+        sortByName(studentReturnList);
+
+        return studentReturnList;
+    }
+
+    /**
      * Gets all students of a section.
      */
     public List<Student> getStudentsForSection(Section section, String courseId) {
@@ -232,6 +243,19 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getAllUsersByGoogleId(googleId);
+    }
+
+    /**
+     * Deletes the first {@code batchSize} of the remaining students in the course cascade their
+     * associated responses, deadline extensions, and comments.
+     */
+    public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
+        List<Student> studentsInCourse = getStudentsForCourse(courseId, batchSize);
+
+        for (Student student : studentsInCourse) {
+            RequestTracer.checkRemainingTime();
+            deleteStudentCascade(courseId, student.getEmail());
+        }
     }
 
     /**
