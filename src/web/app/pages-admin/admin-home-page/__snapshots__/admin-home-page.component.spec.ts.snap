@@ -40,6 +40,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
            Add Instructor Details in the format: Name | Email | Institution 
         </p>
         <textarea
+          aria-label="Add multiple instructors"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-details-single-line"
         />
@@ -69,9 +70,13 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
       <div
         class="top-padded"
       >
-        <strong>
-          Name:
-        </strong>
+        <label
+          for="instructor-name"
+        >
+          <strong>
+            Name:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-name"
@@ -81,9 +86,13 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
       <div
         class="top-padded"
       >
-        <strong>
-          Email: 
-        </strong>
+        <label
+          for="instructor-email"
+        >
+          <strong>
+            Email:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-email"
@@ -93,9 +102,13 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
       <div
         class="top-padded"
       >
-        <strong>
-          Institution: 
-        </strong>
+        <label
+          for="instructor-institution"
+        >
+          <strong>
+            Institution:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-institution"
@@ -157,6 +170,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
            Add Instructor Details in the format: Name | Email | Institution 
         </p>
         <textarea
+          aria-label="Add multiple instructors"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-details-single-line"
         />
@@ -186,9 +200,13 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
       <div
         class="top-padded"
       >
-        <strong>
-          Name:
-        </strong>
+        <label
+          for="instructor-name"
+        >
+          <strong>
+            Name:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-name"
@@ -198,9 +216,13 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
       <div
         class="top-padded"
       >
-        <strong>
-          Email: 
-        </strong>
+        <label
+          for="instructor-email"
+        >
+          <strong>
+            Email:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-email"
@@ -210,9 +232,13 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
       <div
         class="top-padded"
       >
-        <strong>
-          Institution: 
-        </strong>
+        <label
+          for="instructor-institution"
+        >
+          <strong>
+            Institution:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-institution"
@@ -438,6 +464,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
            Add Instructor Details in the format: Name | Email | Institution 
         </p>
         <textarea
+          aria-label="Add multiple instructors"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-details-single-line"
         />
@@ -467,9 +494,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
       <div
         class="top-padded"
       >
-        <strong>
-          Name:
-        </strong>
+        <label
+          for="instructor-name"
+        >
+          <strong>
+            Name:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-name"
@@ -479,9 +510,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
       <div
         class="top-padded"
       >
-        <strong>
-          Email: 
-        </strong>
+        <label
+          for="instructor-email"
+        >
+          <strong>
+            Email:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-email"
@@ -491,9 +526,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
       <div
         class="top-padded"
       >
-        <strong>
-          Institution: 
-        </strong>
+        <label
+          for="instructor-institution"
+        >
+          <strong>
+            Institution:
+          </strong>
+        </label>
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-institution"

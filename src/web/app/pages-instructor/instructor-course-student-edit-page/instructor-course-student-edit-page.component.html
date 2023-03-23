@@ -8,95 +8,95 @@
           (ngSubmit)="onSubmit( resendPastLinksModal)" [formGroup]="editForm">
           <div class="row mb-3">
             <label class="col-sm-2">Course ID:</label>
-            <div class="col-sm-10" id="courseid">{{ courseId }}</div>
+            <div class="col-sm-10" id="course-id">{{ courseId }}</div>
           </div>
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Student Name:</label>
+            <label for="student-name" class="col-sm-2 col-form-label">Student Name:</label>
             <div class="col-sm-10">
               <input
                 class="form-control"
-                id="studentname"
-                formControlName="studentname">
+                id="student-name"
+                formControlName="student-name">
                 <div
-                  *ngIf="editForm.get('studentname')!.errors
-                  && (editForm.get('studentname')!.dirty || editForm.get('studentname')!.touched)"
+                  *ngIf="editForm.get('student-name')!.errors
+                  && (editForm.get('student-name')!.dirty || editForm.get('student-name')!.touched)"
                   class="invalid-field">
                   <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                  <span [hidden]="!editForm.get('studentname')!.errors!['required']">
+                  <span [hidden]="!editForm.get('student-name')!.errors!['required']">
                     {{ displayEmptyFieldMessage('Student Name') }}
                   </span>
-                  <span [hidden]="!editForm.get('studentname')!.errors!['maxlength']">
+                  <span [hidden]="!editForm.get('student-name')!.errors!['maxlength']">
                     {{ displayExceedMaxLengthMessage('Student Name', FormValidator.STUDENT_NAME_MAX_LENGTH) }}
                   </span>
                 </div>
             </div>
           </div>
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Section Name:</label>
+            <label for="section-name" class="col-sm-2 col-form-label">Section Name:</label>
             <div class="col-sm-10">
               <input
                 class="form-control"
-                id="sectionname"
-                formControlName="sectionname">
+                id="section-name"
+                formControlName="section-name">
               <div
-                *ngIf="editForm.get('sectionname')!.errors
-                && (editForm.get('sectionname')!.dirty || editForm.get('sectionname')!.touched)"
+                *ngIf="editForm.get('section-name')!.errors
+                && (editForm.get('section-name')!.dirty || editForm.get('section-name')!.touched)"
                 class="invalid-field">
                 <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                <span [hidden]="!editForm.get('sectionname')!.errors!['required']">
+                <span [hidden]="!editForm.get('section-name')!.errors!['required']">
                   {{ displayEmptyFieldMessage('Section Name') }}
                 </span>
-                <span [hidden]="!editForm.get('sectionname')!.errors!['maxlength']">
+                <span [hidden]="!editForm.get('section-name')!.errors!['maxlength']">
                   {{ displayExceedMaxLengthMessage('Section Name', FormValidator.SECTION_NAME_MAX_LENGTH) }}
                 </span>
               </div>
             </div>
           </div>
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Team Name:</label>
+            <label for="team-name" class="col-sm-2 col-form-label">Team Name:</label>
             <div class="col-sm-10">
               <input
                 class="form-control col-form-label"
-                name="teamname"
-                id="teamname"
-                formControlName="teamname">
+                name="team-name"
+                id="team-name"
+                formControlName="team-name">
               <div
-                *ngIf="editForm.get('teamname')!.errors
-                && (editForm.get('teamname')!.dirty || editForm.get('teamname')!.touched)"
+                *ngIf="editForm.get('team-name')!.errors
+                && (editForm.get('team-name')!.dirty || editForm.get('team-name')!.touched)"
                 class="invalid-field">
                 <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                <span [hidden]="!editForm.get('teamname')!.errors!['required']">
+                <span [hidden]="!editForm.get('team-name')!.errors!['required']">
                   {{ displayEmptyFieldMessage('Team Name') }}
                 </span>
-                <span [hidden]="!editForm.get('teamname')!.errors!['maxlength']">
+                <span [hidden]="!editForm.get('team-name')!.errors!['maxlength']">
                   {{ displayExceedMaxLengthMessage('Team Name', FormValidator.TEAM_NAME_MAX_LENGTH) }}
                 </span>
               </div>
             </div>
           </div>
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">E-mail Address:</label>
+            <label for="new-student-email" class="col-sm-2 col-form-label">E-mail Address:</label>
             <div class="col-sm-10">
               <input
                 class="form-control"
-                id="newstudentemail"
-                formControlName="newstudentemail">
+                id="new-student-email"
+                formControlName="new-student-email">
               <div
-                *ngIf="editForm.get('newstudentemail')!.errors
-                && (editForm.get('newstudentemail')!.dirty || editForm.get('newstudentemail')!.touched)"
+                *ngIf="editForm.get('new-student-email')!.errors
+                && (editForm.get('new-student-email')!.dirty || editForm.get('new-student-email')!.touched)"
                   class="invalid-field">
                 <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                <span [hidden]="!editForm.get('newstudentemail')!.errors!['required']">
+                <span [hidden]="!editForm.get('new-student-email')!.errors!['required']">
                   {{ displayEmptyFieldMessage('E-mail Address') }}
                 </span>
-                <span [hidden]="!editForm.get('newstudentemail')!.errors!['maxlength']">
+                <span [hidden]="!editForm.get('new-student-email')!.errors!['maxlength']">
                   {{ displayExceedMaxLengthMessage('E-mail Address', FormValidator.EMAIL_MAX_LENGTH) }}
                 </span>
               </div>
             </div>
           </div>
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Comments:</label>
+            <label for="comments" class="col-sm-2 col-form-label">Comments:</label>
             <div class="col-sm-10">
               <textarea
                 class="form-control"
@@ -121,7 +121,7 @@
 
           <ng-template #resendPastLinksModal let-modal>
             <div class="modal-header alert alert-primary alert-no-bottom">
-              <h4 class="modal-title icon-primary">Resend past links to the new email?</h4>
+              <h2 class="h4 modal-title icon-primary">Resend past links to the new email?</h2>
               <button
                   type="button"
                   class="btn-close"

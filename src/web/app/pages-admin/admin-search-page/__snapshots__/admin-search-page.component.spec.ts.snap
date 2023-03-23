@@ -32,6 +32,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
         class="input-group"
       >
         <input
+          aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
           type="text"
@@ -117,6 +118,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 class="col-sm-1"
               >
                 <button
+                  aria-label="Expand"
                   class="btn"
                 >
                   <i
@@ -248,6 +250,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 class="col-sm-1"
               >
                 <button
+                  aria-label="Expand"
                   class="btn"
                 >
                   <i
@@ -356,6 +359,7 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
         class="input-group"
       >
         <input
+          aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
           type="text"
@@ -404,6 +408,7 @@ exports[`AdminSearchPageComponent should snap with an expanded account requests 
         class="input-group"
       >
         <input
+          aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
           type="text"
@@ -565,6 +570,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
         class="input-group"
       >
         <input
+          aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
           type="text"
@@ -647,6 +653,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 class="col-sm-1"
               >
                 <button
+                  aria-label="Collapse"
                   class="btn"
                 >
                   <i
@@ -816,6 +823,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
         class="input-group"
       >
         <input
+          aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
           type="text"
@@ -899,6 +907,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 class="col-sm-1"
               >
                 <button
+                  aria-label="Collapse"
                   class="btn"
                 >
                   <i
@@ -1117,6 +1126,7 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
         class="input-group"
       >
         <input
+          aria-label="Search"
           class="form-control ng-untouched ng-pristine ng-valid"
           id="search-box"
           type="text"

@@ -149,13 +149,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -230,12 +229,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select AliceHasExtension"
+                  id="student-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -259,12 +257,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Bob"
+                  id="student-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -288,12 +285,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-2"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Alex"
+                  id="student-checkbox-2"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -330,13 +326,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -399,12 +394,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester2HasExtension
@@ -425,12 +419,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester1"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester1
@@ -623,13 +616,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -704,12 +696,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select AliceHasExtension"
+                  id="student-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -733,12 +724,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Bob"
+                  id="student-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -762,12 +752,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-2"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Alex"
+                  id="student-checkbox-2"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -804,13 +793,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -873,12 +861,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester2HasExtension
@@ -899,12 +886,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester1"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester1
@@ -1017,13 +1003,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -1110,13 +1095,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -1352,13 +1336,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -1433,12 +1416,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select AliceHasExtension"
+                  id="student-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -1462,12 +1444,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Bob"
+                  id="student-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -1491,12 +1472,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-2"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Alex"
+                  id="student-checkbox-2"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -1533,13 +1513,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -1775,13 +1754,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -1868,13 +1846,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -1937,12 +1914,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester2HasExtension
@@ -1963,12 +1939,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester1"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester1
@@ -2163,13 +2138,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -2244,12 +2218,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select AliceHasExtension"
+                  id="student-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -2273,12 +2246,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Bob"
+                  id="student-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -2302,12 +2274,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-2"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Alex"
+                  id="student-checkbox-2"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -2344,13 +2315,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -2413,12 +2383,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester2HasExtension
@@ -2439,12 +2408,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester1"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester1
@@ -2638,13 +2606,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -2923,13 +2890,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -3088,13 +3054,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -3181,13 +3146,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -3346,13 +3310,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -3439,13 +3402,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -3681,13 +3643,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-student-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all students"
+                  id="select-all-student-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -3762,12 +3723,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select AliceHasExtension"
+                  id="student-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -3791,12 +3751,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Bob"
+                  id="student-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -3820,12 +3779,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="student-checkbox-2"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select Alex"
+                  id="student-checkbox-2"
+                  type="checkbox"
+                />
               </td>
               <td>
                 Section 1
@@ -4061,13 +4019,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
           <thead>
             <tr>
               <th>
-                <label>
-                  <input
-                    id="select-all-instructor-btn"
-                    type="checkbox"
-                  />
-                   Select all
-                </label>
+                <input
+                  aria-label="Select all instructors"
+                  id="select-all-instructor-btn"
+                  type="checkbox"
+                />
+                 Select all 
               </th>
               <th
                 class="sortable-header"
@@ -4130,12 +4087,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-0"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester2HasExtension"
+                  id="instructor-checkbox-0"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester2HasExtension
@@ -4156,12 +4112,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               <td
                 class="align-center"
               >
-                <label>
-                  <input
-                    id="instructor-checkbox-1"
-                    type="checkbox"
-                  />
-                </label>
+                <input
+                  aria-label="Select tester1"
+                  id="instructor-checkbox-1"
+                  type="checkbox"
+                />
               </td>
               <td>
                 tester1

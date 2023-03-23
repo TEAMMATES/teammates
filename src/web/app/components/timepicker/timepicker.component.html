@@ -1,6 +1,6 @@
 <select class="form-control form-select" [ngModel]="time"
         (ngModelChange)="triggerTimeChange($event)" [disabled]="isDisabled"
-        [compareWith]="timeCompareFn"
+        [compareWith]="timeCompareFn" aria-label="Select time"
 >
   <option *ngFor="let i of range(1, 24)" [ngValue]="{ hour: i, minute: 0 }" [disabled]="isOptionDisabled({ hour: i, minute: 0 })">
     {{ addLeadingZeros(2, i) }}:00H
