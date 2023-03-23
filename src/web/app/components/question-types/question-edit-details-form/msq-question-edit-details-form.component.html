@@ -1,6 +1,4 @@
 <div class="row">
-  <br>
-  <br>
   <div class="col-md-6">
     <div class="col-md-12">
       <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
@@ -18,7 +16,6 @@
     <div *ngIf="!isGeneratedOptionsEnabled" class="row">
       <div id="options-section" cdkDropList (cdkDropListDropped)="onMsqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div class="margin-top-22px d-flex" *ngFor="let num of model.msqChoices; let i = index; trackBy: trackMsqOption" cdkDrag cdkDragLockAxis="y">
-          <br>
           <div cdkDragHandle aria-hidden="true">
             <span class="btn input-group-addon">&#8597; </span>
           </div>

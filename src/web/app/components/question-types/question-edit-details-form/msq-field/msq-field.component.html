@@ -5,7 +5,7 @@
   <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #msq
          (ngModelChange)="onMsqOptionEntered($event.trim())" aria-label="Option">
   <span class="input-group-btn">
-    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;" tabindex="-1"
+    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;"
             [disabled]="!isEditable" (click)="deleteMsqOption()" aria-label="Delete Option">
       <span aria-hidden="true">&times;</span>
     </button>
