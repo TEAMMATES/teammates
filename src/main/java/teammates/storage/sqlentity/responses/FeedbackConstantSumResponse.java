@@ -1,6 +1,7 @@
 package teammates.storage.sqlentity.responses;
 
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.sqlentity.FeedbackResponse;
 
 import jakarta.persistence.Column;
@@ -28,6 +29,11 @@ public class FeedbackConstantSumResponse extends FeedbackResponse {
 
     public void setAnswer(FeedbackConstantSumResponseDetails answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
+        return answer.getDeepCopy();
     }
 
     @Override

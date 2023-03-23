@@ -31,6 +31,11 @@ public class FeedbackContributionResponse extends FeedbackResponse {
     }
 
     @Override
+    public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
+        return answer.getDeepCopy();
+    }
+
+    @Override
     public String toString() {
         return "FeedbackContributionResponse [id=" + super.getId()
             + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";

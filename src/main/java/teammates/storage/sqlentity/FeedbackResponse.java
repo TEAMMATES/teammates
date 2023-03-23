@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -76,6 +77,11 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.setReceiver(receiver);
         this.setReceiverSection(receiverSection);
     }
+
+    /**
+     * Gets a copy of the question details of the feedback question.
+     */
+    public abstract FeedbackResponseDetails getFeedbackResponseDetailsCopy();
 
     public UUID getId() {
         return id;

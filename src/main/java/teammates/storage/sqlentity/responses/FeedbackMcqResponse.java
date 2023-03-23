@@ -31,6 +31,11 @@ public class FeedbackMcqResponse extends FeedbackResponse {
     }
 
     @Override
+    public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
+        return answer.getDeepCopy();
+    }
+
+    @Override
     public String toString() {
         return "FeedbackMcqResponse [id=" + super.getId()
             + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";

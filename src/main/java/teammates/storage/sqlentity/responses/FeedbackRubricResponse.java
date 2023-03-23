@@ -1,5 +1,6 @@
 package teammates.storage.sqlentity.responses;
 
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.storage.sqlentity.FeedbackResponse;
 
@@ -28,6 +29,11 @@ public class FeedbackRubricResponse extends FeedbackResponse {
 
     public void setAnswer(FeedbackRubricResponseDetails answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
+        return answer.getDeepCopy();
     }
 
     @Override

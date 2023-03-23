@@ -1,6 +1,7 @@
 package teammates.storage.sqlentity.responses;
 
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.sqlentity.FeedbackResponse;
 
 import jakarta.persistence.Column;
@@ -28,6 +29,11 @@ public class FeedbackNumericalScaleResponse extends FeedbackResponse {
 
     public void setAnswer(FeedbackNumericalScaleResponseDetails answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
+        return answer.getDeepCopy();
     }
 
     @Override
