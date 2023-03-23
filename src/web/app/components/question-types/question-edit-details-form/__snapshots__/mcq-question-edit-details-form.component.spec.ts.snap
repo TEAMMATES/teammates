@@ -12,7 +12,6 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
   <div
     class="row"
   >
-    <br />
     <div
       class="col-md-12"
     >
@@ -32,7 +31,6 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
         </label>
       </div>
     </div>
-    <br />
     <div
       class="col-md-6"
     >
@@ -177,7 +175,6 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
   <div
     class="row"
   >
-    <br />
     <div
       class="col-md-12"
     >
@@ -197,7 +194,6 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
         </label>
       </div>
     </div>
-    <br />
     <div
       class="col-md-6"
     >
@@ -342,7 +338,6 @@ exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. 
   <div
     class="row"
   >
-    <br />
     <div
       class="col-md-12"
     >
@@ -362,7 +357,6 @@ exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. 
         </label>
       </div>
     </div>
-    <br />
     <div
       class="col-md-6"
     >
