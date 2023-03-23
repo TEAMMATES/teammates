@@ -1249,7 +1249,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                 >
                   <h2
-                    class="question-number fw-bold"
+                    class="question-number fw-bold me-1"
                   >
                     Question 
                     <select
@@ -1268,7 +1268,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       </option>
                     </select>
                   </h2>
-                  <span>
+                  <span
+                    id="question-type"
+                  >
                     Essay question
                   </span>
                 </div>
@@ -1966,7 +1968,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                 >
                   <h2
-                    class="question-number fw-bold"
+                    class="question-number fw-bold me-1"
                   >
                     Question 
                     <select
@@ -1985,7 +1987,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       </option>
                     </select>
                   </h2>
-                  <span>
+                  <span
+                    id="question-type"
+                  >
                     Essay question
                   </span>
                 </div>
@@ -3805,7 +3809,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
             >
               <h2
-                class="question-number fw-bold"
+                class="question-number fw-bold me-1"
               >
                 Question 
                 <select
@@ -3819,7 +3823,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </option>
                 </select>
               </h2>
-              <span>
+              <span
+                id="question-type"
+              >
                 Essay question
               </span>
             </div>

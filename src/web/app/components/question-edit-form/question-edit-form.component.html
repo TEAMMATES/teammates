@@ -5,12 +5,12 @@
     </div>
     <div id="question-header" class="d-flex flex-column text-start">
       <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start">
-        <h2 class="question-number fw-bold">Question <span id="question-number" *ngIf="!model.isEditable">{{ model.questionNumber }}&nbsp;</span>
+        <h2 class="question-number fw-bold me-1">Question <span id="question-number" *ngIf="!model.isEditable">{{ model.questionNumber }}</span>
           <select id="question-number-dropdown" class="form-control form-select question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable" (click)="$event.stopPropagation()">
             <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
           </select>
         </h2>
-      <span>{{ model.questionType | questionTypeName }}</span>
+      <span id="question-type">{{ model.questionType | questionTypeName }}</span>
       </div>
       <ng-container *ngIf="model.isCollapsed">
         <div class="collapse-qn-description">{{ model.questionBrief }}</div>

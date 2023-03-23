@@ -972,8 +972,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private FeedbackQuestionType getQuestionType(int questionNum) {
-        String questionDetails = getQuestionForm(questionNum).findElement(By.id("question-header")).getText();
-        String questionType = questionDetails.split(" \\d+ ")[1].trim();
+        String questionType = getQuestionForm(questionNum).findElement(By.id("question-type")).getText().trim();
 
         switch (questionType) {
         case "Essay question":
