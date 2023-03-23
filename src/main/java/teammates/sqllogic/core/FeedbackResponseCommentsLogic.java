@@ -39,4 +39,12 @@ public final class FeedbackResponseCommentsLogic {
     public FeedbackResponseComment getFeedbackQuestion(UUID id) {
         return frcDb.getFeedbackResponseComment(id);
     }
+
+    /**
+     * Gets the comment associated with the response.
+     */
+    public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
+            UUID feedbackResponseId) {
+        return frcDb.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+    }
 }
