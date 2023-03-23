@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
+// Required to use ngx-page-scroll service https://github.com/TEAMMATES/teammates/pull/12224#issuecomment-1480350769.
 html {
   scroll-behavior: auto !important;
 }
