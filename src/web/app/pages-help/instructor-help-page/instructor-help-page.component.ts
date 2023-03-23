@@ -103,11 +103,12 @@ export class InstructorHelpPageComponent implements AfterViewInit {
    * Scrolls to the section passed in
    */
   scroll(section: string): void {
-    const el: HTMLElement | null = this.document.getElementById(section);
-    if (el) {
-      const y: number = el.getBoundingClientRect().top + window.scrollY - 70;
-      window.scrollTo({ top: y, behavior: 'auto' });
-    }
+    this.pageScrollService.scroll({
+      document: this.document,
+      duration: 500,
+      scrollTarget: `#${section}`,
+      scrollOffset: 70
+    });
   }
 
   scrollTo(target: string, timeout?: number): void {
