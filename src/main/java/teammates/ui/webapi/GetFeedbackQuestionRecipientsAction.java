@@ -52,6 +52,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
             default:
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
             }
+            return;
         }
 
         UUID feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
