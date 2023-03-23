@@ -296,12 +296,14 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             ngbdatepicker=""
                             readonly=""
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
                             type="button"
                           >
@@ -319,6 +321,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                         id="notification-start-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -475,12 +478,14 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             ngbdatepicker=""
                             readonly=""
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
                             type="button"
                           >
@@ -498,6 +503,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                         id="notification-end-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option

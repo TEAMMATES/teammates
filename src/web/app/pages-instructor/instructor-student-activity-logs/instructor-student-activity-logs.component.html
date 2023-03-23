@@ -20,12 +20,14 @@
       </div>
       <div class="col-8">
         <div class="col-12 mb-1">
-          <label for="logs-from-datepicker" class="fw-bold">Search period from</label>
+          <label class="fw-bold">Search period from</label>
         </div>
         <div class="input-group">
           <div id="logs-from-datepicker" class="col-md-6 input-group">
-            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="earliestSearchDate" [maxDate]="formModel.logsDateTo" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
+            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="earliestSearchDate"
+              [maxDate]="formModel.logsDateTo" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"
+              aria-label="Date to search from" />
+            <button class="btn btn-light" aria-label="Change date" (click)="logsFromDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
           </div>
@@ -54,13 +56,15 @@
         </div>
         <div class="input-group">
           <div id="logs-to-datepicker" class="col-md-6 input-group">
-            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="formModel.logsDateFrom" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
+            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="formModel.logsDateFrom"
+              [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"
+              aria-label="Date to search until" />
+            <button class="btn btn-light" aria-label="Change date" (click)="logsToDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
           </div>
           <div class="col-md-3">
-            <tm-timepicker id="logs-to-timepicker" [(time)]="formModel.logsTimeTo"></tm-timepicker>
+            <tm-timepicker id="logs-to-timepicker" [(time)]="formModel.logsTimeTo" aria-label="Search period until time"></tm-timepicker>
           </div>
           <div class="col-md-2">
             <button id="search-button" class="float-end btn btn-primary" (click)="search()" [disabled]="course.courseId === '' || isSearching">Search</button>

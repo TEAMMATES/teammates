@@ -16,7 +16,7 @@
             <label class="col-lg-4 control-label"><b>Session:</b></label>
             <div id="session-name" class="col-lg-8">
               <p class="form-control-static">{{ session.feedbackSessionName }}
-                <a tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, editingMode: true }"><i class="fas fa-edit"></i></a>
+                <a tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, editingMode: true }" aria-label="Edit feedback session"><i class="fas fa-edit"></i></a>
               </p>
             </div>
           </div>

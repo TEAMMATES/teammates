@@ -33,10 +33,10 @@
   </div>
 </tm-loading-retry>
 <div class="card-body text-center" *ngIf="!isAddingNewInstructor">
-  <button id="btn-add-instructor" class="btn btn-success mx-2 my-1" tabindex="6" type="button" (click)="isAddingNewInstructor = true" [disabled]="isCopyingInstructor">
+  <button id="btn-add-instructor" class="btn btn-success mx-2 my-1" type="button" (click)="isAddingNewInstructor = true" [disabled]="isCopyingInstructor">
     Add New Instructor
   </button>
-  <button id="btn-copy-instructor" class="btn btn-info mx-2 my-1" tabindex="6" type="button" (click)="copyInstructors()" [disabled]="!this.currInstructorCoursePrivilege.canModifyInstructor || isCopyingInstructor">
+  <button id="btn-copy-instructor" class="btn btn-info mx-2 my-1" type="button" (click)="copyInstructors()" [disabled]="!this.currInstructorCoursePrivilege.canModifyInstructor || isCopyingInstructor">
     <tm-ajax-loading *ngIf="isCopyingInstructor"></tm-ajax-loading>Copy Instructors from Other Courses
   </button>
 </div>

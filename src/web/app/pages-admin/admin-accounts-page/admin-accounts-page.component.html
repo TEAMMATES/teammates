@@ -19,9 +19,9 @@
   </div>
 </div>
 
-<h3 style="margin-top: 20px; margin-bottom: 30px;">
+<h2 class="my-3">
   Instructor For {{ instructorCourses.length }} Courses
-</h3>
+</h2>
 
 <div *tmIsLoading="isLoadingInstructorCourses">
   <div class="card bg-light" *ngIf="instructorCourses.length">
@@ -48,9 +48,9 @@
   </div>
 </div>
 
-<h3 style="margin-top: 20px; margin-bottom: 30px;">
+<h2 class="my-3">
   Student For {{ studentCourses.length }} Courses
-</h3>
+</h2>
 <div *tmIsLoading="isLoadingStudentCourses">
   <div class="card bg-light" *ngIf="studentCourses.length">
     <table id="student-table" class="table table-striped">
