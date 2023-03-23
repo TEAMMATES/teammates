@@ -769,6 +769,18 @@ public class Logic {
     }
 
     /**
+     * Deletes all the students in the course cascade their associated responses, deadline extensions and comments.
+     *
+     * <br/>Preconditions: <br>
+     * All parameters are non-null.
+     */
+    public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
+        assert courseId != null;
+
+        usersLogic.deleteStudentsInCourseCascade(courseId, batchSize);
+    }
+
+    /**
      * Gets all instructors and students by associated {@code googleId}.
      */
     public List<User> getAllUsersByGoogleId(String googleId) {

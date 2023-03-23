@@ -15,6 +15,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.RequestTracer;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -317,6 +318,16 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets a list of students for the specified course in specified batches.
+     */
+    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
+        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId, batchSize);
+        sortByName(studentReturnList);
+
+        return studentReturnList;
+    }
+
+    /**
      * Gets all students of a section.
      */
     public List<Student> getStudentsForSection(String sectionName, String courseId) {
@@ -424,6 +435,19 @@ public final class UsersLogic {
 
     private void updateStudentResponsesAfterDeletion(String courseId) {
         feedbackResponsesLogic.updateFeedbackResponsesForDeletingStudent(courseId);
+    }
+
+    /**
+     * Deletes the first {@code batchSize} of the remaining students in the course cascade their
+     * associated responses, deadline extensions, and comments.
+    */
+    public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
+        List<Student> studentsInCourse = getStudentsForCourse(courseId, batchSize);
+
+        for (Student student : studentsInCourse) {
+            RequestTracer.checkRemainingTime();
+            deleteStudentCascade(courseId, student.getEmail());
+        }
     }
 
     /**
