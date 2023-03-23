@@ -4,6 +4,10 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 
 import java.util.UUID;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
