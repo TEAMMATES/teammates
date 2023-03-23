@@ -62,13 +62,19 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    let target: string = '';
     this.route.queryParams.subscribe((queryParam: Params) => {
-      if (queryParam['questionId'] && queryParam['section']) {
-        this.questionIdToExpand = queryParam['questionId'];
+      if (queryParam['section']) {
         this.section = queryParam['section'];
-        this.scrollTo(queryParam['questionId']);
+        target = this.section;
+        if (queryParam['questionId']) {
+          this.questionIdToExpand = queryParam['questionId'];
+          target = this.questionIdToExpand;
+          this.expandQuestionTab();
+        }
       }
     });
+    this.scrollTo(target);
   }
 
   expandQuestionTab(): void {
@@ -115,12 +121,11 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   }
 
   scrollTo(target: string, timeout?: number): void {
-    this.expandQuestionTab();
     setTimeout(() => this.pageScrollService.scroll({
       document: this.document,
       duration: 500,
       scrollTarget: `#${target}`,
-      scrollOffset: 70,
+      scrollOffset: 60,
     }), timeout || 500);
   }
 
