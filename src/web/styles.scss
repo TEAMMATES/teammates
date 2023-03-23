@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 html {
-  scroll-behavior: auto !important;
+  scroll-behavior: auto !important; // Bootstrap is setting scroll behavior to smooth and that is not working with ngx-page-scroll service (for more details: https://github.com/TEAMMATES/teammates/pull/12224#issuecomment-1480350769).
 }
 
 body {
