@@ -14,9 +14,17 @@ import com.deque.html.axecore.selenium.AxeBuilder;
 public final class AxeUtil {
 
     /**
-     * List of rules to be disabled for accessibility tests.
+     * List of rules to be disabled for accessibility tests:
+     * 1. colour-contrast - disabled as Bootstrap default colours are used as much as possible throughout the website.
+     * 2. empty-table-header - disabled for the instructor student enroll page,
+     * as the page uses Handsontable which does not yet support accessibility.
+     * 3. landmark-complementary-is-top-level - temporarily disabled due to a bug in TinyMCE,
+     * and will be fixed in a future update. See https://github.com/tinymce/tinymce/issues/7639
+     * 4. landmark-unique - disabled for instructor feedback edit page, likely also caused by TinyMCE.
      */
-    public static final List<String> DISABLED_RULES = Arrays.asList("color-contrast");
+    public static final List<String> DISABLED_RULES = Arrays.asList(
+            "color-contrast", "empty-table-header", "landmark-complementary-is-top-level", "landmark-unique"
+    );
 
     /**
      * Builder for accessibility tests.

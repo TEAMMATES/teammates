@@ -77,7 +77,6 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
     <button
       class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
-      tabindex="6"
       type="button"
     >
        Add New Instructor 
@@ -85,7 +84,6 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
     <button
       class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
-      tabindex="6"
       type="button"
     >
       Copy Instructors from Other Courses 
@@ -171,7 +169,6 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
     <button
       class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
-      tabindex="6"
       type="button"
     >
        Add New Instructor 
@@ -179,7 +176,6 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
     <button
       class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
-      tabindex="6"
       type="button"
     >
       Copy Instructors from Other Courses 
@@ -265,7 +261,6 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
     <button
       class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
-      tabindex="6"
       type="button"
     >
        Add New Instructor 
@@ -273,7 +268,6 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
     <button
       class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
-      tabindex="6"
       type="button"
     >
       Copy Instructors from Other Courses 
@@ -397,6 +391,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
             >
               <label
                 class="col-sm-2 control-label"
+                for="google-id-instructor-1"
               >
                  Google ID: 
               </label>
@@ -408,7 +403,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
                   disabled=""
                   id="google-id-instructor-1"
                   maxlength="254"
-                  tabindex="3"
                 />
               </div>
             </div>
@@ -417,6 +411,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
             >
               <label
                 class="col-sm-2 control-label"
+                for="name-instructor-1"
               >
                  Name: 
               </label>
@@ -427,7 +422,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
                   class="form-control ng-untouched ng-pristine ng-valid"
                   id="name-instructor-1"
                   maxlength="100"
-                  tabindex="4"
                 />
               </div>
             </div>
@@ -436,6 +430,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
             >
               <label
                 class="col-sm-2 control-label"
+                for="email-instructor-1"
               >
                  Email: 
               </label>
@@ -446,7 +441,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
                   class="form-control ng-untouched ng-pristine ng-valid"
                   id="email-instructor-1"
                   maxlength="254"
-                  tabindex="5"
                 />
               </div>
             </div>
@@ -455,8 +449,10 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
             >
               <label
                 class="col-sm-2 control-label"
+                for="displayed-name-instructor-1"
               >
                 <input
+                  aria-label="Enable display name"
                   checked=""
                   class="ng-untouched ng-pristine ng-valid"
                   id="checkbox-display-instructor-1"
@@ -517,7 +513,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
     <button
       class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
-      tabindex="6"
       type="button"
     >
        Add New Instructor 
@@ -525,7 +520,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
     <button
       class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
-      tabindex="6"
       type="button"
     >
       Copy Instructors from Other Courses 

@@ -738,6 +738,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
@@ -745,6 +746,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
                             type="button"
                           >
@@ -762,6 +764,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         id="submission-start-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -918,6 +921,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
@@ -925,6 +929,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
                             type="button"
                           >
@@ -942,6 +947,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         id="submission-end-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -1081,6 +1087,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <label
                         class="control-label font-bold"
+                        for="grace-period"
                       >
                          Grace period 
                       </label>
@@ -2689,6 +2696,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Essay question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=essay-questions&section=questions"
                     rel="noopener noreferrer"
@@ -2713,6 +2721,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Multiple-choice (single answer) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=single-answer-mcq&section=questions"
                     rel="noopener noreferrer"
@@ -2737,6 +2746,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Multiple-choice (multiple answers) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=multiple-answer-mcq&section=questions"
                     rel="noopener noreferrer"
@@ -2761,6 +2771,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Numerical-scale question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=numerical-scale&section=questions"
                     rel="noopener noreferrer"
@@ -2785,6 +2796,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Distribute points (among options) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=points-options&section=questions"
                     rel="noopener noreferrer"
@@ -2809,6 +2821,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Distribute points (among recipients) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=points-recipients&section=questions"
                     rel="noopener noreferrer"
@@ -2833,6 +2846,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Team contribution question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=contribution&section=questions"
                     rel="noopener noreferrer"
@@ -2857,6 +2871,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Rubric question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=rubric&section=questions"
                     rel="noopener noreferrer"
@@ -2881,6 +2896,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Rank (options) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=rank-options&section=questions"
                     rel="noopener noreferrer"
@@ -2905,6 +2921,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Rank (recipients) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=rank-recipients&section=questions"
                     rel="noopener noreferrer"
@@ -2921,6 +2938,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             </div>
           </div>
           <a
+            aria-label="Help for questions"
             class="btn btn-link"
             href="/web/instructor/help?questionId=questions&section=questions"
             rel="noopener noreferrer"
@@ -2963,6 +2981,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               class="col-lg-5"
             >
               <select
+                aria-label="Select student to preview as"
                 class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-student"
               >
@@ -2979,6 +2998,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               class="col-lg-5"
             >
               <select
+                aria-label="Select instructor to preview as"
                 class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-instructor"
               >
@@ -3276,6 +3296,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
@@ -3283,6 +3304,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
                             type="button"
                           >
@@ -3300,6 +3322,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         id="submission-start-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -3456,6 +3479,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
@@ -3463,6 +3487,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
                             type="button"
                           >
@@ -3480,6 +3505,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         id="submission-end-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -3619,6 +3645,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     >
                       <label
                         class="control-label font-bold"
+                        for="grace-period"
                       >
                          Grace period 
                       </label>
@@ -4626,6 +4653,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               class="col-lg-5"
             >
               <select
+                aria-label="Select student to preview as"
                 class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-student"
               >
@@ -4642,6 +4670,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               class="col-lg-5"
             >
               <select
+                aria-label="Select instructor to preview as"
                 class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-instructor"
               >

@@ -468,6 +468,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     class="col-1 col-md-1"
                   >
                     <a
+                      aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
@@ -685,12 +686,14 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                             class="input-group"
                           >
                             <input
+                              aria-label="Date"
                               class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
                             />
                             <button
+                              aria-label="Change date"
                               class="btn btn-light input-group-text"
                               type="button"
                             >
@@ -708,6 +711,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-start-time"
                         >
                           <select
+                            aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -864,12 +868,14 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                             class="input-group"
                           >
                             <input
+                              aria-label="Date"
                               class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
                             />
                             <button
+                              aria-label="Change date"
                               class="btn btn-light input-group-text"
                               type="button"
                             >
@@ -887,6 +893,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-end-time"
                         >
                           <select
+                            aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -1026,6 +1033,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       >
                         <label
                           class="control-label font-bold"
+                          for="grace-period"
                         >
                            Grace period 
                         </label>

@@ -75,14 +75,14 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   </tm-loading-retry><div
     class="course-section"
   >
-    <h3
-      class="text-muted"
+    <h2
+      class="h3 text-muted"
     >
       <span
         class="fa fa-file-archive"
       />
        Archived courses 
-    </h3>
+    </h2>
     <div
       class="card top-padded"
     >
@@ -390,9 +390,11 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       <div
         class="course-section"
       >
-        <h3>
+        <h2
+          class="h3"
+        >
           Active courses
-        </h3>
+        </h2>
         <div
           class="table table-responsive"
         >
@@ -685,14 +687,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   </tm-loading-retry><div
     class="course-section"
   >
-    <h3
-      class="text-muted"
+    <h2
+      class="h3 text-muted"
     >
       <span
         class="fa fa-file-archive"
       />
        Archived courses 
-    </h3>
+    </h2>
     <div
       class="card top-padded"
     >
@@ -724,14 +726,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
     <div
       class="col-12"
     >
-      <h3
-        class="text-muted"
+      <h2
+        class="h3 text-muted"
       >
         <span
           class="fa fa-trash-alt"
         />
          Deleted courses 
-      </h3>
+      </h2>
       <div
         class="card bg-light top-padded"
       >
@@ -890,6 +892,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <label
                 class="col-sm-2 fw-bold text-md-end"
+                for="course-id"
               >
                 Course ID:
               </label>
@@ -903,7 +906,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                   name="courseId"
                   placeholder="e.g. CS3215-2013Semester1"
                   required=""
-                  tabindex="1"
                   type="text"
                 />
                 <div
@@ -923,6 +925,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <label
                 class="col-sm-2 fw-bold text-md-end"
+                for="course-name"
               >
                 Course Name:
               </label>
@@ -936,7 +939,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                   name="courseName"
                   placeholder="e.g. Software Engineering"
                   required=""
-                  tabindex="2"
                   type="text"
                 />
                 <div
@@ -956,6 +958,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <label
                 class="col-sm-2 fw-bold text-md-end"
+                for="course-institute"
               >
                 <span
                   class="ngb-tooltip-class"
@@ -983,6 +986,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             >
               <label
                 class="col-xs-12 col-sm-2 fw-bold text-md-end"
+                for="time-zone"
               >
                 <span
                   class="ngb-tooltip-class"
@@ -1136,9 +1140,11 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       <div
         class="course-section"
       >
-        <h3>
+        <h2
+          class="h3"
+        >
           Active courses
-        </h3>
+        </h2>
         <div
           class="table table-responsive"
         >
@@ -1431,14 +1437,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   </tm-loading-retry><div
     class="course-section"
   >
-    <h3
-      class="text-muted"
+    <h2
+      class="h3 text-muted"
     >
       <span
         class="fa fa-file-archive"
       />
        Archived courses 
-    </h3>
+    </h2>
     <div
       class="card top-padded"
     >
@@ -1470,14 +1476,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
     <div
       class="col-12"
     >
-      <h3
-        class="text-muted"
+      <h2
+        class="h3 text-muted"
       >
         <span
           class="fa fa-trash-alt"
         />
          Deleted courses 
-      </h3>
+      </h2>
       <div
         class="card bg-light top-padded"
       >
@@ -1664,9 +1670,11 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
       <div
         class="course-section"
       >
-        <h3>
+        <h2
+          class="h3"
+        >
           Active courses
-        </h3>
+        </h2>
         <div
           class="table table-responsive"
         >
