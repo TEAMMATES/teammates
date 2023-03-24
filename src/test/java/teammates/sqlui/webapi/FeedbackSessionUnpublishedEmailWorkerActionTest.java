@@ -23,7 +23,8 @@ import teammates.ui.webapi.FeedbackSessionUnpublishedEmailWorkerAction;
 /**
  * SUT: {@link FeedbackSessionUnpublishedEmailWorkerAction}.
  */
-public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseActionTest<FeedbackSessionUnpublishedEmailWorkerAction> {
+public class FeedbackSessionUnpublishedEmailWorkerActionTest
+        extends BaseActionTest<FeedbackSessionUnpublishedEmailWorkerAction> {
     private FeedbackSession session;
 
     private Instructor instructor;
@@ -43,17 +44,17 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseActionT
     void setUp() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         session = new FeedbackSession(
-                "session-name", 
-                course, 
-                "creater_email@tm.tmt", 
-                null, 
-                Instant.parse("2020-01-01T00:00:00.000Z"), 
-                Instant.parse("2020-10-01T00:00:00.000Z"), 
-                Instant.parse("2020-01-01T00:00:00.000Z"), 
-                Instant.parse("2020-11-01T00:00:00.000Z"), 
-                null, 
-                false, 
-                false, 
+                "session-name",
+                course,
+                "creater_email@tm.tmt",
+                null,
+                Instant.parse("2020-01-01T00:00:00.000Z"),
+                Instant.parse("2020-10-01T00:00:00.000Z"),
+                Instant.parse("2020-01-01T00:00:00.000Z"),
+                Instant.parse("2020-11-01T00:00:00.000Z"),
+                null,
+                false,
+                false,
                 false);
 
         instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
@@ -70,8 +71,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseActionT
         when(mockLogic.getFeedbackSession(sessionName, courseId)).thenReturn(null);
 
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName,
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName,
         };
 
         FeedbackSessionUnpublishedEmailWorkerAction action = getAction(params);
@@ -105,8 +106,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseActionT
         when(mockSqlEmailGenerator.generateFeedbackSessionUnpublishedEmails(session)).thenReturn(emails);
 
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, courseId,
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName,
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName,
         };
 
         FeedbackSessionUnpublishedEmailWorkerAction action = getAction(params);
@@ -131,8 +132,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseActionT
     @Test
     public void testSpecificAccessControl_isAdmin_canAccess() {
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         verifyCanAccess(params);
@@ -141,8 +142,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseActionT
     @Test
     public void testSpecificAccessControl_isInstructor_cannotAccess() {
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         loginAsInstructor("user-id");
@@ -152,8 +153,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseActionT
     @Test
     public void testSpecificAccessControl_isStudent_cannotAccess() {
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         loginAsStudent("user-id");
@@ -163,8 +164,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest extends BaseActionT
     @Test
     public void testSpecificAccessControl_loggedOut_cannotAccess() {
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         logoutUser();

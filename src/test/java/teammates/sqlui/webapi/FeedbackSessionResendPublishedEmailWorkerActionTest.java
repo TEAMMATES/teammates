@@ -25,7 +25,8 @@ import teammates.ui.webapi.FeedbackSessionResendPublishedEmailWorkerAction;
 /**
  * SUT: {@link FeedbackSessionResendPublishedEmailWorkerAction}.
  */
-public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseActionTest<FeedbackSessionResendPublishedEmailWorkerAction> {
+public class FeedbackSessionResendPublishedEmailWorkerActionTest
+        extends BaseActionTest<FeedbackSessionResendPublishedEmailWorkerAction> {
     private FeedbackSession session;
 
     private Instructor instructorToNotify;
@@ -46,17 +47,17 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAct
     void setUp() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         session = new FeedbackSession(
-                "session-name", 
-                course, 
-                "creater_email@tm.tmt", 
-                null, 
-                Instant.parse("2020-01-01T00:00:00.000Z"), 
-                Instant.parse("2020-10-01T00:00:00.000Z"), 
-                Instant.parse("2020-01-01T00:00:00.000Z"), 
-                Instant.parse("2020-11-01T00:00:00.000Z"), 
-                null, 
-                false, 
-                false, 
+                "session-name",
+                course,
+                "creater_email@tm.tmt",
+                null,
+                Instant.parse("2020-01-01T00:00:00.000Z"),
+                Instant.parse("2020-10-01T00:00:00.000Z"),
+                Instant.parse("2020-01-01T00:00:00.000Z"),
+                Instant.parse("2020-11-01T00:00:00.000Z"),
+                null,
+                false,
+                false,
                 false);
 
         instructorToNotify = new Instructor(course, "to_notify_name", "to_notify_email@tm.tmt", false, "", null, null);
@@ -76,7 +77,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAct
         Course course = session.getCourse();
 
         String[] usersToRemind = new String[] {
-                student.getEmail(), 
+                student.getEmail(),
         };
 
         EmailWrapper instructorToNotifyEmail = new EmailWrapper();
@@ -95,7 +96,8 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAct
         when(mockLogic.getStudentForEmail(courseId, student.getEmail())).thenReturn(null);
         when(mockLogic.getInstructorForEmail(courseId, student.getEmail())).thenReturn(null);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(session, students, instructors, Collections.singletonList(instructorToNotify))).thenReturn(emails);
+        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(
+                session, students, instructors, Collections.singletonList(instructorToNotify))).thenReturn(emails);
 
         FeedbackSessionRemindRequest remindRequest = new FeedbackSessionRemindRequest(courseId,
                 sessionName, instructorToNotifyGoogleId, usersToRemind, true);
@@ -159,13 +161,14 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAct
         when(mockLogic.getFeedbackSession(sessionName, courseId)).thenReturn(session);
 
         when(mockLogic.getInstructorByGoogleId(courseId, instructorToNotifyGoogleId)).thenReturn(instructorToNotify);
-        
+
         when(mockLogic.getStudentForEmail(courseId, student.getEmail())).thenReturn(student);
         when(mockLogic.getStudentForEmail(courseId, instructor.getEmail())).thenReturn(null);
         when(mockLogic.getInstructorForEmail(courseId, student.getEmail())).thenReturn(null);
         when(mockLogic.getInstructorForEmail(courseId, instructor.getEmail())).thenReturn(instructor);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(session, students, instructors, Collections.singletonList(instructorToNotify))).thenReturn(emails);
+        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(
+                session, students, instructors, Collections.singletonList(instructorToNotify))).thenReturn(emails);
 
         FeedbackSessionRemindRequest remindRequest = new FeedbackSessionRemindRequest(courseId,
                 sessionName, instructorToNotifyGoogleId, usersToRemind, true);
@@ -189,15 +192,16 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAct
             assertEquals(expectedSubject, email.getSubject());
 
             String recipient = email.getRecipient();
-            assertTrue(recipient.equals(student.getEmail()) || recipient.equals(instructor.getEmail()) || recipient.equals(instructorToNotify.getEmail()));
+            assertTrue(recipient.equals(student.getEmail())
+                    || recipient.equals(instructor.getEmail()) || recipient.equals(instructorToNotify.getEmail()));
         }
     }
 
     @Test
     public void testSpecificAccessControl_isAdmin_canAccess() {
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         verifyCanAccess(params);
@@ -206,8 +210,8 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAct
     @Test
     public void testSpecificAccessControl_isInstructor_cannotAccess() {
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         loginAsInstructor("user-id");
@@ -217,8 +221,8 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAct
     @Test
     public void testSpecificAccessControl_isStudent_cannotAccess() {
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         loginAsStudent("user-id");
@@ -228,8 +232,8 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest extends BaseAct
     @Test
     public void testSpecificAccessControl_loggedOut_cannotAccess() {
         String[] params = new String[] {
-            Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         logoutUser();

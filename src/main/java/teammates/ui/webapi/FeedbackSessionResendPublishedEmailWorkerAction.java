@@ -25,34 +25,34 @@ public class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAc
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
-        String courseId = remindRequest.getCourseId();
         String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
         if (googleIdOfInstructorToNotify == null) {
             throw new InvalidHttpRequestBodyException("Instructor to notify cannot be null.");
         }
+        String courseId = remindRequest.getCourseId();
         String feedbackSessionName = remindRequest.getFeedbackSessionName();
         String[] usersToRemind = remindRequest.getUsersToRemind();
 
-        if (!isCourseMigrated(courseId)) {    
+        if (!isCourseMigrated(courseId)) {
             try {
                 FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
                 List<StudentAttributes> studentsToEmailList = new ArrayList<>();
                 List<InstructorAttributes> instructorsToEmailList = new ArrayList<>();
                 InstructorAttributes instructorToNotify =
                         logic.getInstructorForGoogleId(courseId, googleIdOfInstructorToNotify);
-    
+
                 for (String userEmail : usersToRemind) {
                     StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);
                     if (student != null) {
                         studentsToEmailList.add(student);
                     }
-    
+
                     InstructorAttributes instructor = logic.getInstructorForEmail(courseId, userEmail);
                     if (instructor != null) {
                         instructorsToEmailList.add(instructor);
                     }
                 }
-    
+
                 List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionPublishedEmails(
                         session, studentsToEmailList, instructorsToEmailList, Collections.singletonList(instructorToNotify));
                 taskQueuer.scheduleEmailsForSending(emails);
@@ -69,7 +69,7 @@ public class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAc
 
             Instructor instructorToNotify = sqlLogic.getInstructorByGoogleId(courseId, googleIdOfInstructorToNotify);
 
-            for (String userEmail: usersToRemind) {
+            for (String userEmail : usersToRemind) {
                 Student student = sqlLogic.getStudentForEmail(courseId, userEmail);
                 if (student != null) {
                     studentsToEmailList.add(student);
