@@ -47,12 +47,8 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(publishedFs1.getName(), unpublishedFs.getName());
         assertTrue(publishedFs1.isPublished());
 
-        FeedbackSession publishedFs2 = fsLogic.publishFeedbackSession(
-                publishedFs1.getName(), publishedFs1.getCourse().getId());
-
-        assertEquals(publishedFs2.getName(), unpublishedFs.getName());
-        assertTrue(publishedFs2.isPublished());
-
+        assertThrows(InvalidParametersException.class, () -> fsLogic.publishFeedbackSession(
+                publishedFs1.getName(), publishedFs1.getCourse().getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
                 "non-existent name", unpublishedFs.getCourse().getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
@@ -70,12 +66,8 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(unpublishedFs1.getName(), publishedFs.getName());
         assertFalse(unpublishedFs1.isPublished());
 
-        FeedbackSession unpublishedFs2 = fsLogic.unpublishFeedbackSession(
-                unpublishedFs1.getName(), unpublishedFs1.getCourse().getId());
-
-        assertEquals(unpublishedFs2.getName(), publishedFs.getName());
-        assertFalse(unpublishedFs2.isPublished());
-
+        assertThrows(InvalidParametersException.class, () -> fsLogic.unpublishFeedbackSession(
+                unpublishedFs1.getName(), unpublishedFs1.getCourse().getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
                 "non-existent name", publishedFs.getCourse().getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
