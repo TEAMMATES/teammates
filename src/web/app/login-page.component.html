@@ -59,7 +59,7 @@
         <strong>Login Email Sent</strong>
       </div>
       <div class="card-body">
-        <p>A login email with additional instructions was sent to {{formLogin.controls['email'].value}}.<br>Check your email to complete login.</p>
+        <p>An email with additional instructions has been sent to {{formLogin.controls['email'].value}}. Please check your email to complete the login process.</p>
         <a href="#" style="text-decoration: underline;" (click)="isTroubleGettingEmail=true; isLoginEmailSent=false;">
           Trouble getting email?
         </a>
@@ -70,14 +70,8 @@
         <strong>Trouble Getting Email</strong>
       </div>
       <div class="card-body">
-        <p>Try these common fixes:</p>
-        <ul>
-          <li>Check if the email was marked as spam or filtered.</li>
-          <li>Check your internet connection.</li>
-          <li>Check that you did not misspell your email.</li>
-          <li>Check that your inbox space is not running out or other inbox settings related issues.</li>
-        </ul>
-        <p class="mt-3">If the steps above didn't work, you can resend the email. Note that this will deactivate the link in the older email.</p>
+        <p>We have sent an email to {{formLogin.controls['email'].value}}.</p>
+        <p class="mt-3">If you haven't received this within a few minutes, it may have landed in your spam folder. Still having trouble? Try resending this email by clicking the resend button below.</p>
         <div>
           <button class="btn btn-primary" (click)="resendEmail()">Resend</button>
           <button class="btn btn-light ms-2" (click)="isTroubleGettingEmail=false; isLoginEmailSent=true;">Back</button>
