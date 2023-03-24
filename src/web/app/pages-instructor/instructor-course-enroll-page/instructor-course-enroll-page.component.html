@@ -6,7 +6,7 @@
         <div class="card-body fill-plain">
           <p class="text-muted">
             <i class="fas fa-info-circle"></i>
-            <a class="scroll-down" tabindex="0" role="button" (click)="navigateToMoreInfo()"> <!--We are just treating it as a button here-->
+            <a class="scroll-down" tabindex="0" role="button" (click)="navigateTo('more-info')"> <!--We are just treating it as a button here-->
               <b>&nbsp;</b>
               <b><u>Scroll down</u></b>
             </a>
@@ -168,7 +168,7 @@
       </div>
     </div>
 
-    <div class="more-info" #moreInfo>
+    <div class="more-info" id="more-info">
       <h2> More info </h2>
       <hr>
       <ul>
