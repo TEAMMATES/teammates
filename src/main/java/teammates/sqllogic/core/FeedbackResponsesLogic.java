@@ -1,8 +1,11 @@
 package teammates.sqllogic.core;
 
+import java.util.List;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 
 /**
  * Handles operations related to feedback sessions.
@@ -63,5 +66,22 @@ public final class FeedbackResponsesLogic {
      */
     public boolean isResponseOfFeedbackQuestionVisibleToInstructor(FeedbackQuestion question) {
         return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    /**
+     * Checks whether a giver has responded a session.
+     */
+    public boolean hasGiverRespondedForSession(String giverIdentifier, List<FeedbackQuestion> questions) {
+        assert giverIdentifier != null;
+        assert questions != null;
+
+        for (FeedbackQuestion question : questions) {
+            boolean hasResponse = question.getFeedbackResponses().stream().anyMatch(response -> response.getGiver().equals(giverIdentifier));
+            if (hasResponse) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

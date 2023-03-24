@@ -320,6 +320,19 @@ public class Logic {
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
     }
 
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(session, userEmail, userTeam);
+    }
+
+    /**
+     * Checks whether an instructor has attempted a feedback session.
+     *
+     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByInstructor(session, userEmail);
+    }
+
     /**
      * Get usage statistics within a time range.
      */
