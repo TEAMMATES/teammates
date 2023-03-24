@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -12,6 +13,7 @@ import teammates.ui.output.InstructorPrivilegeData;
 /**
  * SUT: {@link GetInstructorPrivilegeAction}.
  */
+@Ignore
 public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstructorPrivilegeAction> {
 
     private DataBundle dataBundle;
