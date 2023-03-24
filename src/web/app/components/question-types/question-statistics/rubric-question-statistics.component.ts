@@ -94,7 +94,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       this.subQuestions.forEach((subQuestion: string, questionIndex: number) => {
         this.perRecipientPerCriterionRowsData.push([
           { value: perRecipientStats.recipientTeam },
-          { value: perRecipientStats.recipientName },
+          { value: `${perRecipientStats.recipientName} (${perRecipientStats.recipientEmail})` },
           { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
           ...this.choices.map((_: string, choiceIndex: number) => {
             return {

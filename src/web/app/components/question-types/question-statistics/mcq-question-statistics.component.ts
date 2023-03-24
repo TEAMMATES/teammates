@@ -73,7 +73,7 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
     this.perRecipientRowsData = Object.keys(this.perRecipientResponses).map((key: string) => {
       return [
         { value: this.perRecipientResponses[key].recipientTeam },
-        { value: this.perRecipientResponses[key].recipient },
+        {value: `${this.perRecipientResponses[key].recipient} (${this.perRecipientResponses[key].recipientEmaill})` },
         ...Object.keys(this.weightPerOption).map((option: string) => {
           return {
             value: this.perRecipientResponses[key].responses[option],
