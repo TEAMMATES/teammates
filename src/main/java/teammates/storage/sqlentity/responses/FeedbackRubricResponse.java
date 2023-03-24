@@ -2,8 +2,9 @@ package teammates.storage.sqlentity.responses;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
-
+import teammates.storage.sqlentity.Section;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
@@ -21,6 +22,15 @@ public class FeedbackRubricResponse extends FeedbackResponse {
 
     protected FeedbackRubricResponse() {
         // required by Hibernate
+    }
+
+    public FeedbackRubricResponse(
+        FeedbackQuestion feedbackQuestion, String giver,
+        Section giverSection, String receiver, Section receiverSection,
+        FeedbackResponseDetails responseDetails
+    ) {
+        super(feedbackQuestion, giver, giverSection, receiver, receiverSection);
+        this.setAnswer((FeedbackRubricResponseDetails) responseDetails);
     }
 
     public FeedbackRubricResponseDetails getAnswer() {

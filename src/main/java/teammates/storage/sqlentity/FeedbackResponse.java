@@ -10,6 +10,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
+import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
+import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
+import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
+import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -69,6 +78,67 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.setGiverSection(giverSection);
         this.setReceiver(receiver);
         this.setReceiverSection(receiverSection);
+    }
+
+    /**
+     * Creates a feedback response according to its {@code FeedbackQuestionType}.
+     */
+    public static FeedbackResponse makeResponse(
+        FeedbackQuestion feedbackQuestion, String giver,
+        Section giverSection, String receiver, Section receiverSection,
+        FeedbackResponseDetails responseDetails
+    ) {
+        FeedbackResponse feedbackResponse = null;
+        switch (responseDetails.getQuestionType()) {
+        case TEXT:
+            feedbackResponse = new FeedbackTextResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case MCQ:
+            feedbackResponse = new FeedbackMcqResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case MSQ:
+            feedbackResponse = new FeedbackMsqResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case NUMSCALE:
+            feedbackResponse = new FeedbackNumericalScaleResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case CONSTSUM:
+        case CONSTSUM_OPTIONS:
+        case CONSTSUM_RECIPIENTS:
+            feedbackResponse = new FeedbackConstantSumResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case CONTRIB:
+            feedbackResponse = new FeedbackContributionResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case RUBRIC:
+            feedbackResponse = new FeedbackRubricResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case RANK_OPTIONS:
+            feedbackResponse = new FeedbackRankOptionsResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case RANK_RECIPIENTS:
+            feedbackResponse = new FeedbackContributionResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        }
+        return feedbackResponse;
     }
 
     /**

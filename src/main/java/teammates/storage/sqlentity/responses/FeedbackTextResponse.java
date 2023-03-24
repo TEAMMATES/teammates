@@ -2,8 +2,9 @@ package teammates.storage.sqlentity.responses;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
-
+import teammates.storage.sqlentity.Section;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -18,6 +19,15 @@ public class FeedbackTextResponse extends FeedbackResponse {
 
     protected FeedbackTextResponse() {
         // required by Hibernate
+    }
+
+    public FeedbackTextResponse(
+        FeedbackQuestion feedbackQuestion, String giver,
+        Section giverSection, String receiver, Section receiverSection,
+        FeedbackResponseDetails responseDetails
+    ) {
+        super(feedbackQuestion, giver, giverSection, receiver, receiverSection);
+        this.setAnswer(((FeedbackTextResponseDetails) responseDetails).getAnswer());
     }
 
     public String getAnswer() {
