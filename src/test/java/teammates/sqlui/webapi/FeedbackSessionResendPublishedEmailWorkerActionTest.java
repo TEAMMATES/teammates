@@ -126,7 +126,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
     }
 
     @Test
-    public void testExecute_sessionExists_success() {
+    public void testExecute_validUsers_success() {
         String instructorToNotifyGoogleId = "instructor-id";
 
         String courseId = session.getCourse().getId();
@@ -199,44 +199,24 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
 
     @Test
     public void testSpecificAccessControl_isAdmin_canAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-        };
-
-        verifyCanAccess(params);
+        verifyCanAccess();
     }
 
     @Test
     public void testSpecificAccessControl_isInstructor_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-        };
-
         loginAsInstructor("user-id");
-        verifyCannotAccess(params);
+        verifyCannotAccess();
     }
 
     @Test
     public void testSpecificAccessControl_isStudent_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-        };
-
         loginAsStudent("user-id");
-        verifyCannotAccess(params);
+        verifyCannotAccess();
     }
 
     @Test
     public void testSpecificAccessControl_loggedOut_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-        };
-
         logoutUser();
-        verifyCannotAccess(params);
+        verifyCannotAccess();
     }
 }
