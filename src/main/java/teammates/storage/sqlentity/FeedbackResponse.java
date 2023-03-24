@@ -8,12 +8,10 @@ import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -36,10 +34,6 @@ public abstract class FeedbackResponse extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "questionId")
     private FeedbackQuestion feedbackQuestion;
-
-    @Column(nullable = false)
-    @Convert(converter = FeedbackQuestionTypeConverter.class)
-    private FeedbackQuestionType type;
 
     @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
@@ -66,12 +60,11 @@ public abstract class FeedbackResponse extends BaseEntity {
     }
 
     public FeedbackResponse(
-            FeedbackQuestion feedbackQuestion, FeedbackQuestionType type, String giver,
+            FeedbackQuestion feedbackQuestion, String giver,
             Section giverSection, String receiver, Section receiverSection
     ) {
         this.setId(UUID.randomUUID());
         this.setFeedbackQuestion(feedbackQuestion);
-        this.setFeedbackQuestionType(type);
         this.setGiver(giver);
         this.setGiverSection(giverSection);
         this.setReceiver(receiver);
@@ -97,14 +90,6 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     public void setFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
         this.feedbackQuestion = feedbackQuestion;
-    }
-
-    public FeedbackQuestionType getFeedbackQuestionType() {
-        return type;
-    }
-
-    public void setFeedbackQuestionType(FeedbackQuestionType type) {
-        this.type = type;
     }
 
     public List<FeedbackResponseComment> getFeedbackResponseComments() {
