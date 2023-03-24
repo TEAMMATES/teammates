@@ -502,8 +502,6 @@ public abstract class AppPage {
      */
     protected void verifyTableHeaderValues(WebElement row, String[] expectedRowHeaderValues) {
         List<WebElement> cells = row.findElements(By.tagName("th"));
-        System.out.println(cells);
-        System.out.println(expectedRowHeaderValues);
         assertTrue(expectedRowHeaderValues.length <= cells.size());
         for (int cellIndex = 0; cellIndex < expectedRowHeaderValues.length; cellIndex++) {
             assertEquals(expectedRowHeaderValues[cellIndex], cells.get(cellIndex).getText());
