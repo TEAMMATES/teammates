@@ -12,7 +12,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
 
@@ -188,8 +187,8 @@ public final class UsersLogic {
     /**
      * Gets all students of a section.
      */
-    public List<Student> getStudentsForSection(Section section, String courseId) {
-        return usersDb.getStudentsForSection(section, courseId);
+    public List<Student> getStudentsForSection(String sectionName, String courseId) {
+        return usersDb.getStudentsForSection(sectionName, courseId);
     }
 
     /**
