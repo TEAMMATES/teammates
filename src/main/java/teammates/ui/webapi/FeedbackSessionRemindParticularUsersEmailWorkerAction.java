@@ -41,19 +41,19 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerAction extends Admin
                 InstructorAttributes instructorToNotify = isSendingCopyToInstructor
                         ? logic.getInstructorForGoogleId(courseId, googleIdOfInstructorToNotify)
                         : null;
-    
+
                 for (String userEmail : usersToRemind) {
                     StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);
                     if (student != null) {
                         studentsToRemindList.add(student);
                     }
-    
+
                     InstructorAttributes instructor = logic.getInstructorForEmail(courseId, userEmail);
                     if (instructor != null) {
                         instructorsToRemindList.add(instructor);
                     }
                 }
-    
+
                 List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
                         session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
                 taskQueuer.scheduleEmailsForSending(emails);

@@ -320,6 +320,11 @@ public class Logic {
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
     }
 
+    /**
+     * Checks whether a student has attempted a feedback session.
+     *
+     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
+     */
     public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
         return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(session, userEmail, userTeam);
     }

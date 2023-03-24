@@ -58,7 +58,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
                 false,
                 false,
                 false);
-        
+
         Team team = new Team(null, "team-name");
 
         instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
@@ -82,7 +82,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
 
         List<Student> students = List.of(student);
         List<Instructor> instructors = List.of(instructor);
-        
+
         when(mockLogic.getFeedbackSession(sessionName, courseId)).thenReturn(session);
 
         when(mockLogic.getStudentsForCourse(courseId)).thenReturn(students);
@@ -90,12 +90,14 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         when(mockLogic.getInstructorByGoogleId(courseId, instructorGoogleId)).thenReturn(null);
 
         // Feedback Session not attempted yet by users.
-        when(mockLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam().getName())).thenReturn(true);
+        when(mockLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam().getName()))
+                .thenReturn(true);
         when(mockLogic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())).thenReturn(true);
 
         List<EmailWrapper> emails = List.of();
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(session, students, instructors, null)).thenReturn(emails);
+        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(session, students, instructors, null))
+                .thenReturn(emails);
 
         FeedbackSessionRemindEmailWorkerAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
@@ -121,7 +123,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
 
         List<Student> students = List.of(student);
         List<Instructor> instructors = List.of(instructor);
-        
+
         when(mockLogic.getFeedbackSession(sessionName, courseId)).thenReturn(session);
 
         when(mockLogic.getStudentsForCourse(courseId)).thenReturn(students);
@@ -129,7 +131,8 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         when(mockLogic.getInstructorByGoogleId(courseId, instructorGoogleId)).thenReturn(null);
 
         // Feedback Session not attempted yet by users.
-        when(mockLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam().getName())).thenReturn(false);
+        when(mockLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam().getName()))
+                .thenReturn(false);
         when(mockLogic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())).thenReturn(false);
 
         EmailWrapper studentEmail = new EmailWrapper();
@@ -144,7 +147,8 @@ public class FeedbackSessionRemindEmailWorkerActionTest
 
         List<EmailWrapper> emails = List.of(studentEmail, instructorEmail);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(session, students, instructors, null)).thenReturn(emails);
+        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(session, students, instructors, null))
+                .thenReturn(emails);
 
         FeedbackSessionRemindEmailWorkerAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();

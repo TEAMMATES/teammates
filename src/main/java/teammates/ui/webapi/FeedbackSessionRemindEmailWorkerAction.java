@@ -7,11 +7,11 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 
 /**
  * Task queue worker action: sends feedback session reminder email to a course.
@@ -31,17 +31,17 @@ public class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
                 FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
                 List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
                 List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-    
+
                 InstructorAttributes instructorToNotify = logic.getInstructorForGoogleId(courseId, instructorId);
-    
+
                 List<StudentAttributes> studentsToRemindList = studentList.stream().filter(student ->
                         !logic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam())
                 ).collect(Collectors.toList());
-    
+
                 List<InstructorAttributes> instructorsToRemindList = instructorList.stream().filter(instructor ->
                         !logic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())
                 ).collect(Collectors.toList());
-    
+
                 List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionReminderEmails(
                         session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
                 taskQueuer.scheduleEmailsForSending(emails);
@@ -60,14 +60,15 @@ public class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
 
             List<Student> studentsToRemindList = studentList
                     .stream()
-                    .filter(student -> !sqlLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam().getName()))
+                    .filter(student -> !sqlLogic.isFeedbackSessionAttemptedByStudent(
+                            session, student.getEmail(), student.getTeam().getName()))
                     .collect(Collectors.toList());
 
             List<Instructor> instructorsToRemindList = instructorList
                     .stream()
                     .filter(instructor -> !sqlLogic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail()))
                     .collect(Collectors.toList());
-            
+
             List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
                     session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
             taskQueuer.scheduleEmailsForSending(emails);

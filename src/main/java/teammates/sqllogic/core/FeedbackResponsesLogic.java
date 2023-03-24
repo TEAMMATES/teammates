@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
 
 /**
  * Handles operations related to feedback sessions.
@@ -76,7 +75,10 @@ public final class FeedbackResponsesLogic {
         assert questions != null;
 
         for (FeedbackQuestion question : questions) {
-            boolean hasResponse = question.getFeedbackResponses().stream().anyMatch(response -> response.getGiver().equals(giverIdentifier));
+            boolean hasResponse = question
+                    .getFeedbackResponses()
+                    .stream()
+                    .anyMatch(response -> response.getGiver().equals(giverIdentifier));
             if (hasResponse) {
                 return true;
             }
