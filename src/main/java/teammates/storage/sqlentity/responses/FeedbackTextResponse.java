@@ -5,7 +5,10 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Section;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 
 /**
@@ -15,7 +18,8 @@ import jakarta.persistence.Entity;
 public class FeedbackTextResponse extends FeedbackResponse {
 
     @Column(nullable = false)
-    private String answer;
+    @Convert(converter = FeedbackTextResponseDetailsConverter.class)
+    private FeedbackTextResponseDetails answer;
 
     protected FeedbackTextResponse() {
         // required by Hibernate
@@ -27,25 +31,33 @@ public class FeedbackTextResponse extends FeedbackResponse {
         FeedbackResponseDetails responseDetails
     ) {
         super(feedbackQuestion, giver, giverSection, receiver, receiverSection);
-        this.setAnswer(((FeedbackTextResponseDetails) responseDetails).getAnswer());
+        this.setAnswer((FeedbackTextResponseDetails) responseDetails);
     }
 
-    public String getAnswer() {
+    public FeedbackTextResponseDetails getAnswer() {
         return answer;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(FeedbackTextResponseDetails answer) {
         this.answer = answer;
     }
 
     @Override
     public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
-        return new FeedbackTextResponseDetails(answer);
+        return answer;
     }
 
     @Override
     public String toString() {
         return "FeedbackTextResponse [id=" + super.getId()
             + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
+    }
+
+    /**
+     * Converter for FeedbackMcqResponse specific attributes.
+     */
+    @Converter
+    public static class FeedbackTextResponseDetailsConverter
+            extends FeedbackResponseDetailsConverter {
     }
 }
