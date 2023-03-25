@@ -15,11 +15,11 @@
     </button>
     <ul id="question-visibility-dropdown" ngbDropdownMenu>
       <li class="dropdown-header">Common visibility options</li>
-      <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings">
+      <li class="text-wrap dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings">
         <button class="dropdown-button" (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</button>
       </li>
       <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed" aria-hidden="true"></li>
-      <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed">
+      <li class="text-wrap dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed">
         <button class="dropdown-button" (click)="triggerCustomVisibilitySetting()">Custom visibility options...</button>
       </li>
     </ul>
