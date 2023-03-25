@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HotTableModule } from '@handsontable/angular';
 import { registerAllModules } from 'handsontable/registry';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../../components/ajax-preload/ajax-preload.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -25,6 +26,7 @@ describe('InstructorCourseEnrollPageComponent', () => {
         HttpClientTestingModule,
         HotTableModule,
         RouterTestingModule,
+        NgxPageScrollCoreModule,
         AjaxPreloadModule,
         AjaxLoadingModule,
         StatusMessageModule,
