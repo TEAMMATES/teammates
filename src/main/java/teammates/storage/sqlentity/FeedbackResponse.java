@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-
 import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
 import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
 import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
