@@ -32,6 +32,7 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -148,7 +149,12 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             FeedbackResponse actualResponse = (FeedbackResponse) actual;
             equalizeIrrelevantData(expectedResponse, actualResponse);
             assertEquals(JsonUtils.toJson(expectedResponse), JsonUtils.toJson(actualResponse));
-        } else if (expected instanceof Notification) {
+        } else if (expected instanceof FeedbackResponseComment) {
+            FeedbackResponseComment expectedComment = (FeedbackResponseComment) expected;
+            FeedbackResponseComment actualComment = (FeedbackResponseComment) actual;
+            equalizeIrrelevantData(expectedComment, actualComment);
+            assertEquals(JsonUtils.toJson(expectedComment), JsonUtils.toJson(actualComment));
+        }  else if (expected instanceof Notification) {
             Notification expectedNotification = (Notification) expected;
             Notification actualNotification = (Notification) actual;
             equalizeIrrelevantData(expectedNotification, actualNotification);
@@ -249,6 +255,13 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());
     }
+
+    private void equalizeIrrelevantData(FeedbackResponseComment expected, FeedbackResponseComment actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
 
     private void equalizeIrrelevantData(Notification expected, Notification actual) {
         // Ignore time field as it is stamped at the time of creation in testing
