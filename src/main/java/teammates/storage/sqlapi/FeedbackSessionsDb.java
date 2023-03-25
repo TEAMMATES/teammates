@@ -11,10 +11,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 /**
@@ -22,7 +24,7 @@ import jakarta.persistence.criteria.Root;
  *
  * @see FeedbackSession
  */
-public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
+public final class FeedbackSessionsDb extends EntitiesDb {
 
     private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
 
@@ -43,6 +45,41 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
         assert fsId != null;
 
         return HibernateUtil.get(FeedbackSession.class, fsId);
+    }
+
+    /**
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
+     *
+     * @return null if not found
+     */
+    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+        cq.select(fsRoot).where(cb.and(
+                cb.equal(fsRoot.get("name"), feedbackSessionName),
+                cb.equal(fsJoin.get("id"), courseId)));
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets a soft-deleted feedback session.
+     *
+     * @return null if not found or not soft-deleted.
+     */
+    public FeedbackSession getSoftDeletedFeedbackSession(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
+
+        if (feedbackSession != null && feedbackSession.getDeletedAt() == null) {
+            log.info(feedbackSessionName + "/" + courseId + " is not soft-deleted!");
+            return null;
+        }
+
+        return feedbackSession;
     }
 
     /**
@@ -93,6 +130,28 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession> {
         if (feedbackSession != null) {
             delete(feedbackSession);
         }
+    }
+
+    /**
+     * Soft-deletes a specific feedback session by its name and course id.
+     *
+     * @return Soft-deletion time of the feedback session.
+     */
+    public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+        assert courseId != null;
+        assert feedbackSessionName != null;
+
+        FeedbackSession feedbackSessionEntity = getFeedbackSession(feedbackSessionName, courseId);
+
+        if (feedbackSessionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        feedbackSessionEntity.setDeletedAt(Instant.now());
+        merge(feedbackSessionEntity);
+
+        return feedbackSessionEntity.getDeletedAt();
     }
 
     /**

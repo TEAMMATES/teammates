@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -25,7 +26,7 @@ import jakarta.persistence.Table;
  * Represents a Feedback Response.
  */
 @Entity
-@Table(name = "FeedbackReponses")
+@Table(name = "FeedbackResponses")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class FeedbackResponse extends BaseEntity {
     @Id
@@ -36,10 +37,10 @@ public abstract class FeedbackResponse extends BaseEntity {
     private FeedbackQuestion feedbackQuestion;
 
     @Column(nullable = false)
-    @Convert(converter = FeedbackParticipantTypeConverter.class)
+    @Convert(converter = FeedbackQuestionTypeConverter.class)
     private FeedbackQuestionType type;
 
-    @OneToMany(mappedBy = "feedbackResponse")
+    @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
     @Column(nullable = false)
