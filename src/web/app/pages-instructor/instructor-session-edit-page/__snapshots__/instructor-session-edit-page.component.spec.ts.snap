@@ -748,6 +748,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             aria-label="Change date"
                             class="btn btn-light input-group-text"
+                            disabled=""
                             type="button"
                           >
                             <i
@@ -955,6 +956,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             aria-label="Change date"
                             class="btn btn-light input-group-text"
+                            disabled=""
                             type="button"
                           >
                             <i
@@ -3376,6 +3378,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           <button
                             aria-label="Change date"
                             class="btn btn-light input-group-text"
+                            disabled=""
                             type="button"
                           >
                             <i
@@ -3583,6 +3586,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           <button
                             aria-label="Change date"
                             class="btn btn-light input-group-text"
+                            disabled=""
                             type="button"
                           >
                             <i
