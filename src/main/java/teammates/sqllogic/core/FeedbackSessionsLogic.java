@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -25,6 +26,8 @@ public final class FeedbackSessionsLogic {
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
             + "Session has already been published.";
+    private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
+            + "Session has already been unpublished.";
 
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
@@ -98,6 +101,30 @@ public final class FeedbackSessionsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert session != null;
         return fsDb.createFeedbackSession(session);
+    }
+
+    /**
+     * Unpublishes a feedback session.
+     *
+     * @return the unpublished feedback session
+     * @throws InvalidParametersException if session is already unpublished
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     */
+    public FeedbackSession unpublishFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        FeedbackSession sessionToUnpublish = getFeedbackSession(feedbackSessionName, courseId);
+
+        if (sessionToUnpublish == null) {
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
+        }
+        if (!sessionToUnpublish.isPublished()) {
+            throw new InvalidParametersException(ERROR_FS_ALREADY_UNPUBLISH);
+        }
+
+        sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+
+        return sessionToUnpublish;
     }
 
     /**
