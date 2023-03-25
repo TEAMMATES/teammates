@@ -317,7 +317,7 @@ public class FeedbackSession extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FeedbackSession [id=" + id + ", course=" + course.getId() + ", name=" + name
+        return "FeedbackSession [id=" + id + ", courseId=" + course.getId() + ", name=" + name
                 + ", creatorEmail=" + creatorEmail
                 + ", instructions=" + instructions + ", startTime=" + startTime + ", endTime=" + endTime
                 + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
