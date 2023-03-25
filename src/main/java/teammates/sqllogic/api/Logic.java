@@ -300,43 +300,6 @@ public class Logic {
     }
 
     /**
-     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
-     *
-     * @return null if not found.
-     */
-    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
-        return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
-    }
-
-    /**
-     * Creates a feedback session.
-     *
-     * @return created feedback session
-     * @throws InvalidParametersException if the session is not valid
-     * @throws EntityAlreadyExistsException if the session already exist
-     */
-    public FeedbackSession createFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackSessionsLogic.createFeedbackSession(session);
-    }
-
-    /**
-     * Unpublishes a feedback session.
-     * @return the unpublished feedback session
-     * @throws EntityDoesNotExistException if the feedback session cannot be found
-     * @throws InvalidParametersException
-     *             if the feedback session is not ready to be unpublished.
-     */
-    public FeedbackSession unpublishFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
-    }
-
-    /**
      * Creates a new feedback question.
      *
      * <br/>Preconditions: <br/>
@@ -399,34 +362,6 @@ public class Logic {
         assert courseId != null;
 
         return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
-    }
-
-    /**
-     * Creates a new feedback question.
-     *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return the created question
-     * @throws InvalidParametersException if the question is invalid
-     */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
-        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
-    }
-
-    /**
-     * Publishes a feedback session.
-     * @return the published feedback session
-     * @throws EntityDoesNotExistException if the feedback session cannot be found
-     * @throws InvalidParametersException if session is already published
-     */
-    public FeedbackSession publishFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**

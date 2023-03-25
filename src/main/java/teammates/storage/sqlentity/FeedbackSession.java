@@ -74,6 +74,7 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isPublishedEmailEnabled;
 
+
     @Column(nullable = false)
     private boolean isPublishedEmailSent;
 
