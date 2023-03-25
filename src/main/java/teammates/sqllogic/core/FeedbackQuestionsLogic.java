@@ -640,7 +640,7 @@ public final class FeedbackQuestionsLogic {
         for (FeedbackSession session : feedbackSessions) {
             feedbackQuestions.addAll(getFeedbackQuestionsForSession(session));
         }
-
+        
         return feedbackQuestions
                 .stream()
                 .filter(q -> q.getQuestionDetailsCopy().getQuestionType().equals(questionType))

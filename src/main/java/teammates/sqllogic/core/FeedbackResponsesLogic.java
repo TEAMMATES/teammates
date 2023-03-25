@@ -9,9 +9,9 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
@@ -240,6 +240,14 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets all responses given by a user for a question.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverForQuestion(
+            UUID feedbackQuestionId, String giver) {
+        return frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, giver);
+    }
+
+    /**
      * Deletes a feedback response, cascade its associated comments.
      */
     public void deleteFeedbackResponseCascade(UUID responseId) {
@@ -264,9 +272,10 @@ public final class FeedbackResponsesLogic {
     private void updateRankRecipientQuestionResponsesAfterDeletingStudent(String courseId) {
         List<FeedbackQuestion> filteredQuestions =
                 fqLogic.getFeedbackQuestionForCourseWithType(courseId, FeedbackQuestionType.RANK_RECIPIENTS);
-        CourseRoster roster = new CourseRoster(
+        SqlCourseRoster roster = new SqlCourseRoster(
                 uLogic.getStudentsForCourse(courseId),
                 uLogic.getInstructorsForCourse(courseId));
+
         for (FeedbackQuestion question : filteredQuestions) {
             makeRankRecipientQuestionResponsesConsistent(question, roster);
         }
@@ -280,8 +289,8 @@ public final class FeedbackResponsesLogic {
      * </p>
      */
     private void makeRankRecipientQuestionResponsesConsistent(
-            FeedbackQuestion question, CourseRoster roster) {
-        if (!question.getQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS)) {
+            FeedbackQuestion question, SqlCourseRoster roster) {
+        if (!question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS)) {
             return;
         }
 
@@ -289,7 +298,7 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> responses;
 
         int numberOfRecipients;
-        List<FeedbackResponseAttributes.UpdateOptions> updates = new ArrayList<>();
+        List<FeedbackResponse> updates = new ArrayList<>();
 
         switch (giverType) {
         case INSTRUCTORS:
@@ -313,7 +322,8 @@ public final class FeedbackResponsesLogic {
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, null, firstMemberOfTeam, roster).size();
                 responses =
-                        getFeedbackResponsesFromTeamForQuestion(question.getId(), question.getCourseId(), team, roster);
+                        getFeedbackResponsesFromTeamForQuestion(
+                                question.getId(), question.getCourseId(), team, roster);
                 updates.addAll(FeedbackRankRecipientsResponseDetails
                         .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
             }
@@ -329,13 +339,29 @@ public final class FeedbackResponsesLogic {
             break;
         }
 
-        for (FeedbackResponseAttributes.UpdateOptions update : updates) {
+        for (FeedbackResponse update : updates) {
             try {
                 frDb.updateFeedbackResponse(update);
             } catch (EntityAlreadyExistsException | EntityDoesNotExistException | InvalidParametersException e) {
                 assert false : "Exception occurred when updating responses after deleting students.";
             }
         }
+    }
+
+    private List<FeedbackResponse> getFeedbackResponsesFromTeamForQuestion(
+            UUID feedbackQuestionId, String courseId, String teamName, @Nullable SqlCourseRoster courseRoster) {
+        List<FeedbackResponse> responses = new ArrayList<>();
+        List<Student> studentsInTeam = courseRoster == null
+                ? uLogic.getStudentsForTeam(teamName, courseId) : courseRoster.getTeamToMembersTable().get(teamName);
+
+        for (Student student : studentsInTeam) {
+            responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
+                    feedbackQuestionId, student.getEmail()));
+        }
+
+        responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, teamName));
+
+        return responses;
     }
 
 }
