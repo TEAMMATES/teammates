@@ -477,6 +477,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               const model: QuestionSubmissionFormModel = {
                 isLoading: false,
                 isLoaded: false,
+                isTabExpanded: true,
                 feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
                 questionNumber: feedbackQuestion.questionNumber,

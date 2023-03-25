@@ -5,7 +5,7 @@
       <div class="card-body">
         <div class="row text-center">
           <div class="col-md-2 text-md-end font-bold">Course ID</div>
-          <div id="time-zone" class="col-md-3 text-md-start">
+          <div id="course-id" class="col-md-3 text-md-start">
             {{ courseId }}
           </div>
         </div>
@@ -23,13 +23,13 @@
         </div>
         <div class="row text-center">
           <div class="col-md-2 text-md-end font-bold">Session Name</div>
-          <div id="course-name" class="col-md-10 text-md-start">
+          <div id="session-name" class="col-md-10 text-md-start">
             {{ feedbackSessionName }}
           </div>
         </div>
         <div class="row text-center">
           <div class="col-md-2 text-md-end font-bold">Original Deadline</div>
-          <div id="course-name" class="col-md-10 text-md-start">
+          <div id="original-deadline" class="col-md-10 text-md-start">
             {{ feedbackSessionEndingTimestamp | formatDateDetail: feedbackSessionTimeZone }}
           </div>
         </div>
@@ -40,7 +40,6 @@
   </div>
 </tm-loading-retry>
 
-<!-- TODO: Use lazy loading toggleable dropdowns-->
 <tm-loading-retry [shouldShowRetry]="hasLoadedAllStudentsFailed" [message]="'Failed to load students'"
   (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingAllStudents">
@@ -50,8 +49,8 @@
         <thead>
           <tr>
             <th (click)="selectAllStudents()">
-              <label><input type="checkbox" id="select-all-student-btn" [checked]="isAllStudentsSelected" /> Select
-                all</label>
+              <input type="checkbox" id="select-all-student-btn" [checked]="isAllStudentsSelected" aria-label="Select all students" />
+              Select all
             </th>
             <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SECTION_NAME)">
               Section
@@ -109,7 +108,7 @@
           <tr *ngFor="let student of studentsOfCourse; index as i" id="student-row-{{ i }}" (click)="selectStudent(i)"
             [ngClass]="{ 'table-warning': student.hasExtension === true }">
             <td class="align-center">
-              <label><input type="checkbox" id="student-checkbox-{{ i }}" [checked]="student.isSelected" /></label>
+              <input type="checkbox" id="student-checkbox-{{ i }}" [checked]="student.isSelected" [attr.aria-label]="getAriaLabel(student)" />
             </td>
             <td>{{ student.sectionName }}</td>
             <td>{{ student.teamName }}</td>
@@ -134,8 +133,8 @@
         <thead>
           <tr>
             <th (click)="selectAllInstructors()">
-              <label><input type="checkbox" id="select-all-instructor-btn" [checked]="isAllInstructorsSelected" />
-                Select all</label>
+              <input type="checkbox" id="select-all-instructor-btn" [checked]="isAllInstructorsSelected" aria-label="Select all instructors" />
+              Select all
             </th>
             <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_NAME)">
               Name
@@ -183,7 +182,7 @@
           <tr *ngFor="let instructor of instructorsOfCourse; index as i" id="instructor-row-{{ i }}" (click)="selectIntructor(i)"
             [ngClass]="{ 'table-warning': instructor.hasExtension === true }">
             <td class="align-center">
-              <label><input type="checkbox" id="instructor-checkbox-{{ i }}" [checked]="instructor.isSelected" /></label>
+              <input type="checkbox" id="instructor-checkbox-{{ i }}" [checked]="instructor.isSelected" [attr.aria-label]="getAriaLabel(instructor)" />
             </td>
             <td>{{ instructor.name }}</td>
             <td>{{ instructor.email }}</td>

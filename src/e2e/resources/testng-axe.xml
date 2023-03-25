@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="axe-tests" parallel="tests" thread-count="2">
+    <test name="axe-tests" parallel="classes">
+        <classes>
+            <class name="teammates.e2e.cases.axe.AdminAccountsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.AdminHomePageAxeTest" />
+            <class name="teammates.e2e.cases.axe.AdminNotificationsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.AdminSearchPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.AdminSessionsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.FeedbackResultsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.FeedbackSubmitPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorCourseDetailsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorCourseEditPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorCourseEnrollPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorCourseJoinConfirmationPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorCoursesPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorCourseStudentDetailsEditPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorCourseStudentDetailsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorFeedbackEditPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorFeedbackReportPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorFeedbackSessionsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorHomePageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorNotificationsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorSearchPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorSessionIndividualExtensionPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorStudentActivityLogsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorStudentListPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.InstructorStudentRecordsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.StudentCourseDetailsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.StudentCourseJoinConfirmationPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.StudentHomePageAxeTest" />
+            <class name="teammates.e2e.cases.axe.StudentNotificationsPageAxeTest" />
+        </classes>
+    </test>
+</suite>

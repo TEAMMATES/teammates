@@ -1,8 +1,10 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { DetailedSettings } from 'handsontable/plugins/contextMenu';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { concat, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -52,8 +54,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   statusMessage: StatusMessage[] = [];
   unsuccessfulEnrolls: { [email: string]: string } = {};
 
-  @ViewChild('moreInfo') moreInfo?: ElementRef;
-
   @Input() isNewStudentsPanelCollapsed: boolean = false;
   @Input() isExistingStudentsPanelCollapsed: boolean = true;
 
@@ -102,7 +102,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private progressBarService: ProgressBarService,
-              private simpleModalService: SimpleModalService) { }
+              private simpleModalService: SimpleModalService,
+              private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -644,10 +646,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   /**
-   * Shows user more information about the spreadsheet interfaces
+   * Scrolls user to the target section.
    */
-  navigateToMoreInfo(): void {
-    (this.moreInfo as ElementRef)
-        .nativeElement.scrollIntoView({ behavior: 'auto', block: 'start' });
+  navigateTo(target: string): void {
+    this.pageScrollService.scroll({
+      document: this.document,
+      duration: 500,
+      scrollTarget: `#${target}`,
+      scrollOffset: 70,
+    });
   }
 }

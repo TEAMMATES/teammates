@@ -5,7 +5,7 @@
     </p>
 
     <div class="input-group">
-      <input id="search-box" type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
+      <input id="search-box" type="text" class="form-control" aria-label="Search" [(ngModel)]="searchQuery" (keyup.enter)="search()">
       <button id="search-button" class="btn btn-primary input-group-text" (click)="search()">Search</button>
     </div>
   </div>
@@ -39,10 +39,10 @@
               <i *ngIf="instructor.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px bin-icon" [ngbTooltip]="'This course is in the recycle bin.'"></i>
               <br>
               <div class="col-sm-1">
-                <button *ngIf="!instructor.showLinks" class="btn">
+                <button *ngIf="!instructor.showLinks" class="btn" aria-label="Expand">
                   <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
                 </button>
-                <button *ngIf="instructor.showLinks" class="btn">
+                <button *ngIf="instructor.showLinks" class="btn" aria-label="Collapse">
                   <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
                 </button>
               </div>
@@ -131,10 +131,10 @@
               <i *ngIf="student.isCourseDeleted" class="fas fa-trash-alt text-course-deleted margin-left-5px bin-icon" [ngbTooltip]="'This course is in the recycle bin.'"></i>
               <br>
               <div class="col-sm-1">
-                <button *ngIf="!student.showLinks" class="btn">
+                <button *ngIf="!student.showLinks" class="btn" aria-label="Expand">
                   <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
                 </button>
-                <button *ngIf="student.showLinks" class="btn">
+                <button *ngIf="student.showLinks" class="btn" aria-label="Collapse">
                   <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
                 </button>
               </div>
@@ -228,10 +228,10 @@
             <td [innerHtml]="accountRequest.name | highlighter:searchString:true">
               <br>
               <div class="col-sm-1">
-                <button *ngIf="!accountRequest.showLinks" class="btn">
+                <button *ngIf="!accountRequest.showLinks" class="btn" aria-label="Expand">
                   <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
                 </button>
-                <button *ngIf="accountRequest.showLinks" class="btn">
+                <button *ngIf="accountRequest.showLinks" class="btn" aria-label="Collapse">
                   <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
                 </button>
               </div>

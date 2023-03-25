@@ -45,8 +45,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            class="sort-by-name sortable-header"
           >
              Student Name 
             <span
@@ -58,8 +57,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            class="sort-by-status sortable-header"
           >
              Status 
             <span
@@ -153,8 +151,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            class="sort-by-name sortable-header"
           >
              Student Name 
             <span
@@ -166,8 +163,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            class="sort-by-status sortable-header"
           >
              Status 
             <span
@@ -222,7 +218,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -231,7 +227,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -239,20 +235,20 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-send-invite"
+              id="btn-send-invite--0"
             >
               Send Invite
             </button>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -284,7 +280,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -293,7 +289,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -301,20 +297,20 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-send-invite"
+              id="btn-send-invite--1"
             >
               Send Invite
             </button>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -346,7 +342,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -355,7 +351,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -363,14 +359,14 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -402,7 +398,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -411,7 +407,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -419,14 +415,14 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -497,8 +493,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            class="sort-by-name sortable-header"
           >
              Student Name 
             <span
@@ -510,8 +505,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            class="sort-by-status sortable-header"
           >
              Status 
             <span
@@ -566,7 +560,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -575,7 +569,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -583,20 +577,20 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
-              id="btn-send-invite"
+              id="btn-send-invite--0"
             >
               Send Invite
             </button>
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -628,7 +622,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -637,7 +631,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -645,14 +639,14 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -684,7 +678,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -693,7 +687,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -701,14 +695,14 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -740,7 +734,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -749,7 +743,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -757,14 +751,14 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -835,8 +829,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            class="sort-by-name sortable-header"
           >
              Student Name 
             <span
@@ -848,8 +841,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            class="sort-by-status sortable-header"
           >
              Status 
             <span
@@ -904,7 +896,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -913,7 +905,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -921,14 +913,14 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -960,7 +952,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -969,7 +961,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -977,14 +969,14 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1016,7 +1008,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1025,7 +1017,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1033,14 +1025,14 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1072,7 +1064,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1081,7 +1073,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1089,14 +1081,14 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1167,8 +1159,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            class="sort-by-name sortable-header"
           >
              Student Name 
             <span
@@ -1180,8 +1171,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            class="sort-by-status sortable-header"
           >
              Status 
             <span
@@ -1237,7 +1227,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1246,7 +1236,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1254,14 +1244,14 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1293,7 +1283,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1302,7 +1292,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1310,14 +1300,14 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1350,7 +1340,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1359,7 +1349,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1367,14 +1357,14 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1406,7 +1396,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1415,7 +1405,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1423,14 +1413,14 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1501,8 +1491,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            class="sort-by-name sortable-header"
           >
              Student Name 
             <span
@@ -1514,8 +1503,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            class="sort-by-status sortable-header"
           >
              Status 
             <span
@@ -1570,7 +1558,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1579,7 +1567,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1587,14 +1575,14 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1626,7 +1614,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1635,7 +1623,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1643,14 +1631,14 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1682,7 +1670,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1691,7 +1679,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1699,14 +1687,14 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1738,7 +1726,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1747,7 +1735,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1755,14 +1743,14 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1821,8 +1809,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            class="sort-by-name sortable-header"
           >
              Student Name 
             <span
@@ -1834,8 +1821,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            class="sort-by-status sortable-header"
           >
              Status 
             <span
@@ -1887,7 +1873,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1896,7 +1882,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1904,14 +1890,14 @@ exports[`StudentListComponent should snap with some student list data with no se
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1971,8 +1957,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            class="sort-by-name sortable-header"
           >
              Student Name 
             <span
@@ -1984,8 +1969,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             </span>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            class="sort-by-status sortable-header"
           >
              Status 
             <span

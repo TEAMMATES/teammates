@@ -3,10 +3,10 @@
     <input type="radio" disabled>
   </span>
   <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #mcq
-         (ngModelChange)="onMcqOptionEntered($event.trim())">
+         (ngModelChange)="onMcqOptionEntered($event.trim())" aria-label="Option">
   <span class="input-group-btn">
     <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;"
-            tabindex="-1" [disabled]="!isEditable" (click)="deleteMcqOption()">
+            [disabled]="!isEditable" (click)="deleteMcqOption()" aria-label="Delete Option">
       <span aria-hidden="true">&times;</span>
     </button>
   </span>

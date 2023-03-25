@@ -83,12 +83,12 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     public void sortByName() {
-        click(browser.driver.findElement(By.id("sort-by-name")));
+        click(browser.driver.findElement(By.className("sort-by-name")));
         waitUntilAnimationFinish();
     }
 
     public void sortByStatus() {
-        click(browser.driver.findElement(By.id("sort-by-status")));
+        click(browser.driver.findElement(By.className("sort-by-status")));
         waitUntilAnimationFinish();
     }
 
@@ -125,12 +125,12 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     private WebElement getSendInviteButton(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        return studentRow.findElement(By.id("btn-send-invite"));
+        return studentRow.findElement(By.cssSelector("[id^='btn-send-invite-']"));
     }
 
     private WebElement getDeleteButton(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        return studentRow.findElement(By.id("btn-delete"));
+        return studentRow.findElement(By.cssSelector("[id^='btn-delete-']"));
     }
 
     private List<WebElement> getAllStudentRows() {
@@ -158,7 +158,7 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     public InstructorCourseStudentDetailsViewPage clickViewStudent(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        WebElement viewButton = studentRow.findElement(By.id("btn-view-details"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -167,7 +167,7 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        WebElement viewButton = studentRow.findElement(By.id("btn-edit-details"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -176,7 +176,7 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     public InstructorStudentRecordsPage clickViewAllRecords(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        WebElement viewButton = studentRow.findElement(By.id("btn-view-records"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();

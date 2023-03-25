@@ -50,10 +50,10 @@ describe('InstructorCourseStudentEditPageComponent', () => {
       joinState: JoinState.JOINED,
     };
     component.editForm = new UntypedFormGroup({
-      studentname: new UntypedFormControl('Jake Peralta'),
-      sectionname: new UntypedFormControl('Section A'),
-      teamname: new UntypedFormControl('Team A'),
-      newstudentemail: new UntypedFormControl('jake@gmail.com'),
+      'student-name': new UntypedFormControl('Jake Peralta'),
+      'section-name': new UntypedFormControl('Section A'),
+      'team-name': new UntypedFormControl('Team A'),
+      'new-student-email': new UntypedFormControl('jake@gmail.com'),
       comments: new UntypedFormControl('Cool cool cool.'),
     });
     component.isStudentLoading = false;

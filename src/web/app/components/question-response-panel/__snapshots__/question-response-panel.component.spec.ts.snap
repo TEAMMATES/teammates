@@ -24,31 +24,26 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="question-number"
               >
-                <b>
-                  Question 1: 
-                </b>
-              </span>
+                 Question 1: 
+              </h2>
               <span
-                class="col-auto"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
-                 How well did team member perform?
+                How well did team member perform?
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
+              <button
+                class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
@@ -72,7 +67,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -84,7 +79,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -130,31 +125,26 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="question-number"
               >
-                <b>
-                  Question 2: 
-                </b>
-              </span>
+                 Question 2: 
+              </h2>
               <span
-                class="col-auto"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
-                 Rate your teammates in contribution
+                Rate your teammates in contribution
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
+              <button
+                class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
@@ -178,7 +168,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -190,7 +180,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -225,7 +215,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -237,7 +227,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -283,31 +273,26 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="question-number"
               >
-                <b>
-                  Question 3: 
-                </b>
-              </span>
+                 Question 3: 
+              </h2>
               <span
-                class="col-auto"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
-                 Rate your teammates proficiency
+                Rate your teammates proficiency
               </span>
-              <a
-                class="info-font-size ms-1"
-                id="additional-info-link"
-                queryparamshandling="merge"
+              <button
+                class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
               >
                  [more] 
-              </a>
+              </button>
             </span>
           </tm-question-text-with-info>
           <div
@@ -331,7 +316,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -343,7 +328,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -416,8 +401,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                                               </div>
                                             </div>
                                             <div
-                                              class="col-12"
-                                              id="comment-text"
+                                              class="comment-text col-12"
                                             >
                                               this is a text
                                             </div>
@@ -469,23 +453,20 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="question-number"
               >
-                <b>
-                  Question 1: 
-                </b>
-              </span>
+                 Question 1: 
+              </h2>
               <span
-                class="col-auto"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
-                 What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).
+                What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).
               </span>
             </span>
           </tm-question-text-with-info>
@@ -510,7 +491,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -522,7 +503,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -557,7 +538,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -569,7 +550,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -604,7 +585,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -616,7 +597,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table
@@ -662,23 +643,20 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
           class="card-body"
         >
           <tm-question-text-with-info
-            class="question-text"
+            class="question-text-with-info"
           >
             <span
-              class="d-inline-flex align-items-center"
+              class="d-flex flex-column flex-sm-row align-items-sm-center"
             >
-              <span
-                class="col-auto"
+              <h2
+                class="question-number"
               >
-                <b>
-                  Question 2: 
-                </b>
-              </span>
+                 Question 2: 
+              </h2>
               <span
-                class="col-auto"
-                id="question-text"
+                class="question-text mx-sm-2"
               >
-                 How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).
+                How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).
               </span>
             </span>
           </tm-question-text-with-info>
@@ -703,7 +681,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                   class="border-info card mt-4"
                 >
                   <div
-                    class="bg-info card-header text-white"
+                    class="card-header bg-info"
                   >
                     <span
                       id="response-recipient"
@@ -715,7 +693,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                     </span>
                   </div>
                   <div
-                    class="card-body"
+                    class="card-body table-responsive"
                     style="padding: 0;"
                   >
                     <table

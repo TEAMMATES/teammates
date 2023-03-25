@@ -11,20 +11,17 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex align-items-center"
+    class="d-flex flex-column flex-sm-row align-items-sm-center"
   >
-    <span
-      class="col-auto"
+    <h2
+      class="question-number"
     >
-      <b>
-        Question 0: 
-      </b>
-    </span>
+       Question 0: 
+    </h2>
     <span
-      class="col-auto"
-      id="question-text"
+      class="question-text mx-sm-2"
     >
-       Text question details
+      Text question details
     </span>
   </span>
 </tm-question-text-with-info>
@@ -41,28 +38,23 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex align-items-center"
+    class="d-flex flex-column flex-sm-row align-items-sm-center"
   >
-    <span
-      class="col-auto"
+    <h2
+      class="question-number"
     >
-      <b>
-        Question 0: 
-      </b>
-    </span>
+       Question 0: 
+    </h2>
     <span
-      class="col-auto"
-      id="question-text"
+      class="question-text mx-sm-2"
     >
-       MCQ question details
+      MCQ question details
     </span>
-    <a
-      class="info-font-size ms-1"
-      id="additional-info-link"
-      queryparamshandling="merge"
+    <button
+      class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
     >
        [more] 
-    </a>
+    </button>
   </span>
 </tm-question-text-with-info>
 `;
@@ -78,31 +70,25 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
   shouldShowDownloadQuestionResult="false"
 >
   <span
-    class="d-inline-flex align-items-center"
+    class="d-flex flex-column flex-sm-row align-items-sm-center"
   >
-    <span
-      class="col-auto"
+    <h2
+      class="question-number"
     >
-      <b>
-        Question 0: 
-      </b>
-    </span>
+       Question 0: 
+    </h2>
     <span
-      class="col-auto"
-      id="question-text"
+      class="question-text mx-sm-2"
     >
-       MCQ question details
+      MCQ question details
     </span>
-    <a
-      class="info-font-size ms-1"
-      id="additional-info-link"
-      queryparamshandling="merge"
+    <button
+      class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
     >
        [less] 
-    </a>
+    </button>
   </span><div
-    class="info-font-size"
-    id="additional-info"
+    class="additional-info info-font-size"
   >
     <tm-mcq-question-additional-info>
       Multiple-choice (single answer) question options:

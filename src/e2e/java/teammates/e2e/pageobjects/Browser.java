@@ -56,6 +56,10 @@ public class Browser {
         this.driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
     }
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     public void addCookie(String name, String value, boolean isSecure, boolean isHttpOnly) {
         Cookie cookie = new Cookie.Builder(name, value)
                 .isSecure(isSecure)

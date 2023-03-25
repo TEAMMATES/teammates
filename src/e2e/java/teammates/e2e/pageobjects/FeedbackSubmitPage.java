@@ -66,7 +66,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyNumQuestions(int expected) {
-        assertEquals(browser.driver.findElements(By.id("question-submission-form")).size(), expected);
+        assertEquals(browser.driver.findElements(By.cssSelector("[id^='question-submission-form-qn-']")).size(), expected);
     }
 
     public void verifyQuestionDetails(int qnNumber, FeedbackQuestionAttributes questionAttributes) {
@@ -78,7 +78,8 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyLimitedRecipients(int qnNumber, int numRecipients, List<String> recipientNames) {
-        List<WebElement> recipientDropdowns = getQuestionForm(qnNumber).findElements(By.id("recipient-dropdown"));
+        List<WebElement> recipientDropdowns = getQuestionForm(qnNumber)
+                .findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
         assertEquals(numRecipients, recipientDropdowns.size());
         List<WebElement> recipients = recipientDropdowns.get(0).findElements(By.tagName("option"));
         assertEquals(recipientNames.size(), recipients.size() - 1);
@@ -93,7 +94,7 @@ public class FeedbackSubmitPage extends AppPage {
         Collections.sort(recipientNames);
         for (int i = 0; i < recipientNames.size(); i++) {
             assertEquals(recipientNames.get(i) + " (" + role + ")",
-                    questionForm.findElement(By.id("recipient-name-" + i)).getText());
+                    questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i)).getText());
         }
     }
 
@@ -118,28 +119,28 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void addComment(int qnNumber, String recipient, String newComment) {
         WebElement commentSection = getCommentSection(qnNumber, recipient);
-        click(commentSection.findElement(By.id("btn-add-comment")));
+        click(commentSection.findElement(By.className("btn-add-comment")));
         writeToCommentEditor(commentSection, newComment);
     }
 
     public void editComment(int qnNumber, String recipient, String editedComment) {
         WebElement commentSection = getCommentSection(qnNumber, recipient);
-        click(commentSection.findElement(By.id("btn-edit-comment")));
+        click(commentSection.findElement(By.className("btn-edit-comment")));
         writeToCommentEditor(commentSection, editedComment);
     }
 
     public void deleteComment(int qnNumber, String recipient) {
-        clickAndConfirm(getCommentSection(qnNumber, recipient).findElement(By.id("btn-delete-comment")));
+        clickAndConfirm(getCommentSection(qnNumber, recipient).findElement(By.className("btn-delete-comment")));
     }
 
     public void verifyComment(int qnNumber, String recipient, String expectedComment) {
         WebElement commentSection = getCommentSection(qnNumber, recipient);
-        String actualComment = commentSection.findElement(By.id("comment-text")).getAttribute("innerHTML");
+        String actualComment = commentSection.findElement(By.className("comment-text")).getAttribute("innerHTML");
         assertEquals(expectedComment, actualComment);
     }
 
     public void verifyNoCommentPresent(int qnNumber, String recipient) {
-        int numComments = getCommentSection(qnNumber, recipient).findElements(By.id("comment-text")).size();
+        int numComments = getCommentSection(qnNumber, recipient).findElements(By.className("comment-text")).size();
         assertEquals(numComments, 0);
     }
 
@@ -423,21 +424,26 @@ public class FeedbackSubmitPage extends AppPage {
         List<String> subQuestions = questionDetails.getRubricSubQuestions();
         List<List<String>> descriptions = questionDetails.getRubricDescriptions();
 
-        String[][] expectedTable = new String[subQuestions.size() + 1][choices.size() + 1];
-        expectedTable[0][0] = "";
-        for (int i = 1; i <= choices.size(); i++) {
-            expectedTable[0][i] = choices.get(i - 1);
+        String[][] expectedTableData = new String[subQuestions.size()][choices.size()];
+        String[][] expectedTableRowHeader = new String[1][choices.size()];
+        String[][] expectedTableColumnHeader = new String[subQuestions.size()][1];
+
+        for (int i = 0; i < choices.size(); i++) {
+            expectedTableRowHeader[0][i] = choices.get(i);
         }
-        for (int i = 1; i <= subQuestions.size(); i++) {
-            expectedTable[i][0] = subQuestions.get(i - 1);
+        for (int i = 0; i < subQuestions.size(); i++) {
+            expectedTableColumnHeader[i][0] = subQuestions.get(i);
         }
-        for (int i = 1; i <= descriptions.size(); i++) {
-            List<String> description = descriptions.get(i - 1);
-            for (int j = 1; j <= description.size(); j++) {
-                expectedTable[i][j] = description.get(j - 1);
+        for (int i = 0; i < descriptions.size(); i++) {
+            List<String> description = descriptions.get(i);
+            for (int j = 0; j < description.size(); j++) {
+                expectedTableData[i][j] = description.get(j);
             }
         }
-        verifyTableBodyValues(getRubricTable(qnNumber, recipient), expectedTable);
+        WebElement rubricTable = getRubricTable(qnNumber, recipient);
+        verifyTableBodyValues(rubricTable, expectedTableData);
+        verifyTableRowHeaderValues(rubricTable, expectedTableRowHeader);
+        verifyTableColumnHeaderValues(rubricTable, expectedTableColumnHeader);
     }
 
     public void fillRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -578,9 +584,9 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private WebElement getQuestionForm(int qnNumber) {
-        By questionFormId = By.id("question-submission-form");
+        By questionFormId = By.id("question-submission-form-qn-" + qnNumber);
         waitForElementPresence(questionFormId);
-        WebElement questionForm = browser.driver.findElements(questionFormId).get(qnNumber - 1);
+        WebElement questionForm = browser.driver.findElement(questionFormId);
         // Scroll to the question to ensure that the details are fully loaded
         scrollElementToCenter(questionForm);
         waitUntilAnimationFinish();
@@ -588,7 +594,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getQuestionBrief(int qnNumber) {
-        String questionDetails = getQuestionForm(qnNumber).findElement(By.id("question-details")).getText();
+        String questionDetails = getQuestionForm(qnNumber).findElement(By.className("question-details")).getText();
         return questionDetails.split(": ")[1];
     }
 
@@ -605,7 +611,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void verifyVisibilityStringPresent(int qnNumber, String expectedString) {
-        List<WebElement> visibilityStrings = getQuestionForm(qnNumber).findElement(By.id("visibility-list"))
+        List<WebElement> visibilityStrings = getQuestionForm(qnNumber).findElement(By.className("visibility-list"))
                 .findElements(By.tagName("li"));
         for (WebElement visibilityString : visibilityStrings) {
             if (visibilityString.getText().equals(expectedString)) {
@@ -688,12 +694,12 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getQuestionDescription(int qnNumber) {
-        return getQuestionForm(qnNumber).findElement(By.id("question-description")).getAttribute("innerHTML");
+        return getQuestionForm(qnNumber).findElement(By.className("question-description")).getAttribute("innerHTML");
     }
 
     private WebElement getCommentSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
-        return getQuestionForm(qnNumber).findElements(By.id("comment-section")).get(recipientIndex);
+        return getQuestionForm(qnNumber).findElement(By.id("comment-section-qn-" + qnNumber + "-idx-" + recipientIndex));
     }
 
     private void writeToCommentEditor(WebElement commentSection, String comment) {
@@ -710,7 +716,8 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement questionForm = getQuestionForm(qnNumber);
         // For questions with flexible recipient.
         try {
-            List<WebElement> recipientDropdowns = questionForm.findElements(By.id("recipient-dropdown"));
+            List<WebElement> recipientDropdowns =
+                    questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
             for (int i = 0; i < recipientDropdowns.size(); i++) {
                 String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
                 if (dropdownText.isEmpty()) {
@@ -725,7 +732,8 @@ public class FeedbackSubmitPage extends AppPage {
         }
         int limit = 20; // we are not likely to set test data exceeding this number
         for (int i = 0; i < limit; i++) {
-            if (questionForm.findElement(By.id("recipient-name-" + i)).getText().contains(recipient)) {
+            if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
+                    .getText().contains(recipient)) {
                 return i;
             }
         }
