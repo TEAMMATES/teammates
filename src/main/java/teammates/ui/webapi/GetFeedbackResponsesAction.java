@@ -119,7 +119,7 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             responses.forEach(response -> {
                 FeedbackResponseData data = new FeedbackResponseData(response);
                 if (questionAttributes.getQuestionType() != FeedbackQuestionType.MCQ
-                        || questionAttributes.getQuestionType() != FeedbackQuestionType.MSQ) {
+                        && questionAttributes.getQuestionType() != FeedbackQuestionType.MSQ) {
                     responsesData.add(data);
                     return;
                 }
