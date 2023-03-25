@@ -290,6 +290,7 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setId(null);
             frcLogic.createFeedbackResponseComment(responseComment);
         }
 

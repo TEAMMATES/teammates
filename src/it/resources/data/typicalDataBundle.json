@@ -487,7 +487,7 @@
   },
   "feedbackResponseComments": {
     "comment1ToResponse1ForQ1": {
-      "feedbackResponse":  {
+      "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000901",
         "feedbackQuestion":
         {
@@ -541,10 +541,9 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "instr1@teammates.tmt"
-    }
-  },
+    },
     "comment2ToResponse2ForQ1": {
-      "feedbackResponse":  {
+      "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000902",
         "feedbackQuestion": {
           "id": "00000000-0000-4000-8000-000000000801",
@@ -597,6 +596,7 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "instr2@teammates.tmt"
+    }
   },
   "notifications": {
     "notification1": {
