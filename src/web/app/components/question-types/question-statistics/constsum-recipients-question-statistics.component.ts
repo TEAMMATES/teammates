@@ -49,7 +49,8 @@ export class ConstsumRecipientsQuestionStatisticsComponent extends ConstsumRecip
 
     this.rowsData = Object.keys(this.pointsPerOption).map((recipient: string) => [
       { value: this.emailToTeamName[recipient] },
-      { value:  `${this.emailToName[recipient]} (${recipient})`},
+      { value:  this.emailToName[recipient]
+      + (this.emailToTeamName[recipient]? ` (${recipient})`: '') },
       { value: this.pointsPerOption[recipient].join(', ') },
       { value: this.totalPointsPerOption[recipient] },
       { value: this.averagePointsPerOption[recipient] },
