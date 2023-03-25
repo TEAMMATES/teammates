@@ -107,13 +107,14 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                 responses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(questionAttributes, studentAttributes);
                 break;
             case INSTRUCTOR_SUBMISSION:
-                InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(questionAttributes.getCourseId());
+                InstructorAttributes instructorAttributes =
+                        getInstructorOfCourseFromRequest(questionAttributes.getCourseId());
                 responses = logic.getFeedbackResponsesFromInstructorForQuestion(questionAttributes, instructorAttributes);
                 break;
             default:
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
             }
-    
+
             List<FeedbackResponseData> responsesData = new LinkedList<>();
             responses.forEach(response -> {
                 FeedbackResponseData data = new FeedbackResponseData(response);
@@ -132,7 +133,7 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             if (!responsesData.isEmpty()) {
                 result.setResponses(responsesData);
             }
-    
+
             return new JsonResult(result);
         }
 
@@ -152,6 +153,7 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(sqlFeedbackQuestion.getCourseId());
             responses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(sqlFeedbackQuestion, instructor);
+            break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }

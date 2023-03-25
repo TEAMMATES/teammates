@@ -154,7 +154,7 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             FeedbackResponseComment actualComment = (FeedbackResponseComment) actual;
             equalizeIrrelevantData(expectedComment, actualComment);
             assertEquals(JsonUtils.toJson(expectedComment), JsonUtils.toJson(actualComment));
-        }  else if (expected instanceof Notification) {
+        } else if (expected instanceof Notification) {
             Notification expectedNotification = (Notification) expected;
             Notification actualNotification = (Notification) actual;
             equalizeIrrelevantData(expectedNotification, actualNotification);
@@ -261,7 +261,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());
     }
-
 
     private void equalizeIrrelevantData(Notification expected, Notification actual) {
         // Ignore time field as it is stamped at the time of creation in testing

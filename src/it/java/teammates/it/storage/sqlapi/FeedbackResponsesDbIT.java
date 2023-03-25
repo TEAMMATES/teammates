@@ -45,7 +45,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         List<FeedbackResponse> expectedQuestions = List.of(fr);
 
-        List<FeedbackResponse> actualQuestions = frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), "student1@teammates.tmt");
+        List<FeedbackResponse> actualQuestions =
+                frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), "student1@teammates.tmt");
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));

@@ -81,13 +81,12 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Creates a feedback response.
-     * 
      * @return the created response
      * @throws InvalidParametersException if the response is not valid
      * @throws EntityAlreadyExistsException if the response already exist
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
-        throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         return frDb.createFeedbackResponse(feedbackResponse);
     }
 
@@ -114,7 +113,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private List<FeedbackResponse> getFeedbackResponsesFromTeamForQuestion(
-        UUID feedbackQuestionId, String courseId, String teamName, @Nullable SqlCourseRoster courseRoster) {
+            UUID feedbackQuestionId, String courseId, String teamName, @Nullable SqlCourseRoster courseRoster) {
 
         List<FeedbackResponse> responses = new ArrayList<>();
         List<Student> studentsInTeam = courseRoster == null

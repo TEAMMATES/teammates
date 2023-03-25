@@ -26,9 +26,9 @@ public class FeedbackRankOptionsResponse extends FeedbackResponse {
     }
 
     public FeedbackRankOptionsResponse(
-        FeedbackQuestion feedbackQuestion, String giver,
-        Section giverSection, String receiver, Section receiverSection,
-        FeedbackResponseDetails responseDetails
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String receiver, Section receiverSection,
+            FeedbackResponseDetails responseDetails
     ) {
         super(feedbackQuestion, giver, giverSection, receiver, receiverSection);
         this.setAnswer((FeedbackRankOptionsResponseDetails) responseDetails);

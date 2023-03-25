@@ -241,7 +241,7 @@ public final class JsonUtils {
     }
 
     private static class FeedbackResponseAdapter implements JsonSerializer<FeedbackResponse>,
-    JsonDeserializer<FeedbackResponse> {
+            JsonDeserializer<FeedbackResponse> {
 
         @Override
         public JsonElement serialize(FeedbackResponse src, Type typeOfSrc, JsonSerializationContext context) {
@@ -258,7 +258,7 @@ public final class JsonUtils {
             } else if (src instanceof FeedbackRankOptionsResponse) {
                 return context.serialize(src, FeedbackRankOptionsResponse.class);
             } else if (src instanceof FeedbackRankRecipientsResponse) {
-                return context.serialize(src,FeedbackRankRecipientsResponse.class);
+                return context.serialize(src, FeedbackRankRecipientsResponse.class);
             } else if (src instanceof FeedbackRubricResponse) {
                 return context.serialize(src, FeedbackRubricResponse.class);
             } else if (src instanceof FeedbackTextResponse) {
@@ -269,8 +269,8 @@ public final class JsonUtils {
 
         @Override
         public FeedbackResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-        FeedbackQuestionType questionType =
-                FeedbackQuestionType.valueOf(json.getAsJsonObject().get("answer")
+            FeedbackQuestionType questionType =
+                    FeedbackQuestionType.valueOf(json.getAsJsonObject().get("answer")
                         .getAsJsonObject().get("questionType").getAsString());
             switch (questionType) {
             case MCQ:

@@ -26,9 +26,9 @@ public class FeedbackNumericalScaleResponse extends FeedbackResponse {
     }
 
     public FeedbackNumericalScaleResponse(
-        FeedbackQuestion feedbackQuestion, String giver,
-        Section giverSection, String receiver, Section receiverSection,
-        FeedbackResponseDetails responseDetails
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String receiver, Section receiverSection,
+            FeedbackResponseDetails responseDetails
     ) {
         super(feedbackQuestion, giver, giverSection, receiver, receiverSection);
         this.setAnswer((FeedbackNumericalScaleResponseDetails) responseDetails);

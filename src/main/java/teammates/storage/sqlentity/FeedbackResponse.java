@@ -84,9 +84,9 @@ public abstract class FeedbackResponse extends BaseEntity {
      * Creates a feedback response according to its {@code FeedbackQuestionType}.
      */
     public static FeedbackResponse makeResponse(
-        FeedbackQuestion feedbackQuestion, String giver,
-        Section giverSection, String receiver, Section receiverSection,
-        FeedbackResponseDetails responseDetails
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String receiver, Section receiverSection,
+            FeedbackResponseDetails responseDetails
     ) {
         FeedbackResponse feedbackResponse = null;
         switch (responseDetails.getQuestionType()) {

@@ -56,7 +56,7 @@ public final class FeedbackResponseCommentsLogic {
      * @throws InvalidParametersException if the comment is invalid
      */
     public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
-        throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         return frcDb.createFeedbackResponseComment(frc);
     }
 }

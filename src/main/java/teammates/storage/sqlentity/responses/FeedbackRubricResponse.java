@@ -5,6 +5,7 @@ import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Section;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
@@ -25,9 +26,9 @@ public class FeedbackRubricResponse extends FeedbackResponse {
     }
 
     public FeedbackRubricResponse(
-        FeedbackQuestion feedbackQuestion, String giver,
-        Section giverSection, String receiver, Section receiverSection,
-        FeedbackResponseDetails responseDetails
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String receiver, Section receiverSection,
+            FeedbackResponseDetails responseDetails
     ) {
         super(feedbackQuestion, giver, giverSection, receiver, receiverSection);
         this.setAnswer((FeedbackRubricResponseDetails) responseDetails);
