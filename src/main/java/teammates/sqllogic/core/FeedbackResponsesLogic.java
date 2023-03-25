@@ -8,6 +8,8 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -75,6 +77,18 @@ public final class FeedbackResponsesLogic {
      */
     public boolean isResponseOfFeedbackQuestionVisibleToInstructor(FeedbackQuestion question) {
         return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    /**
+     * Creates a feedback response.
+     * 
+     * @return the created response
+     * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
+     */
+    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
+        throws InvalidParametersException, EntityAlreadyExistsException {
+        return frDb.createFeedbackResponse(feedbackResponse);
     }
 
     /**
