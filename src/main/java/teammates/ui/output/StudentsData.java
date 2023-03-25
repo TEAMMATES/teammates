@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.storage.sqlentity.Student;
 
 /**
- * The API output format of a list of {@link StudentAttributes}.
+ * The API output format of a list of {@link StudentData}.
  */
 public class StudentsData extends ApiOutput {
 
@@ -17,7 +17,7 @@ public class StudentsData extends ApiOutput {
         this.students = new ArrayList<>();
     }
 
-    public StudentsData(List<StudentAttributes> students) {
+    public StudentsData(List<Student> students) {
         this.students = students.stream().map(StudentData::new).collect(Collectors.toList());
     }
 

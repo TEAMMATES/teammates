@@ -20,6 +20,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for contribution feedback questions.
@@ -313,13 +314,53 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestion feedbackQuestion) {
+        String errorMsg = "";
+
+        // giver type can only be STUDENTS
+        if (feedbackQuestion.getGiverType() != FeedbackParticipantType.STUDENTS) {
+            log.severe("Unexpected giverType for contribution question: " + feedbackQuestion.getGiverType()
+                       + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+            feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+            errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
+        }
+
+        // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
+        if (feedbackQuestion.getRecipientType() != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+            log.severe("Unexpected recipientType for contribution question: "
+                       + feedbackQuestion.getRecipientType()
+                       + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+            feedbackQuestion.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+            errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
+        }
+
+        // restrictions on visibility options
+        if (!(feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER)
+                == feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                == feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
+            log.severe("Unexpected showResponsesTo for contribution question: "
+                       + feedbackQuestion.getShowResponsesTo() + " (forced to :"
+                       + "Shown anonymously to recipient and team members, visible to instructors"
+                       + ")");
+            feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER,
+                                                                       FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                                                                       FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                                                                       FeedbackParticipantType.INSTRUCTORS));
+            errorMsg = CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;
+        }
+
+        return errorMsg;
+    }
+
+    @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         String errorMsg = "";
 
         // giver type can only be STUDENTS
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS) {
             log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.getGiverType()
-                       + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+                    + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
             feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
             errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
@@ -327,8 +368,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
         if (feedbackQuestionAttributes.getRecipientType() != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
             log.severe("Unexpected recipientType for contribution question: "
-                       + feedbackQuestionAttributes.getRecipientType()
-                       + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+                    + feedbackQuestionAttributes.getRecipientType()
+                    + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
             feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
             errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
@@ -339,13 +380,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 && feedbackQuestionAttributes.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                 == feedbackQuestionAttributes.getShowResponsesTo().contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
             log.severe("Unexpected showResponsesTo for contribution question: "
-                       + feedbackQuestionAttributes.getShowResponsesTo() + " (forced to :"
-                       + "Shown anonymously to recipient and team members, visible to instructors"
-                       + ")");
+                    + feedbackQuestionAttributes.getShowResponsesTo() + " (forced to :"
+                    + "Shown anonymously to recipient and team members, visible to instructors"
+                    + ")");
             feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER,
-                                                                       FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
-                                                                       FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                                                                       FeedbackParticipantType.INSTRUCTORS));
+                    FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                    FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                    FeedbackParticipantType.INSTRUCTORS));
             errorMsg = CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;
         }
 

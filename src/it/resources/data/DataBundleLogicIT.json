@@ -19,7 +19,7 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "registeredAt": "2015-02-14T00:00:00Z"
     }
   },
   "courses": {
@@ -172,7 +172,8 @@
       "gracePeriod": 10,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "isPublishedEmailSent": false
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
@@ -189,10 +190,36 @@
       "gracePeriod": 5,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "isPublishedEmailSent": false
     }
   },
-  "feedbackQuestions": {},
+  "feedbackQuestions": {
+    "qn1InSession1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000801",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
   "notifications": {

@@ -3,21 +3,34 @@ package teammates.it.test;
 import java.util.UUID;
 
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.testing.LocalDatastoreHelper;
+import com.googlecode.objectify.ObjectifyFactory;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.util.Closeable;
+
+import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.core.LogicStarter;
+import teammates.storage.api.OfyHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -33,15 +46,21 @@ import teammates.test.BaseTestCase;
  */
 @Test(singleThreaded = true)
 public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
-    /**
-     * Test container.
-     */
-    protected static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
+
+    private static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
+
+    private static final LocalDatastoreHelper LOCAL_DATASTORE_HELPER = LocalDatastoreHelper.newBuilder()
+            .setConsistency(1.0)
+            .setPort(TestProperties.TEST_LOCALDATASTORE_PORT)
+            .setStoreOnDisk(false)
+            .build();
 
     private final Logic logic = Logic.inst();
 
+    private Closeable closeable;
+
     @BeforeSuite
-    protected static void setUpClass() throws Exception {
+    protected static void setUpSuite() throws Exception {
         PGSQL.start();
         // Temporarily disable migration utility
         // DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(),
@@ -49,11 +68,31 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
+
+        // TODO: remove after migration, needed for dual db support
+        teammates.logic.core.LogicStarter.initializeDependencies();
+        LOCAL_DATASTORE_HELPER.start();
+        DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
+        ObjectifyService.init(new ObjectifyFactory(
+                options.getService()));
+        OfyHelper.registerEntityClasses();
+
+    }
+
+    @BeforeClass
+    public void setupClass() {
+        closeable = ObjectifyService.begin();
+    }
+
+    @AfterClass
+    public void tearDownClass() {
+        closeable.close();
     }
 
     @AfterSuite
-    protected static void tearDownClass() throws Exception {
+    protected static void tearDownSuite() throws Exception {
         PGSQL.close();
+        LOCAL_DATASTORE_HELPER.stop();
     }
 
     @BeforeMethod
@@ -69,6 +108,14 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     @Override
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
+    }
+
+    /**
+     * Persist data bundle into the db.
+     */
+    protected void persistDataBundle(SqlDataBundle dataBundle)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        logic.persistDataBundle(dataBundle);
     }
 
     /**
@@ -90,6 +137,11 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             FeedbackSession actualSession = (FeedbackSession) actual;
             equalizeIrrelevantData(expectedSession, actualSession);
             assertEquals(JsonUtils.toJson(expectedSession), JsonUtils.toJson(actualSession));
+        } else if (expected instanceof FeedbackQuestion) {
+            FeedbackQuestion expectedQuestion = (FeedbackQuestion) expected;
+            FeedbackQuestion actualQuestion = (FeedbackQuestion) actual;
+            equalizeIrrelevantData(expectedQuestion, actualQuestion);
+            assertEquals(JsonUtils.toJson(expectedQuestion), JsonUtils.toJson(actualQuestion));
         } else if (expected instanceof Notification) {
             Notification expectedNotification = (Notification) expected;
             Notification actualNotification = (Notification) actual;
@@ -175,6 +227,12 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     }
 
     private void equalizeIrrelevantData(FeedbackSession expected, FeedbackSession actual) {
+        // Ignore time field as it is stamped at the time of creation in testing
+        expected.setCreatedAt(actual.getCreatedAt());
+        expected.setUpdatedAt(actual.getUpdatedAt());
+    }
+
+    private void equalizeIrrelevantData(FeedbackQuestion expected, FeedbackQuestion actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());

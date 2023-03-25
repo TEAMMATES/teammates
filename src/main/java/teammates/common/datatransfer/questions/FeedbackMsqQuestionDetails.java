@@ -6,6 +6,7 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for MSQ feedback questions.
@@ -273,6 +274,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestion feedbackQuestion) {
         return "";
     }
 

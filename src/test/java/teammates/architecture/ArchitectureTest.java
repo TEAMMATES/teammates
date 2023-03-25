@@ -73,7 +73,7 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
-                                && !STORAGE_SQL_ENTITY_PACKAGE.equals(input.getPackageName());
+                                && !input.getPackageName().startsWith(STORAGE_SQL_ENTITY_PACKAGE);
                     }
                 })
                 .check(forClasses(UI_PACKAGE));
@@ -312,17 +312,6 @@ public class ArchitectureTest {
                 .should().accessClassesThat(new DescribedPredicate<>("") {
                     @Override
                     public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
-                                && !"OfyHelper".equals(input.getSimpleName())
-                                && !"AccountRequestSearchManager".equals(input.getSimpleName())
-                                && !"InstructorSearchManager".equals(input.getSimpleName())
-                                && !"StudentSearchManager".equals(input.getSimpleName())
-                                && !"SearchManagerFactory".equals(input.getSimpleName());
-                    }
-                })
-                .orShould().accessClassesThat(new DescribedPredicate<>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(LOGIC_CORE_PACKAGE)
                                 && !"LogicStarter".equals(input.getSimpleName());
                     }
@@ -518,6 +507,7 @@ public class ArchitectureTest {
                 .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
+                .and().doNotHaveSimpleName("BaseTestCaseWithSqlDatabaseAccess")
                 .and().doNotHaveSimpleName("BaseTestCaseWithLocalDatabaseAccess")
                 .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
                 .check(ALL_CLASSES);

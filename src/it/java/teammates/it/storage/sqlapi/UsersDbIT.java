@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -19,7 +20,9 @@ import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
 
 /**
@@ -157,13 +160,99 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         secondStudent.setAccount(userSharedAccount);
 
         List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId());
-
         assertEquals(4, users.size());
+        assertTrue(List.of(firstInstructor, secondInstructor, firstStudent, secondStudent).containsAll(users));
+
+        List<Instructor> instructors = usersDb.getAllInstructorsByGoogleId(userSharedAccount.getGoogleId());
+        assertEquals(2, instructors.size());
+        assertTrue(List.of(firstInstructor, secondInstructor).containsAll(instructors));
+
+        List<Student> students = usersDb.getAllStudentsByGoogleId(userSharedAccount.getGoogleId());
+        assertEquals(2, students.size());
+        assertTrue(List.of(firstStudent, secondStudent).containsAll(students));
 
         ______TS("success: gets all instructors and students by googleId that does not exist");
         List<User> emptyUsers = usersDb.getAllUsersByGoogleId("non-exist-id");
 
         assertEquals(0, emptyUsers.size());
+    }
+
+    @Test
+    public void testGetStudentsForSection()
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        ______TS("success: typical case");
+        Section firstSection = new Section(course, "section-name1");
+        course.addSection(firstSection);
+        Team firstTeam = new Team(firstSection, "team-name1");
+        firstSection.addTeam(firstTeam);
+
+        Section secondSection = new Section(course, "section-name2");
+        course.addSection(secondSection);
+        Team secondTeam = new Team(secondSection, "team-name2");
+        secondSection.addTeam(secondTeam);
+
+        coursesDb.updateCourse(course);
+
+        Student firstStudent = getTypicalStudent();
+        firstStudent.setEmail("valid-student-1@email.tmt");
+        firstStudent.setTeam(firstTeam);
+        usersDb.createStudent(firstStudent);
+
+        Student secondStudent = getTypicalStudent();
+        secondStudent.setEmail("valid-student-2@email.tmt");
+        secondStudent.setTeam(firstTeam);
+        usersDb.createStudent(secondStudent);
+
+        Student thirdStudent = getTypicalStudent();
+        thirdStudent.setEmail("valid-student-3@email.tmt");
+        thirdStudent.setTeam(secondTeam);
+        usersDb.createStudent(thirdStudent);
+
+        List<Student> expectedStudents = List.of(firstStudent, secondStudent);
+
+        List<Student> actualStudents = usersDb.getStudentsForSection(firstSection.getName(), course.getId());
+
+        assertEquals(expectedStudents.size(), actualStudents.size());
+        assertTrue(expectedStudents.containsAll(actualStudents));
+    }
+
+    @Test
+    public void testGetStudentsForTeam()
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        ______TS("success: typical case");
+        Section firstSection = new Section(course, "section-name1");
+        course.addSection(firstSection);
+        Team firstTeam = new Team(firstSection, "team-name1");
+        firstSection.addTeam(firstTeam);
+
+        Section secondSection = new Section(course, "section-name2");
+        course.addSection(secondSection);
+        Team secondTeam = new Team(secondSection, "team-name2");
+        secondSection.addTeam(secondTeam);
+
+        coursesDb.updateCourse(course);
+
+        Student firstStudent = getTypicalStudent();
+        firstStudent.setEmail("valid-student-1@email.tmt");
+        firstStudent.setTeam(firstTeam);
+        usersDb.createStudent(firstStudent);
+
+        Student secondStudent = getTypicalStudent();
+        secondStudent.setEmail("valid-student-2@email.tmt");
+        secondStudent.setTeam(firstTeam);
+        usersDb.createStudent(secondStudent);
+
+        Student thirdStudent = getTypicalStudent();
+        thirdStudent.setEmail("valid-student-3@email.tmt");
+        thirdStudent.setTeam(secondTeam);
+        usersDb.createStudent(thirdStudent);
+
+        List<Student> expectedStudents = List.of(firstStudent, secondStudent);
+
+        List<Student> actualStudents = usersDb.getStudentsForTeam(firstTeam.getName(), course.getId());
+
+        assertEquals(expectedStudents.size(), actualStudents.size());
+        assertTrue(expectedStudents.containsAll(actualStudents));
     }
 
     private Student getTypicalStudent() {

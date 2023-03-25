@@ -83,6 +83,22 @@ public final class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
+     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
+     *
+     * @return null if not found
+     */
+    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+        cq.select(fsRoot).where(cb.and(
+                cb.equal(fsRoot.get("name"), feedbackSessionName),
+                cb.equal(fsJoin.get("id"), courseId)));
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Creates a feedback session.
      */
     public FeedbackSession createFeedbackSession(FeedbackSession session)

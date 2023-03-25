@@ -111,6 +111,21 @@ public abstract class User extends BaseEntity {
         this.team = team;
     }
 
+    /**
+     * Returns the user's section.
+     */
+    abstract Section getSection();
+
+    /**
+     * Returns the user's team name.
+     */
+    abstract String getTeamName();
+
+    /**
+     * Returns the user's section name.
+     */
+    abstract String getSectionName();
+
     public String getName() {
         return name;
     }
@@ -159,6 +174,17 @@ public abstract class User extends BaseEntity {
         SecureRandom prng = new SecureRandom();
 
         return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
+    }
+
+    /**
+     * Returns google id of the user if account is not null.
+     */
+    public String getGoogleId() {
+        if (getAccount() != null) {
+            return getAccount().getGoogleId();
+        }
+
+        return null;
     }
 
     @Override

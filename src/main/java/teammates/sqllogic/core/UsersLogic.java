@@ -1,11 +1,14 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
@@ -24,6 +27,8 @@ public final class UsersLogic {
 
     private UsersDb usersDb;
 
+    private AccountsLogic accountsLogic;
+
     private UsersLogic() {
         // prevent initialization
     }
@@ -32,8 +37,9 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic) {
         this.usersDb = usersDb;
+        this.accountsLogic = accountsLogic;
     }
 
     /**
@@ -48,7 +54,7 @@ public final class UsersLogic {
     }
 
     /**
-     * Create an student.
+     * Creates a student.
      * @return the created student
      * @throws InvalidParametersException if the student is not valid
      * @throws EntityAlreadyExistsException if the student already exists in the database.
@@ -60,8 +66,8 @@ public final class UsersLogic {
     /**
      * Gets instructor associated with {@code id}.
      *
-     * @param id    Id of Instructor.
-     * @return      Returns Instructor if found else null.
+     * @param id Id of Instructor.
+     * @return Returns Instructor if found else null.
      */
     public Instructor getInstructor(UUID id) {
         assert id != null;
@@ -128,10 +134,25 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all instructors associated with a googleId.
+     */
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        assert googleId != null;
+        return usersDb.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Returns true if the user associated with the googleId is an instructor in any course in the system.
+     */
+    public boolean isInstructorInAnyCourse(String googleId) {
+        return !usersDb.getAllInstructorsByGoogleId(googleId).isEmpty();
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
-     * @param id    Id of Student.
-     * @return      Returns Student if found else null.
+     * @param id Id of Student.
+     * @return Returns Student if found else null.
      */
     public Student getStudent(UUID id) {
         assert id != null;
@@ -164,6 +185,20 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all students of a section.
+     */
+    public List<Student> getStudentsForSection(String sectionName, String courseId) {
+        return usersDb.getStudentsForSection(sectionName, courseId);
+    }
+
+    /**
+     * Gets all students of a team.
+     */
+    public List<Student> getStudentsForTeam(String teamName, String courseId) {
+        return usersDb.getStudentsForTeam(teamName, courseId);
+    }
+
+    /**
      * Gets a student by associated {@code regkey}.
      */
     public Student getStudentByRegistrationKey(String regKey) {
@@ -183,6 +218,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Returns true if the user associated with the googleId is a student in any course in the system.
+     */
+    public boolean isStudentInAnyCourse(String googleId) {
+        return !usersDb.getAllStudentsByGoogleId(googleId).isEmpty();
+    }
+
+    /**
      * Gets all instructors and students by {@code googleId}.
      */
     public List<User> getAllUsersByGoogleId(String googleId) {
@@ -192,9 +234,71 @@ public final class UsersLogic {
     }
 
     /**
+     * Resets the googleId associated with the instructor.
+     */
+    public void resetInstructorGoogleId(String email, String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert courseId != null;
+        assert googleId != null;
+
+        Instructor instructor = getInstructorForEmail(courseId, email);
+
+        if (instructor == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
+                    + "Instructor [courseId=" + courseId + ", email=" + email + "]");
+        }
+
+        instructor.setAccount(null);
+
+        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(googleId);
+        }
+    }
+
+    /**
+     * Resets the googleId associated with the student.
+     */
+    public void resetStudentGoogleId(String email, String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        assert email != null;
+        assert courseId != null;
+        assert googleId != null;
+
+        Student student = getStudentForEmail(courseId, email);
+
+        if (student == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
+                    + "Student [courseId=" + courseId + ", email=" + email + "]");
+        }
+
+        student.setAccount(null);
+
+        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(googleId);
+        }
+    }
+
+    /**
      * Sorts the instructors list alphabetically by name.
      */
     public static <T extends User> void sortByName(List<T> users) {
         users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
+    }
+
+    /**
+     * Checks if an instructor with {@code googleId} can create a course with {@code institute}
+     * (ie. has an existing course(s) with the same {@code institute}).
+     */
+    public boolean canInstructorCreateCourse(String googleId, String institute) {
+        assert googleId != null;
+        assert institute != null;
+
+        List<Instructor> existingInstructors = getInstructorsForGoogleId(googleId);
+        return existingInstructors
+                .stream()
+                .filter(Instructor::hasCoownerPrivileges)
+                .map(instructor -> instructor.getCourse())
+                .anyMatch(course -> institute.equals(course.getInstitute()));
     }
 }

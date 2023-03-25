@@ -7,6 +7,7 @@ import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for rank recipients feedback questions.
@@ -68,6 +69,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
 
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        return "";
+    }
+
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestion feedbackQuestion) {
         return "";
     }
 }

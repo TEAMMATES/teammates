@@ -200,6 +200,14 @@ public final class HibernateUtil {
     }
 
     /**
+     * Force this session to clear. Usually called together with flush.
+     * @see Session#clear()
+     */
+    public static void clearSession() {
+        HibernateUtil.getCurrentSession().clear();
+    }
+
+    /**
      * Return the persistent instance of the given entity class with the given identifier,
      * or null if there is no such persistent instance.
      * @see Session#get(Class, Object)

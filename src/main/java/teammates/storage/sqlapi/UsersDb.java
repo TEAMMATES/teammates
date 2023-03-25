@@ -8,8 +8,11 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -22,7 +25,7 @@ import jakarta.persistence.criteria.Root;
  *
  * @see User
  */
-public final class UsersDb extends EntitiesDb<User> {
+public final class UsersDb extends EntitiesDb {
 
     private static final UsersDb instance = new UsersDb();
 
@@ -141,6 +144,25 @@ public final class UsersDb extends EntitiesDb<User> {
     }
 
     /**
+     * Gets a list of students by {@code teamName} and {@code courseId}.
+     */
+    public List<Student> getStudentsByTeamName(String teamName, String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
+        studentRoot.alias("student");
+
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(studentRoot).where(cb.and(
+                cb.equal(studentRoot.get("courseId"), courseId),
+                cb.equal(teamsJoin.get("name"), teamName)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets all instructors and students by {@code googleId}.
      */
     public List<User> getAllUsersByGoogleId(String googleId) {
@@ -152,6 +174,34 @@ public final class UsersDb extends EntitiesDb<User> {
         usersCr.select(usersRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
 
         return HibernateUtil.createQuery(usersCr).getResultList();
+    }
+
+    /**
+     * Gets all instructors and students by {@code googleId}.
+     */
+    public List<Instructor> getAllInstructorsByGoogleId(String googleId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> instructorsCr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorsRoot = instructorsCr.from(Instructor.class);
+        Join<Instructor, Account> accountsJoin = instructorsRoot.join("account");
+
+        instructorsCr.select(instructorsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(instructorsCr).getResultList();
+    }
+
+    /**
+     * Gets all instructors and students by {@code googleId}.
+     */
+    public List<Student> getAllStudentsByGoogleId(String googleId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> studentsCr = cb.createQuery(Student.class);
+        Root<Student> studentsRoot = studentsCr.from(Student.class);
+        Join<Student, Account> accountsJoin = studentsRoot.join("account");
+
+        studentsCr.select(studentsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(studentsCr).getResultList();
     }
 
     /**
@@ -273,6 +323,65 @@ public final class UsersDb extends EntitiesDb<User> {
 
         cr.select(studentRoot)
                 .where(cb.equal(studentRoot.get("email"), email));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets all instructors associated with a googleId.
+     */
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        assert googleId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
+
+        cr.select(instructorRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets all students of a section of a course.
+     */
+    public List<Student> getStudentsForSection(String sectionName, String courseId) {
+        assert sectionName != null;
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> courseJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+        Join<Team, Section> sectionJoin = teamsJoin.join("section");
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                    cb.equal(courseJoin.get("id"), courseId),
+                    cb.equal(sectionJoin.get("name"), sectionName)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets all students of a team of a course.
+     */
+    public List<Student> getStudentsForTeam(String teamName, String courseId) {
+        assert teamName != null;
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> courseJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                    cb.equal(courseJoin.get("id"), courseId),
+                    cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

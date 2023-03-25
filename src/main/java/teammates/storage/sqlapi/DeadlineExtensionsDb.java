@@ -24,7 +24,7 @@ import jakarta.persistence.criteria.Root;
  *
  * @see DeadlineExtension
  */
-public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension> {
+public final class DeadlineExtensionsDb extends EntitiesDb {
 
     private static final DeadlineExtensionsDb instance = new DeadlineExtensionsDb();
 

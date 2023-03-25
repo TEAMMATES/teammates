@@ -20,7 +20,7 @@ import jakarta.persistence.criteria.Root;
  *
  * @see Notification
  */
-public final class NotificationsDb extends EntitiesDb<Notification> {
+public final class NotificationsDb extends EntitiesDb {
 
     private static final NotificationsDb instance = new NotificationsDb();
 
