@@ -73,18 +73,18 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                 getNonNullSqlFeedbackSession(sqlFeedbackQuestion.getFeedbackSession().getName(),
                                                 sqlFeedbackQuestion.getCourseId());
 
-        verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
+        verifyInstructorCanSeeQuestionIfInModeration(sqlFeedbackQuestion);
         verifyNotPreview();
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
+            gateKeeper.verifyAnswerableForStudent(sqlFeedbackQuestion);
             Student student = getSqlStudentOfCourseFromRequest(feedbackSession.getCourse().getId());
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
+            gateKeeper.verifyAnswerableForInstructor(sqlFeedbackQuestion);
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackSession.getCourse().getId());
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
