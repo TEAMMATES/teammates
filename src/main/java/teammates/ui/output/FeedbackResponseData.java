@@ -33,7 +33,7 @@ public class FeedbackResponseData extends ApiOutput {
     public FeedbackResponseData(FeedbackResponse feedbackResponse) {
         this.feedbackResponseId = feedbackResponse.getId().toString();
         this.giverIdentifier = feedbackResponse.getGiver();
-        this.recipientIdentifier = feedbackResponse.getReceiver();
+        this.recipientIdentifier = feedbackResponse.getRecipient();
         this.responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();
     }
 
