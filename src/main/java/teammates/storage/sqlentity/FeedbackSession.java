@@ -71,6 +71,9 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isPublishedEmailEnabled;
 
+    @Column(nullable = false)
+    private boolean isPublishedEmailSent;
+
     @OneToMany(mappedBy = "feedbackSession")
     private List<DeadlineExtension> deadlineExtensions = new ArrayList<>();
 
@@ -281,6 +284,14 @@ public class FeedbackSession extends BaseEntity {
 
     public void setFeedbackQuestions(List<FeedbackQuestion> feedbackQuestions) {
         this.feedbackQuestions = feedbackQuestions;
+    }
+
+    public boolean isPublishedEmailSent() {
+        return isPublishedEmailSent;
+    }
+
+    public void setPublishedEmailSent(boolean isPublishedEmailSent) {
+        this.isPublishedEmailSent = isPublishedEmailSent;
     }
 
     public Instant getUpdatedAt() {

@@ -172,7 +172,8 @@
       "gracePeriod": 10,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "isPublishedEmailSent": false
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
@@ -189,7 +190,8 @@
       "gracePeriod": 5,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "isPublishedEmailSent": false
     }
   },
   "feedbackQuestions": {
