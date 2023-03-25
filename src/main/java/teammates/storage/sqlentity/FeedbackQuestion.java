@@ -21,6 +21,7 @@ import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
 import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
 import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -48,7 +49,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @JoinColumn(name = "sessionId")
     private FeedbackSession feedbackSession;
 
-    @OneToMany(mappedBy = "feedbackQuestion")
+    @OneToMany(mappedBy = "feedbackQuestion", cascade = CascadeType.REMOVE)
     private List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
     @Column(nullable = false)

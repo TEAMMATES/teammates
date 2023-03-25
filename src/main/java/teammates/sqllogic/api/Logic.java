@@ -285,31 +285,18 @@ public class Logic {
     }
 
     /**
-     * Creates a feedback session.
+     * Gets a feedback session from the recycle bin.
      *
-     * @return created feedback session
-     * @throws InvalidParametersException if the session is not valid
-     * @throws EntityAlreadyExistsException if the session already exist
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return null if not found.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackSessionsLogic.createFeedbackSession(session);
-    }
-
-    /**
-     * Unpublishes a feedback session.
-     * @return the unpublished feedback session
-     * @throws EntityDoesNotExistException if the feedback session cannot be found
-     * @throws InvalidParametersException
-     *             if the feedback session is not ready to be unpublished.
-     */
-    public FeedbackSession unpublishFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
+    public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
+        return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
@@ -333,11 +320,48 @@ public class Logic {
      */
     public FeedbackSession publishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
-
         assert feedbackSessionName != null;
         assert courseId != null;
 
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
+        feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Soft-deletes a specific  session to Recycle Bin.
+     */
+    public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Unpublishes a feedback session.
+     * @return the unpublished feedback session
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     * @throws InvalidParametersException
+     *             if the feedback session is not ready to be unpublished.
+     */
+    public FeedbackSession unpublishFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**

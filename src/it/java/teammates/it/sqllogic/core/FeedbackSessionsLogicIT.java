@@ -9,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -18,6 +19,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     private SqlDataBundle typicalDataBundle;
 
@@ -34,6 +36,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         super.setUp();
         persistDataBundle(typicalDataBundle);
         HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
     }
 
     @Test
@@ -74,4 +77,23 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 publishedFs.getName(), "random-course-id"));
     }
 
+    @Test
+    public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion() {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+
+        FeedbackSession retrievedFs = fsLogic.getFeedbackSession(fs.getName(), fs.getCourse().getId());
+
+        assertNotNull(retrievedFs);
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fs.getName(), fs.getCourse().getId()));
+        assertFalse(retrievedFs.getFeedbackQuestions().isEmpty());
+        assertFalse(fqLogic.getFeedbackQuestionsForSession(retrievedFs).isEmpty());
+
+        // delete existing feedback session directly
+        fsLogic.deleteFeedbackSessionCascade(fs.getName(), fs.getCourse().getId());
+
+        // check deletion is cascaded
+        assertNull(fsLogic.getFeedbackSession(fs.getName(), fs.getCourse().getId()));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fs.getName(), fs.getCourse().getId()));
+        assertTrue(fqLogic.getFeedbackQuestionsForSession(retrievedFs).isEmpty());
+    }
 }
