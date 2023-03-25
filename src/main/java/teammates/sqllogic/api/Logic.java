@@ -297,6 +297,22 @@ public class Logic {
     }
 
     /**
+     * Unpublishes a feedback session.
+     * @return the unpublished feedback session
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     * @throws InvalidParametersException
+     *             if the feedback session is not ready to be unpublished.
+     */
+    public FeedbackSession unpublishFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Creates a new feedback question.
      *
      * <br/>Preconditions: <br/>
