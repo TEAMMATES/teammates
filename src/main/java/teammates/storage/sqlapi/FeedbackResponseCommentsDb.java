@@ -34,7 +34,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     /**
      * Gets a feedbackResponseComment or null if it does not exist.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(UUID frId) {
+    public FeedbackResponseComment getFeedbackResponseComment(Long frId) {
         assert frId != null;
 
         return HibernateUtil.get(FeedbackResponseComment.class, frId);

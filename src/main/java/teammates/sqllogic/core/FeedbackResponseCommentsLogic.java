@@ -36,7 +36,7 @@ public final class FeedbackResponseCommentsLogic {
      * @param id of feedback response comment.
      * @return the specified feedback response comment.
      */
-    public FeedbackResponseComment getFeedbackQuestion(UUID id) {
+    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
         return frcDb.getFeedbackResponseComment(id);
     }
 
