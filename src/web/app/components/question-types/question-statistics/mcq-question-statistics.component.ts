@@ -74,8 +74,10 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
       const recipientEmail: string = this.perRecipientResponses[key].recipientEmail;
       return [
         { value: this.perRecipientResponses[key].recipientTeam },
-        {value: this.perRecipientResponses[key].recipient
-        + (recipientEmail? ` (${recipientEmail})`: '') },
+        {
+          value: this.perRecipientResponses[key].recipient
+          + (recipientEmail ? ` (${recipientEmail})` : ''),
+        },
         ...Object.keys(this.weightPerOption).map((option: string) => {
           return {
             value: this.perRecipientResponses[key].responses[option],

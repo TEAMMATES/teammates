@@ -55,8 +55,10 @@ export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatist
         const recipientEmail: string = this.recipientEmails[recipient];
         this.rowsData.push([
           { value: team },
-          { value: recipient
-          + (recipientEmail? ` (${recipientEmail})`: '') },
+          {
+            value: recipient
+            + (recipientEmail ? ` (${recipientEmail})` : ''),
+          },
           { value: stats.average },
           { value: stats.max },
           { value: stats.min },

@@ -43,7 +43,7 @@
       <tr *ngFor="let response of responsesToShow" [class.color-neutral]="response.isMissingResponse">
         <td *ngIf="showGiver">{{ response.giverTeam }}</td>
         <td *ngIf="showGiver">
-          {{ response.giver === '-' ? 'No Specific User' : response.giver}} 
+          {{ response.giver === '-' ? 'No Specific User' : response.giver}}
           {{response.giverEmail? " (" + response.giverEmail + ")" : ""}}
         </td>
         <td *ngIf="showRecipient">
