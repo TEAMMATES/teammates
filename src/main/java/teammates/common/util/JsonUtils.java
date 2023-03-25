@@ -25,6 +25,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
@@ -37,6 +38,15 @@ import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
 import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
 import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
 import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
+import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
+import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
+import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
+import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 import jakarta.persistence.OneToMany;
 
@@ -61,6 +71,7 @@ public final class JsonUtils {
                 .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new DurationMinutesAdapter())
                 .registerTypeAdapter(FeedbackQuestion.class, new FeedbackQuestionAdapter())
+                .registerTypeAdapter(FeedbackResponse.class, new FeedbackResponseAdapter())
                 .registerTypeAdapter(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsAdapter())
                 .registerTypeAdapter(FeedbackResponseDetails.class, new FeedbackResponseDetailsAdapter())
                 .registerTypeAdapter(LogDetails.class, new LogDetailsAdapter())
@@ -225,6 +236,65 @@ public final class JsonUtils {
         public Duration deserialize(JsonElement element, Type type, JsonDeserializationContext context) {
             synchronized (this) {
                 return Duration.ofMinutes(element.getAsLong());
+            }
+        }
+    }
+
+    private static class FeedbackResponseAdapter implements JsonSerializer<FeedbackResponse>,
+    JsonDeserializer<FeedbackResponse> {
+
+        @Override
+        public JsonElement serialize(FeedbackResponse src, Type typeOfSrc, JsonSerializationContext context) {
+            if (src instanceof FeedbackConstantSumResponse) {
+                return context.serialize(src, FeedbackConstantSumResponse.class);
+            } else if (src instanceof FeedbackContributionResponse) {
+                return context.serialize(src, FeedbackContributionResponse.class);
+            } else if (src instanceof FeedbackMcqResponse) {
+                return context.serialize(src, FeedbackMcqResponse.class);
+            } else if (src instanceof FeedbackMsqResponse) {
+                return context.serialize(src, FeedbackMsqResponse.class);
+            } else if (src instanceof FeedbackNumericalScaleResponse) {
+                return context.serialize(src, FeedbackNumericalScaleResponse.class);
+            } else if (src instanceof FeedbackRankOptionsResponse) {
+                return context.serialize(src, FeedbackRankOptionsResponse.class);
+            } else if (src instanceof FeedbackRankRecipientsResponse) {
+                return context.serialize(src,FeedbackRankRecipientsResponse.class);
+            } else if (src instanceof FeedbackRubricResponse) {
+                return context.serialize(src, FeedbackRubricResponse.class);
+            } else if (src instanceof FeedbackTextResponse) {
+                return context.serialize(src, FeedbackTextResponse.class);
+            }
+            return null;
+        }
+
+        @Override
+        public FeedbackResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+        FeedbackQuestionType questionType =
+                FeedbackQuestionType.valueOf(json.getAsJsonObject().get("answer")
+                        .getAsJsonObject().get("questionType").getAsString());
+            switch (questionType) {
+            case MCQ:
+                return context.deserialize(json, FeedbackMcqResponse.class);
+            case MSQ:
+                return context.deserialize(json, FeedbackMsqResponse.class);
+            case TEXT:
+                return context.deserialize(json, FeedbackTextResponse.class);
+            case RUBRIC:
+                return context.deserialize(json, FeedbackRubricResponse.class);
+            case CONTRIB:
+                return context.deserialize(json, FeedbackContributionResponse.class);
+            case CONSTSUM:
+            case CONSTSUM_RECIPIENTS:
+            case CONSTSUM_OPTIONS:
+                return context.deserialize(json, FeedbackConstantSumResponse.class);
+            case NUMSCALE:
+                return context.deserialize(json, FeedbackNumericalScaleResponse.class);
+            case RANK_OPTIONS:
+                return context.deserialize(json, FeedbackRankOptionsResponse.class);
+            case RANK_RECIPIENTS:
+                return context.deserialize(json, FeedbackRankRecipientsResponse.class);
+            default:
+                return null;
             }
         }
     }
