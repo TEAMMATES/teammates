@@ -4197,7 +4197,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   style=""
                 >
                   <div
-                    class="col-6"
+                    class="col-sm-6 mb-2 mb-sm-0"
                   >
                     <div
                       class="row"
@@ -4245,7 +4245,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     </div>
                   </div>
                   <div
-                    class="col-6"
+                    class="col-sm-6"
                   >
                     <div
                       class="row"
