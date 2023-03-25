@@ -156,7 +156,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
                     sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()), feedbackSession,
-                    student.getTeam().getSection().getName(),
+                    student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
@@ -328,7 +328,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             case STUDENTS:
             case STUDENTS_IN_SAME_SECTION:
                 Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? Const.DEFAULT_SECTION : student.getTeam().getSection().getName();
+                return student == null ? Const.DEFAULT_SECTION : student.getSectionName();
             default:
                 assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
                 return null;
@@ -348,7 +348,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? Const.DEFAULT_SECTION : student.getTeam().getSection().getName();
+            return student == null ? Const.DEFAULT_SECTION : student.getTeamName();
         default:
             assert false : "Unknown recipient type " + recipientType;
             return null;
