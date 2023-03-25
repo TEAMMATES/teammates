@@ -51,7 +51,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
         }
 
-        if (getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
+        if (feedbackResponseComment.getId() != null
+            && getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
             throw new EntityAlreadyExistsException(
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponseComment.toString()));
         }
