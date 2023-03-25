@@ -47,7 +47,7 @@ public class GetStudentAction extends Action {
                 Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
 
                 gateKeeper.verifyAccessible(instructor, sqlLogic.getCourse(courseId),
-                        student.getTeam().getSection().getName(),
+                        student.getTeamName(),
                         Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
             } else if (regKey != null) {
                 getUnregisteredSqlStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));

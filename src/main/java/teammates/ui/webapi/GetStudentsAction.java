@@ -37,7 +37,7 @@ public class GetStudentsAction extends Action {
             } else {
                 // request to get team member by current student
                 Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.id);
-                if (student == null || !teamName.equals(student.getTeam().getName())) {
+                if (student == null || !teamName.equals(student.getTeamName())) {
                     throw new UnauthorizedAccessException("You are not part of the team");
                 }
             }
@@ -83,7 +83,7 @@ public class GetStudentsAction extends Action {
                         .getSectionsWithPrivilege(privilegeName).keySet();
 
                 studentsForCourse.forEach(student -> {
-                    if (sectionsWithViewPrivileges.contains(student.getTeam().getSection().getName())) {
+                    if (sectionsWithViewPrivileges.contains(student.getSectionName())) {
                         studentsToReturn.add(student);
                     }
                 });
