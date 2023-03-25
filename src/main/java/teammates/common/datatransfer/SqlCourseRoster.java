@@ -57,7 +57,7 @@ public class SqlCourseRoster {
      */
     public boolean isStudentInTeam(String studentEmail, String targetTeamName) {
         Student student = studentListByEmail.get(studentEmail);
-        return student != null && student.getTeam().getName().equals(targetTeamName);
+        return student != null && student.getTeamName().equals(targetTeamName);
     }
 
     /**
@@ -113,7 +113,7 @@ public class SqlCourseRoster {
         Map<String, List<Student>> teamToMembersTable = new HashMap<>();
         // group students by team
         for (Student student : students) {
-            teamToMembersTable.computeIfAbsent(student.getTeam().getName(), key -> new ArrayList<>())
+            teamToMembersTable.computeIfAbsent(student.getTeamName(), key -> new ArrayList<>())
                     .add(student);
         }
         return teamToMembersTable;
@@ -136,8 +136,8 @@ public class SqlCourseRoster {
             Student student = getStudentForEmail(identifier);
 
             name = student.getName();
-            teamName = student.getTeam().getName();
-            sectionName = student.getTeam().getSection().getName();
+            teamName = student.getTeamName();
+            sectionName = student.getSectionName();
         } else if (isInstructor) {
             Instructor instructor = getInstructorForEmail(identifier);
 
@@ -149,7 +149,7 @@ public class SqlCourseRoster {
 
             name = identifier;
             teamName = identifier;
-            sectionName = teamMember.getTeam().getSection().getName();
+            sectionName = teamMember.getSectionName();
         }
 
         return new ParticipantInfo(name, teamName, sectionName);

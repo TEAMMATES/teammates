@@ -72,7 +72,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         ______TS("Typical Success Case with course id and team name, logged in as student");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.TEAM_NAME, student.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME, student.getTeamName(),
         };
 
         getStudentsAction = getAction(params);
@@ -112,7 +112,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.TEAM_NAME, student.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME, student.getTeamName(),
         };
 
         loginAsStudent(student.getGoogleId());
@@ -130,7 +130,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.TEAM_NAME, student.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME, student.getTeamName(),
         };
 
         verifyCannotAccess(params);
