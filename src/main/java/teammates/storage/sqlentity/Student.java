@@ -39,6 +39,21 @@ public class Student extends User {
     }
 
     @Override
+    public String getTeamName() {
+        return getTeam().getName();
+    }
+
+    @Override
+    public String getSectionName() {
+        return this.getTeam().getSection().getName();
+    }
+
+    @Override
+    public Section getSection() {
+        return this.getTeam().getSection();
+    }
+
+    @Override
     public String toString() {
         return "Student [id=" + super.getId() + ", comments=" + comments
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
