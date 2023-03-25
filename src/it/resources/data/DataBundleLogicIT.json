@@ -223,8 +223,7 @@
   "feedbackResponses": {
     "response1ForQ1S1C1": {
       "id": "00000000-0000-4000-8000-000000000901",
-      "feedbackQuestion":
-      {
+      "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000801",
         "feedbackSession": {
           "id": "00000000-0000-4000-8000-000000000701"
@@ -264,10 +263,9 @@
   },
   "feedbackResponseComments": {
     "comment1ToResponse1ForQ1": {
-      "feedbackResponse":  {
+      "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000901",
-        "feedbackQuestion":
-        {
+        "feedbackQuestion": {
           "id": "00000000-0000-4000-8000-000000000801",
           "feedbackSession": {
             "id": "00000000-0000-4000-8000-000000000701"
