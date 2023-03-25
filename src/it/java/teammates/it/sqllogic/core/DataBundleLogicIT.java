@@ -14,13 +14,16 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -177,6 +180,14 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 List.of(FeedbackParticipantType.INSTRUCTORS), questionDetails1);
         expectedQuestion1.setId(actualQuestion1.getId());
         verifyEquals(expectedQuestion1, actualQuestion1);
+
+        ______TS("verify feedback responses deserialized correctly");
+        FeedbackResponse actualResponse1 = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackResponseDetails responseDetails1 = new FeedbackTextResponseDetails("Student 1 self feedback.");
+        FeedbackResponse expectedResponse1 = FeedbackResponse.makeResponse(actualQuestion1, "student1@teammates.tmt",
+                expectedSection, "student1@teammates.tmt", expectedSection, responseDetails1);
+        expectedResponse1.setId(actualResponse1.getId());
+        verifyEquals(expectedResponse1, actualResponse1);
     }
 
     @Test
