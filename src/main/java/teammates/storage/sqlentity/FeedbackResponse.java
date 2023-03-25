@@ -55,11 +55,11 @@ public abstract class FeedbackResponse extends BaseEntity {
     private Section giverSection;
 
     @Column(nullable = false)
-    private String receiver;
+    private String recipient;
 
     @ManyToOne
-    @JoinColumn(name = "receiverSectionId")
-    private Section receiverSection;
+    @JoinColumn(name = "recipientSectionId")
+    private Section recipientSection;
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -70,14 +70,14 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     public FeedbackResponse(
             FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String receiver, Section receiverSection
+            Section giverSection, String recipient, Section recipientSection
     ) {
         this.setId(UUID.randomUUID());
         this.setFeedbackQuestion(feedbackQuestion);
         this.setGiver(giver);
         this.setGiverSection(giverSection);
-        this.setReceiver(receiver);
-        this.setReceiverSection(receiverSection);
+        this.setRecipient(recipient);
+        this.setRecipientSection(recipientSection);
     }
 
     /**
@@ -186,20 +186,20 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.giverSection = giverSection;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
-    public Section getReceiverSection() {
-        return receiverSection;
+    public Section getRecipientSection() {
+        return recipientSection;
     }
 
-    public void setReceiverSection(Section receiverSection) {
-        this.receiverSection = receiverSection;
+    public void setRecipientSection(Section recipientSection) {
+        this.recipientSection = recipientSection;
     }
 
     public Instant getUpdatedAt() {
@@ -217,7 +217,7 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FeedbackResponse [id=" + id + ", giver=" + giver + ", receiver=" + receiver
+        return "FeedbackResponse [id=" + id + ", giver=" + giver + ", recipient=" + recipient
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 

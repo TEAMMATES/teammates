@@ -151,10 +151,10 @@ public final class DataBundleLogic {
             response.setId(UUID.randomUUID());
             FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
             Section giverSection = sectionsMap.get(response.getGiverSection().getId());
-            Section receiverSection = sectionsMap.get(response.getReceiverSection().getId());
+            Section recipientSection = sectionsMap.get(response.getRecipientSection().getId());
             response.setFeedbackQuestion(fq);
             response.setGiverSection(giverSection);
-            response.setReceiverSection(receiverSection);
+            response.setRecipientSection(recipientSection);
         }
 
         for (Account account : accounts) {

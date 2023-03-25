@@ -432,11 +432,11 @@
         ]
       },
       "giver": "student1@teammates.tmt",
-      "receiver": "student1@teammates.tmt",
+      "recipient": "student1@teammates.tmt",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "receiverSection": {
+      "recipientSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
       "answer": {
@@ -470,11 +470,11 @@
         ]
       },
       "giver": "student2@teammates.tmt",
-      "receiver": "student2@teammates.tmt",
+      "recipient": "student2@teammates.tmt",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "receiverSection": {
+      "recipientSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
       "answer": {
@@ -483,7 +483,24 @@
       }
     }
   },
-  "feedbackResponseComments": {},
+  "feedbackResponseComments": {
+    "comment1FromResponse1ForQ1": {
+      "commentGiver": "instr1@teammates.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "receiverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "commentText": "Instructor 1 comment to student 1 self feedback",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "lastEditorEmail": "instructor1@course1.tmt"
+    }
+  },
   "notifications": {
     "notification1": {
       "id": "00000000-0000-4000-8000-000000001101",

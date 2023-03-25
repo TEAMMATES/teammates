@@ -248,11 +248,11 @@
         ]
       },
       "giver": "student1@teammates.tmt",
-      "receiver": "student1@teammates.tmt",
+      "recipient": "student1@teammates.tmt",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "receiverSection": {
+      "recipientSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
       "answer": {
