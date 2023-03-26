@@ -47,6 +47,7 @@
   * [Emails]({{ baseUrl }}/emails.html)
   * [End-to-End Testing]({{ baseUrl }}/e2e-testing.html)
   * [Performance Testing]({{ baseUrl }}/performance-testing.html)
+  * [Accessibility Testing]({{ baseUrl }}/axe-testing.html)
   * [Search]({{ baseUrl }}/search.html)
   * [Snapshot Testing]({{ baseUrl }}/snapshot-testing.html)
   * [Static Analysis]({{ baseUrl }}/static-analysis.html)

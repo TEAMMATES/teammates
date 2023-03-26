@@ -41,3 +41,4 @@ Here are some documents important for TEAMMATES developers.
   * [Setting up CAPTCHA](captcha.md)
   * [Snapshot testing](snapshot-testing.md)
   * [E2E testing](e2e-testing.md)
+  * [Accessibility testing](axe-testing.md)
