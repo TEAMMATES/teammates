@@ -2,12 +2,13 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorPrivilegeData;
 
 /**
  * Get the instructor privilege.
  */
-class GetInstructorPrivilegeAction extends Action {
+public class GetInstructorPrivilegeAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -21,7 +22,18 @@ class GetInstructorPrivilegeAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+
+        if (!isCourseMigrated(courseId)) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            if (instructor == null) {
+                throw new UnauthorizedAccessException("Not instructor of the course");
+            }
+
+            return;
+        }
+
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+
         if (instructor == null) {
             throw new UnauthorizedAccessException("Not instructor of the course");
         }
@@ -33,18 +45,44 @@ class GetInstructorPrivilegeAction extends Action {
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
-        InstructorAttributes instructor;
+        if (!isCourseMigrated(courseId)) {
+            InstructorAttributes instructor;
+            if (instructorId == null) {
+                if (instructorEmail == null) {
+                    instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+                } else {
+                    instructor = logic.getInstructorForEmail(courseId, instructorEmail);
+                    if (instructor == null) {
+                        throw new EntityNotFoundException("Instructor does not exist.");
+                    }
+                }
+            } else {
+                instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+                if (instructor == null) {
+                    throw new EntityNotFoundException("Instructor does not exist.");
+                }
+            }
+
+            InstructorPrivilegeData response = new InstructorPrivilegeData(instructor.getPrivileges());
+
+            return new JsonResult(response);
+        }
+
+        Instructor instructor;
+
         if (instructorId == null) {
             if (instructorEmail == null) {
-                instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+                instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
             } else {
-                instructor = logic.getInstructorForEmail(courseId, instructorEmail);
+                instructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
+
                 if (instructor == null) {
                     throw new EntityNotFoundException("Instructor does not exist.");
                 }
             }
         } else {
-            instructor = logic.getInstructorForGoogleId(courseId, instructorId);
+            instructor = sqlLogic.getInstructorByGoogleId(courseId, instructorId);
+
             if (instructor == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }

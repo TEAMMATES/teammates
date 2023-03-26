@@ -85,6 +85,21 @@ public class Instructor extends User {
     }
 
     @Override
+    public String getTeamName() {
+        return Const.USER_TEAM_FOR_INSTRUCTOR;
+    }
+
+    @Override
+    public String getSectionName() {
+        return Const.DEFAULT_SECTION;
+    }
+
+    @Override
+    public Section getSection() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "Instructor [id=" + super.getId() + ", isDisplayedToStudents=" + isDisplayedToStudents
                 + ", displayName=" + displayName + ", role=" + role + ", instructorPrivileges=" + privileges

@@ -2,8 +2,12 @@ package teammates.sqllogic.api;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
+import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
@@ -281,15 +285,18 @@ public class Logic {
     }
 
     /**
-     * Creates a feedback session.
+     * Gets a feedback session from the recycle bin.
      *
-     * @return created feedback session
-     * @throws InvalidParametersException if the session is not valid
-     * @throws EntityAlreadyExistsException if the session already exist
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return null if not found.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackSessionsLogic.createFeedbackSession(session);
+    public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
@@ -313,11 +320,48 @@ public class Logic {
      */
     public FeedbackSession publishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
-
         assert feedbackSessionName != null;
         assert courseId != null;
 
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
+        feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Soft-deletes a specific  session to Recycle Bin.
+     */
+    public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Unpublishes a feedback session.
+     * @return the unpublished feedback session
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     * @throws InvalidParametersException
+     *             if the feedback session is not ready to be unpublished.
+     */
+    public FeedbackSession unpublishFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
@@ -495,6 +539,16 @@ public class Logic {
     }
 
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<Student> getStudentsForCourse(String courseId) {
+        assert courseId != null;
+        return usersLogic.getStudentsForCourse(courseId);
+    }
+
+    /**
      * Gets a student by associated {@code regkey}.
      */
     public Student getStudentByRegistrationKey(String regKey) {
@@ -506,13 +560,6 @@ public class Logic {
      */
     public Student getStudentByGoogleId(String courseId, String googleId) {
         return usersLogic.getStudentByGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets students by associated {@code courseId}.
-     */
-    public List<Student> getStudentsForCourse(String courseId) {
-        return usersLogic.getStudentsForCourse(courseId);
     }
 
     /**
@@ -649,4 +696,27 @@ public class Logic {
         feedbackQuestionsLogic.populateFieldsToGenerateInQuestion(
                 feedbackQuestion, courseId, emailOfEntityDoingQuestion, teamOfEntityDoingQuestion);
     }
+
+    /**
+     * Gets a feedback question.
+     *
+     * @return null if not found.
+     */
+    public FeedbackQuestion getFeedbackQuestion(UUID id) {
+        return feedbackQuestionsLogic.getFeedbackQuestion(id);
+    }
+
+    /**
+     * Gets the recipients of a feedback question for student.
+     *
+     * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
+     */
+    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
+            FeedbackQuestion question,
+            @Nullable Instructor instructorGiver, @Nullable Student studentGiver) {
+        assert question != null;
+
+        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
+    }
+
 }
