@@ -7,6 +7,8 @@ import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
  * Contains specific structure and processing logic for rank recipients feedback responses.
@@ -106,6 +108,82 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
             }
         }
         return updateOptions;
+    }
+
+    /**
+     * Provides updates of responses for 'rank recipient question', such that the ranks in the responses are consistent.
+     * @param responses responses to one feedback question, from one giver
+     * @param maxRank the maximum rank in each response
+     * @return a list of {@code FeedbackResponse} that contains the updates for the responses, if any
+     */
+    public static List<FeedbackResponse> getUpdateOptionsForRankRecipientQuestionsSQL(
+            List<FeedbackResponse> responses, int maxRank) {
+        List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
+
+        if (maxRank <= 0) {
+            return feedbackResponsesToUpdate;
+        }
+
+        FeedbackRankRecipientsResponseDetails responseDetails;
+        boolean[] isRankUsed;
+        boolean isUpdateNeeded = false;
+        int answer;
+        int maxUnusedRank = 0;
+
+        // Checks whether update is needed.
+        for (FeedbackResponse response : responses) {
+            if (!(response instanceof FeedbackRankRecipientsResponse)) {
+                continue;
+            }
+            responseDetails = ((FeedbackRankRecipientsResponse) response).getAnswer();
+            answer = responseDetails.getAnswer();
+            if (answer > maxRank) {
+                isUpdateNeeded = true;
+                break;
+            }
+        }
+
+        // Updates repeatedly, until all responses are consistent.
+        while (isUpdateNeeded) {
+            isUpdateNeeded = false; // will be set to true again once invalid rank appears after update
+            isRankUsed = new boolean[maxRank];
+
+            // Obtains the largest unused rank.
+            for (FeedbackResponse response : responses) {
+                if (!(response instanceof FeedbackRankRecipientsResponse)) {
+                    continue;
+                }
+                responseDetails = ((FeedbackRankRecipientsResponse) response).getAnswer();
+                answer = responseDetails.getAnswer();
+                if (answer <= maxRank) {
+                    isRankUsed[answer - 1] = true;
+                }
+            }
+            for (int i = maxRank - 1; i >= 0; i--) {
+                if (!isRankUsed[i]) {
+                    maxUnusedRank = i + 1;
+                    break;
+                }
+            }
+            assert maxUnusedRank > 0; // if update is needed, there must be at least one unused rank
+
+            for (FeedbackResponse response : responses) {
+                if (response instanceof FeedbackRankRecipientsResponse) {
+                    responseDetails = ((FeedbackRankRecipientsResponse) response).getAnswer();
+                    answer = responseDetails.getAnswer();
+                    if (answer > maxUnusedRank) {
+                        answer--;
+                        responseDetails.setAnswer(answer);
+                        feedbackResponsesToUpdate.add(response);
+                    }
+                    if (answer > maxRank) {
+                        isUpdateNeeded = true; // sets the flag to true if the updated rank is still invalid
+                    }
+                }
+            }
+        }
+        
+        return feedbackResponsesToUpdate;
     }
 
     @Override

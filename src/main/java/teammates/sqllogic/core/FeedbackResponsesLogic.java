@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -308,7 +309,7 @@ public final class FeedbackResponsesLogic {
                         fqLogic.getRecipientsOfQuestion(question, instructor, null, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail());
                 updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
+                        .getUpdateOptionsForRankRecipientQuestionsSQL(responses, numberOfRecipients));
             }
             break;
         case TEAMS:
@@ -325,7 +326,7 @@ public final class FeedbackResponsesLogic {
                         getFeedbackResponsesFromTeamForQuestion(
                                 question.getId(), question.getCourseId(), team, roster);
                 updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
+                        .getUpdateOptionsForRankRecipientQuestionsSQL(responses, numberOfRecipients));
             }
             break;
         default:
@@ -334,7 +335,7 @@ public final class FeedbackResponsesLogic {
                         fqLogic.getRecipientsOfQuestion(question, null, student, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
                 updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .getUpdateOptionsForRankRecipientQuestions(responses, numberOfRecipients));
+                        .getUpdateOptionsForRankRecipientQuestionsSQL(responses, numberOfRecipients));
             }
             break;
         }
