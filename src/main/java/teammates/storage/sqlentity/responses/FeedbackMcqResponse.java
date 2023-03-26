@@ -27,10 +27,10 @@ public class FeedbackMcqResponse extends FeedbackResponse {
 
     public FeedbackMcqResponse(
             FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String receiver, Section receiverSection,
+            Section giverSection, String recipient, Section recipientSection,
             FeedbackResponseDetails responseDetails
     ) {
-        super(feedbackQuestion, giver, giverSection, receiver, receiverSection);
+        super(feedbackQuestion, giver, giverSection, recipient, recipientSection);
         this.setAnswer((FeedbackMcqResponseDetails) responseDetails);
     }
 

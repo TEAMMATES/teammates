@@ -27,10 +27,10 @@ public class FeedbackRankRecipientsResponse extends FeedbackResponse {
 
     public FeedbackRankRecipientsResponse(
             FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String receiver, Section receiverSection,
+            Section giverSection, String recipient, Section recipientSection,
             FeedbackResponseDetails responseDetails
     ) {
-        super(feedbackQuestion, giver, giverSection, receiver, receiverSection);
+        super(feedbackQuestion, giver, giverSection, recipient, recipientSection);
         this.setAnswer((FeedbackRankRecipientsResponseDetails) responseDetails);
     }
 
