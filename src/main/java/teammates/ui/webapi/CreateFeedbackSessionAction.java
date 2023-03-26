@@ -25,7 +25,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Create a feedback session.
  */
-class CreateFeedbackSessionAction extends Action {
+public class CreateFeedbackSessionAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
@@ -60,8 +60,15 @@ class CreateFeedbackSessionAction extends Action {
 
         if (isCourseMigrated(courseId)) {
             Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
-
             Course course = sqlLogic.getCourse(courseId);
+
+            if (course == null) {
+                throw new InvalidHttpParameterException("Failed to find course with the given course id.");
+            }
+            if (instructor == null) {
+                throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and googleId.");
+            }
+
             String timeZone = course.getTimeZone();
 
             Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(

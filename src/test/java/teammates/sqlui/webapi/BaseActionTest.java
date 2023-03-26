@@ -378,5 +378,4 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
-
 }
