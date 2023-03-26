@@ -20,7 +20,6 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.AuthException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -572,7 +571,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             ActionResult r = a.execute();
             assertEquals(statusCode, r.getStatusCode());
             return (JsonResult) r;
-        } catch (InvalidOperationException | InvalidHttpRequestBodyException | AuthException e) {
+        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
             throw new RuntimeException(e);
         }
     }

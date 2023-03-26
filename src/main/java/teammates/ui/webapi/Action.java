@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.exception.AuthException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -326,6 +325,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException, AuthException;
+    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
 
 }

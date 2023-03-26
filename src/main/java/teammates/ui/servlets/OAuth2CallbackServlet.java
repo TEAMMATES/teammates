@@ -37,6 +37,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         String googleId = null;
         try {
             googleId = FirebaseAuth.getInstance().verifyIdToken(idToken).getEmail();
+            // TODO delete the user immediately as we do not need to keep user info
         } catch (FirebaseAuthException e) {
             log.warning("Invalid user ID token", e);
         }
