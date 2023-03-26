@@ -412,7 +412,7 @@ public final class UsersLogic {
 
         feedbackResponsesLogic
                 .deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
-        
+
         if (usersDb.getStudentCountForTeam(student.getTeam().getName(), student.getCourseId()) == 1) {
             // the student is the only student in the team, delete responses related to the team
             feedbackResponsesLogic

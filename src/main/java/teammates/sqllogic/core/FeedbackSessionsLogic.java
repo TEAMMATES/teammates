@@ -309,7 +309,7 @@ public final class FeedbackSessionsLogic {
      */
     public void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress) {
         List<FeedbackSession> feedbackSessions = fsDb.getFeedbackSessionEntitiesForCourse(courseId);
-        
+
         feedbackSessions.forEach(feedbackSession -> {
             List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
 
@@ -323,5 +323,5 @@ public final class FeedbackSessionsLogic {
             }
         });
     }
-    
+
 }

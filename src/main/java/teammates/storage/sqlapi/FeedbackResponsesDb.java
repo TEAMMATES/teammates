@@ -6,10 +6,6 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Root;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -172,7 +168,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
 
             merge(oldResponse);
 
-            return oldResponse;            
+            return oldResponse;
         } else {
             // need to recreate the entity
             createFeedbackResponse(feedbackResponse);

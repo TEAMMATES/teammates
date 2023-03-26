@@ -49,7 +49,6 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         Student student = typicalBundle.students.get("student1InCourse1");
         Course course = typicalBundle.courses.get("course1");
 
-
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
@@ -59,5 +58,5 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(course,
                 Const.InstructorPermissions.CAN_MODIFY_STUDENT, params);
     }
-    
+
 }

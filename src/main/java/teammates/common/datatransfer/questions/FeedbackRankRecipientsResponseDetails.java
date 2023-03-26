@@ -116,7 +116,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
      * @param maxRank the maximum rank in each response
      * @return a list of {@code FeedbackResponse} that contains the updates for the responses, if any
      */
-    public static List<FeedbackResponse> getUpdatedResponsesForRankRecipientQuestionsSQL(
+    public static List<FeedbackResponse> getUpdatedResponsesForRankRecipientQuestionsMigrated(
             List<FeedbackResponse> responses, int maxRank) {
         List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
 

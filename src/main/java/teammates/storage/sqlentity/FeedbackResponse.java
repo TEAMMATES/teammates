@@ -17,6 +17,7 @@ import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

@@ -755,8 +755,7 @@ public class Logic {
      * Deletes a student cascade its associated feedback responses, deadline
      * extensions and comments.
      *
-     * <p>
-     * Fails silently if the student does not exist.
+     * <p>Fails silently if the student does not exist.
      *
      * <br/>
      * Preconditions: <br/>

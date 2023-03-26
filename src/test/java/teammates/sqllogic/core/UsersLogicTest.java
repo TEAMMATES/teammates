@@ -37,6 +37,12 @@ public class UsersLogicTest extends BaseTestCase {
 
     private UsersDb usersDb;
 
+    private FeedbackResponsesLogic feedbackResponsesLogic;
+
+    private FeedbackSessionsLogic feedbackSessionsLogic;
+
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
+
     private Instructor instructor;
 
     private Student student;
@@ -49,7 +55,11 @@ public class UsersLogicTest extends BaseTestCase {
     public void setUpMethod() {
         usersDb = mock(UsersDb.class);
         accountsLogic = mock(AccountsLogic.class);
-        usersLogic.initLogicDependencies(usersDb, accountsLogic);
+        feedbackSessionsLogic = mock(FeedbackSessionsLogic.class);
+        feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
+        deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
+        usersLogic.initLogicDependencies(usersDb, accountsLogic,
+                feedbackResponsesLogic, feedbackSessionsLogic, deadlineExtensionsLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         instructor = getTypicalInstructor();
