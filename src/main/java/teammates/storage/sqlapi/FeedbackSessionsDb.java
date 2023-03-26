@@ -64,6 +64,25 @@ public final class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
+     * Gets a soft-deleted feedback session.
+     *
+     * @return null if not found or not soft-deleted.
+     */
+    public FeedbackSession getSoftDeletedFeedbackSession(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
+
+        if (feedbackSession != null && feedbackSession.getDeletedAt() == null) {
+            log.info(feedbackSessionName + "/" + courseId + " is not soft-deleted!");
+            return null;
+        }
+
+        return feedbackSession;
+    }
+
+    /**
      * Creates a feedback session.
      */
     public FeedbackSession createFeedbackSession(FeedbackSession session)
@@ -111,6 +130,28 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         if (feedbackSession != null) {
             delete(feedbackSession);
         }
+    }
+
+    /**
+     * Soft-deletes a specific feedback session by its name and course id.
+     *
+     * @return Soft-deletion time of the feedback session.
+     */
+    public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+        assert courseId != null;
+        assert feedbackSessionName != null;
+
+        FeedbackSession feedbackSessionEntity = getFeedbackSession(feedbackSessionName, courseId);
+
+        if (feedbackSessionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        feedbackSessionEntity.setDeletedAt(Instant.now());
+        merge(feedbackSessionEntity);
+
+        return feedbackSessionEntity.getDeletedAt();
     }
 
     /**
