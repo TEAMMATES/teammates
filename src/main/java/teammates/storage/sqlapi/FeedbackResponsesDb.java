@@ -14,7 +14,6 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -124,58 +123,20 @@ public final class FeedbackResponsesDb extends EntitiesDb {
 
     /**
      * Updates a feedback response.
-     *
-     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
-     * as question-giver-recipient is the primary key.
-     *
-     * @return updated feedback response
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
-     * @throws EntityAlreadyExistsException if the response cannot be updated
-     *         by recreation because of an existent response
      */
     public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         assert feedbackResponse != null;
 
         if (!feedbackResponse.isValid()) {
             throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
         }
 
-        FeedbackResponse oldResponse = getFeedbackResponse(feedbackResponse.getId());
-        if (oldResponse == null) {
+        if (getFeedbackResponse(feedbackResponse.getId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        if (feedbackResponse.getReceiver().equals(oldResponse.getReceiver())
-                && feedbackResponse.getGiver().equals(oldResponse.getGiver())) {
-            // update only if change
-            boolean hasSameAttributes =
-                    oldResponse.getGiverSection().getName().equals(feedbackResponse.getGiverSection().getName())
-                    && oldResponse.getReceiverSection().getName()
-                            .equals(feedbackResponse.getReceiverSection().getName())
-                    && ((FeedbackRankRecipientsResponse) oldResponse).getAnswer()
-                            .equals(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
-
-            if (hasSameAttributes) {
-                return feedbackResponse;
-            }
-
-            oldResponse.setGiverSection(feedbackResponse.getGiverSection());
-            oldResponse.setReceiverSection(feedbackResponse.getReceiverSection());
-            ((FeedbackRankRecipientsResponse) oldResponse)
-                    .setAnswer(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
-
-            merge(oldResponse);
-
-            return oldResponse;
-        } else {
-            // need to recreate the entity
-            createFeedbackResponse(feedbackResponse);
-            delete(oldResponse);
-
-            return feedbackResponse;
-        }
+        return merge(feedbackResponse);
     }
 
     /**

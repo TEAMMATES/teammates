@@ -1,5 +1,7 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
  * Handles operations related to feedback sessions.
@@ -342,7 +345,7 @@ public final class FeedbackResponsesLogic {
 
         for (FeedbackResponse update : updates) {
             try {
-                frDb.updateFeedbackResponse(update);
+                updateFeedbackResponse(update);
             } catch (EntityAlreadyExistsException | EntityDoesNotExistException | InvalidParametersException e) {
                 assert false : "Exception occurred when updating responses after deleting students.";
             }
@@ -363,6 +366,46 @@ public final class FeedbackResponsesLogic {
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, teamName));
 
         return responses;
+    }
+
+    /**
+     * Updates a feedback response.
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     */
+    private void updateFeedbackResponse(FeedbackResponse feedbackResponse)
+            throws EntityAlreadyExistsException, EntityDoesNotExistException, InvalidParametersException {
+        FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
+        if (oldResponse == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        if (feedbackResponse.getReceiver().equals(oldResponse.getReceiver())
+                && feedbackResponse.getGiver().equals(oldResponse.getGiver())) {
+            // update only if change
+            boolean hasSameAttributes =
+                    oldResponse.getGiverSection().getName().equals(feedbackResponse.getGiverSection().getName())
+                    && oldResponse.getReceiverSection().getName()
+                            .equals(feedbackResponse.getReceiverSection().getName())
+                    && ((FeedbackRankRecipientsResponse) oldResponse).getAnswer()
+                            .equals(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
+
+            if (hasSameAttributes) {
+                return;
+            }
+
+            oldResponse.setGiverSection(feedbackResponse.getGiverSection());
+            oldResponse.setReceiverSection(feedbackResponse.getReceiverSection());
+            ((FeedbackRankRecipientsResponse) oldResponse)
+                    .setAnswer(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
+
+            frDb.updateFeedbackResponse(oldResponse);
+        } else {
+            // need to recreate the entity
+            frDb.createFeedbackResponse(feedbackResponse);
+            frDb.deleteFeedbackResponse(oldResponse);
+        }
     }
 
 }
