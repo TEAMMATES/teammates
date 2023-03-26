@@ -51,6 +51,12 @@ public class FeedbackSessionUnpublishedEmailWorkerAction extends AdminOnlyAction
         List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionUnpublishedEmails(session);
         try {
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+
+            sqlLogic.updateFeedbackSession(session.getId(), session.getInstructions(), session.getStartTime(),
+                    session.getEndTime(), session.getSessionVisibleFromTime(), session.getResultsVisibleFromTime(),
+                    session.getGracePeriod(), session.isOpeningEmailEnabled(), session.isClosingEmailEnabled(),
+                    session.isPublishedEmailEnabled(), false, session.getDeadlineExtensions(),
+                    session.getFeedbackQuestions());
         } catch (Exception e) {
             log.severe("Unexpected error", e);
         }

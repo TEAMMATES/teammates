@@ -8,6 +8,8 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -84,7 +86,7 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest
     }
 
     @Test
-    public void testExecute_sessionExists_success() {
+    public void testExecute_sessionExists_success() throws EntityDoesNotExistException, InvalidParametersException {
         String courseId = session.getCourse().getId();
         String sessionName = session.getName();
 
@@ -102,8 +104,24 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest
 
         List<EmailWrapper> emails = List.of(studentEmail, instructorEmail);
 
+        session.setPublishedEmailSent(true);
+
+        FeedbackSession expectedSession = new FeedbackSession(
+                session.getName(), session.getCourse(), session.getCreatorEmail(), session.getInstructions(),
+                session.getStartTime(), session.getEndTime(), session.getSessionVisibleFromTime(),
+                session.getResultsVisibleFromTime(), session.getGracePeriod(), session.isOpeningEmailEnabled(),
+                session.isClosingEmailEnabled(), session.isPublishedEmailEnabled());
+
+        expectedSession.setPublishedEmailSent(false);
+
         when(mockLogic.getFeedbackSession(sessionName, courseId)).thenReturn(session);
         when(mockSqlEmailGenerator.generateFeedbackSessionUnpublishedEmails(session)).thenReturn(emails);
+        when(mockLogic.updateFeedbackSession(
+                session.getId(), session.getInstructions(), session.getStartTime(),
+                session.getEndTime(), session.getSessionVisibleFromTime(), session.getResultsVisibleFromTime(),
+                session.getGracePeriod(), session.isOpeningEmailEnabled(), session.isClosingEmailEnabled(),
+                session.isPublishedEmailEnabled(), false,
+                session.getDeadlineExtensions(), session.getFeedbackQuestions())).thenReturn(expectedSession);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,

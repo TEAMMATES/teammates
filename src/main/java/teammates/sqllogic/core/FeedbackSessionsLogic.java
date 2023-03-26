@@ -1,5 +1,8 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -110,6 +114,44 @@ public final class FeedbackSessionsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert session != null;
         return fsDb.createFeedbackSession(session);
+    }
+
+    /**
+     * Updates a Feedback session.
+     *
+     * @return updated feedback session
+     */
+    public FeedbackSession updateFeedbackSession(UUID feedbackSessionId, String instructions,
+            Instant startTime, Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime,
+            Duration gracePeriod, boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
+            boolean isPublishedEmailEnabled, boolean isPublishedEmailSent, List<DeadlineExtension> deadlineExtensions,
+            List<FeedbackQuestion> questions)
+            throws EntityDoesNotExistException, InvalidParametersException {
+
+        FeedbackSession session = getFeedbackSession(feedbackSessionId);
+
+        if (session == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + FeedbackSession.class);
+        }
+
+        session.setInstructions(instructions);
+        session.setStartTime(startTime);
+        session.setEndTime(endTime);
+        session.setSessionVisibleFromTime(sessionVisibleFromTime);
+        session.setResultsVisibleFromTime(resultsVisibleFromTime);
+        session.setGracePeriod(gracePeriod);
+        session.setOpeningEmailEnabled(isOpeningEmailEnabled);
+        session.setClosingEmailEnabled(isClosingEmailEnabled);
+        session.setPublishedEmailEnabled(isPublishedEmailEnabled);
+        session.setPublishedEmailSent(isPublishedEmailSent);
+        session.setDeadlineExtensions(deadlineExtensions);
+        session.setFeedbackQuestions(questions);
+
+        if (!session.isValid()) {
+            throw new InvalidParametersException(session.getInvalidityInfo());
+        }
+
+        return session;
     }
 
     /**
