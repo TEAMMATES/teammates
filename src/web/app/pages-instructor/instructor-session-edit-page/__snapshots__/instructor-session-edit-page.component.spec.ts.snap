@@ -1698,7 +1698,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           Common visibility options
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -1708,7 +1708,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -1718,7 +1718,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -1728,7 +1728,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -1738,7 +1738,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -1753,7 +1753,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           style=""
                         />
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -2417,7 +2417,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           Common visibility options
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -2427,7 +2427,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -2437,7 +2437,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -2447,7 +2447,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -2457,7 +2457,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -2472,7 +2472,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           style=""
                         />
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
                           <button
@@ -4425,7 +4425,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       Common visibility options
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
                       <button
@@ -4435,7 +4435,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
                       <button
@@ -4445,7 +4445,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
                       <button
@@ -4455,7 +4455,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
                       <button
@@ -4465,7 +4465,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
                       <button
@@ -4475,7 +4475,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
                       <button
@@ -4490,7 +4490,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       style=""
                     />
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
                       <button
