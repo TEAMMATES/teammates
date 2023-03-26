@@ -41,6 +41,8 @@
   * [Testing]({{ baseUrl }}/best-practices/testing.html)
   * [Data Migration]({{ baseUrl }}/best-practices/data-migration.html)
   * [UI Design]({{ baseUrl }}/best-practices/ui-design.html)
+  * [Accessibility]({{ baseUrl }}/best-practices/accessibility.html)
+  * [Mobile-Friendliness]({{ baseUrl }}/best-practices/mobile-friendliness.html)
 * How-to :expanded:
   * [Captcha]({{ baseUrl }}/captcha.html)
   * [Documentation]({{ baseUrl }}/documentation.html)
