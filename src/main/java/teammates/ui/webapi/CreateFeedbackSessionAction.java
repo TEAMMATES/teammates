@@ -59,12 +59,11 @@ public class CreateFeedbackSessionAction extends Action {
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
 
         if (isCourseMigrated(courseId)) {
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
             Course course = sqlLogic.getCourse(courseId);
-
             if (course == null) {
                 throw new InvalidHttpParameterException("Failed to find course with the given course id.");
             }
+            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
             if (instructor == null) {
                 throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and googleId.");
             }

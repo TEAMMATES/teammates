@@ -1,7 +1,6 @@
 package teammates.storage.sqlentity.questions;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -48,12 +47,12 @@ public class FeedbackConstantSumQuestion extends FeedbackQuestion {
 
     @Override
     public FeedbackConstantSumQuestion makeDeepCopy(FeedbackSession newFeedbackSession) {
-        FeedbackConstantSumQuestion copy = new FeedbackConstantSumQuestion(
-            newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
-            this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
-            new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
-            new FeedbackConstantSumQuestionDetails(this.questionDetails.getQuestionText()));
-        return copy;
+        return new FeedbackConstantSumQuestion(
+                newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
+                this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
+                new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
+                new FeedbackConstantSumQuestionDetails(this.questionDetails.getQuestionText())
+            );
     }
 
     @Override

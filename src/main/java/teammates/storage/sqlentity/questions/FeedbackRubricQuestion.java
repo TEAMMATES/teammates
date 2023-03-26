@@ -47,13 +47,12 @@ public class FeedbackRubricQuestion extends FeedbackQuestion {
 
     @Override
     public FeedbackRubricQuestion makeDeepCopy(FeedbackSession newFeedbackSession) {
-        FeedbackRubricQuestion copy = new FeedbackRubricQuestion(
-            newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
-            this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
-            new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
-            new FeedbackRubricQuestionDetails(this.questionDetails.getQuestionText())
+        return new FeedbackRubricQuestion(
+                newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
+                this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
+                new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
+                new FeedbackRubricQuestionDetails(this.questionDetails.getQuestionText())
             );
-        return copy;
     }
 
     @Override

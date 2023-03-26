@@ -47,13 +47,12 @@ public class FeedbackMcqQuestion extends FeedbackQuestion {
 
     @Override
     public FeedbackMcqQuestion makeDeepCopy(FeedbackSession newFeedbackSession) {
-        FeedbackMcqQuestion copy = new FeedbackMcqQuestion(
-            newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
-            this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
-            new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
-            new FeedbackMcqQuestionDetails(this.questionDetails.getQuestionText())
+        return new FeedbackMcqQuestion(
+                newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
+                this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
+                new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
+                new FeedbackMcqQuestionDetails(this.questionDetails.getQuestionText())
             );
-        return copy;
     }
 
     @Override

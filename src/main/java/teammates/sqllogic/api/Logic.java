@@ -299,6 +299,11 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
 
+    /**
+     * Creates a feedback session.
+     *
+     * @return returns the created feedback session.
+     */
     public FeedbackSession createFeedbackSession(FeedbackSession feedbackSession)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert feedbackSession != null;

@@ -113,7 +113,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     public abstract FeedbackQuestionDetails getQuestionDetailsCopy();
 
     /**
-     * Make a copy of the FeedbackQuestion
+     * Make a copy of the FeedbackQuestion.
      */
     public abstract FeedbackQuestion makeDeepCopy(FeedbackSession newFeedbackSession);
 

@@ -47,13 +47,12 @@ public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
 
     @Override
     public FeedbackNumericalScaleQuestion makeDeepCopy(FeedbackSession newFeedbackSession) {
-        FeedbackNumericalScaleQuestion copy = new FeedbackNumericalScaleQuestion(
-            newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
-            this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
-            new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
-            new FeedbackNumericalScaleQuestionDetails(this.questionDetails.getQuestionText())
+        return new FeedbackNumericalScaleQuestion(
+                newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
+                this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
+                new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
+                new FeedbackNumericalScaleQuestionDetails(this.questionDetails.getQuestionText())
             );
-        return copy;
     }
 
     @Override

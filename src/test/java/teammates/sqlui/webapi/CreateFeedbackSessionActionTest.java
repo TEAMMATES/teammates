@@ -71,13 +71,14 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
     }
 
     @Test
-    protected void testExecute_createFeedbackSession_success() throws InvalidParametersException, EntityAlreadyExistsException {
+    protected void testExecute_createFeedbackSession_success()
+            throws InvalidParametersException, EntityAlreadyExistsException {
         loginAsInstructor(instructor.getGoogleId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest(course.getTimeZone());
+        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
 
         CreateFeedbackSessionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
@@ -130,7 +131,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         assertNull(response.getDeletedAtTimestamp());
     }
 
-    private FeedbackSessionCreateRequest getTypicalCreateRequest(String timeZone) {
+    private FeedbackSessionCreateRequest getTypicalCreateRequest() {
         FeedbackSessionCreateRequest createRequest =
                 new FeedbackSessionCreateRequest();
         createRequest.setFeedbackSessionName(feedbackSession.getName());
@@ -162,11 +163,10 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
     }
 
     private Instructor generateInstructor1InCourse(Course courseInstructorIsIn) {
-        Instructor instructor = new Instructor(courseInstructorIsIn, "instructor-1",
+        return new Instructor(courseInstructorIsIn, "instructor-1",
                 "instructor-1@tm.tmt", false,
                 "", null,
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
-        return instructor;
     }
 
     private FeedbackSession generateSession1InCourse(Course course, Instructor instructor) {
