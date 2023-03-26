@@ -2,23 +2,23 @@
   <br>
   <div class="col-12">
     <div class="form-check form-check-inline">
-      <label class="form-check-label">
+      <div class="form-check-label">
         <input id="zero-sum-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.isZeroSum" (ngModelChange)="triggerModelChangeForIsZeroSum($event)" [disabled]="!isEditable">
-        <b>Zero-sum i.e., ratings must add up to <code>(Team Size) x (Equal Share)</code></b>&nbsp;
+        <label for="zero-sum-checkbox" class="fw-bold">Zero-sum i.e., ratings must add up to (Team Size) times (Equal Share)</label>&nbsp;
         <a class="small" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: QuestionsSectionQuestions.CONTRIBUTION, section: Sections.questions}" rel="noopener noreferrer" target="_blank">
           <i class="fa fa-info-circle" aria-hidden="true"></i>
           more info
         </a>
-      </label>
+      </div>
     </div>
   </div>
   <div class="col-12">
     <div class="form-check form-check-inline">
-      <label class="form-check-label">
+      <div class="form-check-label">
         <input id="not-sure-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.isNotSureAllowed" (ngModelChange)="triggerModelChange('isNotSureAllowed', $event)" [disabled]="model.isZeroSum || !isEditable">
-        <b class="ngb-tooltip-class" ngbTooltip="Not applicable if the zero-sum option is enabled"
-           [ngClass]="{'text-muted': model.isZeroSum || !isEditable}">Allow response giver to select 'Not Sure' as the answer</b>
-      </label>
+        <label for="not-sure-checkbox" class="ngb-tooltip-class fw-bold" ngbTooltip="Not applicable if the zero-sum option is enabled"
+           [ngClass]="{'text-muted': model.isZeroSum || !isEditable}">Allow response giver to select 'Not Sure' as the answer</label>
+      </div>
     </div>
   </div>
 </div>
