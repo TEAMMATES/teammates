@@ -8,7 +8,7 @@ import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 /**
  * Get a set of givers that has given at least one response in the feedback session.
  */
-class GetFeedbackSessionSubmittedGiverSetAction extends Action {
+public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -32,11 +32,19 @@ class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionSubmittedGiverSet output =
-                new FeedbackSessionSubmittedGiverSet(
-                        logic.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName));
+        if (isCourseMigrated(courseId)) {
+            FeedbackSessionSubmittedGiverSet output = new FeedbackSessionSubmittedGiverSet(
+                    sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId)
+            );
 
-        return new JsonResult(output);
+            return new JsonResult(output);
+        } else {
+            FeedbackSessionSubmittedGiverSet output =
+                    new FeedbackSessionSubmittedGiverSet(
+                    logic.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName));
+
+            return new JsonResult(output);
+        }
     }
 
 }

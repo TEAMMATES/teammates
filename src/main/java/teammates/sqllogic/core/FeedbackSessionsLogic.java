@@ -2,7 +2,9 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -97,6 +99,25 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
         return fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
+    }
+
+    /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
+        assert courseId != null;
+        assert feedbackSessionName != null;
+
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
+
+        Set<String> giverSet = new HashSet<>();
+        feedbackSession.getFeedbackQuestions().forEach(question -> {
+            question.getFeedbackResponses().forEach(response -> {
+                giverSet.add(response.getGiver());
+            });
+        });
+
+        return giverSet;
     }
 
     /**
