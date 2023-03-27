@@ -27,16 +27,16 @@
           <div class="input-group">
             <div class="btn-group-vertical">
               <button type="button" class="btn btn-light" [disabled]="i === 0 || !isEditable"
-                      ngbTooltip="Move row up" (click)="moveRow(i, i - 1)">
+                      ngbTooltip="Move row up" (click)="moveRow(i, i - 1)" aria-label="Move row up">
                 <i class="fas fa-arrow-up"></i>
               </button>
               <button id="btn-delete-subquestion" type="button" class="btn btn-light" (click)="deleteSubQuestion(i)"
                       (mouseover)="rowToHighlight = i" (mouseleave)="rowToHighlight = -1"
-                      [disabled]="model.rubricSubQuestions.length === 1 || !isEditable">
+                      [disabled]="model.rubricSubQuestions.length === 1 || !isEditable" aria-label="Delete row">
                 <i class="fas fa-times"></i>
               </button>
               <button type="button" class="btn btn-light" [disabled]="i === this.model.rubricSubQuestions.length - 1 || !isEditable"
-                      ngbTooltip="Move row down" (click)="moveRow(i, i + 1)">
+                      ngbTooltip="Move row down" (click)="moveRow(i, i + 1)" aria-label="Move row down">
                 <i class="fas fa-arrow-down"></i>
               </button>
             </div>
@@ -47,7 +47,7 @@
         <td *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
           <textarea class="form-control" [ngModel]="rubricDescriptionCell"
                     (ngModelChange)="triggerRubricDescriptionChange($event, i, j)" rows="3" [disabled]="!isEditable"></textarea>
-          <input *ngIf="model.hasAssignedWeights" type="number" class="form-control margin-top-10px" step="0.01"
+          <input *ngIf="model.hasAssignedWeights" type="number" class="form-control margin-top-10px" step="0.01" aria-label="Choice weight input"
                  [disabled]="!isEditable"
                  [ngModel]="model.rubricWeightsForEachCell[i][j]" (ngModelChange)="triggerRubricWeightChange($event, i, j)">
         </td>
@@ -57,16 +57,16 @@
         <td *ngFor="let rubricChoice of model.rubricChoices; let j = index;" class="text-center" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
           <div class="btn-group">
             <button type="button" class="btn btn-light" [disabled]="j === 0 || !isEditable"
-                    ngbTooltip="Move column left" (click)="moveChoice(j, j - 1)">
+                    ngbTooltip="Move column left" (click)="moveChoice(j, j - 1)" aria-label="Move column left">
               <i class="fas fa-arrow-left"></i>
             </button>
             <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
                     (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
-                    [disabled]="model.rubricChoices.length === 1 || !isEditable">
+                    [disabled]="model.rubricChoices.length === 1 || !isEditable" aria-label="Delete column">
               <i class="fas fa-times"></i>
             </button>
             <button type="button" class="btn btn-light" [disabled]="j === this.model.rubricChoices.length - 1 || !isEditable"
-                    ngbTooltip="Move column right" (click)="moveChoice(j, j + 1)">
+                    ngbTooltip="Move column right" (click)="moveChoice(j, j + 1)" aria-label="Move column right">
               <i class="fas fa-arrow-right"></i>
             </button>
           </div>
