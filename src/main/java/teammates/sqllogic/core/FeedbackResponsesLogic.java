@@ -208,7 +208,7 @@ public final class FeedbackResponsesLogic {
 
         // delete responses to the entity
         List<FeedbackResponse> responsesToStudent =
-                getFeedbackResponsesForReceiverForCourse(courseId, entityEmail);
+                getFeedbackResponsesForRecipientForCourse(courseId, entityEmail);
         for (FeedbackResponse response : responsesToStudent) {
             deleteFeedbackResponseCascade(response.getId());
         }
@@ -228,12 +228,12 @@ public final class FeedbackResponsesLogic {
     /**
      * Gets all responses received by a user for a course.
      */
-    public List<FeedbackResponse> getFeedbackResponsesForReceiverForCourse(
-            String courseId, String receiver) {
+    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(
+            String courseId, String recipient) {
         assert courseId != null;
-        assert receiver != null;
+        assert recipient != null;
 
-        return frDb.getFeedbackResponsesForReceiverForCourse(courseId, receiver);
+        return frDb.getFeedbackResponsesForRecipientForCourse(courseId, recipient);
     }
 
     /**
