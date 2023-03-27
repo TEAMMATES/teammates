@@ -6,3 +6,13 @@ img {
 .inner-content {
   margin: 0 20px;
 }
+
+@media (pointer: coarse)  {
+  img {
+    margin: 0;
+    max-width: 100%;
+  }
+  .inner-content {
+    margin: 0;
+  }
+}
