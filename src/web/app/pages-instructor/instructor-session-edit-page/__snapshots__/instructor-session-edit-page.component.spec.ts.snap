@@ -1299,84 +1299,88 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </tm-panel-chevron>
               </div>
               <div
-                class="d-flex flex-column text-start"
-                id="question-header"
+                class="d-flex flex-fill flex-sm-row flex-column align-items-sm-center align-items-start"
               >
                 <div
-                  class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
+                  class="d-flex flex-column text-start"
+                  id="question-header"
                 >
-                  <h2
-                    class="question-number fw-bold me-1"
+                  <div
+                    class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                   >
-                    Question 
-                    <select
-                      class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-                      id="question-number-dropdown"
+                    <h2
+                      class="question-number fw-bold me-1"
                     >
-                      <option
-                        value="0: 1"
+                      Question 
+                      <select
+                        class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                        id="question-number-dropdown"
                       >
-                        1
-                      </option>
-                      <option
-                        value="1: 2"
-                      >
-                        2
-                      </option>
-                    </select>
-                  </h2>
-                  <span
-                    id="question-type"
-                  >
-                    Essay question
-                  </span>
+                        <option
+                          value="0: 1"
+                        >
+                          1
+                        </option>
+                        <option
+                          value="1: 2"
+                        >
+                          2
+                        </option>
+                      </select>
+                    </h2>
+                    <span
+                      id="question-type"
+                    >
+                      Essay question
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div
-                class="card-header-btn-toolbar"
-              >
-                <div>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    id="btn-save-question"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-check"
-                    />
-                     Save 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-ban"
-                    />
-                     Cancel 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    id="btn-delete-question"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-trash"
-                    />
-                     Delete 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    container="body"
-                    id="btn-duplicate-question"
-                    ngbtooltip="Make a copy of the existing question and add to the current feedback session."
-                    type="button"
-                  >
-                    <i
-                      class="far fa-copy"
-                    />
-                     Duplicate 
-                  </button>
+                <div
+                  class="card-header-btn-toolbar ms-0 ms-sm-auto text-start"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      id="btn-save-question"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-check"
+                      />
+                       Save 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-ban"
+                      />
+                       Cancel 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      id="btn-delete-question"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-trash"
+                      />
+                       Delete 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      container="body"
+                      id="btn-duplicate-question"
+                      ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+                      type="button"
+                    >
+                      <i
+                        class="far fa-copy"
+                      />
+                       Duplicate 
+                    </button>
+                  </div>
                 </div>
               </div>
             </button>
@@ -2018,84 +2022,88 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </tm-panel-chevron>
               </div>
               <div
-                class="d-flex flex-column text-start"
-                id="question-header"
+                class="d-flex flex-fill flex-sm-row flex-column align-items-sm-center align-items-start"
               >
                 <div
-                  class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
+                  class="d-flex flex-column text-start"
+                  id="question-header"
                 >
-                  <h2
-                    class="question-number fw-bold me-1"
+                  <div
+                    class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                   >
-                    Question 
-                    <select
-                      class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-                      id="question-number-dropdown"
+                    <h2
+                      class="question-number fw-bold me-1"
                     >
-                      <option
-                        value="0: 1"
+                      Question 
+                      <select
+                        class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                        id="question-number-dropdown"
                       >
-                        1
-                      </option>
-                      <option
-                        value="1: 2"
-                      >
-                        2
-                      </option>
-                    </select>
-                  </h2>
-                  <span
-                    id="question-type"
-                  >
-                    Essay question
-                  </span>
+                        <option
+                          value="0: 1"
+                        >
+                          1
+                        </option>
+                        <option
+                          value="1: 2"
+                        >
+                          2
+                        </option>
+                      </select>
+                    </h2>
+                    <span
+                      id="question-type"
+                    >
+                      Essay question
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div
-                class="card-header-btn-toolbar"
-              >
-                <div>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    id="btn-save-question"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-check"
-                    />
-                     Save 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-ban"
-                    />
-                     Cancel 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    id="btn-delete-question"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-trash"
-                    />
-                     Delete 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    container="body"
-                    id="btn-duplicate-question"
-                    ngbtooltip="Make a copy of the existing question and add to the current feedback session."
-                    type="button"
-                  >
-                    <i
-                      class="far fa-copy"
-                    />
-                     Duplicate 
-                  </button>
+                <div
+                  class="card-header-btn-toolbar ms-0 ms-sm-auto text-start"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      id="btn-save-question"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-check"
+                      />
+                       Save 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-ban"
+                      />
+                       Cancel 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      id="btn-delete-question"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-trash"
+                      />
+                       Delete 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      container="body"
+                      id="btn-duplicate-question"
+                      ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+                      type="button"
+                    >
+                      <i
+                        class="far fa-copy"
+                      />
+                       Duplicate 
+                    </button>
+                  </div>
                 </div>
               </div>
             </button>
@@ -3929,47 +3937,51 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             </tm-panel-chevron>
           </div>
           <div
-            class="d-flex flex-column text-start"
-            id="question-header"
+            class="d-flex flex-fill flex-sm-row flex-column align-items-sm-center align-items-start"
           >
             <div
-              class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
+              class="d-flex flex-column text-start"
+              id="question-header"
             >
-              <h2
-                class="question-number fw-bold me-1"
+              <div
+                class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
               >
-                Question 
-                <select
-                  class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-                  id="question-number-dropdown"
+                <h2
+                  class="question-number fw-bold me-1"
                 >
-                  <option
-                    value="0: 1"
+                  Question 
+                  <select
+                    class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                    id="question-number-dropdown"
                   >
-                    1
-                  </option>
-                </select>
-              </h2>
-              <span
-                id="question-type"
-              >
-                Essay question
-              </span>
+                    <option
+                      value="0: 1"
+                    >
+                      1
+                    </option>
+                  </select>
+                </h2>
+                <span
+                  id="question-type"
+                >
+                  Essay question
+                </span>
+              </div>
             </div>
-          </div>
-          <div
-            class="card-header-btn-toolbar"
-          >
-            <div>
-              <button
-                class="btn btn-primary btn-sm"
-                type="button"
-              >
-                <i
-                  class="fas fa-ban"
-                />
-                 Cancel 
-              </button>
+            <div
+              class="card-header-btn-toolbar ms-0 ms-sm-auto text-start"
+            >
+              <div>
+                <button
+                  class="btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-ban"
+                  />
+                   Cancel 
+                </button>
+              </div>
             </div>
           </div>
         </button>
