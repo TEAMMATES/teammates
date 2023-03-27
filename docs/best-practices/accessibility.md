@@ -20,7 +20,7 @@ TEAMMATES aims to be compliant to the [Web Content Accessibility Guidelines (WCA
 
 ## Keyboard
 
-* All interactable elements (e.g. buttons, links, inputs) should be focusable by the keyboard (e.g. when tabbing).
+* All interactive elements (e.g. buttons, links, inputs) should be focusable by the keyboard (e.g. when tabbing).
 * The keyboard focus/tabbing order should match the visual layout of the page.
 * Focusable elements that are hidden from the current view should be removed from the focus order.
 
