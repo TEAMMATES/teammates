@@ -1,7 +1,6 @@
 package teammates.it.ui.webapi;
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -35,11 +34,72 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
     }
 
     @Test
-    @Ignore
     @Override
     protected void testExecute() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'testExecute'");
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        Student student2InCourse1 = typicalBundle.students.get("student2InCourse1");
+
+        ______TS("Typical Success Case delete a student by email");
+        loginAsInstructor(instructor.getGoogleId());
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+        };
+
+        DeleteStudentAction deleteStudentAction = getAction(params);
+        getJsonResult(deleteStudentAction);
+
+        ______TS("Typical Success Case delete a student by id");
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
+        };
+
+        deleteStudentAction = getAction(params);
+        getJsonResult(deleteStudentAction);
+
+        ______TS("Course does not exist, fails silently");
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, "non-existent-course",
+                Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
+        };
+
+        deleteStudentAction = getAction(params);
+        getJsonResult(deleteStudentAction);
+
+        ______TS("Student does not exist, fails silently");
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.STUDENT_ID, "non-existent-id",
+        };
+
+        deleteStudentAction = getAction(params);
+        getJsonResult(deleteStudentAction);
+
+        ______TS("Incomplete params given");
+        verifyHttpParameterFailure();
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+        };
+
+        verifyHttpParameterFailure(params);
+
+        params = new String[] {
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+        };
+
+        verifyHttpParameterFailure(params);
+
+        params = new String[] {
+                Const.ParamsNames.STUDENT_ID, student1InCourse1.getGoogleId(),
+        };
+
+        verifyAccessibleForAdmin(params);
+
+        ______TS("Random email given, fails silently");
     }
 
     @Test
