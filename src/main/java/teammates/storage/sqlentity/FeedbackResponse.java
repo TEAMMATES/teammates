@@ -45,8 +45,6 @@ public abstract class FeedbackResponse extends BaseEntity {
     private FeedbackQuestion feedbackQuestion;
 
     @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
-    // Mental note: write test to see difference between PERSIST and REMOVE
-    // @OneToMany(mappedBy = "feedbackResponse", orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
     @Column(nullable = false)
