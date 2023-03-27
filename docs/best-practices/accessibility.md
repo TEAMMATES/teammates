@@ -4,11 +4,11 @@
 
 # Accessibility Best Practices
 
-TEAMMATES aims to be compliant to the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/). On top of the full list of WCAG gudielines, we have compiled some general guidelines below.
+TEAMMATES aims to be compliant to the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/). On top of the full list of WCAG guidelines, we have compiled some general guidelines below.
 
 ## Content
 
-* Language used should be plan and easy to understand. Avoid using complicated figures of speech.
+* Language used should be plain and easy to understand. Avoid using complicated figures of speech.
 * Content flow should be logical.
 * Headings should be used in a logical sequence (e.g. descending order, no skipping levels) to split the page into sections, and not used purely for visual design.
 

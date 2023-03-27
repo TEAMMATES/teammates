@@ -6,7 +6,7 @@
 
 ## What is Accessibility Testing?
   
-Accessibility testing is the practice of making the application accessible to users with disabilities, who may be navigating the website using various assistive technology such as screen readers. TEAMMATES aims to be compliant to the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/), and makes use of automated accessibility tests to identify a portion of WCAG rule violations.
+Accessibility testing is the practice of making the application accessible to users with disabilities, who may be navigating the website using various assistive technologies such as screen readers. TEAMMATES aims to be compliant to the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/), and makes use of automated accessibility tests to identify a portion of WCAG rule violations.
   
 Accessibility tests in TEAMMATES can be found in the package `teammates.e2e.cases.axe`.
 
