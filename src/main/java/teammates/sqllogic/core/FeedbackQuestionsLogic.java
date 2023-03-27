@@ -529,6 +529,14 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
+     * Returns true if a session has question in a specific giverType.
+     */
+    public boolean sessionHasQuestionsForGiverType(
+            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, giverType);
+    }
+
+    /**
      * Returns true if a session has question in either STUDENTS type or TEAMS type.
      */
     public boolean sessionHasQuestionsForStudent(String feedbackSessionName, String courseId) {
