@@ -326,6 +326,15 @@ public class Logic {
     }
 
     /**
+     * Checks whether a student has attempted a feedback session.
+     *
+     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession fs, String userEmail, String userTeam) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(fs, userEmail, userTeam);
+    }
+
+    /**
      * Creates a new feedback question.
      *
      * <br/>Preconditions: <br/>

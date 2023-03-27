@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -221,5 +222,30 @@ public final class FeedbackSessionsLogic {
         }
 
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
+    }
+
+    /**
+     * Checks whether a student has attempted a feedback session.
+     *
+     * <p>If feedback session consists of all team questions, session is attempted by student only
+     * if someone from the team has responded. If feedback session has some individual questions,
+     * session is attempted only if the student has responded to any of the individual questions
+     * (regardless of the completion status of the team questions).</p>
+     */
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession fs, String userEmail, String userTeam) {
+        String feedbackSessionName = fs.getName();
+        String courseId = fs.getCourse().getId();
+
+        if (!fqLogic.sessionHasQuestionsForStudent(feedbackSessionName, courseId)) {
+            // if there are no questions for student, session is attempted
+            return true;
+        } else if (fqLogic.sessionHasQuestionsForGiverType(
+                feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)) {
+            // case where there are some individual questions
+            return frLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
+        } else {
+            // case where all are team questions
+            return frLogic.hasGiverRespondedForSession(userTeam, feedbackSessionName, courseId);
+        }
     }
 }
