@@ -100,6 +100,13 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         verifyAccessibleForAdmin(params);
 
         ______TS("Random email given, fails silently");
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, "random-email",
+        };
+
+        deleteStudentAction = getAction(params);
+        getJsonResult(deleteStudentAction);
     }
 
     @Test
