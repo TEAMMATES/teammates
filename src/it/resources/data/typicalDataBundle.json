@@ -17,6 +17,12 @@
       "googleId": "idOfStudent1Course1",
       "name": "Student 1",
       "email": "student1@teammates.tmt"
+    },
+    "student2": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "idOfStudent2Course1",
+      "name": "Student 2",
+      "email": "student2@teammates.tmt"
     }
   },
   "accountRequests": {
@@ -182,6 +188,9 @@
     },
     "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000602",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000004"
+      },
       "course": {
         "id": "course-1"
       },
