@@ -156,6 +156,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(UUID questionId) {
+        return frDb.areThereResponsesForQuestion(questionId);
+    }
+
+    /**
      * Checks whether a giver has responded a session.
      */
     public boolean hasGiverRespondedForSession(String giver, String feedbackSessionName, String courseId) {

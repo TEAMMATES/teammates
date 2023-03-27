@@ -91,6 +91,20 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(UUID questionId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
+
+        cq.select(root)
+                .where(cb.equal(fqJoin.get("id"), questionId));
+        return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
+    }
+
+    /**
      * Checks whether a user has responses in a session.
      */
     public boolean hasResponsesFromGiverInSession(
