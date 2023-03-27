@@ -3,11 +3,14 @@ package teammates.ui.webapi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.HasResponsesData;
 
 /**
@@ -34,50 +37,78 @@ class GetHasResponsesAction extends Action {
             //An instructor of the feedback session can check responses for questions within it.
             String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
             if (questionId != null) {
-                FeedbackQuestionAttributes feedbackQuestionAttributes = logic.getFeedbackQuestion(questionId);
-                FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(
-                        feedbackQuestionAttributes.getFeedbackSessionName(),
-                        feedbackQuestionAttributes.getCourseId());
-
-                gateKeeper.verifyAccessible(
-                        logic.getInstructorForGoogleId(feedbackQuestionAttributes.getCourseId(), userInfo.getId()),
-                        feedbackSession);
-
+                checkInstructorAccessControlUsingQuestion(questionId);
                 //prefer question check over course checks
                 return;
             }
 
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            gateKeeper.verifyAccessible(
+            if (!isCourseMigrated(courseId)) {
+                gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(courseId, userInfo.getId()),
                     logic.getCourse(courseId));
+                return;
+            }
+
+            gateKeeper.verifyAccessible(
+                sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                sqlLogic.getCourse(courseId));
+
             return;
         }
 
-        //An student can check whether he has submitted responses for a feedback session in his course.
+        // A student can check whether he has submitted responses for a feedback session in his course.
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        if (feedbackSessionName != null) {
-            gateKeeper.verifyAccessible(
-                    logic.getStudentForGoogleId(courseId, userInfo.getId()),
-                    getNonNullFeedbackSession(feedbackSessionName, courseId));
+        if (!isCourseMigrated(courseId)) {
+            if (feedbackSessionName != null) {
+                gateKeeper.verifyAccessible(
+                        logic.getStudentForGoogleId(courseId, userInfo.getId()),
+                        getNonNullFeedbackSession(feedbackSessionName, courseId));
+            }
+    
+            List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+            if (feedbackSessions.isEmpty()) {
+                // Course has no sessions and therefore no response; access to responses is safe for all.
+                return;
+            }
+    
+            // Verify that all sessions are accessible to the user.
+            for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+                if (!feedbackSession.isVisible()) {
+                    // Skip invisible sessions.
+                    continue;
+                }
+    
+                gateKeeper.verifyAccessible(
+                        logic.getStudentForGoogleId(courseId, userInfo.getId()),
+                        feedbackSession);
+            }
+
+            return;
         }
 
-        List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+        if (feedbackSessionName != null) {
+            gateKeeper.verifyAccessible(
+                    sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()),
+                    getNonNullSqlFeedbackSession(feedbackSessionName, courseId));
+        }
+
+        List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
         if (feedbackSessions.isEmpty()) {
             // Course has no sessions and therefore no response; access to responses is safe for all.
             return;
         }
 
         // Verify that all sessions are accessible to the user.
-        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+        for (FeedbackSession feedbackSession : feedbackSessions) {
             if (!feedbackSession.isVisible()) {
                 // Skip invisible sessions.
                 continue;
             }
 
             gateKeeper.verifyAccessible(
-                    logic.getStudentForGoogleId(courseId, userInfo.getId()),
+                    sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()),
                     feedbackSession);
         }
     }
@@ -136,5 +167,45 @@ class GetHasResponsesAction extends Action {
 
         boolean hasResponses = logic.hasResponsesForCourse(courseId);
         return new JsonResult(new HasResponsesData(hasResponses));
+    }
+
+    private void checkInstructorAccessControlUsingQuestion(String questionId) throws UnauthorizedAccessException {
+        FeedbackQuestionAttributes feedbackQuestionAttributes = null;
+        FeedbackQuestion sqlFeedbackQuestion = null;
+        String courseId;
+
+        UUID feedbackQuestionSqlId;
+
+        try {
+            feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+            sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+        } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+            // if the question id cannot be converted to UUID, we check the datastore for the question
+            feedbackQuestionAttributes = logic.getFeedbackQuestion(questionId);
+        }
+
+        if (feedbackQuestionAttributes != null) {
+            courseId = feedbackQuestionAttributes.getCourseId();
+        } else if (sqlFeedbackQuestion != null) {
+            courseId = sqlFeedbackQuestion.getCourseId();
+        } else {
+            throw new EntityNotFoundException("Feedback Question not found");
+        }
+
+        if (!isCourseMigrated(courseId)) {
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(
+                feedbackQuestionAttributes.getFeedbackSessionName(),
+                feedbackQuestionAttributes.getCourseId());
+
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(feedbackQuestionAttributes.getCourseId(), userInfo.getId()),
+                    feedbackSession);
+            return;
+        }
+
+        FeedbackSession feedbackSession = sqlFeedbackQuestion.getFeedbackSession();
+        gateKeeper.verifyAccessible(
+                sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                feedbackSession);
     }
 }
