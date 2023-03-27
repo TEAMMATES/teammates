@@ -422,7 +422,6 @@ public final class UsersLogic {
 
         usersDb.deleteUser(student);
         feedbackSessionsLogic.deleteFeedbackSessionsDeadlinesForUser(courseId, studentEmail);
-        deadlineExtensionsLogic.deleteDeadlineExtensionsForCourseAndEmail(courseId, studentEmail);
 
         updateStudentResponsesAfterDeletion(courseId);
     }

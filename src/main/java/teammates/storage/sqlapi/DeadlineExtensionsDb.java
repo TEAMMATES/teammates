@@ -139,26 +139,4 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
-
-    /**
-     * Deletes deadline extensions associated with {@code courseId} and {@code userEmail}.
-     */
-    public void deleteDeadlineExtensionsForCourseAndEmail(String courseId, String userEmail) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
-        Root<DeadlineExtension> deadlineExtensionRoot = cr.from(DeadlineExtension.class);
-        Join<DeadlineExtension, User> usersJoin = deadlineExtensionRoot.join("user");
-        Join<User, Course> coursesJoin = usersJoin.join("course");
-
-        cr.select(deadlineExtensionRoot)
-                .where(cb.and(
-                    cb.equal(coursesJoin.get("id"), courseId),
-                    cb.equal(usersJoin.get("email"), userEmail)));
-
-        List<DeadlineExtension> deadlineExtensionsToDelete = HibernateUtil.createQuery(cr).getResultList();
-
-        for (DeadlineExtension deadlineExtension : deadlineExtensionsToDelete) {
-            deleteDeadlineExtension(deadlineExtension);
-        }
-    }
 }

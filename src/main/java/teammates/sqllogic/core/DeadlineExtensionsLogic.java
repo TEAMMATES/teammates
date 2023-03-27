@@ -92,16 +92,4 @@ public final class DeadlineExtensionsLogic {
         return deadlineExtensionsDb.updateDeadlineExtension(de);
     }
 
-    /**
-     * Deletes all deadline extensions for a user in a course.
-     *
-     * <p>Fails silently if the deadline extension doesn't exist.</p>
-     */
-    public void deleteDeadlineExtensionsForCourseAndEmail(String courseId, String userEmail) {
-        assert courseId != null;
-        assert userEmail != null;
-
-        deadlineExtensionsDb.deleteDeadlineExtensionsForCourseAndEmail(courseId, userEmail);
-    }
-
 }
