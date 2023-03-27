@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -36,9 +37,30 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+
+        FeedbackQuestionAttributes feedbackQuestion = null;
+        FeedbackQuestion sqlFeedbackQuestion = null;
+        String courseId;
+
+        UUID feedbackQuestionSqlId;
+
+        try {
+            feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+            sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+        } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+            // if the question id cannot be converted to UUID, we check the datastore for the question
+            feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        }
 
         if (feedbackQuestion != null) {
+            courseId = feedbackQuestion.getCourseId();
+        } else if (sqlFeedbackQuestion != null) {
+            courseId = sqlFeedbackQuestion.getCourseId();
+        } else {
+            throw new EntityNotFoundException("Feedback Question not found");
+        }
+
+        if (!isCourseMigrated(courseId)) {
             FeedbackSessionAttributes feedbackSession =
                     getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
 
@@ -61,12 +83,6 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
             }
             return;
-        }
-
-        UUID feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestion sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
-        if (sqlFeedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
         FeedbackSession feedbackSession =
@@ -96,10 +112,32 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     @Override
     public JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        FeedbackQuestionAttributes questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
+
+        FeedbackQuestionAttributes questionAttributes = null;
+        FeedbackQuestion sqlFeedbackQuestion = null;
+        String courseId;
+
+        UUID feedbackQuestionSqlId;
+
+        try {
+            feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+            sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+        } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+            // if the question id cannot be converted to UUID, we check the datastore for the question
+            questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
+        }
 
         if (questionAttributes != null) {
+            courseId = questionAttributes.getCourseId();
+        } else if (sqlFeedbackQuestion != null) {
+            courseId = sqlFeedbackQuestion.getCourseId();
+        } else {
+            throw new EntityNotFoundException("Feedback Question not found");
+        }
+
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+
+        if (!isCourseMigrated(courseId)) {
             List<FeedbackResponseAttributes> responses;
             switch (intent) {
             case STUDENT_SUBMISSION:
@@ -116,10 +154,11 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             }
 
             List<FeedbackResponseData> responsesData = new LinkedList<>();
+            FeedbackQuestionAttributes questionAttributesCopy = questionAttributes.getCopy();
             responses.forEach(response -> {
                 FeedbackResponseData data = new FeedbackResponseData(response);
-                if (questionAttributes.getQuestionType() != FeedbackQuestionType.MCQ
-                        && questionAttributes.getQuestionType() != FeedbackQuestionType.MSQ) {
+                if (questionAttributesCopy.getCopy().getQuestionType() != FeedbackQuestionType.MCQ
+                        && questionAttributesCopy.getCopy().getQuestionType() != FeedbackQuestionType.MSQ) {
                     responsesData.add(data);
                     return;
                 }
@@ -139,13 +178,6 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             return new JsonResult(result);
         }
 
-        UUID feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestion sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
-
-        if (sqlFeedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
-        }
-
         List<FeedbackResponse> responses;
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -161,10 +193,11 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         }
 
         List<FeedbackResponseData> responsesData = new LinkedList<>();
+        FeedbackQuestionDetails feedbackQuestionDetails = sqlFeedbackQuestion.getQuestionDetailsCopy();
         responses.forEach(response -> {
             FeedbackResponseData data = new FeedbackResponseData(response);
-            if (sqlFeedbackQuestion.getQuestionDetailsCopy().getQuestionType() == FeedbackQuestionType.MCQ
-                    || sqlFeedbackQuestion.getQuestionDetailsCopy().getQuestionType() == FeedbackQuestionType.MSQ) {
+            if (feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MCQ
+                    || feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MSQ) {
                 // Only MCQ and MSQ questions can have participant comment
                 FeedbackResponseComment comment =
                         sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());

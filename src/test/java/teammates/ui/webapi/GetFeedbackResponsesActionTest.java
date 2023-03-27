@@ -229,7 +229,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomNonExistId",
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        verifyHttpParameterFailureAcl(nonExistParams);
+        verifyEntityNotFoundAcl(nonExistParams);
     }
 
     @Test
