@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -10,7 +9,6 @@ import teammates.common.util.Const;
 /**
  * SUT: {@link DeleteStudentAction}.
  */
-@Ignore
 public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction> {
 
     @Override
