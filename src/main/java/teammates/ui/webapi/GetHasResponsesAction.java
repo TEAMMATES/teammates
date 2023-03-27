@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.HasResponsesData;
 
 /**
@@ -66,25 +67,24 @@ class GetHasResponsesAction extends Action {
                         logic.getStudentForGoogleId(courseId, userInfo.getId()),
                         getNonNullFeedbackSession(feedbackSessionName, courseId));
             }
-    
+
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
             if (feedbackSessions.isEmpty()) {
                 // Course has no sessions and therefore no response; access to responses is safe for all.
                 return;
             }
-    
+
             // Verify that all sessions are accessible to the user.
             for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
                 if (!feedbackSession.isVisible()) {
                     // Skip invisible sessions.
                     continue;
                 }
-    
+
                 gateKeeper.verifyAccessible(
                         logic.getStudentForGoogleId(courseId, userInfo.getId()),
                         feedbackSession);
             }
-
             return;
         }
 
@@ -124,20 +124,46 @@ class GetHasResponsesAction extends Action {
         // Default path for student and admin
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        if (!isCourseMigrated(courseId)) {
+            if (feedbackSessionName == null) {
+                // check all sessions in the course
+                List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+                StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+
+                Map<String, Boolean> sessionsHasResponses = new HashMap<>();
+                for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+                    if (!feedbackSession.isVisible()) {
+                        // Skip invisible sessions.
+                        continue;
+                    }
+                    boolean hasResponses = logic.isFeedbackSessionAttemptedByStudent(
+                            feedbackSession, student.getEmail(), student.getTeam());
+                    sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
+                }
+                return new JsonResult(new HasResponsesData(sessionsHasResponses));
+            }
+
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+
+            StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+            return new JsonResult(new HasResponsesData(
+                    logic.isFeedbackSessionAttemptedByStudent(feedbackSession, student.getEmail(), student.getTeam())));
+        }
+
         if (feedbackSessionName == null) {
             // check all sessions in the course
-            List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-            StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+            List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
+            Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
 
             Map<String, Boolean> sessionsHasResponses = new HashMap<>();
-            for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            for (FeedbackSession feedbackSession : feedbackSessions) {
                 if (!feedbackSession.isVisible()) {
                     // Skip invisible sessions.
                     continue;
                 }
-                boolean hasResponses = logic.isFeedbackSessionAttemptedByStudent(
-                        feedbackSession, student.getEmail(), student.getTeam());
-                sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
+                boolean hasResponses = sqlLogic.isFeedbackSessionAttemptedByStudent(
+                        feedbackSession, student.getEmail(), student.getTeamName());
+                sessionsHasResponses.put(feedbackSession.getName(), hasResponses);
             }
             return new JsonResult(new HasResponsesData(sessionsHasResponses));
         }
@@ -152,20 +178,53 @@ class GetHasResponsesAction extends Action {
     private JsonResult handleInstructorReq() {
         String feedbackQuestionID = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         if (feedbackQuestionID != null) {
-            if (logic.getFeedbackQuestion(feedbackQuestionID) == null) {
+            FeedbackQuestionAttributes questionAttributes = null;
+            FeedbackQuestion sqlFeedbackQuestion = null;
+            String courseId;
+
+            UUID feedbackQuestionSqlId = null;
+
+            try {
+                feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+                sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+            } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+                // if the question id cannot be converted to UUID, we check the datastore for the question
+                questionAttributes = logic.getFeedbackQuestion(feedbackQuestionID);
+            }
+
+            if (questionAttributes != null) {
+                courseId = questionAttributes.getCourseId();
+            } else if (sqlFeedbackQuestion != null) {
+                courseId = sqlFeedbackQuestion.getCourseId();
+            } else {
                 throw new EntityNotFoundException("No feedback question with id: " + feedbackQuestionID);
             }
 
-            boolean hasResponses = logic.areThereResponsesForQuestion(feedbackQuestionID);
-            return new JsonResult(new HasResponsesData(hasResponses));
+            if (!isCourseMigrated(courseId)) {
+                boolean hasResponses = logic.areThereResponsesForQuestion(feedbackQuestionID);
+                return new JsonResult(new HasResponsesData(hasResponses));                
+            }
+
+            boolean hasResponses = sqlLogic.areThereResponsesForQuestion(feedbackQuestionSqlId);
+            return new JsonResult(new HasResponsesData(hasResponses));      
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        if (logic.getCourse(courseId) == null) {
+
+        if (!isCourseMigrated(courseId)) {
+            if (logic.getCourse(courseId) == null) {
+                throw new EntityNotFoundException("No course with id: " + courseId);
+            }
+    
+            boolean hasResponses = logic.hasResponsesForCourse(courseId);
+            return new JsonResult(new HasResponsesData(hasResponses));
+        }
+
+        if (sqlLogic.getCourse(courseId) == null) {
             throw new EntityNotFoundException("No course with id: " + courseId);
         }
 
-        boolean hasResponses = logic.hasResponsesForCourse(courseId);
+        boolean hasResponses = sqlLogic.hasResponsesForCourse(courseId);
         return new JsonResult(new HasResponsesData(hasResponses));
     }
 
