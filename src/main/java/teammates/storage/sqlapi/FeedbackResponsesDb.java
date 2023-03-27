@@ -126,4 +126,21 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
     }
 
+    /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> courseJoin = fsJoin.join("course");
+
+        cq.select(root)
+                .where(cb.equal(courseJoin.get("id"), courseId));
+
+        return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
+    }
 }

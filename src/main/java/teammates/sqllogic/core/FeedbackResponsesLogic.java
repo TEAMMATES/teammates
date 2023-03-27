@@ -169,4 +169,11 @@ public final class FeedbackResponsesLogic {
 
         return frDb.hasResponsesFromGiverInSession(giver, feedbackSessionName, courseId);
     }
+
+    /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        return frDb.hasResponsesForCourse(courseId);
+    }
 }
