@@ -28,6 +28,30 @@
       "headingKeywords": {}
     },
     {
+      "src": "axe-testing.md",
+      "title": "Accessibility Testing",
+      "headings": {
+        "accessibility-testing": "Accessibility Testing",
+        "what-is-accessibility-testing": "What is Accessibility Testing?",
+        "running-accessibility-tests": "Running Accessibility Tests",
+        "running-the-tests": "Running the tests",
+        "creating-accessibility-tests": "Creating Accessibility Tests"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "best-practices/accessibility.md",
+      "title": "Best Practices: Accessibility",
+      "headings": {
+        "accessibility-best-practices": "Accessibility Best Practices",
+        "content": "Content",
+        "images-icons": "Images/Icons",
+        "keyboard": "Keyboard",
+        "controls-inputs": "Controls/Inputs"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "best-practices/coding.md",
       "title": "Best Practices: Coding",
       "headings": {
@@ -54,6 +78,16 @@
       "headingKeywords": {}
     },
     {
+      "src": "best-practices/mobile-friendliness.md",
+      "title": "Best Practices: Mobile-Friendliness",
+      "headings": {
+        "mobile-friendliness-best-practices": "Mobile-Friendliness Best Practices",
+        "content": "Content",
+        "interactive-elements-e-g-buttons-links-tooltips": "Interactive elements (e.g. buttons, links, tooltips)"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "best-practices/testing.md",
       "title": "Best Practices: Testing",
       "headings": {
@@ -70,7 +104,7 @@
         "be-forgiving-in-processing-input": "Be forgiving in processing input",
         "be-descriptive": "Be descriptive",
         "minimize-work-to-be-done-by-the-user": "Minimize work (to be done by the user)",
-        "take-user-point-of-view": "Take user point of view",
+        "take-the-user-s-point-of-view": "Take the user's point of view",
         "be-consistent": "Be consistent"
       },
       "headingKeywords": {}
