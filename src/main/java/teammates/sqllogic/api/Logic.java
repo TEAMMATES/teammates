@@ -793,6 +793,13 @@ public class Logic {
     }
 
     /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        return feedbackResponsesLogic.hasResponsesForCourse(courseId);
+    }
+
+    /**
      * Gets the comment associated with the response.
      */
     public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
