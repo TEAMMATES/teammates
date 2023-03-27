@@ -56,10 +56,11 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
 
         cr.select(frRoot)
                 .where(cb.and(
-                    cb.equal(fsJoin.get("courseId"), courseId),
+                    cb.equal(cJoin.get("id"), courseId),
                     cb.equal(frRoot.get("giver"), giver)));
 
         return HibernateUtil.createQuery(cr).getResultList();
@@ -74,10 +75,11 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
 
         cr.select(frRoot)
                 .where(cb.and(
-                    cb.equal(fsJoin.get("courseId"), courseId),
+                    cb.equal(cJoin.get("id"), courseId),
                     cb.equal(frRoot.get("receiver"), receiver)));
 
         return HibernateUtil.createQuery(cr).getResultList();
