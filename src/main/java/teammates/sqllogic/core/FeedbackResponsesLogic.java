@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
-import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -36,10 +35,7 @@ public final class FeedbackResponsesLogic {
 
     private FeedbackResponsesDb frDb;
     private UsersLogic usersLogic;
-    private FeedbackResponseCommentsLogic feedbackResponseCommentsLogic;
     private FeedbackQuestionsLogic fqLogic;
-
-    private UsersLogic uLogic;
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -52,13 +48,10 @@ public final class FeedbackResponsesLogic {
     /**
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
-    void initLogicDependencies(FeedbackResponsesDb frDb, UsersLogic usersLogic,
-            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, FeedbackQuestionsLogic fqLogic) {
+    void initLogicDependencies(FeedbackResponsesDb frDb, UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic) {
         this.frDb = frDb;
         this.usersLogic = usersLogic;
-        this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.fqLogic = fqLogic;
-        this.uLogic = uLogic;
     }
 
     /**
@@ -277,8 +270,8 @@ public final class FeedbackResponsesLogic {
         List<FeedbackQuestion> filteredQuestions =
                 fqLogic.getFeedbackQuestionForCourseWithType(courseId, FeedbackQuestionType.RANK_RECIPIENTS);
         SqlCourseRoster roster = new SqlCourseRoster(
-                uLogic.getStudentsForCourse(courseId),
-                uLogic.getInstructorsForCourse(courseId));
+                usersLogic.getStudentsForCourse(courseId),
+                usersLogic.getInstructorsForCourse(courseId));
 
         for (FeedbackQuestion question : filteredQuestions) {
             makeRankRecipientQuestionResponsesConsistent(question, roster);
@@ -352,22 +345,6 @@ public final class FeedbackResponsesLogic {
         }
     }
 
-    private List<FeedbackResponse> getFeedbackResponsesFromTeamForQuestion(
-            UUID feedbackQuestionId, String courseId, String teamName, @Nullable SqlCourseRoster courseRoster) {
-        List<FeedbackResponse> responses = new ArrayList<>();
-        List<Student> studentsInTeam = courseRoster == null
-                ? uLogic.getStudentsForTeam(teamName, courseId) : courseRoster.getTeamToMembersTable().get(teamName);
-
-        for (Student student : studentsInTeam) {
-            responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                    feedbackQuestionId, student.getEmail()));
-        }
-
-        responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, teamName));
-
-        return responses;
-    }
-
     /**
      * Updates a feedback response.
      *
@@ -381,13 +358,13 @@ public final class FeedbackResponsesLogic {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        if (feedbackResponse.getReceiver().equals(oldResponse.getReceiver())
+        if (feedbackResponse.getRecipient().equals(oldResponse.getRecipient())
                 && feedbackResponse.getGiver().equals(oldResponse.getGiver())) {
             // update only if change
             boolean hasSameAttributes =
                     oldResponse.getGiverSection().getName().equals(feedbackResponse.getGiverSection().getName())
-                    && oldResponse.getReceiverSection().getName()
-                            .equals(feedbackResponse.getReceiverSection().getName())
+                    && oldResponse.getRecipientSection().getName()
+                            .equals(feedbackResponse.getRecipientSection().getName())
                     && ((FeedbackRankRecipientsResponse) oldResponse).getAnswer()
                             .equals(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
 
@@ -396,7 +373,7 @@ public final class FeedbackResponsesLogic {
             }
 
             oldResponse.setGiverSection(feedbackResponse.getGiverSection());
-            oldResponse.setReceiverSection(feedbackResponse.getReceiverSection());
+            oldResponse.setRecipientSection(feedbackResponse.getRecipientSection());
             ((FeedbackRankRecipientsResponse) oldResponse)
                     .setAnswer(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
 
