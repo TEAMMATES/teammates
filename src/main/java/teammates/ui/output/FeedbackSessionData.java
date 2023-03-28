@@ -145,6 +145,8 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     public FeedbackSessionData(FeedbackSession feedbackSession) {
+        assert feedbackSession != null;
+        assert feedbackSession.getCourse() != null;
         String timeZone = feedbackSession.getCourse().getTimeZone();
         this.courseId = feedbackSession.getCourse().getId();
         this.timeZone = timeZone;
