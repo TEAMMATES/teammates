@@ -74,8 +74,9 @@ public final class FeedbackResponsesDb extends EntitiesDb {
 
     /**
      * Gets the feedback responses for a feedback question.
+     * 
      * @param feedbackQuestionId the Id of the feedback question.
-     * @param giverEmail the email of the response giver.
+     * @param giverEmail         the email of the response giver.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForQuestion(
             UUID feedbackQuestionId, String giverEmail) {
@@ -108,8 +109,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
      * Checks whether a user has responses in a session.
      */
     public boolean hasResponsesFromGiverInSession(
-        String giver, String feedbackSessionName, String courseId) {
-
+            String giver, String feedbackSessionName, String courseId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
@@ -130,7 +130,6 @@ public final class FeedbackResponsesDb extends EntitiesDb {
      * Checks whether there are responses for a course.
      */
     public boolean hasResponsesForCourse(String courseId) {
-        
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);

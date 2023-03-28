@@ -11,6 +11,7 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -69,5 +70,16 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
+    }
+
+    @Test
+    public void testHasFeedbackQuestionsForGiverType() {
+        ______TS("success: typical case");
+        Course course = typicalDataBundle.courses.get("course1");
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+
+        boolean actual = fqDb.hasFeedbackQuestionsForGiverType(fs.getName(), course.getId(), FeedbackParticipantType.STUDENTS);
+
+        assertTrue(actual);
     }
 }
