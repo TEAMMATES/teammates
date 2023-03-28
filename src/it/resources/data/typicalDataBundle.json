@@ -403,6 +403,31 @@
       "showRecipientNameTo": [
         "INSTRUCTORS"
       ]
+    },
+    "qn6InSession1InCourse1NoResponses": {
+      "id": "00000000-0000-4000-8000-000000000805",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "description": "Feedback question with no responses",
+      "questionNumber": 5,
+      "giverType": "SELF",
+      "recipientType": "NONE",
+      "numOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
