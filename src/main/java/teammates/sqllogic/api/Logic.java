@@ -751,6 +751,13 @@ public class Logic {
     }
 
     /**
+     * Gets a feedbackResponse or null if it does not exist.
+     */
+    public FeedbackResponse getFeedbackResponse(UUID frId) {
+        return feedbackResponsesLogic.getFeedbackResponse(frId);
+    }
+
+    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
