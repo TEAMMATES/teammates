@@ -31,8 +31,30 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+
+        FeedbackQuestionAttributes feedbackQuestion = null;
+        FeedbackQuestion sqlFeedbackQuestion = null;
+        String courseId;
+
+        UUID feedbackQuestionSqlId;
+
+        try {
+            feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+            sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+        } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+            // if the question id cannot be converted to UUID, we check the datastore for the question
+            feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        }
+
         if (feedbackQuestion != null) {
+            courseId = feedbackQuestion.getCourseId();
+        } else if (sqlFeedbackQuestion != null) {
+            courseId = sqlFeedbackQuestion.getCourseId();
+        } else {
+            throw new EntityNotFoundException("Feedback Question not found");
+        }
+
+        if (!isCourseMigrated(courseId)) {
             verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
 
             Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
@@ -53,12 +75,6 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
             }
             return;
-        }
-
-        UUID feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestion sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
-        if (sqlFeedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
         verifyInstructorCanSeeQuestionIfInModeration(sqlFeedbackQuestion);
@@ -86,20 +102,39 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
     @Override
     public JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
+        FeedbackQuestionAttributes question = null;
+        FeedbackQuestion sqlFeedbackQuestion = null;
+        String courseId;
+
+        UUID feedbackQuestionSqlId;
+
+        try {
+            feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+            sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+        } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+            // if the question id cannot be converted to UUID, we check the datastore for the question
+            question = logic.getFeedbackQuestion(feedbackQuestionId);
+        }
 
         if (question != null) {
+            courseId = question.getCourseId();
+        } else if (sqlFeedbackQuestion != null) {
+            courseId = sqlFeedbackQuestion.getCourseId();
+        } else {
+            throw new EntityNotFoundException("Feedback Question not found");
+        }
+
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+
+        if (!isCourseMigrated(courseId)) {
             Map<String, FeedbackQuestionRecipient> recipient;
             switch (intent) {
             case STUDENT_SUBMISSION:
                 StudentAttributes studentAttributes = getStudentOfCourseFromRequest(question.getCourseId());
-
                 recipient = logic.getRecipientsOfQuestion(question, null, studentAttributes);
                 break;
             case INSTRUCTOR_SUBMISSION:
                 InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(question.getCourseId());
-
                 recipient = logic.getRecipientsOfQuestion(question, instructorAttributes, null);
                 break;
             default:
@@ -108,10 +143,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
             return new JsonResult(new FeedbackQuestionRecipientsData(recipient));
         }
 
-        UUID feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestion sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
         Map<String, FeedbackQuestionRecipient> recipient;
-        String courseId = sqlFeedbackQuestion.getCourseId();
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getSqlStudentOfCourseFromRequest(courseId);
