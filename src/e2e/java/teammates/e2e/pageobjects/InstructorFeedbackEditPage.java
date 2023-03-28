@@ -1545,7 +1545,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private int getNumRubricCols(int questionNum) {
-        return getRubricRow(questionNum, 1).findElements(By.tagName("td")).size();
+        WebElement row = getRubricRow(questionNum, 1);
+        return row.findElements(By.tagName("td")).size() + row.findElements(By.tagName("th")).size();
     }
 
     private void inputRubricDetails(int questionNum, FeedbackRubricQuestionDetails questionDetails) {
