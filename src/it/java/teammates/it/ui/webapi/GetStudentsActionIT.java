@@ -57,7 +57,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         StudentsData response = (StudentsData) jsonResult.getOutput();
         List<StudentData> students = response.getStudents();
 
-        assertEquals(2, students.size());
+        assertEquals(3, students.size());
 
         StudentData firstStudentInStudents = students.get(0);
 
@@ -82,7 +82,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         Student expectedOtherTeamMember = typicalBundle.students.get("student2InCourse1");
 
-        assertEquals(2, students.size());
+        assertEquals(3, students.size());
 
         StudentData actualOtherTeamMember = students.get(1);
 
