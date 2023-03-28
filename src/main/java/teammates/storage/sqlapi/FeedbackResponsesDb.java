@@ -76,7 +76,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     /**
      * Gets the feedback responses for a feedback question.
      * @param feedbackQuestionId the Id of the feedback question.
-     * @param giverEmail         the email of the response giver.
+     * @param giverEmail the email of the response giver.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForQuestion(
             UUID feedbackQuestionId, String giverEmail) {
