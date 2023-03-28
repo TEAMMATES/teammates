@@ -50,15 +50,13 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession fs1 = new FeedbackSession("name1", course1, "test1@test.com", "test-instruction",
                 Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
                 Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true, true);
-                
         fsDb.createFeedbackSession(fs1);
         fsDb.softDeleteFeedbackSession(fs1.getName(), course1.getId());
 
         FeedbackSession softDeletedFs = fsDb.getSoftDeletedFeedbackSession(fs1.getName(), course1.getId());
-
         verifyEquals(fs1, softDeletedFs);
     }
-    
+
     @Test
     public void testRestoreFeedbackSession()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
@@ -67,7 +65,6 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession fs1 = new FeedbackSession("name1", course1, "test1@test.com", "test-instruction",
                 Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
                 Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true, true);
-                
         fs1.setDeletedAt(Instant.now());
         fsDb.createFeedbackSession(fs1);
         FeedbackSession softDeletedFs = fsDb.getSoftDeletedFeedbackSession(fs1.getName(), course1.getId());
