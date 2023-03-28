@@ -1,7 +1,10 @@
 package teammates.storage.sqlentity.responses;
 
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.Section;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -22,12 +25,26 @@ public class FeedbackMcqResponse extends FeedbackResponse {
         // required by Hibernate
     }
 
+    public FeedbackMcqResponse(
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String recipient, Section recipientSection,
+            FeedbackResponseDetails responseDetails
+    ) {
+        super(feedbackQuestion, giver, giverSection, recipient, recipientSection);
+        this.setAnswer((FeedbackMcqResponseDetails) responseDetails);
+    }
+
     public FeedbackMcqResponseDetails getAnswer() {
         return answer;
     }
 
     public void setAnswer(FeedbackMcqResponseDetails answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public FeedbackResponseDetails getFeedbackResponseDetailsCopy() {
+        return answer.getDeepCopy();
     }
 
     @Override
