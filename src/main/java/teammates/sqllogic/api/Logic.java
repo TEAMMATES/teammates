@@ -306,6 +306,19 @@ public class Logic {
     }
 
     /**
+     * Creates a feedback session.
+     *
+     * @return returns the created feedback session.
+     */
+    public FeedbackSession createFeedbackSession(FeedbackSession feedbackSession)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert feedbackSession != null;
+        assert feedbackSession.getCourse() != null && feedbackSession.getCourse().getId() != null;
+
+        return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    }
+
+    /**
      * Creates a new feedback question.
      *
      * <br/>Preconditions: <br/>
