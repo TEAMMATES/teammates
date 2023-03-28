@@ -37,10 +37,6 @@ public class UsersLogicTest extends BaseTestCase {
 
     private UsersDb usersDb;
 
-    private FeedbackResponsesLogic feedbackResponsesLogic;
-
-    private FeedbackSessionsLogic feedbackSessionsLogic;
-
     private Instructor instructor;
 
     private Student student;
@@ -53,8 +49,8 @@ public class UsersLogicTest extends BaseTestCase {
     public void setUpMethod() {
         usersDb = mock(UsersDb.class);
         accountsLogic = mock(AccountsLogic.class);
-        feedbackSessionsLogic = mock(FeedbackSessionsLogic.class);
-        feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
+        FeedbackSessionsLogic feedbackSessionsLogic = mock(FeedbackSessionsLogic.class);
+        FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
         usersLogic.initLogicDependencies(usersDb, accountsLogic,
                 feedbackResponsesLogic, feedbackSessionsLogic);
 
