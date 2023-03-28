@@ -125,29 +125,7 @@ class GetHasResponsesAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         if (!isCourseMigrated(courseId)) {
-            if (feedbackSessionName == null) {
-                // check all sessions in the course
-                List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-                StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
-
-                Map<String, Boolean> sessionsHasResponses = new HashMap<>();
-                for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
-                    if (!feedbackSession.isVisible()) {
-                        // Skip invisible sessions.
-                        continue;
-                    }
-                    boolean hasResponses = logic.isFeedbackSessionAttemptedByStudent(
-                            feedbackSession, student.getEmail(), student.getTeam());
-                    sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
-                }
-                return new JsonResult(new HasResponsesData(sessionsHasResponses));
-            }
-
-            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
-            StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
-            return new JsonResult(new HasResponsesData(
-                    logic.isFeedbackSessionAttemptedByStudent(feedbackSession, student.getEmail(), student.getTeam())));
+            return handleOldStudentHasReponses(feedbackSessionName, courseId);
         }
 
         if (feedbackSessionName == null) {
@@ -266,5 +244,31 @@ class GetHasResponsesAction extends Action {
         gateKeeper.verifyAccessible(
                 sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
                 feedbackSession);
+    }
+
+    private JsonResult handleOldStudentHasReponses(String feedbackSessionName, String courseId) {
+        if (feedbackSessionName == null) {
+            // check all sessions in the course
+            List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+            StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+
+            Map<String, Boolean> sessionsHasResponses = new HashMap<>();
+            for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+                if (!feedbackSession.isVisible()) {
+                    // Skip invisible sessions.
+                    continue;
+                }
+                boolean hasResponses = logic.isFeedbackSessionAttemptedByStudent(
+                        feedbackSession, student.getEmail(), student.getTeam());
+                sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
+            }
+            return new JsonResult(new HasResponsesData(sessionsHasResponses));
+        }
+
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+
+        StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+        return new JsonResult(new HasResponsesData(
+                logic.isFeedbackSessionAttemptedByStudent(feedbackSession, student.getEmail(), student.getTeam())));
     }
 }
