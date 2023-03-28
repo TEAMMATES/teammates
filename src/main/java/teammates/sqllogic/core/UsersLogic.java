@@ -40,8 +40,6 @@ public final class UsersLogic {
 
     private FeedbackSessionsLogic feedbackSessionsLogic;
 
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
-
     private UsersLogic() {
         // prevent initialization
     }
@@ -51,13 +49,11 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
-            FeedbackResponsesLogic feedbackResponsesLogic, FeedbackSessionsLogic feedbackSessionsLogic,
-            DeadlineExtensionsLogic deadlineExtensionsLogic) {
+            FeedbackResponsesLogic feedbackResponsesLogic, FeedbackSessionsLogic feedbackSessionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
-        this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
     /**
