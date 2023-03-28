@@ -7,7 +7,13 @@ import java.util.UUID;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 
 /**
  * Handles CRUD operations for feedbackResponseComments.
@@ -29,7 +35,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     /**
      * Gets a feedbackResponseComment or null if it does not exist.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(UUID frId) {
+    public FeedbackResponseComment getFeedbackResponseComment(Long frId) {
         assert frId != null;
 
         return HibernateUtil.get(FeedbackResponseComment.class, frId);
@@ -46,7 +52,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
         }
 
-        if (getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
+        if (feedbackResponseComment.getId() != null
+                && getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
             throw new EntityAlreadyExistsException(
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponseComment.toString()));
         }
@@ -62,6 +69,21 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         if (feedbackResponseComment != null) {
             delete(feedbackResponseComment);
         }
+    }
+
+    /**
+     * Gets the comment associated with the feedback response.
+     */
+    public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
+            UUID feedbackResponseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(frJoin.get("id"), feedbackResponseId)));
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
     }
 
 }

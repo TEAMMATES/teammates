@@ -14,6 +14,8 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -38,6 +40,8 @@ public final class DataBundleLogic {
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
     private FeedbackSessionsLogic fsLogic;
     private FeedbackQuestionsLogic fqLogic;
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
     private NotificationsLogic notificationsLogic;
     private UsersLogic usersLogic;
 
@@ -52,7 +56,8 @@ public final class DataBundleLogic {
     void initLogicDependencies(AccountsLogic accountsLogic, AccountRequestsLogic accountRequestsLogic,
             CoursesLogic coursesLogic,
             DeadlineExtensionsLogic deadlineExtensionsLogic, FeedbackSessionsLogic fsLogic,
-            FeedbackQuestionsLogic fqLogic,
+            FeedbackQuestionsLogic fqLogic, FeedbackResponsesLogic frLogic,
+            FeedbackResponseCommentsLogic frcLogic,
             NotificationsLogic notificationsLogic, UsersLogic usersLogic) {
         this.accountsLogic = accountsLogic;
         this.accountRequestsLogic = accountRequestsLogic;
@@ -60,6 +65,8 @@ public final class DataBundleLogic {
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
         this.fsLogic = fsLogic;
         this.fqLogic = fqLogic;
+        this.frLogic = frLogic;
+        this.frcLogic = frcLogic;
         this.notificationsLogic = notificationsLogic;
         this.usersLogic = usersLogic;
     }
@@ -83,10 +90,8 @@ public final class DataBundleLogic {
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
-        // Collection<FeedbackResponse> responses =
-        // dataBundle.feedbackResponses.values();
-        // Collection<FeedbackResponseComment> responseComments =
-        // dataBundle.feedbackResponseComments.values();
+        Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
+        Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
@@ -96,7 +101,8 @@ public final class DataBundleLogic {
         Map<UUID, Section> sectionsMap = new HashMap<>();
         Map<UUID, Team> teamsMap = new HashMap<>();
         Map<UUID, FeedbackSession> sessionsMap = new HashMap<>();
-        // Map<UUID, FeedbackQuestion> questionMap = new HashMap<>();
+        Map<UUID, FeedbackQuestion> questionMap = new HashMap<>();
+        Map<UUID, FeedbackResponse> responseMap = new HashMap<>();
         Map<UUID, Account> accountsMap = new HashMap<>();
         Map<UUID, User> usersMap = new HashMap<>();
         Map<UUID, Notification> notificationsMap = new HashMap<>();
@@ -138,11 +144,32 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackQuestion question : questions) {
-            // UUID placeholderId = question.getId();
+            UUID placeholderId = question.getId();
             question.setId(UUID.randomUUID());
-            // questionMap.put(placeholderId, question);
+            questionMap.put(placeholderId, question);
             FeedbackSession fs = sessionsMap.get(question.getFeedbackSession().getId());
             question.setFeedbackSession(fs);
+        }
+
+        for (FeedbackResponse response : responses) {
+            UUID placeholderId = response.getId();
+            response.setId(UUID.randomUUID());
+            responseMap.put(placeholderId, response);
+            FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
+            Section giverSection = sectionsMap.get(response.getGiverSection().getId());
+            Section recipientSection = sectionsMap.get(response.getRecipientSection().getId());
+            response.setFeedbackQuestion(fq);
+            response.setGiverSection(giverSection);
+            response.setRecipientSection(recipientSection);
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
+            FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
+            Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
+            Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
+            responseComment.setFeedbackResponse(fr);
+            responseComment.setGiverSection(giverSection);
+            responseComment.setRecipientSection(recipientSection);
         }
 
         for (Account account : accounts) {
@@ -225,10 +252,8 @@ public final class DataBundleLogic {
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
-        // Collection<FeedbackResponse> responses =
-        // dataBundle.feedbackResponses.values();
-        // Collection<FeedbackResponseComment> responseComments =
-        // dataBundle.feedbackResponseComments.values();
+        Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
+        Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
 
@@ -258,6 +283,15 @@ public final class DataBundleLogic {
 
         for (FeedbackQuestion question : questions) {
             fqLogic.createFeedbackQuestion(question);
+        }
+
+        for (FeedbackResponse response : responses) {
+            frLogic.createFeedbackResponse(response);
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setId(null);
+            frcLogic.createFeedbackResponseComment(responseComment);
         }
 
         for (Account account : accounts) {
