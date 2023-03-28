@@ -360,6 +360,18 @@ public class Logic {
     }
 
     /**
+     * Restores a specific session from Recycle Bin to feedback sessions table.
+     */
+    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+    }
+
+    /**
      * Unpublishes a feedback session.
      * @return the unpublished feedback session
      * @throws EntityDoesNotExistException if the feedback session cannot be found
