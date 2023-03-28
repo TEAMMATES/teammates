@@ -78,7 +78,8 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Course course = typicalDataBundle.courses.get("course1");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
-        boolean actual = fqDb.hasFeedbackQuestionsForGiverType(fs.getName(), course.getId(), FeedbackParticipantType.STUDENTS);
+        boolean actual = fqDb.hasFeedbackQuestionsForGiverType(
+                fs.getName(), course.getId(), FeedbackParticipantType.STUDENTS);
 
         assertTrue(actual);
     }

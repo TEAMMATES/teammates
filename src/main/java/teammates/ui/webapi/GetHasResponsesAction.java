@@ -46,14 +46,14 @@ class GetHasResponsesAction extends Action {
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
             if (!isCourseMigrated(courseId)) {
                 gateKeeper.verifyAccessible(
-                    logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    logic.getCourse(courseId));
+                        logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                        logic.getCourse(courseId));
                 return;
             }
 
             gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
-                sqlLogic.getCourse(courseId));
+                    sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                    sqlLogic.getCourse(courseId));
 
             return;
         }
@@ -202,11 +202,11 @@ class GetHasResponsesAction extends Action {
 
             if (!isCourseMigrated(courseId)) {
                 boolean hasResponses = logic.areThereResponsesForQuestion(feedbackQuestionID);
-                return new JsonResult(new HasResponsesData(hasResponses));                
+                return new JsonResult(new HasResponsesData(hasResponses));
             }
 
             boolean hasResponses = sqlLogic.areThereResponsesForQuestion(feedbackQuestionSqlId);
-            return new JsonResult(new HasResponsesData(hasResponses));      
+            return new JsonResult(new HasResponsesData(hasResponses));
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -215,7 +215,7 @@ class GetHasResponsesAction extends Action {
             if (logic.getCourse(courseId) == null) {
                 throw new EntityNotFoundException("No course with id: " + courseId);
             }
-    
+
             boolean hasResponses = logic.hasResponsesForCourse(courseId);
             return new JsonResult(new HasResponsesData(hasResponses));
         }
@@ -253,8 +253,8 @@ class GetHasResponsesAction extends Action {
 
         if (!isCourseMigrated(courseId)) {
             FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(
-                feedbackQuestionAttributes.getFeedbackSessionName(),
-                feedbackQuestionAttributes.getCourseId());
+                    feedbackQuestionAttributes.getFeedbackSessionName(),
+                    feedbackQuestionAttributes.getCourseId());
 
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackQuestionAttributes.getCourseId(), userInfo.getId()),
