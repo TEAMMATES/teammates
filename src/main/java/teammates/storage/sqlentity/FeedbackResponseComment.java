@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,6 +13,7 @@ import teammates.common.util.FieldValidator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -26,7 +26,8 @@ import jakarta.persistence.Table;
 @Table(name = "FeedbackResponseComments")
 public class FeedbackResponseComment extends BaseEntity {
     @Id
-    private UUID id;
+    @GeneratedValue
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "responseId")
@@ -44,8 +45,8 @@ public class FeedbackResponseComment extends BaseEntity {
     private Section giverSection;
 
     @ManyToOne
-    @JoinColumn(name = "receiverSectionId")
-    private Section receiverSection;
+    @JoinColumn(name = "recipientSectionId")
+    private Section recipientSection;
 
     @Column(nullable = false)
     private String commentText;
@@ -76,17 +77,16 @@ public class FeedbackResponseComment extends BaseEntity {
 
     public FeedbackResponseComment(
             FeedbackResponse feedbackResponse, String giver, FeedbackParticipantType giverType,
-            Section giverSection, Section receiverSection, String commentText,
+            Section giverSection, Section recipientSection, String commentText,
             boolean isVisibilityFollowingFeedbackQuestion, boolean isCommentFromFeedbackParticipant,
             List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
             String lastEditorEmail
     ) {
-        this.setId(UUID.randomUUID());
         this.setFeedbackResponse(feedbackResponse);
         this.setGiver(giver);
         this.setGiverType(giverType);
         this.setGiverSection(giverSection);
-        this.setReceiverSection(receiverSection);
+        this.setRecipientSection(recipientSection);
         this.setCommentText(commentText);
         this.setIsVisibilityFollowingFeedbackQuestion(isVisibilityFollowingFeedbackQuestion);
         this.setIsCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant);
@@ -95,11 +95,11 @@ public class FeedbackResponseComment extends BaseEntity {
         this.setLastEditorEmail(lastEditorEmail);
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -135,12 +135,12 @@ public class FeedbackResponseComment extends BaseEntity {
         this.giverSection = giverSection;
     }
 
-    public Section getReceiverSection() {
-        return receiverSection;
+    public Section getRecipientSection() {
+        return recipientSection;
     }
 
-    public void setReceiverSection(Section receiverSection) {
-        this.receiverSection = receiverSection;
+    public void setRecipientSection(Section recipientSection) {
+        this.recipientSection = recipientSection;
     }
 
     public String getCommentText() {
