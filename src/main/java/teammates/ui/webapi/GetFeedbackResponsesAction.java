@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import org.hibernate.dialect.MySQL55Dialect;
-
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -198,8 +196,8 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         FeedbackQuestionDetails feedbackQuestionDetails = sqlFeedbackQuestion.getQuestionDetailsCopy();
         responses.forEach(response -> {
             FeedbackResponseData data = new FeedbackResponseData(response);
-            if (feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MCQ ||
-                    feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MSQ
+            if (feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MCQ
+                    || feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MSQ
             ) {
                 // Only MCQ and MSQ questions can have participant comment
                 FeedbackResponseComment comment =
