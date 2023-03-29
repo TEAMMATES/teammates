@@ -63,30 +63,34 @@ export class DateTimeService {
         return inst;
     }
 
-    getTimeFormatBeforeXMinutes(time: TimeFormat, x: number): TimeFormat {
-        let nhour = time.hour - Math.floor(x / 60);
-        let nmin = 0;
-        const nx = x % 60;
-        if (time.minute >= nx) {
-            nmin = time.minute - nx;
-        } else {
-            nhour -= 1;
-            nmin += 60 - x;
-        }
-        return { hour: nhour, minute: nmin };
+    /**
+     * Gets date(Date) instance from time and date.
+     *
+     */
+    getDateInstanceFromDateTime(time: TimeFormat, date: DateFormat): Date {
+        return new Date(date.year, date.month - 1, date.day, time.hour, time.minute);
     }
 
-    getTimeFormatAfterXMinutes(time: TimeFormat, x: number): TimeFormat {
-        let nhour = time.hour + Math.floor(x / 60);
-        let nmin = time.minute;
-        const nx = x % 60;
-        if (nmin + nx < 60) {
-            nmin += nx;
-        } else {
-            nhour += 1;
-            nmin += 60 - x;
-        }
-        return { hour: nhour, minute: nmin };
+    /**
+     * Gets time and date from date(Date) Instance
+     *
+     */
+    getDateTimeFromDate(date: Date): [time: TimeFormat, date: DateFormat] {
+        const tm: TimeFormat = { hour: date.getHours(), minute: date.getMinutes() };
+        const dt: DateFormat = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        return [tm, dt];
+    }
+
+    getTimeFormatBeforeXMinutes(time: TimeFormat, date: DateFormat, x: number): [TimeFormat, DateFormat] {
+        const dt = this.getDateInstanceFromDateTime(time, date);
+        dt.setMinutes(dt.getMinutes() - x);
+        return this.getDateTimeFromDate(dt);
+    }
+
+    getTimeFormatAfterXMinutes(time: TimeFormat, date: DateFormat, x: number): [TimeFormat, DateFormat] {
+        const dt = this.getDateInstanceFromDateTime(time, date);
+        dt.setMinutes(dt.getMinutes() + x);
+        return this.getDateTimeFromDate(dt);
     }
 
     /**
