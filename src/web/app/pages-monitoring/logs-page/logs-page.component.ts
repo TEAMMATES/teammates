@@ -391,7 +391,7 @@ export class LogsPageComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.formModel.filters.traceId = '';
+    this.formModel.filters.traceId = 'asdf';
     this.formModel.filters.userInfoParams = {
       googleId: '',
       regkey: '',
@@ -438,6 +438,7 @@ export class LogsPageComponent implements OnInit {
     this.queryParams.order = DESCENDING_ORDER;
     this.queryParams.endTime = this.searchStartTime;
     this.searchStartTime -= Milliseconds.IN_TEN_MINUTES;
+    this.formModel.logsTimeFrom = this.datetimeService.getTimeFormatBeforeXMinutes(this.formModel.logsTimeFrom, 10);
     this.queryParams.startTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
@@ -447,6 +448,7 @@ export class LogsPageComponent implements OnInit {
     this.queryParams.order = ASCENDING_ORDER;
     this.queryParams.startTime = this.searchEndTime;
     this.searchEndTime += Milliseconds.IN_TEN_MINUTES;
+    this.formModel.logsTimeTo = this.datetimeService.getTimeFormatAfterXMinutes(this.formModel.logsTimeTo, 10);
     this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }

@@ -63,6 +63,32 @@ export class DateTimeService {
         return inst;
     }
 
+    getTimeFormatBeforeXMinutes(time: TimeFormat, x: number): TimeFormat {
+        let nhour = time.hour - Math.floor(x/60);
+        let nmin = 0;
+        x %= 60;
+        if(time.minute >= x) {
+            nmin = time.minute - x;
+        } else {
+            nhour = nhour - 1;
+            nmin = nmin + 60-x;
+        }
+        return {hour: time.hour, minute: time.minute};
+    }
+
+    getTimeFormatAfterXMinutes(time: TimeFormat, x: number): TimeFormat {
+        let nhour = time.hour+Math.floor(x/60);
+        let nmin = time.minute;
+        x %= 60;
+        if(time.minute + x < 60) {
+            nmin += x;
+        } else {
+            nhour += 1;
+            nmin += 60-x;
+        }
+        return {hour: nhour, minute: nmin};
+    }
+
     /**
      * Gets a moment instance from a time.
      */
