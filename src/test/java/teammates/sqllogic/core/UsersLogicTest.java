@@ -6,7 +6,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -120,6 +122,36 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals(ERROR_UPDATE_NON_EXISTENT
                 + "Student [courseId=" + courseId + ", email=" + email + "]", exception.getMessage());
+    }
+
+    @Test
+    public void testGetUnregisteredStudentsForCourse_success() {
+        Account registeredAccount = new Account("valid-google-id", "student-name", "valid1-student@email.tmt");
+        Student registeredStudent = new Student(course, "reg-student-name", "valid1-student@email.tmt", "comments");
+        registeredStudent.setAccount(registeredAccount);
+
+        Student unregisteredStudent_nullGoogleId = new Student(course, "unreg1-student-name", "valid2-student@email.tmt", "comments");;
+        unregisteredStudent_nullGoogleId.setAccount(null);
+
+        Account unregisteredAccount_emptyStringGoogleId = new Account("", "unreg2-student-name", "valid3-student@email.tmt");
+        Student unregisteredStudent_emptyStringGoogleId = new Student(course, "unreg2-student-name", "vali3-student@email.tmt", "comments");;
+        unregisteredStudent_emptyStringGoogleId.setAccount(unregisteredAccount_emptyStringGoogleId);
+
+        List<Student> students = Arrays.asList(
+                registeredStudent,
+                unregisteredStudent_nullGoogleId,
+                unregisteredStudent_emptyStringGoogleId);
+
+        when(usersDb.getStudentsForCourse(course.getId())).thenReturn(students);
+
+        List<Student> unregisteredStudents = usersLogic.getUnregisteredStudentsForCourse(course.getId());
+
+        assertEquals(2, unregisteredStudents.size());
+        for (Student unregisteredStudent : unregisteredStudents) {
+            assertTrue(
+                    unregisteredStudent.equals(unregisteredStudent_nullGoogleId) ||
+                    unregisteredStudent.equals(unregisteredStudent_emptyStringGoogleId));
+        }
     }
 
     private Instructor getTypicalInstructor() {

@@ -185,6 +185,22 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets a list of students for the specified course.
+     */
+    public List<Student> getUnregisteredStudentsForCourse(String courseId) {
+        List<Student> students = getStudentsForCourse(courseId);
+        List<Student> unregisteredStudents = new ArrayList<>();
+
+        for (Student s : students) {
+            if (s.getGoogleId() == null || s.getGoogleId().trim().isEmpty()) {
+                unregisteredStudents.add(s);
+            }
+        }
+
+        return unregisteredStudents;
+    }
+
+    /**
      * Gets all students of a section.
      */
     public List<Student> getStudentsForSection(String sectionName, String courseId) {
