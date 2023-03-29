@@ -64,29 +64,29 @@ export class DateTimeService {
     }
 
     getTimeFormatBeforeXMinutes(time: TimeFormat, x: number): TimeFormat {
-        let nhour = time.hour - Math.floor(x/60);
+        let nhour = time.hour - Math.floor(x / 60);
         let nmin = 0;
-        x %= 60;
-        if(time.minute >= x) {
-            nmin = time.minute - x;
+        const nx = x % 60;
+        if (time.minute >= nx) {
+            nmin = time.minute - nx;
         } else {
-            nhour = nhour - 1;
-            nmin = nmin + 60-x;
+            nhour -= 1;
+            nmin += 60 - x;
         }
-        return {hour: time.hour, minute: time.minute};
+        return { hour: nhour, minute: nmin };
     }
 
     getTimeFormatAfterXMinutes(time: TimeFormat, x: number): TimeFormat {
-        let nhour = time.hour+Math.floor(x/60);
+        let nhour = time.hour + Math.floor(x / 60);
         let nmin = time.minute;
-        x %= 60;
-        if(time.minute + x < 60) {
-            nmin += x;
+        const nx = x % 60;
+        if (nmin + nx < 60) {
+            nmin += nx;
         } else {
             nhour += 1;
-            nmin += 60-x;
+            nmin += 60 - x;
         }
-        return {hour: nhour, minute: nmin};
+        return { hour: nhour, minute: nmin };
     }
 
     /**
