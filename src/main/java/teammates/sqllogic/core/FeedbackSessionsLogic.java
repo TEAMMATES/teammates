@@ -180,6 +180,14 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Restores a specific feedback session from Recycle Bin.
+     */
+    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+        fsDb.restoreDeletedFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Returns true if there are any questions for the specified user type (students/instructors) to answer.
      */
     public boolean isFeedbackSessionForUserTypeToAnswer(FeedbackSession session, boolean isInstructor) {

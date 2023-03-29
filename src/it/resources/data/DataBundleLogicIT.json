@@ -220,8 +220,106 @@
       ]
     }
   },
-  "feedbackResponses": {},
-  "feedbackResponseComments": {},
+  "feedbackResponses": {
+    "response1ForQ1S1C1": {
+      "id": "00000000-0000-4000-8000-000000000901",
+      "feedbackQuestion":
+      {
+        "id": "00000000-0000-4000-8000-000000000801",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000701"
+        },
+        "questionDetails": {
+          "questionType": "TEXT",
+          "questionText": "What is the best selling point of your product?"
+        },
+        "description": "This is a text question.",
+        "questionNumber": 1,
+        "giverType": "STUDENTS",
+        "recipientType": "SELF",
+        "numOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "giver": "student1@teammates.tmt",
+      "recipient": "student1@teammates.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "answer": {
+        "questionType": "TEXT",
+        "answer": "Student 1 self feedback."
+      }
+    }
+  },
+  "feedbackResponseComments": {
+    "comment1ToResponse1ForQ1": {
+      "feedbackResponse":  {
+        "id": "00000000-0000-4000-8000-000000000901",
+        "feedbackQuestion":
+        {
+          "id": "00000000-0000-4000-8000-000000000801",
+          "feedbackSession": {
+            "id": "00000000-0000-4000-8000-000000000701"
+          },
+          "questionDetails": {
+            "questionType": "TEXT",
+            "questionText": "What is the best selling point of your product?"
+          },
+          "description": "This is a text question.",
+          "questionNumber": 1,
+          "giverType": "STUDENTS",
+          "recipientType": "SELF",
+          "numOfEntitiesToGiveFeedbackTo": 1,
+          "showResponsesTo": [
+            "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+            "INSTRUCTORS"
+          ],
+          "showRecipientNameTo": [
+            "INSTRUCTORS"
+          ]
+        },
+        "giver": "student1@teammates.tmt",
+        "recipient": "student1@teammates.tmt",
+        "giverSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "recipientSection": {
+          "id": "00000000-0000-4000-8000-000000000201"
+        },
+        "answer": {
+          "questionType": "TEXT",
+          "answer": "Student 1 self feedback."
+        }
+      },
+      "giver": "instr1@teammates.tmt",
+      "giverType": "INSTRUCTORS",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "commentText": "Instructor 1 comment to student 1 self feedback",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "lastEditorEmail": "instr1@teammates.tmt"
+    }
+  },
   "notifications": {
     "notification1": {
       "id": "00000000-0000-4000-8000-000000001101",

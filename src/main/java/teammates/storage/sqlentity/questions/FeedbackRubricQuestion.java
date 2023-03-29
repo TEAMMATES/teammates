@@ -1,5 +1,6 @@
 package teammates.storage.sqlentity.questions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -42,6 +43,16 @@ public class FeedbackRubricQuestion extends FeedbackQuestion {
     @Override
     public FeedbackQuestionDetails getQuestionDetailsCopy() {
         return questionDetails.getDeepCopy();
+    }
+
+    @Override
+    public FeedbackRubricQuestion makeDeepCopy(FeedbackSession newFeedbackSession) {
+        return new FeedbackRubricQuestion(
+                newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
+                this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
+                new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
+                new FeedbackRubricQuestionDetails(this.questionDetails.getQuestionText())
+            );
     }
 
     @Override

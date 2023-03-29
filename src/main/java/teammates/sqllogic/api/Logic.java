@@ -20,6 +20,8 @@ import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
+import teammates.sqllogic.core.FeedbackResponseCommentsLogic;
+import teammates.sqllogic.core.FeedbackResponsesLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
@@ -29,6 +31,8 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -50,6 +54,8 @@ public class Logic {
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
@@ -300,6 +306,19 @@ public class Logic {
     }
 
     /**
+     * Creates a feedback session.
+     *
+     * @return returns the created feedback session.
+     */
+    public FeedbackSession createFeedbackSession(FeedbackSession feedbackSession)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert feedbackSession != null;
+        assert feedbackSession.getCourse() != null && feedbackSession.getCourse().getId() != null;
+
+        return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    }
+
+    /**
      * Creates a new feedback question.
      *
      * <br/>Preconditions: <br/>
@@ -364,6 +383,18 @@ public class Logic {
         assert courseId != null;
 
         feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Restores a specific session from Recycle Bin to feedback sessions table.
+     */
+    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+            throws EntityDoesNotExistException {
+
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
@@ -737,4 +768,30 @@ public class Logic {
         return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
     }
 
+    /**
+     * Get existing feedback responses from instructor for the given question.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
+            FeedbackQuestion question, Instructor instructor) {
+        return feedbackResponsesLogic.getFeedbackResponsesFromInstructorForQuestion(
+                question, instructor);
+    }
+
+    /**
+     * Get existing feedback responses from student or his team for the given
+     * question.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromStudentOrTeamForQuestion(
+            FeedbackQuestion question, Student student) {
+        return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
+                question, student);
+    }
+
+    /**
+     * Gets the comment associated with the response.
+     */
+    public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
+            UUID feedbackResponseId) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+    }
 }
