@@ -18,7 +18,7 @@ import teammates.ui.output.HasResponsesData;
  * Checks whether a course or question has responses for instructor.
  * Checks whether a student has responded a feedback session.
  */
-class GetHasResponsesAction extends Action {
+public class GetHasResponsesAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
