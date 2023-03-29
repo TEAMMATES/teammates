@@ -102,6 +102,7 @@ public final class FeedbackResponsesLogic {
      * Creates a feedback response.
      * @return the created response
      * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityAlreadyExistsException {
