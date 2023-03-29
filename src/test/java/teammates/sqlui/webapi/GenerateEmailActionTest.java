@@ -55,10 +55,10 @@ public class GenerateEmailActionTest
     @Test
     public void testExecute_studentCourseJoinEmailType_success() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-            Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -75,26 +75,26 @@ public class GenerateEmailActionTest
         EmailData actionOutput = (EmailData) getJsonResult(action).getOutput();
 
         assertEquals(String.format(
-            EmailType.STUDENT_COURSE_JOIN.getSubject(), 
-            course.getName(),
-            course.getId()),
-            actionOutput.getSubject());
+                EmailType.STUDENT_COURSE_JOIN.getSubject(),
+                course.getName(),
+                course.getId()),
+                actionOutput.getSubject());
         assertEquals(student.getEmail(), actionOutput.getRecipient());
     }
 
     @Test
     public void testExecute_feedbackSessionReminderEmailType_success() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-            Const.ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_SESSION_REMINDER.name(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_SESSION_REMINDER.name(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
         when(mockLogic.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
-        
+
         EmailWrapper email = new EmailWrapper();
         email.setRecipient(student.getEmail());
         email.setType(EmailType.FEEDBACK_SESSION_REMINDER);
@@ -102,16 +102,19 @@ public class GenerateEmailActionTest
 
         List<EmailWrapper> emails = List.of(email);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(session, Collections.singletonList(student), new ArrayList<>(), null)).thenReturn(emails);
+        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(
+                session,
+                Collections.singletonList(student),
+                new ArrayList<>(), null)).thenReturn(emails);
 
         GenerateEmailAction action = getAction(params);
         EmailData actionOutput = (EmailData) getJsonResult(action).getOutput();
 
         assertEquals(String.format(
-            EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), 
-            course.getName(),
-            session.getName()),
-            actionOutput.getSubject());
+                EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
+                course.getName(),
+                session.getName()),
+                actionOutput.getSubject());
         assertEquals(student.getEmail(), actionOutput.getRecipient());
     }
 
@@ -119,10 +122,10 @@ public class GenerateEmailActionTest
     public void testExecute_courseDoesNotExist_throwsEntityNotFoundException() {
         String nonExistCourseId = "non-exist-course-id";
         String[] params = {
-            Const.ParamsNames.COURSE_ID, nonExistCourseId,
-            Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-            Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, nonExistCourseId,
+                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         when(mockLogic.getCourse(nonExistCourseId)).thenReturn(null);
@@ -134,12 +137,11 @@ public class GenerateEmailActionTest
     public void testExecute_studentDoesNotExist_throwsEntityNotFoundException() {
         String nonExistStudentEmail = "nonExistStudent@tm.tmt";
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.STUDENT_EMAIL, nonExistStudentEmail,
-            Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
-            Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, nonExistStudentEmail,
+                Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
-
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentForEmail(course.getId(), nonExistStudentEmail)).thenReturn(null);
@@ -150,11 +152,10 @@ public class GenerateEmailActionTest
     @Test
     public void testExecute_invalidFeedbackSessionname_throwsInvalidHttpParameterException() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-            Const.ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_SESSION_REMINDER.name(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_SESSION_REMINDER.name(),
         };
-
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);

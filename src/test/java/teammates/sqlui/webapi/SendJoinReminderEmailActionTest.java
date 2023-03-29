@@ -20,7 +20,7 @@ import teammates.ui.webapi.SendJoinReminderEmailAction;
  */
 public class SendJoinReminderEmailActionTest
         extends BaseActionTest<SendJoinReminderEmailAction> {
-    
+
     private Course course;
     private Student student;
     private Instructor instructor;
@@ -49,9 +49,9 @@ public class SendJoinReminderEmailActionTest
     @Test
     public void testExecute_sendToStudent_success() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-            Const.ParamsNames.INSTRUCTOR_EMAIL, null,
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, null,
         };
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -70,9 +70,9 @@ public class SendJoinReminderEmailActionTest
     @Test
     public void testExecute_sendToInstructor_success() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.STUDENT_EMAIL, null,
-            Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, null,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -91,9 +91,9 @@ public class SendJoinReminderEmailActionTest
     @Test
     public void testExecute_sendToAllUnregisteredStudents_success() {
         String[] params = {
-            Const.ParamsNames.COURSE_ID, course.getId(),
-            Const.ParamsNames.STUDENT_EMAIL, null,
-            Const.ParamsNames.INSTRUCTOR_EMAIL, null,
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, null,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, null,
         };
 
         List<Student> unregisteredStudents = List.of(student);
@@ -112,7 +112,7 @@ public class SendJoinReminderEmailActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_sendToStudent_instructorCanModifyStudent_canAccess() {
+    public void testSpecificAccessControl_sendToStudentInstructorCanModifyStudent_canAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
@@ -130,7 +130,7 @@ public class SendJoinReminderEmailActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_sendToStudent_instructorCannotModifyStudent_cannotAccess() {
+    public void testSpecificAccessControl_sendToStudentInstructorCannotModifyStudent_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
@@ -138,9 +138,9 @@ public class SendJoinReminderEmailActionTest
 
         InstructorPrivileges cannotModifyStudentPrivileges = new InstructorPrivileges();
         cannotModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
-    
+
         instructor.setPrivileges(cannotModifyStudentPrivileges);
-    
+
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 
@@ -148,7 +148,7 @@ public class SendJoinReminderEmailActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_sendToAllUnregisteredStudents_instructorCanModifyStudent_canAccess() {
+    public void testSpecificAccessControl_sendToAllUnregisteredStudentsInstructorCanModifyStudent_canAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
@@ -165,16 +165,16 @@ public class SendJoinReminderEmailActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_sendToAllUnregisteredStudents_instructorCannotModifyStudent_cannotAccess() {
+    public void testSpecificAccessControl_sendToAllUnregisteredStudentsInstructorCannotModifyStudent_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
         InstructorPrivileges cannotModifyStudentPrivileges = new InstructorPrivileges();
         cannotModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
-    
+
         instructor.setPrivileges(cannotModifyStudentPrivileges);
-    
+
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 
@@ -182,7 +182,7 @@ public class SendJoinReminderEmailActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_sendToInstructor_instructorCanModifyInstructor_canAccess() {
+    public void testSpecificAccessControl_sendToInstructorInstructorCanModifyInstructor_canAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
@@ -200,7 +200,7 @@ public class SendJoinReminderEmailActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_sendToInstructor_instructorCannotModifyInstructor_cannotAccess() {
+    public void testSpecificAccessControl_sendToInstructorInstructorCannotModifyInstructor_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
@@ -208,9 +208,9 @@ public class SendJoinReminderEmailActionTest
 
         InstructorPrivileges cannotModifyInstructorPrivileges = new InstructorPrivileges();
         cannotModifyInstructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
-    
+
         instructor.setPrivileges(cannotModifyInstructorPrivileges);
-    
+
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 

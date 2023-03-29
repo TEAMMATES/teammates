@@ -42,7 +42,8 @@ public class SendJoinReminderEmailAction extends Action {
                 gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
             } else {
                 // this is sending registration emails to all students in the course and we will check if the instructor
-                // canmodifystudent for course level since for modifystudent privilege there is only course level setting for now
+                // canmodifystudent for course level since for modifystudent privilege there is only course level setting
+                // for now
                 gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
             }
 
@@ -80,14 +81,14 @@ public class SendJoinReminderEmailAction extends Action {
             if (course == null) {
                 throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
             }
-    
+
             String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
             String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
             boolean isSendingToStudent = studentEmail != null;
             boolean isSendingToInstructor = instructorEmail != null;
-    
+
             JsonResult statusMsg;
-    
+
             if (isSendingToStudent) {
                 taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
                 StudentAttributes studentData = logic.getStudentForEmail(courseId, studentEmail);
@@ -96,18 +97,18 @@ public class SendJoinReminderEmailAction extends Action {
                             "Student with email " + studentEmail + " does not exist in course " + courseId + "!");
                 }
                 statusMsg = new JsonResult("An email has been sent to " + studentEmail);
-    
+
             } else if (isSendingToInstructor) {
                 taskQueuer.scheduleCourseRegistrationInviteToInstructor(userInfo.id,
                         instructorEmail, courseId, false);
-    
+
                 InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
                 if (instructorData == null) {
                     throw new EntityNotFoundException(
                             "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
                 }
                 statusMsg = new JsonResult("An email has been sent to " + instructorEmail);
-    
+
             } else {
                 List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
                 for (StudentAttributes student : studentDataList) {
@@ -115,7 +116,7 @@ public class SendJoinReminderEmailAction extends Action {
                 }
                 statusMsg = new JsonResult("Emails have been sent to unregistered students.");
             }
-    
+
             return statusMsg;
         }
 

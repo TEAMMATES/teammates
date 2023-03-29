@@ -85,6 +85,6 @@ public class GenerateEmailAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException("Email type " + emailType + " not accepted");
         }
 
-        return new JsonResult(new EmailData(email));        
+        return new JsonResult(new EmailData(email));
     }
 }

@@ -130,17 +130,20 @@ public class UsersLogicTest extends BaseTestCase {
         Student registeredStudent = new Student(course, "reg-student-name", "valid1-student@email.tmt", "comments");
         registeredStudent.setAccount(registeredAccount);
 
-        Student unregisteredStudent_nullGoogleId = new Student(course, "unreg1-student-name", "valid2-student@email.tmt", "comments");;
-        unregisteredStudent_nullGoogleId.setAccount(null);
+        Student unregisteredStudentNullGoogleId =
+                new Student(course, "unreg1-student-name", "valid2-student@email.tmt", "comments");
+        unregisteredStudentNullGoogleId.setAccount(null);
 
-        Account unregisteredAccount_emptyStringGoogleId = new Account("", "unreg2-student-name", "valid3-student@email.tmt");
-        Student unregisteredStudent_emptyStringGoogleId = new Student(course, "unreg2-student-name", "vali3-student@email.tmt", "comments");;
-        unregisteredStudent_emptyStringGoogleId.setAccount(unregisteredAccount_emptyStringGoogleId);
+        Account unregisteredAccountEmptyStringGoogleId =
+                new Account("", "unreg2-student-name", "valid3-student@email.tmt");
+        Student unregisteredStudentEmptyStringGoogleId =
+                new Student(course, "unreg2-student-name", "vali3-student@email.tmt", "comments");
+        unregisteredStudentEmptyStringGoogleId.setAccount(unregisteredAccountEmptyStringGoogleId);
 
         List<Student> students = Arrays.asList(
                 registeredStudent,
-                unregisteredStudent_nullGoogleId,
-                unregisteredStudent_emptyStringGoogleId);
+                unregisteredStudentNullGoogleId,
+                unregisteredStudentEmptyStringGoogleId);
 
         when(usersDb.getStudentsForCourse(course.getId())).thenReturn(students);
 
@@ -149,8 +152,8 @@ public class UsersLogicTest extends BaseTestCase {
         assertEquals(2, unregisteredStudents.size());
         for (Student unregisteredStudent : unregisteredStudents) {
             assertTrue(
-                    unregisteredStudent.equals(unregisteredStudent_nullGoogleId) ||
-                    unregisteredStudent.equals(unregisteredStudent_emptyStringGoogleId));
+                    unregisteredStudent.equals(unregisteredStudentNullGoogleId)
+                    || unregisteredStudent.equals(unregisteredStudentEmptyStringGoogleId));
         }
     }
 
