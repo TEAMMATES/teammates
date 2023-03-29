@@ -1,9 +1,11 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -20,6 +22,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -43,37 +49,95 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-        if (feedbackQuestion == null) {
+
+        FeedbackQuestionAttributes feedbackQuestion = null;
+        FeedbackQuestion sqlFeedbackQuestion = null;
+        String courseId;
+        UUID feedbackQuestionSqlId;
+
+        try {
+            feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+            sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+            courseId = sqlFeedbackQuestion.getCourseId();
+        } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
+            // if the question id cannot be converted to UUID, we check the datastore for the question
+            feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+            courseId = feedbackQuestion.getCourseId();
+        }
+
+        if (!isCourseMigrated(courseId)) {
+            if (feedbackQuestion == null) {
+                throw new EntityNotFoundException("The feedback question does not exist.");
+            }
+            FeedbackSessionAttributes feedbackSession =
+                    getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
+
+            verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
+            verifyNotPreview();
+
+            Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+            switch (intent) {
+            case STUDENT_SUBMISSION:
+                gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
+                StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+                if (studentAttributes == null) {
+                    throw new EntityNotFoundException("Student does not exist.");
+                }
+                feedbackSession = feedbackSession.getCopyForStudent(studentAttributes.getEmail());
+                verifySessionOpenExceptForModeration(feedbackSession);
+                checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
+                break;
+            case INSTRUCTOR_SUBMISSION:
+                gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
+                InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+                if (instructorAttributes == null) {
+                    throw new EntityNotFoundException("Instructor does not exist.");
+                }
+                feedbackSession = feedbackSession.getCopyForInstructor(instructorAttributes.getEmail());
+                verifySessionOpenExceptForModeration(feedbackSession);
+                checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
+                break;
+            case INSTRUCTOR_RESULT:
+            case STUDENT_RESULT:
+                throw new InvalidHttpParameterException("Invalid intent for this action");
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
+            }
+
+            return;
+        }
+        
+        if (sqlFeedbackQuestion == null) {
             throw new EntityNotFoundException("The feedback question does not exist.");
         }
-        FeedbackSessionAttributes feedbackSession =
-                getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
 
-        verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
+        FeedbackSession feedbackSession =
+                getNonNullSqlFeedbackSession(sqlFeedbackQuestion.getFeedbackSession().getName(), sqlFeedbackQuestion.getCourseId());
+
+        verifyInstructorCanSeeQuestionIfInModeration(sqlFeedbackQuestion);
         verifyNotPreview();
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
-            if (studentAttributes == null) {
+            gateKeeper.verifyAnswerableForStudent(sqlFeedbackQuestion);
+            Student student = getSqlStudentOfCourseFromRequest(sqlFeedbackQuestion.getCourseId());
+            if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
-            feedbackSession = feedbackSession.getCopyForStudent(studentAttributes.getEmail());
-            verifySessionOpenExceptForModeration(feedbackSession);
-            checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
+            Instant studentDeadline = sqlLogic.getDeadlineForUser(feedbackSession, student);
+            verifySqlSessionOpenExceptForModeration(feedbackSession, studentDeadline);
+            checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
-            if (instructorAttributes == null) {
+            gateKeeper.verifyAnswerableForInstructor(sqlFeedbackQuestion);
+            Instructor instructor = getSqlInstructorOfCourseFromRequest(sqlFeedbackQuestion.getCourseId());
+            if (instructor == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
-            feedbackSession = feedbackSession.getCopyForInstructor(instructorAttributes.getEmail());
-            verifySessionOpenExceptForModeration(feedbackSession);
-            checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
+            Instant instructorDeadline = sqlLogic.getDeadlineForUser(feedbackSession, instructor);
+            verifySqlSessionOpenExceptForModeration(feedbackSession, instructorDeadline);
+            checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
         case STUDENT_RESULT:
