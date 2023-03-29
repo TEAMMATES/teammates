@@ -49,7 +49,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         UUID feedbackResponseSqlId;
 
         try {
-            feedbackResponseSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+            feedbackResponseSqlId = getUuidFromString(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
             feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseSqlId);
         } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
             // if the question id cannot be converted to UUID, we check the datastore for the question
@@ -66,7 +66,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
 
         if (!isCourseMigrated(courseId)) {
             FeedbackSessionAttributes feedbackSession =
-            getNonNullFeedbackSession(feedbackResponseAttributes.getFeedbackSessionName(),
+                    getNonNullFeedbackSession(feedbackResponseAttributes.getFeedbackSessionName(),
                     feedbackResponseAttributes.getCourseId());
             FeedbackQuestionAttributes feedbackQuestion =
                     logic.getFeedbackQuestion(feedbackResponseAttributes.getFeedbackQuestionId());
@@ -119,7 +119,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
 
     @Override
     public JsonResult execute() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
@@ -134,7 +134,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         UUID feedbackResponseSqlId = null;
 
         try {
-            feedbackResponseSqlId = getUuidRequestParamValue(feedbackResponseId);
+            feedbackResponseSqlId = getUuidFromString(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
             feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseSqlId);
         } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
             // if the question id cannot be converted to UUID, we check the datastore for the question
@@ -146,7 +146,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         } else if (feedbackResponse != null) {
             courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
         } else {
-           throw new EntityNotFoundException("The feedback response does not exist.");
+            throw new EntityNotFoundException("The feedback response does not exist.");
         }
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
