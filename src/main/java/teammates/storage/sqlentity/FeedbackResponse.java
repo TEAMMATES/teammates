@@ -8,11 +8,18 @@ import java.util.UUID;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
+import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
+import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
+import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -36,10 +43,6 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "questionId")
     private FeedbackQuestion feedbackQuestion;
 
-    @Column(nullable = false)
-    @Convert(converter = FeedbackQuestionTypeConverter.class)
-    private FeedbackQuestionType type;
-
     @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
@@ -51,11 +54,11 @@ public abstract class FeedbackResponse extends BaseEntity {
     private Section giverSection;
 
     @Column(nullable = false)
-    private String receiver;
+    private String recipient;
 
     @ManyToOne
-    @JoinColumn(name = "receiverSectionId")
-    private Section receiverSection;
+    @JoinColumn(name = "recipientSectionId")
+    private Section recipientSection;
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -65,17 +68,82 @@ public abstract class FeedbackResponse extends BaseEntity {
     }
 
     public FeedbackResponse(
-            FeedbackQuestion feedbackQuestion, FeedbackQuestionType type, String giver,
-            Section giverSection, String receiver, Section receiverSection
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String recipient, Section recipientSection
     ) {
         this.setId(UUID.randomUUID());
         this.setFeedbackQuestion(feedbackQuestion);
-        this.setFeedbackQuestionType(type);
         this.setGiver(giver);
         this.setGiverSection(giverSection);
-        this.setReceiver(receiver);
-        this.setReceiverSection(receiverSection);
+        this.setRecipient(recipient);
+        this.setRecipientSection(recipientSection);
     }
+
+    /**
+     * Creates a feedback response according to its {@code FeedbackQuestionType}.
+     */
+    public static FeedbackResponse makeResponse(
+            FeedbackQuestion feedbackQuestion, String giver,
+            Section giverSection, String receiver, Section receiverSection,
+            FeedbackResponseDetails responseDetails
+    ) {
+        FeedbackResponse feedbackResponse = null;
+        switch (responseDetails.getQuestionType()) {
+        case TEXT:
+            feedbackResponse = new FeedbackTextResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case MCQ:
+            feedbackResponse = new FeedbackMcqResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case MSQ:
+            feedbackResponse = new FeedbackMsqResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case NUMSCALE:
+            feedbackResponse = new FeedbackNumericalScaleResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case CONSTSUM:
+        case CONSTSUM_OPTIONS:
+        case CONSTSUM_RECIPIENTS:
+            feedbackResponse = new FeedbackConstantSumResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case CONTRIB:
+            feedbackResponse = new FeedbackContributionResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case RUBRIC:
+            feedbackResponse = new FeedbackRubricResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case RANK_OPTIONS:
+            feedbackResponse = new FeedbackRankOptionsResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        case RANK_RECIPIENTS:
+            feedbackResponse = new FeedbackContributionResponse(
+                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+            );
+            break;
+        }
+        return feedbackResponse;
+    }
+
+    /**
+     * Gets a copy of the question details of the feedback question.
+     */
+    public abstract FeedbackResponseDetails getFeedbackResponseDetailsCopy();
 
     public UUID getId() {
         return id;
@@ -91,14 +159,6 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     public void setFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
         this.feedbackQuestion = feedbackQuestion;
-    }
-
-    public FeedbackQuestionType getFeedbackQuestionType() {
-        return type;
-    }
-
-    public void setFeedbackQuestionType(FeedbackQuestionType type) {
-        this.type = type;
     }
 
     public List<FeedbackResponseComment> getFeedbackResponseComments() {
@@ -125,20 +185,20 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.giverSection = giverSection;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
-    public Section getReceiverSection() {
-        return receiverSection;
+    public Section getRecipientSection() {
+        return recipientSection;
     }
 
-    public void setReceiverSection(Section receiverSection) {
-        this.receiverSection = receiverSection;
+    public void setRecipientSection(Section recipientSection) {
+        this.recipientSection = recipientSection;
     }
 
     public Instant getUpdatedAt() {
@@ -156,7 +216,7 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FeedbackResponse [id=" + id + ", giver=" + giver + ", receiver=" + receiver
+        return "FeedbackResponse [id=" + id + ", giver=" + giver + ", recipient=" + recipient
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
