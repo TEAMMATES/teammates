@@ -130,31 +130,20 @@ public class UsersLogicTest extends BaseTestCase {
         Student registeredStudent = new Student(course, "reg-student-name", "valid1-student@email.tmt", "comments");
         registeredStudent.setAccount(registeredAccount);
 
-        Student unregisteredStudentNullGoogleId =
+        Student unregisteredStudentNullAccount =
                 new Student(course, "unreg1-student-name", "valid2-student@email.tmt", "comments");
-        unregisteredStudentNullGoogleId.setAccount(null);
-
-        Account unregisteredAccountEmptyStringGoogleId =
-                new Account("", "unreg2-student-name", "valid3-student@email.tmt");
-        Student unregisteredStudentEmptyStringGoogleId =
-                new Student(course, "unreg2-student-name", "vali3-student@email.tmt", "comments");
-        unregisteredStudentEmptyStringGoogleId.setAccount(unregisteredAccountEmptyStringGoogleId);
+        unregisteredStudentNullAccount.setAccount(null);
 
         List<Student> students = Arrays.asList(
                 registeredStudent,
-                unregisteredStudentNullGoogleId,
-                unregisteredStudentEmptyStringGoogleId);
+                unregisteredStudentNullAccount);
 
         when(usersDb.getStudentsForCourse(course.getId())).thenReturn(students);
 
         List<Student> unregisteredStudents = usersLogic.getUnregisteredStudentsForCourse(course.getId());
 
-        assertEquals(2, unregisteredStudents.size());
-        for (Student unregisteredStudent : unregisteredStudents) {
-            assertTrue(
-                    unregisteredStudent.equals(unregisteredStudentNullGoogleId)
-                    || unregisteredStudent.equals(unregisteredStudentEmptyStringGoogleId));
-        }
+        assertEquals(1, unregisteredStudents.size());
+        assertTrue(unregisteredStudents.get(0).equals(unregisteredStudentNullAccount));
     }
 
     private Instructor getTypicalInstructor() {

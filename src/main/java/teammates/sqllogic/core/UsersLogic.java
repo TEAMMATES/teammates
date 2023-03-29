@@ -185,14 +185,14 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets a list of students for the specified course.
+     * Gets a list of unregistered students for the specified course.
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
         List<Student> students = getStudentsForCourse(courseId);
         List<Student> unregisteredStudents = new ArrayList<>();
 
         for (Student s : students) {
-            if (s.getGoogleId() == null || s.getGoogleId().trim().isEmpty()) {
+            if (s.getAccount() == null) {
                 unregisteredStudents.add(s);
             }
         }
