@@ -116,12 +116,6 @@ public class FeedbackSessionPublishedEmailWorkerActionTest
 
         when(mockLogic.getFeedbackSession(sessionName, courseId)).thenReturn(session);
         when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(session)).thenReturn(emails);
-        when(mockLogic.updateFeedbackSession(
-                session.getId(), session.getInstructions(), session.getStartTime(),
-                session.getEndTime(), session.getSessionVisibleFromTime(), session.getResultsVisibleFromTime(),
-                session.getGracePeriod(), session.isOpeningEmailEnabled(), session.isClosingEmailEnabled(),
-                session.isPublishedEmailEnabled(), true,
-                session.getDeadlineExtensions(), session.getFeedbackQuestions())).thenReturn(expectedSession);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,

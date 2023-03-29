@@ -1,6 +1,5 @@
 package teammates.sqllogic.api;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -311,22 +310,6 @@ public class Logic {
      */
     public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
         return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
-    }
-
-    /**
-     * Updates a feedback session.
-     */
-    public FeedbackSession updateFeedbackSession(UUID feedbackSessionId, String instructions,
-            Instant startTime, Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime,
-            Duration gracePeriod, boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled,
-            boolean isPublishedEmailEnabled, boolean isPublishedEmailSent, List<DeadlineExtension> deadlineExtensions,
-            List<FeedbackQuestion> questions)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        return feedbackSessionsLogic.updateFeedbackSession(
-                feedbackSessionId, instructions, startTime, endTime, sessionVisibleFromTime,
-                resultsVisibleFromTime, gracePeriod, isOpeningEmailEnabled,
-                isClosingEmailEnabled, isPublishedEmailEnabled, isPublishedEmailSent,
-                deadlineExtensions, questions);
     }
 
     /**
