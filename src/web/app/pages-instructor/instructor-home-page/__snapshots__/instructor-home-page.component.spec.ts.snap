@@ -177,7 +177,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
     class="row mb-3"
   >
     <div
-      class="col-4"
+      class="col-4 mt-auto"
     >
       <a
         class="btn btn-success"
@@ -322,7 +322,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
     class="row mb-3"
   >
     <div
-      class="col-4"
+      class="col-4 mt-auto"
     >
       <a
         class="btn btn-success"
@@ -816,7 +816,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
     class="row mb-3"
   >
     <div
-      class="col-4"
+      class="col-4 mt-auto"
     >
       <a
         class="btn btn-success"
@@ -1462,7 +1462,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
     class="row mb-3"
   >
     <div
-      class="col-4"
+      class="col-4 mt-auto"
     >
       <a
         class="btn btn-success"
@@ -1702,7 +1702,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
     class="row mb-3"
   >
     <div
-      class="col-4"
+      class="col-4 mt-auto"
     >
       <a
         class="btn btn-success"
@@ -1966,7 +1966,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
     class="row mb-3"
   >
     <div
-      class="col-4"
+      class="col-4 mt-auto"
     >
       <a
         class="btn btn-success"
