@@ -391,7 +391,7 @@ export class LogsPageComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.formModel.filters.traceId = 'asdf';
+    this.formModel.filters.traceId = '';
     this.formModel.filters.userInfoParams = {
       googleId: '',
       regkey: '',
