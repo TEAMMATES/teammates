@@ -33,3 +33,18 @@
     width: auto;
   }
 }
+
+@media (max-width: 450px) {
+  .btn-danger,
+  .col-2 {
+    padding: 0;
+  }
+
+  @media (max-width: 350px) {
+    .fw-bold {
+      overflow: hidden;
+      white-space: nowrap;
+      display: block;
+    }
+  }
+}
