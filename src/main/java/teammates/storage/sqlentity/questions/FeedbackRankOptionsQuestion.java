@@ -20,7 +20,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class FeedbackRankOptionsQuestion extends FeedbackQuestion {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = FeedbackRankOptionsQuestionDetailsConverter.class)
     private FeedbackRankOptionsQuestionDetails questionDetails;
 
