@@ -20,7 +20,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class FeedbackConstantSumQuestion extends FeedbackQuestion {
 
-    @Column(nullable = false, columnDefinition="TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = FeedbackConstantSumQuestionDetailsConverter.class)
     private FeedbackConstantSumQuestionDetails questionDetails;
 
