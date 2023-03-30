@@ -43,17 +43,10 @@ public class FeedbackResponseCommentData extends ApiOutput {
         this.commentGiver = frc.getGiver();
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
         this.showCommentTo = convertToFeedbackVisibilityType(frc.getShowCommentTo());
-        this.createdAt = returnActualInstantOrCurrentInstantIfNull(frc.getCreatedAt()).toEpochMilli();
-        this.lastEditedAt = returnActualInstantOrCurrentInstantIfNull(frc.getUpdatedAt()).toEpochMilli();
+        this.createdAt = frc.getCreatedAt().toEpochMilli();
+        this.lastEditedAt = frc.getUpdatedAt().toEpochMilli();
         this.lastEditorEmail = frc.getLastEditorEmail();
         this.isVisibilityFollowingFeedbackQuestion = frc.getIsVisibilityFollowingFeedbackQuestion();
-    }
-
-    private Instant returnActualInstantOrCurrentInstantIfNull(Instant actualInstant) {
-        if (actualInstant == null) {
-            return Instant.now();
-        }
-        return actualInstant;
     }
 
     /**
