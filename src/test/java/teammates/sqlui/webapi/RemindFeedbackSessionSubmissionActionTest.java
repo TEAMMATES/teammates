@@ -62,20 +62,20 @@ public class RemindFeedbackSessionSubmissionActionTest
         when(mockLogic.getFeedbackSession(isA(String.class), isA(String.class)))
                 .thenReturn(closedFeedbackSession);
 
-                String[] paramsFeedbackSessionNotOpen = new String[] {
-                    Const.ParamsNames.COURSE_ID, closedFeedbackSession.getCourse().getId(),
-                    Const.ParamsNames.FEEDBACK_SESSION_NAME, closedFeedbackSession.getName(),
-            };
+        String[] paramsFeedbackSessionNotOpen = new String[] {
+                Const.ParamsNames.COURSE_ID, closedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, closedFeedbackSession.getName(),
+        };
 
-            String[] usersToRemind = {instructor.getEmail(), student.getEmail()};
-            FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
-            remindRequest.setUsersToRemind(usersToRemind);
+        String[] usersToRemind = {instructor.getEmail(), student.getEmail()};
+        FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
+        remindRequest.setUsersToRemind(usersToRemind);
 
-            InvalidOperationException ioe = verifyInvalidOperation(remindRequest, paramsFeedbackSessionNotOpen);
-            assertEquals("Reminder email could not be sent out "
-                    + "as the feedback session is not open for submissions.", ioe.getMessage());
+        InvalidOperationException ioe = verifyInvalidOperation(remindRequest, paramsFeedbackSessionNotOpen);
+        assertEquals("Reminder email could not be sent out "
+                + "as the feedback session is not open for submissions.", ioe.getMessage());
 
-            verifyNoTasksAdded();
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -84,7 +84,6 @@ public class RemindFeedbackSessionSubmissionActionTest
 
         when(mockLogic.getFeedbackSession(isA(String.class), isA(String.class)))
                 .thenReturn(openedFeedbackSession);
-
 
         String[] usersToRemind = {instructor.getEmail(), student.getEmail()};
         FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
