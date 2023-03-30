@@ -20,31 +20,12 @@
   display: inline;
 }
 
-@media (max-width: 768px) {
-  .col-6 {
-    width: auto;
-  }
-
+@media (max-width: 568px) {
   .col-4 {
     width: auto;
   }
 
   .col-1 {
     width: auto;
-  }
-}
-
-@media (max-width: 450px) {
-  .btn-danger,
-  .col-2 {
-    padding: 0;
-  }
-
-  @media (max-width: 350px) {
-    .fw-bold {
-      overflow: hidden;
-      white-space: nowrap;
-      display: block;
-    }
   }
 }
