@@ -3,6 +3,8 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 
 /**
@@ -20,10 +22,17 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        if (isCourseMigrated(courseId) && isAccountMigrated(userInfo.getId())) {
+            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
 
-        gateKeeper.verifyAccessible(instructor, feedbackSession);
+            gateKeeper.verifyAccessible(instructor, feedbackSession);
+        } else {
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+
+            gateKeeper.verifyAccessible(instructor, feedbackSession);
+        }
     }
 
     @Override
@@ -32,7 +41,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId)) {
+        if (isCourseMigrated(courseId) && isAccountMigrated(userInfo.getId())) {
             FeedbackSessionSubmittedGiverSet output = new FeedbackSessionSubmittedGiverSet(
                     sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId)
             );
