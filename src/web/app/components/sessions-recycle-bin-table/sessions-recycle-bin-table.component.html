@@ -14,7 +14,7 @@
             <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
           </div>
         </div>
-      <div *ngIf="isRecycleBinExpanded" @collapseAnim>
+      <div class="overflow-auto" *ngIf="isRecycleBinExpanded" @collapseAnim>
         <table id="deleted-sessions-table" class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
           <thead class="recycle-bin-table-header">
           <tr>
@@ -67,7 +67,8 @@
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
               </span>
             </td>
-            <td class="text-center actions-cell align-row">
+            <td class="text-center actions-cell">
+              <div class="d-flex">
               <button id="btn-restore-{{ i }}" type="button" class="btn btn-light btn-sm" (click)="restoreSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Restore</button>
               <button id="btn-delete-{{ i }}" type="button" class="btn btn-light btn-sm text-danger align-row" (click)="permanentlyDeleteSessionEvent.emit(recycleBinFeedbackSessionRowModel); setRowClicked(i)">
                 <span>Delete Permanently</span>
@@ -75,6 +76,7 @@
                   <tm-ajax-loading [color]="'#000000'" *ngIf="isPermanentDeleteLoading && rowClicked === i"></tm-ajax-loading>
                 </div>
               </button>
+              </div>
             </td>
           </tr>
           </tbody>
