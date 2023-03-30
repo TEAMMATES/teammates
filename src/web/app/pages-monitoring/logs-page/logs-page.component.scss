@@ -20,12 +20,16 @@
   display: inline;
 }
 
-@media (max-width: 568px) {
+@media (max-width: 768px) {
   .col-4 {
     width: auto;
   }
 
   .col-1 {
+    width: auto;
+  }
+
+  .col-6 {
     width: auto;
   }
 }
