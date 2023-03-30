@@ -403,6 +403,40 @@
       "showRecipientNameTo": [
         "INSTRUCTORS"
       ]
+    },
+    "qn1InSession2InCourse1": {
+      "id": "00000000-0000-4000-8001-000000000800",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000702"
+      },
+      "questionDetails": {
+        "hasAssignedWeights": false,
+        "mcqWeights": [],
+        "mcqOtherWeight": 0.0,
+        "mcqChoices": [
+          "Great",
+          "Perfect"
+        ],
+        "otherEnabled": false,
+        "questionDropdownEnabled": false,
+        "generateOptionsFor": "NONE",
+        "questionType": "MCQ",
+        "questionText": "How do you think you did?"
+      },
+      "description": "This is a mcq question.",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -482,6 +516,56 @@
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 2 self feedback."
+      }
+    },
+    "response1ForQ1InSession2": {
+      "id": "00000000-0000-4000-8001-000000000901",
+      "feedbackQuestion": {
+        "id": "00000000-0000-4000-8001-000000000800",
+        "feedbackSession": {
+          "id": "00000000-0000-4000-8000-000000000702"
+        },
+        "questionDetails": {
+          "hasAssignedWeights": false,
+          "mcqWeights": [],
+          "mcqOtherWeight": 0.0,
+          "mcqChoices": [
+            "Great",
+            "Perfect"
+          ],
+          "otherEnabled": false,
+          "questionDropdownEnabled": false,
+          "generateOptionsFor": "NONE",
+          "questionType": "MCQ",
+          "questionText": "How do you think you did?"
+        },
+        "description": "This is a mcq question.",
+        "questionNumber": 1,
+        "giverType": "STUDENTS",
+        "recipientType": "SELF",
+        "numOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "giver": "student1@teammates.tmt",
+      "recipient": "student1@teammates.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "answer": {
+        "answer": "Great",
+        "otherFieldContent": "",
+        "questionType": "MCQ"
       }
     }
   },
