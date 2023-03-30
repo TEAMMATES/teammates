@@ -31,6 +31,7 @@ class EntitiesDb {
         assert entity != null;
 
         HibernateUtil.persist(entity);
+        HibernateUtil.flushSession();
         log.info("Entity persisted: " + entity.toString());
     }
 

@@ -59,7 +59,6 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         }
 
         persist(feedbackResponseComment);
-        HibernateUtil.flushSession();
         return feedbackResponseComment;
     }
 
