@@ -1,9 +1,9 @@
 <div class="input-group">
   <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text"
-         (ngModelChange)="onRankOptionEntered($event.trim())">
+         (ngModelChange)="onRankOptionEntered($event.trim())" aria-label="Option">
   <span class="input-group-btn">
-    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;" tabindex="-1"
-            [disabled]="!isEditable" (click)="deleteRankOption()">
+    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;"
+            [disabled]="!isEditable" (click)="deleteRankOption()" aria-label="Delete Option">
       <span aria-hidden="true">&times;</span>
     </button>
   </span>
