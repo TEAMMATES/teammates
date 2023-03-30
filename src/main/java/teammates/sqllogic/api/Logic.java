@@ -875,6 +875,23 @@ public class Logic {
     }
 
     /**
+     * Creates a feedback response.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return created feedback response
+     * @throws InvalidParametersException if the response is not valid
+     * @throws EntityAlreadyExistsException if the response already exist
+     */
+    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert feedbackResponse != null;
+
+        return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
+    }
+
+    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
@@ -924,6 +941,42 @@ public class Logic {
      */
     public boolean hasResponsesForCourse(String courseId) {
         return feedbackResponsesLogic.hasResponsesForCourse(courseId);
+    }
+
+    /**
+     * Updates a feedback response.
+     *
+     * <p>Cascade updates its associated feedback response comment
+     * (e.g. associated response ID, giverSection and recipientSection).
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback response
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     * @throws EntityAlreadyExistsException if the response cannot be updated
+     *         by recreation because of an existent response
+     */
+    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse updatedFeedbackResponse)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        assert updatedFeedbackResponse != null;
+
+        return feedbackResponsesLogic.updateFeedbackResponseCascade(updatedFeedbackResponse);
+    }
+
+    /**
+     * Deletes a feedback response cascade its associated comments.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackResponseCascade(UUID responseId) {
+        assert responseId != null;
+        feedbackResponsesLogic.deleteFeedbackResponseCascade(responseId);
     }
 
     /**

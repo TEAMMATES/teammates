@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -53,6 +54,13 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
+     * Gets all response comments for a response.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentForResponse(UUID feedbackResponseId) {
+        return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
+    }
+
+    /**
      * Creates a feedback response comment.
      * @throws EntityAlreadyExistsException if the comment alreadty exists
      * @throws InvalidParametersException if the comment is invalid
@@ -87,5 +95,19 @@ public final class FeedbackResponseCommentsLogic {
         comment.setLastEditorEmail(updaterEmail);
 
         return comment;
+    }
+
+    /**
+     * Updates a feedback response comment.
+     *
+     * @return updated comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(
+            FeedbackResponseComment feedbackResponseComment)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
     }
 }

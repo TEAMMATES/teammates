@@ -1,10 +1,13 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -42,6 +45,22 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
+     * Gets all response comments for a response.
+     */
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {
+        assert feedbackResponseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponseComment> cr = cb.createQuery(FeedbackResponseComment.class);
+        Root<FeedbackResponseComment> frcRoot = cr.from(FeedbackResponseComment.class);
+        Join<FeedbackResponseComment, FeedbackResponse> frJoin = frcRoot.join("feedbackResponse");
+
+        cr.select(frcRoot).where(cb.equal(frJoin.get("id"), feedbackResponseId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Creates a feedbackResponseComment.
      */
     public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
@@ -60,6 +79,29 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
         persist(feedbackResponseComment);
         return feedbackResponseComment;
+    }
+
+    /**
+     * Updates a feedback response comment.
+     *
+     * @return updated comment
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the comment cannot be found
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(
+            FeedbackResponseComment feedbackResponseComment)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackResponseComment != null;
+
+        if (!feedbackResponseComment.isValid()) {
+            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
+        }
+
+        if (getFeedbackResponseComment(feedbackResponseComment.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        return merge(feedbackResponseComment);
     }
 
     /**
