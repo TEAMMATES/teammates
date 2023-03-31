@@ -1,8 +1,10 @@
 package teammates.sqllogic.core;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -61,6 +63,15 @@ public final class DeadlineExtensionsLogic {
     }
 
     /**
+     * Gets a deadline extension by {@code userId} and {@code feedbackSessionId}.
+     *
+     * @return the deadline extension if it exists, null otherwise
+     */
+    public DeadlineExtension getDeadlineExtension(UUID userId, UUID feedbackSessionId) {
+        return deadlineExtensionsDb.getDeadlineExtension(userId, feedbackSessionId);
+    }
+
+    /**
      * Creates a deadline extension.
      *
      * @return created deadline extension
@@ -72,4 +83,28 @@ public final class DeadlineExtensionsLogic {
         assert deadlineExtension != null;
         return deadlineExtensionsDb.createDeadlineExtension(deadlineExtension);
     }
+
+    /**
+     * Updates a deadline extension.
+     *
+     * @return the updated deadline extension
+     * @throws InvalidParametersException if the updated deadline extension is not valid
+     * @throws EntityDoesNotExistException if the deadline extension to update does not exist
+     */
+    public DeadlineExtension updateDeadlineExtension(DeadlineExtension deadlineExtension)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert deadlineExtension != null;
+
+        return deadlineExtensionsDb.updateDeadlineExtension(deadlineExtension);
+    }
+
+    /**
+     * Deletes a deadline extension.
+     *
+     * <p>Fails silently if the deadline extension doesn't exist.</p>
+     */
+    public void deleteDeadlineExtension(DeadlineExtension deadlineExtension) {
+        deadlineExtensionsDb.deleteDeadlineExtension(deadlineExtension);
+    }
+
 }

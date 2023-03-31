@@ -287,6 +287,52 @@ public class Logic {
     }
 
     /**
+     * Gets a deadline extension by {@code userId} and {@code feedbackSessionId}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the deadline extension if it exists, null otherwise
+     */
+    public DeadlineExtension getDeadlineExtension(UUID userId, UUID feedbackSessionId) {
+        assert userId != null;
+        assert feedbackSessionId != null;
+
+        return deadlineExtensionsLogic.getDeadlineExtension(userId, feedbackSessionId);
+    }
+
+    /**
+     * Updates a deadline extension.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the updated deadline extension
+     * @throws InvalidParametersException if the updated deadline extension is not valid
+     * @throws EntityDoesNotExistException if the deadline extension to update does not exist
+     */
+    public DeadlineExtension updateDeadlineExtension(DeadlineExtension deadlineExtension)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert deadlineExtension != null;
+
+        return deadlineExtensionsLogic.updateDeadlineExtension(deadlineExtension);
+    }
+
+    /**
+     * Deletes a deadline extension.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * <p>Fails silently if the deadline extension doesn't exist.</p>
+     */
+    public void deleteDeadlineExtension(DeadlineExtension deadlineExtension) {
+        assert deadlineExtension != null;
+
+        deadlineExtensionsLogic.deleteDeadlineExtension(deadlineExtension);
+    }
+
+    /**
      * Gets a feedback session.
      *
      * @return null if not found.
@@ -360,6 +406,23 @@ public class Logic {
      */
     public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
         return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+    }
+
+    /**
+     * Updates the details of a feedback session.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback session
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     */
+    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert feedbackSession != null;
+
+        return feedbackSessionsLogic.updateFeedbackSession(feedbackSession);
     }
 
     /**

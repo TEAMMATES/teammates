@@ -41,7 +41,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * <p>This action is meant to completely overwrite the feedback responses that are previously attached to the
  * same feedback question.
  */
-class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
+public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
     private static final Logger log = Logger.getLogger();
 
