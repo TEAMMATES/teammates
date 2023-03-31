@@ -200,8 +200,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         return buildRequestBody(teamsName);
     }
 
-    private List<String> extractInstructorEmails(
-            List<Instructor> students) {
+    private List<String> extractInstructorEmails(List<Instructor> students) {
         return students.stream().map(recipient -> recipient.getEmail()).collect(Collectors.toList());
     }
 
@@ -235,8 +234,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         return output.getResponses();
     }
 
-    private void validateOutputForStudentRecipientsByEmail(List<FeedbackResponseData> responses, String giverEmail,
-                                                           List<Student> recipients) {
+    private void validateOutputForStudentRecipientsByEmail(
+            List<FeedbackResponseData> responses, String giverEmail, List<Student> recipients) {
         int responsesSize = responses.size();
         assertEquals(recipients.size(), responsesSize);
 
@@ -245,8 +244,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         validateOutput(responses, giverEmail, recipientEmails);
     }
 
-    private void validateOutputForStudentRecipientsByTeam(List<FeedbackResponseData> responses, String giverTeam,
-                                                          List<Student> recipients) {
+    private void validateOutputForStudentRecipientsByTeam(
+            List<FeedbackResponseData> responses, String giverTeam, List<Student> recipients) {
         int responsesSize = responses.size();
         assertEquals(recipients.size(), responsesSize);
 
@@ -257,8 +256,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         validateOutput(responses, giverTeam, recipientTeamsName);
     }
 
-    private void validateOutputForInstructorRecipients(List<FeedbackResponseData> responses, String giverEmail,
-                                                       List<Instructor> recipients) {
+    private void validateOutputForInstructorRecipients(
+            List<FeedbackResponseData> responses, String giverEmail, List<Instructor> recipients) {
         int responsesSize = responses.size();
         assertEquals(recipients.size(), responsesSize);
 
@@ -267,7 +266,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         validateOutput(responses, giverEmail, recipientEmails);
     }
 
-    private void validateOutput(List<FeedbackResponseData> responses, String giverValue, List<String> recipientValues) {
+    private void validateOutput(
+            List<FeedbackResponseData> responses, String giverValue, List<String> recipientValues) {
         for (int i = 0; i < recipientValues.size(); i++) {
             FeedbackResponseData response = responses.get(i);
             String recipientValue = recipientValues.get(i);
@@ -312,7 +312,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void validateDatabase(FeedbackSession session, FeedbackQuestion question,
                                   String giverValue, List<String> recipientValues) {
-
         for (String recipientValue : recipientValues) {
             FeedbackResponse response = logic.getFeedbackResponse(question.getId(), giverValue,
                     recipientValue);

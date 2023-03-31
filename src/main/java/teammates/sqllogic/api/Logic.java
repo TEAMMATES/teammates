@@ -1028,6 +1028,14 @@ public class Logic {
     }
 
     /**
+     * Gets a feedback response by feedbackQuestionId, giver and recipient.
+     */
+    public FeedbackResponse getFeedbackResponse(
+            UUID feedbackQuestionId, String giver, String recipient) {
+        return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giver, recipient);
+    }
+
+    /**
      * Updates a feedback response.
      *
      * <p>Cascade updates its associated feedback response comment

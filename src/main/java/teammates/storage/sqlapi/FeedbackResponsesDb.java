@@ -47,6 +47,29 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
+     * Gets a feedback response by unique constraint question-giver-receiver.
+     */
+    public FeedbackResponse getFeedbackResponse(
+            UUID feedbackQuestionId, String giver, String recipient) {
+        assert feedbackQuestionId != null;
+        assert giver != null;
+        assert recipient != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
+
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(fqJoin.get("id"), feedbackQuestionId),
+                        cb.equal(root.get("giver"), giver),
+                        cb.equal(root.get("recipient"), recipient)));
+
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Creates a feedbackResponse.
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)

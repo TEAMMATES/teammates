@@ -137,6 +137,14 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets a feedback response by feedbackQuestionId, giver and recipient.
+     */
+    public FeedbackResponse getFeedbackResponse(
+            UUID feedbackQuestionId, String giver, String recipient) {
+        return frDb.getFeedbackResponse(feedbackQuestionId, giver, recipient);
+    }
+
+    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
