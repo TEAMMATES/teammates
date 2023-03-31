@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
   templateUrl: './loading-spinner.component.html',
   styleUrls: ['./loading-spinner.component.scss'],
 })
-export class LoadingSpinnerComponent {}
+export class LoadingSpinnerComponent {
+  loadingMessage: string = ''
+
+  constructor () {
+    setTimeout(() => { this.loadingMessage = "Still loading..." }, 5000);
+  }
+}
