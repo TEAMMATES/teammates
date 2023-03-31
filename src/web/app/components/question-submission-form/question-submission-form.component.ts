@@ -279,7 +279,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
-    if(!this.isFormsDisabled) {
+    if (!this.isFormsDisabled) {
         this.hasResponseChanged = true;
       this.isSubmitAllClickedChange.emit(false);
 
