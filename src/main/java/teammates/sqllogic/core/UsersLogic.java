@@ -108,8 +108,6 @@ public final class UsersLogic {
 
     /**
      * Updates an instructor.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
      */
     public Instructor updateInstructor(Instructor instructor)
             throws InvalidParametersException, EntityDoesNotExistException {

@@ -742,8 +742,6 @@ public class Logic {
 
     /**
      * Updates an instructor.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
      */
     public Instructor updateInstructor(Instructor instructor)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -929,7 +927,7 @@ public class Logic {
 
     /**
      * Gets a feedback question by feedbackSessionId, courseId and questionNumber.
-     * 
+     *
      * @return null if not found.
      */
     public FeedbackQuestion getFeedbackQuestionForQuestionNumber(

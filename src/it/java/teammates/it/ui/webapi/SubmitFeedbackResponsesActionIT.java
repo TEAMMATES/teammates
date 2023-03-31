@@ -205,16 +205,16 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         loginAsInstructor(instructor1OfCourse2.getGoogleId());
 
         params = new String[] {
-            Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, "non-existent-id",
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, "non-existent-id",
         };
 
         verifyEntityNotFound(params);
 
         ______TS("Invalid intent");
         params = new String[] {
-            Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-            Const.ParamsNames.FEEDBACK_QUESTION_ID, forStudentFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, forStudentFeedbackQuestion.getId().toString(),
         };
 
         verifyHttpParameterFailure(params);
@@ -238,7 +238,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, forInstructorFeedbackQuestion.getId().toString(),
         };
-        
+
         List<String> nullEmail = Collections.singletonList(null);
         FeedbackResponsesRequest requestBody = buildRequestBody(nullEmail);
 
@@ -277,7 +277,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         questionNumber = 1;
         question = getQuestion(feedbackSession, questionNumber);
-        params =  new String[] {
+        params = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
         };
@@ -301,7 +301,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackQuestion feedbackQuestion = typicalBundle.feedbackQuestions.get("qn4InSession1InCourse1");
 
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        
+
         loginAsInstructor(instructor.getGoogleId());
 
         ______TS("Typical Success Case for Instructor submitting before deadline");
@@ -332,8 +332,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                         .stream()
                         .filter(de -> de.getUser().equals(instructor))
                         .collect(Collectors.toList());
-        
-        for (DeadlineExtension de: instructorDEs) {
+
+        for (DeadlineExtension de : instructorDEs) {
             logic.deleteDeadlineExtension(de);
         }
 
@@ -378,8 +378,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                         .stream()
                         .filter(de -> de.getUser().equals(student))
                         .collect(Collectors.toList());
-        
-        for (DeadlineExtension de: studentDEs) {
+
+        for (DeadlineExtension de : studentDEs) {
             logic.deleteDeadlineExtension(de);
         }
 

@@ -210,7 +210,8 @@ public final class UsersDb extends EntitiesDb {
     /**
      * Saves an updated {@code Instructor} to the db.
      */
-    public Instructor updateInstructor(Instructor instructor) throws InvalidParametersException, EntityDoesNotExistException {
+    public Instructor updateInstructor(Instructor instructor)
+            throws InvalidParametersException, EntityDoesNotExistException {
         assert instructor != null;
 
         if (!instructor.isValid()) {

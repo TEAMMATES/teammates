@@ -158,7 +158,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         FeedbackQuestionAttributes feedbackQuestion = null;
         FeedbackQuestion sqlFeedbackQuestion = null;
-        String courseId = null;
+        String courseId;
         UUID feedbackQuestionSqlId;
 
         try {
@@ -168,7 +168,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             // if the question id cannot be converted to UUID, we check the datastore for the question
             feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         }
-        
+
         if (feedbackQuestion != null) {
             courseId = feedbackQuestion.getCourseId();
         } else if (sqlFeedbackQuestion != null) {
