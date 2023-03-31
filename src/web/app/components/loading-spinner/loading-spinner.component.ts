@@ -9,9 +9,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./loading-spinner.component.scss'],
 })
 export class LoadingSpinnerComponent {
-  loadingMessage: string = ''
+  loadingMessage: string = '';
 
-  constructor () {
-    setTimeout(() => { this.loadingMessage = "Still loading..." }, 5000);
+  constructor() {
+    setTimeout(() => { this.loadingMessage = 'Still loading...'; }, 5000);
   }
 }
