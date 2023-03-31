@@ -21,7 +21,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId) && isAccountMigrated(userInfo.getId())) {
+        if (isCourseMigrated(courseId)) {
             FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
             Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
@@ -39,7 +39,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId) && isAccountMigrated(userInfo.getId())) {
+        if (isCourseMigrated(courseId)) {
             FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
             if (!feedbackSession.isPublished()) {
                 throw new InvalidOperationException("Published email could not be resent "
