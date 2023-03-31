@@ -58,6 +58,14 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets a feedback response by feedbackQuestionId, giver and recipient.
+     */
+    public FeedbackResponse getFeedbackResponse(
+            UUID feedbackQuestionId, String giver, String recipient) {
+        return frDb.getFeedbackResponse(feedbackQuestionId, giver, recipient);
+    }
+
+    /**
      * Returns true if the responses of the question are visible to students.
      */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestion question) {
@@ -127,21 +135,6 @@ public final class FeedbackResponsesLogic {
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return frDb.createFeedbackResponse(feedbackResponse);
-    }
-
-    /**
-     * Gets a feedback response by its ID.
-     */
-    public FeedbackResponse getFeedbackResponse(UUID feedbackResponseId) {
-        return frDb.getFeedbackResponse(feedbackResponseId);
-    }
-
-    /**
-     * Gets a feedback response by feedbackQuestionId, giver and recipient.
-     */
-    public FeedbackResponse getFeedbackResponse(
-            UUID feedbackQuestionId, String giver, String recipient) {
-        return frDb.getFeedbackResponse(feedbackQuestionId, giver, recipient);
     }
 
     /**
