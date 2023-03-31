@@ -22,7 +22,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId) && isAccountMigrated(userInfo.getId())) {
+        if (isCourseMigrated(courseId)) {
             FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
             Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
 
@@ -41,7 +41,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId) && isAccountMigrated(userInfo.getId())) {
+        if (isCourseMigrated(courseId)) {
             FeedbackSessionSubmittedGiverSet output = new FeedbackSessionSubmittedGiverSet(
                     sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId)
             );
