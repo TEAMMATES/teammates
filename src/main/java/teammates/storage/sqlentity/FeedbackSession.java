@@ -442,4 +442,10 @@ public class FeedbackSession extends BaseEntity {
         return now.isAfter(publishTime) || now.equals(publishTime);
     }
 
+    /**
+     * Checks if user with {@code userEmail} is the creator.
+     */
+    public boolean isCreator(String userEmail) {
+        return creatorEmail.equals(userEmail);
+    }
 }
