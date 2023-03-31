@@ -97,6 +97,13 @@ export class SessionsTableComponent {
     this.sortSessionsTableRowModelsEvent.emit(by);
   }
 
+  getAriaSort(by: SortBy): String {
+    if (by !== this.sessionsTableRowModelsSortBy) {
+      return 'none';
+    }
+    return this.sessionsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   /**
    * Moves the feedback session to the recycle bin.
    */
