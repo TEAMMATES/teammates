@@ -51,4 +51,17 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
     }
+
+    @Test
+    public void testDeleteFeedbackResponsesForQuestionCascade() {
+        ______TS("success: typical case");
+        FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
+        FeedbackResponse fr2 = typicalDataBundle.feedbackResponses.get("response2ForQ1");
+
+        frDb.deleteFeedbackResponsesForQuestionCascade(fq.getId());
+
+        assertNull(frDb.getFeedbackResponse(fr1.getId()));
+        assertNull(frDb.getFeedbackResponse(fr2.getId()));
+    }
 }
