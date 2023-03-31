@@ -3,6 +3,7 @@ package teammates.sqllogic.api;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -303,6 +304,16 @@ public class Logic {
         assert courseId != null;
 
         return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
@@ -776,6 +787,13 @@ public class Logic {
         assert question != null;
 
         return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
+    }
+
+    /**
+     * Gets a feedbackResponse or null if it does not exist.
+     */
+    public FeedbackResponse getFeedbackResponse(UUID frId) {
+        return feedbackResponsesLogic.getFeedbackResponse(frId);
     }
 
     /**
