@@ -1,10 +1,13 @@
 package teammates.storage.sqlapi;
 
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -202,6 +205,23 @@ public final class UsersDb extends EntitiesDb {
         studentsCr.select(studentsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
 
         return HibernateUtil.createQuery(studentsCr).getResultList();
+    }
+
+    /**
+     * Saves an updated {@code Instructor} to the db.
+     */
+    public Instructor updateInstructor(Instructor instructor) throws InvalidParametersException, EntityDoesNotExistException {
+        assert instructor != null;
+
+        if (!instructor.isValid()) {
+            throw new InvalidParametersException(instructor.getInvalidityInfo());
+        }
+
+        if (getInstructor(instructor.getId()) == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        return merge(instructor);
     }
 
     /**

@@ -53,6 +53,26 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
     }
 
     /**
+     * Gets a feedback question by {@code feedbackSessionId}, {@code courseId} and {@code questionNumber}.
+     */
+    public FeedbackQuestion getFeedbackQuestionForQuestionNumber(
+            UUID feedbackSessionId, String courseId, int questionNumber) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackQuestion> cq = cb.createQuery(FeedbackQuestion.class);
+        Root<FeedbackQuestion> fqRoot = cq.from(FeedbackQuestion.class);
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqRoot.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
+
+        cq.select(fqRoot)
+                .where(cb.and(
+                        cb.equal(fqRoot.get("questionNumber"), questionNumber),
+                        cb.equal(fsJoin.get("id"), feedbackSessionId),
+                        cb.equal(cJoin.get("id"), courseId)));
+
+        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Gets all feedback questions of a session.
      */
     public List<FeedbackQuestion> getFeedbackQuestionsForSession(UUID fdId) {

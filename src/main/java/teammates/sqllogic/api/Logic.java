@@ -741,6 +741,16 @@ public class Logic {
     }
 
     /**
+     * Updates an instructor.
+     * @throws EntityDoesNotExistException
+     * @throws InvalidParametersException
+     */
+    public Instructor updateInstructor(Instructor instructor)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return usersLogic.updateInstructor(instructor);
+    }
+
+    /**
      * Deletes a user.
      *
      * <p>Fails silently if the user does not exist.</p>
@@ -915,6 +925,17 @@ public class Logic {
      */
     public void deleteFeedbackQuestionCascade(UUID questionId) {
         feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
+    }
+
+    /**
+     * Gets a feedback question by feedbackSessionId, courseId and questionNumber.
+     * 
+     * @return null if not found.
+     */
+    public FeedbackQuestion getFeedbackQuestionForQuestionNumber(
+            UUID feedbackSessionId, String courseId, int questionNumber) {
+        return feedbackQuestionsLogic.getFeedbackQuestionForQuestionNumber(
+                feedbackSessionId, courseId, questionNumber);
     }
 
     /**
