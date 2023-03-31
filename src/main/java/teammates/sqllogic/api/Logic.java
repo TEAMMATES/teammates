@@ -357,6 +357,24 @@ public class Logic {
     }
 
     /**
+     * Checks whether a student has attempted a feedback session.
+     *
+     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(session, userEmail, userTeam);
+    }
+
+    /**
+     * Checks whether an instructor has attempted a feedback session.
+     *
+     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByInstructor(session, userEmail);
+    }
+
+    /**
      * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
      *
      * <br/>Preconditions: <br/>
@@ -591,6 +609,16 @@ public class Logic {
     }
 
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<Student> getUnregisteredStudentsForCourse(String courseId) {
+        assert courseId != null;
+        return usersLogic.getUnregisteredStudentsForCourse(courseId);
+    }
+
+    /**
      * Gets a student by associated {@code regkey}.
      */
     public Student getStudentByRegistrationKey(String regKey) {
@@ -759,6 +787,13 @@ public class Logic {
         assert question != null;
 
         return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
+    }
+
+    /**
+     * Gets a feedbackResponse or null if it does not exist.
+     */
+    public FeedbackResponse getFeedbackResponse(UUID frId) {
+        return feedbackResponsesLogic.getFeedbackResponse(frId);
     }
 
     /**

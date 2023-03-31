@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -242,5 +243,48 @@ public final class FeedbackSessionsLogic {
         }
 
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
+    }
+
+    /**
+     * Checks whether a student has attempted a feedback session.
+     *
+     * <p>If feedback session consists of all team questions, session is attempted by student only
+     * if someone from the team has responded. If feedback session has some individual questions,
+     * session is attempted only if the student has responded to any of the individual questions
+     * (regardless of the completion status of the team questions).</p>
+     */
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
+        assert session != null;
+        assert userEmail != null;
+        assert userTeam != null;
+
+        if (!fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions())) {
+            // if there are no questions for student, session is attempted
+            return true;
+        } else if (fqLogic.hasFeedbackQuestionsForGiverType(
+                session.getFeedbackQuestions(), FeedbackParticipantType.STUDENTS)) {
+            // case where there are some individual questions
+            return frLogic.hasGiverRespondedForSession(userEmail, session.getFeedbackQuestions());
+        } else {
+            // case where all are team questions
+            return frLogic.hasGiverRespondedForSession(userTeam, session.getFeedbackQuestions());
+        }
+    }
+
+    /**
+     * Checks whether an instructor has attempted a feedback session.
+     *
+     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
+        assert session != null;
+        assert userEmail != null;
+
+        if (frLogic.hasGiverRespondedForSession(userEmail, session.getFeedbackQuestions())) {
+            return true;
+        }
+
+        // if there is no question for instructor, session is attempted
+        return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
     }
 }
