@@ -158,24 +158,26 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         FeedbackQuestionAttributes feedbackQuestion = null;
         FeedbackQuestion sqlFeedbackQuestion = null;
-        String courseId;
+        String courseId = null;
         UUID feedbackQuestionSqlId;
 
         try {
             feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
             sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
-            courseId = sqlFeedbackQuestion.getCourseId();
         } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
             // if the question id cannot be converted to UUID, we check the datastore for the question
             feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        }
+        
+        if (feedbackQuestion != null) {
             courseId = feedbackQuestion.getCourseId();
+        } else if (sqlFeedbackQuestion != null) {
+            courseId = sqlFeedbackQuestion.getCourseId();
+        } else {
+            throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
         if (!isCourseMigrated(courseId)) {
-            if (feedbackQuestion == null) {
-                throw new EntityNotFoundException("The feedback question does not exist.");
-            }
-
             List<FeedbackResponseAttributes> existingResponses;
             Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
 
@@ -321,10 +323,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             feedbackResponsesData.setResponses(responses);
 
             return new JsonResult(feedbackResponsesData);
-        }
-
-        if (sqlFeedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
         List<FeedbackResponse> existingResponses;
