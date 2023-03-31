@@ -93,15 +93,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         return buildRequestBody(teamsName);
     }
 
-    private List<String> extractInstructorEmails(List<Instructor> students) {
-        return students.stream().map(recipient -> recipient.getEmail()).collect(Collectors.toList());
-    }
-
-    private FeedbackResponsesRequest buildRequestBodyWithInstructorRecipients(List<Instructor> recipients) {
-        List<String> emails = extractInstructorEmails(recipients);
-        return buildRequestBody(emails);
-    }
-
     private FeedbackResponsesRequest buildRequestBody(List<String> values) {
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
 
@@ -137,28 +128,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         validateOutput(responses, giverEmail, recipientEmails);
     }
 
-    private void validateOutputForStudentRecipientsByTeam(
-            List<FeedbackResponseData> responses, String giverTeam, List<Student> recipients) {
-        int responsesSize = responses.size();
-        assertEquals(recipients.size(), responsesSize);
-
-        List<Team> recipientTeams = extractStudentTeams(recipients);
-        List<String> recipientTeamsName =
-                recipientTeams.stream().map(team -> team.getName()).collect(Collectors.toList());
-
-        validateOutput(responses, giverTeam, recipientTeamsName);
-    }
-
-    private void validateOutputForInstructorRecipients(
-            List<FeedbackResponseData> responses, String giverEmail, List<Instructor> recipients) {
-        int responsesSize = responses.size();
-        assertEquals(recipients.size(), responsesSize);
-
-        List<String> recipientEmails = extractInstructorEmails(recipients);
-
-        validateOutput(responses, giverEmail, recipientEmails);
-    }
-
     private void validateOutput(
             List<FeedbackResponseData> responses, String giverValue, List<String> recipientValues) {
         for (int i = 0; i < recipientValues.size(); i++) {
@@ -175,30 +144,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         }
     }
 
-    private void validateStudentDatabaseByTeam(
-            FeedbackSession session,
-            FeedbackQuestion question,
-            String giverTeam, List<Student> recipients) {
-        List<Team> teams = extractStudentTeams(recipients);
-        List<String> teamsName = teams.stream().map(team -> team.getName()).collect(Collectors.toList());
-
-        validateDatabase(session, question, giverTeam, teamsName);
-    }
-
     private void validateStudentDatabaseByEmail(
             FeedbackSession session,
             FeedbackQuestion question,
             String giverTeam, List<Student> recipients) {
         List<String> teams = extractStudentEmails(recipients);
-
-        validateDatabase(session, question, giverTeam, teams);
-    }
-
-    private void validateInstructorDatabaseByEmail(
-            FeedbackSession session,
-            FeedbackQuestion question,
-            String giverTeam, List<Instructor> recipients) {
-        List<String> teams = extractInstructorEmails(recipients);
 
         validateDatabase(session, question, giverTeam, teams);
     }
@@ -319,44 +269,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), studentRecipients);
         validateStudentDatabaseByEmail(feedbackSession, question, giver.getEmail(), studentRecipients);
 
-        // ______TS("Typical Success Case with presence of existing responses");
-        // feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
-
-        // loginAsInstructor(instructor.getGoogleId());
-
-        // questionNumber = 6;
-        // question = getQuestion(feedbackSession, questionNumber);
-        // params = new String[] {
-        //         Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        //         Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
-        // };
-
-        // studentRecipients = Collections.singletonList(student);
-        // requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
-
-        // outputResponses = callExecute(requestBody, params);
-        // validateOutputForStudentRecipientsByEmail(outputResponses, instructor.getEmail(), studentRecipients);
-        // validateStudentDatabaseByEmail(feedbackSession, question, instructor.getEmail(), studentRecipients);
-
-        // ______TS("Typical Success Case with valid recipients of question");
-        // feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
-
-        // loginAsInstructor(instructor.getGoogleId());
-
-        // questionNumber = 6;
-        // question = getQuestion(feedbackSession, questionNumber);
-        // params =  new String[] {
-        //         Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        //         Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
-        // };
-
-        // studentRecipients = getStudents("student1InCourse1", "student2InCourse1");
-        // requestBody = buildRequestBodyWithStudentRecipientsTeam(studentRecipients);
-
-        // outputResponses = callExecute(requestBody, params);
-        // validateOutputForStudentRecipientsByTeam(outputResponses, instructor.getEmail(), studentRecipients);
-        // validateStudentDatabaseByTeam(feedbackSession, question, instructor.getEmail(), studentRecipients);
-
         ______TS("Invalid recipient of question, should fail");
         feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         giver = typicalBundle.students.get("student1InCourse1");
@@ -374,25 +286,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         requestBody = buildRequestBodyWithStudentRecipientsTeam(studentRecipients);
 
         verifyInvalidOperation(requestBody, params);
-
-        // ______TS("Too many recipients");
-        // feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
-
-        // loginAsStudent(giver.getGoogleId());
-
-        // questionNumber = 1;
-        // question = getQuestion(feedbackSession, questionNumber);
-        // params =  new String[] {
-        //         Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        //         Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
-        // };
-
-        // studentRecipients = getStudents("student1InCourse2", "student2InCourse2");
-        // requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
-
-        // outputResponses = callExecute(requestBody, params);
-        // validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), studentRecipients);
-        // validateStudentDatabaseByEmail(feedbackSession, question, giver.getEmail(), studentRecipients);
     }
 
     @Test
