@@ -50,15 +50,17 @@
 .session-heading-text {
   display: flex;
   text-align: left;
-  @media(max-width: 768px) {
+
+  @media (max-width: 768px) {
     width: 120px;
   }
 }
 
 .session-heading-text h5 {
   margin: auto auto auto 0;
-  @media(max-width: 576px) {
-    margin-bottom: 0.5rem;
+
+  @media (max-width: 576px) {
+    margin-bottom: .5rem;
   }
 }
 
