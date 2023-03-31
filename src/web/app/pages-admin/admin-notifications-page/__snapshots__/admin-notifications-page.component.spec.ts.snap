@@ -734,6 +734,10 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
           >
             Loading...
           </div>
+          <div
+            class="row text-info"
+          >
+          </div>
         </div>
       </tm-loading-spinner>
     </div>
@@ -865,6 +869,10 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
             class="row text-secondary"
           >
             Loading...
+          </div>
+          <div
+            class="row text-info"
+          >
           </div>
         </div>
       </tm-loading-spinner>

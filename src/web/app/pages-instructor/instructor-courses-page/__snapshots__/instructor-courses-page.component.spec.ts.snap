@@ -70,6 +70,10 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><div
@@ -323,6 +327,10 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -1603,6 +1611,10 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>

@@ -986,6 +986,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
@@ -2697,6 +2701,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><br /><div
@@ -2872,6 +2880,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>

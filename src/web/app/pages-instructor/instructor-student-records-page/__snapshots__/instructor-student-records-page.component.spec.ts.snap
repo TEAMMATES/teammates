@@ -49,6 +49,10 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry>
@@ -103,6 +107,10 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>

@@ -66,6 +66,10 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
@@ -157,6 +161,10 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
@@ -172,6 +180,10 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -267,6 +279,10 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
     <div />
@@ -342,6 +358,10 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
@@ -357,6 +377,10 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -433,6 +457,10 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
         >
           Loading...
         </div>
+        <div
+          class="row text-info"
+        >
+        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
@@ -448,6 +476,10 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>

@@ -515,6 +515,10 @@ exports[`SessionResultPageComponent should snap with session details and results
       >
         Loading...
       </div>
+      <div
+        class="row text-info"
+      >
+      </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <tm-loading-spinner>
@@ -529,6 +533,10 @@ exports[`SessionResultPageComponent should snap with session details and results
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -675,6 +683,10 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>

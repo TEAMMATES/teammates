@@ -48,6 +48,10 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
       >
         Loading...
       </div>
+      <div
+        class="row text-info"
+      >
+      </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <tm-loading-spinner>
@@ -62,6 +66,10 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -117,6 +125,10 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       >
         Loading...
       </div>
+      <div
+        class="row text-info"
+      >
+      </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <tm-loading-spinner>
@@ -131,6 +143,10 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -271,6 +287,10 @@ exports[`InstructorHomePageComponent should snap with one course with error load
                     class="row text-secondary"
                   >
                     Loading...
+                  </div>
+                  <div
+                    class="row text-info"
+                  >
                   </div>
                 </div>
               </tm-loading-spinner>
@@ -1915,6 +1935,10 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                     class="row text-secondary"
                   >
                     Loading...
+                  </div>
+                  <div
+                    class="row text-info"
+                  >
                   </div>
                 </div>
               </tm-loading-spinner>

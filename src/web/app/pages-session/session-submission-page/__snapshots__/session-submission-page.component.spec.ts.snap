@@ -126,6 +126,10 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
       >
         Loading...
       </div>
+      <div
+        class="row text-info"
+      >
+      </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <div
@@ -276,6 +280,10 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
       >
         Loading...
       </div>
+      <div
+        class="row text-info"
+      >
+      </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <tm-loading-spinner>
@@ -290,6 +298,10 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -423,6 +435,10 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
       >
         Loading...
       </div>
+      <div
+        class="row text-info"
+      >
+      </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <tm-loading-spinner>
@@ -437,6 +453,10 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -683,6 +703,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -6181,6 +6205,10 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
       >
         Loading...
       </div>
+      <div
+        class="row text-info"
+      >
+      </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <tm-loading-spinner>
@@ -6195,6 +6223,10 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -6329,6 +6361,10 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
       >
         Loading...
       </div>
+      <div
+        class="row text-info"
+      >
+      </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <tm-loading-spinner>
@@ -6343,6 +6379,10 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-info"
+        >
         </div>
       </div>
     </tm-loading-spinner>

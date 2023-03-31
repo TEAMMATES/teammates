@@ -80,6 +80,10 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
           >
             Loading...
           </div>
+          <div
+            class="row text-info"
+          >
+          </div>
         </div>
       </tm-loading-spinner>
     </div>
@@ -110,6 +114,10 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
             class="row text-secondary"
           >
             Loading...
+          </div>
+          <div
+            class="row text-info"
+          >
           </div>
         </div>
       </tm-loading-spinner>
@@ -198,6 +206,10 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
           >
             Loading...
           </div>
+          <div
+            class="row text-info"
+          >
+          </div>
         </div>
       </tm-loading-spinner>
     </div>
@@ -228,6 +240,10 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
             class="row text-secondary"
           >
             Loading...
+          </div>
+          <div
+            class="row text-info"
+          >
           </div>
         </div>
       </tm-loading-spinner>
@@ -1234,6 +1250,10 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
             >
               Loading...
             </div>
+            <div
+              class="row text-info"
+            >
+            </div>
           </div>
         </tm-loading-spinner>
       </div>
@@ -1265,6 +1285,10 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
             class="row text-secondary"
           >
             Loading...
+          </div>
+          <div
+            class="row text-info"
+          >
           </div>
         </div>
       </tm-loading-spinner>
@@ -1353,6 +1377,10 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
           >
             Loading...
           </div>
+          <div
+            class="row text-info"
+          >
+          </div>
         </div>
       </tm-loading-spinner>
     </div>
@@ -1383,6 +1411,10 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
             class="row text-secondary"
           >
             Loading...
+          </div>
+          <div
+            class="row text-info"
+          >
           </div>
         </div>
       </tm-loading-spinner>
@@ -1471,6 +1503,10 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
           >
             Loading...
           </div>
+          <div
+            class="row text-info"
+          >
+          </div>
         </div>
       </tm-loading-spinner>
     </div>
@@ -1501,6 +1537,10 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
             class="row text-secondary"
           >
             Loading...
+          </div>
+          <div
+            class="row text-info"
+          >
           </div>
         </div>
       </tm-loading-spinner>
@@ -1589,6 +1629,10 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
           >
             Loading...
           </div>
+          <div
+            class="row text-info"
+          >
+          </div>
         </div>
       </tm-loading-spinner>
     </div>
@@ -1619,6 +1663,10 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
             class="row text-secondary"
           >
             Loading...
+          </div>
+          <div
+            class="row text-info"
+          >
           </div>
         </div>
       </tm-loading-spinner>
