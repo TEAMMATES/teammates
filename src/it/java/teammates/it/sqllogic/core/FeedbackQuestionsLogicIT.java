@@ -21,6 +21,7 @@ import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.FeedbackVisibilityType;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**
@@ -99,6 +100,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
                 fq1.getShowGiverNameTo(),
                 fq1.getShowRecipientNameTo()
         );
+        updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
 
         fqLogic.updateFeedbackQuestionCascade(fq1.getId(), updateRequest);
 
