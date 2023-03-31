@@ -270,11 +270,18 @@ public abstract class Action {
      */
     UUID getUuidRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
+        return getUuidFromString(paramName, value);
+    }
+
+    /**
+     * Converts a uuid to a string.
+     */
+    UUID getUuidFromString(String paramName, String uuid) {
         try {
-            return UUID.fromString(value);
+            return UUID.fromString(uuid);
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
-                    "Expected UUID value for " + paramName + " parameter, but found: [" + value + "]", e);
+                    "Expected UUID value for " + paramName + " parameter, but found: [" + uuid + "]", e);
         }
     }
 

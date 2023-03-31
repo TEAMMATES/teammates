@@ -46,6 +46,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets a feedbackResponse or null if it does not exist.
+     */
+    public FeedbackResponse getFeedbackResponse(UUID frId) {
+        return frDb.getFeedbackResponse(frId);
+    }
+
+    /**
      * Returns true if the responses of the question are visible to students.
      */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestion question) {
