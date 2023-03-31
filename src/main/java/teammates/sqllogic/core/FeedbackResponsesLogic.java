@@ -87,6 +87,25 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Checks whether a giver has responded a session.
+     */
+    public boolean hasGiverRespondedForSession(String giverIdentifier, List<FeedbackQuestion> questions) {
+        assert questions != null;
+
+        for (FeedbackQuestion question : questions) {
+            boolean hasResponse = question
+                    .getFeedbackResponses()
+                    .stream()
+                    .anyMatch(response -> response.getGiver().equals(giverIdentifier));
+            if (hasResponse) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Creates a feedback response.
      * @return the created response
      * @throws InvalidParametersException if the response is not valid
@@ -133,7 +152,6 @@ public final class FeedbackResponsesLogic {
 
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
                                         feedbackQuestionId, teamName));
-
         return responses;
     }
 }

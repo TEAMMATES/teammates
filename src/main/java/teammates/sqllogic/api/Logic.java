@@ -346,6 +346,24 @@ public class Logic {
     }
 
     /**
+     * Checks whether a student has attempted a feedback session.
+     *
+     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(session, userEmail, userTeam);
+    }
+
+    /**
+     * Checks whether an instructor has attempted a feedback session.
+     *
+     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByInstructor(session, userEmail);
+    }
+
+    /**
      * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
      *
      * <br/>Preconditions: <br/>
