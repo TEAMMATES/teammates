@@ -1,21 +1,16 @@
 package teammates.it.ui.webapi;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
@@ -57,21 +52,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         return PUT;
     }
 
-    private FeedbackSession getSession(String sessionId) {
-        return typicalBundle.feedbackSessions.get(sessionId);
-    }
-
-    private Instructor getInstructor(String instructorId) {
-        return typicalBundle.instructors.get(instructorId);
-    }
-
-    private Instructor loginInstructor(String instructorId) {
-        Instructor instructor = getInstructor(instructorId);
-        loginAsInstructor(instructor.getGoogleId());
-
-        return instructor;
-    }
-
     private Student getStudent(String studentId) {
         return typicalBundle.students.get(studentId);
     }
@@ -86,97 +66,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         return students;
     }
 
-    private Student loginStudent(String studentId) {
-        Student student = getStudent(studentId);
-        loginAsStudent(student.getGoogleId());
-
-        return student;
-    }
-
     private FeedbackQuestion getQuestion(
             FeedbackSession session, int questionNumber) {
         return logic.getFeedbackQuestionForQuestionNumber(
                 session.getId(), session.getCourse().getId(), questionNumber);
-    }
-
-    private void setStartTime(FeedbackSession session, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        String sessionName = session.getName();
-        String courseId = session.getCourse().getId();
-        Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
-
-        session.setStartTime(startTime);
-
-        logic.updateFeedbackSession(session);
-    }
-
-    private void setEndTime(FeedbackSession session, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        String sessionName = session.getName();
-        String courseId = session.getCourse().getId();
-        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
-
-        session.setEndTime(endTime);
-
-        logic.updateFeedbackSession(session);
-    }
-
-    private void setInstructorDeadline(FeedbackSession session, Instructor instructor, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        DeadlineExtension deadlineExtension =
-                logic.getDeadlineExtension(instructor.getId(), session.getId());
-
-        deadlineExtension.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(days));     
-
-        logic.updateDeadlineExtension(deadlineExtension);
-    }
-
-    private void setStudentDeadline(FeedbackSession session, Student student, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        DeadlineExtension deadlineExtension = logic.getDeadlineExtension(student.getId(), session.getId());
-
-        deadlineExtension.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(days));        
-
-        logic.updateDeadlineExtension(deadlineExtension);
-    }
-
-    private String[] buildSubmissionParams(FeedbackSession session,
-                                           int questionNumber,
-                                           Intent intent) {
-        FeedbackQuestion question = getQuestion(session, questionNumber);
-        return buildSubmissionParams(question, intent);
-    }
-
-    private String[] buildSubmissionParams(FeedbackQuestion question,
-                                           Intent intent) {
-        String questionId = question != null ?question.getId().toString() : "";
-
-        return new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId,
-                Const.ParamsNames.INTENT, intent.toString()};
-    }
-
-    private String[] setPreviewPerson(String[] submissionParams, String previewPerson) {
-        return new String[] {submissionParams[0], submissionParams[1], submissionParams[2], submissionParams[3],
-                Const.ParamsNames.PREVIEWAS, previewPerson};
-    }
-
-    private String[] setModeratorPerson(String[] submissionParams, String moderatorPerson) {
-        return new String[] {submissionParams[0], submissionParams[1], submissionParams[2], submissionParams[3],
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatorPerson};
-    }
-
-    private void setCommentInSectionInstructorPrivilege(FeedbackSession session,
-                                                        Instructor instructor, boolean value)
-            throws Exception {
-        String courseId = session.getCourse().getId();
-
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, value);
-
-        instructor.setPrivileges(instructorPrivileges);
-
-        logic.updateInstructor(instructor);
     }
 
     private List<String> extractStudentEmails(List<Student> students) {
@@ -322,7 +215,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
             assertEquals(recipientValue, response.getRecipient());
 
             assertEquals(session.getName(), response.getFeedbackQuestion().getFeedbackSession().getName());
-            assertEquals(session.getCourse().getId(), response.getFeedbackQuestion().getFeedbackSession().getId());
+            assertEquals(session.getCourse().getId(),
+                    response.getFeedbackQuestion().getFeedbackSession().getCourse().getId());
 
             FeedbackResponseDetails responseDetails = response.getFeedbackResponseDetailsCopy();
 
@@ -336,13 +230,13 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     @Test
     @Override
     protected void testExecute() throws Exception {
-        FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestion forStudentFeedbackQuestion = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1");
         FeedbackQuestion forInstructorFeedbackQuestion = typicalBundle.feedbackQuestions.get("qn4InSession1InCourse1");
 
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        ______TS("Invalid params");
+        ______TS("No params");
+        loginAsInstructor(instructor.getGoogleId());
 
         verifyHttpParameterFailure();
 
@@ -356,10 +250,13 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         verifyHttpParameterFailure(params);
 
         ______TS("Non existent feedback question");
+        Instructor instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
+
+        loginAsInstructor(instructor1OfCourse2.getGoogleId());
+
         params = new String[] {
             Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-            Const.ParamsNames.FEEDBACK_QUESTION_ID,
-            generateDifferentUuid(forStudentFeedbackQuestion.getId()).toString(),
+            Const.ParamsNames.FEEDBACK_QUESTION_ID, "non-existent-id",
         };
 
         verifyEntityNotFound(params);
@@ -373,6 +270,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         verifyHttpParameterFailure(params);
 
         ______TS("No request body");
+        Student student = typicalBundle.students.get("student1InCourse1");
+
+        loginAsStudent(student.getGoogleId());
+
         params = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, forStudentFeedbackQuestion.getId().toString(),
@@ -380,14 +281,118 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         verifyHttpRequestBodyFailure(null, params);
 
-        // ______TS("Request body has no recipient, as null");
+        ______TS("Request body has no recipient, recipient as null");
+        loginAsInstructor(instructor.getGoogleId());
+
+        params = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, forInstructorFeedbackQuestion.getId().toString(),
+        };
+        
+        List<String> nullEmail = Collections.singletonList(null);
+        FeedbackResponsesRequest requestBody = buildRequestBody(nullEmail);
+
+        verifyInvalidOperation(requestBody, params);
+
+        ______TS("Request body has no recipient, recipient as empty string");
+        requestBody = buildRequestBody(Collections.singletonList(""));
+
+        verifyInvalidOperation(requestBody, params);
+
+        ______TS("Typical Success Case with no existing responses");
+        FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
+        Student giver = typicalBundle.students.get("student1InCourse2");
+
+        loginAsStudent(giver.getGoogleId());
+
+        int questionNumber = 1;
+        FeedbackQuestion question = getQuestion(feedbackSession, questionNumber);
+        params = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
+        };
+
+        List<Student> studentRecipients = getStudents("student2InCourse2");
+        requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
+
+        List<FeedbackResponseData> outputResponses = callExecute(requestBody, params);
+        validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), studentRecipients);
+        validateStudentDatabaseByEmail(feedbackSession, question, giver.getEmail(), studentRecipients);
+
+        // ______TS("Typical Success Case with presence of existing responses");
+        // feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        // loginAsInstructor(instructor.getGoogleId());
+
+        // questionNumber = 6;
+        // question = getQuestion(feedbackSession, questionNumber);
         // params = new String[] {
         //         Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        //         Const.ParamsNames.FEEDBACK_QUESTION_ID, forInstructorFeedbackQuestion.getId().toString(),
+        //         Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
         // };
-        
-        // List<String> nullEmail = Collections.singletonList(null);
-        // FeedbackResponsesRequest submitRequest = 
+
+        // studentRecipients = Collections.singletonList(student);
+        // requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
+
+        // outputResponses = callExecute(requestBody, params);
+        // validateOutputForStudentRecipientsByEmail(outputResponses, instructor.getEmail(), studentRecipients);
+        // validateStudentDatabaseByEmail(feedbackSession, question, instructor.getEmail(), studentRecipients);
+
+        // ______TS("Typical Success Case with valid recipients of question");
+        // feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+
+        // loginAsInstructor(instructor.getGoogleId());
+
+        // questionNumber = 6;
+        // question = getQuestion(feedbackSession, questionNumber);
+        // params =  new String[] {
+        //         Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+        //         Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
+        // };
+
+        // studentRecipients = getStudents("student1InCourse1", "student2InCourse1");
+        // requestBody = buildRequestBodyWithStudentRecipientsTeam(studentRecipients);
+
+        // outputResponses = callExecute(requestBody, params);
+        // validateOutputForStudentRecipientsByTeam(outputResponses, instructor.getEmail(), studentRecipients);
+        // validateStudentDatabaseByTeam(feedbackSession, question, instructor.getEmail(), studentRecipients);
+
+        ______TS("Invalid recipient of question, should fail");
+        feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        giver = typicalBundle.students.get("student1InCourse1");
+
+        loginAsStudent(giver.getGoogleId());
+
+        questionNumber = 1;
+        question = getQuestion(feedbackSession, questionNumber);
+        params =  new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
+        };
+
+        studentRecipients = getStudents("student2InCourse1");
+        requestBody = buildRequestBodyWithStudentRecipientsTeam(studentRecipients);
+
+        verifyInvalidOperation(requestBody, params);
+
+        // ______TS("Too many recipients");
+        // feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
+
+        // loginAsStudent(giver.getGoogleId());
+
+        // questionNumber = 1;
+        // question = getQuestion(feedbackSession, questionNumber);
+        // params =  new String[] {
+        //         Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        //         Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
+        // };
+
+        // studentRecipients = getStudents("student1InCourse2", "student2InCourse2");
+        // requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
+
+        // outputResponses = callExecute(requestBody, params);
+        // validateOutputForStudentRecipientsByEmail(outputResponses, giver.getEmail(), studentRecipients);
+        // validateStudentDatabaseByEmail(feedbackSession, question, giver.getEmail(), studentRecipients);
     }
 
     @Test
