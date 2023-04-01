@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.time.Instant;
+
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 
 /**
@@ -13,6 +15,16 @@ public class DeadlineExtensionData extends ApiOutput {
     private final boolean isInstructor;
     private final boolean sentClosingEmail;
     private final long endTime;
+
+    public DeadlineExtensionData(String courseId, String feedbackSessionName,
+            String userEmail, boolean isInstructor, boolean sentClosingEmail, Instant endTime) {
+                this.courseId = courseId;
+                this.feedbackSessionName = feedbackSessionName;
+                this.userEmail = userEmail;
+                this.isInstructor = isInstructor;
+                this.sentClosingEmail = sentClosingEmail;
+                this.endTime = endTime.toEpochMilli();
+            }
 
     public DeadlineExtensionData(DeadlineExtensionAttributes deadlineExtension) {
         this.courseId = deadlineExtension.getCourseId();
