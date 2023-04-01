@@ -69,13 +69,18 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
      * Get DeadlineExtension by {@code userId} and {@code feedbackSessionId}.
      */
     public DeadlineExtension getDeadlineExtension(UUID userId, UUID feedbackSessionId) {
+        assert userId != null;
+        assert feedbackSessionId != null;
+
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
         Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
+        Join<DeadlineExtension, FeedbackSession> defsJoin = root.join("feedbackSession");
+        Join<DeadlineExtension, User> deUserJoin = root.join("user");
 
         cr.select(root).where(cb.and(
-                cb.equal(root.get("sessionId"), feedbackSessionId),
-                cb.equal(root.get("userId"), userId)));
+                cb.equal(defsJoin.get("id"), feedbackSessionId),
+                cb.equal(deUserJoin.get("id"), userId)));
 
         TypedQuery<DeadlineExtension> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);

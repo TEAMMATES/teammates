@@ -5,7 +5,6 @@ import java.time.Instant;
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.User;
 import teammates.ui.output.DeadlineExtensionData;
@@ -13,7 +12,7 @@ import teammates.ui.output.DeadlineExtensionData;
 /**
  * Gets deadline extension information.
 */
-class GetDeadlineExtensionAction extends Action {
+public class GetDeadlineExtensionAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -56,7 +55,7 @@ class GetDeadlineExtensionAction extends Action {
                     userEmail, isInstructor, false, deadlineExtensionEndTime));
         } else {
             DeadlineExtensionAttributes deadlineExtension =
-            logic.getDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
+                    logic.getDeadlineExtension(courseId, feedbackSessionName, userEmail, isInstructor);
 
             if (deadlineExtension == null) {
                 throw new EntityNotFoundException(

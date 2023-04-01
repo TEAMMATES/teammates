@@ -52,7 +52,7 @@ public final class DeadlineExtensionsLogic {
      */
     public Instant getExtendedDeadlineForUser(FeedbackSession feedbackSession, User user) {
         DeadlineExtension deadlineExtension =
-                deadlineExtensionsDb.getDeadlineExtension(feedbackSession.getId(), user.getId());
+                deadlineExtensionsDb.getDeadlineExtension(user.getId(), feedbackSession.getId());
         if (deadlineExtension == null) {
             return null;
         } else {

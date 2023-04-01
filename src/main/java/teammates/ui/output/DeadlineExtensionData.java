@@ -18,13 +18,13 @@ public class DeadlineExtensionData extends ApiOutput {
 
     public DeadlineExtensionData(String courseId, String feedbackSessionName,
             String userEmail, boolean isInstructor, boolean sentClosingEmail, Instant endTime) {
-                this.courseId = courseId;
-                this.feedbackSessionName = feedbackSessionName;
-                this.userEmail = userEmail;
-                this.isInstructor = isInstructor;
-                this.sentClosingEmail = sentClosingEmail;
-                this.endTime = endTime.toEpochMilli();
-            }
+        this.courseId = courseId;
+        this.feedbackSessionName = feedbackSessionName;
+        this.userEmail = userEmail;
+        this.isInstructor = isInstructor;
+        this.sentClosingEmail = sentClosingEmail;
+        this.endTime = endTime.toEpochMilli();
+    }
 
     public DeadlineExtensionData(DeadlineExtensionAttributes deadlineExtension) {
         this.courseId = deadlineExtension.getCourseId();
