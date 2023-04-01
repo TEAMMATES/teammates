@@ -106,6 +106,14 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Checks whether a giver has responded a session.
+     */
+    public boolean hasGiverRespondedForSession(String giver, String feedbackSessionName, String courseId) {
+
+        return frDb.hasResponsesFromGiverInSession(giver, feedbackSessionName, courseId);
+    }
+
+    /**
      * Creates a feedback response.
      * @return the created response
      * @throws InvalidParametersException if the response is not valid
@@ -160,14 +168,6 @@ public final class FeedbackResponsesLogic {
      */
     public boolean areThereResponsesForQuestion(UUID questionId) {
         return frDb.areThereResponsesForQuestion(questionId);
-    }
-
-    /**
-     * Checks whether a giver has responded a session.
-     */
-    public boolean hasGiverRespondedForSession(String giver, String feedbackSessionName, String courseId) {
-
-        return frDb.hasResponsesFromGiverInSession(giver, feedbackSessionName, courseId);
     }
 
     /**
