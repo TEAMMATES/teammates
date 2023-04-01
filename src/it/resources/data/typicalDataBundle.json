@@ -234,9 +234,6 @@
     },
     "student3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
       "course": {
         "id": "course-1"
       },
@@ -249,13 +246,16 @@
     },
     "student1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000604",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000004"
+      },
       "course": {
         "id": "idOfCourse2"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
-      "email": "student1@teammates.tmt",
+      "email": "student1@course2.tmt",
       "name": "student1 In Course2",
       "comments": ""
     },
@@ -798,7 +798,7 @@
           "INSTRUCTORS"
         ]
       },
-      "giver": "student1@teammates.tmt",
+      "giver": "student1@course2.tmt",
       "recipient": "student2@teammates.tmt",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000202"
