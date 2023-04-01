@@ -302,6 +302,16 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets a list of students for the specified course in specified batches.
+     */
+    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
+        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId, batchSize);
+        sortByName(studentReturnList);
+
+        return studentReturnList;
+    }
+
+    /**
      * Gets a list of unregistered students for the specified course.
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
@@ -315,16 +325,6 @@ public final class UsersLogic {
         }
 
         return unregisteredStudents;
-    }
-
-    /**
-     * Gets a list of students for the specified course in specified batches.
-     */
-    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
-        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId, batchSize);
-        sortByName(studentReturnList);
-
-        return studentReturnList;
     }
 
     /**
