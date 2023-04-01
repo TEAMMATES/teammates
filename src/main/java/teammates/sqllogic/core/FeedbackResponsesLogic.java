@@ -347,7 +347,7 @@ public final class FeedbackResponsesLogic {
      * <p>If the giver/recipient field is changed, the response is updated by recreating the response
      * as question-giver-recipient is the primary key.
      */
-    private void updateFeedbackResponse(FeedbackResponse feedbackResponse)
+    void updateFeedbackResponse(FeedbackResponse feedbackResponse)
             throws EntityAlreadyExistsException, EntityDoesNotExistException, InvalidParametersException {
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
         if (oldResponse == null) {
