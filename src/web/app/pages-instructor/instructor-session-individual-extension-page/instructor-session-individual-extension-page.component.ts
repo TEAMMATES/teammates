@@ -450,6 +450,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(by));
   }
 
+  getAriaSortStudent(by: SortBy): String {
+    if (by !== this.sortStudentsBy) {
+      return 'none';
+    }
+    return this.sortStudentOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   private resetTables(): void {
     this.isAllInstructorsSelected = false;
     this.isAllStudentsSelected = false;
@@ -494,6 +501,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.sortInstructorsBy = by;
     this.sortInstructorOrder = this.sortInstructorOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(by));
+  }
+
+  getAriaSortInstructor(by: SortBy): String {
+    if (by !== this.sortInstructorsBy) {
+      return 'none';
+    }
+    return this.sortInstructorOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
   private sortInstructorPanelsBy(

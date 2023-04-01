@@ -31,79 +31,103 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             class="bg-primary text-white"
           >
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Title 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Title 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Start Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Start Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               End Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 End Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Target User 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Target User 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Style 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Style 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="descending"
               class="sortable-header"
             >
-               Creation Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-                <i
-                  class="fas fa-sort-down"
-                />
-              </span>
+              <button>
+                 Creation Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                  <i
+                    class="fas fa-sort-down"
+                  />
+                </span>
+              </button>
             </th>
             <th>
               Actions
@@ -282,79 +306,103 @@ exports[`NotificationsTableComponent should snap like in notification page with 
             class="bg-primary text-white"
           >
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Title 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Title 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="descending"
               class="sortable-header"
             >
-               Start Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-                <i
-                  class="fas fa-sort-down"
-                />
-              </span>
+              <button>
+                 Start Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                  <i
+                    class="fas fa-sort-down"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               End Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 End Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Target User 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Target User 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Style 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Style 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Creation Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Creation Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th>
               Actions
@@ -533,79 +581,103 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
             class="bg-primary text-white"
           >
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Title 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Title 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Start Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Start Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               End Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 End Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Target User 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Target User 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="none"
               class="sortable-header"
             >
-               Style 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-              </span>
+              <button>
+                 Style 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+              </button>
             </th>
             <th
+              aria-sort="descending"
               class="sortable-header"
             >
-               Creation Time 
-              <span
-                class="fa-stack"
-              >
-                <i
-                  class="fas fa-sort"
-                />
-                <i
-                  class="fas fa-sort-down"
-                />
-              </span>
+              <button>
+                 Creation Time 
+                <span
+                  aria-hidden="true"
+                  class="fa-stack"
+                >
+                  <i
+                    class="fas fa-sort"
+                  />
+                  <i
+                    class="fas fa-sort-down"
+                  />
+                </span>
+              </button>
             </th>
             <th>
               Actions
