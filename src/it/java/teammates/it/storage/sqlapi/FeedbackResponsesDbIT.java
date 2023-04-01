@@ -67,7 +67,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("student with no responses");
         boolean actualHasReponses2 =
-                frDb.hasResponsesFromGiverInSession("student3@teammates.tmt", fs.getName(), course.getId());
+                frDb.hasResponsesFromGiverInSession("studentnorespones@teammates.tmt", fs.getName(), course.getId());
 
         assertFalse(actualHasReponses2);
     }
