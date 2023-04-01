@@ -103,6 +103,13 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
     return model.questionsTableRowModelsSortBy === by && model.questionsTableRowModelsSortOrder === order;
   }
 
+  getAriaSort(model: FeedbackSessionTabModel, by: SortBy): String {
+    if (model.questionsTableRowModelsSortBy !== by) {
+      return 'none';
+    }
+    return model.questionsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   /**
    * Sorts the list of feedback sessions.
    */
