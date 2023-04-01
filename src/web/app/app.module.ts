@@ -175,8 +175,10 @@ if (environment.maintenance) {
     FormsModule,
     NgbDatepickerModule,
     SessionEditFormModule,
-    environment.firebaseConfig?.projectId ? AngularFireModule.initializeApp(environment.firebaseConfig) : [],
-    environment.firebaseConfig?.projectId ? AngularFireAuthModule : [],
+    environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
+        ? AngularFireModule.initializeApp(environment.firebaseConfig) : [],
+    environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
+        ? AngularFireAuthModule : [],
   ],
   providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],

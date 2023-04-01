@@ -45,6 +45,10 @@ export class LoginPageComponent implements OnInit {
               private statusMessageService: StatusMessageService) {}
 
   ngOnInit(): void {
+    if (!environment.allowFirebaseLogin) {
+      // Redirect to home page if Firebase login is not supported
+      window.location.href = '/';
+    }
     this.isPageLoading = true;
 
     this.formLogin = this.formBuilder.group({

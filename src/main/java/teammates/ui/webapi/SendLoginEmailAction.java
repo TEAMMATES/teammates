@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -26,6 +27,10 @@ class SendLoginEmailAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
+        if (!Config.isUsingFirebase()) {
+            throw new InvalidOperationException("Login using email link is not supported");
+        }
+
         String userEmail = getNonNullRequestParamValue(Const.ParamsNames.USER_EMAIL);
         if (!StringHelper.isMatching(userEmail, REGEX_EMAIL)) {
             throw new InvalidHttpParameterException("Invalid email address: " + userEmail);
