@@ -42,14 +42,11 @@ class SendLoginEmailAction extends Action {
                     + "failed. Please try again."));
         }
 
-        String continueUrl = getRequestParamValue(Const.ParamsNames.CONTINUE_URL);
-        String loginLink = "";
-        if (continueUrl != null) {
-            loginLink = authProxy.generateLoginLink(userEmail, continueUrl);
-            if (loginLink == null) {
-                return new JsonResult(new SendLoginEmailResponseData(false, "An error occurred. "
-                        + "The email could not be generated."));
-            }
+        String continueUrl = getNonNullRequestParamValue(Const.ParamsNames.CONTINUE_URL);
+        String loginLink = authProxy.generateLoginLink(userEmail, continueUrl);
+        if (loginLink == null) {
+            return new JsonResult(new SendLoginEmailResponseData(false, "An error occurred. "
+                    + "The email could not be generated."));
         }
 
         EmailWrapper loginEmail = emailGenerator.generateLoginEmail(userEmail, loginLink);

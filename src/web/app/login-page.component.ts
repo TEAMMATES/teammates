@@ -162,7 +162,7 @@ export class LoginPageComponent implements OnInit {
 
     this.authService.sendLoginEmail({
       userEmail: loginForm.controls['email'].value,
-      continueUrl: `${this.backendUrl}/web/login${window.location.search}`,
+      continueUrl: `${window.location.origin}/web/login${window.location.search}`,
       captchaResponse: this.captchaResponse,
     }).pipe(finalize(() => {
       this.isLoggingInWithEmail = false;

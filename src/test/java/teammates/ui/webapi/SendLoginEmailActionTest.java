@@ -27,6 +27,7 @@ public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailActio
         ______TS("Invalid parameters");
         // no params
         verifyHttpParameterFailure();
+        verifyHttpParameterFailure(Const.ParamsNames.USER_EMAIL, "test@example.com");
     }
 
     @Test
@@ -46,6 +47,7 @@ public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailActio
 
         String[] loginParams = new String[] {
                 Const.ParamsNames.USER_EMAIL, "test@example.com",
+                Const.ParamsNames.CONTINUE_URL, "http://localhost:4200",
         };
 
         SendLoginEmailAction a = getAction(loginParams);
