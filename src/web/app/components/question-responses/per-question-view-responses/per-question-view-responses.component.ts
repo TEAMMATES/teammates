@@ -114,6 +114,13 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     this.responsesToShow.sort(this.sortResponsesBy(by, this.sortOrder));
   }
 
+  getAriaSort(by: SortBy): String {
+    if (by !== this.sortBy) {
+      return 'none';
+    }
+    return this.sortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   sortResponsesBy(by: SortBy, order: SortOrder):
     ((a: ResponseOutput, b: ResponseOutput) => number) {
     if (by === SortBy.NONE) {
