@@ -25,6 +25,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.LogicExtension;
+import teammates.logic.api.MockAuthProxy;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
@@ -56,6 +57,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
+    MockAuthProxy mockAuthProxy = new MockAuthProxy();
 
     abstract String getActionUri();
 
@@ -101,6 +103,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             action.setLogsProcessor(mockLogsProcessor);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
+            action.setAuthProxy(mockAuthProxy);
             action.init(req);
             return action;
         } catch (ActionMappingException e) {

@@ -125,6 +125,13 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
     this.courses.sort(this.sortCoursesBy(by));
   }
 
+  getAriaSort(course: CourseTabModel, by: SortBy): String {
+    if (course.instructorCandidatesSortBy !== by) {
+      return 'none';
+    }
+    return course.instructorCandidatesSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   /**
    * Sorts the list of instructors for a course.
    */

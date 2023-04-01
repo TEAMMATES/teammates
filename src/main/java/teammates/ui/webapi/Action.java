@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.AuthProxy;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
@@ -42,6 +43,7 @@ public abstract class Action {
     EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
     LogsProcessor logsProcessor = LogsProcessor.inst();
+    AuthProxy authProxy = AuthProxy.inst();
 
     HttpServletRequest req;
     UserInfo userInfo;
@@ -78,6 +80,10 @@ public abstract class Action {
 
     public void setLogsProcessor(LogsProcessor logsProcessor) {
         this.logsProcessor = logsProcessor;
+    }
+
+    public void setAuthProxy(AuthProxy authProxy) {
+        this.authProxy = authProxy;
     }
 
     /**
