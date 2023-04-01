@@ -59,4 +59,11 @@ public final class FeedbackResponseCommentsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         return frcDb.createFeedbackResponseComment(frc);
     }
+
+    /**
+     * Deletes a feedbackResponseComment.
+     */
+    public void deleteFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
+        frcDb.deleteFeedbackResponseComment(feedbackResponseComment);
+    }
 }

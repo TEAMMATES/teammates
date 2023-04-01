@@ -816,10 +816,26 @@ public class Logic {
     }
 
     /**
+     * Gets an feedback response comment by feedback response comment id.
+     * @param id of feedback response comment.
+     * @return the specified feedback response comment.
+     */
+    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseComment(id);
+    }
+
+    /**
      * Gets the comment associated with the response.
      */
     public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
             UUID feedbackResponseId) {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+    }
+
+    /**
+     * Deletes a feedbackResponseComment.
+     */
+    public void deleteFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
     }
 }
