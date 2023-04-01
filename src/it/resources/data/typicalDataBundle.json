@@ -410,9 +410,6 @@
       "id": "00000000-0000-4000-8000-000000000901",
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000801",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000701"
-        },
         "questionDetails": {
           "questionType": "TEXT",
           "questionText": "What is the best selling point of your product?"
@@ -435,9 +432,6 @@
       "id": "00000000-0000-4000-8000-000000000902",
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000801",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000701"
-        },
         "questionDetails": {
           "questionType": "TEXT",
           "questionText": "What is the best selling point of your product?"
@@ -461,16 +455,6 @@
     "comment1ToResponse1ForQ1": {
       "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000901",
-        "feedbackQuestion": {
-          "id": "00000000-0000-4000-8000-000000000801",
-          "feedbackSession": {
-            "id": "00000000-0000-4000-8000-000000000701"
-          },
-          "questionDetails": {
-            "questionType": "TEXT",
-            "questionText": "What is the best selling point of your product?"
-          }
-        },
         "answer": {
           "questionType": "TEXT",
           "answer": "Student 1 self feedback."
@@ -494,16 +478,6 @@
     "comment2ToResponse2ForQ1": {
       "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000902",
-        "feedbackQuestion": {
-          "id": "00000000-0000-4000-8000-000000000801",
-          "feedbackSession": {
-            "id": "00000000-0000-4000-8000-000000000701"
-          },
-          "questionDetails": {
-            "questionType": "TEXT",
-            "questionText": "What is the best selling point of your product?"
-          }
-        },
         "answer": {
           "questionType": "TEXT",
           "answer": "Student 2 self feedback."
