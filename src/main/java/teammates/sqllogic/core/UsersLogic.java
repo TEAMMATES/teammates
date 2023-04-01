@@ -420,20 +420,16 @@ public final class UsersLogic {
         feedbackResponsesLogic
                 .deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
 
-        if (usersDb.getStudentCountForTeam(student.getTeam().getName(), student.getCourseId()) == 1) {
+        if (usersDb.getStudentCountForTeam(student.getTeamName(), student.getCourseId()) == 1) {
             // the student is the only student in the team, delete responses related to the team
             feedbackResponsesLogic
                     .deleteFeedbackResponsesInvolvedEntityOfCourseCascade(
-                        student.getCourse().getId(), student.getTeam().getName());
+                        student.getCourse().getId(), student.getTeamName());
         }
 
         usersDb.deleteUser(student);
         feedbackSessionsLogic.deleteFeedbackSessionsDeadlinesForUser(courseId, studentEmail);
 
-        updateStudentResponsesAfterDeletion(courseId);
-    }
-
-    private void updateStudentResponsesAfterDeletion(String courseId) {
         feedbackResponsesLogic.updateFeedbackResponsesForDeletingStudent(courseId);
     }
 

@@ -150,7 +150,7 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestion question, Student student) {
         if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
             return getFeedbackResponsesFromTeamForQuestion(
-                    question.getId(), question.getCourseId(), student.getTeam().getName(), null);
+                    question.getId(), question.getCourseId(), student.getTeamName(), null);
         }
         return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
     }
@@ -256,11 +256,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Updates the relevant responses before the deletion of a student.
      * This method takes care of the following:
-     * <ul>
-     *     <li>
-     *         Making existing responses of 'rank recipient question' consistent.
-     *     </li>
-     * </ul>
+     * Making existing responses of 'rank recipient question' consistent.
      */
     public void updateFeedbackResponsesForDeletingStudent(String courseId) {
         updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
@@ -360,18 +356,6 @@ public final class FeedbackResponsesLogic {
 
         if (feedbackResponse.getRecipient().equals(oldResponse.getRecipient())
                 && feedbackResponse.getGiver().equals(oldResponse.getGiver())) {
-            // update only if change
-            boolean hasSameAttributes =
-                    oldResponse.getGiverSection().getName().equals(feedbackResponse.getGiverSection().getName())
-                    && oldResponse.getRecipientSection().getName()
-                            .equals(feedbackResponse.getRecipientSection().getName())
-                    && ((FeedbackRankRecipientsResponse) oldResponse).getAnswer()
-                            .equals(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
-
-            if (hasSameAttributes) {
-                return;
-            }
-
             oldResponse.setGiverSection(feedbackResponse.getGiverSection());
             oldResponse.setRecipientSection(feedbackResponse.getRecipientSection());
             ((FeedbackRankRecipientsResponse) oldResponse)
@@ -379,8 +363,6 @@ public final class FeedbackResponsesLogic {
 
             frDb.updateFeedbackResponse(oldResponse);
         } else {
-            // need to recreate the entity
-            frDb.createFeedbackResponse(feedbackResponse);
             frDb.deleteFeedbackResponse(oldResponse);
         }
     }
