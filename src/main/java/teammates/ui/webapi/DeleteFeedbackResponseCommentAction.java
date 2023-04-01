@@ -156,20 +156,24 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
         FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
 
-        String courseId = null;
+        JsonResult successfulJsonResult = new JsonResult("Successfully deleted feedback response comment.");
+
+        String courseId;
         if (frc != null) {
             courseId = frc.getCourseId();
         } else if (comment != null) {
             courseId = comment.getFeedbackResponse().getFeedbackQuestion().getCourseId();
+        } else {
+            return successfulJsonResult;
         }
 
-        if (isCourseMigrated(courseId) && comment != null) {
+        if (isCourseMigrated(courseId)) {
             sqlLogic.deleteFeedbackResponseComment(comment);
-        } else if (!isCourseMigrated(courseId) && frc != null) {
+        } else {
             logic.deleteFeedbackResponseComment(feedbackResponseCommentId);
         }
 
-        return new JsonResult("Successfully deleted feedback response comment.");
+        return successfulJsonResult;
     }
 
 }
