@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -27,7 +26,7 @@ class SendLoginEmailAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        if (!Config.isUsingFirebase()) {
+        if (!authProxy.isLoginEmailEnabled()) {
             throw new InvalidOperationException("Login using email link is not supported");
         }
 

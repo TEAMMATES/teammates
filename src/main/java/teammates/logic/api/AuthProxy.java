@@ -46,4 +46,11 @@ public class AuthProxy {
         return service.generateLoginLink(userEmail, continueUrl);
     }
 
+    /**
+     * Indicates whether login email is to be enabled.
+     */
+    public boolean isLoginEmailEnabled() {
+        return !Config.ENABLE_DEVSERVER_LOGIN && Config.isUsingFirebase();
+    }
+
 }

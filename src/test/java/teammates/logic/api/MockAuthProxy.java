@@ -10,4 +10,10 @@ public class MockAuthProxy extends AuthProxy {
         return "";
     }
 
+    @Override
+    public boolean isLoginEmailEnabled() {
+        // Set to true for testing
+        return true;
+    }
+
 }
