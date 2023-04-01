@@ -1,7 +1,5 @@
 package teammates.logic.external;
 
-import teammates.common.exception.AuthException;
-
 /**
  * Interface that provides authentication-related services.
  */
@@ -14,11 +12,5 @@ public interface AuthService {
      * @return null if error occurs while generating the login link.
      */
     String generateLoginLink(String userEmail, String continueUrl);
-
-    /**
-     * Deletes user with the specified {@code userEmail}.
-     * @throws AuthException if error occurs while deleting the user.
-     */
-    void deleteUser(String userEmail) throws AuthException;
 
 }

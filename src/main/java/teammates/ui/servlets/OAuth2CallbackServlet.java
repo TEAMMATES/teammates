@@ -15,6 +15,7 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -136,9 +137,12 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (idToken == null) {
             return null;
         } else {
+            FirebaseAuth instance = FirebaseAuth.getInstance();
             try {
-                email = FirebaseAuth.getInstance().verifyIdToken(idToken).getEmail();
-                // TODO delete the user immediately as we do not need to keep user info
+                FirebaseToken userToken = instance.verifyIdToken(idToken);
+                email = userToken.getEmail();
+                // Delete the user immediately as we do not need to keep user info
+                instance.deleteUser(userToken.getUid());
             } catch (FirebaseAuthException e) {
                 log.warning("Invalid user ID token", e);
             }

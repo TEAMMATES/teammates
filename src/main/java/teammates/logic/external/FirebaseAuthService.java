@@ -7,10 +7,8 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.ActionCodeSettings;
-import com.google.firebase.auth.AuthErrorCode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
 
 import teammates.common.exception.AuthException;
 import teammates.common.util.FileHelper;
@@ -50,22 +48,6 @@ public class FirebaseAuthService implements AuthService {
         } catch (IllegalArgumentException | FirebaseAuthException e) {
             log.severe(e.getMessage());
             return null;
-        }
-    }
-
-    @Override
-    public void deleteUser(String userEmail) throws AuthException {
-        try {
-            UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(userEmail);
-            FirebaseAuth.getInstance().deleteUser(userRecord.getUid());
-        } catch (IllegalArgumentException e) {
-            log.severe(e.getMessage());
-            throw new AuthException(e);
-        } catch (FirebaseAuthException e) {
-            if (!AuthErrorCode.USER_NOT_FOUND.toString().equals(e.getErrorCode().toString())) {
-                log.severe(e.getMessage());
-                throw new AuthException(e);
-            }
         }
     }
 
