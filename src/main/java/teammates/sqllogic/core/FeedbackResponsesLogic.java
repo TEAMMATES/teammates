@@ -360,8 +360,6 @@ public final class FeedbackResponsesLogic {
             oldResponse.setRecipientSection(feedbackResponse.getRecipientSection());
             ((FeedbackRankRecipientsResponse) oldResponse)
                     .setAnswer(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
-
-            frDb.updateFeedbackResponse(oldResponse);
         } else {
             frDb.deleteFeedbackResponse(oldResponse);
         }
