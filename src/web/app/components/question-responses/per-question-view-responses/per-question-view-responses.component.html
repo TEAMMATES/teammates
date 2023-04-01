@@ -2,37 +2,45 @@
   <table id="response-table" class="table table-bordered">
     <thead>
       <tr class="header">
-        <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_TEAM)" *ngIf="showGiver">
-          Team
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
+        <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_TEAM)" *ngIf="showGiver" [attr.aria-sort]="getAriaSort(SortBy.GIVER_TEAM)">
+          <button>
+            Team
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+              <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+            </span>
+          </button>
         </th>
-        <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_NAME)" *ngIf="showGiver">
-          Giver
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
+        <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_NAME)" *ngIf="showGiver" [attr.aria-sort]="getAriaSort(SortBy.GIVER_NAME)">
+          <button>
+            Giver
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+              <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+            </span>
+          </button>
         </th>
-        <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_TEAM)" *ngIf="showRecipient">
-          Team
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
+        <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_TEAM)" *ngIf="showRecipient" [attr.aria-sort]="getAriaSort(SortBy.RECIPIENT_TEAM)">
+          <button>
+            Team
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+              <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+            </span>
+          </button>
         </th>
-        <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_NAME)" *ngIf="showRecipient">
-          Recipient
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
+        <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_NAME)" *ngIf="showRecipient" [attr.aria-sort]="getAriaSort(SortBy.RECIPIENT_NAME)">
+          <button>
+            Recipient
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+              <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+            </span>
+          </button>
         </th>
         <th>Response</th>
         <th *ngIf="canResponseHasComment">Comment for Response</th>

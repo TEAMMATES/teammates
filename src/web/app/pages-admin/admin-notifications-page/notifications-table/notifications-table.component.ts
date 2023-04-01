@@ -48,6 +48,13 @@ export class NotificationsTableComponent {
     this.sortNotificationsTableRowModelsEvent.emit(by);
   }
 
+  getAriaSort(by: SortBy): String {
+    if (by !== this.notificationsTableRowModelsSortBy) {
+      return 'none';
+    }
+    return this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   /**
    * Deletes a notification based on its ID.
    */

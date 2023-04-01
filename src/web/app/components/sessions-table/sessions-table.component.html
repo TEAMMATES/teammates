@@ -2,37 +2,45 @@
   <table class="sessions-table table table-responsive-lg table-striped table-bordered margin-bottom-0">
     <thead>
     <tr [ngClass]="{ 'bg-primary text-white': headerColorScheme === SessionsTableHeaderColorScheme.BLUE }">
-      <th class="sort-course-id sortable-header" (click)="sortSessionsTableRowModels(SortBy.COURSE_ID)" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">
-        Course ID
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
-          <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
-        </span>
+      <th class="sort-course-id sortable-header" (click)="sortSessionsTableRowModels(SortBy.COURSE_ID)" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)" [attr.aria-sort]="getAriaSort(SortBy.COURSE_ID)">
+        <button>
+          Course ID
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
+        </button>
       </th>
-      <th class="sort-session-name sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_NAME)">
-        Session Name
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
-          <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
-        </span>
+      <th class="sort-session-name sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_NAME)" [attr.aria-sort]="getAriaSort(SortBy.SESSION_NAME)">
+        <button>
+          Session Name
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
+        </button>
       </th>
-      <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_START_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
-        Start Date
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
-          <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
-        </span>
+      <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_START_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)" [attr.aria-sort]="getAriaSort(SortBy.SESSION_START_DATE)">
+        <button>
+          Start Date
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
+        </button>
       </th>
-      <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_END_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
-        End Date
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
-          <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
-        </span>
+      <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_END_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)" [attr.aria-sort]="getAriaSort(SortBy.SESSION_END_DATE)">
+        <button>
+          End Date
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
+        </button>
       </th>
       <th>Submissions</th>
       <th>Responses</th>

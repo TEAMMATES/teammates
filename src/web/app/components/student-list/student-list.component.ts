@@ -127,4 +127,11 @@ export class StudentListComponent {
   sortStudentList(by: SortBy): void {
     this.sortStudentListEvent.emit(by);
   }
+
+  getAriaSort(by: SortBy): String {
+    if (by !== this.tableSortBy) {
+      return 'none';
+    }
+    return this.tableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
 }

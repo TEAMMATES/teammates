@@ -30,37 +30,45 @@
                   <thead [ngClass]="{'bg-primary text-white': !course.isArchived, 'bg-info': course.isArchived}">
                     <tr>
                       <th>#</th>
-                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_NAME)">
-                        Instructor Name
-                        <span class="fa-stack">
-                          <i class="fas fa-sort"></i>
-                          <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_NAME, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                          <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_NAME, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                        </span>
+                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_NAME)" [attr.aria-sort]="getAriaSort(course, SortBy.RESPONDENT_NAME)">
+                        <button>
+                          Instructor Name
+                          <span class="fa-stack" aria-hidden="true">
+                            <i class="fas fa-sort"></i>
+                            <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_NAME, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                            <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_NAME, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                          </span>
+                        </button>
                       </th>
-                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_EMAIL)">
-                        Instructor Email
-                        <span class="fa-stack">
-                          <i class="fas fa-sort"></i>
-                          <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_EMAIL, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                          <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_EMAIL, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                        </span>
+                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_EMAIL)" [attr.aria-sort]="getAriaSort(course, SortBy.RESPONDENT_EMAIL)">
+                        <button>
+                          Instructor Email
+                          <span class="fa-stack" aria-hidden="true">
+                            <i class="fas fa-sort"></i>
+                            <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_EMAIL, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                            <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_EMAIL, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                          </span>
+                        </button>
                       </th>
-                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT)">
-                        Displayed to Student As
-                        <span class="fa-stack">
-                          <i class="fas fa-sort"></i>
-                          <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                          <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                        </span>
+                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT)" [attr.aria-sort]="getAriaSort(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT)">
+                        <button>
+                          Displayed to Student As
+                          <span class="fa-stack" aria-hidden="true">
+                            <i class="fas fa-sort"></i>
+                            <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                            <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                          </span>
+                        </button>
                       </th>
-                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.INSTRUCTOR_PERMISSION_ROLE)">
-                        Access Level
-                        <span class="fa-stack">
-                          <i class="fas fa-sort"></i>
-                          <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_PERMISSION_ROLE, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                          <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_PERMISSION_ROLE, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                        </span>
+                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.INSTRUCTOR_PERMISSION_ROLE)" [attr.aria-sort]="getAriaSort(course, SortBy.INSTRUCTOR_PERMISSION_ROLE)">
+                        <button>
+                          Access Level
+                          <span class="fa-stack" aria-hidden="true">
+                            <i class="fas fa-sort"></i>
+                            <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_PERMISSION_ROLE, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                            <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_PERMISSION_ROLE, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                          </span>
+                        </button>
                       </th>
                     </tr>
                   </thead>

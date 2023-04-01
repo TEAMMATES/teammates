@@ -5,45 +5,55 @@
         [hidden]="isHideTableHead"
     >
     <tr>
-      <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentList(SortBy.SECTION_NAME)">
-        Section
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentList(SortBy.SECTION_NAME)" [attr.aria-sort]="getAriaSort(SortBy.SECTION_NAME)">
+        <button>
+          Section
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.TEAM_NAME)">
-        Team
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sortable-header" (click)="sortStudentList(SortBy.TEAM_NAME)" [attr.aria-sort]="getAriaSort(SortBy.TEAM_NAME)">
+        <button>
+          Team
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
-      <th class="sort-by-name sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)">
-        Student Name
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sort-by-name sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)" [attr.aria-sort]="getAriaSort(SortBy.RESPONDENT_NAME)">
+        <button>
+          Student Name
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
-      <th class="sort-by-status sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)">
-        Status
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sort-by-status sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)" [attr.aria-sort]="getAriaSort(SortBy.JOIN_STATUS)">
+        <button>
+          Status
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_EMAIL)">
-        Email
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_EMAIL)" [attr.aria-sort]="getAriaSort(SortBy.RESPONDENT_EMAIL)">
+        <button>
+          Email
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
       <th class="align-center">Action(s)</th>
     </tr>
