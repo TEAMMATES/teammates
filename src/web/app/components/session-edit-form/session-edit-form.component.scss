@@ -49,7 +49,6 @@
 
 .session-heading-text {
   display: flex;
-  text-align: left;
 
   @media (max-width: 768px) {
     width: 120px;
@@ -62,8 +61,4 @@
   @media (max-width: 576px) {
     margin-bottom: .5rem;
   }
-}
-
-#btn-copy-session {
-  white-space: nowrap;
 }

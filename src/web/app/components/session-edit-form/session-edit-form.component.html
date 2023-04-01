@@ -13,7 +13,7 @@
             <select id="session-type" class="form-control form-select" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
               <option *ngFor="let templateSession of templateSessions" [ngValue]="templateSession.name">{{ templateSession.name }}</option>
             </select>
-            <a type="button" class="btn btn-link session-selector-info-btn" tmRouterLink="/web/instructor/help" [queryParams]="{ questionId: 'sessions', section: 'sessions' }" target="_blank" aria-label="Help for feedback sessions"><i class="fas fa-info-circle"></i></a>
+            <a type="button" class="btn btn-link" tmRouterLink="/web/instructor/help" [queryParams]="{ questionId: 'sessions', section: 'sessions' }" target="_blank" aria-label="Help for feedback sessions"><i class="fas fa-info-circle"></i></a>
           </div>
         </div>
       </div>

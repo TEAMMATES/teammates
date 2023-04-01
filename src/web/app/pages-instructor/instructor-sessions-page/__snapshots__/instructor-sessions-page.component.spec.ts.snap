@@ -463,7 +463,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     </select>
                     <a
                       aria-label="Help for feedback sessions"
-                      class="btn btn-link session-selector-info-btn"
+                      class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
                       tmrouterlink="/web/instructor/help"
