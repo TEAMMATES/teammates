@@ -112,6 +112,35 @@ public class FeedbackSession extends BaseEntity {
         this.setPublishedEmailEnabled(isPublishedEmailEnabled);
     }
 
+    /**
+     * Creates a copy that uses the specific deadline for the given user.
+     *
+     * @param userEmail The email address of the given user.
+     * @return The copy of this object for the given user.
+     */
+    public FeedbackSession getCopyForUser(String userEmail) {
+        FeedbackSession copy = getCopy();
+        for (DeadlineExtension de : copy.getDeadlineExtensions()) {
+            if (!de.getUser().getEmail().equals(userEmail)) {
+                de.setEndTime(copy.getEndTime());
+            }
+        }
+        return copy;
+    }
+
+    private FeedbackSession getCopy() {
+        FeedbackSession fs = new FeedbackSession(
+                name, course, creatorEmail, instructions, startTime,
+                endTime, sessionVisibleFromTime, resultsVisibleFromTime,
+                gracePeriod, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled
+        );
+
+        fs.setCreatedAt(getCreatedAt());
+        fs.setDeletedAt(getDeletedAt());
+
+        return fs;
+    }
+
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
