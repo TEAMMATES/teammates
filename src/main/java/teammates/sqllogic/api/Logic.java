@@ -957,6 +957,14 @@ public class Logic {
     }
 
     /**
+     * Gets a feedback response by feedbackQuestionId, giver and recipient.
+     */
+    public FeedbackResponse getFeedbackResponse(
+            UUID feedbackQuestionId, String giver, String recipient) {
+        return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giver, recipient);
+    }
+
+    /**
      * Creates a feedback response.
      *
      * <br/>Preconditions: <br/>
