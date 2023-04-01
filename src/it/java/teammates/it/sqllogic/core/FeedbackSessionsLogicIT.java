@@ -1,5 +1,8 @@
 package teammates.it.sqllogic.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -37,6 +40,20 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         persistDataBundle(typicalDataBundle);
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
+    }
+
+    @Test
+    public void testGiverSetThatAnsweredFeedbackQuestion_hasGivers_findsGivers() {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        Set<String> expectedGivers = new HashSet<>();
+
+        expectedGivers.add(typicalDataBundle.students.get("student1InCourse1").getEmail());
+        expectedGivers.add(typicalDataBundle.students.get("student2InCourse1").getEmail());
+        expectedGivers.add(typicalDataBundle.students.get("student3InCourse1").getEmail());
+
+        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getName(), fs.getCourse().getId());
+        assertEquals(expectedGivers.size(), givers.size());
+        assertEquals(expectedGivers, givers);
     }
 
     @Test

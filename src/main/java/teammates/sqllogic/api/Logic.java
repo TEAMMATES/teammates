@@ -3,6 +3,7 @@ package teammates.sqllogic.api;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -306,6 +307,16 @@ public class Logic {
     }
 
     /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Creates a feedback session.
      *
      * @return returns the created feedback session.
@@ -323,15 +334,6 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
         return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
-    }
-
-    /**
-     * Checks whether a student has attempted a feedback session.
-     *
-     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
-     */
-    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession fs, String userEmail, String userTeam) {
-        return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(fs, userEmail, userTeam);
     }
 
     /**
@@ -359,6 +361,24 @@ public class Logic {
         assert courseId != null;
 
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Checks whether a student has attempted a feedback session.
+     *
+     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(session, userEmail, userTeam);
+    }
+
+    /**
+     * Checks whether an instructor has attempted a feedback session.
+     *
+     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByInstructor(session, userEmail);
     }
 
     /**
@@ -596,6 +616,16 @@ public class Logic {
     }
 
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<Student> getUnregisteredStudentsForCourse(String courseId) {
+        assert courseId != null;
+        return usersLogic.getUnregisteredStudentsForCourse(courseId);
+    }
+
+    /**
      * Gets a student by associated {@code regkey}.
      */
     public Student getStudentByRegistrationKey(String regKey) {
@@ -764,6 +794,13 @@ public class Logic {
         assert question != null;
 
         return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
+    }
+
+    /**
+     * Gets a feedbackResponse or null if it does not exist.
+     */
+    public FeedbackResponse getFeedbackResponse(UUID frId) {
+        return feedbackResponsesLogic.getFeedbackResponse(frId);
     }
 
     /**

@@ -46,6 +46,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets a feedbackResponse or null if it does not exist.
+     */
+    public FeedbackResponse getFeedbackResponse(UUID frId) {
+        return frDb.getFeedbackResponse(frId);
+    }
+
+    /**
      * Returns true if the responses of the question are visible to students.
      */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestion question) {
@@ -77,6 +84,25 @@ public final class FeedbackResponsesLogic {
      */
     public boolean isResponseOfFeedbackQuestionVisibleToInstructor(FeedbackQuestion question) {
         return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    /**
+     * Checks whether a giver has responded a session.
+     */
+    public boolean hasGiverRespondedForSession(String giverIdentifier, List<FeedbackQuestion> questions) {
+        assert questions != null;
+
+        for (FeedbackQuestion question : questions) {
+            boolean hasResponse = question
+                    .getFeedbackResponses()
+                    .stream()
+                    .anyMatch(response -> response.getGiver().equals(giverIdentifier));
+            if (hasResponse) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -126,7 +152,6 @@ public final class FeedbackResponsesLogic {
 
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
                                         feedbackQuestionId, teamName));
-
         return responses;
     }
 
