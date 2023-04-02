@@ -194,6 +194,43 @@ public class Logic {
     }
 
     /**
+     * Gets courses associated with student.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<Course> getCoursesForStudentAccount(String googleId) {
+        assert googleId != null;
+
+        return coursesLogic.getCoursesForStudentAccount(googleId);
+    }
+
+    /**
+     * Gets courses associated with instructors.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Courses the given instructors is in except for courses in Recycle Bin.
+     */
+    public List<Course> getCoursesForInstructors(List<Instructor> instructorsList) {
+        assert instructorsList != null;
+
+        return coursesLogic.getCoursesForInstructors(instructorsList);
+    }
+
+    /**
+     * Gets courses associated with instructors that are soft deleted.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Courses in Recycle Bin that the given instructors is in.
+     */
+    public List<Course> getSoftDeletedCoursesForInstructors(List<Instructor> instructorsList) {
+        assert instructorsList != null;
+
+        return coursesLogic.getSoftDeletedCoursesForInstructors(instructorsList);
+    }
+
+    /**
      * Creates a course.
      * @param course the course to create.
      * @return the created course.

@@ -9,6 +9,9 @@ import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.sqllogic.core.CoursesLogic;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 
@@ -38,18 +41,87 @@ class GetCoursesAction extends Action {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
         case Const.EntityType.STUDENT:
-            return getStudentCourses();
+            if (!isAccountMigrated(userInfo.id)) {
+                return getStudentCourses();
+            }
+
+            return getSqlStudentCourses();
         case Const.EntityType.INSTRUCTOR:
-            return getInstructorCourses();
+            if (!isAccountMigrated(userInfo.id)) {
+                return getInstructorCourses();
+            }
+
+            return getSqlInstructorCourses();
         default:
             throw new InvalidHttpParameterException("Error: invalid entity type");
         }
     }
 
-    private JsonResult getStudentCourses() {
-        List<CourseAttributes> courses = logic.getCoursesForStudentAccount(userInfo.id);
+    private JsonResult getSqlStudentCourses() {
+        List<Course> courses = sqlLogic.getCoursesForStudentAccount(userInfo.id);
         CoursesData coursesData = new CoursesData(courses);
         coursesData.getCourses().forEach(CourseData::hideInformationForStudent);
+        return new JsonResult(coursesData);
+    }
+
+    private JsonResult getStudentCourses() {
+        List<CourseAttributes> courses = logic.getCoursesForStudentAccount(userInfo.id);
+        List<CourseData> courseDataList =
+                courses.stream().map(CourseData::new).collect(Collectors.toList());
+        CoursesData coursesData = new CoursesData();
+
+        coursesData.setCourses(courseDataList);
+        coursesData.getCourses().forEach(CourseData::hideInformationForStudent);
+        return new JsonResult(coursesData);
+    }
+
+    private JsonResult getSqlInstructorCourses() {
+        String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
+        List<Course> courses;
+        List<Instructor> instructors;
+        switch (courseStatus) {
+        case Const.CourseStatus.ACTIVE:
+            instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
+            instructors =
+                    instructors
+                            .stream()
+                            .filter(instructor -> !instructor.getIsArchived())
+                            .collect(Collectors.toList());
+            courses = sqlLogic.getCoursesForInstructors(instructors);
+            break;
+        case Const.CourseStatus.ARCHIVED:
+            instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id)
+                    .stream()
+                    .filter(Instructor::getIsArchived)
+                    .collect(Collectors.toList());
+            courses = sqlLogic.getCoursesForInstructors(instructors);
+            break;
+        case Const.CourseStatus.SOFT_DELETED:
+            instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
+            courses = sqlLogic.getSoftDeletedCoursesForInstructors(instructors);
+            break;
+        default:
+            throw new InvalidHttpParameterException("Error: invalid course status");
+        }
+
+        Map<String, Instructor> courseIdToInstructor = new HashMap<>();
+        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
+
+        CoursesLogic.sortById(courses);
+
+        List<CourseData> courseDataList =
+                courses.stream().map(CourseData::new).collect(Collectors.toList());
+        CoursesData coursesData = new CoursesData();
+
+        coursesData.setCourses(courseDataList);
+        coursesData.getCourses().forEach(courseData -> {
+            Instructor instructor = courseIdToInstructor.get(courseData.getCourseId());
+            if (instructor == null) {
+                return;
+            }
+            InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
+            courseData.setPrivileges(privilege);
+        });
         return new JsonResult(coursesData);
     }
 
@@ -81,7 +153,12 @@ class GetCoursesAction extends Action {
         instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
         CourseAttributes.sortById(courses);
-        CoursesData coursesData = new CoursesData(courses);
+
+        List<CourseData> courseDataList =
+                courses.stream().map(CourseData::new).collect(Collectors.toList());
+        CoursesData coursesData = new CoursesData();
+
+        coursesData.setCourses(courseDataList);
         coursesData.getCourses().forEach(courseData -> {
             InstructorAttributes instructor = courseIdToInstructor.get(courseData.getCourseId());
             if (instructor == null) {

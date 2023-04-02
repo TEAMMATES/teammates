@@ -39,6 +39,9 @@ public class Instructor extends User {
     @Convert(converter = InstructorPrivilegesConverter.class)
     private InstructorPrivileges privileges;
 
+    @Column(nullable = false)
+    private boolean isArchived;
+
     protected Instructor() {
         // required by Hibernate
     }
@@ -82,6 +85,17 @@ public class Instructor extends User {
 
     public void setPrivileges(InstructorPrivileges instructorPrivileges) {
         this.privileges = instructorPrivileges;
+    }
+
+    /**
+     * Gets the archived status of the instructor.
+     */
+    public boolean getIsArchived() {
+        return isArchived;
+    }
+
+    public void setIsArchived(boolean isArchived) {
+        this.isArchived = isArchived;
     }
 
     @Override

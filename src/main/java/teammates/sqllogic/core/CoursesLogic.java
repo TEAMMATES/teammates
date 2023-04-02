@@ -3,15 +3,19 @@ package teammates.sqllogic.core;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Logger;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 
 /**
@@ -24,7 +28,11 @@ public final class CoursesLogic {
 
     private static final CoursesLogic instance = new CoursesLogic();
 
+    private static final Logger log = Logger.getLogger();
+
     private CoursesDb coursesDb;
+
+    private UsersLogic usersLogic;
 
     // private FeedbackSessionsLogic fsLogic;
 
@@ -36,8 +44,9 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic) {
         this.coursesDb = coursesDb;
+        this.usersLogic = usersLogic;
         // this.fsLogic = fsLogic;
     }
 
@@ -58,6 +67,72 @@ public final class CoursesLogic {
      */
     public Course getCourse(String courseId) {
         return coursesDb.getCourse(courseId);
+    }
+
+    /**
+     * Returns a list of {@link Course} for all courses a given student is enrolled in.
+     *
+     * @param googleId The Google ID of the student
+     */
+    public List<Course> getCoursesForStudentAccount(String googleId) {
+        List<Student> students = usersLogic.getAllStudentsByGoogleId(googleId);
+
+        List<String> courseIds = students.stream()
+                .filter(student -> !getCourse(student.getCourseId()).isCourseDeleted())
+                .map(student -> student.getCourseId())
+                .collect(Collectors.toList());
+
+        return coursesDb.getCourses(courseIds);
+    }
+
+    /**
+     * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors
+     * except for courses in Recycle Bin.
+     */
+    public List<Course> getCoursesForInstructors(List<Instructor> instructorsList) {
+        assert instructorsList != null;
+
+        List<String> courseIdList = instructorsList.stream()
+                .filter(instructor -> !coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
+                .map(Instructor::getCourseId)
+                .collect(Collectors.toList());
+
+        List<Course> courseList = coursesDb.getCourses(courseIdList);
+
+        // Check that all courseIds queried returned a course.
+        if (courseIdList.size() > courseList.size()) {
+            for (Course course : courseList) {
+                courseIdList.remove(course.getId());
+            }
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                    + courseIdList.toString());
+        }
+
+        return courseList;
+    }
+
+    /**
+     * Returns a list of soft-deleted {@link Course} for a given list of instructors.
+     */
+    public List<Course> getSoftDeletedCoursesForInstructors(List<Instructor> instructorsList) {
+        assert instructorsList != null;
+
+        List<String> softDeletedCourseIdList = instructorsList.stream()
+                .filter(instructor -> coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
+                .map(Instructor::getCourseId)
+                .collect(Collectors.toList());
+
+        List<Course> softDeletedCoursesList = coursesDb.getCourses(softDeletedCourseIdList);
+
+        if (softDeletedCourseIdList.size() > softDeletedCoursesList.size()) {
+            for (Course course : softDeletedCoursesList) {
+                softDeletedCourseIdList.remove(course.getId());
+            }
+            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
+                    + softDeletedCourseIdList.toString());
+        }
+
+        return softDeletedCoursesList;
     }
 
     /**
@@ -189,4 +264,12 @@ public final class CoursesLogic {
     public List<Team> getTeamsForCourse(String courseId) {
         return coursesDb.getTeamsForCourse(courseId);
     }
+
+    /**
+     * Sorts the courses list alphabetically by id.
+     */
+    public static void sortById(List<Course> courses) {
+        courses.sort(Comparator.comparing(Course::getId));
+    }
+
 }
