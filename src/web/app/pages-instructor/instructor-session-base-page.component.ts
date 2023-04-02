@@ -135,7 +135,7 @@ export abstract class InstructorSessionBasePageComponent {
     if (isModified) {
       this.coursesOfModifiedSession.push(newCourseId);
 
-      this.modifiedSession[fromFeedbackSession.feedbackSessionName] = {
+      this.modifiedSession[newSessionName] = {
         oldTimestamp: {
           submissionStartTimestamp: this.formatTimestamp(fromFeedbackSession.submissionStartTimestamp,
               fromFeedbackSession.timeZone),
@@ -157,24 +157,24 @@ export abstract class InstructorSessionBasePageComponent {
       };
 
       if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
-        this.modifiedSession[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
+        this.modifiedSession[newSessionName].oldTimestamp.responseVisibleTimestamp =
             'On session visible time';
       } else if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.LATER) {
-        this.modifiedSession[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
+        this.modifiedSession[newSessionName].oldTimestamp.responseVisibleTimestamp =
             'Not now (publish manually)';
       } else {
-        this.modifiedSession[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
+        this.modifiedSession[newSessionName].oldTimestamp.responseVisibleTimestamp =
             this.formatTimestamp(fromFeedbackSession.customResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
       }
 
       if (copiedResponseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
-        this.modifiedSession[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
+        this.modifiedSession[newSessionName].newTimestamp.responseVisibleTimestamp =
             'On session visible time';
       } else if (copiedResponseVisibleSetting === ResponseVisibleSetting.LATER) {
-        this.modifiedSession[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
+        this.modifiedSession[newSessionName].newTimestamp.responseVisibleTimestamp =
             'Not now (publish manually)';
       } else {
-        this.modifiedSession[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
+        this.modifiedSession[newSessionName].newTimestamp.responseVisibleTimestamp =
             this.formatTimestamp(copiedCustomResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
       }
 
