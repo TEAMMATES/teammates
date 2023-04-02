@@ -136,7 +136,9 @@ public class FeedbackSession extends BaseEntity {
         );
 
         fs.setCreatedAt(getCreatedAt());
+        fs.setUpdatedAt(getUpdatedAt());
         fs.setDeletedAt(getDeletedAt());
+        fs.setDeadlineExtensions(getDeadlineExtensions());
 
         return fs;
     }
