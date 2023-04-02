@@ -1,6 +1,7 @@
 package teammates.storage.sqlapi;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import teammates.storage.sqlentity.User;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 /**
@@ -293,6 +295,30 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets instructors with the specified {@code userEmail}.
+     */
+    public List<Instructor> getInstructorsForEmail(String courseId, List<String> userEmails) {
+        assert courseId != null;
+        assert userEmails != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        for (String userEmail : userEmails) {
+            predicates.add(cb.equal(instructorRoot.get("email"), userEmail));
+        }
+
+        cr.select(instructorRoot)
+                .where(cb.and(
+                    cb.equal(instructorRoot.get("courseId"), courseId),
+                    cb.or(predicates.toArray(new Predicate[0]))));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets the student with the specified {@code userEmail}.
      */
     public Student getStudentForEmail(String courseId, String userEmail) {
@@ -309,6 +335,30 @@ public final class UsersDb extends EntitiesDb {
                     cb.equal(studentRoot.get("email"), userEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets students with the specified {@code userEmail}.
+     */
+    public List<Student> getStudentsForEmail(String courseId, List<String> userEmails) {
+        assert courseId != null;
+        assert userEmails != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        for (String userEmail : userEmails) {
+            predicates.add(cb.equal(studentRoot.get("email"), userEmail));
+        }
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                    cb.equal(studentRoot.get("courseId"), courseId),
+                    cb.or(predicates.toArray(new Predicate[0]))));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**

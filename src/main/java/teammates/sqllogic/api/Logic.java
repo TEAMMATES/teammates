@@ -330,6 +330,16 @@ public class Logic {
     }
 
     /**
+     * Updates a feedback session.
+     *
+     * @return returns the updated feedback session.
+     */
+    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackSessionsLogic.updateFeedbackSession(feedbackSession);
+    }
+
+    /**
      * Creates a feedback session.
      *
      * @return returns the created feedback session.
@@ -616,6 +626,20 @@ public class Logic {
      */
     public Student getStudentForEmail(String courseId, String email) {
         return usersLogic.getStudentForEmail(courseId, email);
+    }
+
+    /**
+     * Check if the students with the provided emails exist in the course.
+     */
+    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
+        return usersLogic.verifyStudentsExistInCourse(courseId, emails);
+    }
+
+    /**
+     * Check if the instructors with the provided emails exist in the course.
+     */
+    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
+        return usersLogic.verifyInstructorsExistInCourse(courseId, emails);
     }
 
     /**
