@@ -42,9 +42,9 @@ public final class DeadlineExtensionsLogic {
 
         if (extendedDeadline == null) {
             return session.getEndTime();
-        } else {
-            return extendedDeadline;
         }
+        
+        return extendedDeadline;
     }
 
     /**
