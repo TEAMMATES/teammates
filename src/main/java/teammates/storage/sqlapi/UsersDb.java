@@ -177,7 +177,7 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Gets all instructors and students by {@code googleId}.
+     * Gets all instructors by {@code googleId}.
      */
     public List<Instructor> getAllInstructorsByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -191,7 +191,7 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Gets all instructors and students by {@code googleId}.
+     * Gets all students by {@code googleId}.
      */
     public List<Student> getAllStudentsByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
