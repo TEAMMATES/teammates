@@ -330,6 +330,13 @@ public class Logic {
     }
 
     /**
+     * Gets all feedback sessions of a course, except those that are soft-deleted.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
+        return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
+    }
+
+    /**
      * Creates a new feedback question.
      *
      * <br/>Preconditions: <br/>
@@ -813,6 +820,20 @@ public class Logic {
             FeedbackQuestion question, Student student) {
         return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                 question, student);
+    }
+
+    /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(UUID questionId) {
+        return feedbackResponsesLogic.areThereResponsesForQuestion(questionId);
+    }
+
+    /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        return feedbackResponsesLogic.hasResponsesForCourse(courseId);
     }
 
     /**
