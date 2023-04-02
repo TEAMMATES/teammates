@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -94,5 +95,24 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
         if (fq != null) {
             delete(fq);
         }
+    }
+
+    /**
+     * Checks if there is any feedback questions in a session in a course for the given giver type.
+     */
+    public boolean hasFeedbackQuestionsForGiverType(
+            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackQuestion> cq = cb.createQuery(FeedbackQuestion.class);
+        Root<FeedbackQuestion> root = cq.from(FeedbackQuestion.class);
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = root.join("feedbackSession");
+        Join<FeedbackSession, Course> courseJoin = fsJoin.join("course");
+
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(fsJoin.get("name"), feedbackSessionName),
+                        cb.equal(root.get("giverType"), giverType)));
+        return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
     }
 }
