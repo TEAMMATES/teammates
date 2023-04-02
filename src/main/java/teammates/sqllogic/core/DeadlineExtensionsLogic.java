@@ -55,9 +55,9 @@ public final class DeadlineExtensionsLogic {
                 deadlineExtensionsDb.getDeadlineExtension(user.getId(), feedbackSession.getId());
         if (deadlineExtension == null) {
             return null;
-        } else {
-            return deadlineExtension.getEndTime();
         }
+        
+        return deadlineExtension.getEndTime();
     }
 
     /**
