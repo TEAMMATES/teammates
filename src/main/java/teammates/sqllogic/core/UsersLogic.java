@@ -5,6 +5,7 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -83,6 +84,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets instructors matching any of the specified emails.
+     */
+    public List<Instructor> getInstructorsForEmail(String courseId, List<String> userEmails) {
+        return usersDb.getInstructorsForEmail(courseId, userEmails);
+    }
+
+    /**
      * Gets an instructor by associated {@code regkey}.
      */
     public Instructor getInstructorByRegistrationKey(String regKey) {
@@ -134,6 +142,27 @@ public final class UsersLogic {
     }
 
     /**
+     * Check if the instructors with the provided emails exist in the course.
+     */
+    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
+        List<Instructor> instructors = usersDb.getInstructorsForEmail(courseId, emails);
+        try {
+            for (String email : emails) {
+                Optional<Instructor> instructor = instructors
+                        .stream()
+                        .filter(s -> s.getEmail().equals(email))
+                        .findFirst();
+                if (instructor.isEmpty()) {
+                    return false;
+                }
+            }
+        } catch (NullPointerException npe) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Gets all instructors associated with a googleId.
      */
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
@@ -165,6 +194,27 @@ public final class UsersLogic {
      */
     public Student getStudentForEmail(String courseId, String userEmail) {
         return usersDb.getStudentForEmail(courseId, userEmail);
+    }
+
+     /**
+     * Check if the students with the provided emails exist in the course.
+     */
+    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
+        List<Student> students = usersDb.getStudentsForEmail(courseId, emails);
+        try {
+            for (String email : emails) {
+                Optional<Student> student = students
+                        .stream()
+                        .filter(s -> s.getEmail().equals(email))
+                        .findFirst();
+                if (student.isEmpty()) {
+                    return false;
+                }
+            }
+        } catch (NullPointerException npe) {
+            return false;
+        }
+        return true;
     }
 
     /**

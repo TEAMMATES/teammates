@@ -21,6 +21,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -41,12 +43,22 @@ class UpdateFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
-        gateKeeper.verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+        if (isCourseMigrated(courseId)) {
+            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+
+            gateKeeper.verifyAccessible(
+                sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        } else {
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                    feedbackSession,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        }
     }
 
     @Override
@@ -54,102 +66,206 @@ class UpdateFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        if (isCourseMigrated(courseId)) {
+            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
 
-        FeedbackSessionUpdateRequest updateRequest =
-                getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
+            FeedbackSessionUpdateRequest updateRequest =
+                    getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
 
-        Map<String, Instant> oldStudentDeadlines = feedbackSession.getStudentDeadlines();
-        Map<String, Instant> oldInstructorDeadlines = feedbackSession.getInstructorDeadlines();
-        Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
-        Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
-        try {
-            // These ensure the existence checks are only done whenever necessary in order to reduce data reads.
-            boolean hasExtraStudents = !oldStudentDeadlines.keySet()
-                    .containsAll(studentDeadlines.keySet());
-            boolean hasExtraInstructors = !oldInstructorDeadlines.keySet()
-                    .containsAll(instructorDeadlines.keySet());
-            if (hasExtraStudents) {
-                logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
+            List<DeadlineExtension> prevDeadlineExtensions = feedbackSession.getDeadlineExtensions();
+
+            Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
+            Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
+
+            // check that students and instructors are valid
+            
+            // try {
+
+            //     // These ensure the existence checks are only done whenever necessary in order to reduce data reads.
+
+            //     boolean hasExtraStudents = !oldStudentDeadlines.keySet()
+            //             .containsAll(studentDeadlines.keySet());
+            //     boolean hasExtraInstructors = !oldInstructorDeadlines.keySet()
+            //             .containsAll(instructorDeadlines.keySet());
+            //     if (hasExtraStudents) {
+            //         logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
+            //     }
+            //     if (hasExtraInstructors) {
+            //         logic.verifyAllInstructorsExistInCourse(courseId, instructorDeadlines.keySet());
+            //     }
+            // } catch (EntityDoesNotExistException e) {
+            //     throw new EntityNotFoundException(e);
+            // }
+
+            String timeZone = feedbackSession.getCourse().getTimeZone();
+            Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    updateRequest.getSubmissionStartTime(), timeZone, true);
+            if (!updateRequest.getSubmissionStartTime().equals(feedbackSession.getStartTime())) {
+                String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
+                if (!startTimeError.isEmpty()) {
+                    throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
+                }
             }
-            if (hasExtraInstructors) {
-                logic.verifyAllInstructorsExistInCourse(courseId, instructorDeadlines.keySet());
+            Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    updateRequest.getSubmissionEndTime(), timeZone, true);
+            if (!updateRequest.getSubmissionEndTime().equals(feedbackSession.getEndTime())) {
+                String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
+                if (!endTimeError.isEmpty()) {
+                    throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
+                }
             }
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
-        }
-
-        String timeZone = feedbackSession.getTimeZone();
-        Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                updateRequest.getSubmissionStartTime(), timeZone, true);
-        if (!updateRequest.getSubmissionStartTime().equals(feedbackSession.getStartTime())) {
-            String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
-            if (!startTimeError.isEmpty()) {
-                throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
+            Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    updateRequest.getSessionVisibleFromTime(), timeZone, true);
+            if (!updateRequest.getSessionVisibleFromTime().equals(feedbackSession.getSessionVisibleFromTime())) {
+                String visibilityStartAndSessionStartTimeError = FieldValidator
+                        .getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
+                if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
+                    throw new InvalidHttpRequestBodyException("Invalid session visible time: "
+                            + visibilityStartAndSessionStartTimeError);
+                }
             }
-        }
-        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                updateRequest.getSubmissionEndTime(), timeZone, true);
-        if (!updateRequest.getSubmissionEndTime().equals(feedbackSession.getEndTime())) {
-            String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
-            if (!endTimeError.isEmpty()) {
-                throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
+            Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    updateRequest.getResultsVisibleFromTime(), timeZone, true);
+
+            // deadline check
+            studentDeadlines = studentDeadlines.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                            entry.getValue(), timeZone, true)));
+            instructorDeadlines = instructorDeadlines.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                            entry.getValue(), timeZone, true)));
+
+            feedbackSession.setInstructions(updateRequest.getInstructions());
+            feedbackSession.setStartTime(startTime);
+            feedbackSession.setEndTime(endTime);
+            feedbackSession.setGracePeriod(updateRequest.getGracePeriod());
+            feedbackSession.setSessionVisibleFromTime(sessionVisibleTime);
+            feedbackSession.setResultsVisibleFromTime(resultsVisibleTime);
+            feedbackSession.setClosingEmailEnabled(updateRequest.isClosingEmailEnabled());
+            feedbackSession.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
+            feedbackSession.setDeadlineExtensions(prevDeadlineExtensions);
+            try {
+                feedbackSession = sqlLogic.updateFeedbackSession(feedbackSession);
+            } catch (InvalidParametersException ipe) {
+                throw new InvalidHttpRequestBodyException(ipe);
+            } catch (EntityDoesNotExistException ednee) {
+                // Entity existence has been verified before, and this exception should not happen
+                log.severe("Unexpected error", ednee);
+                return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
             }
-        }
-        Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                updateRequest.getSessionVisibleFromTime(), timeZone, true);
-        if (!updateRequest.getSessionVisibleFromTime().equals(feedbackSession.getSessionVisibleFromTime())) {
-            String visibilityStartAndSessionStartTimeError = FieldValidator
-                    .getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
-            if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
-                throw new InvalidHttpRequestBodyException("Invalid session visible time: "
-                        + visibilityStartAndSessionStartTimeError);
+
+            boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
+
+            List<EmailWrapper> emailsToSend = new ArrayList<>();
+
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldStudentDeadlines, studentDeadlines,
+                    false, notifyAboutDeadlines));
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldInstructorDeadlines, instructorDeadlines,
+                    true, notifyAboutDeadlines));
+
+            taskQueuer.scheduleEmailsForSending(emailsToSend);
+
+            return new JsonResult(new FeedbackSessionData(feedbackSession));
+        } else {
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+
+            FeedbackSessionUpdateRequest updateRequest =
+                    getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
+
+            Map<String, Instant> oldStudentDeadlines = feedbackSession.getStudentDeadlines();
+            Map<String, Instant> oldInstructorDeadlines = feedbackSession.getInstructorDeadlines();
+            Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
+            Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
+            try {
+                // These ensure the existence checks are only done whenever necessary in order to reduce data reads.
+                boolean hasExtraStudents = !oldStudentDeadlines.keySet()
+                        .containsAll(studentDeadlines.keySet());
+                boolean hasExtraInstructors = !oldInstructorDeadlines.keySet()
+                        .containsAll(instructorDeadlines.keySet());
+                if (hasExtraStudents) {
+                    logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
+                }
+                if (hasExtraInstructors) {
+                    logic.verifyAllInstructorsExistInCourse(courseId, instructorDeadlines.keySet());
+                }
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
             }
+
+            String timeZone = feedbackSession.getTimeZone();
+            Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    updateRequest.getSubmissionStartTime(), timeZone, true);
+            if (!updateRequest.getSubmissionStartTime().equals(feedbackSession.getStartTime())) {
+                String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
+                if (!startTimeError.isEmpty()) {
+                    throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
+                }
+            }
+            Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    updateRequest.getSubmissionEndTime(), timeZone, true);
+            if (!updateRequest.getSubmissionEndTime().equals(feedbackSession.getEndTime())) {
+                String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
+                if (!endTimeError.isEmpty()) {
+                    throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
+                }
+            }
+            Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    updateRequest.getSessionVisibleFromTime(), timeZone, true);
+            if (!updateRequest.getSessionVisibleFromTime().equals(feedbackSession.getSessionVisibleFromTime())) {
+                String visibilityStartAndSessionStartTimeError = FieldValidator
+                        .getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
+                if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
+                    throw new InvalidHttpRequestBodyException("Invalid session visible time: "
+                            + visibilityStartAndSessionStartTimeError);
+                }
+            }
+            Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    updateRequest.getResultsVisibleFromTime(), timeZone, true);
+            studentDeadlines = studentDeadlines.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                            entry.getValue(), timeZone, true)));
+            instructorDeadlines = instructorDeadlines.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                            entry.getValue(), timeZone, true)));
+            try {
+                feedbackSession = logic.updateFeedbackSession(
+                        FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
+                                .withInstructions(updateRequest.getInstructions())
+                                .withStartTime(startTime)
+                                .withEndTime(endTime)
+                                .withGracePeriod(updateRequest.getGracePeriod())
+                                .withSessionVisibleFromTime(sessionVisibleTime)
+                                .withResultsVisibleFromTime(resultsVisibleTime)
+                                .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
+                                .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
+                                .withStudentDeadlines(studentDeadlines)
+                                .withInstructorDeadlines(instructorDeadlines)
+                                .build());
+            } catch (InvalidParametersException ipe) {
+                throw new InvalidHttpRequestBodyException(ipe);
+            } catch (EntityDoesNotExistException ednee) {
+                // Entity existence has been verified before, and this exception should not happen
+                log.severe("Unexpected error", ednee);
+                return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            }
+
+            boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
+
+            List<EmailWrapper> emailsToSend = new ArrayList<>();
+
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldStudentDeadlines, studentDeadlines,
+                    false, notifyAboutDeadlines));
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldInstructorDeadlines, instructorDeadlines,
+                    true, notifyAboutDeadlines));
+
+            taskQueuer.scheduleEmailsForSending(emailsToSend);
+
+            return new JsonResult(new FeedbackSessionData(feedbackSession));
         }
-        Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                updateRequest.getResultsVisibleFromTime(), timeZone, true);
-        studentDeadlines = studentDeadlines.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                        entry.getValue(), timeZone, true)));
-        instructorDeadlines = instructorDeadlines.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                        entry.getValue(), timeZone, true)));
-        try {
-            feedbackSession = logic.updateFeedbackSession(
-                    FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                            .withInstructions(updateRequest.getInstructions())
-                            .withStartTime(startTime)
-                            .withEndTime(endTime)
-                            .withGracePeriod(updateRequest.getGracePeriod())
-                            .withSessionVisibleFromTime(sessionVisibleTime)
-                            .withResultsVisibleFromTime(resultsVisibleTime)
-                            .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
-                            .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
-                            .withStudentDeadlines(studentDeadlines)
-                            .withInstructorDeadlines(instructorDeadlines)
-                            .build());
-        } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpRequestBodyException(ipe);
-        } catch (EntityDoesNotExistException ednee) {
-            // Entity existence has been verified before, and this exception should not happen
-            log.severe("Unexpected error", ednee);
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        }
-
-        boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
-
-        List<EmailWrapper> emailsToSend = new ArrayList<>();
-
-        emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldStudentDeadlines, studentDeadlines,
-                false, notifyAboutDeadlines));
-        emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldInstructorDeadlines, instructorDeadlines,
-                true, notifyAboutDeadlines));
-
-        taskQueuer.scheduleEmailsForSending(emailsToSend);
-
-        return new JsonResult(new FeedbackSessionData(feedbackSession));
     }
 
     private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSessionAttributes session,
