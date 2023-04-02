@@ -19,7 +19,7 @@ import teammates.ui.output.CoursesData;
  * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
  * Or gets all courses for the student he belongs to.
  */
-class GetCoursesAction extends Action {
+public class GetCoursesAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
