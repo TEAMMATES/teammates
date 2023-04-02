@@ -43,7 +43,7 @@ public final class DeadlineExtensionsLogic {
         if (extendedDeadline == null) {
             return session.getEndTime();
         }
-        
+
         return extendedDeadline;
     }
 
@@ -56,7 +56,7 @@ public final class DeadlineExtensionsLogic {
         if (deadlineExtension == null) {
             return null;
         }
-        
+
         return deadlineExtension.getEndTime();
     }
 
