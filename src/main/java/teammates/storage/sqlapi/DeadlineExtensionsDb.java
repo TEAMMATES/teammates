@@ -79,7 +79,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
         Join<DeadlineExtension, User> deUserJoin = root.join("user");
 
         cr.select(root).where(cb.and(
-                cb.equal(defsJoin.get("id"), feedbackSessionId),
+                cb.equal(deFsJoin.get("id"), feedbackSessionId),
                 cb.equal(deUserJoin.get("id"), userId)));
 
         TypedQuery<DeadlineExtension> query = HibernateUtil.createQuery(cr);
