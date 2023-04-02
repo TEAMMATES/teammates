@@ -1,5 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Provider } from '@angular/core';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,6 +48,11 @@ let routes: Routes = [
         path: 'join',
         component: PublicPageComponent,
         loadChildren: () => import('./user-join-page.module').then((m: any) => m.UserJoinPageModule),
+      },
+      {
+        path: 'login',
+        component: PublicPageComponent,
+        loadChildren: () => import('./login-page.module').then((m: any) => m.LoginPageModule),
       },
       {
         path: 'sessions',
@@ -168,6 +175,10 @@ if (environment.maintenance) {
     FormsModule,
     NgbDatepickerModule,
     SessionEditFormModule,
+    environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
+        ? AngularFireModule.initializeApp(environment.firebaseConfig) : [],
+    environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
+        ? AngularFireAuthModule : [],
   ],
   providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],

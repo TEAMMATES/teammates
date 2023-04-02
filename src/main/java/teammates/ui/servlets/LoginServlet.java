@@ -48,14 +48,22 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        AuthState state = new AuthState(nextUrl, req.getSession().getId());
-        AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
-        authorizationUrl.setRedirectUri(getRedirectUri(req));
-        authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
+        if (Config.isUsingFirebase()) {
+            log.request(req, HttpStatus.SC_MOVED_PERMANENTLY, "Redirect to web login page");
 
-        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
+            // nextUrl query param is encoded to retain its full value as the nextUrl may contain query params
+            resp.sendRedirect("/web/login?nextUrl="
+                    + nextUrl.replace("?", "%3f").replace("&", "%26"));
+        } else {
+            AuthState state = new AuthState(nextUrl, req.getSession().getId());
+            AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
+            authorizationUrl.setRedirectUri(getRedirectUri(req));
+            authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
 
-        resp.sendRedirect(authorizationUrl.build());
+            log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
+
+            resp.sendRedirect(authorizationUrl.build());
+        }
     }
 
 }
