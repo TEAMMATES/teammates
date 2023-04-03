@@ -67,6 +67,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(frDb.getFeedbackResponse(fr2.getId()));
     }
 
+    @Test
     public void testHasResponsesFromGiverInSession() {
         ______TS("success: typical case");
         Course course = typicalDataBundle.courses.get("course1");
