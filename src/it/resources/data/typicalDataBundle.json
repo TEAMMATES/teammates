@@ -667,47 +667,6 @@
     "comment1ToResponse1ForQ3": {
       "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000905",
-        "feedbackQuestion": {
-          "id": "00000000-0000-4000-8000-000000000803",
-          "feedbackSession": {
-            "id": "00000000-0000-4000-8000-000000000701"
-          },
-          "questionDetails": {
-            "questionType": "TEXT",
-            "questionText": "My comments on the class"
-          },
-          "description": "This is a text question.",
-          "questionNumber": 3,
-          "giverType": "SELF",
-          "recipientType": "NONE",
-          "numOfEntitiesToGiveFeedbackTo": -100,
-          "showResponsesTo": [
-            "RECEIVER",
-            "OWN_TEAM_MEMBERS",
-            "STUDENTS",
-            "INSTRUCTORS"
-          ],
-          "showGiverNameTo": [
-            "RECEIVER",
-            "OWN_TEAM_MEMBERS",
-            "STUDENTS",
-            "INSTRUCTORS"
-          ],
-          "showRecipientNameTo": [
-            "RECEIVER",
-            "OWN_TEAM_MEMBERS",
-            "STUDENTS",
-            "INSTRUCTORS"
-          ]
-        },
-        "giver": "student1@teammates.tmt",
-        "recipient": "student1@teammates.tmt",
-        "giverSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
-        "recipientSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
         "answer": {
           "questionType": "TEXT",
           "answer": "The class is great."
