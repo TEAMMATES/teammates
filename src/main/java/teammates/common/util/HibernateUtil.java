@@ -46,6 +46,7 @@ import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 
 /**
@@ -247,6 +248,13 @@ public final class HibernateUtil {
      */
     public static void remove(BaseEntity entity) {
         HibernateUtil.getCurrentSession().remove(entity);
+    }
+
+    /**
+     * Create and execute a {@code MutationQuery} for the given delete criteria tree.
+     */
+    public static <T> void executeDelete(CriteriaDelete<T> cd) {
+        HibernateUtil.getCurrentSession().createMutationQuery(cd).executeUpdate();
     }
 
 }
