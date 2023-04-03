@@ -162,7 +162,7 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Updates a feedback question by {@code FeedbackQuestion.UpdateOptions}.
+     * Updates a feedback question.
      *
      * <p>Cascade adjust the question number of questions in the same session.
      *
