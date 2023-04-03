@@ -785,6 +785,18 @@ public class Logic {
     }
 
     /**
+     * Deletes a feedback question cascade its responses and comments.
+     *
+     * <p>Silently fail if question does not exist.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackQuestionCascade(UUID questionId) {
+        feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
+    }
+
+    /**
      * Gets the recipients of a feedback question for student.
      *
      * @see FeedbackQuestionsLogic#getRecipientsOfQuestion

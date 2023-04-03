@@ -543,4 +543,13 @@ public final class FeedbackQuestionsLogic {
         return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
                 || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
     }
+
+    /**
+     * Deletes a feedback question cascade its responses and comments.
+     *
+     * <p>Silently fail if question does not exist.
+     */
+    public void deleteFeedbackQuestionCascade(UUID feedbackQuestionId) {
+        fqDb.deleteFeedbackQuestion(feedbackQuestionId);
+    }
 }
