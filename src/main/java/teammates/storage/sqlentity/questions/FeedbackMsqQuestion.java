@@ -52,7 +52,12 @@ public class FeedbackMsqQuestion extends FeedbackQuestion {
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
                 new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
                 new FeedbackMsqQuestionDetails(this.questionDetails.getQuestionText())
-            );
+        );
+    }
+
+    @Override
+    public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
+        this.questionDetails = (FeedbackMsqQuestionDetails) questionDetails;
     }
 
     @Override

@@ -17,7 +17,9 @@ import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -28,6 +30,7 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
 import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
+import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**
  * Handles operations related to feedback questions.
@@ -44,6 +47,7 @@ public final class FeedbackQuestionsLogic {
     private static final FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
     private FeedbackQuestionsDb fqDb;
     private CoursesLogic coursesLogic;
+    private FeedbackResponsesLogic frLogic;
     private UsersLogic usersLogic;
 
     private FeedbackQuestionsLogic() {
@@ -54,9 +58,11 @@ public final class FeedbackQuestionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(FeedbackQuestionsDb fqDb, CoursesLogic coursesLogic, UsersLogic usersLogic) {
+    void initLogicDependencies(FeedbackQuestionsDb fqDb, CoursesLogic coursesLogic, FeedbackResponsesLogic frLogic,
+                               UsersLogic usersLogic) {
         this.fqDb = fqDb;
         this.coursesLogic = coursesLogic;
+        this.frLogic = frLogic;
         this.usersLogic = usersLogic;
     }
 
@@ -153,6 +159,71 @@ public final class FeedbackQuestionsLogic {
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.SELF));
 
         return questions;
+    }
+
+    /**
+     * Updates a feedback question.
+     *
+     * <p>Cascade adjust the question number of questions in the same session.
+     *
+     * <p>Cascade adjust the existing response of the question.
+     *
+     * @return updated feedback question
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback question cannot be found
+     */
+    public FeedbackQuestion updateFeedbackQuestionCascade(UUID questionId, FeedbackQuestionUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackQuestion question = fqDb.getFeedbackQuestion(questionId);
+        if (question == null) {
+            throw new EntityDoesNotExistException("Trying to update a feedback question that does not exist.");
+        }
+
+        int oldQuestionNumber = question.getQuestionNumber();
+        int newQuestionNumber = updateRequest.getQuestionNumber();
+
+        List<FeedbackQuestion> previousQuestionsInSession = new ArrayList<>();
+        if (oldQuestionNumber != newQuestionNumber) {
+            // get questions in session before update
+            previousQuestionsInSession = getFeedbackQuestionsForSession(question.getFeedbackSession());
+        }
+
+        // update question
+        question.setQuestionNumber(updateRequest.getQuestionNumber());
+        question.setDescription(updateRequest.getQuestionDescription());
+        question.setQuestionDetails(updateRequest.getQuestionDetails());
+        question.setGiverType(updateRequest.getGiverType());
+        question.setRecipientType(updateRequest.getRecipientType());
+        question.setNumOfEntitiesToGiveFeedbackTo(updateRequest.getNumberOfEntitiesToGiveFeedbackTo());
+        question.setShowResponsesTo(updateRequest.getShowResponsesTo());
+        question.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
+        question.setShowRecipientNameTo(updateRequest.getShowRecipientNameTo());
+
+        // validate questions (giver & recipient)
+        String err = question.getQuestionDetailsCopy().validateGiverRecipientVisibility(question);
+        if (!err.isEmpty()) {
+            throw new InvalidParametersException(err);
+        }
+        // validate questions (question details)
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
+        List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
+
+        if (!questionDetailsErrors.isEmpty()) {
+            throw new InvalidParametersException(questionDetailsErrors.toString());
+        }
+
+        if (oldQuestionNumber != newQuestionNumber) {
+            // shift other feedback questions (generate an empty "slot")
+            adjustQuestionNumbers(oldQuestionNumber, newQuestionNumber, previousQuestionsInSession);
+        }
+
+        // adjust responses
+        if (question.areResponseDeletionsRequiredForChanges(updateRequest.getGiverType(),
+                updateRequest.getRecipientType(), updateRequest.getQuestionDetails())) {
+            frLogic.deleteFeedbackResponsesForQuestionCascade(question.getId());
+        }
+
+        return question;
     }
 
     /**
