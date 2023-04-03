@@ -1,5 +1,6 @@
 package teammates.ui.output;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,10 +43,17 @@ public class FeedbackResponseCommentData extends ApiOutput {
         this.commentGiver = frc.getGiver();
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
         this.showCommentTo = convertToFeedbackVisibilityType(frc.getShowCommentTo());
-        this.createdAt = frc.getCreatedAt().toEpochMilli();
-        this.lastEditedAt = frc.getUpdatedAt().toEpochMilli();
+        this.createdAt = getCurrentTimeIfNull(frc.getCreatedAt()).toEpochMilli();
+        this.lastEditedAt = getCurrentTimeIfNull(frc.getUpdatedAt()).toEpochMilli();
         this.lastEditorEmail = frc.getLastEditorEmail();
         this.isVisibilityFollowingFeedbackQuestion = frc.getIsVisibilityFollowingFeedbackQuestion();
+    }
+
+    private Instant getCurrentTimeIfNull(Instant currentTime) {
+        if (currentTime == null) {
+            return Instant.now();
+        }
+        return currentTime;
     }
 
     /**
