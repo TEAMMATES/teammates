@@ -33,11 +33,10 @@ public class DeleteFeedbackQuestionAction extends Action {
 
         if (questionAttributes != null) {
             courseId = questionAttributes.getCourseId();
-        } else {
-            if (question == null) {
-                throw new EntityNotFoundException("Unknown question id");
-            }
+        } else if (question != null) {
             courseId = question.getCourseId();
+        } else {
+            throw new EntityNotFoundException("Unknown question id");
         }
 
         if (!isCourseMigrated(courseId)) {
