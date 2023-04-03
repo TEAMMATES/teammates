@@ -3,7 +3,6 @@ package teammates.storage.sqlapi;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,26 +43,6 @@ public final class CoursesDb extends EntitiesDb {
         assert courseId != null;
 
         return HibernateUtil.get(Course.class, courseId);
-    }
-
-    /**
-     * Gets a list of courses.
-     */
-    public List<Course> getCourses(List<String> courseIds) {
-        assert courseIds != null;
-        assert courseIds.toArray() != null;
-
-        List<Course> courses = new ArrayList<>();
-
-        for (String courseId : courseIds) {
-            Course course = getCourse(courseId);
-
-            if (course != null) {
-                courses.add(course);
-            }
-        }
-
-        return courses;
     }
 
     /**

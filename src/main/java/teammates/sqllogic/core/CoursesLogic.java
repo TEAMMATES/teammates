@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Logger;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -27,8 +26,6 @@ import teammates.storage.sqlentity.Team;
 public final class CoursesLogic {
 
     private static final CoursesLogic instance = new CoursesLogic();
-
-    private static final Logger log = Logger.getLogger();
 
     private CoursesDb coursesDb;
 
@@ -77,62 +74,38 @@ public final class CoursesLogic {
     public List<Course> getCoursesForStudentAccount(String googleId) {
         List<Student> students = usersLogic.getAllStudentsByGoogleId(googleId);
 
-        List<String> courseIds = students.stream()
-                .filter(student -> !getCourse(student.getCourseId()).isCourseDeleted())
-                .map(student -> student.getCourseId())
+        return students
+                .stream()
+                .map(Student::getCourse)
+                .filter(course -> !course.isCourseDeleted())
                 .collect(Collectors.toList());
-
-        return coursesDb.getCourses(courseIds);
     }
 
     /**
-     * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors
+     * Returns a list of {@link Course} for all courses for a given list of instructors
      * except for courses in Recycle Bin.
      */
-    public List<Course> getCoursesForInstructors(List<Instructor> instructorsList) {
-        assert instructorsList != null;
+    public List<Course> getCoursesForInstructors(List<Instructor> instructors) {
+        assert instructors != null;
 
-        List<String> courseIdList = instructorsList.stream()
-                .filter(instructor -> !coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
-                .map(Instructor::getCourseId)
+        return instructors
+                .stream()
+                .map(Instructor::getCourse)
+                .filter(course -> !course.isCourseDeleted())
                 .collect(Collectors.toList());
-
-        List<Course> courseList = coursesDb.getCourses(courseIdList);
-
-        // Check that all courseIds queried returned a course.
-        if (courseIdList.size() > courseList.size()) {
-            for (Course course : courseList) {
-                courseIdList.remove(course.getId());
-            }
-            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
-                    + courseIdList.toString());
-        }
-
-        return courseList;
     }
 
     /**
      * Returns a list of soft-deleted {@link Course} for a given list of instructors.
      */
-    public List<Course> getSoftDeletedCoursesForInstructors(List<Instructor> instructorsList) {
-        assert instructorsList != null;
+    public List<Course> getSoftDeletedCoursesForInstructors(List<Instructor> instructors) {
+        assert instructors != null;
 
-        List<String> softDeletedCourseIdList = instructorsList.stream()
-                .filter(instructor -> coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
-                .map(Instructor::getCourseId)
+        return instructors
+                .stream()
+                .map(Instructor::getCourse)
+                .filter(course -> course.isCourseDeleted())
                 .collect(Collectors.toList());
-
-        List<Course> softDeletedCoursesList = coursesDb.getCourses(softDeletedCourseIdList);
-
-        if (softDeletedCourseIdList.size() > softDeletedCoursesList.size()) {
-            for (Course course : softDeletedCoursesList) {
-                softDeletedCourseIdList.remove(course.getId());
-            }
-            log.severe("Course(s) was deleted but the instructor still exists: " + System.lineSeparator()
-                    + softDeletedCourseIdList.toString());
-        }
-
-        return softDeletedCoursesList;
     }
 
     /**
