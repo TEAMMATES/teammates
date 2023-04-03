@@ -306,6 +306,19 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     }
 
     /**
+     * Verifies that the session is open for submission.
+     *
+     * <p>If it is moderation request, omit the check.
+     */
+    void verifySessionOpenExceptForModeration(FeedbackSession feedbackSession) throws UnauthorizedAccessException {
+        String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+
+        if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
+            throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
+        }
+    }
+
+    /**
      * Gets the section of a recipient.
      */
     String getRecipientSection(
