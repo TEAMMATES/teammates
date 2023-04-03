@@ -8,8 +8,10 @@ import java.util.UUID;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackSession;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -102,4 +104,55 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         frToBeDeleted.forEach(HibernateUtil::remove);
     }
 
+    /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(UUID questionId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
+
+        cq.select(root)
+                .where(cb.equal(fqJoin.get("id"), questionId));
+        return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
+    }
+
+    /**
+     * Checks whether a user has responses in a session.
+     */
+    public boolean hasResponsesFromGiverInSession(
+            String giver, String feedbackSessionName, String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> courseJoin = fsJoin.join("course");
+
+        cq.select(root)
+                .where(cb.and(
+                        cb.equal(root.get("giver"), giver),
+                        cb.equal(fsJoin.get("name"), feedbackSessionName),
+                        cb.equal(courseJoin.get("id"), courseId)));
+
+        return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
+    }
+
+    /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> courseJoin = fsJoin.join("course");
+
+        cq.select(root)
+                .where(cb.equal(courseJoin.get("id"), courseId));
+
+        return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
+    }
 }

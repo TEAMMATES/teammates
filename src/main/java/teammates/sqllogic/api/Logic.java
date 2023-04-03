@@ -3,6 +3,7 @@ package teammates.sqllogic.api;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -41,6 +42,7 @@ import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
+import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -307,6 +309,16 @@ public class Logic {
     }
 
     /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Creates a feedback session.
      *
      * @return returns the created feedback session.
@@ -317,6 +329,13 @@ public class Logic {
         assert feedbackSession.getCourse() != null && feedbackSession.getCourse().getId() != null;
 
         return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    }
+
+    /**
+     * Gets all feedback sessions of a course, except those that are soft-deleted.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
+        return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
     }
 
     /**
@@ -803,6 +822,39 @@ public class Logic {
             FeedbackQuestion question, Student student) {
         return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                 question, student);
+    }
+
+    /**
+     * Gets an feedback response comment by feedback response comment id.
+     * @param id of feedback response comment.
+     * @return the specified feedback response comment.
+     */
+    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseComment(id);
+    }
+
+    /**
+     * Updates a feedback response comment.
+     * @throws EntityDoesNotExistException if the comment does not exist
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
+            FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
+            throws EntityDoesNotExistException {
+        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
+    }
+
+    /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(UUID questionId) {
+        return feedbackResponsesLogic.areThereResponsesForQuestion(questionId);
+    }
+
+    /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        return feedbackResponsesLogic.hasResponsesForCourse(courseId);
     }
 
     /**
