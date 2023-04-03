@@ -868,8 +868,8 @@ public class Logic {
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
-        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
+    public void deleteFeedbackResponseComment(Long frcId) {
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
     }
 
     /**

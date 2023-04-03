@@ -168,7 +168,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
         }
 
         if (isCourseMigrated(courseId)) {
-            sqlLogic.deleteFeedbackResponseComment(comment);
+            sqlLogic.deleteFeedbackResponseComment(feedbackResponseCommentId);
         } else {
             logic.deleteFeedbackResponseComment(feedbackResponseCommentId);
         }

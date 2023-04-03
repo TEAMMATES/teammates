@@ -65,8 +65,8 @@ public final class FeedbackResponseCommentsLogic {
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
-        frcDb.deleteFeedbackResponseComment(feedbackResponseComment);
+    public void deleteFeedbackResponseComment(Long frcId) {
+        frcDb.deleteFeedbackResponseComment(frcId);
     }
 
     /**
