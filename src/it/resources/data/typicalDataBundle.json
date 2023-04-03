@@ -605,6 +605,28 @@
         "answer": "Student 3's rating of Student 2's project."
       }
     },
+    "response1ForQ3": {
+      "id": "00000000-0000-4000-8000-000000000905",
+      "feedbackQuestion": {
+        "id": "00000000-0000-4000-8000-000000000803",
+        "questionDetails": {
+          "questionType": "TEXT",
+          "questionText": "My comments on the class"
+        }
+      },
+      "giver": "student1@teammates.tmt",
+      "recipient": "student1@teammates.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "answer": {
+        "questionType": "TEXT",
+        "answer": "The class is great."
+      }
+    },
     "response1ForQ1InSession2": {
       "id": "00000000-0000-4000-8001-000000000901",
       "feedbackQuestion": {
@@ -708,6 +730,29 @@
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "instr2@teammates.tmt"
+    },
+    "comment1ToResponse1ForQ3": {
+      "feedbackResponse": {
+        "id": "00000000-0000-4000-8000-000000000905",
+        "answer": {
+          "questionType": "TEXT",
+          "answer": "The class is great."
+        }
+      },
+      "giver": "instr1@teammates.tmt",
+      "giverType": "INSTRUCTORS",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "commentText": "Instructor 1 comment to student 1 self feedback",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "lastEditorEmail": "instr1@teammates.tmt"
     }
   },
   "notifications": {

@@ -65,9 +65,12 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
-        if (feedbackResponseComment != null) {
-            delete(feedbackResponseComment);
+    public void deleteFeedbackResponseComment(Long frcId) {
+        assert frcId != null;
+
+        FeedbackResponseComment frc = getFeedbackResponseComment(frcId);
+        if (frc != null) {
+            delete(frc);
         }
     }
 

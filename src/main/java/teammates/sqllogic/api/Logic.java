@@ -876,6 +876,13 @@ public class Logic {
     }
 
     /**
+     * Deletes a feedbackResponseComment.
+     */
+    public void deleteFeedbackResponseComment(Long frcId) {
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
+    }
+
+    /**
      * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
      *
      * <p>Cascade adjust the question number of questions in the same session.
