@@ -41,6 +41,7 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
+import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -820,6 +821,25 @@ public class Logic {
             FeedbackQuestion question, Student student) {
         return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                 question, student);
+    }
+
+    /**
+     * Gets an feedback response comment by feedback response comment id.
+     * @param id of feedback response comment.
+     * @return the specified feedback response comment.
+     */
+    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseComment(id);
+    }
+
+    /**
+     * Updates a feedback response comment.
+     * @throws EntityDoesNotExistException if the comment does not exist
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
+            FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
+            throws EntityDoesNotExistException {
+        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
     }
 
     /**
