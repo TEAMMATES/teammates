@@ -866,6 +866,16 @@ public class Logic {
     }
 
     /**
+     * Creates a feedback response comment.
+     * @throws EntityAlreadyExistsException if the comment alreadty exists
+     * @throws InvalidParametersException if the comment is invalid
+     */
+    public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return feedbackResponseCommentsLogic.createFeedbackResponseComment(frc);
+    }
+
+    /**
      * Deletes a feedbackResponseComment.
      */
     public void deleteFeedbackResponseComment(Long frcId) {
