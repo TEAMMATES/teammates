@@ -48,10 +48,15 @@ public class FeedbackContributionQuestion extends FeedbackQuestion {
     @Override
     public FeedbackContributionQuestion makeDeepCopy(FeedbackSession newFeedbackSession) {
         return new FeedbackContributionQuestion(
-            newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
-            this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
+                newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
+                this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
                 new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
                 new FeedbackContributionQuestionDetails(this.questionDetails.getQuestionText()));
+    }
+
+    @Override
+    public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
+        this.questionDetails = (FeedbackContributionQuestionDetails) questionDetails;
     }
 
     @Override

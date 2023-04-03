@@ -481,27 +481,10 @@
       "id": "00000000-0000-4000-8000-000000000901",
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000801",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000701"
-        },
         "questionDetails": {
           "questionType": "TEXT",
           "questionText": "What is the best selling point of your product?"
-        },
-        "description": "This is a text question.",
-        "questionNumber": 1,
-        "giverType": "STUDENTS",
-        "recipientType": "SELF",
-        "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        }
       },
       "giver": "student1@teammates.tmt",
       "recipient": "student1@teammates.tmt",
@@ -520,27 +503,10 @@
       "id": "00000000-0000-4000-8000-000000000902",
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000801",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000701"
-        },
         "questionDetails": {
           "questionType": "TEXT",
           "questionText": "What is the best selling point of your product?"
-        },
-        "description": "This is a text question.",
-        "questionNumber": 1,
-        "giverType": "STUDENTS",
-        "recipientType": "SELF",
-        "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        }
       },
       "giver": "student2@teammates.tmt",
       "recipient": "student2@teammates.tmt",
@@ -694,39 +660,6 @@
     "comment1ToResponse1ForQ1": {
       "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000901",
-        "feedbackQuestion":
-        {
-          "id": "00000000-0000-4000-8000-000000000801",
-          "feedbackSession": {
-            "id": "00000000-0000-4000-8000-000000000701"
-          },
-          "questionDetails": {
-            "questionType": "TEXT",
-            "questionText": "What is the best selling point of your product?"
-          },
-          "description": "This is a text question.",
-          "questionNumber": 1,
-          "giverType": "STUDENTS",
-          "recipientType": "SELF",
-          "numOfEntitiesToGiveFeedbackTo": 1,
-          "showResponsesTo": [
-            "INSTRUCTORS"
-          ],
-          "showGiverNameTo": [
-            "INSTRUCTORS"
-          ],
-          "showRecipientNameTo": [
-            "INSTRUCTORS"
-          ]
-        },
-        "giver": "student1@teammates.tmt",
-        "recipient": "student1@teammates.tmt",
-        "giverSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
-        "recipientSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
         "answer": {
           "questionType": "TEXT",
           "answer": "Student 1 self feedback."
@@ -750,38 +683,6 @@
     "comment2ToResponse2ForQ1": {
       "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000902",
-        "feedbackQuestion": {
-          "id": "00000000-0000-4000-8000-000000000801",
-          "feedbackSession": {
-            "id": "00000000-0000-4000-8000-000000000701"
-          },
-          "questionDetails": {
-            "questionType": "TEXT",
-            "questionText": "What is the best selling point of your product?"
-          },
-          "description": "This is a text question.",
-          "questionNumber": 1,
-          "giverType": "STUDENTS",
-          "recipientType": "SELF",
-          "numOfEntitiesToGiveFeedbackTo": 1,
-          "showResponsesTo": [
-            "INSTRUCTORS"
-          ],
-          "showGiverNameTo": [
-            "INSTRUCTORS"
-          ],
-          "showRecipientNameTo": [
-            "INSTRUCTORS"
-          ]
-        },
-        "giver": "student2@teammates.tmt",
-        "recipient": "student2@teammates.tmt",
-        "giverSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
-        "recipientSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
         "answer": {
           "questionType": "TEXT",
           "answer": "Student 2 self feedback."
@@ -805,38 +706,6 @@
     "comment1ToResponse1ForQ2s": {
       "feedbackResponse": {
         "id": "00000000-0000-4000-8000-000000000903",
-        "feedbackQuestion": {
-          "id": "00000000-0000-4000-8000-000000000802",
-          "feedbackSession": {
-            "id": "00000000-0000-4000-8000-000000000701"
-          },
-          "questionDetails": {
-            "questionType": "TEXT",
-            "questionText": "What is the best selling point of your product?"
-          },
-          "description": "This is a text question.",
-          "questionNumber": 1,
-          "giverType": "STUDENTS",
-          "recipientType": "SELF",
-          "numOfEntitiesToGiveFeedbackTo": 1,
-          "showResponsesTo": [
-            "INSTRUCTORS"
-          ],
-          "showGiverNameTo": [
-            "INSTRUCTORS"
-          ],
-          "showRecipientNameTo": [
-            "INSTRUCTORS"
-          ]
-        },
-        "giver": "student2@teammates.tmt",
-        "recipient": "student2@teammates.tmt",
-        "giverSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
-        "recipientSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
         "answer": {
           "questionType": "TEXT",
           "answer": "Student 2 self feedback."
@@ -857,61 +726,6 @@
       "showGiverNameTo": [],
       "lastEditorEmail": "instr2@teammates.tmt"
     }
-  },
-    "comment2ToResponse2ForQ1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000902",
-        "feedbackQuestion": {
-          "id": "00000000-0000-4000-8000-000000000801",
-          "feedbackSession": {
-            "id": "00000000-0000-4000-8000-000000000701"
-          },
-          "questionDetails": {
-            "questionType": "TEXT",
-            "questionText": "What is the best selling point of your product?"
-          },
-          "description": "This is a text question.",
-          "questionNumber": 1,
-          "giverType": "STUDENTS",
-          "recipientType": "SELF",
-          "numOfEntitiesToGiveFeedbackTo": 1,
-          "showResponsesTo": [
-            "INSTRUCTORS"
-          ],
-          "showGiverNameTo": [
-            "INSTRUCTORS"
-          ],
-          "showRecipientNameTo": [
-            "INSTRUCTORS"
-          ]
-        },
-        "giver": "student2@teammates.tmt",
-        "recipient": "student2@teammates.tmt",
-        "giverSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
-        "recipientSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "Student 2 self feedback."
-        }
-      },
-      "giver": "instr2@teammates.tmt",
-      "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "commentText": "Instructor 2 comment to student 2 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "lastEditorEmail": "instr2@teammates.tmt"
   },
   "notifications": {
     "notification1": {
