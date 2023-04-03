@@ -49,9 +49,11 @@ public final class CoursesLogic {
 
     /**
      * Creates a course.
+     *
      * @return the created course
-     * @throws InvalidParametersException if the course is not valid
-     * @throws EntityAlreadyExistsException if the course already exists in the database.
+     * @throws InvalidParametersException   if the course is not valid
+     * @throws EntityAlreadyExistsException if the course already exists in the
+     *                                      database.
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesDb.createCourse(course);
@@ -59,6 +61,7 @@ public final class CoursesLogic {
 
     /**
      * Gets a course by course id.
+     *
      * @param courseId of course.
      * @return the specified course.
      */
@@ -120,8 +123,8 @@ public final class CoursesLogic {
 
         // TODO: Migrate after other Logic classes have been migrated.
         // AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-        //         .withCourseId(courseId)
-        //         .build();
+        // .withCourseId(courseId)
+        // .build();
         // frcLogic.deleteFeedbackResponseComments(query);
         // frLogic.deleteFeedbackResponses(query);
         // fqLogic.deleteFeedbackQuestions(query);
@@ -135,6 +138,7 @@ public final class CoursesLogic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
+     *
      * @return the time when the course is moved to the recycle bin.
      */
     public Course moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
@@ -164,7 +168,7 @@ public final class CoursesLogic {
      * Updates a course.
      *
      * @return updated course
-     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the course cannot be found
      */
     public Course updateCourse(String courseId, String name, String timezone)
@@ -245,4 +249,12 @@ public final class CoursesLogic {
         courses.sort(Comparator.comparing(Course::getId));
     }
 
+    /**
+     * Gets the institute associated with the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        Course cd = getCourse(courseId);
+        assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
+        return cd.getInstitute();
+    }
 }

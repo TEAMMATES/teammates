@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -15,6 +16,8 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlsearch.InstructorSearchManager;
+import teammates.storage.sqlsearch.SearchManagerFactory;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -37,6 +40,10 @@ public final class UsersDb extends EntitiesDb {
 
     public static UsersDb inst() {
         return instance;
+    }
+
+    private InstructorSearchManager getSearchManager() {
+        return SearchManagerFactory.getInstructorSearchManager();
     }
 
     /**
@@ -221,6 +228,22 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Searches all instructors in the system.
+     *
+     * <p>This method should be used by admin only since the searching does not
+     * restrict the visibility according to the logged-in user's google ID. This
+     * is used by admin to search instructors in the whole system.
+     */
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        if (queryString.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return getSearchManager().searchInstructors(queryString);
+    }
+
+    /**
      * Deletes a user.
      */
     public <T extends User> void deleteUser(T user) {
@@ -317,8 +340,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(instructorRoot)
                 .where(cb.and(
-                    cb.equal(instructorRoot.get("courseId"), courseId),
-                    cb.equal(instructorRoot.get("email"), userEmail)));
+                        cb.equal(instructorRoot.get("courseId"), courseId),
+                        cb.equal(instructorRoot.get("email"), userEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -360,8 +383,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(studentRoot)
                 .where(cb.and(
-                    cb.equal(studentRoot.get("courseId"), courseId),
-                    cb.equal(studentRoot.get("email"), userEmail)));
+                        cb.equal(studentRoot.get("courseId"), courseId),
+                        cb.equal(studentRoot.get("email"), userEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -438,8 +461,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(studentRoot)
                 .where(cb.and(
-                    cb.equal(courseJoin.get("id"), courseId),
-                    cb.equal(sectionJoin.get("name"), sectionName)));
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(sectionJoin.get("name"), sectionName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -459,8 +482,8 @@ public final class UsersDb extends EntitiesDb {
 
         cr.select(studentRoot)
                 .where(cb.and(
-                    cb.equal(courseJoin.get("id"), courseId),
-                    cb.equal(teamsJoin.get("name"), teamName)));
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

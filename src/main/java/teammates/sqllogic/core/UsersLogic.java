@@ -14,6 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.storage.sqlapi.UsersDb;
@@ -59,9 +60,11 @@ public final class UsersLogic {
 
     /**
      * Create an instructor.
+     *
      * @return the created instructor
-     * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
+     * @throws InvalidParametersException   if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists in the
+     *                                      database.
      */
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -70,9 +73,11 @@ public final class UsersLogic {
 
     /**
      * Creates a student.
+     *
      * @return the created student
-     * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the database.
+     * @throws InvalidParametersException   if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the
+     *                                      database.
      */
     public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
         return usersDb.createStudent(student);
@@ -121,6 +126,16 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getInstructorByGoogleId(courseId, googleId);
+    }
+
+    /**
+     * Searches instructors in the whole system. Used by admin only.
+     *
+     * @return List of found instructors in the whole system. Null if no result found.
+     */
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        return usersDb.searchInstructorsInWholeSystem(queryString);
     }
 
     /**
@@ -360,7 +375,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Returns true if the user associated with the googleId is a student in any course in the system.
+     * Returns true if the user associated with the googleId is a student in any
+     * course in the system.
      */
     public boolean isStudentInAnyCourse(String googleId) {
         return !usersDb.getAllStudentsByGoogleId(googleId).isEmpty();
@@ -497,7 +513,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Checks if an instructor with {@code googleId} can create a course with {@code institute}
+     * Checks if an instructor with {@code googleId} can create a course with
+     * {@code institute}
      * (ie. has an existing course(s) with the same {@code institute}).
      */
     public boolean canInstructorCreateCourse(String googleId, String institute) {

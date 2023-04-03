@@ -17,6 +17,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.common.exception.SearchServiceException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -282,6 +283,13 @@ public class Logic {
     public Course updateCourse(String courseId, String name, String timezone)
             throws InvalidParametersException, EntityDoesNotExistException {
         return coursesLogic.updateCourse(courseId, name, timezone);
+    }
+
+    /**
+     * Gets the institute associated with the course.
+     */
+    public String getCourseInstitute(String courseId) {
+        return coursesLogic.getCourseInstitute(courseId);
     }
 
     /**
@@ -688,6 +696,18 @@ public class Logic {
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return usersLogic.createInstructor(instructor);
+    }
+
+    /**
+     * Searches instructors in the whole system. Used by admin only.
+     *
+     * @return List of found instructors in the whole system. Null if no result found.
+     */
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
+            throws SearchServiceException {
+        assert queryString != null;
+
+        return usersLogic.searchInstructorsInWholeSystem(queryString);
     }
 
     /**
