@@ -48,10 +48,12 @@ public class ArchiveCourseAction extends Action {
             if (!isCourseMigrated(idOfCourseToArchive)) {
                 // Set the archive status and status shown to user and admin
                 logic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
-            } else {
-                // Set the archive status and status shown to user and admin
-                sqlLogic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
+
+                return new JsonResult(new CourseArchiveData(idOfCourseToArchive, isArchive));
             }
+
+            // Set the archive status and status shown to user and admin
+            sqlLogic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", e);

@@ -11,6 +11,9 @@ import teammates.ui.request.CourseArchiveRequest;
 import teammates.ui.webapi.ArchiveCourseAction;
 import teammates.ui.webapi.JsonResult;
 
+/**
+ * SUT: {@link ArchiveCourseAction}.
+ */
 public class ArchiveCourseActionIT extends BaseActionIT<ArchiveCourseAction> {
 
     @Override
@@ -137,5 +140,5 @@ public class ArchiveCourseActionIT extends BaseActionIT<ArchiveCourseAction> {
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(instructor.getCourse(), submissionParams);
     }
-    
+
 }
