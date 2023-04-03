@@ -3,9 +3,11 @@ package teammates.sqllogic.core;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
 import teammates.storage.sqlentity.FeedbackResponseComment;
+import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**
  * Handles operations related to feedback response comments.
@@ -65,5 +67,25 @@ public final class FeedbackResponseCommentsLogic {
      */
     public void deleteFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
         frcDb.deleteFeedbackResponseComment(feedbackResponseComment);
+    }
+
+    /**
+     * Updates a feedback response comment.
+     * @throws EntityDoesNotExistException if the comment does not exist
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
+            FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
+            throws EntityDoesNotExistException {
+        FeedbackResponseComment comment = frcDb.getFeedbackResponseComment(frcId);
+        if (comment == null) {
+            throw new EntityDoesNotExistException("Trying to update a feedback response comment that does not exist.");
+        }
+
+        comment.setCommentText(updateRequest.getCommentText());
+        comment.setShowCommentTo(updateRequest.getShowCommentTo());
+        comment.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
+        comment.setLastEditorEmail(updaterEmail);
+
+        return comment;
     }
 }
