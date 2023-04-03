@@ -46,6 +46,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets a feedbackResponse or null if it does not exist.
+     */
+    public FeedbackResponse getFeedbackResponse(UUID frId) {
+        return frDb.getFeedbackResponse(frId);
+    }
+
+    /**
      * Returns true if the responses of the question are visible to students.
      */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestion question) {
@@ -77,6 +84,33 @@ public final class FeedbackResponsesLogic {
      */
     public boolean isResponseOfFeedbackQuestionVisibleToInstructor(FeedbackQuestion question) {
         return question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    /**
+     * Checks whether a giver has responded a session.
+     */
+    public boolean hasGiverRespondedForSession(String giverIdentifier, List<FeedbackQuestion> questions) {
+        assert questions != null;
+
+        for (FeedbackQuestion question : questions) {
+            boolean hasResponse = question
+                    .getFeedbackResponses()
+                    .stream()
+                    .anyMatch(response -> response.getGiver().equals(giverIdentifier));
+            if (hasResponse) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks whether a giver has responded a session.
+     */
+    public boolean hasGiverRespondedForSession(String giver, String feedbackSessionName, String courseId) {
+
+        return frDb.hasResponsesFromGiverInSession(giver, feedbackSessionName, courseId);
     }
 
     /**
@@ -125,8 +159,29 @@ public final class FeedbackResponsesLogic {
         }
 
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                                        feedbackQuestionId, teamName));
-
+                feedbackQuestionId, teamName));
         return responses;
+    }
+
+    /**
+     * Deletes all feedback responses of a question cascade its associated comments.
+     */
+    public void deleteFeedbackResponsesForQuestionCascade(UUID feedbackQuestionId) {
+        // delete all responses, comments of the question
+        frDb.deleteFeedbackResponsesForQuestionCascade(feedbackQuestionId);
+    }
+
+    /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(UUID questionId) {
+        return frDb.areThereResponsesForQuestion(questionId);
+    }
+
+    /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        return frDb.hasResponsesForCourse(courseId);
     }
 }

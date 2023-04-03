@@ -20,7 +20,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class FeedbackRankOptionsQuestion extends FeedbackQuestion {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = FeedbackRankOptionsQuestionDetailsConverter.class)
     private FeedbackRankOptionsQuestionDetails questionDetails;
 
@@ -48,12 +48,17 @@ public class FeedbackRankOptionsQuestion extends FeedbackQuestion {
     @Override
     public FeedbackRankOptionsQuestion makeDeepCopy(FeedbackSession newFeedbackSession) {
         return new FeedbackRankOptionsQuestion(
-                    newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
-                    this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(),
-                    new ArrayList<>(this.getShowResponsesTo()), new ArrayList<>(this.getShowGiverNameTo()),
-                    new ArrayList<>(this.getShowRecipientNameTo()),
-                    new FeedbackRankOptionsQuestionDetails(this.questionDetails.getQuestionText())
-                );
+                newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
+                this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(),
+                new ArrayList<>(this.getShowResponsesTo()), new ArrayList<>(this.getShowGiverNameTo()),
+                new ArrayList<>(this.getShowRecipientNameTo()),
+                new FeedbackRankOptionsQuestionDetails(this.questionDetails.getQuestionText())
+        );
+    }
+
+    @Override
+    public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
+        this.questionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
     }
 
     @Override
