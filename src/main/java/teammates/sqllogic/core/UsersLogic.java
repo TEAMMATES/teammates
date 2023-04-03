@@ -149,6 +149,25 @@ public final class UsersLogic {
     }
 
     /**
+     * Sets the archive status of an instructor (i.e. whether the instructor
+     * decides to archive the associated course or not).
+     */
+    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Instructor instructor = getInstructorByGoogleId(courseId, googleId);
+
+        if (instructor == null) {
+            throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
+        }
+
+        instructor.setIsArchived(archiveStatus);
+
+        if (!instructor.isValid()) {
+            throw new InvalidParametersException(instructor.getInvalidityInfo());
+        }
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id Id of Student.

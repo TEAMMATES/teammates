@@ -590,6 +590,23 @@ public class Logic {
     }
 
     /**
+     * Changes the archive status of a course for an instructor.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @param courseId The course of which the archive status is to be changed
+     * @param archiveStatus The archive status to be set
+     */
+    public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        assert googleId != null;
+        assert courseId != null;
+
+        usersLogic.setArchiveStatusOfInstructor(googleId, courseId, archiveStatus);
+    }
+
+    /**
      * Gets student associated with {@code id}.
      *
      * @param id    Id of Student.

@@ -25,8 +25,16 @@ class ArchiveCourseAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String idOfCourseToArchive = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToArchive, userInfo.id),
-                logic.getCourse(idOfCourseToArchive));
+
+        if (!isCourseMigrated(idOfCourseToArchive)) {
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToArchive, userInfo.id),
+                    logic.getCourse(idOfCourseToArchive));
+
+            return;
+        }
+
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToArchive, userInfo.id),
+                sqlLogic.getCourse(idOfCourseToArchive));
     }
 
     @Override
@@ -37,8 +45,13 @@ class ArchiveCourseAction extends Action {
 
         boolean isArchive = courseArchiveRequest.getArchiveStatus();
         try {
-            // Set the archive status and status shown to user and admin
-            logic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
+            if (!isCourseMigrated(idOfCourseToArchive)) {
+                // Set the archive status and status shown to user and admin
+                logic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
+            } else {
+                // Set the archive status and status shown to user and admin
+                sqlLogic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
+            }
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", e);
