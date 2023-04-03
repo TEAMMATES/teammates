@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -292,7 +290,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new InvalidOperationException(e);
         }
     }
 
