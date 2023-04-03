@@ -372,9 +372,7 @@ public final class StudentsLogic {
             }
         }
 
-        String errorMessage = generateErrorMessage(invalidSectionList);
-
-        return errorMessage;
+        return generateErrorMessage(invalidSectionList);
     }
 
     /*
@@ -426,8 +424,8 @@ public final class StudentsLogic {
     /*
      * Checks the conditions for deciding whether the name of the team is valid.
      */
-    private boolean checkInvalidTeamName(StudentAttributes currentStudent, 
-        StudentAttributes previousStudent, List<String> invalidTeamList){
+    private boolean checkInvalidTeamName(StudentAttributes currentStudent,
+            StudentAttributes previousStudent, List<String> invalidTeamList) {
         return currentStudent.getTeam().equals(previousStudent.getTeam())
             && !currentStudent.getSection().equals(previousStudent.getSection())
             && !invalidTeamList.contains(currentStudent.getTeam());
