@@ -609,9 +609,6 @@
       "id": "00000000-0000-4000-8001-000000000901",
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8001-000000000800",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000702"
-        },
         "questionDetails": {
           "hasAssignedWeights": false,
           "mcqWeights": [],
@@ -625,21 +622,7 @@
           "generateOptionsFor": "NONE",
           "questionType": "MCQ",
           "questionText": "How do you think you did?"
-        },
-        "description": "This is a mcq question.",
-        "questionNumber": 1,
-        "giverType": "STUDENTS",
-        "recipientType": "SELF",
-        "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        }
       },
       "giver": "student1@teammates.tmt",
       "recipient": "student1@teammates.tmt",
