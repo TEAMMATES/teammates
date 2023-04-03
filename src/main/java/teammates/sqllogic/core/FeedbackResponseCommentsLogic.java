@@ -63,6 +63,13 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
+     * Deletes a feedbackResponseComment.
+     */
+    public void deleteFeedbackResponseComment(Long frcId) {
+        frcDb.deleteFeedbackResponseComment(frcId);
+    }
+
+    /**
      * Updates a feedback response comment.
      * @throws EntityDoesNotExistException if the comment does not exist
      */
