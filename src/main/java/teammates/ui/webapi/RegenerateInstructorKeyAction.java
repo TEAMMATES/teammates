@@ -36,8 +36,29 @@ class RegenerateInstructorKeyAction extends AdminOnlyAction {
         String instructorEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
+        if (!isCourseMigrated(courseId)) {
+            InstructorAttributes updatedInstructor;
+            try {
+                updatedInstructor = logic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
+            } catch (EntityDoesNotExistException ex) {
+                throw new EntityNotFoundException(ex);
+            } catch (EntityAlreadyExistsException ex) {
+                // No logging here as severe logging is done at the origin of the error
+                return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            }
+
+            boolean emailSent = sendEmail(updatedInstructor);
+            String statusMessage = emailSent
+                    ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
+                    : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
+
+            return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getKey()));
+        }
+
         InstructorAttributes updatedInstructor;
         try {
+            // TODO: swap out for the below function
+            // updatedInstructor = sqlLogic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
             updatedInstructor = logic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
@@ -51,7 +72,7 @@ class RegenerateInstructorKeyAction extends AdminOnlyAction {
                 ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
-        return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getKey()));
+        return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getKey()));        
     }
 
     /**
@@ -59,10 +80,9 @@ class RegenerateInstructorKeyAction extends AdminOnlyAction {
      * @return true if the email was sent successfully, and false otherwise.
      */
     private boolean sendEmail(InstructorAttributes instructor) {
-        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
+        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
                 instructor.getCourseId(), instructor.getEmail(), EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }
-
 }
