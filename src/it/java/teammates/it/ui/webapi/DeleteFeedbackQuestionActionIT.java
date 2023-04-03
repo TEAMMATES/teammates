@@ -8,6 +8,8 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 
@@ -22,6 +24,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
         super.setUp();
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
     }
 
     @Override
@@ -39,6 +42,9 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
     protected void testExecute() throws Exception {
         Instructor instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackResponse fr1 = typicalBundle.feedbackResponses.get("response1ForQ1");
+        FeedbackResponse fr2 = typicalBundle.feedbackResponses.get("response2ForQ1");
+        FeedbackResponseComment frc1 = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         FeedbackQuestion typicalQuestion =
                 logic.getFeedbackQuestion(fq1.getId());
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionDetailsCopy().getQuestionType());
@@ -60,6 +66,11 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
 
         // question is deleted
         assertNull(logic.getFeedbackQuestion(typicalQuestion.getId()));
+        // responses to this question are deleted
+        assertNull(logic.getFeedbackResponse(fr1.getId()));
+        assertNull(logic.getFeedbackResponse(fr2.getId()));
+        // feedback response comments to the responses are deleted
+        assertNull(logic.getFeedbackResponseComment(frc1.getId()));
     }
 
     @Override
