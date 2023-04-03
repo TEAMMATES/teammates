@@ -15,6 +15,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -286,11 +287,11 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                 email);
         try {
             FeedbackResponseComment createdComment = sqlLogic.createFeedbackResponseComment(feedbackResponseComment);
+            HibernateUtil.flushSession();
             return new JsonResult(new FeedbackResponseCommentData(createdComment));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {
-            // Should not happen since UUID is usually unique
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }
