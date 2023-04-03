@@ -52,7 +52,12 @@ public class FeedbackRankRecipientsQuestion extends FeedbackQuestion {
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
                 new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
                 new FeedbackRankRecipientsQuestionDetails(this.questionDetails.getQuestionText())
-            );
+        );
+    }
+
+    @Override
+    public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
+        this.questionDetails = (FeedbackRankRecipientsQuestionDetails) questionDetails;
     }
 
     @Override

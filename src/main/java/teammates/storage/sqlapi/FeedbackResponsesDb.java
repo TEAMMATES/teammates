@@ -92,6 +92,19 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
+     * Deletes all feedback responses of a question cascade its associated comments.
+     */
+    public void deleteFeedbackResponsesForQuestionCascade(UUID feedbackQuestionId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> frRoot = cq.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
+        cq.select(frRoot).where(cb.equal(fqJoin.get("id"), feedbackQuestionId));
+        List<FeedbackResponse> frToBeDeleted = HibernateUtil.createQuery(cq).getResultList();
+        frToBeDeleted.forEach(HibernateUtil::remove);
+    }
+
+    /**
      * Checks whether there are responses for a question.
      */
     public boolean areThereResponsesForQuestion(UUID questionId) {

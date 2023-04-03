@@ -41,6 +41,7 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
+import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**
@@ -869,5 +870,24 @@ public class Logic {
      */
     public void deleteFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(feedbackResponseComment);
+    }
+
+    /**
+     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     *
+     * <p>Cascade adjust the question number of questions in the same session.
+     *
+     * <p>Cascade adjust the existing response of the question.
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback question
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback question cannot be found
+     */
+    public FeedbackQuestion updateFeedbackQuestionCascade(UUID questionId, FeedbackQuestionUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
     }
 }
