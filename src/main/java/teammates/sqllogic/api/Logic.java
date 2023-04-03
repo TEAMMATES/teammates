@@ -705,6 +705,23 @@ public class Logic {
     }
 
     /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor with the new registration key.
+     * @throws EntityAlreadyExistsException if the newly generated instructor has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        assert courseId != null;
+        assert email != null;
+
+        return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
+    }
+
+    /**
      * Returns active notification for general users and the specified {@code targetUser}.
      */
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {

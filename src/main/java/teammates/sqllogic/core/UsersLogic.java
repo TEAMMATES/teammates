@@ -142,6 +142,26 @@ public final class UsersLogic {
     }
 
     /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor with the new registration key.
+     * @throws EntityAlreadyExistsException if the newly generated instructor has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+        Instructor originalInstructor = usersDb.getInstructorForEmail(courseId, email);
+        if (originalInstructor == null) {
+            String errorMessage = String.format(
+                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        return usersDb.regenerateEntityKey(originalInstructor);
+    }
+
+    /**
      * Returns true if the user associated with the googleId is an instructor in any course in the system.
      */
     public boolean isInstructorInAnyCourse(String googleId) {

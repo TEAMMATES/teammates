@@ -386,4 +386,30 @@ public final class UsersDb extends EntitiesDb {
         return HibernateUtil.createQuery(cr).getResultList();
     }
 
+    /**
+     * Regenerates the registration key of an instructor in a course.
+     *
+     * @return the updated instructor
+     * @throws EntityAlreadyExistsException if a new registration key could not be generated
+     */
+    public Instructor regenerateEntityKey(Instructor originalInstructor)
+            throws EntityAlreadyExistsException {
+        
+        originalInstructor.generateNewRegistrationKey();
+        persist(originalInstructor);
+        return originalInstructor;
+
+        // int numTries = 0;
+        // while (numTries < MAX_KEY_REGENERATION_TRIES) {
+        //     Instructor updatedEntity = convertToEntityForSaving(originalInstructor);
+        //     if (!updatedEntity.getRegistrationKey().equals(originalInstructor.getKey())) {
+        //         saveEntity(updatedEntity);
+        //         return makeAttributes(updatedEntity);
+        //     }
+        //     numTries++;
+        // }
+        // log.severe("Failed to generate new registration key for instructor after " + MAX_KEY_REGENERATION_TRIES + " tries");
+        // throw new EntityAlreadyExistsException("Could not regenerate a new course registration key for the instructor.");
+    }
+
 }

@@ -10,6 +10,7 @@ import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.ui.output.RegenerateKeyData;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * Regenerates the key for a given instructor in a course. This will also resend the course registration
@@ -55,11 +56,9 @@ class RegenerateInstructorKeyAction extends AdminOnlyAction {
             return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getKey()));
         }
 
-        InstructorAttributes updatedInstructor;
+        Instructor updatedInstructor;
         try {
-            // TODO: swap out for the below function
-            // updatedInstructor = sqlLogic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
-            updatedInstructor = logic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
+            updatedInstructor = sqlLogic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (EntityAlreadyExistsException ex) {
@@ -72,7 +71,19 @@ class RegenerateInstructorKeyAction extends AdminOnlyAction {
                 ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
-        return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getKey()));        
+        // to check: key or url???
+        return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getRegistrationUrl()));        
+    }
+
+    /**
+     * Sends the regenerated course join and feedback session links to the instructor.
+     * @return true if the email was sent successfully, and false otherwise.
+     */
+    private boolean sendEmail(Instructor instructor) {
+        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                instructor.getCourseId(), instructor.getEmail(), EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+        EmailSendingStatus status = emailSender.sendEmail(email);
+        return status.isSuccess();
     }
 
     /**
@@ -80,7 +91,7 @@ class RegenerateInstructorKeyAction extends AdminOnlyAction {
      * @return true if the email was sent successfully, and false otherwise.
      */
     private boolean sendEmail(InstructorAttributes instructor) {
-        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
                 instructor.getCourseId(), instructor.getEmail(), EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
