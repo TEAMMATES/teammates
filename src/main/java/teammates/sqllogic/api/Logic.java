@@ -706,6 +706,20 @@ public class Logic {
     }
 
     /**
+     * Update instructor being edited to ensure validity of instructors for the course.
+     * * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see UsersLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, Instructor)
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, Instructor instructorToEdit) {
+        assert courseId != null;
+        assert instructorToEdit != null;
+
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
+    }
+
+    /**
      * Returns active notification for general users and the specified {@code targetUser}.
      */
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {

@@ -10,6 +10,7 @@ import java.util.UUID;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -247,6 +248,35 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getAllUsersByGoogleId(googleId);
+    }
+
+    /**
+     * Checks if there are any other registered instructors that can modify instructors.
+     * If there are none, the instructor currently being edited will be granted the privilege
+     * of modifying instructors automatically.
+     *
+     * @param courseId         Id of the course.
+     * @param instructorToEdit Instructor that will be edited.
+     *                         This may be modified within the method.
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, Instructor instructorToEdit) {
+        List<Instructor> instructors = getInstructorsForCourse(courseId);
+        int numOfInstrCanModifyInstructor = 0;
+        Instructor instrWithModifyInstructorPrivilege = null;
+        for (Instructor instructor : instructors) {
+            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+                numOfInstrCanModifyInstructor++;
+                instrWithModifyInstructorPrivilege = instructor;
+            }
+        }
+        boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
+                && instrWithModifyInstructorPrivilege != null
+                && (!instrWithModifyInstructorPrivilege.isRegistered()
+                || instrWithModifyInstructorPrivilege.getGoogleId()
+                .equals(instructorToEdit.getGoogleId()));
+        if (isLastRegInstructorWithPrivilege) {
+            instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+        }
     }
 
     /**
