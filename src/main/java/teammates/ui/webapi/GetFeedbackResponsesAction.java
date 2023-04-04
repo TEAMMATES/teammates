@@ -197,7 +197,8 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         responses.forEach(response -> {
             FeedbackResponseData data = new FeedbackResponseData(response);
             if (feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MCQ
-                    || feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MSQ) {
+                    || feedbackQuestionDetails.getQuestionType() == FeedbackQuestionType.MSQ
+            ) {
                 // Only MCQ and MSQ questions can have participant comment
                 FeedbackResponseComment comment =
                         sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
