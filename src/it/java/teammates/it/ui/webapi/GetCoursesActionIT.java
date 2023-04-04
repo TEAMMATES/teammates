@@ -22,6 +22,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
+        this.typicalBundle = loadSqlDataBundle("./GetCoursesActionIT.json");
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
     }
@@ -88,7 +89,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
 
         CoursesData courses = getValidCourses(params);
         assertEquals(2, courses.getCourses().size());
-        Course expectedCourse1 = typicalBundle.courses.get("course1");
+        Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
         verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
         verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
@@ -135,12 +136,14 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         loginAsStudent(student.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
-        assertEquals(2, courses.getCourses().size());
-        Course expectedCourse1 = typicalBundle.courses.get("course1");
-        Course expectedCourse2 = typicalBundle.courses.get("typicalCourse4");
+        assertEquals(3, courses.getCourses().size());
+        Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
+        Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
+        Course expectedCourse3 = typicalBundle.courses.get("typicalCourse4");
 
         verifySameCourseDataStudent(courses.getCourses().get(0), expectedCourse1);
         verifySameCourseDataStudent(courses.getCourses().get(1), expectedCourse2);
+        verifySameCourseDataStudent(courses.getCourses().get(2), expectedCourse3);
     }
 
     private void verifySameCourseData(CourseData actualCourse, Course expectedCourse) {
