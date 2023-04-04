@@ -41,6 +41,8 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
+import teammates.ui.request.FeedbackQuestionUpdateRequest;
+import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -327,6 +329,13 @@ public class Logic {
         assert feedbackSession.getCourse() != null && feedbackSession.getCourse().getId() != null;
 
         return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    }
+
+    /**
+     * Gets all feedback sessions of a course, except those that are soft-deleted.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
+        return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
     }
 
     /**
@@ -816,10 +825,79 @@ public class Logic {
     }
 
     /**
+     * Gets an feedback response comment by feedback response comment id.
+     * @param id of feedback response comment.
+     * @return the specified feedback response comment.
+     */
+    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseComment(id);
+    }
+
+    /**
+     * Updates a feedback response comment.
+     * @throws EntityDoesNotExistException if the comment does not exist
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
+            FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
+            throws EntityDoesNotExistException {
+        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
+    }
+
+    /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(UUID questionId) {
+        return feedbackResponsesLogic.areThereResponsesForQuestion(questionId);
+    }
+
+    /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        return feedbackResponsesLogic.hasResponsesForCourse(courseId);
+    }
+
+    /**
      * Gets the comment associated with the response.
      */
     public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
             UUID feedbackResponseId) {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+    }
+
+    /**
+     * Creates a feedback response comment.
+     * @throws EntityAlreadyExistsException if the comment alreadty exists
+     * @throws InvalidParametersException if the comment is invalid
+     */
+    public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return feedbackResponseCommentsLogic.createFeedbackResponseComment(frc);
+    }
+
+    /**
+     * Deletes a feedbackResponseComment.
+     */
+    public void deleteFeedbackResponseComment(Long frcId) {
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
+    }
+
+    /**
+     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     *
+     * <p>Cascade adjust the question number of questions in the same session.
+     *
+     * <p>Cascade adjust the existing response of the question.
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback question
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback question cannot be found
+     */
+    public FeedbackQuestion updateFeedbackQuestionCascade(UUID questionId, FeedbackQuestionUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
     }
 }
