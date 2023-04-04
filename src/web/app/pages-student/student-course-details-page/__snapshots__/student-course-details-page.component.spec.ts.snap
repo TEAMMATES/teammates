@@ -335,13 +335,11 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       <div
         class="card-body"
       >
-        <h5
-          class="d-inline"
+        <span
+          class="d-inline h5 fw-bold"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+          Sort By: 
+        </span>
         <div
           class="btn-group"
           data-toggle="buttons"

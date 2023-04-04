@@ -514,6 +514,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
     <tm-session-edit-form>
       <div
         class="card card-plain"
+        id="session-edit-form"
       >
         <div
           class="card-body"
@@ -737,6 +738,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
@@ -744,7 +746,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
+                            disabled=""
                             type="button"
                           >
                             <i
@@ -761,6 +765,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         id="submission-start-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -941,6 +946,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
@@ -948,7 +954,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
+                            disabled=""
                             type="button"
                           >
                             <i
@@ -965,6 +973,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                         id="submission-end-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -1128,6 +1137,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <label
                         class="control-label font-bold"
+                        for="grace-period"
                       >
                          Grace period 
                       </label>
@@ -1272,8 +1282,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="card"
             id="question-form-1"
           >
-            <div
-              class="card-header bg-primary text-white cursor-pointer"
+            <button
+              class="card-header bg-primary text-white cursor-pointer border-0"
             >
               <div
                 class="collapse-caret"
@@ -1289,76 +1299,91 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </tm-panel-chevron>
               </div>
               <div
-                id="question-header"
+                class="d-flex flex-fill flex-sm-row flex-column align-items-sm-center align-items-start"
               >
-                <strong>
-                  Question 
-                </strong>
-                <select
-                  class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-                  id="question-number-dropdown"
+                <div
+                  class="d-flex flex-column text-start"
+                  id="question-header"
                 >
-                  <option
-                    value="0: 1"
+                  <div
+                    class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                   >
-                    1
-                  </option>
-                  <option
-                    value="1: 2"
-                  >
-                    2
-                  </option>
-                </select>
-                 Essay question 
-              </div>
-              <div
-                class="card-header-btn-toolbar"
-              >
-                <div>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    id="btn-save-question"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-check"
-                    />
-                     Save 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-ban"
-                    />
-                     Cancel 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    id="btn-delete-question"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-trash"
-                    />
-                     Delete 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    container="body"
-                    id="btn-duplicate-question"
-                    ngbtooltip="Make a copy of the existing question and add to the current feedback session."
-                    type="button"
-                  >
-                    <i
-                      class="far fa-copy"
-                    />
-                     Duplicate 
-                  </button>
+                    <h2
+                      class="question-number fw-bold me-1"
+                    >
+                      Question 
+                      <select
+                        class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                        id="question-number-dropdown"
+                      >
+                        <option
+                          value="0: 1"
+                        >
+                          1
+                        </option>
+                        <option
+                          value="1: 2"
+                        >
+                          2
+                        </option>
+                      </select>
+                    </h2>
+                    <span
+                      id="question-type"
+                    >
+                      Essay question
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="card-header-btn-toolbar ms-0 ms-sm-auto text-start"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      id="btn-save-question"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-check"
+                      />
+                       Save 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-ban"
+                      />
+                       Cancel 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      id="btn-delete-question"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-trash"
+                      />
+                       Delete 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      container="body"
+                      id="btn-duplicate-question"
+                      ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+                      type="button"
+                    >
+                      <i
+                        class="far fa-copy"
+                      />
+                       Duplicate 
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </button>
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
               style=""
@@ -1407,13 +1432,13 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             <div
                               class="col-md-2"
                             >
-                              <div
+                              <pre
                                 class="question-basic-info"
+                                role="text"
                               >
-                                [Optional]
-                                <br />
-                                Description
-                              </div>
+                                        [Optional]
+          Description
+                              </pre>
                             </div>
                             <div
                               class="col-md-10"
@@ -1446,29 +1471,31 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <input
                                   type="checkbox"
                                 />
-                                <a>
-                                   Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                                </a>
+                                 Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                               </label>
                             </div>
                             <div
                               class="col-12 question-recommended-length"
                             >
-                               [Optional] 
-                              <span
-                                class="ngb-tooltip-class"
-                                ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                              <label
+                                for="recommended-length"
                               >
-                                 Recommended length 
-                              </span>
-                               for the response: 
+                                 [Optional] 
+                                <span
+                                  class="ngb-tooltip-class"
+                                  ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                                >
+                                   Recommended length 
+                                </span>
+                                 (in words) for the response: 
+                              </label>
                               <input
+                                aria-label="Recommended Length Input"
                                 class="form-control ng-untouched ng-pristine ng-valid"
                                 id="recommended-length"
                                 min="1"
                                 type="number"
                               />
-                               words 
                             </div>
                           </div>
                         </tm-text-question-edit-details-form>
@@ -1490,16 +1517,17 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     </div>
                     <div
                       autoclose="outside"
-                      class="margin-top-15px"
+                      class="margin-top-15px w-100"
                       ngbdropdown=""
                     >
                       <button
                         aria-expanded="false"
-                        class="dropdown-toggle btn btn-light white-space-normal"
+                        class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
                         <span
+                          class="text-wrap"
                           style=""
                         >
                            Students in this course will give feedback on 
@@ -1520,139 +1548,67 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           Common feedback path combinations
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Instructors in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
+                               Instructors in this course will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Feedback session creator (i.e., me) will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
+                               Feedback session creator (i.e., me) will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Students in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members and Giver
-                              </li>
-                            </ul>
+                               Students in this course will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
                           class="dropdown-divider"
                         />
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                         >
-                          Custom feedback path...
+                          <button
+                            class="dropdown-button"
+                          >
+                            Custom feedback path...
+                          </button>
                         </li>
                       </ul>
                     </div>
@@ -1748,48 +1704,74 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           Common visibility options
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient and instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient and instructors
+                          </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient, visible to instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient, visible to instructors
+                          </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient and giver's team members, visible to instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient and giver's team members, visible to instructors
+                          </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Visible to instructors only
+                          <button
+                            class="dropdown-button"
+                          >
+                            Visible to instructors only
+                          </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Visible to recipient and instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Visible to recipient and instructors
+                          </button>
                         </li>
                         <li
+                          aria-hidden="true"
                           class="dropdown-divider"
                           style=""
                         />
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Custom visibility options...
+                          <button
+                            class="dropdown-button"
+                          >
+                            Custom visibility options...
+                          </button>
                         </li>
                       </ul>
                     </div>
                     <table
+                      aria-label="Custom Visibility Options Table"
                       class="table margin-top-15px background-color-white table-striped"
                       style=""
                     >
@@ -1837,6 +1819,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -1844,6 +1827,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1851,6 +1835,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Recipient's Name"
                               disabled=""
                               type="checkbox"
                             />
@@ -1869,6 +1854,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -1876,6 +1862,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1883,6 +1870,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1900,6 +1888,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -1907,6 +1896,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1914,6 +1904,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1931,6 +1922,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -1938,6 +1930,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -1945,6 +1938,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2011,8 +2005,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="card"
             id="question-form-2"
           >
-            <div
-              class="card-header bg-primary text-white cursor-pointer"
+            <button
+              class="card-header bg-primary text-white cursor-pointer border-0"
             >
               <div
                 class="collapse-caret"
@@ -2028,76 +2022,91 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </tm-panel-chevron>
               </div>
               <div
-                id="question-header"
+                class="d-flex flex-fill flex-sm-row flex-column align-items-sm-center align-items-start"
               >
-                <strong>
-                  Question 
-                </strong>
-                <select
-                  class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-                  id="question-number-dropdown"
+                <div
+                  class="d-flex flex-column text-start"
+                  id="question-header"
                 >
-                  <option
-                    value="0: 1"
+                  <div
+                    class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
                   >
-                    1
-                  </option>
-                  <option
-                    value="1: 2"
-                  >
-                    2
-                  </option>
-                </select>
-                 Essay question 
-              </div>
-              <div
-                class="card-header-btn-toolbar"
-              >
-                <div>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    id="btn-save-question"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-check"
-                    />
-                     Save 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-ban"
-                    />
-                     Cancel 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    id="btn-delete-question"
-                    type="button"
-                  >
-                    <i
-                      class="fas fa-trash"
-                    />
-                     Delete 
-                  </button>
-                  <button
-                    class="btn btn-primary btn-sm"
-                    container="body"
-                    id="btn-duplicate-question"
-                    ngbtooltip="Make a copy of the existing question and add to the current feedback session."
-                    type="button"
-                  >
-                    <i
-                      class="far fa-copy"
-                    />
-                     Duplicate 
-                  </button>
+                    <h2
+                      class="question-number fw-bold me-1"
+                    >
+                      Question 
+                      <select
+                        class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                        id="question-number-dropdown"
+                      >
+                        <option
+                          value="0: 1"
+                        >
+                          1
+                        </option>
+                        <option
+                          value="1: 2"
+                        >
+                          2
+                        </option>
+                      </select>
+                    </h2>
+                    <span
+                      id="question-type"
+                    >
+                      Essay question
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="card-header-btn-toolbar ms-0 ms-sm-auto text-start"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      id="btn-save-question"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-check"
+                      />
+                       Save 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-ban"
+                      />
+                       Cancel 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      id="btn-delete-question"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-trash"
+                      />
+                       Delete 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      container="body"
+                      id="btn-duplicate-question"
+                      ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+                      type="button"
+                    >
+                      <i
+                        class="far fa-copy"
+                      />
+                       Duplicate 
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </button>
             <div
               class="ng-trigger ng-trigger-collapseAnim ng-animating"
               style=""
@@ -2146,13 +2155,13 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             <div
                               class="col-md-2"
                             >
-                              <div
+                              <pre
                                 class="question-basic-info"
+                                role="text"
                               >
-                                [Optional]
-                                <br />
-                                Description
-                              </div>
+                                        [Optional]
+          Description
+                              </pre>
                             </div>
                             <div
                               class="col-md-10"
@@ -2185,29 +2194,31 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                                 <input
                                   type="checkbox"
                                 />
-                                <a>
-                                   Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                                </a>
+                                 Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                               </label>
                             </div>
                             <div
                               class="col-12 question-recommended-length"
                             >
-                               [Optional] 
-                              <span
-                                class="ngb-tooltip-class"
-                                ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                              <label
+                                for="recommended-length"
                               >
-                                 Recommended length 
-                              </span>
-                               for the response: 
+                                 [Optional] 
+                                <span
+                                  class="ngb-tooltip-class"
+                                  ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                                >
+                                   Recommended length 
+                                </span>
+                                 (in words) for the response: 
+                              </label>
                               <input
+                                aria-label="Recommended Length Input"
                                 class="form-control ng-untouched ng-pristine ng-valid"
                                 id="recommended-length"
                                 min="1"
                                 type="number"
                               />
-                               words 
                             </div>
                           </div>
                         </tm-text-question-edit-details-form>
@@ -2229,16 +2240,17 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     </div>
                     <div
                       autoclose="outside"
-                      class="margin-top-15px"
+                      class="margin-top-15px w-100"
                       ngbdropdown=""
                     >
                       <button
                         aria-expanded="false"
-                        class="dropdown-toggle btn btn-light white-space-normal"
+                        class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
                         id="btn-feedback-path"
                         ngbdropdowntoggle=""
                       >
                         <span
+                          class="text-wrap"
                           style=""
                         >
                            Students in this course will give feedback on 
@@ -2259,139 +2271,67 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           Common feedback path combinations
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Instructors in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
+                               Instructors in this course will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Feedback session creator (i.e., me) will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                            </ul>
+                               Feedback session creator (i.e., me) will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
-                          class="dropdown-item"
+                          ngbdropdown=""
                           style=""
                         >
                           <div
-                            ngbdropdown=""
-                            placement="right"
+                            class="text-wrap dropdown-item"
                           >
-                            <span
-                              aria-expanded="false"
-                              class="dropdown-toggle float-end invisible"
-                              ngbdropdownanchor=""
-                            />
-                             Students in this course will give feedback on ... 
-                            <i
-                              class="fas fa-caret-right"
-                            />
-                            <ul
-                              class="dropdown-menu"
-                              ngbdropdownmenu=""
+                            <button
+                              class="dropdown-button"
                             >
-                              <li
-                                class="dropdown-item"
-                              >
-                                Nobody specific (For general class feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver (Self feedback)
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Instructors in the course
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members
-                              </li>
-                              <li
-                                class="dropdown-item"
-                              >
-                                Giver's team members and Giver
-                              </li>
-                            </ul>
+                               Students in this course will give feedback on ... 
+                              <i
+                                class="fa-caret-right fas"
+                              />
+                            </button>
                           </div>
                         </li>
                         <li
                           class="dropdown-divider"
                         />
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                         >
-                          Custom feedback path...
+                          <button
+                            class="dropdown-button"
+                          >
+                            Custom feedback path...
+                          </button>
                         </li>
                       </ul>
                     </div>
@@ -2487,48 +2427,74 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           Common visibility options
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient and instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient and instructors
+                          </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient, visible to instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient, visible to instructors
+                          </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Shown anonymously to recipient and giver's team members, visible to instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Shown anonymously to recipient and giver's team members, visible to instructors
+                          </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Visible to instructors only
+                          <button
+                            class="dropdown-button"
+                          >
+                            Visible to instructors only
+                          </button>
                         </li>
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Visible to recipient and instructors
+                          <button
+                            class="dropdown-button"
+                          >
+                            Visible to recipient and instructors
+                          </button>
                         </li>
                         <li
+                          aria-hidden="true"
                           class="dropdown-divider"
                           style=""
                         />
                         <li
-                          class="dropdown-item"
+                          class="text-wrap dropdown-item"
                           style=""
                         >
-                          Custom visibility options...
+                          <button
+                            class="dropdown-button"
+                          >
+                            Custom visibility options...
+                          </button>
                         </li>
                       </ul>
                     </div>
                     <table
+                      aria-label="Custom Visibility Options Table"
                       class="table margin-top-15px background-color-white table-striped"
                       style=""
                     >
@@ -2576,6 +2542,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -2583,6 +2550,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2590,6 +2558,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Recipient(s) can see Recipient's Name"
                               disabled=""
                               type="checkbox"
                             />
@@ -2608,6 +2577,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -2615,6 +2585,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2622,6 +2593,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Giver's Team Members can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2639,6 +2611,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -2646,6 +2619,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2653,6 +2627,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Other Students can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2670,6 +2645,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Answer"
                               type="checkbox"
                             />
                           </td>
@@ -2677,6 +2653,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Giver's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2684,6 +2661,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             class="text-center"
                           >
                             <input
+                              aria-label="Instructors can see Recipient's Name"
                               type="checkbox"
                             />
                           </td>
@@ -2798,6 +2776,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Essay question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=essay-questions&section=questions"
                     rel="noopener noreferrer"
@@ -2822,6 +2801,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Multiple-choice (single answer) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=single-answer-mcq&section=questions"
                     rel="noopener noreferrer"
@@ -2846,6 +2826,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Multiple-choice (multiple answers) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=multiple-answer-mcq&section=questions"
                     rel="noopener noreferrer"
@@ -2870,6 +2851,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Numerical-scale question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=numerical-scale&section=questions"
                     rel="noopener noreferrer"
@@ -2894,6 +2876,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Distribute points (among options) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=points-options&section=questions"
                     rel="noopener noreferrer"
@@ -2918,6 +2901,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Distribute points (among recipients) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=points-recipients&section=questions"
                     rel="noopener noreferrer"
@@ -2942,6 +2926,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Team contribution question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=contribution&section=questions"
                     rel="noopener noreferrer"
@@ -2966,6 +2951,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Rubric question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=rubric&section=questions"
                     rel="noopener noreferrer"
@@ -2990,6 +2976,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Rank (options) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=rank-options&section=questions"
                     rel="noopener noreferrer"
@@ -3014,6 +3001,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      Rank (recipients) question 
                   </button>
                   <a
+                    aria-label="More info"
                     class="btn btn-link"
                     href="/web/instructor/help?questionId=rank-recipients&section=questions"
                     rel="noopener noreferrer"
@@ -3030,6 +3018,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             </div>
           </div>
           <a
+            aria-label="Help for questions"
             class="btn btn-link"
             href="/web/instructor/help?questionId=questions&section=questions"
             rel="noopener noreferrer"
@@ -3072,6 +3061,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               class="col-lg-5"
             >
               <select
+                aria-label="Select student to preview as"
                 class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-student"
               >
@@ -3088,6 +3078,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               class="col-lg-5"
             >
               <select
+                aria-label="Select instructor to preview as"
                 class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-instructor"
               >
@@ -3164,6 +3155,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
     <tm-session-edit-form>
       <div
         class="card card-plain"
+        id="session-edit-form"
       >
         <div
           class="card-body"
@@ -3384,6 +3376,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
@@ -3391,7 +3384,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
+                            disabled=""
                             type="button"
                           >
                             <i
@@ -3408,6 +3403,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         id="submission-start-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -3588,6 +3584,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           class="input-group"
                         >
                           <input
+                            aria-label="Date"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             disabled=""
                             ngbdatepicker=""
@@ -3595,7 +3592,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             type="text"
                           />
                           <button
+                            aria-label="Change date"
                             class="btn btn-light input-group-text"
+                            disabled=""
                             type="button"
                           >
                             <i
@@ -3612,6 +3611,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         id="submission-end-time"
                       >
                         <select
+                          aria-label="Select time"
                           class="form-control form-select ng-untouched ng-pristine ng-valid"
                         >
                           <option
@@ -3775,6 +3775,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     >
                       <label
                         class="control-label font-bold"
+                        for="grace-period"
                       >
                          Grace period 
                       </label>
@@ -3919,8 +3920,8 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
         class="card"
         id="question-form-0"
       >
-        <div
-          class="card-header bg-primary text-white cursor-pointer"
+        <button
+          class="card-header bg-primary text-white cursor-pointer border-0"
         >
           <div
             class="collapse-caret"
@@ -3936,39 +3937,54 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             </tm-panel-chevron>
           </div>
           <div
-            id="question-header"
+            class="d-flex flex-fill flex-sm-row flex-column align-items-sm-center align-items-start"
           >
-            <strong>
-              Question 
-            </strong>
-            <select
-              class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
-              id="question-number-dropdown"
+            <div
+              class="d-flex flex-column text-start"
+              id="question-header"
             >
-              <option
-                value="0: 1"
+              <div
+                class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start"
               >
-                1
-              </option>
-            </select>
-             Essay question 
-          </div>
-          <div
-            class="card-header-btn-toolbar"
-          >
-            <div>
-              <button
-                class="btn btn-primary btn-sm"
-                type="button"
-              >
-                <i
-                  class="fas fa-ban"
-                />
-                 Cancel 
-              </button>
+                <h2
+                  class="question-number fw-bold me-1"
+                >
+                  Question 
+                  <select
+                    class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
+                    id="question-number-dropdown"
+                  >
+                    <option
+                      value="0: 1"
+                    >
+                      1
+                    </option>
+                  </select>
+                </h2>
+                <span
+                  id="question-type"
+                >
+                  Essay question
+                </span>
+              </div>
+            </div>
+            <div
+              class="card-header-btn-toolbar ms-0 ms-sm-auto text-start"
+            >
+              <div>
+                <button
+                  class="btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-ban"
+                  />
+                   Cancel 
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </button>
         <div
           class="ng-trigger ng-trigger-collapseAnim ng-animating"
           style=""
@@ -4017,13 +4033,13 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         <div
                           class="col-md-2"
                         >
-                          <div
+                          <pre
                             class="question-basic-info"
+                            role="text"
                           >
-                            [Optional]
-                            <br />
-                            Description
-                          </div>
+                                    [Optional]
+          Description
+                          </pre>
                         </div>
                         <div
                           class="col-md-10"
@@ -4056,29 +4072,31 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                             <input
                               type="checkbox"
                             />
-                            <a>
-                               Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
-                            </a>
+                             Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers 
                           </label>
                         </div>
                         <div
                           class="col-12 question-recommended-length"
                         >
-                           [Optional] 
-                          <span
-                            class="ngb-tooltip-class"
-                            ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                          <label
+                            for="recommended-length"
                           >
-                             Recommended length 
-                          </span>
-                           for the response: 
+                             [Optional] 
+                            <span
+                              class="ngb-tooltip-class"
+                              ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                            >
+                               Recommended length 
+                            </span>
+                             (in words) for the response: 
+                          </label>
                           <input
+                            aria-label="Recommended Length Input"
                             class="form-control ng-untouched ng-pristine ng-valid"
                             id="recommended-length"
                             min="1"
                             type="number"
                           />
-                           words 
                         </div>
                       </div>
                     </tm-text-question-edit-details-form>
@@ -4100,12 +4118,12 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 </div>
                 <div
                   autoclose="outside"
-                  class="margin-top-15px"
+                  class="margin-top-15px w-100"
                   ngbdropdown=""
                 >
                   <button
                     aria-expanded="false"
-                    class="dropdown-toggle btn btn-light white-space-normal"
+                    class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
                     id="btn-feedback-path"
                     ngbdropdowntoggle=""
                   >
@@ -4126,139 +4144,67 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       Common feedback path combinations
                     </li>
                     <li
-                      class="dropdown-item"
+                      ngbdropdown=""
                       style=""
                     >
                       <div
-                        ngbdropdown=""
-                        placement="right"
+                        class="text-wrap dropdown-item"
                       >
-                        <span
-                          aria-expanded="false"
-                          class="dropdown-toggle float-end invisible"
-                          ngbdropdownanchor=""
-                        />
-                         Instructors in this course will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
+                        <button
+                          class="dropdown-button"
                         >
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                        </ul>
+                           Instructors in this course will give feedback on ... 
+                          <i
+                            class="fa-caret-right fas"
+                          />
+                        </button>
                       </div>
                     </li>
                     <li
-                      class="dropdown-item"
+                      ngbdropdown=""
                       style=""
                     >
                       <div
-                        ngbdropdown=""
-                        placement="right"
+                        class="text-wrap dropdown-item"
                       >
-                        <span
-                          aria-expanded="false"
-                          class="dropdown-toggle float-end invisible"
-                          ngbdropdownanchor=""
-                        />
-                         Feedback session creator (i.e., me) will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
+                        <button
+                          class="dropdown-button"
                         >
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                        </ul>
+                           Feedback session creator (i.e., me) will give feedback on ... 
+                          <i
+                            class="fa-caret-right fas"
+                          />
+                        </button>
                       </div>
                     </li>
                     <li
-                      class="dropdown-item"
+                      ngbdropdown=""
                       style=""
                     >
                       <div
-                        ngbdropdown=""
-                        placement="right"
+                        class="text-wrap dropdown-item"
                       >
-                        <span
-                          aria-expanded="false"
-                          class="dropdown-toggle float-end invisible"
-                          ngbdropdownanchor=""
-                        />
-                         Students in this course will give feedback on ... 
-                        <i
-                          class="fas fa-caret-right"
-                        />
-                        <ul
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
+                        <button
+                          class="dropdown-button"
                         >
-                          <li
-                            class="dropdown-item"
-                          >
-                            Nobody specific (For general class feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver (Self feedback)
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Instructors in the course
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver's team members
-                          </li>
-                          <li
-                            class="dropdown-item"
-                          >
-                            Giver's team members and Giver
-                          </li>
-                        </ul>
+                           Students in this course will give feedback on ... 
+                          <i
+                            class="fa-caret-right fas"
+                          />
+                        </button>
                       </div>
                     </li>
                     <li
                       class="dropdown-divider"
                     />
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                     >
-                      Custom feedback path...
+                      <button
+                        class="dropdown-button"
+                      >
+                        Custom feedback path...
+                      </button>
                     </li>
                   </ul>
                 </div>
@@ -4267,7 +4213,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   style=""
                 >
                   <div
-                    class="col-6"
+                    class="col-sm-6 mb-2 mb-sm-0"
                   >
                     <div
                       class="row"
@@ -4315,7 +4261,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     </div>
                   </div>
                   <div
-                    class="col-6"
+                    class="col-sm-6"
                   >
                     <div
                       class="row"
@@ -4495,54 +4441,84 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       Common visibility options
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
-                      Shown anonymously to recipient and instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Shown anonymously to recipient and instructors
+                      </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
-                      Shown anonymously to recipient, visible to instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Shown anonymously to recipient, visible to instructors
+                      </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
-                      Shown anonymously to recipient and giver/recipient's team members, visible to instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Shown anonymously to recipient and giver/recipient's team members, visible to instructors
+                      </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
-                      Shown anonymously to recipient and giver's team members, visible to instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Shown anonymously to recipient and giver's team members, visible to instructors
+                      </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
-                      Visible to instructors only
+                      <button
+                        class="dropdown-button"
+                      >
+                        Visible to instructors only
+                      </button>
                     </li>
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
-                      Visible to recipient and instructors
+                      <button
+                        class="dropdown-button"
+                      >
+                        Visible to recipient and instructors
+                      </button>
                     </li>
                     <li
+                      aria-hidden="true"
                       class="dropdown-divider"
                       style=""
                     />
                     <li
-                      class="dropdown-item"
+                      class="text-wrap dropdown-item"
                       style=""
                     >
-                      Custom visibility options...
+                      <button
+                        class="dropdown-button"
+                      >
+                        Custom visibility options...
+                      </button>
                     </li>
                   </ul>
                 </div>
                 <table
+                  aria-label="Custom Visibility Options Table"
                   class="table margin-top-15px background-color-white table-striped"
                   style=""
                 >
@@ -4590,6 +4566,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient(s) can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4597,6 +4574,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient(s) can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4604,6 +4582,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient(s) can see Recipient's Name"
                           disabled=""
                           type="checkbox"
                         />
@@ -4622,6 +4601,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Giver's Team Members can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4629,6 +4609,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Giver's Team Members can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4636,6 +4617,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Giver's Team Members can see Recipient's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4653,6 +4635,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient's Team Members can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4660,6 +4643,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient's Team Members can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4667,6 +4651,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Recipient's Team Members can see Recipient's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4684,6 +4669,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Other Students can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4691,6 +4677,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Other Students can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4698,6 +4685,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Other Students can see Recipient's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4715,6 +4703,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Instructors can see Answer"
                           type="checkbox"
                         />
                       </td>
@@ -4722,6 +4711,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Instructors can see Giver's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4729,6 +4719,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         class="text-center"
                       >
                         <input
+                          aria-label="Instructors can see Recipient's Name"
                           type="checkbox"
                         />
                       </td>
@@ -4807,6 +4798,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               class="col-lg-5"
             >
               <select
+                aria-label="Select student to preview as"
                 class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-student"
               >
@@ -4823,6 +4815,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               class="col-lg-5"
             >
               <select
+                aria-label="Select instructor to preview as"
                 class="form-control form-select preview-select ng-untouched ng-pristine ng-valid"
                 id="preview-instructor"
               >

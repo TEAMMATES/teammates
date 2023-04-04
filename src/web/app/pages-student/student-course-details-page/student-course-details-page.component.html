@@ -81,7 +81,7 @@
   </div>
   <div *ngIf="!isLoadingTeammates && teammateProfiles.length" class="card bg-light mb-4">
     <div class="card-body">
-      <h5 class="d-inline"><strong> Sort By: </strong></h5>
+      <span class="d-inline h5 fw-bold">Sort By: </span>
       <div class="btn-group" data-toggle="buttons">
         <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_NAME)" (click)="sortTeammatesBy(SortBy.RESPONDENT_NAME)">Name</button>
         <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_EMAIL)" (click)="sortTeammatesBy(SortBy.RESPONDENT_EMAIL)">Email</button>

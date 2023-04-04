@@ -30,10 +30,12 @@ Here are some documents important for TEAMMATES developers.
   [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
 
 * **Best practices** for:
-  * [UI design](best-practices/ui-design.md)
   * [Coding](best-practices/coding.md)
   * [Testing](best-practices/testing.md)
   * [Data migration](best-practices/data-migration.md)
+  * [UI design](best-practices/ui-design.md)
+  * [Accessibility](best-practices/accessibility.md)
+  * [Mobile-friendliness](best-practices/mobile-friendliness.md)
 
 * **How-to guides** for:
   * [Static analysis](static-analysis.md): Performing code quality checks
@@ -41,3 +43,4 @@ Here are some documents important for TEAMMATES developers.
   * [Setting up CAPTCHA](captcha.md)
   * [Snapshot testing](snapshot-testing.md)
   * [E2E testing](e2e-testing.md)
+  * [Accessibility testing](axe-testing.md)

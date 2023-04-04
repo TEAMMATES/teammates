@@ -72,6 +72,13 @@ export class ExtensionConfirmModalComponent {
     this.selectedStudents.sort(this.sortStudentPanelsBy(by));
   }
 
+  getAriaSortStudent(by: SortBy): String {
+    if (by !== this.sortStudentsBy) {
+      return 'none';
+    }
+    return this.sortStudentOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   sortStudentPanelsBy(
     by: SortBy,
   ): (a: StudentExtensionTableColumnModel, b: StudentExtensionTableColumnModel) => number {
@@ -111,6 +118,13 @@ export class ExtensionConfirmModalComponent {
     this.sortInstructorsBy = by;
     this.sortInstructorOrder = this.sortInstructorOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.selectedInstructors.sort(this.sortInstructorPanelsBy(by));
+  }
+
+  getAriaSortInstructor(by: SortBy): String {
+    if (by !== this.sortInstructorsBy) {
+      return 'none';
+    }
+    return this.sortInstructorOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
   sortInstructorPanelsBy(

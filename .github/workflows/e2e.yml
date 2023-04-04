@@ -3,11 +3,11 @@ name: E2E Tests
 on:
   push:
     branches:
-      - master 
+      - master
       - release
   pull_request:
     branches:
-      - master 
+      - master
       - release
   schedule:
     - cron: "0 0 * * *" #end of every day
@@ -37,19 +37,19 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Update Property File 
+      - name: Update Property File
         run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
       - name: Run Solr search service + local Datastore emulator
         run: docker-compose up -d
       - name: Create Config Files
-        run: ./gradlew createConfigs testClasses generateTypes 
+        run: ./gradlew createConfigs testClasses generateTypes
       - name: Install Frontend Dependencies
-        run: npm ci 
-      - name: Build Frontend Bundle 
+        run: npm ci
+      - name: Build Frontend Bundle
         run: npm run build
       - name: Start Server
         run: |
           ./gradlew serverRun &
           ./wait-for-server.sh
-      - name: Start Tests 
-        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests 
+      - name: Start Tests
+        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests

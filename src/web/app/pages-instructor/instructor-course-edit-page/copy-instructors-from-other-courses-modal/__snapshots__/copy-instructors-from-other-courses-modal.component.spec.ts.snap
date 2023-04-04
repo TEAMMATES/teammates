@@ -246,52 +246,68 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                         #
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                         Instructor Name 
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                           Instructor Name 
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                         Instructor Email 
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                           Instructor Email 
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                         Displayed to Student As 
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                           Displayed to Student As 
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                         Access Level 
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                           Access Level 
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                     </tr>
                   </thead>

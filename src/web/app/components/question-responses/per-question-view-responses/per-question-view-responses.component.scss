@@ -1,6 +1,24 @@
 .sortable-header {
   cursor: pointer;
-  min-width: 120px;
+
+  i {
+    margin-left: .3em;
+  }
+
+  .fa-stack {
+    width: 20%;
+  }
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+    font: inherit;
+    cursor: inherit;
+  }
 }
 
 .color-neutral {

@@ -408,6 +408,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
       >
         <div
           class="card card-plain"
+          id="session-edit-form"
         >
           <div
             class="close-header"
@@ -425,22 +426,20 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
               class="row"
             >
               <div
-                class="col-md-7"
+                class="col-lg-7"
               >
                 <div
-                  class="row align-items-center"
+                  class="row mb-2"
                 >
                   <div
-                    class="col-md-3"
+                    class="col-12 col-sm-3 session-heading-text"
                   >
-                    <h5
-                      class="text-end"
-                    >
+                    <h5>
                       Create new
                     </h5>
                   </div>
                   <div
-                    class="col-9 col-md-8"
+                    class="col-12 col-sm-9 create-new-dropdown-div"
                   >
                     <select
                       class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -462,11 +461,8 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                         session with my own questions
                       </option>
                     </select>
-                  </div>
-                  <div
-                    class="col-1 col-md-1"
-                  >
                     <a
+                      aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
@@ -481,25 +477,23 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                 </div>
               </div>
               <div
-                class="col-md-5"
+                class="col-lg-5"
               >
                 <div
-                  class="row text-center align-items-center mt-1"
+                  class="row"
                 >
                   <div
-                    class="col-md-2"
+                    class="col-12 col-sm-3 col-lg-1 session-heading-text"
                   >
-                    <h5
-                      class="text-md-end"
-                    >
-                      Or: 
+                    <h5>
+                      Or
                     </h5>
                   </div>
                   <div
-                    class="col-md-10 text-md-start"
+                    class="col-12 col-sm-9 col-lg-11 text-md-start"
                   >
                     <button
-                      class="btn btn-info align-row"
+                      class="btn btn-info"
                       id="btn-copy-session"
                       type="button"
                     >
@@ -684,12 +678,14 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                             class="input-group"
                           >
                             <input
+                              aria-label="Date"
                               class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
                             />
                             <button
+                              aria-label="Change date"
                               class="btn btn-light input-group-text"
                               type="button"
                             >
@@ -707,6 +703,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-start-time"
                         >
                           <select
+                            aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -887,12 +884,14 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                             class="input-group"
                           >
                             <input
+                              aria-label="Date"
                               class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
                             />
                             <button
+                              aria-label="Change date"
                               class="btn btn-light input-group-text"
                               type="button"
                             >
@@ -910,6 +909,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-end-time"
                         >
                           <select
+                            aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
@@ -1073,6 +1073,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       >
                         <label
                           class="control-label font-bold"
+                          for="grace-period"
                         >
                            Grace period 
                         </label>
@@ -1209,7 +1210,9 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
     <div
       class="margin-top-30px"
     >
-      <div>
+      <div
+        class="table-responsive"
+      >
         <tm-loading-spinner>
           <div
             class="loading-container"

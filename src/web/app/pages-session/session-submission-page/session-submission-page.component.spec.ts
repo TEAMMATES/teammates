@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -324,6 +325,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
@@ -348,6 +350,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: false,
+    isTabExpanded: true,
   };
 
   const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -371,6 +374,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -398,6 +402,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -422,6 +427,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -449,6 +455,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -471,6 +478,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -497,6 +505,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -519,6 +528,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -543,6 +553,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testInfo: AuthInfo = {
@@ -597,6 +608,7 @@ describe('SessionSubmissionPageComponent', () => {
         QuestionSubmissionFormModule,
         LoadingSpinnerModule,
         LoadingRetryModule,
+        BrowserAnimationsModule,
       ],
       providers: [
         {

@@ -450,6 +450,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(by));
   }
 
+  getAriaSortStudent(by: SortBy): String {
+    if (by !== this.sortStudentsBy) {
+      return 'none';
+    }
+    return this.sortStudentOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   private resetTables(): void {
     this.isAllInstructorsSelected = false;
     this.isAllStudentsSelected = false;
@@ -496,6 +503,13 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(by));
   }
 
+  getAriaSortInstructor(by: SortBy): String {
+    if (by !== this.sortInstructorsBy) {
+      return 'none';
+    }
+    return this.sortInstructorOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   private sortInstructorPanelsBy(
     by: SortBy,
   ): (a: InstructorExtensionTableColumnModel, b: InstructorExtensionTableColumnModel) => number {
@@ -525,5 +539,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       }
       return this.tableComparatorService.compare(by, this.sortInstructorOrder, strA, strB);
     };
+  }
+
+  getAriaLabel(user: StudentExtensionTableColumnModel | InstructorExtensionTableColumnModel): string {
+    return `Select ${user.name}`;
   }
 }

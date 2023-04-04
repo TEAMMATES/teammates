@@ -30,4 +30,12 @@ export const config: any = {
    */
   maintenance: false,
 
+  /**
+   * Set to true if Firebase login is to be supported.
+   * Note that the backend needs to be configured separately for Firebase login to be fully supported.
+   */
+  allowFirebaseLogin: false,
+
+  firebaseConfig: {},
+
 };

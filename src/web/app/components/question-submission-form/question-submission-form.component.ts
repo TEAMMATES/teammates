@@ -11,6 +11,7 @@ import {
 import { VisibilityControl } from '../../../types/visibility-control';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -26,6 +27,7 @@ import {
   selector: 'tm-question-submission-form',
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
+  animations: [collapseAnim],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {
 
@@ -86,6 +88,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   model: QuestionSubmissionFormModel = {
     isLoading: false,
     isLoaded: false,
+    isTabExpanded: true,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -162,6 +165,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.isSaved = false;
       }
     }
+  }
+
+  toggleQuestionTab(): void {
+    this.model.isTabExpanded = !this.model.isTabExpanded;
+    this.formModelChange.emit(this.model);
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,
@@ -271,20 +279,22 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
-    this.hasResponseChanged = true;
-    this.isSubmitAllClickedChange.emit(false);
+    if (!this.isFormsDisabled) {
+      this.hasResponseChanged = true;
+      this.isSubmitAllClickedChange.emit(false);
 
-    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-        this.model.recipientSubmissionForms.slice();
-    recipientSubmissionForms[index] = {
-      ...recipientSubmissionForms[index],
-      [field]: data,
-    };
+      const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+          this.model.recipientSubmissionForms.slice();
+      recipientSubmissionForms[index] = {
+        ...recipientSubmissionForms[index],
+        [field]: data,
+      };
 
-    this.formModelChange.emit({
-      ...this.model,
-      recipientSubmissionForms,
-    });
+      this.formModelChange.emit({
+        ...this.model,
+        recipientSubmissionForms,
+      });
+    }
   }
 
   /**

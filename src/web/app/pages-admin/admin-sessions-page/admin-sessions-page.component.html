@@ -1,15 +1,13 @@
-<h4>
-  <small>
-    Total: {{ totalOngoingSessions}} -
-    Opened: {{ totalOpenSessions}} -
-    Closed: {{ totalClosedSessions}} -
-    Waiting To Open: {{ totalAwaitingSessions }} -
-    Institutions: {{ totalInstitutes}}
-    <br>
-    {{ startTimeString }} &nbsp; <i class="fas fa-arrows-alt-h"></i> &nbsp; {{ endTimeString }} &nbsp; {{ timezoneString }}
-  </small>
+<span class="lead">
+  Total: {{ totalOngoingSessions}} -
+  Opened: {{ totalOpenSessions}} -
+  Closed: {{ totalClosedSessions}} -
+  Waiting To Open: {{ totalAwaitingSessions }} -
+  Institutions: {{ totalInstitutes}}
   <br>
-</h4>
+  {{ startTimeString }} &nbsp; <i class="fas fa-arrows-alt-h"></i> &nbsp; {{ endTimeString }} &nbsp; {{ timezoneString }}
+  <br>
+</span>
 <button class="btn btn-info btn-sm btn-margin-right" (click)="openAllInstitutions()">Open All</button>
 <button class="btn btn-warning btn-sm" (click)="closeAllInstitutions()">Collapse All</button>
 <div style="margin-top: 20px;">
@@ -108,7 +106,7 @@
         Display session start/end time in this time zone:
       </div>
       <div class="col-md-7">
-        <select id="table-timezone" class="form-control form-select" [(ngModel)]="tableTimezone" (ngModelChange)="updateDisplayedTimes()">
+        <select aria-label="Timezone" id="table-timezone" class="form-control form-select" [(ngModel)]="tableTimezone" (ngModelChange)="updateDisplayedTimes()">
           <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
         </select>
       </div>

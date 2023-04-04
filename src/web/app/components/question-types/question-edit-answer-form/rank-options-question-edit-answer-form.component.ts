@@ -102,4 +102,9 @@ export class RankOptionsQuestionEditAnswerFormComponent
         .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
     return numberOfOptionsRanked > this.questionDetails.maxOptionsToBeRanked;
   }
+
+  getAriaLabelForOption(option: String): String {
+    const baseAriaLabel: String = this.getAriaLabel();
+    return `${baseAriaLabel} for ${option} Option`;
+  }
 }

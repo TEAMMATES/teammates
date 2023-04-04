@@ -405,66 +405,84 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               >
                 <tr>
                   <th
+                    aria-sort="none"
                     class="sortable-header"
                   >
-                     Section 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Section 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
+                    aria-sort="none"
                     class="sortable-header"
                   >
-                     Team 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Team 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
-                    class="sortable-header"
-                    id="sort-by-name"
+                    aria-sort="none"
+                    class="sort-by-name sortable-header"
                   >
-                     Student Name 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Student Name 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
-                    class="sortable-header"
-                    id="sort-by-status"
+                    aria-sort="none"
+                    class="sort-by-status sortable-header"
                   >
-                     Status 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Status 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
+                    aria-sort="none"
                     class="sortable-header"
                   >
-                     Email 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Email 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
                     class="align-center"
@@ -498,7 +516,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-view-details"
+                      id="btn-view-details-CS101-0"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -507,7 +525,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-edit-details"
+                      id="btn-edit-details-CS101-0"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -515,20 +533,20 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     </a>
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
-                      id="btn-send-invite"
+                      id="btn-send-invite-CS101-0"
                     >
                       Send Invite
                     </button>
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
-                      id="btn-delete"
+                      id="btn-delete-CS101-0"
                     >
                       Delete
                     </button>
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-view-records"
+                      id="btn-view-records-CS101-0"
                       rel="noopener noreferrer"
                       target="_blank"
                     >

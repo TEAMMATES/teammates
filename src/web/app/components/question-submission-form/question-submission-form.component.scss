@@ -27,18 +27,6 @@
   margin-left: 20px;
 }
 
-.evaluee-col {
-  padding-left: 50px;
-  padding-right: 50px;
-}
-
-@media (max-width: 768px) {
-  .evaluee-col {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-}
-
 .evaluee-select {
   padding-left: 15px;
   padding-right: 15px;
@@ -54,4 +42,15 @@
 
 .font-bold {
   font-weight: bold;
+}
+
+.question-details {
+  font-size: .875rem;
+  margin-bottom: 0;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+.collapse-caret {
+  margin-right: 10px;
 }

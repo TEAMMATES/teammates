@@ -14,41 +14,49 @@
             <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
           </div>
         </div>
-      <div *ngIf="isRecycleBinExpanded" @collapseAnim>
-        <table id="deleted-sessions-table" class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
+      <div *ngIf="isRecycleBinExpanded" class="table-responsive" @collapseAnim>
+        <table id="deleted-sessions-table" class="table table-striped table-bordered recycle-bin-table">
           <thead class="recycle-bin-table-header">
           <tr>
-            <th id="sort-deleted-course-id" (click)="sortRecycleBinFeedbackSessionRows(SortBy.COURSE_ID)" class="sortable-header">
-              Course ID
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
+            <th id="sort-deleted-course-id" (click)="sortRecycleBinFeedbackSessionRows(SortBy.COURSE_ID)" class="sortable-header" [attr.aria-sort]="getAriaSort(SortBy.COURSE_ID)">
+              <button>
+                Course ID
+                <span class="fa-stack" aria-hidden="true">
+                  <i class="fas fa-sort"></i>
+                  <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                  <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </button>
             </th>
-            <th id="sort-deleted-session-name" (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_NAME)" class="sortable-header">
-              Session Name
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
+            <th id="sort-deleted-session-name" (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_NAME)" class="sortable-header" [attr.aria-sort]="getAriaSort(SortBy.SESSION_NAME)">
+              <button>
+                Session Name
+                <span class="fa-stack" aria-hidden="true">
+                  <i class="fas fa-sort"></i>
+                  <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                  <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_NAME && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </button>
             </th>
-            <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_CREATION_DATE)" class="sortable-header">
-              Creation Date
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
+            <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_CREATION_DATE)" class="sortable-header" [attr.aria-sort]="getAriaSort(SortBy.SESSION_CREATION_DATE)">
+              <button>
+                Creation Date
+                <span class="fa-stack" aria-hidden="true">
+                  <i class="fas fa-sort"></i>
+                  <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                  <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_CREATION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </button>
             </th>
-            <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_DELETION_DATE)" class="sortable-header">
-              Deletion Date
-              <span class="fa-stack">
-                <i class="fas fa-sort"></i>
-                <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
+            <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_DELETION_DATE)" class="sortable-header" [attr.aria-sort]="getAriaSort(SortBy.SESSION_DELETION_DATE)">
+              <button>
+                Deletion Date
+                <span class="fa-stack" aria-hidden="true">
+                  <i class="fas fa-sort"></i>
+                  <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+                  <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.SESSION_DELETION_DATE && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+                </span>
+              </button>
             </th>
             <th class="text-center">Action(s)</th>
           </tr>

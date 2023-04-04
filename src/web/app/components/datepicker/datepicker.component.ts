@@ -16,7 +16,7 @@ export class DatepickerComponent {
   date: DateFormat | undefined;
 
   @Input()
-  disabled: boolean = false;
+  isDisabled: boolean = false;
 
   @Input()
   maxDate: DateFormat | undefined;
