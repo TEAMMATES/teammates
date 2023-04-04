@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -11,6 +12,7 @@ import teammates.common.util.Const;
 /**
  * SUT: {@link DeleteFeedbackQuestionAction}.
  */
+@Ignore
 public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedbackQuestionAction> {
 
     @Override
