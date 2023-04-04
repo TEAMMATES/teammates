@@ -203,14 +203,14 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> responsesFromStudent =
                 getFeedbackResponsesFromGiverForCourse(courseId, entityEmail);
         for (FeedbackResponse response : responsesFromStudent) {
-            deleteFeedbackResponseCascade(response.getId());
+            frDb.deleteFeedbackResponse(response);
         }
 
         // delete responses to the entity
         List<FeedbackResponse> responsesToStudent =
                 getFeedbackResponsesForRecipientForCourse(courseId, entityEmail);
         for (FeedbackResponse response : responsesToStudent) {
-            deleteFeedbackResponseCascade(response.getId());
+            frDb.deleteFeedbackResponse(response);
         }
     }
 
@@ -242,15 +242,6 @@ public final class FeedbackResponsesLogic {
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForQuestion(
             UUID feedbackQuestionId, String giver) {
         return frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, giver);
-    }
-
-    /**
-     * Deletes a feedback response, cascade its associated comments.
-     */
-    public void deleteFeedbackResponseCascade(UUID responseId) {
-        FeedbackResponse feedbackResponseToDelete = frDb.getFeedbackResponse(responseId);
-
-        frDb.deleteFeedbackResponse(feedbackResponseToDelete);
     }
 
     /**
