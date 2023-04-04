@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
