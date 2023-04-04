@@ -178,7 +178,7 @@
     "instructor1OfCourse2": {
       "id": "00000000-0000-4000-8000-000000000503",
       "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
+        "id": "00000000-0000-4000-8000-000000000001"
       },
       "course": {
         "id": "idOfCourse2"
@@ -526,7 +526,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 1,
-      "giverType": "STUDENTS",
+      "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
@@ -728,7 +728,7 @@
       }
     },
     "response1ForQ1InSession2": {
-      "id": "00000000-0000-4000-8001-000000000901",
+      "id": "00000000-0000-4000-8001-000000000906",
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8001-000000000800",
         "questionDetails": {
@@ -761,7 +761,7 @@
       }
     },
     "response1ForQ6C1": {
-      "id": "00000000-0000-4000-8000-000000000905",
+      "id": "00000000-0000-4000-8000-000000000907",
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000807",
         "feedbackSession": {
@@ -800,7 +800,7 @@
       }
     },
     "response1ForQ1C2": {
-      "id": "00000000-0000-4000-8000-000000000906",
+      "id": "00000000-0000-4000-8000-000000000908",
       "feedbackQuestion": {
         "id": "00000000-0000-4000-8000-000000000807",
         "feedbackSession": {
