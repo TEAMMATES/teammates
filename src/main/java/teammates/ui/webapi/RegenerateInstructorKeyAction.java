@@ -16,13 +16,13 @@ import teammates.storage.sqlentity.Instructor;
  * Regenerates the key for a given instructor in a course. This will also resend the course registration
  * and feedback session links to the affected instructor, as any previously sent links will no longer work.
  */
-class RegenerateInstructorKeyAction extends AdminOnlyAction {
+public class RegenerateInstructorKeyAction extends AdminOnlyAction {
 
     private static final String SUCCESSFUL_REGENERATION =
             "Instructor's key for this course has been successfully regenerated,";
 
     /** Message indicating that the key regeneration was successful, and corresponding email was sent. */
-    static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
+    public static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
             SUCCESSFUL_REGENERATION + " and the email has been sent.";
 
     private static final String UNSUCCESSFUL_REGENERATION =
@@ -59,6 +59,9 @@ class RegenerateInstructorKeyAction extends AdminOnlyAction {
         Instructor updatedInstructor;
         try {
             updatedInstructor = sqlLogic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
+            if (updatedInstructor == null) { // help null not being caught in sql logic
+                throw new EntityNotFoundException("helphelp");
+            }
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (EntityAlreadyExistsException ex) {

@@ -151,14 +151,23 @@ public final class UsersLogic {
      */
     public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        Instructor originalInstructor = usersDb.getInstructorForEmail(courseId, email);
-        if (originalInstructor == null) {
+        // Instructor originalInstructor = usersDb.getInstructorForEmail(courseId, email);
+        Instructor instructor = getInstructorForEmail(courseId, email);
+        if (instructor == null) {
             String errorMessage = String.format(
                     "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
             throw new EntityDoesNotExistException(errorMessage);
         }
 
-        return usersDb.regenerateEntityKey(originalInstructor);
+        Instructor temp = usersDb.regenerateEntityKey(instructor);
+        if (temp == null) {
+            String errorMessage = String.format(
+                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        return temp;
+        // return usersDb.regenerateEntityKey(instructor);
     }
 
     /**

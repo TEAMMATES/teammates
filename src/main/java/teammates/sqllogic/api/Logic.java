@@ -718,7 +718,15 @@ public class Logic {
         assert courseId != null;
         assert email != null;
 
-        return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
+        Instructor temp = usersLogic.regenerateInstructorRegistrationKey(courseId, email);
+        if (temp == null) {
+            String errorMessage = String.format(
+                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        return temp;
+        // return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
     }
 
     /**
