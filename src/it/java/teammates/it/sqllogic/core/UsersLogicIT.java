@@ -9,6 +9,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.InstructorPermissions;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -123,6 +124,22 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertNull(student.getAccount());
         assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
+    }
+
+    @Test
+    public void testUpdateToEnsureValidityOfInstructorsForTheCourse() {
+        Instructor instructor = getTypicalInstructor();
+        instructor.setCourse(course);
+        instructor.setAccount(account);
+
+        ______TS("success: preserves modify instructor privilege if last instructor in course with privilege");
+        InstructorPrivileges privileges = instructor.getPrivileges();
+        privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        instructor.setPrivileges(privileges);
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor);
+
+        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 
     private Course getTypicalCourse() {

@@ -15,9 +15,10 @@ import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
- * Update instructor privilege by instructors with instructor modify permission.
+ * Updates an instructor's privileges.
+ * Can only be accessed by instructors with the modify instructor permission.
  */
-class UpdateInstructorPrivilegeAction extends Action {
+public class UpdateInstructorPrivilegeAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
@@ -66,8 +67,9 @@ class UpdateInstructorPrivilegeAction extends Action {
         InstructorPrivilegeData response = new InstructorPrivilegeData(instructorToUpdate.getPrivileges());
         return new JsonResult(response);
     }
-    
-    public JsonResult executeWithDatastore(String courseId, String emailOfInstructorToUpdate) throws InvalidHttpRequestBodyException {
+
+    private JsonResult executeWithDatastore(String courseId, String emailOfInstructorToUpdate)
+            throws InvalidHttpRequestBodyException {
         InstructorAttributes instructorToUpdate = logic.getInstructorForEmail(courseId, emailOfInstructorToUpdate);
 
         if (instructorToUpdate == null) {

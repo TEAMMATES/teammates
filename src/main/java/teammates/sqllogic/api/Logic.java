@@ -706,7 +706,7 @@ public class Logic {
     }
 
     /**
-     * Update instructor being edited to ensure validity of instructors for the course.
+     * Updates the instructor being edited to ensure validity of instructors for the course.
      * * Preconditions: <br>
      * * All parameters are non-null.
      *
