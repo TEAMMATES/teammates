@@ -20,7 +20,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class FeedbackMsqQuestion extends FeedbackQuestion {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = FeedbackMsqQuestionDetailsConverter.class)
     private FeedbackMsqQuestionDetails questionDetails;
 
@@ -52,7 +52,12 @@ public class FeedbackMsqQuestion extends FeedbackQuestion {
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
                 new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
                 new FeedbackMsqQuestionDetails(this.questionDetails.getQuestionText())
-            );
+        );
+    }
+
+    @Override
+    public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
+        this.questionDetails = (FeedbackMsqQuestionDetails) questionDetails;
     }
 
     @Override

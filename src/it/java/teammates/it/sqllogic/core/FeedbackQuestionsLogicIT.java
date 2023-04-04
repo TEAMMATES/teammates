@@ -2,6 +2,7 @@ package teammates.it.sqllogic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -9,13 +10,19 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.ui.output.FeedbackVisibilityType;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
@@ -76,4 +83,78 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         assertTrue(expectedQuestions.containsAll(actualQuestions));
     }
 
+    @Test
+    public void testUpdateFeedbackQuestionCascade() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        fq1.setDescription("New question description");
+        FeedbackQuestionUpdateRequest updateRequest = generateFeedbackQuestionUpdateRequest(
+                fq1.getQuestionNumber(),
+                fq1.getDescription(),
+                fq1.getQuestionDetailsCopy(),
+                fq1.getQuestionDetailsCopy().getQuestionType(),
+                fq1.getGiverType(),
+                fq1.getRecipientType(),
+                fq1.getNumOfEntitiesToGiveFeedbackTo(),
+                fq1.getShowResponsesTo(),
+                fq1.getShowGiverNameTo(),
+                fq1.getShowRecipientNameTo()
+        );
+        updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
+
+        fqLogic.updateFeedbackQuestionCascade(fq1.getId(), updateRequest);
+
+        FeedbackQuestion actualFeedbackQuestion = fqLogic.getFeedbackQuestion(fq1.getId());
+
+        verifyEquals(fq1, actualFeedbackQuestion);
+    }
+
+    private FeedbackQuestionUpdateRequest generateFeedbackQuestionUpdateRequest(
+            int questionNumber,
+            String questionDescription,
+            FeedbackQuestionDetails questionDetails,
+            FeedbackQuestionType questionType,
+            FeedbackParticipantType giverType,
+            FeedbackParticipantType recipientType,
+            Integer customNumberOfEntitiesToGiveFeedbackTo,
+            List<FeedbackParticipantType> showResponsesTo,
+            List<FeedbackParticipantType> showGiverNameTo,
+            List<FeedbackParticipantType> showRecipientNameTo
+    ) {
+        FeedbackQuestionUpdateRequest updateRequest = new FeedbackQuestionUpdateRequest();
+
+        updateRequest.setQuestionNumber(questionNumber);
+        updateRequest.setQuestionDescription(questionDescription);
+        updateRequest.setQuestionDetails(questionDetails);
+        updateRequest.setQuestionType(questionType);
+        updateRequest.setGiverType(giverType);
+        updateRequest.setRecipientType(recipientType);
+        updateRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(customNumberOfEntitiesToGiveFeedbackTo);
+        updateRequest.setShowResponsesTo(convertToFeedbackVisibilityType(showResponsesTo));
+        updateRequest.setShowGiverNameTo(convertToFeedbackVisibilityType(showGiverNameTo));
+        updateRequest.setShowRecipientNameTo(convertToFeedbackVisibilityType(showRecipientNameTo));
+
+        return updateRequest;
+    }
+
+    private List<FeedbackVisibilityType> convertToFeedbackVisibilityType(
+            List<FeedbackParticipantType> feedbackParticipantTypes) {
+        return feedbackParticipantTypes.stream().map(feedbackParticipantType -> {
+            switch (feedbackParticipantType) {
+            case STUDENTS:
+                return FeedbackVisibilityType.STUDENTS;
+            case INSTRUCTORS:
+                return FeedbackVisibilityType.INSTRUCTORS;
+            case RECEIVER:
+                return FeedbackVisibilityType.RECIPIENT;
+            case OWN_TEAM_MEMBERS:
+                return FeedbackVisibilityType.GIVER_TEAM_MEMBERS;
+            case RECEIVER_TEAM_MEMBERS:
+                return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
+            default:
+                assert false : "Unknown feedbackParticipantType" + feedbackParticipantType;
+                break;
+            }
+            return null;
+        }).collect(Collectors.toList());
+    }
 }

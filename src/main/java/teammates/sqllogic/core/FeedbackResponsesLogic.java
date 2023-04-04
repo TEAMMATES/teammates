@@ -159,8 +159,16 @@ public final class FeedbackResponsesLogic {
         }
 
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                                        feedbackQuestionId, teamName));
+                feedbackQuestionId, teamName));
         return responses;
+    }
+
+    /**
+     * Deletes all feedback responses of a question cascade its associated comments.
+     */
+    public void deleteFeedbackResponsesForQuestionCascade(UUID feedbackQuestionId) {
+        // delete all responses, comments of the question
+        frDb.deleteFeedbackResponsesForQuestionCascade(feedbackQuestionId);
     }
 
     /**
