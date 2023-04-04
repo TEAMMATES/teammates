@@ -22,7 +22,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        this.typicalBundle = loadSqlDataBundle("./GetCoursesActionIT.json");
+        this.typicalBundle = loadSqlDataBundle("/GetCoursesActionIT.json");
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
     }
