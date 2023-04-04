@@ -159,15 +159,7 @@ public final class UsersLogic {
             throw new EntityDoesNotExistException(errorMessage);
         }
 
-        Instructor temp = usersDb.regenerateEntityKey(instructor);
-        if (temp == null) {
-            String errorMessage = String.format(
-                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
-            throw new EntityDoesNotExistException(errorMessage);
-        }
-
-        return temp;
-        // return usersDb.regenerateEntityKey(instructor);
+        return usersDb.regenerateEntityKey(instructor);
     }
 
     /**

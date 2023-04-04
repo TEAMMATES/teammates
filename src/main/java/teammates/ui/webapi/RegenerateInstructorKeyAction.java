@@ -59,9 +59,7 @@ public class RegenerateInstructorKeyAction extends AdminOnlyAction {
         Instructor updatedInstructor;
         try {
             updatedInstructor = sqlLogic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
-            if (updatedInstructor == null) { // help null not being caught in sql logic
-                throw new EntityNotFoundException("helphelp");
-            }
+            // HELP: null not being caught in sqlLogic, no exception thrown
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (EntityAlreadyExistsException ex) {
@@ -69,13 +67,16 @@ public class RegenerateInstructorKeyAction extends AdminOnlyAction {
             return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
+        if (updatedInstructor == null) {
+            throw new EntityNotFoundException("shouldn't need this"); // this is thrown when running tests
+        }
+
         boolean emailSent = sendEmail(updatedInstructor);
         String statusMessage = emailSent
                 ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
-        // to check: key or url???
-        return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getRegistrationUrl()));        
+        return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getRegKey()));        
     }
 
     /**
