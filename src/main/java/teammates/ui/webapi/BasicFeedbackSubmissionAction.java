@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -314,6 +316,21 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
 
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
+            throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
+        }
+    }
+
+    /**
+     * Verifies that the session is open for submission.
+     *
+     * <p>If it is moderation request, omit the check.
+     */
+    void verifySqlSessionOpenExceptForModeration(FeedbackSession feedbackSession, Instant deadline)
+            throws UnauthorizedAccessException {
+        String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+
+        if (StringHelper.isEmpty(moderatedPerson)
+                && !feedbackSession.isOpenedGivenExtendedDeadline(deadline)) {
             throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
         }
     }

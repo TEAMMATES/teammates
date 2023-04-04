@@ -514,6 +514,33 @@
         "INSTRUCTORS"
       ]
     },
+    "qn1InSession1InCourse2": {
+      "id": "00000000-0000-4000-8000-000000000807",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000704"
+      },
+      "questionDetails": {
+        "recommendedLength": 0,
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
+      "description": "This is a text question.",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
     "qn1InSession2InCourse1": {
       "id": "00000000-0000-4000-8001-000000000800",
       "feedbackSession": {
