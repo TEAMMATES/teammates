@@ -20,7 +20,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = FeedbackNumericalScaleQuestionDetailsConverter.class)
     private FeedbackNumericalScaleQuestionDetails questionDetails;
 
@@ -52,7 +52,12 @@ public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
                 new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
                 new FeedbackNumericalScaleQuestionDetails(this.questionDetails.getQuestionText())
-            );
+        );
+    }
+
+    @Override
+    public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
+        this.questionDetails = (FeedbackNumericalScaleQuestionDetails) questionDetails;
     }
 
     @Override

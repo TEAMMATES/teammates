@@ -211,6 +211,22 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         return errors;
     }
 
+    /**
+     * Checks if updating this question to the question will
+     * require the responses to be deleted for consistency.
+     * Does not check if any responses exist.
+     */
+    public boolean areResponseDeletionsRequiredForChanges(FeedbackParticipantType giverType,
+                                                          FeedbackParticipantType recipientType,
+                                                          FeedbackQuestionDetails questionDetails) {
+        if (!giverType.equals(this.giverType)
+                || !recipientType.equals(this.recipientType)) {
+            return true;
+        }
+
+        return this.getQuestionDetailsCopy().shouldChangesRequireResponseDeletion(questionDetails);
+    }
+
     public UUID getId() {
         return id;
     }
@@ -250,6 +266,11 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     public void setDescription(String description) {
         this.description = description;
     }
+
+    /**
+     * Set the question details of the question.
+     */
+    public abstract void setQuestionDetails(FeedbackQuestionDetails questionDetails);
 
     public FeedbackParticipantType getGiverType() {
         return giverType;
