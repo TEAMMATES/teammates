@@ -23,7 +23,7 @@ import teammates.test.BaseTestCase;
  * SUT: {@link FeedbackResponsesLogic}.
  */
 public class FeedbackResponsesLogicTest extends BaseTestCase {
-    
+
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     private SqlDataBundle typicalDataBundle;
