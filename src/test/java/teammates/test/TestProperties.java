@@ -39,7 +39,7 @@ public final class TestProperties {
                 prop.load(testPropStream);
             }
 
-            IS_SNAPSHOT_UPDATE = Boolean.parseBoolean(prop.getProperty("test.snapshot.update", "false"));
+            IS_SNAPSHOT_UPDATE = Boolean.parseBoolean(prop.getProperty("test.snapshot.update", "true"));
             TEST_LOCALDATASTORE_PORT = Integer.parseInt(prop.getProperty("test.localdatastore.port"));
             SEARCH_SERVICE_HOST = prop.getProperty("test.search.service.host");
 

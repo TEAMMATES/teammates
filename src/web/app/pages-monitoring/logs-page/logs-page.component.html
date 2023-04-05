@@ -98,13 +98,11 @@
             <label for="source-file" class="fw-bold">Source location file</label>
             <input id="source-file" class="form-control col-12" [(ngModel)]="formModel.filters.sourceLocation!.file">
           </div>
-        </div>
-        <div class="col-sm-6 col-12">
-          <div class="col-12">
+        <div class="col-12 mt-2">
             <label for="source-function" class="fw-bold">Source location function</label>
             <input id="source-function" class="form-control col-12" [(ngModel)]="formModel.filters.sourceLocation!.function">
-          </div>
-          <div class="col-12 mt-2">
+        </div>
+        <div class="col-12 mt-2">
             <label for="action-class" class="fw-bold">Action class</label>
             <select id="action-class" class="form-control form-select col-12" [(ngModel)]="formModel.filters.actionClass">
               <option [value]=""></option>
@@ -112,10 +110,8 @@
                 {{ actionClass }}
               </option>
             </select>
-          </div>
         </div>
       </div>
-      <div class="row">
         <div class="col-sm-6 col-12">
           <div class="col-12">
             <label for="google-id" class="fw-bold">User Google ID</label>
@@ -125,17 +121,14 @@
             <label for="regkey" class="fw-bold">User Registration Key</label>
             <input id="regkey" class="form-control" [(ngModel)]="formModel.filters.userInfoParams!.regkey" [disabled]="!isAdmin">
           </div>
-        </div>
-        <div class="col-sm-6 col-12">
-          <div class="col-12">
+        <div class="col-12 mt-2">
             <label for="email" class="fw-bold">User Email</label>
             <input id="email" class="form-control" [(ngModel)]="formModel.filters.userInfoParams!.email" [disabled]="!isAdmin">
-          </div>
+        </div>
           <div class="col-12 mt-2">
             <label for="exception-class" class="fw-bold">Exception/Error class</label>
             <input id="exception-class" class="form-control" [(ngModel)]="formModel.filters.exceptionClass">
           </div>
-        </div>
       </div>
       <div class="row form-group mt-2">
         <div class="col-5">
@@ -165,7 +158,7 @@
           </div>
         </div>
       </div>
-      <div class="col-5 mt-4">
+      <div class="col-5 mt-2">
         <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
       </div>
     </div>
