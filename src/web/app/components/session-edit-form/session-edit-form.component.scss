@@ -6,8 +6,10 @@
 }
 
 .close-header {
-  padding-top: .75rem;
-  padding-right: 1.25rem;
+  display: flex;
+  justify-content: right;
+  padding-top: .3rem;
+  padding-right: .3rem;
   margin-bottom: 0;
 }
 
@@ -39,4 +41,24 @@
 .disabled-link {
   cursor: not-allowed;
   color: gray;
+}
+
+.create-new-dropdown-div {
+  display: flex;
+}
+
+.session-heading-text {
+  display: flex;
+
+  @media (max-width: 768px) {
+    width: 120px;
+  }
+}
+
+.session-heading-text h5 {
+  margin: auto auto auto 0;
+
+  @media (max-width: 576px) {
+    margin-bottom: .5rem;
+  }
 }

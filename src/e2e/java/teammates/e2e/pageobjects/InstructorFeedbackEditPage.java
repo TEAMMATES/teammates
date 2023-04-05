@@ -972,8 +972,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private FeedbackQuestionType getQuestionType(int questionNum) {
-        String questionDetails = getQuestionForm(questionNum).findElement(By.id("question-header")).getText();
-        String questionType = questionDetails.split(" \\d+ ")[1].trim();
+        String questionType = getQuestionForm(questionNum).findElement(By.id("question-type")).getText().trim();
 
         switch (questionType) {
         case "Essay question":
@@ -1079,7 +1078,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement feedbackPathPanel = questionForm.findElement(By.tagName("tm-feedback-path-panel"));
         click(feedbackPathPanel.findElement(By.id("btn-feedback-path")));
         WebElement dropdown = feedbackPathPanel.findElement(By.id("feedback-path-dropdown"));
-        List<WebElement> options = dropdown.findElements(By.className("dropdown-item"));
+        List<WebElement> options = dropdown.findElements(By.className("dropdown-button"));
         for (WebElement option : options) {
             if (option.getText().equals(text)) {
                 click(option);
@@ -1145,7 +1144,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         click(visibilityPanel.findElement(By.id("btn-question-visibility")));
         WebElement dropdown = visibilityPanel.findElement(By.id("question-visibility-dropdown"));
-        List<WebElement> options = dropdown.findElements(By.className("dropdown-item"));
+        List<WebElement> options = dropdown.findElements(By.className("dropdown-button"));
         for (WebElement option : options) {
             if (option.getText().equals(text)) {
                 click(option);
@@ -1546,7 +1545,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private int getNumRubricCols(int questionNum) {
-        return getRubricRow(questionNum, 1).findElements(By.tagName("td")).size();
+        WebElement row = getRubricRow(questionNum, 1);
+        return row.findElements(By.tagName("td")).size() + row.findElements(By.tagName("th")).size();
     }
 
     private void inputRubricDetails(int questionNum, FeedbackRubricQuestionDetails questionDetails) {

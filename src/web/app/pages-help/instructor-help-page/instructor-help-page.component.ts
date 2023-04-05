@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../environments/environment';
@@ -42,7 +42,6 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   questionIdToExpand: string = '';
   section: string = '';
 
-  @ViewChild('helpPage') bodyRef ?: ElementRef;
   @ViewChild('studentsHelpSection') studentsHelpSection?: InstructorHelpStudentsSectionComponent;
   @ViewChild('coursesHelpSection') coursesHelpSection?: InstructorHelpCoursesSectionComponent;
   @ViewChild('sessionsHelpSection') sessionsHelpSection?: InstructorHelpSessionsSectionComponent;
@@ -62,13 +61,19 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    let target: string = '';
     this.route.queryParams.subscribe((queryParam: Params) => {
-      if (queryParam['questionId'] && queryParam['section']) {
-        this.questionIdToExpand = queryParam['questionId'];
+      if (queryParam['section']) {
         this.section = queryParam['section'];
-        this.scrollTo(queryParam['questionId']);
+        target = this.section;
+        if (queryParam['questionId']) {
+          this.questionIdToExpand = queryParam['questionId'];
+          target = this.questionIdToExpand;
+          this.expandQuestionTab();
+        }
       }
     });
+    this.scrollTo(target);
   }
 
   expandQuestionTab(): void {
@@ -104,23 +109,20 @@ export class InstructorHelpPageComponent implements AfterViewInit {
    * Scrolls to the section passed in
    */
   scroll(section: string): void {
-    if (this.bodyRef) {
-      const el: any = Array.prototype.slice
-          .call(this.bodyRef.nativeElement.childNodes).find((x: any) => x.id === section);
-      if (el) {
-        el.scrollIntoView();
-        window.scrollBy(0, -50);
-      }
-    }
+    this.pageScrollService.scroll({
+      document: this.document,
+      duration: 500,
+      scrollTarget: `#${section}`,
+      scrollOffset: 70,
+    });
   }
 
   scrollTo(target: string, timeout?: number): void {
-    this.expandQuestionTab();
     setTimeout(() => this.pageScrollService.scroll({
       document: this.document,
       duration: 500,
       scrollTarget: `#${target}`,
-      scrollOffset: 70,
+      scrollOffset: 60,
     }), timeout || 500);
   }
 

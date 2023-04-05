@@ -1,38 +1,30 @@
-<main>
-  <h1 class="color-orange">
-    Recovering Session Links for Students
-  </h1>
+<h1 class="color-orange">
+  Recovering Session Links for Students
+</h1>
 
-  <p>
-    If you cannot find your feedback session links, enter your course registered email below. Links to all your feedback sessions with start date within the past 90 days will be sent to the email address.
-  </p>
+<p>
+  If you cannot find your feedback session links, enter your course registered email below. Links to all your feedback
+  sessions with start date within the past 90 days will be sent to the email address.
+</p>
 
-  <div class="card bg-light top-padded col-sm-9 col-md-6">
-    <form class="form form-horizontal" [formGroup]="formSessionLinksRecovery" (ngSubmit)="onSubmitFormSessionLinksRecovery(formSessionLinksRecovery)">
+<div class="card bg-light col-sm-9 col-md-6">
+  <form class="card-body" [formGroup]="formSessionLinksRecovery" (ngSubmit)="onSubmitFormSessionLinksRecovery(formSessionLinksRecovery)">
 
-      <div class="form-group form-row top-padded">
-        <label class="control-label">
-          <strong>Email:</strong>
-        </label>
-        <input class="form-control" type="email" formControlName="email" maxlength="254" email="true" spellcheck="false">
-      </div>
-      <div *ngIf="captchaSiteKey !== ''" class="form-row form-group top-padded">
-        <ngx-recaptcha2 #captchaElem
-                        [siteKey]="captchaSiteKey"
-                        (success)="handleSuccess($event)"
-                        [useGlobalDomain]="false"
-                        [size]="size"
-                        [hl]="lang"
-                        formControlName="recaptcha">
-        </ngx-recaptcha2>
-      </div>
+    <div class="form-group">
+      <label class="control-label">
+        <strong>Email:</strong>
+      </label>
+      <input class="form-control" type="email" formControlName="email" maxlength="254" email="true" spellcheck="false">
+    </div>
+    <div *ngIf="captchaSiteKey !== ''" class="form-group">
+      <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" (success)="handleSuccess($event)"
+        [useGlobalDomain]="false" [size]="size" [hl]="lang" formControlName="recaptcha">
+      </ngx-recaptcha2>
+    </div>
 
-      <div class="form-row top-padded">
-        <button class="btn btn-primary" type="submit">
-          <tm-ajax-loading *ngIf="isFormSubmitting"></tm-ajax-loading>Submit
-        </button>
-      </div>
+    <button class="btn btn-primary" type="submit">
+      <tm-ajax-loading *ngIf="isFormSubmitting"></tm-ajax-loading>Submit
+    </button>
 
-    </form>
-  </div>
-</main>
+  </form>
+</div>

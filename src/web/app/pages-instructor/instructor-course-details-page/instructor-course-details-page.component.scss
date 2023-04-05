@@ -21,3 +21,10 @@ label {
 .student-table-margin {
   margin-top: 50px;
 }
+
+@media (max-width: 768px) {
+  #btn-remind-all,
+  #btn-download {
+    margin-bottom: .5rem;
+  }
+}

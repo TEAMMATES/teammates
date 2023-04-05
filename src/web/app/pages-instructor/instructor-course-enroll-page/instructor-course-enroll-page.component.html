@@ -6,7 +6,7 @@
         <div class="card-body fill-plain">
           <p class="text-muted">
             <i class="fas fa-info-circle"></i>
-            <a class="scroll-down" tabindex="0" role="button" (click)="navigateToMoreInfo()"> <!--We are just treating it as a button here-->
+            <a class="scroll-down" tabindex="0" role="button" (click)="navigateTo('more-info')"> <!--We are just treating it as a button here-->
               <b>&nbsp;</b>
               <b><u>Scroll down</u></b>
             </a>
@@ -91,7 +91,7 @@
                   <button type="button" title="Add" id="btn-add-empty-rows" class="btn btn-primary btn-margin-right" (click)="addRows(numOfRows.value)">
                     Add row(s)
                   </button>
-                  <input type="number" id="number-of-rows" class="form-control" value="1" min="0" #numOfRows>
+                  <input type="number" id="number-of-rows" class="form-control" value="1" min="0" aria-label="Number of rows" #numOfRows>
                 </div>
               </div>
               <div class="enroll-button-group">
@@ -168,7 +168,7 @@
       </div>
     </div>
 
-    <div class="more-info" #moreInfo>
+    <div class="more-info" id="more-info">
       <h2> More info </h2>
       <hr>
       <ul>

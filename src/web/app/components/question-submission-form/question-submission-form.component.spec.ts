@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { mapReplacer, mapReviver } from '../../../test-helpers/json-helpers';
 import {
@@ -14,6 +15,7 @@ import {
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CommentBoxModule } from '../comment-box/comment-box.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
 import {
   QuestionEditAnswerFormModule,
@@ -99,6 +101,8 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
     ['harris-barry-id', false],
     ['hans-charlie-id', false],
   ]),
+
+  isTabExpanded: true,
 };
 
 describe('QuestionSubmissionFormComponent', () => {
@@ -124,6 +128,8 @@ describe('QuestionSubmissionFormComponent', () => {
         NgbModule,
         LoadingSpinnerModule,
         AjaxLoadingModule,
+        BrowserAnimationsModule,
+        PanelChevronModule,
       ],
     })
     .compileComponents();

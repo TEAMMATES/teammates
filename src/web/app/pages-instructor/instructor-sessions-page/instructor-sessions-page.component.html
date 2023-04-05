@@ -22,7 +22,7 @@
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed || hasFeedbackSessionLoadingFailed" [message]="'Failed to load data'"
                   (retryEvent)="retryLoadingAllData()">
   <div class="margin-top-30px">
-    <div *tmIsLoading="isCoursesLoading || isMoveToRecycleBinLoading || isCopySessionLoading || isResultActionLoading">
+    <div *tmIsLoading="isCoursesLoading || isMoveToRecycleBinLoading || isCopySessionLoading || isResultActionLoading" class="table-responsive">
       <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0 && !isFeedbackSessionsLoading">
         You have not created any sessions yet. Use the form above to create a session.
       </div>

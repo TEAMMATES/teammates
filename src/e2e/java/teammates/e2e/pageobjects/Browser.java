@@ -56,6 +56,10 @@ public class Browser {
         this.driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
     }
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     public void addCookie(String name, String value, boolean isSecure, boolean isHttpOnly) {
         Cookie cookie = new Cookie.Builder(name, value)
                 .isSecure(isSecure)
@@ -188,6 +192,7 @@ public class Browser {
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
+            options.addArguments("--remote-allow-origins=*");
             if (TestProperties.isDevServer()) {
                 options.addArguments("incognito");
             }

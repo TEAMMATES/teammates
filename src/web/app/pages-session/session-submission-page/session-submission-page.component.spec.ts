@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -325,6 +326,7 @@ describe('SessionSubmissionPageComponent', () => {
     isLoading: false,
     isLoaded: true,
     hasResponseChangedForRecipients: new Map<string, boolean>(),
+    isTabExpanded: true,
   };
 
   const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
@@ -350,6 +352,7 @@ describe('SessionSubmissionPageComponent', () => {
     isLoading: false,
     isLoaded: false,
     hasResponseChangedForRecipients: new Map<string, boolean>(),
+    isTabExpanded: true,
   };
 
   const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -374,6 +377,7 @@ describe('SessionSubmissionPageComponent', () => {
     isLoading: false,
     isLoaded: true,
     hasResponseChangedForRecipients: new Map<string, boolean>(),
+    isTabExpanded: true,
   };
 
   const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -402,6 +406,7 @@ describe('SessionSubmissionPageComponent', () => {
     isLoading: false,
     isLoaded: true,
     hasResponseChangedForRecipients: new Map<string, boolean>(),
+    isTabExpanded: true,
   };
 
   const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -429,6 +434,7 @@ describe('SessionSubmissionPageComponent', () => {
     hasResponseChangedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', false],
     ]),
+    isTabExpanded: true,
   };
 
   const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -459,6 +465,7 @@ describe('SessionSubmissionPageComponent', () => {
     hasResponseChangedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', false],
     ]),
+    isTabExpanded: true,
   };
 
   const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -484,6 +491,7 @@ describe('SessionSubmissionPageComponent', () => {
     hasResponseChangedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', false],
     ]),
+    isTabExpanded: true,
   };
 
   const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -513,6 +521,7 @@ describe('SessionSubmissionPageComponent', () => {
     hasResponseChangedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', false],
     ]),
+    isTabExpanded: true,
   };
 
   const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -538,6 +547,7 @@ describe('SessionSubmissionPageComponent', () => {
     hasResponseChangedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', false],
     ]),
+    isTabExpanded: true,
   };
 
   const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -565,6 +575,7 @@ describe('SessionSubmissionPageComponent', () => {
     hasResponseChangedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', false],
     ]),
+    isTabExpanded: true,
   };
 
   const testInfo: AuthInfo = {
@@ -619,6 +630,7 @@ describe('SessionSubmissionPageComponent', () => {
         QuestionSubmissionFormModule,
         LoadingSpinnerModule,
         LoadingRetryModule,
+        BrowserAnimationsModule,
       ],
       providers: [
         {

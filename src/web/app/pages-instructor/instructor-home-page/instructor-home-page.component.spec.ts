@@ -166,7 +166,7 @@ describe('InstructorHomePageComponent', () => {
     component.hasCoursesLoaded = true;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#course-tab-header');
+    const button: any = fixture.debugElement.nativeElement.querySelector('.card-header');
     button.click();
     expect(component.courseTabModels[0].isTabExpanded).toBeFalsy();
     button.click();
@@ -194,9 +194,9 @@ describe('InstructorHomePageComponent', () => {
     );
     jest.spyOn(courseService, 'changeArchiveStatus').mockReturnValue(of(courseArchive));
 
-    const courseButton: any = fixture.debugElement.nativeElement.querySelector('#btn-course');
+    const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
-    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('#btn-archive-course');
+    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('.btn-archive-course');
     archiveButton.click();
 
     expect(component.courseTabModels.length).toEqual(1);
@@ -222,9 +222,9 @@ describe('InstructorHomePageComponent', () => {
     );
     jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
 
-    const courseButton: any = fixture.debugElement.nativeElement.querySelector('#btn-course');
+    const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
-    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('#btn-delete-course');
+    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('.btn-delete-course');
     archiveButton.click();
 
     expect(component.courseTabModels.length).toEqual(1);

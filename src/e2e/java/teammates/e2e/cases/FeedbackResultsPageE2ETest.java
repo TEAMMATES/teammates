@@ -429,79 +429,57 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         String[][] expectedRubricStats = {
                 {
                         formattedSubQns[0],
-                        "33.33% (1) [1]",
-                        "33.33% (1) [2]",
-                        "0% (0) [3]",
-                        "0% (0) [4]",
-                        "33.33% (1) [5]",
-                        "2.67",
+                        "33.33% (1)",
+                        "33.33% (1)",
+                        "0% (0)",
+                        "0% (0)",
+                        "33.33% (1)",
                 },
                 {
                         formattedSubQns[1],
-                        "0% (0) [0.01]",
-                        "0% (0) [0.02]",
-                        "33.33% (1) [0.03]",
-                        "0% (0) [0.04]",
-                        "66.67% (2) [0.05]",
-                        "0.04",
+                        "0% (0)",
+                        "0% (0)",
+                        "33.33% (1)",
+                        "0% (0)",
+                        "66.67% (2)",
                 },
                 {
                         formattedSubQns[2],
-                        "0% (0) [2]",
-                        "0% (0) [1]",
-                        "0% (0) [0]",
-                        "66.67% (2) [-1]",
-                        "33.33% (1) [-2]",
-                        "-1.33",
+                        "0% (0)",
+                        "0% (0)",
+                        "0% (0)",
+                        "66.67% (2)",
+                        "33.33% (1)",
                 },
         };
 
         String[][] expectedRubricStatsExcludingSelf = {
                 {
                         formattedSubQns[0],
-                        "50% (1) [1]",
-                        "0% (0) [2]",
-                        "0% (0) [3]",
-                        "0% (0) [4]",
-                        "50% (1) [5]",
-                        "3",
+                        "50% (1)",
+                        "0% (0)",
+                        "0% (0)",
+                        "0% (0)",
+                        "50% (1)",
                 },
                 {
                         formattedSubQns[1],
-                        "0% (0) [0.01]",
-                        "0% (0) [0.02]",
-                        "0% (0) [0.03]",
-                        "0% (0) [0.04]",
-                        "100% (2) [0.05]",
-                        "0.05",
+                        "0% (0)",
+                        "0% (0)",
+                        "0% (0)",
+                        "0% (0)",
+                        "100% (2)",
                 },
                 {
                         formattedSubQns[2],
-                        "0% (0) [2]",
-                        "0% (0) [1]",
-                        "0% (0) [0]",
-                        "50% (1) [-1]",
-                        "50% (1) [-2]",
-                        "-1.5",
+                        "0% (0)",
+                        "0% (0)",
+                        "0% (0)",
+                        "50% (1)",
+                        "50% (1)",
                 },
         };
 
-        String[] studentNames = { "Anonymous student", "Benny Charles", "Charlie Davis", "You" };
-        String[] studentTeams = { "", "Team 1", "Team 1", "Team 1" };
-
-        String[][] expectedRubricStatsPerRecipient = new String[studentNames.length * formattedSubQns.length][3];
-        // The actual calculated stats are not verified for this table
-        // Checking the recipient presence in the table is sufficient for E2E purposes
-        for (int i = 0; i < studentNames.length; i++) {
-            for (int j = 0; j < formattedSubQns.length; j++) {
-                int index = i * formattedSubQns.length + j;
-                expectedRubricStatsPerRecipient[index][0] = studentTeams[i];
-                expectedRubricStatsPerRecipient[index][1] = studentNames[i];
-                expectedRubricStatsPerRecipient[index][2] = formattedSubQns[j];
-            }
-        }
-
-        resultsPage.verifyRubricStatistics(10, expectedRubricStats, expectedRubricStatsExcludingSelf,
-                expectedRubricStatsPerRecipient);
+        resultsPage.verifyRubricStatistics(10, expectedRubricStats, expectedRubricStatsExcludingSelf);
     }
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.testng.annotations.Test;
 
@@ -17,12 +18,19 @@ public class TestNgXmlTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestNg() throws IOException {
-        String testNgXml = FileHelper.readFile("./src/e2e/resources/testng-e2e.xml");
+        String testNgXmlE2E = FileHelper.readFile("./src/e2e/resources/testng-e2e.xml");
+        String testNgXmlAxe = FileHelper.readFile("./src/e2e/resources/testng-axe.xml");
 
         // <class name, package name>
-        Map<String, String> testFiles = getTestFiles(testNgXml, "./src/e2e/java/teammates/e2e");
+        Map<String, String> testFiles = getTestFiles(testNgXmlE2E, "./src/e2e/java/teammates/e2e");
 
-        testFiles.forEach((key, value) -> assertTrue(isTestFileIncluded(testNgXml, value, key)));
+        testFiles.forEach((key, value) -> {
+            if (Objects.equals(value, "teammates.e2e.cases.axe")) {
+                assertTrue(isTestFileIncluded(testNgXmlAxe, value, key));
+            } else {
+                assertTrue(isTestFileIncluded(testNgXmlE2E, value, key));
+            }
+        });
     }
 
     /**

@@ -52,6 +52,8 @@ export interface QuestionSubmissionFormModel {
   isLoaded: boolean;
 
   hasResponseChangedForRecipients: Map<string, boolean>;
+
+  isTabExpanded: boolean;
 }
 
 /**
