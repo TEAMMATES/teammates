@@ -276,6 +276,15 @@ public class Logic {
     }
 
     /**
+     * Fetch the deadline extension for a given user and session feedback.
+     *
+     * @return deadline extension instant if exists, else return null since no deadline extensions.
+     */
+    public Instant getExtendedDeadlineForUser(FeedbackSession session, User user) {
+        return deadlineExtensionsLogic.getExtendedDeadlineForUser(session, user);
+    }
+
+    /**
      * Gets a feedback session.
      *
      * @return null if not found.
