@@ -24,7 +24,6 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         super.setUp();
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
-        loginAsAdmin();
     }
 
     @Override

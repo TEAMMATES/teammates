@@ -149,8 +149,7 @@ public final class UsersLogic {
      * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
      *
      * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException if the newly generated instructor has the same registration key as the
-     *          original one.
+     * @throws InstructorUpdateException if system was unable to generate a new registration key.
      * @throws EntityDoesNotExistException if the instructor does not exist.
      */
     public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
