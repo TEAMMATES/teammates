@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
@@ -59,17 +60,15 @@ public class RegenerateInstructorKeyAction extends AdminOnlyAction {
         Instructor updatedInstructor;
         try {
             updatedInstructor = sqlLogic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
-            // HELP: null not being caught in sqlLogic, no exception thrown
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
-        } catch (EntityAlreadyExistsException ex) {
-            // No logging here as severe logging is done at the origin of the error
+        } catch (InstructorUpdateException ex) {
             return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        if (updatedInstructor == null) {
-            throw new EntityNotFoundException("shouldn't need this"); // this is thrown when running tests
-        }
+        // if (updatedInstructor == null) {
+        //     throw new EntityNotFoundException("shouldn't need this"); // this is thrown when running tests
+        // }
 
         boolean emailSent = sendEmail(updatedInstructor);
         String statusMessage = emailSent
