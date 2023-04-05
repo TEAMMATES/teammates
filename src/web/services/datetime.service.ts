@@ -53,6 +53,33 @@ export class DateTimeService {
     }
 
     /**
+     * Converts a DateFormat object and a TimeFormat object to a single Date instance.
+     */
+    convertDateFormatAndTimeFormatToDate(date: DateFormat, time: TimeFormat): Date {
+        return new Date(date.year, date.month - 1, date.day, time.hour, time.minute);
+    }
+
+    /**
+     * Converts a a single Date instance to a DateFormat object and a TimeFormat object.
+     */
+    convertDateToDateFormatAndTimeFormat(date: Date): [DateFormat, TimeFormat] {
+        const newDate: DateFormat = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        const newTime: TimeFormat = { hour: date.getHours(), minute: date.getMinutes() };
+        return [newDate, newTime];
+    }
+
+    /**
+     * Gets a DateFormat and a TimeFormat from a DateFormat and a TimeFormat Delta changed by x minutes.
+     * minutes can be postive or negative
+     */
+    getDateTimeFromDateTimeDeltaMinutes(
+        date: DateFormat, time: TimeFormat, deltaMinutes: number): [DateFormat, TimeFormat] {
+        const changedDate = this.convertDateFormatAndTimeFormatToDate(date, time);
+        changedDate.setMinutes(changedDate.getMinutes() + deltaMinutes);
+        return this.convertDateToDateFormatAndTimeFormat(changedDate);
+    }
+
+    /**
      * Gets a moment instance from a date.
      */
     getMomentInstanceFromDate(date: DateFormat): moment.Moment {
