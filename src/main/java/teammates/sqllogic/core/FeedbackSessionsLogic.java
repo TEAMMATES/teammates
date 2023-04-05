@@ -135,20 +135,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Updates the details of a feedback session by {@link FeedbackSessionAttributes.UpdateOptions}.
-     *
-     * <p>Adjust email sending status if necessary.
-     *
-     * @return updated feedback session
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the feedback session cannot be found
-     */
-    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return fsDb.updateFeedbackSession(feedbackSession);
-    }
-
-    /**
      * Unpublishes a feedback session.
      *
      * @return the unpublished feedback session

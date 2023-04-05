@@ -85,20 +85,6 @@ public final class DeadlineExtensionsLogic {
     }
 
     /**
-     * Updates a deadline extension.
-     *
-     * @return the updated deadline extension
-     * @throws InvalidParametersException if the updated deadline extension is not valid
-     * @throws EntityDoesNotExistException if the deadline extension to update does not exist
-     */
-    public DeadlineExtension updateDeadlineExtension(DeadlineExtension deadlineExtension)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert deadlineExtension != null;
-
-        return deadlineExtensionsDb.updateDeadlineExtension(deadlineExtension);
-    }
-
-    /**
      * Deletes a deadline extension.
      *
      * <p>Fails silently if the deadline extension doesn't exist.</p>

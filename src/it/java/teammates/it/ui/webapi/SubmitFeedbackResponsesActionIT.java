@@ -315,13 +315,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         ______TS("Instructor submitting after deadline; should fail");
         feedbackSession.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
 
-        logic.updateFeedbackSession(feedbackSession);
-
         DeadlineExtension deadlineExtension =
                 logic.getDeadlineExtension(instructor.getId(), feedbackSession.getId());
 
         deadlineExtension.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        logic.updateDeadlineExtension(deadlineExtension);
 
         verifyCannotAccess(params);
 
@@ -361,13 +358,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         ______TS("Student submitting after deadline; should fail");
         feedbackSession.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
 
-        logic.updateFeedbackSession(feedbackSession);
-
         DeadlineExtension deadlineExtension =
                 logic.getDeadlineExtension(student.getId(), feedbackSession.getId());
 
         deadlineExtension.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        logic.updateDeadlineExtension(deadlineExtension);
 
         verifyCannotAccess(params);
 

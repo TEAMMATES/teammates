@@ -82,29 +82,6 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     }
 
     /**
-     * Updates a feedback response comment.
-     *
-     * @return updated comment
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
-     */
-    public FeedbackResponseComment updateFeedbackResponseComment(
-            FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert feedbackResponseComment != null;
-
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
-        }
-
-        if (getFeedbackResponseComment(feedbackResponseComment.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return merge(feedbackResponseComment);
-    }
-
-    /**
      * Deletes a feedbackResponseComment.
      */
     public void deleteFeedbackResponseComment(Long frcId) {

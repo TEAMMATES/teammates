@@ -218,7 +218,7 @@ public final class FeedbackResponsesLogic {
 
         if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
             List<FeedbackResponseComment> responseComments =
-                    frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
+                    frcLogic.getFeedbackResponseCommentsForResponse(oldResponse.getId());
             for (FeedbackResponseComment responseComment : responseComments) {
                 if (isResponseIdChanged) {
                     responseComment.setFeedbackResponse(newResponse);
@@ -231,8 +231,6 @@ public final class FeedbackResponsesLogic {
                 if (isRecipientSectionChanged) {
                     responseComment.setRecipientSection(newResponse.getRecipientSection());
                 }
-
-                frcLogic.updateFeedbackResponseComment(responseComment);
             }
         }
 
@@ -245,4 +243,5 @@ public final class FeedbackResponsesLogic {
     public void deleteFeedbackResponseCascade(UUID responseId) {
         frDb.deleteFeedbackResponse(getFeedbackResponse(responseId));
     }
+
 }

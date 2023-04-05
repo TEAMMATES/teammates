@@ -107,14 +107,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Updates an instructor.
-     */
-    public Instructor updateInstructor(Instructor instructor)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return usersDb.updateInstructor(instructor);
-    }
-
-    /**
      * Deletes an instructor or student.
      */
     public <T extends User> void deleteUser(T user) {

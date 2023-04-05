@@ -208,24 +208,6 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Saves an updated {@code Instructor} to the db.
-     */
-    public Instructor updateInstructor(Instructor instructor)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert instructor != null;
-
-        if (!instructor.isValid()) {
-            throw new InvalidParametersException(instructor.getInvalidityInfo());
-        }
-
-        if (getInstructor(instructor.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return merge(instructor);
-    }
-
-    /**
      * Deletes a user.
      */
     public <T extends User> void deleteUser(T user) {

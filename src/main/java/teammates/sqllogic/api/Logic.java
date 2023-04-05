@@ -302,23 +302,6 @@ public class Logic {
     }
 
     /**
-     * Updates a deadline extension.
-     *
-     * <p>Preconditions:</p>
-     * * All parameters are non-null.
-     *
-     * @return the updated deadline extension
-     * @throws InvalidParametersException if the updated deadline extension is not valid
-     * @throws EntityDoesNotExistException if the deadline extension to update does not exist
-     */
-    public DeadlineExtension updateDeadlineExtension(DeadlineExtension deadlineExtension)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert deadlineExtension != null;
-
-        return deadlineExtensionsLogic.updateDeadlineExtension(deadlineExtension);
-    }
-
-    /**
      * Deletes a deadline extension.
      *
      * <p>Preconditions:</p>
@@ -406,23 +389,6 @@ public class Logic {
      */
     public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
         return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
-    }
-
-    /**
-     * Updates the details of a feedback session.
-     *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return updated feedback session
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the feedback session cannot be found
-     */
-    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert feedbackSession != null;
-
-        return feedbackSessionsLogic.updateFeedbackSession(feedbackSession);
     }
 
     /**
@@ -738,14 +704,6 @@ public class Logic {
      */
     public List<User> getAllUsersByGoogleId(String googleId) {
         return usersLogic.getAllUsersByGoogleId(googleId);
-    }
-
-    /**
-     * Updates an instructor.
-     */
-    public Instructor updateInstructor(Instructor instructor)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return usersLogic.updateInstructor(instructor);
     }
 
     /**

@@ -56,7 +56,7 @@ public final class FeedbackResponseCommentsLogic {
     /**
      * Gets all response comments for a response.
      */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentForResponse(UUID feedbackResponseId) {
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {
         return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
 
@@ -97,17 +97,4 @@ public final class FeedbackResponseCommentsLogic {
         return comment;
     }
 
-    /**
-     * Updates a feedback response comment.
-     *
-     * @return updated comment
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
-     */
-    public FeedbackResponseComment updateFeedbackResponseComment(
-            FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
-    }
 }
