@@ -716,12 +716,8 @@ public class Logic {
     public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        // HELP: in executions, this isn't being called at all
-        System.out.println("in sqllogic");
         assert courseId != null;
         assert email != null;
-
-        assert false;
 
         return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
     }
