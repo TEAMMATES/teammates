@@ -7,7 +7,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
-import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.RegenerateInstructorKeyAction;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.output.RegenerateKeyData;
@@ -69,22 +68,20 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
                      emailSent.getSubject());
         assertEquals(instructor.getEmail(), emailSent.getRecipient());
 
-        // ______TS("Invalid parameters");
+        ______TS("No parameters");
+        verifyHttpParameterFailure();
 
-        // //no parameters
-        // verifyHttpParameterFailure();
+        ______TS("No instructor email");
+        String[] noEmailParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+        };
+        verifyHttpParameterFailure(noEmailParams);
 
-        // //null instructor email
-        // String[] invalidParams = new String[] {
-        //         Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-        // };
-        // verifyHttpParameterFailure(invalidParams);
-
-        // //null course id
-        // invalidParams = new String[] {
-        //         Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
-        // };
-        // verifyHttpParameterFailure(invalidParams);
+        ______TS("No course ID");
+        String[] noCourseParams = new String[] {
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+        };
+        verifyHttpParameterFailure(noCourseParams);
 
         ______TS("Course ID given but course is non existent");
 
@@ -93,8 +90,6 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
             Const.ParamsNames.COURSE_ID, "does-not-exist-id",
         };
 
-        //     EntityNotFoundException enfe = verifyEntityNotFound(invalidCourseParams);
-        //     assertEquals("Instructor could not be found for this course", enfe.getMessage());
         verifyEntityNotFound(invalidCourseParams);
 
         ______TS("Instructor not found in course");
@@ -104,9 +99,6 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
 
-        //     enfe = verifyEntityNotFound(invalidCourseParams);
-        //     assertEquals("Instructor could not be found for this course", enfe.getMessage());
-
         verifyEntityNotFound(invalidEmailParams);
     }
 
@@ -115,8 +107,6 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        //String oldRegKey = instructor.getRegKey();
-        //loginAsAdmin();
 
         ______TS("only instructors of the same course with correct privilege can access");
         loginAsAdmin();
@@ -127,10 +117,9 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         };
         verifyOnlyAdminCanAccess(course, submissionParams);
 
-        // ______TS("Instructors cannot access");
-        // loginAsInstructor(instructor.getAccount().getGoogleId());
+        ______TS("Instructors cannot access");
+        loginAsInstructor(instructor.getAccount().getGoogleId());
 
-        // verifyInaccessibleForInstructors(course, submissionParams);
-        // verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForInstructors(course, submissionParams);
     }
 }

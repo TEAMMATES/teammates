@@ -171,7 +171,6 @@ public final class UsersLogic {
             numTries++;
         }
 
-        // log.severe("Failed to generate new registration key for instructor after " + MAX_KEY_REGENERATION_TRIES + " tries");
         throw new InstructorUpdateException("Could not regenerate a new course registration key for the instructor.");
     }
 

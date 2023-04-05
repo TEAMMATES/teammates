@@ -66,10 +66,6 @@ public class RegenerateInstructorKeyAction extends AdminOnlyAction {
             return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        // if (updatedInstructor == null) {
-        //     throw new EntityNotFoundException("shouldn't need this"); // this is thrown when running tests
-        // }
-
         boolean emailSent = sendEmail(updatedInstructor);
         String statusMessage = emailSent
                 ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
