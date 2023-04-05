@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +18,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -68,6 +70,10 @@ public class UsersLogicTest extends BaseTestCase {
         when(usersLogic.getInstructorForEmail(courseId, email)).thenReturn(instructor);
         when(usersDb.getAllUsersByGoogleId(googleId)).thenReturn(Collections.emptyList());
         when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+
+        List<Instructor> instructorsList = new ArrayList<>();
+        instructorsList.add(instructor);
+        when(usersLogic.getInstructorsForCourse(courseId)).thenReturn(instructorsList);
 
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
 
@@ -144,6 +150,17 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals(1, unregisteredStudents.size());
         assertTrue(unregisteredStudents.get(0).equals(unregisteredStudentNullAccount));
+    }
+
+    @Test
+    public void testUpdateToEnsureValidityOfInstructorsForTheCourse_lastModifyInstructorPrivilege_shouldPreserve() {
+        InstructorPrivileges privileges = instructor.getPrivileges();
+        privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        instructor.setPrivileges(privileges);
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor);
+
+        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 
     private Instructor getTypicalInstructor() {
