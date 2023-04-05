@@ -1,7 +1,5 @@
 package teammates.sqllogic.core;
 
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +12,12 @@ import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
  * Handles operations related to feedback sessions.
@@ -282,7 +278,6 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> responses;
 
         int numberOfRecipients;
-        List<FeedbackResponse> updates = new ArrayList<>();
 
         switch (giverType) {
         case INSTRUCTORS:
@@ -291,8 +286,9 @@ public final class FeedbackResponsesLogic {
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, instructor, null, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail());
-                updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients));
+
+                FeedbackRankRecipientsResponseDetails
+                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients);
             }
             break;
         case TEAMS:
@@ -308,8 +304,9 @@ public final class FeedbackResponsesLogic {
                 responses =
                         getFeedbackResponsesFromTeamForQuestion(
                                 question.getId(), question.getCourseId(), team, roster);
-                updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients));
+
+                FeedbackRankRecipientsResponseDetails
+                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients);
             }
             break;
         default:
@@ -317,42 +314,11 @@ public final class FeedbackResponsesLogic {
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, null, student, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
-                updates.addAll(FeedbackRankRecipientsResponseDetails
-                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients));
+
+                FeedbackRankRecipientsResponseDetails
+                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients);
             }
             break;
-        }
-
-        for (FeedbackResponse update : updates) {
-            try {
-                updateFeedbackResponse(update);
-            } catch (EntityAlreadyExistsException | EntityDoesNotExistException | InvalidParametersException e) {
-                assert false : "Exception occurred when updating responses after deleting students.";
-            }
-        }
-    }
-
-    /**
-     * Updates a feedback response.
-     *
-     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
-     * as question-giver-recipient is the primary key.
-     */
-    void updateFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws EntityAlreadyExistsException, EntityDoesNotExistException, InvalidParametersException {
-        FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
-        if (oldResponse == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        if (feedbackResponse.getRecipient().equals(oldResponse.getRecipient())
-                && feedbackResponse.getGiver().equals(oldResponse.getGiver())) {
-            oldResponse.setGiverSection(feedbackResponse.getGiverSection());
-            oldResponse.setRecipientSection(feedbackResponse.getRecipientSection());
-            ((FeedbackRankRecipientsResponse) oldResponse)
-                    .setAnswer(((FeedbackRankRecipientsResponse) feedbackResponse).getAnswer());
-        } else {
-            frDb.deleteFeedbackResponse(oldResponse);
         }
     }
 

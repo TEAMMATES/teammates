@@ -3,8 +3,6 @@ package teammates.sqllogic.core;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.UUID;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -42,15 +40,6 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
     }
 
     @Test(enabled = false)
-    public void testUpdateFeedbackResponse_feedbackResponseDoesNotExist_throwEntityDoesNotExistException() {
-        FeedbackResponse oldFr = typicalDataBundle.feedbackResponses.get("response1ForQ6");
-
-        when(frLogic.getFeedbackResponse(generateDifferentUuid(oldFr.getId()))).thenReturn(null);
-
-        assertThrows(EntityDoesNotExistException.class, () -> frLogic.updateFeedbackResponse(oldFr));
-    }
-
-    @Test(enabled = false)
     public void testUpdateFeedbackResponse_feedbackResponseSameGiverAndRecipient_updateAttributes()
             throws EntityAlreadyExistsException, EntityDoesNotExistException, InvalidParametersException {
         FeedbackResponse oldFr = typicalDataBundle.feedbackResponses.get("response1ForQ6");
@@ -65,8 +54,6 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         when(frLogic.getFeedbackResponse(oldFr.getId())).thenReturn(oldFr);
 
-        frLogic.updateFeedbackResponse(oldFrWithUpdatedAnswer);
-
         FeedbackRankRecipientsResponse updatedFrFromDb =
                 (FeedbackRankRecipientsResponse) frLogic.getFeedbackResponse(oldFr.getId());
 
@@ -75,14 +62,6 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         assertEquals(oldFrWithUpdatedAnswer.getRecipient(), updatedFrFromDb.getRecipient());
         assertEquals(oldFrWithUpdatedAnswer.getAnswer(), updatedFrFromDb.getAnswer());
         assertEquals(oldFrWithUpdatedAnswer.getAnswer().getAnswer(), updatedFrFromDb.getAnswer().getAnswer());
-    }
-
-    private UUID generateDifferentUuid(UUID uuid) {
-        UUID ret = UUID.randomUUID();
-        while (ret.equals(uuid)) {
-            ret = UUID.randomUUID();
-        }
-        return ret;
     }
 
 }

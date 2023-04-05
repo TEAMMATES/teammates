@@ -1,13 +1,11 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -103,24 +101,6 @@ public final class FeedbackResponsesDb extends EntitiesDb {
 
         persist(feedbackResponse);
         return feedbackResponse;
-    }
-
-    /**
-     * Updates a feedback response.
-     */
-    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert feedbackResponse != null;
-
-        if (!feedbackResponse.isValid()) {
-            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
-        }
-
-        if (getFeedbackResponse(feedbackResponse.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return merge(feedbackResponse);
     }
 
     /**

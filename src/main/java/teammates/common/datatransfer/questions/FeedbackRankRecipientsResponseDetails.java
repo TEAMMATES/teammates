@@ -111,17 +111,14 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
     }
 
     /**
-     * Provides updates of responses for 'rank recipient question', such that the ranks in the responses are consistent.
+     * Updates responses for 'rank recipient question', such that the ranks in the responses are consistent.
      * @param responses responses to one feedback question, from one giver
      * @param maxRank the maximum rank in each response
-     * @return a list of {@code FeedbackResponse} that contains the updates for the responses, if any
      */
-    public static List<FeedbackResponse> getUpdatedResponsesForRankRecipientQuestionsMigrated(
+    public static void getUpdatedResponsesForRankRecipientQuestionsMigrated(
             List<FeedbackResponse> responses, int maxRank) {
-        List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
-
         if (maxRank <= 0) {
-            return feedbackResponsesToUpdate;
+            return;
         }
 
         FeedbackRankRecipientsResponseDetails responseDetails;
@@ -174,7 +171,6 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
                     if (answer > maxUnusedRank) {
                         answer--;
                         responseDetails.setAnswer(answer);
-                        feedbackResponsesToUpdate.add(response);
                     }
                     if (answer > maxRank) {
                         isUpdateNeeded = true; // sets the flag to true if the updated rank is still invalid
@@ -182,8 +178,6 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
                 }
             }
         }
-
-        return feedbackResponsesToUpdate;
     }
 
     @Override
