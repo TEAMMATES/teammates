@@ -4,14 +4,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
-import teammates.ui.webapi.RegenerateInstructorKeyAction;
-import teammates.ui.webapi.JsonResult;
 import teammates.ui.output.RegenerateKeyData;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.RegenerateInstructorKeyAction;
 
 /**
  * SUT: {@link RegenerateInstructorKeyAction}.
@@ -48,8 +48,8 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         ______TS("Typical Success Case");
 
         String[] param = new String[] {
-            Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-            Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
 
         RegenerateInstructorKeyAction regenerateInstructorKeyAction = getAction(param);
@@ -86,8 +86,8 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         ______TS("Course ID given but course is non existent");
 
         String[] invalidCourseParams = new String[] {
-            Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-            Const.ParamsNames.COURSE_ID, "does-not-exist-id",
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+                Const.ParamsNames.COURSE_ID, "does-not-exist-id",
         };
 
         verifyEntityNotFound(invalidCourseParams);
@@ -112,8 +112,8 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         loginAsAdmin();
 
         String[] submissionParams = new String[] {
-            Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-            Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
         verifyOnlyAdminCanAccess(course, submissionParams);
 
