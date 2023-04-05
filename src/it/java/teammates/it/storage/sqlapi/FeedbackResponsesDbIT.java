@@ -9,10 +9,12 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 
 /**
@@ -21,6 +23,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
+    private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 
     private SqlDataBundle typicalDataBundle;
 
@@ -37,6 +40,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         super.setUp();
         persistDataBundle(typicalDataBundle);
         HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
     }
 
     @Test
@@ -60,11 +64,13 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
         FeedbackResponse fr2 = typicalDataBundle.feedbackResponses.get("response2ForQ1");
+        FeedbackResponseComment frc1 = typicalDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
 
         frDb.deleteFeedbackResponsesForQuestionCascade(fq.getId());
 
         assertNull(frDb.getFeedbackResponse(fr1.getId()));
         assertNull(frDb.getFeedbackResponse(fr2.getId()));
+        assertNull(frcDb.getFeedbackResponseComment(frc1.getId()));
     }
 
     @Test

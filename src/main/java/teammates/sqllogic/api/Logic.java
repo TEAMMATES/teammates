@@ -277,6 +277,15 @@ public class Logic {
     }
 
     /**
+     * Fetch the deadline extension for a given user and session feedback.
+     *
+     * @return deadline extension instant if exists, else return null since no deadline extensions.
+     */
+    public Instant getExtendedDeadlineForUser(FeedbackSession session, User user) {
+        return deadlineExtensionsLogic.getExtendedDeadlineForUser(session, user);
+    }
+
+    /**
      * Gets a feedback session.
      *
      * @return null if not found.
@@ -801,6 +810,18 @@ public class Logic {
      */
     public FeedbackQuestion getFeedbackQuestion(UUID id) {
         return feedbackQuestionsLogic.getFeedbackQuestion(id);
+    }
+
+    /**
+     * Deletes a feedback question cascade its responses and comments.
+     *
+     * <p>Silently fail if question does not exist.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackQuestionCascade(UUID questionId) {
+        feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
     }
 
     /**
