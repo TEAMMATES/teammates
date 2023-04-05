@@ -732,6 +732,7 @@ public class Logic {
         return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
     }
 
+    /**
      * Updates the instructor being edited to ensure validity of instructors for the course.
      * * Preconditions: <br>
      * * All parameters are non-null.
