@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlentity.DeadlineExtension;
