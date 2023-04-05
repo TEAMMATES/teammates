@@ -73,14 +73,14 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         ______TS("deadline extension does not exist");
 
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, "unknown-course-id",
+                Const.ParamsNames.COURSE_ID, deadlineExtension.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "unknown-fs-name",
                 Const.ParamsNames.USER_EMAIL, "unknown@gmail.tmt",
                 Const.ParamsNames.IS_INSTRUCTOR, "false",
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Deadline extension for course id: unknown-course-id and "
+        assertEquals("Deadline extension for course id: " + deadlineExtension.getCourseId() + " and "
                 + "feedback session name: unknown-fs-name and student email: unknown@gmail.tmt not found.",
                 enfe.getMessage());
 
