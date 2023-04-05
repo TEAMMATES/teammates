@@ -10,8 +10,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.output.RegenerateKeyData;
 import teammates.storage.sqlentity.Instructor;
+import teammates.ui.output.RegenerateKeyData;
 
 /**
  * Regenerates the key for a given instructor in a course. This will also resend the course registration
@@ -71,7 +71,7 @@ public class RegenerateInstructorKeyAction extends AdminOnlyAction {
                 ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
-        return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getRegKey()));        
+        return new JsonResult(new RegenerateKeyData(statusMessage, updatedInstructor.getRegKey()));
     }
 
     /**

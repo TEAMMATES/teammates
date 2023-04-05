@@ -26,11 +26,11 @@ public final class UsersLogic {
 
     private static final UsersLogic instance = new UsersLogic();
 
+    private static final int MAX_KEY_REGENERATION_TRIES = 10;
+
     private UsersDb usersDb;
 
     private AccountsLogic accountsLogic;
-
-    private static final int MAX_KEY_REGENERATION_TRIES = 10;
 
     private UsersLogic() {
         // prevent initialization
