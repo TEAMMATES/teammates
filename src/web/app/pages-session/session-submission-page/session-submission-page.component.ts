@@ -732,7 +732,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             const isFeedbackResponseDetailsEmpty: boolean =
                 this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
                     questionSubmissionFormModel.questionType, recipientSubmissionFormModel.responseDetails);
-            isQuestionFullyAnswered = isQuestionFullyAnswered && !isFeedbackResponseDetailsEmpty;
+            isQuestionFullyAnswered = !isFeedbackResponseDetailsEmpty;
 
             if (!isFeedbackResponseDetailsEmpty) {
               responses.push({
