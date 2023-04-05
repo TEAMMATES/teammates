@@ -240,7 +240,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
             for (FeedbackResponseAttributes response : responses) {
                 String[] expectedResponses = getExpectedGqrDetails(question, response, instructors, students);
                 String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient(), students);
-                String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(), instructors, students);
+                String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(),
+                        instructors, students);
                 verifyTableRowValues(getResponseRow(questionPanel, recipientTeam, recipientName), expectedResponses);
             }
         }
@@ -539,8 +540,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
-        String editor = getNameAndEmail(comment.getCommentGiverType(), comment.getLastEditorEmail(), instructors, students);
-        String commentGiver = getNameAndEmail(comment.getCommentGiverType(), comment.getCommentGiver(), instructors, students);
+        String editor = getNameAndEmail(comment.getCommentGiverType(),
+                comment.getLastEditorEmail(), instructors, students);
+        String commentGiver = getNameAndEmail(comment.getCommentGiverType(), comment.getCommentGiver(),
+                instructors, students);
         verifyCommentDetails(commentModal, commentGiver, editor, comment.getCommentText(), true);
     }
 
@@ -550,8 +553,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                               Collection<StudentAttributes> students) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
-        String editor = getNameAndEmail(comment.getCommentGiverType(), comment.getLastEditorEmail(), instructors, students);
-        String commentGiver = getNameAndEmail(comment.getCommentGiverType(), comment.getCommentGiver(), instructors, students);
+        String editor = getNameAndEmail(comment.getCommentGiverType(), comment.getLastEditorEmail(),
+                instructors, students);
+        String commentGiver = getNameAndEmail(comment.getCommentGiverType(), comment.getCommentGiver(),
+                instructors, students);
         verifyCommentDetails(questionPanel, commentGiver, editor, comment.getCommentText(), false);
     }
 
@@ -1127,13 +1132,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
             name = instructors.stream()
                     .filter(instructor -> instructor.getEmail().equals(participant))
                     .findFirst()
-                    .map(InstructorAttributes::getName)
+                    .map(instructor -> String.format("%s (%s)", instructor.getName(), instructor.getEmail()))
                     .orElse(null);
         } else {
             name = students.stream()
                     .filter(student -> student.getEmail().equals(participant))
                     .findFirst()
-g                    .map(StudentAttributes::getName)
+                    .map(student -> String.format("%s (%s)", student.getName(), student.getEmail()))
                     .orElse(null);
         }
 
