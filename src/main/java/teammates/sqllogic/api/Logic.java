@@ -16,6 +16,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.StudentUpdateException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -729,6 +730,22 @@ public class Logic {
         assert email != null;
 
         return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
+    }
+
+    /**
+     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     *
+     * @return the student with the new registration key.
+     * @throws StudentUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the student does not exist.
+     */
+    public Student regenerateStudentRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, StudentUpdateException {
+
+        assert courseId != null;
+        assert email != null;
+
+        return usersLogic.regenerateStudentRegistrationKey(courseId, email);
     }
 
     /**
