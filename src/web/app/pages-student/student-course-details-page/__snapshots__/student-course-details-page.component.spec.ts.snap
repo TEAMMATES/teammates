@@ -36,10 +36,6 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
       >
         Loading...
       </div>
-      <div
-        class="row text-info"
-      >
-      </div>
     </div>
   </tm-loading-spinner>
 </tm-student-course-details-page>

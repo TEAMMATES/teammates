@@ -49,10 +49,6 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
         >
           Loading...
         </div>
-        <div
-          class="row text-info"
-        >
-        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
@@ -144,10 +140,6 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
           class="row text-secondary"
         >
           Loading...
-        </div>
-        <div
-          class="row text-info"
-        >
         </div>
       </div>
     </tm-loading-spinner>
@@ -241,10 +233,6 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
         >
           Loading...
         </div>
-        <div
-          class="row text-info"
-        >
-        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
@@ -336,10 +324,6 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
           class="row text-secondary"
         >
           Loading...
-        </div>
-        <div
-          class="row text-info"
-        >
         </div>
       </div>
     </tm-loading-spinner>

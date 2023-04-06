@@ -56,10 +56,6 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
       >
         Loading...
       </div>
-      <div
-        class="row text-info"
-      >
-      </div>
     </div>
   </tm-loading-spinner><div>
     <div
@@ -468,10 +464,6 @@ exports[`LogsPageComponent should snap when searching for details in search form
         >
           Loading...
         </div>
-        <div
-          class="row text-info"
-        >
-        </div>
       </div>
     </tm-loading-spinner>
     <div
@@ -537,10 +529,6 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
         class="row text-secondary"
       >
         Loading...
-      </div>
-      <div
-        class="row text-info"
-      >
       </div>
     </div>
   </tm-loading-spinner><div>

@@ -313,10 +313,6 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                 >
                   Loading...
                 </div>
-                <div
-                  class="row text-info"
-                >
-                </div>
               </div>
             </tm-loading-spinner>
           </tm-loading-retry>

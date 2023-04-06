@@ -741,10 +741,6 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
         >
           Loading...
         </div>
-        <div
-          class="row text-info"
-        >
-        </div>
       </div>
     </tm-loading-spinner>
     <div

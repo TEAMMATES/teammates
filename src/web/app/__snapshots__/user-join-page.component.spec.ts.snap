@@ -77,10 +77,6 @@ exports[`UserJoinPageComponent should snap with default fields 1`] = `
       >
         Loading...
       </div>
-      <div
-        class="row text-info"
-      >
-      </div>
     </div>
   </tm-loading-spinner>
 </tm-user-join-page>

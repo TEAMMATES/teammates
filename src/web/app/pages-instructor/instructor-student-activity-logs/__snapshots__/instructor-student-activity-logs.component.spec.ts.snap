@@ -50,10 +50,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
       >
         Loading...
       </div>
-      <div
-        class="row text-info"
-      >
-      </div>
     </div>
   </tm-loading-spinner><div
     id="logs-output"
@@ -628,10 +624,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
         >
           Loading...
         </div>
-        <div
-          class="row text-info"
-        >
-        </div>
       </div>
     </tm-loading-spinner>
   </div>
@@ -687,10 +679,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
         class="row text-secondary"
       >
         Loading...
-      </div>
-      <div
-        class="row text-info"
-      >
       </div>
     </div>
   </tm-loading-spinner><div

@@ -33,10 +33,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
         >
           Loading...
         </div>
-        <div
-          class="row text-info"
-        >
-        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry>
@@ -75,10 +71,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
           class="row text-secondary"
         >
           Loading...
-        </div>
-        <div
-          class="row text-info"
-        >
         </div>
       </div>
     </tm-loading-spinner>

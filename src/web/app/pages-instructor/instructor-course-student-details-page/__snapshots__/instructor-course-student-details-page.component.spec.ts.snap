@@ -25,10 +25,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
         >
           Loading...
         </div>
-        <div
-          class="row text-info"
-        >
-        </div>
       </div>
     </tm-loading-spinner>
   </tm-loading-retry>
@@ -60,10 +56,6 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with populated 
           class="row text-secondary"
         >
           Loading...
-        </div>
-        <div
-          class="row text-info"
-        >
         </div>
       </div>
     </tm-loading-spinner>
