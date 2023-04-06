@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./loading-spinner.component.scss'],
 })
 export class LoadingSpinnerComponent {
-  loadingMessage: string = '';
+  loadingMessage: string = 'Loading...';
 
   constructor() {
     // After 5 seconds of loading show message to assure user the page is not hanging.
