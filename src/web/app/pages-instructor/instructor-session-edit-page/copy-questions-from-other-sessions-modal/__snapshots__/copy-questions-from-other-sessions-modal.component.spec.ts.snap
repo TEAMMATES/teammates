@@ -108,28 +108,36 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                         #
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                         Question Type 
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                           Question Type 
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                       <th
+                        aria-sort="none"
                         class="sortable-header"
                       >
-                         Question Text 
-                        <span
-                          class="fa-stack"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
+                        <button>
+                           Question Text 
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
                       </th>
                     </tr>
                   </thead>
@@ -137,7 +145,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                     <tr>
                       <td>
                         <input
-                          class="form-control ng-untouched ng-pristine ng-valid"
+                          class="ng-untouched ng-pristine ng-valid"
                           type="checkbox"
                         />
                       </td>
@@ -151,7 +159,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                     <tr>
                       <td>
                         <input
-                          class="form-control ng-untouched ng-pristine ng-valid"
+                          class="ng-untouched ng-pristine ng-valid"
                           type="checkbox"
                         />
                       </td>

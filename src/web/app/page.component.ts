@@ -15,6 +15,7 @@ import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
+import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
 import { Toast } from './components/toast/toast';
@@ -73,7 +74,7 @@ export class PageComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
               private ngbModal: NgbModal, location: Location,
-              private statusMessageService: StatusMessageService) {
+              private statusMessageService: StatusMessageService, private authService: AuthService) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -146,6 +147,16 @@ export class PageComponent {
    */
   getUrl(): string {
     return this.router.url;
+  }
+
+  logout(): void {
+    if (environment.firebaseConfig?.projectId) {
+      this.authService.logout().then(() => {
+        window.location.href = this.logoutUrl;
+      });
+    } else {
+      window.location.href = this.logoutUrl;
+    }
   }
 }
 

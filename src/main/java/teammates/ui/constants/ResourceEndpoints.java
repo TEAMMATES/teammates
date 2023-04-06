@@ -59,7 +59,8 @@ public enum ResourceEndpoints {
     SEARCH_STUDENTS(ResourceURIs.SEARCH_STUDENTS),
     LOGS(ResourceURIs.LOGS),
     USAGE_STATISTICS(ResourceURIs.USAGE_STATISTICS),
-    ACTION_CLASS(ResourceURIs.ACTION_CLASS);
+    ACTION_CLASS(ResourceURIs.ACTION_CLASS),
+    LOGIN_EMAIL(ResourceURIs.LOGIN_EMAIL);
     //CHECKSTYLE.ON:JavadocVariable
 
     private final String url;

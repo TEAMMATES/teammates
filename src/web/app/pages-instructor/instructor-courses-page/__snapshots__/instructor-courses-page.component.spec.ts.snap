@@ -83,6 +83,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
       class="h3 text-muted"
     >
       <span
+        aria-hidden="true"
         class="fa fa-file-archive"
       />
        Archived courses 
@@ -124,44 +125,56 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
               class="background-color-medium-gray text-color-gray"
             >
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Course ID 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Course ID 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="ascending"
                 class="sortable-header"
               >
-                 Course Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-up"
-                    style=""
-                  />
-                </span>
+                <button>
+                   Course Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-up"
+                      style=""
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Creation Date 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Creation Date 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
                 class="text-center"
@@ -415,46 +428,58 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 class="bg-primary text-white"
               >
                 <th
+                  aria-sort="none"
                   class="sortable-header"
                   id="sort-course-id"
                 >
-                   Course ID 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
+                  <button>
+                     Course ID 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th
+                  aria-sort="none"
                   class="sortable-header"
                   id="sort-course-name"
                 >
-                   Course Name 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
+                  <button>
+                     Course Name 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th
+                  aria-sort="ascending"
                   class="sortable-header"
                   id="sort-creation-date"
                 >
-                   Creation Date 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-up"
-                    />
-                  </span>
+                  <button>
+                     Creation Date 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-up"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th>
                   Sections
@@ -699,6 +724,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       class="h3 text-muted"
     >
       <span
+        aria-hidden="true"
         class="fa fa-file-archive"
       />
        Archived courses 
@@ -738,6 +764,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         class="h3 text-muted"
       >
         <span
+          aria-hidden="true"
           class="fa fa-trash-alt"
         />
          Deleted courses 
@@ -759,6 +786,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               class="btn btn-secondary btn-sm disabled"
             >
               <i
+                aria-hidden="true"
                 class="fas fa-check"
               />
                Restore All 
@@ -767,6 +795,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               class="btn btn-secondary btn-sm disabled"
             >
               <i
+                aria-hidden="true"
                 class="fas fa-times"
               />
                Delete All 
@@ -1165,46 +1194,58 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 class="bg-primary text-white"
               >
                 <th
+                  aria-sort="none"
                   class="sortable-header"
                   id="sort-course-id"
                 >
-                   Course ID 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
+                  <button>
+                     Course ID 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th
+                  aria-sort="none"
                   class="sortable-header"
                   id="sort-course-name"
                 >
-                   Course Name 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
+                  <button>
+                     Course Name 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th
+                  aria-sort="ascending"
                   class="sortable-header"
                   id="sort-creation-date"
                 >
-                   Creation Date 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-up"
-                    />
-                  </span>
+                  <button>
+                     Creation Date 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-up"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th>
                   Sections
@@ -1449,6 +1490,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       class="h3 text-muted"
     >
       <span
+        aria-hidden="true"
         class="fa fa-file-archive"
       />
        Archived courses 
@@ -1488,6 +1530,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         class="h3 text-muted"
       >
         <span
+          aria-hidden="true"
           class="fa fa-trash-alt"
         />
          Deleted courses 
@@ -1511,6 +1554,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
             >
               <i
+                aria-hidden="true"
                 class="fas fa-check"
               />
                Restore All 
@@ -1521,6 +1565,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
             >
               <i
+                aria-hidden="true"
                 class="fas fa-times"
               />
                Delete All 
@@ -1699,46 +1744,58 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 class="bg-primary text-white"
               >
                 <th
+                  aria-sort="none"
                   class="sortable-header"
                   id="sort-course-id"
                 >
-                   Course ID 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
+                  <button>
+                     Course ID 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th
+                  aria-sort="none"
                   class="sortable-header"
                   id="sort-course-name"
                 >
-                   Course Name 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
+                  <button>
+                     Course Name 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th
+                  aria-sort="ascending"
                   class="sortable-header"
                   id="sort-creation-date"
                 >
-                   Creation Date 
-                  <span
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-up"
-                    />
-                  </span>
+                  <button>
+                     Creation Date 
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      <i
+                        class="fas fa-sort-up"
+                      />
+                    </span>
+                  </button>
                 </th>
                 <th>
                   Sections

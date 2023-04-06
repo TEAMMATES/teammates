@@ -836,6 +836,23 @@ public final class EmailGenerator {
     }
 
     /**
+     * Generates the login email for the given user.
+     */
+    public EmailWrapper generateLoginEmail(String userEmail, String loginLink) {
+
+        String emailBody = Templates.populateTemplate(EmailTemplates.LOGIN_EMAIL,
+                "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
+                "${loginLink}", loginLink);
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
+        email.setBcc(Config.SUPPORT_EMAIL);
+        email.setType(EmailType.LOGIN);
+        email.setSubjectFromType();
+        email.setContent(emailBody);
+        return email;
+    }
+
+    /**
      * Generates the new instructor account join email for the given {@code instructor}.
      */
     public EmailWrapper generateNewInstructorAccountJoinEmail(
