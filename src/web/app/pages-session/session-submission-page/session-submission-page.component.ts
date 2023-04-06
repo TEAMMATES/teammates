@@ -1081,6 +1081,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         showResponsesTo: model.showResponsesTo,
 
         hasResponseChangedForRecipients: model.hasResponseChangedForRecipients,
+
+        isTabExpanded: model.isTabExpanded,
       };
 
       recipientQSFormsCopy.push(copy);
@@ -1142,6 +1144,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         showResponsesTo: model.showResponsesTo,
 
         hasResponseChangedForRecipients: model.hasResponseChangedForRecipients,
+
+        isTabExpanded: model.isTabExpanded,
       };
 
       this.questionSubmissionFormsCopy.push(copy);
