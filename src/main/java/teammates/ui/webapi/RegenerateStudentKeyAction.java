@@ -23,7 +23,7 @@ public class RegenerateStudentKeyAction extends AdminOnlyAction {
             "Student's key for this course has been successfully regenerated,";
 
     /** Message indicating that the key regeneration was successful, and corresponding email was sent. */
-    static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
+    public static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
             SUCCESSFUL_REGENERATION + " and the email has been sent.";
 
     private static final String UNSUCCESSFUL_REGENERATION =
