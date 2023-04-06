@@ -145,7 +145,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                     <tr>
                       <td>
                         <input
-                          "ng-untouched ng-pristine ng-valid"
+                          class="ng-untouched ng-pristine ng-valid"
                           type="checkbox"
                         />
                       </td>
@@ -159,7 +159,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                     <tr>
                       <td>
                         <input
-                          "ng-untouched ng-pristine ng-valid"
+                          class="ng-untouched ng-pristine ng-valid"
                           type="checkbox"
                         />
                       </td>
