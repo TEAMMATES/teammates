@@ -192,7 +192,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             FeedbackResponseAttributes responseForRecipient = getResponseForRecipient(responses, recipient);
             FeedbackParticipantType recipientType = question.getRecipientType();
             String recipientTeam = getTeam(recipientType, recipient, students);
-            String recipientName = getNameAndEmail(recipientType, recipient, instructors, students);
+            String recipientName = getName(recipientType, recipient, instructors, students);
 
             verifyGroupedResponses(question, giverPanel, recipientName, recipientTeam, responseForRecipient, true);
         }
@@ -213,7 +213,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             FeedbackResponseAttributes responseFromGiver = getResponseFromGiver(responses, giver);
             FeedbackParticipantType giverType = question.getGiverType();
             String giverTeam = getTeam(giverType, giver, students);
-            String giverName = getNameAndEmail(giverType, giver, instructors, students);
+            String giverName = getName(giverType, giver, instructors, students);
 
             verifyGroupedResponses(question, recipientPanel, giverName, giverTeam, responseFromGiver, false);
         }
@@ -240,9 +240,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
             for (FeedbackResponseAttributes response : responses) {
                 String[] expectedResponses = getExpectedGqrDetails(question, response, instructors, students);
                 String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient(), students);
-                String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(),
+                String recipientNameAndEmail = getNameAndEmail(question.getRecipientType(), response.getRecipient(),
                         instructors, students);
-                verifyTableRowValues(getResponseRow(questionPanel, recipientTeam, recipientName), expectedResponses);
+                verifyTableRowValues(getResponseRow(questionPanel, recipientTeam, recipientNameAndEmail),
+                        expectedResponses);
             }
         }
     }
@@ -268,8 +269,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
             for (FeedbackResponseAttributes response : responses) {
                 String[] expectedResponses = getExpectedRqgDetails(question, response, instructors, students);
                 String giverTeam = getTeam(question.getGiverType(), response.getGiver(), students);
-                String giverName = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors, students);
-                verifyTableRowValues(getResponseRow(questionPanel, giverTeam, giverName), expectedResponses);
+                String giverNameAndEmail = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors,
+                        students);
+                verifyTableRowValues(getResponseRow(questionPanel, giverTeam, giverNameAndEmail), expectedResponses);
             }
         }
     }
@@ -432,7 +434,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                          boolean isGiver) {
         String section = getSection(type, user, students);
         String team = getTeam(type, user, students);
-        String name = getNameAndEmail(type, user, instructors, students);
+        String name = getName(type, user, instructors, students);
         String header = getUserHeader(isGiver, name);
         int qnNum = question.getQuestionNumber();
         if (isGroupedByTeam) {
@@ -457,7 +459,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String giverTeam = getTeam(question.getGiverType(), response.getGiver(), students);
         String giverName = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors, students);
         String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient(), students);
-        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(), instructors, students);
+        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(), instructors,
+                students);
         WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverName, recipientTeam, recipientName);
 
         verifyResponseRowComment(responseRow, comment, instructors, students);
@@ -474,7 +477,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         WebElement questionPanel = getQuestionPanel(giverPanel, question.getQuestionNumber());
         String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient(), students);
-        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(), instructors, students);
+        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(), instructors,
+                students);
         WebElement responseRow = getResponseRow(questionPanel, recipientTeam, recipientName);
 
         verifyResponseRowComment(responseRow, comment, instructors, students);
@@ -492,8 +496,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         WebElement questionPanel = getQuestionPanel(recipientPanel, question.getQuestionNumber());
         String giverTeam = getTeam(question.getGiverType(), response.getGiver(), students);
-        String giverName = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors, students);
-        WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverName);
+        String giverNameAndEmail = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors, students);
+        WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverNameAndEmail);
 
         verifyResponseRowComment(responseRow, comment, instructors, students);
     }
@@ -510,7 +514,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         FeedbackParticipantType recipientType = question.getRecipientType();
         String recipientTeam = getTeam(recipientType, response.getRecipient(), students);
-        String recipientName = getNameAndEmail(recipientType, response.getRecipient(), instructors, students);
+        String recipientName = getName(recipientType, response.getRecipient(), instructors, students);
 
         WebElement groupedResponses = getGroupedResponses(userPanel, recipientName, recipientTeam, true);
         verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment, instructors, students);
@@ -528,7 +532,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         FeedbackParticipantType giverType = question.getGiverType();
         String giverTeam = getTeam(giverType, response.getGiver(), students);
-        String giverName = getNameAndEmail(giverType, response.getGiver(), instructors, students);
+        String giverName = getName(giverType, response.getGiver(), instructors, students);
 
         WebElement groupedResponses = getGroupedResponses(userPanel, giverName, giverTeam, false);
         verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment, instructors, students);
@@ -540,9 +544,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
-        String editor = getNameAndEmail(comment.getCommentGiverType(),
+        String editor = getName(comment.getCommentGiverType(),
                 comment.getLastEditorEmail(), instructors, students);
-        String commentGiver = getNameAndEmail(comment.getCommentGiverType(), comment.getCommentGiver(),
+        String commentGiver = getName(comment.getCommentGiverType(), comment.getCommentGiver(),
                 instructors, students);
         verifyCommentDetails(commentModal, commentGiver, editor, comment.getCommentText(), true);
     }
@@ -553,9 +557,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                               Collection<StudentAttributes> students) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
-        String editor = getNameAndEmail(comment.getCommentGiverType(), comment.getLastEditorEmail(),
+        String editor = getName(comment.getCommentGiverType(), comment.getLastEditorEmail(),
                 instructors, students);
-        String commentGiver = getNameAndEmail(comment.getCommentGiverType(), comment.getCommentGiver(),
+        String commentGiver = getName(comment.getCommentGiverType(), comment.getCommentGiver(),
                 instructors, students);
         verifyCommentDetails(questionPanel, commentGiver, editor, comment.getCommentText(), false);
     }
@@ -904,7 +908,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                     boolean isGiver) {
         String section = getSection(type, user, students);
         String team = getTeam(type, user, students);
-        String name = getNameAndEmail(type, user, instructors, students);
+        String name = getName(type, user, instructors, students);
         String userPanelHeader = getUserHeader(isGiver, name);
 
         return getUserPanel(section, team, userPanelHeader, isGroupedByTeam);
@@ -966,15 +970,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     // For other views
-    private WebElement getResponseRow(WebElement questionPanel, String userTeam, String userName) {
+    private WebElement getResponseRow(WebElement questionPanel, String userTeam, String userNameAndEmail) {
         List<WebElement> responseRows = getResponseTable(questionPanel).findElements(By.cssSelector("tbody tr"));
         for (WebElement responseRow : responseRows) {
             List<WebElement> cells = responseRow.findElements(By.tagName("td"));
-            if (cells.get(0).getText().equals(userTeam) && cells.get(1).getText().equals(userName)) {
+            if (cells.get(0).getText().equals(userTeam) && cells.get(1).getText().equals(userNameAndEmail)) {
                 return responseRow;
             }
         }
-        throw new RuntimeException("Response not found for " + userName);
+        throw new RuntimeException("Response not found for " + userNameAndEmail);
     }
 
     private List<WebElement> getAllGroupedResponses(WebElement userPanel) {
@@ -1120,9 +1124,38 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return teamName;
     }
 
-    private String getNameAndEmail(FeedbackParticipantType type, String participant,
+    private String getName(FeedbackParticipantType type, String participant,
                                    Collection<InstructorAttributes> instructors,
                                    Collection<StudentAttributes> students) {
+        String name;
+        if (type.equals(FeedbackParticipantType.NONE)) {
+            name = NO_USER_LABEL;
+        } else if (type.equals(FeedbackParticipantType.TEAMS)) {
+            name = participant;
+        } else if (type.equals(FeedbackParticipantType.INSTRUCTORS)) {
+            name = instructors.stream()
+                    .filter(instructor -> instructor.getEmail().equals(participant))
+                    .findFirst()
+                    .map(InstructorAttributes::getName)
+                    .orElse(null);
+        } else {
+            name = students.stream()
+                    .filter(student -> student.getEmail().equals(participant))
+                    .findFirst()
+                    .map(StudentAttributes::getName)
+                    .orElse(null);
+        }
+
+        if (name == null) {
+            throw new RuntimeException("Could not find name for : " + participant);
+        }
+
+        return name;
+    }
+
+    private String getNameAndEmail(FeedbackParticipantType type, String participant,
+                           Collection<InstructorAttributes> instructors,
+                           Collection<StudentAttributes> students) {
         String name;
         if (type.equals(FeedbackParticipantType.NONE)) {
             name = NO_USER_LABEL;
