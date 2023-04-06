@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlapi.UsersDb;
@@ -25,6 +26,8 @@ import teammates.storage.sqlentity.User;
 public final class UsersLogic {
 
     private static final UsersLogic instance = new UsersLogic();
+
+    private static final int MAX_KEY_REGENERATION_TRIES = 10;
 
     private UsersDb usersDb;
 
@@ -140,6 +143,35 @@ public final class UsersLogic {
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         assert googleId != null;
         return usersDb.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor with the new registration key.
+     * @throws InstructorUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, InstructorUpdateException {
+        Instructor instructor = getInstructorForEmail(courseId, email);
+        if (instructor == null) {
+            String errorMessage = String.format(
+                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        String oldKey = instructor.getRegKey();
+        int numTries = 0;
+        while (numTries < MAX_KEY_REGENERATION_TRIES) {
+            instructor.generateNewRegistrationKey();
+            if (!instructor.getRegKey().equals(oldKey)) {
+                return instructor;
+            }
+            numTries++;
+        }
+
+        throw new InstructorUpdateException("Could not regenerate a new course registration key for the instructor.");
     }
 
     /**

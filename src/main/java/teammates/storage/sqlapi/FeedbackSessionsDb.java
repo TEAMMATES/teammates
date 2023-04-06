@@ -178,12 +178,13 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         assert courseId != null;
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
-        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
 
-        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+        cq.select(fsRoot).where(cb.equal(fsJoin.get("id"), courseId));
 
-        return HibernateUtil.createQuery(cr).getResultList();
+        return HibernateUtil.createQuery(cq).getResultList();
     }
 
     /**
