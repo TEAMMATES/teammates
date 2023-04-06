@@ -56,7 +56,7 @@ public class RegenerateStudentKeyAction extends AdminOnlyAction {
 
             return new JsonResult(new RegenerateKeyData(statusMessage, updatedStudent.getKey()));
         }
-        
+
         Student updatedStudent;
         try {
             updatedStudent = sqlLogic.regenerateStudentRegistrationKey(courseId, studentEmailAddress);
@@ -70,7 +70,7 @@ public class RegenerateStudentKeyAction extends AdminOnlyAction {
         String statusMessage = emailSent
                 ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
-        
+
         return new JsonResult(new RegenerateKeyData(statusMessage, updatedStudent.getRegKey()));
     }
 
