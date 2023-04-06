@@ -594,7 +594,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String[][] expectedDetails = new String[noResponseStudents.size()][2];
         for (int i = 0; i < noResponseStudents.size(); i++) {
             expectedDetails[i][0] = noResponseStudents.get(i).getTeam();
-            expectedDetails[i][1] = String.format("%s (%s), ",
+            expectedDetails[i][1] = String.format("%s (%s)",
                     noResponseStudents.get(i).getName(),
                     noResponseStudents.get(i).getEmail()
             );
