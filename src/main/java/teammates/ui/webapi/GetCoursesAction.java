@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -56,18 +57,18 @@ public class GetCoursesAction extends Action {
         List<CourseAttributes> courses = logic
                 .getCoursesForStudentAccount(userInfo.id)
                 .stream()
-                .filter(course -> !isCourseMigrated(course.getId()))
+                .filter(course -> !course.isMigrated())
                 .collect(Collectors.toList());
 
         CoursesData coursesData = new CoursesData(sqlCourses);
 
-        List<CourseData> courseData = coursesData.getCourses();
+        List<CourseData> coursesDataList = coursesData.getCourses();
 
         List<CourseData> datastoreCourseData =
                 courses.stream().map(CourseData::new).collect(Collectors.toList());
 
-        courseData.addAll(datastoreCourseData);
-        courseData.forEach(CourseData::hideInformationForStudent);
+        coursesDataList.addAll(datastoreCourseData);
+        coursesDataList.forEach(CourseData::hideInformationForStudent);
         return new JsonResult(coursesData);
     }
 
@@ -77,8 +78,8 @@ public class GetCoursesAction extends Action {
         List<InstructorAttributes> instructors;
         List<CourseAttributes> courses;
 
-        List<Instructor> sqlInstructors;
-        List<Course> sqlCourses;
+        List<Instructor> sqlInstructors = new ArrayList<>();
+        List<Course> sqlCourses = new ArrayList<>();
 
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
@@ -86,11 +87,6 @@ public class GetCoursesAction extends Action {
             courses = getCourse(instructors);
 
             sqlInstructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
-            sqlInstructors =
-                    sqlInstructors
-                            .stream()
-                            .filter(instructor -> !instructor.getIsArchived())
-                            .collect(Collectors.toList());
             sqlCourses = sqlLogic.getCoursesForInstructors(sqlInstructors);
 
             break;
@@ -100,12 +96,6 @@ public class GetCoursesAction extends Action {
                     .filter(InstructorAttributes::isArchived)
                     .collect(Collectors.toList());
             courses = getCourse(instructors);
-
-            sqlInstructors = sqlLogic.getInstructorsForGoogleId(userInfo.id)
-                    .stream()
-                    .filter(Instructor::getIsArchived)
-                    .collect(Collectors.toList());
-            sqlCourses = sqlLogic.getCoursesForInstructors(sqlInstructors);
 
             break;
         case Const.CourseStatus.SOFT_DELETED:
@@ -136,23 +126,32 @@ public class GetCoursesAction extends Action {
 
         CoursesData coursesData = new CoursesData(sqlCourses);
 
-        List<CourseData> courseData = coursesData.getCourses();
+        List<CourseData> coursesDataList = coursesData.getCourses();
 
         List<CourseData> datastoreCourseData =
                 courses.stream().map(CourseData::new).collect(Collectors.toList());
 
-        courseData.addAll(datastoreCourseData);
+        coursesDataList.addAll(datastoreCourseData);
 
         // TODO: Remove once migration is completed
-        courseData.sort(Comparator.comparing(CourseData::getCourseId));
+        coursesDataList.sort(Comparator.comparing(CourseData::getCourseId));
 
-        courseData.forEach(cData -> {
-            InstructorAttributes instructor = courseIdToInstructor.get(cData.getCourseId());
-            if (instructor == null) {
-                return;
+        coursesDataList.forEach(courseData -> {
+            if (isCourseMigrated(courseData.getCourseId())) {
+                Instructor instructor = sqlCourseIdToInstructor.get(courseData.getCourseId());
+                if (instructor == null) {
+                    return;
+                }
+                InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
+                courseData.setPrivileges(privilege);
+            } else {
+                InstructorAttributes instructor = courseIdToInstructor.get(courseData.getCourseId());
+                if (instructor == null) {
+                    return;
+                }
+                InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
+                courseData.setPrivileges(privilege);
             }
-            InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
-            cData.setPrivileges(privilege);
         });
 
         return new JsonResult(coursesData);

@@ -88,27 +88,13 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         loginAsInstructor(instructor.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
-        assertEquals(2, courses.getCourses().size());
+        assertEquals(3, courses.getCourses().size());
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
+        Course expectedCourse3 = typicalBundle.courses.get("typicalCourse4");
         verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
         verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
-    }
-
-    @Test
-    public void testGetCoursesAction_withInstructorEntityTypeAndArchivedCourses_shouldReturnCorrectCourses() {
-        String[] params = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ARCHIVED,
-        };
-
-        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
-
-        CoursesData courses = getValidCourses(params);
-        assertEquals(1, courses.getCourses().size());
-        Course expectedCourse = typicalBundle.courses.get("typicalCourse4");
-        verifySameCourseData(courses.getCourses().get(0), expectedCourse);
+        verifySameCourseData(courses.getCourses().get(2), expectedCourse3);
     }
 
     @Test

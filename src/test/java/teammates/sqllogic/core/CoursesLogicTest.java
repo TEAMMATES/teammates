@@ -27,8 +27,6 @@ public class CoursesLogicTest extends BaseTestCase {
 
     private CoursesDb coursesDb;
 
-    // private FeedbackSessionsLogic fsLogic;
-
     @BeforeMethod
     public void setUp() {
         coursesDb = mock(CoursesDb.class);
