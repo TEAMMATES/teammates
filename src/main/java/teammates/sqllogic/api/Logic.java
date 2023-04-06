@@ -14,6 +14,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
@@ -712,6 +713,22 @@ public class Logic {
     public void resetStudentGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
+    }
+
+    /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor with the new registration key.
+     * @throws InstructorUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, InstructorUpdateException {
+
+        assert courseId != null;
+        assert email != null;
+
+        return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
     }
 
     /**
