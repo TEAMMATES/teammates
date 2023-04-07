@@ -122,10 +122,10 @@ export class SessionResultPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.pipe(
-      tap((data: any) => {
-        this.intent = data.intent;
-      }),
-      switchMap(() => this.route.queryParams),
+        tap((data: any) => {
+          this.intent = data.intent;
+        }),
+        switchMap(() => this.route.queryParams),
     ).subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
@@ -354,7 +354,7 @@ export class SessionResultPageComponent implements OnInit {
 
   navigateToSessionReportPage(): void {
     this.navigationService.navigateByURL('/web/instructor/sessions/report',
-      { courseid: this.courseId, fsname: this.feedbackSessionName });
+        { courseid: this.courseId, fsname: this.feedbackSessionName });
   }
 
   retryLoadingFeedbackSessionResults(): void {

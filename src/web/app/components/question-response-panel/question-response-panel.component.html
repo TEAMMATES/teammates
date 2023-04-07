@@ -1,9 +1,9 @@
 <div *ngFor="let question of questions" inViewport (inViewportAction)="loadQuestion($event, question)">
   <div *tmIsLoading="question.isLoading && !question.errorMessage"></div>
   <tm-loading-retry
-    [shouldShowRetry]="!!question.errorMessage"
-    [message]="question.errorMessage"
-    (retryEvent)="loadQuestionResults(question)"
+            [shouldShowRetry]="!!question.errorMessage"
+            [message]="question.errorMessage"
+            (retryEvent)="loadQuestionResults(question)"
   >
     <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card bg-light mt-4" *ngIf="question.hasResponse">
       <div class="card-body">
