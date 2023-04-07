@@ -20,7 +20,13 @@ nav {
 
 .footer {
   padding: 5px 70px;
-  color: rgba(255, 255, 255, .5);
+  color: rgba(255, 255, 255, .75);
+
+  a {
+    &:hover {
+      filter: brightness(150%);
+    }
+  }
 }
 
 .container {
@@ -28,12 +34,12 @@ nav {
 }
 
 .dropdown-item {
-  color: rgba(255, 255, 255, .5);
+  color: rgba(255, 255, 255, .75);
 
   &:hover,
   &:focus {
     background-color: inherit;
-    color: rgba(255, 255, 255, .75);
+    color: white;
   }
 }
 
@@ -85,11 +91,11 @@ nav {
   }
 
   .main-content {
-    padding: 0 0;
+    padding: 10px 15px;
   }
 
   .footer {
-    padding: 5px 0;
+    padding: 5px 15px;
   }
 }
 
@@ -104,9 +110,14 @@ nav {
 .navbar-collapse,
 .dropdown-menu {
   background: #3C3C3C;
+  min-width: 0;
 }
 
 .dropdown-divider {
-  border: 1px solid rgba(255, 255, 255, .3);
+  border: 1px solid rgba(255, 255, 255, .5);
   margin: .5rem 15px;
+}
+
+.dropdown-menu-right {
+  margin-bottom: .5rem;
 }

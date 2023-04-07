@@ -35,7 +35,7 @@ export class ExtensionConfirmModalComponent {
   feedbackSessionTimeZone: string = '';
 
   @Output()
-  onConfirmExtensionCallBack: EventEmitter<boolean> = new EventEmitter();
+  confirmExtensionCallbackEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) {}
 
@@ -51,7 +51,7 @@ export class ExtensionConfirmModalComponent {
 
   onConfirm(): void {
     this.isSubmitting = true;
-    this.onConfirmExtensionCallBack.emit(this.isNotifyDeadlines);
+    this.confirmExtensionCallbackEvent.emit(this.isNotifyDeadlines);
   }
 
   isDeleteModal(): boolean {
@@ -70,6 +70,13 @@ export class ExtensionConfirmModalComponent {
     this.sortStudentsBy = by;
     this.sortStudentOrder = this.sortStudentOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.selectedStudents.sort(this.sortStudentPanelsBy(by));
+  }
+
+  getAriaSortStudent(by: SortBy): String {
+    if (by !== this.sortStudentsBy) {
+      return 'none';
+    }
+    return this.sortStudentOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
   sortStudentPanelsBy(
@@ -111,6 +118,13 @@ export class ExtensionConfirmModalComponent {
     this.sortInstructorsBy = by;
     this.sortInstructorOrder = this.sortInstructorOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.selectedInstructors.sort(this.sortInstructorPanelsBy(by));
+  }
+
+  getAriaSortInstructor(by: SortBy): String {
+    if (by !== this.sortInstructorsBy) {
+      return 'none';
+    }
+    return this.sortInstructorOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
   sortInstructorPanelsBy(

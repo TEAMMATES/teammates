@@ -16,7 +16,7 @@
   <div class="card-body">
     <div class="row comment-row">
       <div class="col-12">
-        <span id="by-response-giver" class="text-secondary" *ngIf="isFeedbackParticipantComment">
+        <span class="by-response-giver text-secondary" *ngIf="isFeedbackParticipantComment">
           Comment by response giver.
         </span>
         <span class="text-secondary" *ngIf="!isFeedbackParticipantComment">
@@ -32,14 +32,14 @@
 
         <i class="fa fa-eye" aria-hidden="true" ngbTooltip="This response comment is visible to {{ visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT) | commentVisibilityTypesJointName }}"></i>
 
-        <div class="float-right">
-          <button id="btn-edit-comment" type="button" class="btn btn-outline-primary btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
+        <div class="float-end">
+          <button type="button" class="btn-edit-comment btn btn-outline-primary btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
                   (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled"><i class="fas fa-pencil-alt"></i></button>
-          <button id="btn-delete-comment" type="button" class="btn btn-outline-primary btn-sm btn-margin-left" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
+          <button type="button" class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
                   (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled"><i class="fas fa-trash"></i></button>
         </div>
       </div>
-      <div id="comment-text" class="col-12" [innerHTML]="model.originalComment.commentText | safeHtml"></div>
+      <div class="comment-text col-12" [innerHTML]="model.originalComment.commentText | safeHtml"></div>
     </div>
   </div>
 </div>

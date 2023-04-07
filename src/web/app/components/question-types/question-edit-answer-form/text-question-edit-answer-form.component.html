@@ -1,8 +1,8 @@
 <div class="plain-text-area" *ngIf="!questionDetails.shouldAllowRichText">
-  <textarea [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled"></textarea>
+  <textarea [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [attr.aria-label]="getAriaLabel()" [disabled]="isDisabled"></textarea>
 </div>
-<tm-rich-text-editor *ngIf="questionDetails.shouldAllowRichText" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
-<div class="margin-top-7px text-secondary text-right">
+<tm-rich-text-editor *ngIf="questionDetails.shouldAllowRichText" [attr.aria-label]="getAriaLabel()" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
+<div class="margin-top-7px text-secondary text-end">
   <div id="recommended-length" *ngIf="questionDetails.recommendedLength">
     Recommended length for the answer: {{ questionDetails.recommendedLength }} words
   </div>

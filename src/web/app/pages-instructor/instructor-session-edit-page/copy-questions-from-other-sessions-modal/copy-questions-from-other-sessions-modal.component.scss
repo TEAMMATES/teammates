@@ -1,19 +1,33 @@
 .sortable-header {
   cursor: pointer;
+
+  i {
+    margin-left: .3em;
+  }
+
+  .fa-stack {
+    width: 20%;
+  }
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+    font: inherit;
+    cursor: inherit;
+  }
 }
 
 #copy-question-modal {
   table-layout: auto;
   margin-bottom: 10px;
-  width: 70vw;
+  min-width: 70vw;
 }
 
 .modal-footer {
   justify-content: right;
   background-color: white;
-}
-
-.form-control {
-  height: calc(.5em + 1.5vh);
-  width: calc(.5em + 1.5vw);
 }

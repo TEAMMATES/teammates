@@ -54,18 +54,21 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
       feedbackSessionName: model.feedbackSessionName,
       intent: Intent.FULL_DETAIL,
     })
-    .subscribe((response: FeedbackQuestions) => {
-      response.questions.forEach((q: FeedbackQuestion) => {
-        const questionToCopy: QuestionToCopyCandidate = {
-          question: q,
-          isSelected: false,
-        };
-        model.questionsTableRowModels.push(questionToCopy);
-      });
-      model.hasQuestionsLoaded = true;
-    }, (resp: ErrorMessageOutput) => {
-      model.hasLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    .subscribe({
+      next: (response: FeedbackQuestions) => {
+        response.questions.forEach((q: FeedbackQuestion) => {
+          const questionToCopy: QuestionToCopyCandidate = {
+            question: q,
+            isSelected: false,
+          };
+          model.questionsTableRowModels.push(questionToCopy);
+        });
+        model.hasQuestionsLoaded = true;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        model.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -98,6 +101,13 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
    */
   isSortQuestionsBy(model: FeedbackSessionTabModel, by: SortBy, order: SortOrder): boolean {
     return model.questionsTableRowModelsSortBy === by && model.questionsTableRowModelsSortOrder === order;
+  }
+
+  getAriaSort(model: FeedbackSessionTabModel, by: SortBy): String {
+    if (model.questionsTableRowModelsSortBy !== by) {
+      return 'none';
+    }
+    return model.questionsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
   /**

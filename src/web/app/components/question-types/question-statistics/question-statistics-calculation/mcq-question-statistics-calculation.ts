@@ -29,7 +29,7 @@ export class McqQuestionStatisticsCalculation
       this.answerFrequency[answer] = 0;
     }
     if (this.question.otherEnabled) {
-      this.answerFrequency.Other = 0;
+      this.answerFrequency['Other'] = 0;
     }
     for (const response of this.responses) {
       const isOther: boolean = response.responseDetails.isOther;
@@ -44,7 +44,7 @@ export class McqQuestionStatisticsCalculation
         this.weightPerOption[option] = weight;
       }
       if (this.question.otherEnabled) {
-        this.weightPerOption.Other = this.question.mcqOtherWeight;
+        this.weightPerOption['Other'] = this.question.mcqOtherWeight;
       }
 
       let totalWeightedResponseCount: number = 0;
@@ -77,7 +77,7 @@ export class McqQuestionStatisticsCalculation
           perRecipientResponse[response.recipient][choice] = 0;
         }
         if (this.question.otherEnabled) {
-          perRecipientResponse[response.recipient].Other = 0;
+          perRecipientResponse[response.recipient]['Other'] = 0;
         }
         recipientToTeam[response.recipient] = response.recipientTeam;
       }

@@ -64,7 +64,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         assertEquals("Notification does not exist.", enfe.getMessage());
 
         ______TS("Failure: Notification id is null");
-        GetNotificationAction action2 = getAction(Const.ParamsNames.NOTIFICATION_ID, null);
+        GetNotificationAction action2 = getAction(Const.ParamsNames.NOTIFICATION_ID, null, new String[] {});
         InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action2::execute);
         assertEquals("The [notificationid] HTTP parameter is null.", ihpe.getMessage());
     }

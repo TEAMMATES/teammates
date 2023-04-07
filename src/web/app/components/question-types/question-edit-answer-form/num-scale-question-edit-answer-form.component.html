@@ -1,7 +1,7 @@
-<div class="form-row text-left">
-  <div class="col-md-2 col-xs-5">
+<div class="row text-start">
+  <div class="col-md-3 col-xs-5">
     <input type="number" class="form-control" min="{{ questionDetails.minScale }}" max="{{ questionDetails.maxScale }}" step="{{ questionDetails.step }}" tmDisableWheel
-           [ngModel]="responseDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED ? '' : responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
+           [ngModel]="responseDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED ? '' : responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled" [attr.aria-label]="getAriaLabel()">
   </div>
   <div id="possible-values" class="col-md-9 col-xs-6 text-secondary">
     Possible values: {{ possibleValues }}

@@ -1,12 +1,11 @@
 <div class="row">
-  <br>
-  <div class="col-sm-6">
+  <div class="col-md-6">
     <div class="row">
-      <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div class="row margin-bottom-20px padding-left-12px" *ngFor="let num of model.options; let i = index;
+      <div id="options-section" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+        <div class="mb-3 d-flex" *ngFor="let num of model.options; let i = index;
         trackBy: trackRankOption" cdkDrag cdkDragLockAxis="y">
-          <div cdkDragHandle>
-            <span class="input-group-addon">&#8597; </span>
+          <div cdkDragHandle aria-hidden="true">
+            <span class="btn input-group-addon">&#8597; </span>
           </div>
           <div class="flex-grow-1">
             <tm-rank-options-field (elementDeleted)="onRankOptionDeleted($event)"
@@ -16,47 +15,46 @@
                                   (rankOptionText)="onRankOptionEntered($event, i)"
                                   [text]="model.options[i]"></tm-rank-options-field>
           </div>
-          <br>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-9">
-        <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
-                [disabled]="!isEditable" (click)="increaseNumberOfRankOptions()">
-          <i class="fas fa-plus"></i> add more options
-        </button>
-      </div>
+    <div class="mb-2">
+      <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
+              [disabled]="!isEditable" (click)="increaseNumberOfRankOptions()">
+        <i class="fas fa-plus"></i> Add More Options
+      </button>
     </div>
-    <br />
   </div>
-  <div class="col-sm-6">
-    <label class="form-check-label margin-bottom-20px margin-right-5px">
-      <input id="duplicate-rank-checkbox" class="form-check-input" type="checkbox"  [ngModel]="model.areDuplicatesAllowed"
-         (ngModelChange)="triggerModelChange('areDuplicatesAllowed', $event)" [disabled]="!isEditable">
-      <b>Allow response giver to give the same rank to multiple options</b>
-    </label>
-    <div class="row margin-bottom-20px margin-right-5px">
-      <label class="form-check-label col-sm-9">
-        <input id="min-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
-               [ngModel]="isMinOptionsToBeRankedEnabled"
-               (ngModelChange)="triggerMinOptionsToBeRankedChange($event)">
-        <b>Minimum number of options a respondent must rank</b>
+  <div class="col-md-6 col-lg-5 col-lg-offset-1 form">
+    <div class="form-check">
+      <label class="form-check-label fw-bold">
+        <input id="duplicate-rank-checkbox" class="form-check-input" type="checkbox"  [ngModel]="model.areDuplicatesAllowed"
+           (ngModelChange)="triggerModelChange('areDuplicatesAllowed', $event)" [disabled]="!isEditable">
+        Allow response giver to give the same rank to multiple options
       </label>
-      <input id="min-options" type="number" class="form-control col-sm-3" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
-             [ngModel]="displayValueForMinOptionsToBeRanked"
-             (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" min="1" max="{{ maxMinOptionsValue }}">
     </div>
-    <div class="row margin-right-5px">
-      <label class="form-check-label col-sm-9">
+    <div class="form-check">
+      <label id="rank-options-question-min-options-label" class="form-check-label fw-bold">
+        <input id="min-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
+                [ngModel]="isMinOptionsToBeRankedEnabled"
+                (ngModelChange)="triggerMinOptionsToBeRankedChange($event)">
+        Minimum number of options a respondent must rank
+      </label>
+    </div>
+    <input id="min-options" type="number" class="form-control" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
+            [ngModel]="displayValueForMinOptionsToBeRanked" aria-labelledby="rank-options-question-min-options-label"
+            (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" min="1" max="{{ maxMinOptionsValue }}">
+    <br>
+    <div class="form-check">
+      <label id="rank-options-question-max-options-label" class="form-check-label fw-bold">
         <input id="max-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
                [ngModel]="isMaxOptionsToBeRankedEnabled"
                (ngModelChange)="triggerMaxOptionsToBeRankedChange($event)">
-        <b>Maximum number of options a respondent can rank</b>
-        </label>
-      <input id="max-options" type="number" class="form-control col-sm-3" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
-             [ngModel]="displayValueForMaxOptionsToBeRanked"
-             (ngModelChange)="triggerModelChange('maxOptionsToBeRanked', $event)" [min]="isMinOptionsToBeRankedEnabled ? model.minOptionsToBeRanked : 1" max="{{model.options.length}}">
+        Maximum number of options a respondent can rank
+      </label>
     </div>
+    <input id="max-options" type="number" class="form-control" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
+           [ngModel]="displayValueForMaxOptionsToBeRanked" aria-labelledby="rank-options-question-max-options-label"
+           (ngModelChange)="triggerModelChange('maxOptionsToBeRanked', $event)" [min]="isMinOptionsToBeRankedEnabled ? model.minOptionsToBeRanked : 1" max="{{model.options.length}}">
   </div>
 </div>

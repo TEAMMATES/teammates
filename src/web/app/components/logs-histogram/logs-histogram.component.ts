@@ -54,7 +54,7 @@ export class LogsHistogramComponent implements OnInit, OnChanges {
       .padding(0.2);
 
     this.yScale = d3.scaleLinear()
-      .domain([0, d3.max(this.data, (d: LogsHistogramDataModel) => d.numberOfTimes)])
+      .domain([0, d3.max(this.data, (d: LogsHistogramDataModel) => d.numberOfTimes) || 0])
       .range([this.height, 0]);
 
     this.svg.append('g')
@@ -102,14 +102,14 @@ export class LogsHistogramComponent implements OnInit, OnChanges {
       .attr('height', (d: LogsHistogramDataModel) => this.height - this.yScale(d.numberOfTimes))
       .attr('width', this.xScale.bandwidth())
       .style('fill', 'steelblue')
-      .on('mouseover', (d: LogsHistogramDataModel) =>
+      .on('mouseover', (_: any, d: LogsHistogramDataModel) =>
         tooltip
           .html(`File: ${d.sourceLocation.file} <br> Function: ${d.sourceLocation.function}`
               + ` <br> Frequency: ${d.numberOfTimes}`)
           .style('visibility', 'visible'))
-      .on('mousemove', () => {
-        const top: number = d3.event.pageY - 10;
-        const left: number = d3.event.pageX + 10;
+      .on('mousemove', (event: any) => {
+        const top: number = event.pageY - 10;
+        const left: number = event.pageX + 10;
         tooltip
           .style('top', `${top}px`)
           .style('left', `${left}px`);

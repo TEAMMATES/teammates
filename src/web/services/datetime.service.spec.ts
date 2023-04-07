@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { DateTimeService } from './datetime.service';
 import { TimezoneService } from './timezone.service';
@@ -7,6 +8,9 @@ describe('DateTimeService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [
+                HttpClientTestingModule,
+            ],
             providers: [
                 { provide: TimezoneService },
             ],

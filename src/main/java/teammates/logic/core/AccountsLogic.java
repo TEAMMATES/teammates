@@ -28,7 +28,6 @@ public final class AccountsLogic {
 
     private final AccountsDb accountsDb = AccountsDb.inst();
 
-    private ProfilesLogic profilesLogic;
     private CoursesLogic coursesLogic;
     private InstructorsLogic instructorsLogic;
     private StudentsLogic studentsLogic;
@@ -43,7 +42,6 @@ public final class AccountsLogic {
     }
 
     void initLogicDependencies() {
-        profilesLogic = ProfilesLogic.inst();
         coursesLogic = CoursesLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
         studentsLogic = StudentsLogic.inst();
@@ -235,7 +233,7 @@ public final class AccountsLogic {
     }
 
     /**
-     * Deletes both instructor and student privileges, as well as the account and associated student profile.
+     * Deletes both instructor and student privileges, as well as the account.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
@@ -245,8 +243,6 @@ public final class AccountsLogic {
         if (accountsDb.getAccount(googleId) == null) {
             return;
         }
-
-        profilesLogic.deleteStudentProfile(googleId);
 
         // to prevent orphan course
         List<InstructorAttributes> instructorsToDelete =

@@ -8,6 +8,8 @@
     "module": "es2020",
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
@@ -19,9 +21,9 @@
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "target": "es2017",
+    "target": "es2020",
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ]
   },

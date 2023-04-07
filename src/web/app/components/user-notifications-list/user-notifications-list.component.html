@@ -3,7 +3,7 @@
 </div>
 <div class="row mb-3" *ngIf="notificationTabs.length > 0">
   <div class="col-12">
-    <div class="float-right">
+    <div class="float-end">
       <strong class="d-inline"> Sort By: </strong>
       <div class="btn-group" data-toggle="buttons">
         <button id="sort-end-time" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NOTIFICATION_END_TIME)" (click)="sortNotificationsBy(SortBy.NOTIFICATION_END_TIME)">End Time</button>
@@ -32,10 +32,10 @@
 
           <div class="mb-0" *ngIf="notificationTab.hasTabExpanded" @collapseAnim>
             <div [ngClass]="getBodyTextClass(notificationTab)">
-              <div id="notification-message" [innerHtml]="notificationTab.notification.message"></div>
+              <div class="notification-message" [innerHtml]="notificationTab.notification.message"></div>
             </div>
-            <div class="d-flex flex-row-reverse mr-4 mb-3" *ngIf="!notificationTab.isRead">
-              <button id="btn-mark-as-read" type="button" [ngClass]="getButtonClass(notificationTab)" (click)="markNotificationAsRead(notificationTab)">
+            <div class="d-flex flex-row-reverse me-4 mb-3" *ngIf="!notificationTab.isRead">
+              <button class="btn-mark-as-read" type="button" [ngClass]="getButtonClass(notificationTab)" (click)="markNotificationAsRead(notificationTab)">
                 Mark as Read
               </button>
             </div>

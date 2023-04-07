@@ -2,6 +2,7 @@
 
 exports[`UserJoinPageComponent should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -27,11 +28,11 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
       <div
         class="card-header bg-warning"
       >
-        <h3
-          style="margin-bottom: 0;"
+        <h1
+          class="mb-0 h3"
         >
           Not logged in
-        </h3>
+        </h1>
       </div>
       <div
         class="card-body"
@@ -45,6 +46,7 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
 
 exports[`UserJoinPageComponent should snap with default fields 1`] = `
 <tm-user-join-page
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -82,6 +84,7 @@ exports[`UserJoinPageComponent should snap with default fields 1`] = `
 
 exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 <tm-user-join-page
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -107,11 +110,11 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
       <div
         class="card-header bg-warning"
       >
-        <h3
-          style="margin-bottom: 0;"
+        <h1
+          class="mb-0 h3"
         >
           Invalid course join link
-        </h3>
+        </h1>
       </div>
       <div
         class="card-body"
@@ -125,6 +128,7 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 
 exports[`UserJoinPageComponent should snap with valid course join link that has been used 1`] = `
 <tm-user-join-page
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -150,11 +154,11 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
       <div
         class="card-header bg-warning"
       >
-        <h3
-          style="margin-bottom: 0;"
+        <h1
+          class="mb-0 h3"
         >
           Invalid course join link
-        </h3>
+        </h1>
       </div>
       <div
         class="card-body"
@@ -168,6 +172,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
 
 exports[`UserJoinPageComponent should snap with valid course join link that has not been used 1`] = `
 <tm-user-join-page
+  __ngContext__={[Function Number]}
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
@@ -193,11 +198,11 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
       <div
         class="card-header bg-primary text-white"
       >
-        <h3
-          style="margin-bottom: 0;"
+        <h1
+          class="mb-0 h3"
         >
           Confirm your Google account
-        </h3>
+        </h1>
       </div>
       <div
         class="card-body"

@@ -8,13 +8,13 @@
 </div>
 
 <div class="row mb-3" *tmIsLoading="!hasCoursesLoaded">
-  <div class="col-4">
+  <div class="col-4 mt-auto">
     <a tmRouterLink="/web/instructor/courses" class="btn btn-success" [queryParams]="{isAddNewCourse: true}">
       <i class="fas fa-plus"></i> Add New Course
     </a>
   </div>
   <div class="col-8" *ngIf="courseTabModels.length > 0">
-    <div class="float-right">
+    <div class="float-end">
       <strong class="d-inline"> Sort By: </strong>
       <div class="btn-group" data-toggle="buttons">
         <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
@@ -28,9 +28,9 @@
 <tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Something went wrong'" (retryEvent)="loadCourses()">
   <div *tmIsLoading="!hasCoursesLoaded || isCopyLoading">
     <div *ngIf="courseTabModels.length > 0">
-      <div id="course-tab" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-        <div id="course-tab-header" class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
-          <b id="course-details" class="text-break">[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
+      <div id="course-tab-{{ idx }}" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
+        <div class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
+          <b class="course-details text-break">[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
           <div class="card-header-btn-toolbar flex-lg-shrink-0" *ngIf="courseTabModel.isAjaxSuccess">
             <span ngbDropdown>
               <button class="btn btn-primary btn-sm" ngbDropdownToggle> Students </button>
@@ -62,9 +62,9 @@
               </div>
             </span>
             <span ngbDropdown>
-              <button id="btn-course" class="btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
+              <button class="btn-course btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                <a id="btn-archive-course" class="btn btn-light btn-sm dropdown-item"
+                <a class="btn-archive-course btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                    (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
                 </a>
@@ -75,7 +75,7 @@
 <!--                   tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: courseTabModel.course.courseId}"> View Logs-->
 <!--                </a>-->
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
-                  <a id="btn-delete-course" class="btn btn-light btn-sm dropdown-item"
+                  <a class="btn-delete-course btn btn-light btn-sm dropdown-item"
                      ngbTooltip="Delete the course and its corresponding students and sessions"
                      (click)="deleteCourse(courseTabModel.course.courseId)"> Delete
                   </a>
@@ -85,7 +85,7 @@
           </div>
           <tm-panel-chevron [isExpanded]="courseTabModel.isTabExpanded"></tm-panel-chevron>
         </div>
-        <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
+        <div class="card-body padding-0 table-responsive" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
           <tm-loading-retry [shouldShowRetry]="courseTabModel.hasLoadingFailed" [message]="'Error loading feedback sessions'"
                             (retryEvent)="loadFeedbackSessions(idx)">
             <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
@@ -107,3 +107,50 @@
     </div>
   </div>
 </tm-loading-retry>
+
+<ng-template #modifiedTimestampsModal>
+  <p>
+    The feedback session has been copied to all courses. However, changes are made to some session timings as the
+    existing timings are no longer valid in these courses: {{ this.coursesOfModifiedSession.join(', ') }}.
+    The changes are as follows:
+  </p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Session Name</th>
+        <th>Timings</th>
+        <th>Existing</th>
+        <th>Modified</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let session of this.modifiedSession | keyvalue">
+        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionStartTimestamp === session.value.newTimestamp.submissionStartTimestamp}">
+          <td rowspan="4">{{ session.key }}</td>
+          <td>Submission opening time</td>
+          <td>{{ session.value.oldTimestamp.submissionStartTimestamp }}</td>
+          <td>{{ session.value.newTimestamp.submissionStartTimestamp }}</td>
+        </tr>
+        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionEndTimestamp === session.value.newTimestamp.submissionEndTimestamp}">
+          <td>Submission closing time</td>
+          <td>{{ session.value.oldTimestamp.submissionEndTimestamp }}</td>
+          <td>{{ session.value.newTimestamp.submissionEndTimestamp }}</td>
+        </tr>
+        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.sessionVisibleTimestamp === session.value.newTimestamp.sessionVisibleTimestamp}">
+          <td>Session visible time</td>
+          <td>{{ session.value.oldTimestamp.sessionVisibleTimestamp }}</td>
+          <td>{{ session.value.newTimestamp.sessionVisibleTimestamp }}</td>
+        </tr>
+        <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.responseVisibleTimestamp === session.value.newTimestamp.responseVisibleTimestamp}">
+          <td>Response visible time</td>
+          <td>{{ session.value.oldTimestamp.responseVisibleTimestamp }}</td>
+          <td>{{ session.value.newTimestamp.responseVisibleTimestamp }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <br>
+  <p>
+    Please modify the timings as necessary.
+  </p>
+</ng-template>

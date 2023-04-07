@@ -60,16 +60,5 @@
   "feedbackSessions": {},
   "feedbackQuestions": {},
   "feedbackResponses": {},
-  "feedbackResponseComments": {},
-  "profiles": {
-    "benny.c.tmms@ISR.CS2104": {
-      "googleId": "tm.e2e.ISRecords.benny.c.tmms",
-      "shortName": "Ben",
-      "email": "",
-      "institute": "TEAMMATES Test Institute 7",
-      "nationality": "Singaporean",
-      "gender": "MALE",
-      "moreInfo": "This is a lot of info!"
-    }
-  }
+  "feedbackResponseComments": {}
 }

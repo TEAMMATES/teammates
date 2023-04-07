@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HotTableModule } from '@handsontable/angular';
+import { registerAllModules } from 'handsontable/registry';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../../components/ajax-preload/ajax-preload.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -10,6 +11,8 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { StatusMessageModule } from '../../components/status-message/status-message.module';
 import { InstructorCourseEnrollPageComponent } from './instructor-course-enroll-page.component';
+
+registerAllModules();
 
 const routes: Routes = [
   {

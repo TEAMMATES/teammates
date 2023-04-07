@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CourseRelatedInfoModule } from '../../components/course-related-info/course-related-info.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { StudentProfileModule } from '../student-profile/student-profile.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCourseStudentDetailsPageComponent } from './instructor-course-student-details-page.component';
 
 const routes: Routes = [
@@ -25,10 +26,11 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    StudentProfileModule,
+    CourseRelatedInfoModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
     LoadingRetryModule,
+    TeammatesRouterModule,
   ],
 })
 export class InstructorCourseStudentDetailsPageModule { }

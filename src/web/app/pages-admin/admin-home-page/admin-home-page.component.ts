@@ -116,16 +116,19 @@ export class AdminHomePageComponent {
         .pipe(finalize(() => {
           this.isAddingInstructors = false;
         }))
-        .subscribe((resp: JoinLink) => {
-          instructor.status = 'SUCCESS';
-          instructor.statusCode = 200;
-          instructor.joinLink = resp.joinLink;
-          this.activeRequests -= 1;
-        }, (resp: ErrorMessageOutput) => {
-          instructor.status = 'FAIL';
-          instructor.statusCode = resp.status;
-          instructor.message = resp.error.message;
-          this.activeRequests -= 1;
+        .subscribe({
+          next: (resp: JoinLink) => {
+            instructor.status = 'SUCCESS';
+            instructor.statusCode = 200;
+            instructor.joinLink = resp.joinLink;
+            this.activeRequests -= 1;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            instructor.status = 'FAIL';
+            instructor.statusCode = resp.status;
+            instructor.message = resp.error.message;
+            this.activeRequests -= 1;
+          },
         });
   }
 
@@ -181,11 +184,14 @@ export class AdminHomePageComponent {
         ),
       ),
       finalize(() => { this.isRegisteredInstructorModalLoading = false; }),
-    ).subscribe((resp: RegisteredInstructorAccountData[]) => {
-      this.registeredInstructorAccountData = resp;
-    }, (resp: ErrorMessageOutput) => {
-      modalRef.dismiss();
-      this.statusMessageService.showErrorToast(resp.error.message);
+    ).subscribe({
+      next: (resp: RegisteredInstructorAccountData[]) => {
+        this.registeredInstructorAccountData = resp;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        modalRef.dismiss();
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -198,7 +204,7 @@ export class AdminHomePageComponent {
             // User is not a student
             return of({ courses: [] });
           }
-          return throwError(err);
+          return throwError(() => err);
         }),
       );
     const getInstructorCourses: Observable<Courses> = this.courseService
@@ -209,7 +215,7 @@ export class AdminHomePageComponent {
             // User is not an instructor
             return of({ courses: [] });
           }
-          return throwError(err);
+          return throwError(() => err);
         }),
       );
 
@@ -247,17 +253,17 @@ export class AdminHomePageComponent {
           this.instructorsConsolidated[i].email,
           this.instructorsConsolidated[i].institution,
         )
-        .subscribe(
-          (resp: JoinLink) => {
+        .subscribe({
+          next: (resp: JoinLink) => {
             this.instructorsConsolidated[i].status = 'SUCCESS';
             this.instructorsConsolidated[i].statusCode = 200;
             this.instructorsConsolidated[i].joinLink = resp.joinLink;
             this.ngbModal.dismissAll();
           },
-          (resp: ErrorMessageOutput) => {
+          error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);
           },
-        );
+        });
     }, () => {});
   }
 

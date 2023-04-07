@@ -28,11 +28,6 @@ export enum SortBy {
     RESPONDENT_EMAIL,
 
     /**
-     * The gender of the student.
-     */
-    STUDENT_GENDER,
-
-    /**
      * The role of an instructor.
      */
     INSTRUCTOR_PERMISSION_ROLE,
@@ -41,16 +36,6 @@ export enum SortBy {
      * The instructor text displayed to students.
      */
     INSTRUCTOR_DISPLAYED_TEXT,
-
-    /**
-     * Institution.
-     */
-    INSTITUTION,
-
-    /**
-     * Nationality.
-     */
-    NATIONALITY,
 
     /**
      * Join status

@@ -138,14 +138,20 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
+    public String removeSpanFromText(String text) {
+        return text.replace("<span class=\"highlighted-text\">", "").replace("</span>", "");
+    }
+
     public WebElement getStudentRow(StudentAttributes student) {
         String details = String.format("%s [%s] (%s)", student.getCourse(),
                 student.getSection() == null ? Const.DEFAULT_SECTION : student.getSection(), student.getTeam());
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-student tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (columns.get(STUDENT_COL_DETAILS - 1).getAttribute("innerHTML").contains(details)
-                    && columns.get(STUDENT_COL_NAME - 1).getAttribute("innerHTML").contains(student.getName())) {
+            if (removeSpanFromText(columns.get(STUDENT_COL_DETAILS - 1)
+                    .getAttribute("innerHTML")).contains(details)
+                    && removeSpanFromText(columns.get(STUDENT_COL_NAME - 1)
+                    .getAttribute("innerHTML")).contains(student.getName())) {
                 return row;
             }
         }
@@ -203,10 +209,18 @@ public class AdminSearchPage extends AppPage {
     }
 
     public WebElement getInstructorRow(InstructorAttributes instructor) {
-        String xpath = String.format(
-                "//table[@id='search-table-instructor']/tbody/tr[td[%d][span[text()='%s']] and td[%d]='%s']",
-                INSTRUCTOR_COL_COURSE_ID, instructor.getCourseId(), INSTRUCTOR_COL_NAME, instructor.getName());
-        return browser.driver.findElement(By.xpath(xpath));
+        String courseId = instructor.getCourseId();
+        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-instructor tbody tr"));
+        for (WebElement row : rows) {
+            List<WebElement> columns = row.findElements(By.tagName("td"));
+            if (removeSpanFromText(columns.get(INSTRUCTOR_COL_COURSE_ID - 1)
+                    .getAttribute("innerHTML")).contains(courseId)
+                    && removeSpanFromText(columns.get(INSTRUCTOR_COL_NAME - 1)
+                    .getAttribute("innerHTML")).contains(instructor.getName())) {
+                return row;
+            }
+        }
+        return null;
     }
 
     public String getInstructorCourseId(WebElement instructorRow) {
@@ -261,8 +275,10 @@ public class AdminSearchPage extends AppPage {
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-account-request tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1).getAttribute("innerHTML").contains(email)
-                    && columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1).getAttribute("innerHTML").contains(institute)) {
+            if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
+                    .getAttribute("innerHTML")).contains(email)
+                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
+                    .getAttribute("innerHTML")).contains(institute)) {
                 return row;
             }
         }

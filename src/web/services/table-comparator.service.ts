@@ -142,9 +142,6 @@ export class TableComparatorService {
       case SortBy.MSQ_RECIPIENT_NAME:
       case SortBy.RESPONDENT_NAME:
       case SortBy.RESPONDENT_EMAIL:
-      case SortBy.STUDENT_GENDER:
-      case SortBy.INSTITUTION:
-      case SortBy.NATIONALITY:
       case SortBy.JOIN_STATUS:
       case SortBy.COURSE_ID:
       case SortBy.COURSE_NAME:

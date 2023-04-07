@@ -61,25 +61,28 @@ export class AdminPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
-    this.authService.getAuthUser().subscribe((res: AuthInfo) => {
-      if (res.user) {
-        this.user = res.user.id;
-        this.isInstructor = res.user.isInstructor;
-        this.isStudent = res.user.isStudent;
-        this.isAdmin = res.user.isAdmin;
-        this.isMaintainer = res.user.isMaintainer;
-        if (!this.isAdmin) {
-          // User is not a valid admin; redirect to home page.
-          this.navigationService.navigateWithErrorMessage('/web',
-              'You are not authorized to view the page.');
+    this.authService.getAuthUser().subscribe({
+      next: (res: AuthInfo) => {
+        if (res.user) {
+          this.user = res.user.id;
+          this.isInstructor = res.user.isInstructor;
+          this.isStudent = res.user.isStudent;
+          this.isAdmin = res.user.isAdmin;
+          this.isMaintainer = res.user.isMaintainer;
+          if (!this.isAdmin) {
+            // User is not a valid admin; redirect to home page.
+            this.navigationService.navigateWithErrorMessage('/web',
+                'You are not authorized to view the page.');
+          }
+        } else {
+          window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
         }
-      } else {
-        window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
-      }
-      this.isFetchingAuthDetails = false;
-    }, () => {
-      this.navigationService.navigateWithErrorMessage('/web',
-          'You are not authorized to view the page.');
+        this.isFetchingAuthDetails = false;
+      },
+      error: () => {
+        this.navigationService.navigateWithErrorMessage('/web',
+            'You are not authorized to view the page.');
+      },
     });
   }
 

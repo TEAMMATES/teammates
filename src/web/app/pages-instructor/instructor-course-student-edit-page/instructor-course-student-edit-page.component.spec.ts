@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JoinState } from '../../../types/api-output';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -49,12 +49,12 @@ describe('InstructorCourseStudentEditPageComponent', () => {
       sectionName: 'Section A',
       joinState: JoinState.JOINED,
     };
-    component.editForm = new FormGroup({
-      studentname: new FormControl('Jake Peralta'),
-      sectionname: new FormControl('Section A'),
-      teamname: new FormControl('Team A'),
-      newstudentemail: new FormControl('jake@gmail.com'),
-      comments: new FormControl('Cool cool cool.'),
+    component.editForm = new UntypedFormGroup({
+      'student-name': new UntypedFormControl('Jake Peralta'),
+      'section-name': new UntypedFormControl('Section A'),
+      'team-name': new UntypedFormControl('Team A'),
+      'new-student-email': new UntypedFormControl('jake@gmail.com'),
+      comments: new UntypedFormControl('Cool cool cool.'),
     });
     component.isStudentLoading = false;
     fixture.detectChanges();

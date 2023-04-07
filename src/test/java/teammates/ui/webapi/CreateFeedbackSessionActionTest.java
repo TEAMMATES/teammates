@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelperExtension;
+import teammates.common.util.TimeHelperExtension;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
@@ -47,7 +48,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
+        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest(course.getTimeZone());
 
         CreateFeedbackSessionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
@@ -81,15 +82,19 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         assertEquals("new feedback session", response.getFeedbackSessionName());
         assertEquals("instructions", response.getInstructions());
-        assertEquals(1444003051000L, response.getSubmissionStartTimestamp());
-        assertEquals(1546003051000L, response.getSubmissionEndTimestamp());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, createdSession.getTimeZone()).toEpochMilli(), response.getSubmissionStartTimestamp());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, createdSession.getTimeZone()).toEpochMilli(), response.getSubmissionEndTimestamp());
         assertEquals(5, response.getGracePeriod().longValue());
 
         assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-        assertEquals(1440003051000L, response.getCustomSessionVisibleTimestamp().longValue());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, createdSession.getTimeZone()).toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
 
         assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-        assertEquals(1547003051000L, response.getCustomResponseVisibleTimestamp().longValue());
+        assertEquals(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, createdSession.getTimeZone()).toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
         assertFalse(response.getIsClosingEmailEnabled());
         assertFalse(response.getIsPublishedEmailEnabled());
@@ -99,23 +104,23 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         ______TS("Error: try to add the same session again");
 
-        verifyInvalidOperation(getTypicalCreateRequest(), params);
+        verifyInvalidOperation(getTypicalCreateRequest(course.getTimeZone()), params);
 
         ______TS("Error: Invalid parameters (invalid session name > 64 characters)");
 
-        FeedbackSessionCreateRequest request = getTypicalCreateRequest();
+        FeedbackSessionCreateRequest request = getTypicalCreateRequest(course.getTimeZone());
         request.setFeedbackSessionName(StringHelperExtension.generateStringOfLength(65));
         verifyHttpRequestBodyFailure(request, params);
 
         ______TS("Unsuccessful case: test null session name");
 
-        request = getTypicalCreateRequest();
+        request = getTypicalCreateRequest(course.getTimeZone());
         request.setFeedbackSessionName(null);
         verifyHttpRequestBodyFailure(request, params);
 
         ______TS("Add course with extra space (in middle and trailing)");
 
-        createRequest = getTypicalCreateRequest();
+        createRequest = getTypicalCreateRequest(course.getTimeZone());
         createRequest.setFeedbackSessionName("Name with extra  space ");
 
         a = getAction(createRequest, params);
@@ -159,11 +164,15 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         assertEquals("copied feedback session", response.getFeedbackSessionName());
         assertEquals(copiedSession.getInstructions(), toCopySession.getInstructions());
-        assertEquals(copiedSession.getStartTime(), toCopySession.getStartTime());
-        assertEquals(copiedSession.getEndTime(), toCopySession.getEndTime());
+        assertEquals(copiedSession.getStartTime(),
+                TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(2, toCopySession.getTimeZone()));
+        assertEquals(copiedSession.getEndTime(),
+                TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(7, toCopySession.getTimeZone()));
         assertEquals(copiedSession.getGracePeriodMinutes(), toCopySession.getGracePeriodMinutes());
-        assertEquals(copiedSession.getSessionVisibleFromTime(), toCopySession.getSessionVisibleFromTime());
-        assertEquals(copiedSession.getResultsVisibleFromTime(), toCopySession.getResultsVisibleFromTime());
+        assertEquals(copiedSession.getSessionVisibleFromTime(),
+                TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(2, toCopySession.getTimeZone()));
+        assertEquals(copiedSession.getResultsVisibleFromTime(),
+                TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(7, toCopySession.getTimeZone()));
         assertEquals(copiedSession.isOpeningEmailEnabled(), toCopySession.isOpeningEmailEnabled());
         assertEquals(copiedSession.isClosingEmailEnabled(), toCopySession.isClosingEmailEnabled());
         assertEquals(copiedSession.isPublishedEmailEnabled(), toCopySession.isPublishedEmailEnabled());
@@ -194,27 +203,32 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         };
         params = addUserIdToParams(instructor1ofCourse1.getGoogleId(), params);
 
-        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
+        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest(course.getTimeZone());
 
         CreateFeedbackSessionAction a = getAction(createRequest, params);
         getJsonResult(a);
     }
 
-    private FeedbackSessionCreateRequest getTypicalCreateRequest() {
+    private FeedbackSessionCreateRequest getTypicalCreateRequest(String timeZone) {
         FeedbackSessionCreateRequest createRequest =
                 new FeedbackSessionCreateRequest();
         createRequest.setFeedbackSessionName("new feedback session");
         createRequest.setInstructions("instructions");
 
-        createRequest.setSubmissionStartTimestamp(1444003051000L);
-        createRequest.setSubmissionEndTimestamp(1546003051000L);
+        // Preprocess session timings to adhere stricter checks
+        createRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, timeZone).toEpochMilli());
+        createRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, timeZone).toEpochMilli());
         createRequest.setGracePeriod(5);
 
         createRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
-        createRequest.setCustomSessionVisibleTimestamp(1440003051000L);
+        createRequest.setCustomSessionVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, timeZone).toEpochMilli());
 
         createRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
-        createRequest.setCustomResponseVisibleTimestamp(1547003051000L);
+        createRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, timeZone).toEpochMilli());
 
         createRequest.setClosingEmailEnabled(false);
         createRequest.setPublishedEmailEnabled(false);
@@ -229,15 +243,20 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         createRequest.setToCopySessionName(toCopySession.getFeedbackSessionName());
         createRequest.setInstructions(toCopySession.getInstructions());
 
-        createRequest.setSubmissionStartTimestamp(toCopySession.getStartTime().toEpochMilli());
-        createRequest.setSubmissionEndTimestamp(toCopySession.getEndTime().toEpochMilli());
+        // Preprocess session timings preprocessing to adhere stricter checks
+        createRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, toCopySession.getTimeZone()).toEpochMilli());
+        createRequest.setSubmissionEndTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, toCopySession.getTimeZone()).toEpochMilli());
         createRequest.setGracePeriod(toCopySession.getGracePeriodMinutes());
 
         createRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
-        createRequest.setCustomSessionVisibleTimestamp(toCopySession.getSessionVisibleFromTime().toEpochMilli());
+        createRequest.setCustomSessionVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                2, toCopySession.getTimeZone()).toEpochMilli());
 
         createRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
-        createRequest.setCustomResponseVisibleTimestamp(toCopySession.getResultsVisibleFromTime().toEpochMilli());
+        createRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
+                7, toCopySession.getTimeZone()).toEpochMilli());
 
         createRequest.setClosingEmailEnabled(toCopySession.isClosingEmailEnabled());
         createRequest.setPublishedEmailEnabled(toCopySession.isPublishedEmailEnabled());

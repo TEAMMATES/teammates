@@ -4,45 +4,45 @@
     <b>Total Points to distribute:</b>
   </div>
   <div class="col-11 offset-half margin-top-10px">
-    <div class="form-check">
-      <label class="form-row form-check-label">
+    <div class="row form-check">
+      <label class="row form-check-label">
         <div class="col-sm-3">
           <input id="total-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
-                 (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
+                 (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Checkbox">
           <input id="total-points" type="number" class="form-control" min="1" step="1"
-                 [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption">
+                 [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption" aria-label="Total Points Input">
         </div>
-        <div class="col-sm-9 text-left">
+        <div class="col-sm-9 text-start">
           <b class="ngb-tooltip-class" ngbTooltip="Respondents will have to distribute the total points specified here among the recipients, e.g. if you specify 100 points here and there are 3 recipients, respondents will have to distribute 100 points among 3 recipients.">in total</b>
         </div>
       </label>
     </div>
     <div class="form-check">
-      <label class="form-check-label form-row">
+      <label class="form-check-label row">
         <div class="col-sm-3">
           <input id="per-option-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
-                 (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
+                 (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Times Number of Recipients Checkbox">
           <input id="per-option-points" type="number" class="form-control" min="1" step="1"
-                 [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption">
+                 [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption" aria-label="Points Input">
         </div>
-        <div class="col-sm-9">
-          <b class="ngb-tooltip-class" ngbTooltip="The number of points to distribute will vary based on the number of recipients, e.g. if you specify 100 points here and there are 3 recipients, the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).">X (number of recipients)</b>
+        <div class="col-sm-9 text-start">
+          <b class="ngb-tooltip-class" ngbTooltip="The number of points to distribute will vary based on the number of recipients, e.g. if you specify 100 points here and there are 3 recipients, the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).">times (number of recipients)</b>
         </div>
       </label>
     </div>
   </div>
-  <label class="form-row form-check-label col-sm-12 padding-left-33px margin-top-10px">
+  <label class="row form-check col-sm-12 padding-left-33px margin-top-10px">
     <div class="col-sm-3">
       <input id="uneven-distribution-checkbox" class="form-check-input" type="checkbox"
              [ngModel]="model.forceUnevenDistribution"
-             (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable">
-      <select id="uneven-distribution-dropdown" class="form-control" [ngModel]="model.distributePointsFor"
+             (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable" aria-label="Uneven Distribution Checkbox">
+      <select id="uneven-distribution-dropdown" class="form-control form-select" [ngModel]="model.distributePointsFor"
               [disabled]="!isEditable || model.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE"
-              (ngModelChange)="triggerModelChange('distributePointsFor', $event)">
-        <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">
+              (ngModelChange)="triggerModelChange('distributePointsFor', $event)" aria-label="Uneven Distribution Options">
+        <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY" aria-label="Every Option to Receive a Different Number of Points">
           Every option
         </option>
-        <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY">
+        <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY" aria-label="At Least Some Options to Receive a Different Number of Points">
           At least some options
         </option>
       </select>

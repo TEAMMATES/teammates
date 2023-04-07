@@ -391,11 +391,11 @@ Team,Recipient Name,Recipient Email,Sub Question,Yes,No,Total,Average
 \\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,b) This student has tried his/her best.,100% (1) [1.25],0% (0) [-1.7],1.25,1.25
 
 Per Recipient Statistics (Overall)
-Team,Recipient Name,Recipient Email,Yes,No,Total,Average
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,50% (1) [1.25],50% (1) [-1.7],-0.22,-0.11
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,50% (1) [1.25],50% (1) [-1.7],-0.22,-0.11
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,100% (2) [1.25],0% (0) [-1.7],2.5,1.25
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,100% (1) [1.25],0% (0) [-1.7],1.25,1.25
+Team,Recipient Name,Recipient Email,Yes,No,Total,Average,Per Criterion Average
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,50% (1) [1.25],50% (1) [-1.7],-0.45,-0.23,\\"1.25,-1.7\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,50% (1) [1.25],50% (1) [-1.7],-0.45,-0.23,\\"-1.7,1.25\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,100% (2) [1.25],0% (0) [-1.7],2.5,1.25,\\"1.25,1.25\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,100% (1) [1.25],0% (0) [-1.7],1.25,1.25,\\"0,1.25\\"
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Sub Question,Choice Value,Choice Number
@@ -439,10 +439,10 @@ Team,Recipient Name,Recipient Email,Sub Question,Yes,No,Total,Average
 \\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,b) This student has tried his/her best.,0% (0) [1.25],0% (0) [1],0,0
 
 Per Recipient Statistics (Overall)
-Team,Recipient Name,Recipient Email,Yes,No,Total,Average
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,100% (1) [1.25],0% (0) [1],1.25,1.25
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,0% (0) [1.25],100% (1) [1],1,1
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,100% (1) [1.25],0% (0) [1],1.25,1.25
+Team,Recipient Name,Recipient Email,Yes,No,Total,Average,Per Criterion Average
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,100% (1) [1.25],0% (0) [1],1.25,1.25,\\"1.25,0\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,0% (0) [1.25],100% (1) [1],1,1,\\"1,0\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,100% (1) [1.25],0% (0) [1],1.25,1.25,\\"1.25,0\\"
 
 
 Team,Giver's Name,Giver's Email,Recipient's Team,Recipient's Name,Recipient's Email,Sub Question,Choice Value,Choice Number

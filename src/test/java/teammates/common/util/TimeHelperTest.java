@@ -1,10 +1,12 @@
 package teammates.common.util;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 import org.testng.annotations.Test;
 
@@ -89,6 +91,42 @@ public class TimeHelperTest extends BaseTestCase {
 
         actual = TimeHelper.getInstantNearestHourBefore(OffsetDateTime.parse("2020-12-31T12:59:00-04:00").toInstant());
 
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetInstantDaysOffsetFromNow() {
+        // Comparison using second precision is sufficient
+        Instant expected = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        Instant actual = TimeHelper.getInstantDaysOffsetFromNow(0).truncatedTo(ChronoUnit.SECONDS);
+        assertEquals(expected, actual);
+
+        expected = Instant.now().plus(Duration.ofDays(365)).truncatedTo(ChronoUnit.SECONDS);
+        actual = TimeHelper.getInstantDaysOffsetFromNow(365).truncatedTo(ChronoUnit.SECONDS);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetInstantDaysOffsetBeforeNow() {
+        // Comparison using second precision is sufficient
+        Instant expected = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        Instant actual = TimeHelper.getInstantDaysOffsetBeforeNow(0).truncatedTo(ChronoUnit.SECONDS);
+        assertEquals(expected, actual);
+
+        expected = Instant.now().minus(Duration.ofDays(365)).truncatedTo(ChronoUnit.SECONDS);
+        actual = TimeHelper.getInstantDaysOffsetBeforeNow(365).truncatedTo(ChronoUnit.SECONDS);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetInstantHoursOffsetFromNow() {
+        // Comparison using second precision is sufficient
+        Instant expected = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        Instant actual = TimeHelper.getInstantHoursOffsetFromNow(0).truncatedTo(ChronoUnit.SECONDS);
+        assertEquals(expected, actual);
+
+        expected = Instant.now().plus(Duration.ofHours(60)).truncatedTo(ChronoUnit.SECONDS);
+        actual = TimeHelper.getInstantHoursOffsetFromNow(60).truncatedTo(ChronoUnit.SECONDS);
         assertEquals(expected, actual);
     }
 

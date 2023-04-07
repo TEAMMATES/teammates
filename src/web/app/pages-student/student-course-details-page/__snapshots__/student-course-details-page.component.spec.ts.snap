@@ -2,8 +2,8 @@
 
 exports[`StudentCourseDetailsPageComponent should snap when all data are still loading 1`] = `
 <tm-student-course-details-page
-  Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -17,7 +17,6 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
@@ -44,8 +43,8 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
 
 exports[`StudentCourseDetailsPageComponent should snap when it fails to load 1`] = `
 <tm-student-course-details-page
-  Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -59,7 +58,6 @@ exports[`StudentCourseDetailsPageComponent should snap when it fails to load 1`]
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
@@ -87,8 +85,8 @@ exports[`StudentCourseDetailsPageComponent should snap when it fails to load 1`]
 
 exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-student-course-details-page
-  Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -102,7 +100,6 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
@@ -130,8 +127,8 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
 
 exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`] = `
 <tm-student-course-details-page
-  Gender={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   course={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
@@ -145,7 +142,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
@@ -169,7 +165,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Course ID:
@@ -189,7 +185,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Course name:
@@ -209,7 +205,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Course institute:
@@ -229,7 +225,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Instructors:
@@ -254,7 +250,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Your section:
@@ -274,7 +270,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Your team:
@@ -294,7 +290,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Your name:
@@ -314,7 +310,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="row"
           >
             <div
-              class="col-3 text-right"
+              class="col-3 text-end"
             >
               <label>
                 Your email:
@@ -339,13 +335,11 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       <div
         class="card-body"
       >
-        <h5
-          class="d-inline"
+        <span
+          class="d-inline h5 fw-bold"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+          Sort By: 
+        </span>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -360,21 +354,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="btn btn-light"
           >
             Email
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Gender
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Institution
-          </button>
-          <button
-            class="btn btn-light"
-          >
-            Nationality
           </button>
         </div>
       </div>
@@ -399,14 +378,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
           <tbody>
             <tr>
               <td
-                class="team-member-photo-cell"
-              >
-                <img
-                  class="profile-pic"
-                  src="/assets/images/profile_picture_default.png"
-                />
-              </td>
-              <td
                 class="team-member-profile-cell"
                 id="teammates-details-0"
               >
@@ -425,24 +396,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                   >
                     iam2@hello.com
                   </a>
-                </div>
-                <div>
-                  <label>
-                    Gender:
-                  </label>
-                   Male 
-                </div>
-                <div>
-                  <label>
-                    Nationality:
-                  </label>
-                   Andorran 
-                </div>
-                <div>
-                  <label>
-                    Institute:
-                  </label>
-                   nus 
                 </div>
               </td>
             </tr>

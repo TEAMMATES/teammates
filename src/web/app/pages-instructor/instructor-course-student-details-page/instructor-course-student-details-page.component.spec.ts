@@ -2,20 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Gender, JoinState, Student, StudentProfile } from '../../../types/api-output';
+import { JoinState, Student } from '../../../types/api-output';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   InstructorCourseStudentDetailsPageComponent,
 } from './instructor-course-student-details-page.component';
 
-@Component({ selector: 'tm-student-profile', template: '' })
-class StudentProfileStubComponent {
-  @Input() studentProfile: StudentProfile | undefined;
-  @Input() studentName: string = '';
-  @Input() photoUrl: string = '/assets/images/profile_picture_default.png';
-  @Input() hideMoreInfo: boolean = false;
-}
 @Component({ selector: 'tm-course-related-info', template: '' })
 class CourseRelatedInfoStubComponent {
   @Input() student: Student = {
@@ -28,11 +21,6 @@ class CourseRelatedInfoStubComponent {
     joinState: JoinState.JOINED,
   };
 }
-@Component({ selector: 'tm-more-info', template: '' })
-class MoreInfoStubComponent {
-  @Input() studentName: string = '';
-  @Input() moreInfoText: string = '';
-}
 
 describe('InstructorCourseStudentDetailsPageComponent', () => {
   let component: InstructorCourseStudentDetailsPageComponent;
@@ -42,9 +30,7 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorCourseStudentDetailsPageComponent,
-        StudentProfileStubComponent,
         CourseRelatedInfoStubComponent,
-        MoreInfoStubComponent,
       ],
       imports: [
         HttpClientTestingModule,
@@ -79,15 +65,6 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
       teamName: 'myTeam',
       sectionName: 'mySection',
       joinState: JoinState.JOINED,
-    };
-    component.studentProfile = {
-      name: 'name',
-      shortName: 'shortName',
-      email: 'profileEmail@email.com',
-      institute: 'NUS',
-      nationality: 'Indian',
-      gender: Gender.MALE,
-      moreInfo: 'I have more info here',
     };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

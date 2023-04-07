@@ -12,9 +12,10 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { fromEvent, merge, Observable, of } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
+import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
 import { Toast } from './components/toast/toast';
@@ -50,7 +51,6 @@ export class PageComponent {
 
   isCollapsed: boolean = true;
   isUnsupportedBrowser: boolean = false;
-  isUsingIe: boolean = false;
   isCookieDisabled: boolean = false;
   browser: string = '';
   isNetworkOnline$: Observable<boolean>;
@@ -63,7 +63,7 @@ export class PageComponent {
    *
    * Angular browser support: https://angular.io/guide/browser-support
    *
-   * Bootstrap 4 browser support: https://getbootstrap.com/docs/4.0/getting-started/browsers-devices/
+   * Bootstrap 5 browser support: https://getbootstrap.com/docs/5.2/getting-started/browsers-devices/
    */
   minimumVersions: Record<string, number> = {
     Chrome: 87,
@@ -74,7 +74,7 @@ export class PageComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
               private ngbModal: NgbModal, location: Location,
-              private statusMessageService: StatusMessageService) {
+              private statusMessageService: StatusMessageService, private authService: AuthService) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -96,8 +96,8 @@ export class PageComponent {
 
     this.isNetworkOnline$ = merge(
         of(navigator.onLine),
-        fromEvent(window, 'online').pipe(mapTo(true)),
-        fromEvent(window, 'offline').pipe(mapTo(false)),
+        fromEvent(window, 'online').pipe(map(() => true)),
+        fromEvent(window, 'offline').pipe(map(() => false)),
     );
 
     // Close open modal(s) when moving backward or forward through history in the browser page
@@ -117,9 +117,6 @@ export class PageComponent {
     this.browser = `${browser.name} ${browser.version}`;
     this.isUnsupportedBrowser = !this.minimumVersions[browser.name]
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
-    if (browser.name === 'IE') {
-      this.isUsingIe = true;
-    }
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
 
@@ -150,6 +147,16 @@ export class PageComponent {
    */
   getUrl(): string {
     return this.router.url;
+  }
+
+  logout(): void {
+    if (environment.firebaseConfig?.projectId) {
+      this.authService.logout().then(() => {
+        window.location.href = this.logoutUrl;
+      });
+    } else {
+      window.location.href = this.logoutUrl;
+    }
   }
 }
 

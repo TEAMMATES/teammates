@@ -9,10 +9,12 @@
 
   .toast {
     max-width: 100%;
+    width: inherit;
   }
 }
 
-.close {
+.btn-close {
+  float: right;
   font-size: 1rem;
   margin-left: 10px;
   color: inherit;

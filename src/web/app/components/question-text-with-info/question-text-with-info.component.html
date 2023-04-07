@@ -1,19 +1,19 @@
-<span class="d-inline-flex row align-items-center no-gutters">
-  <span *ngIf="shouldShowDownloadQuestionResult" class="col-auto">
-    <button ngbTooltip="Download Question Results" type="button" class="btn btn-link text-white padding-0" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
-      <b>Question {{ questionNumber }}:</b>
+<span class="d-flex flex-column flex-sm-row align-items-sm-center">
+  <h2 *ngIf="shouldShowDownloadQuestionResult" class="question-number">
+    <button ngbTooltip="Download Question Results" type="button" class="btn btn-link p-0" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
+      Question {{ questionNumber }}:
     </button>
-  </span>
-  <span *ngIf="!shouldShowDownloadQuestionResult" class="col-auto">
-    <b>Question {{ questionNumber }}:&nbsp;</b>
-  </span>
-  <span id="question-text" class="col-auto">&nbsp;{{ questionDetails.questionText }}</span>
-  <a id="additional-info-link" class="info-font-size ml-1" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [tmRouterLink]="" queryParamsHandling="merge">
+  </h2>
+  <h2 *ngIf="!shouldShowDownloadQuestionResult" class="question-number">
+    Question {{ questionNumber }}:
+  </h2>
+  <span class="question-text mx-sm-2">{{ questionDetails.questionText }}</span>
+  <button class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)">
     [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
-  </a>
+  </button>
 </span>
 
-<div id="additional-info" class="info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
+<div class="additional-info info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
   <tm-contribution-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
   <tm-text-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.TEXT" [questionDetails]="questionDetails"></tm-text-question-additional-info>
   <tm-mcq-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.MCQ" [questionDetails]="questionDetails"></tm-mcq-question-additional-info>

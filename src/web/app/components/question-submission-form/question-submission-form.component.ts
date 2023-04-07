@@ -11,6 +11,7 @@ import {
 import { VisibilityControl } from '../../../types/visibility-control';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -26,6 +27,7 @@ import {
   selector: 'tm-question-submission-form',
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
+  animations: [collapseAnim],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {
 
@@ -37,6 +39,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   isMCQDropDownEnabled: boolean = false;
+  isSaved: boolean = false;
+  hasResponseChanged: boolean = false;
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -69,6 +73,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   isQuestionCountOne: boolean = false;
 
+  @Input()
+  isSubmitAllClicked: boolean = false;
+
+  @Output()
+  isSubmitAllClickedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
@@ -78,6 +88,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   model: QuestionSubmissionFormModel = {
     isLoading: false,
     isLoaded: false,
+    isTabExpanded: true,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -137,6 +148,28 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (this.model.isLoaded && !this.isEveryRecipientSorted) {
       this.sortRecipientsByName();
     }
+
+    if (this.model.recipientSubmissionForms.some(
+      (response) => response.responseId.length > 0) && !this.isSaved) {
+      this.isSaved = true;
+    }
+
+    if (this.hasResponseChanged) {
+      this.isSaved = false;
+    }
+
+    if (this.isSubmitAllClicked) {
+      if (this.model.recipientSubmissionForms.some((response) => response.responseId.length > 0)) {
+        this.isSaved = true;
+      } else if (this.model.recipientSubmissionForms.every((form) => form.responseId.length === 0)) {
+        this.isSaved = false;
+      }
+    }
+  }
+
+  toggleQuestionTab(): void {
+    this.model.isTabExpanded = !this.model.isTabExpanded;
+    this.formModelChange.emit(this.model);
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,
@@ -246,17 +279,22 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
-    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-        this.model.recipientSubmissionForms.slice();
-    recipientSubmissionForms[index] = {
-      ...recipientSubmissionForms[index],
-      [field]: data,
-    };
+    if (!this.isFormsDisabled) {
+      this.hasResponseChanged = true;
+      this.isSubmitAllClickedChange.emit(false);
 
-    this.formModelChange.emit({
-      ...this.model,
-      recipientSubmissionForms,
-    });
+      const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+          this.model.recipientSubmissionForms.slice();
+      recipientSubmissionForms[index] = {
+        ...recipientSubmissionForms[index],
+        [field]: data,
+      };
+
+      this.formModelChange.emit({
+        ...this.model,
+        recipientSubmissionForms,
+      });
+    }
   }
 
   /**
@@ -330,6 +368,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
+    this.isSaved = true;
+    this.hasResponseChanged = false;
     this.responsesSave.emit(this.model);
   }
 

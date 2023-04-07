@@ -122,8 +122,8 @@ export class AdminNotificationsPageComponent implements OnInit {
     this.isNotificationLoading = true;
     this.notificationService.getNotifications()
       .pipe(finalize(() => { this.isNotificationLoading = false; }))
-      .subscribe(
-        (notifications: Notifications) => {
+      .subscribe({
+        next: (notifications: Notifications) => {
           notifications.notifications.forEach((notification: Notification) => {
             this.notificationsTableRowModels.push({
               isHighlighted: false,
@@ -135,11 +135,11 @@ export class AdminNotificationsPageComponent implements OnInit {
           this.notificationsTableRowModelsSortOrder = SortOrder.ASC;
           this.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_CREATE_TIME);
         },
-        (resp: ErrorMessageOutput) => {
+        error: (resp: ErrorMessageOutput) => {
           this.hasNotificationLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-      );
+      });
   }
 
   /**
@@ -240,8 +240,8 @@ export class AdminNotificationsPageComponent implements OnInit {
       endTimestamp: endTime,
     })
     .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
-    .subscribe(
-      (notification: Notification) => {
+    .subscribe({
+      next: (notification: Notification) => {
         this.notificationsTableRowModels.unshift({
           isHighlighted: true,
           notification,
@@ -249,10 +249,10 @@ export class AdminNotificationsPageComponent implements OnInit {
         this.initNotificationEditFormModel();
         this.statusMessageService.showSuccessToast('Notification created successfully.');
       },
-      (resp: ErrorMessageOutput) => {
+      error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
-    );
+    });
   }
 
   /**
@@ -278,8 +278,8 @@ export class AdminNotificationsPageComponent implements OnInit {
       endTimestamp: endTime,
     }, this.notificationEditFormModel.notificationId)
     .pipe(finalize(() => { this.notificationEditFormModel.isSaving = false; }))
-    .subscribe(
-      (notification: Notification) => {
+    .subscribe({
+      next: (notification: Notification) => {
         this.statusMessageService.showSuccessToast('Notification updated successfully.');
 
         this.notificationsTableRowModels.forEach((rowModel: NotificationsTableRowModel) => {
@@ -291,10 +291,10 @@ export class AdminNotificationsPageComponent implements OnInit {
 
         this.initNotificationEditFormModel();
       },
-      (resp: ErrorMessageOutput) => {
+      error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
-    );
+    });
   }
 
   /**
@@ -302,19 +302,19 @@ export class AdminNotificationsPageComponent implements OnInit {
    */
   deleteNotificationHandler(notificationId: string): void {
     this.notificationService.deleteNotification(notificationId)
-      .subscribe(
-        (msg: MessageOutput) => {
+      .subscribe({
+        next: (msg: MessageOutput) => {
           this.statusMessageService.showSuccessToast(msg.message);
           this.notificationsTableRowModels = this.notificationsTableRowModels.filter(
-            (notificationsTableRowModel: NotificationsTableRowModel) => {
-              return notificationsTableRowModel.notification.notificationId !== notificationId;
-            },
+              (notificationsTableRowModel: NotificationsTableRowModel) => {
+                return notificationsTableRowModel.notification.notificationId !== notificationId;
+              },
           );
         },
-        (resp: ErrorMessageOutput) => {
+        error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-      );
+      });
   }
 
   /**

@@ -2,21 +2,25 @@
 
 exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEnabled is updated 1`] = `
 <tm-mcq-question-edit-answer-form
+  __ngContext__={[Function Number]}
   cssRefresh={[Function EventEmitter_]}
   id=""
   inputTextBoxOther="undefined"
   isDisabled="false"
   isMcqOptionSelected={[Function Array]}
   questionDetails={[Function Object]}
+  recipient=""
   responseDetails={[Function Object]}
   responseDetailsChange={[Function EventEmitter_]}
   valueSelected=""
 >
-  <tr>
+  <tr
+    aria-label="Response"
+  >
     <td>
       <div>
         <select
-          class="form-control margin-bottom-8px ng-untouched ng-pristine ng-valid"
+          class="form-control form-select margin-bottom-8px ng-untouched ng-pristine ng-valid"
           id="dropdown-option-select"
         >
           <option
@@ -31,17 +35,21 @@ exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEna
 
 exports[`McqQuestionEditAnswerFormComponent should snap with default view 1`] = `
 <tm-mcq-question-edit-answer-form
+  __ngContext__={[Function Number]}
   cssRefresh={[Function EventEmitter_]}
   id=""
   inputTextBoxOther="undefined"
   isDisabled="false"
   isMcqOptionSelected={[Function Array]}
   questionDetails={[Function Object]}
+  recipient=""
   responseDetails={[Function Object]}
   responseDetailsChange={[Function EventEmitter_]}
   valueSelected=""
 >
-  <tr>
+  <tr
+    aria-label="Response"
+  >
     <td>
       <div>
       </div>

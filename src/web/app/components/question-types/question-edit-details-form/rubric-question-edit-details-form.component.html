@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-12 text-left">
+  <div class="col-12 text-start">
     <div class="form-group form-check">
       <label class="form-check-label tool-tip-decorate ngb-tooltip-class"
              ngbTooltip="Assign weights to the columns for calculating statistics.">
@@ -8,74 +8,78 @@
     </div>
   </div>
 </div>
-<table id="rubric-table" class="table table-bordered">
-  <tbody>
-    <tr class="font-weight-bold item-center">
-      <td>
-        <div>Choices <i class="fas fa-arrow-right"></i></div>
-      </td>
-      <td *ngFor="let rubricChoice of model.rubricChoices; let j = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
-        <input type="text" class="form-control font-weight-bold" [disabled]="!isEditable"
-               [ngModel]="rubricChoice" (ngModelChange)="triggerRubricChoiceChange($event, j)">
-      </td>
-    </tr>
-    <tr *ngFor="let rubricDescriptionRow of model.rubricDescriptions; let i = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': i === rowToHighlight}">
-      <td>
-        <div class="input-group">
-          <div class="btn-group-vertical">
-            <button type="button" class="btn btn-light" [disabled]="i === 0 || !isEditable"
-                    ngbTooltip="Move row up" (click)="moveRow(i, i - 1)">
-              <i class="fas fa-arrow-up"></i>
+<div class="table-responsive">
+  <table id="rubric-table" class="table table-bordered">
+    <thead>
+      <tr class="fw-bold item-center">
+        <td>
+          <div>Choices <i class="fas fa-arrow-right"></i></div>
+        </td>
+        <th *ngFor="let rubricChoice of model.rubricChoices; let j = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': j === columnToHighlight}" scope="col">
+          <input type="text" class="form-control fw-bold" [disabled]="!isEditable"
+                 [ngModel]="rubricChoice" (ngModelChange)="triggerRubricChoiceChange($event, j)">
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rubricDescriptionRow of model.rubricDescriptions; let i = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': i === rowToHighlight}">
+        <th scope="row" [attr.aria-label]="model.rubricSubQuestions[i]" class="row-header">
+          <div class="input-group">
+            <div class="btn-group-vertical">
+              <button type="button" class="btn btn-light" [disabled]="i === 0 || !isEditable"
+                      ngbTooltip="Move row up" (click)="moveRow(i, i - 1)" aria-label="Move row up">
+                <i class="fas fa-arrow-up"></i>
+              </button>
+              <button id="btn-delete-subquestion" type="button" class="btn btn-light" (click)="deleteSubQuestion(i)"
+                      (mouseover)="rowToHighlight = i" (mouseleave)="rowToHighlight = -1"
+                      [disabled]="model.rubricSubQuestions.length === 1 || !isEditable" aria-label="Delete row">
+                <i class="fas fa-times"></i>
+              </button>
+              <button type="button" class="btn btn-light" [disabled]="i === this.model.rubricSubQuestions.length - 1 || !isEditable"
+                      ngbTooltip="Move row down" (click)="moveRow(i, i + 1)" aria-label="Move row down">
+                <i class="fas fa-arrow-down"></i>
+              </button>
+            </div>
+            <textarea class="form-control min-vw-50" [ngModel]="model.rubricSubQuestions[i]"
+                      (ngModelChange)="triggerRubricSubQuestionChange($event, i)" rows="3" [disabled]="!isEditable"></textarea>
+          </div>
+        </th>
+        <td *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
+          <textarea class="form-control" [ngModel]="rubricDescriptionCell"
+                    (ngModelChange)="triggerRubricDescriptionChange($event, i, j)" rows="3" [disabled]="!isEditable"></textarea>
+          <input *ngIf="model.hasAssignedWeights" type="number" class="form-control margin-top-10px" step="0.01" aria-label="Choice weight input"
+                 [disabled]="!isEditable"
+                 [ngModel]="model.rubricWeightsForEachCell[i][j]" (ngModelChange)="triggerRubricWeightChange($event, i, j)">
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td *ngFor="let rubricChoice of model.rubricChoices; let j = index;" class="text-center" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
+          <div class="btn-group">
+            <button type="button" class="btn btn-light" [disabled]="j === 0 || !isEditable"
+                    ngbTooltip="Move column left" (click)="moveChoice(j, j - 1)" aria-label="Move column left">
+              <i class="fas fa-arrow-left"></i>
             </button>
-            <button id="btn-delete-subquestion" type="button" class="btn btn-light" (click)="deleteSubQuestion(i)"
-                    (mouseover)="rowToHighlight = i" (mouseleave)="rowToHighlight = -1"
-                    [disabled]="model.rubricSubQuestions.length === 1 || !isEditable">
+            <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
+                    (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
+                    [disabled]="model.rubricChoices.length === 1 || !isEditable" aria-label="Delete column">
               <i class="fas fa-times"></i>
             </button>
-            <button type="button" class="btn btn-light" [disabled]="i === this.model.rubricSubQuestions.length - 1 || !isEditable"
-                    ngbTooltip="Move row down" (click)="moveRow(i, i + 1)">
-              <i class="fas fa-arrow-down"></i>
+            <button type="button" class="btn btn-light" [disabled]="j === this.model.rubricChoices.length - 1 || !isEditable"
+                    ngbTooltip="Move column right" (click)="moveChoice(j, j + 1)" aria-label="Move column right">
+              <i class="fas fa-arrow-right"></i>
             </button>
           </div>
-          <textarea class="form-control" [ngModel]="model.rubricSubQuestions[i]"
-                    (ngModelChange)="triggerRubricSubQuestionChange($event, i)" rows="3" [disabled]="!isEditable"></textarea>
-        </div>
-      </td>
-      <td *ngFor="let rubricDescriptionCell of rubricDescriptionRow; let j = index; trackBy: trackByIndex" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
-        <textarea class="form-control" [ngModel]="rubricDescriptionCell"
-                  (ngModelChange)="triggerRubricDescriptionChange($event, i, j)" rows="3" [disabled]="!isEditable"></textarea>
-        <input *ngIf="model.hasAssignedWeights" type="number" class="form-control margin-top-10px" step="0.01"
-               [disabled]="!isEditable"
-               [ngModel]="model.rubricWeightsForEachCell[i][j]" (ngModelChange)="triggerRubricWeightChange($event, i, j)">
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td *ngFor="let rubricChoice of model.rubricChoices; let j = index;" class="text-center" [ngClass]="{'highlight-deletion': j === columnToHighlight}">
-        <div class="btn-group">
-          <button type="button" class="btn btn-light" [disabled]="j === 0 || !isEditable"
-                  ngbTooltip="Move column left" (click)="moveChoice(j, j - 1)">
-            <i class="fas fa-arrow-left"></i>
-          </button>
-          <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
-                  (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
-                  [disabled]="model.rubricChoices.length === 1 || !isEditable">
-            <i class="fas fa-times"></i>
-          </button>
-          <button type="button" class="btn btn-light" [disabled]="j === this.model.rubricChoices.length - 1 || !isEditable"
-                  ngbTooltip="Move column right" (click)="moveChoice(j, j + 1)">
-            <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <div class="row">
-  <div class="col-6 text-left">
+  <div class="col-6 text-start">
     <button id="btn-add-row" type="button" class="btn btn-primary btn-sm" (click)="addNewSubQuestion()" [disabled]="!isEditable">Add Row <i class="fas fa-arrow-down"></i></button>
   </div>
-  <div class="col-6 text-right">
+  <div class="col-6 text-end">
     <button id="btn-add-col" type="button" class="btn btn-primary btn-sm" (click)="addNewChoice()" [disabled]="!isEditable">Add Column <i class="fas fa-arrow-right"></i></button>
   </div>
 </div>

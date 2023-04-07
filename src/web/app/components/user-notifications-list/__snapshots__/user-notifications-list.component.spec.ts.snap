@@ -5,6 +5,7 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -30,7 +31,7 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
       class="col-12"
     >
       <div
-        class="float-right"
+        class="float-end"
       >
         <strong
           class="d-inline"
@@ -130,6 +131,7 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   hasLoadingFailed={[Function Boolean]}
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -176,6 +178,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -201,7 +204,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
       class="col-12"
     >
       <div
-        class="float-right"
+        class="float-end"
       >
         <strong
           class="d-inline"
@@ -268,18 +271,17 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 1
               </div>
             </div>
             <div
-              class="d-flex flex-row-reverse mr-4 mb-3"
+              class="d-flex flex-row-reverse me-4 mb-3"
               style=""
             >
               <button
-                class="btn btn-success"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-success"
                 type="button"
               >
                  Mark as Read 
@@ -323,18 +325,17 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 2
               </div>
             </div>
             <div
-              class="d-flex flex-row-reverse mr-4 mb-3"
+              class="d-flex flex-row-reverse me-4 mb-3"
               style=""
             >
               <button
-                class="btn btn-danger"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-danger"
                 type="button"
               >
                  Mark as Read 
@@ -353,6 +354,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -378,7 +380,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
       class="col-12"
     >
       <div
-        class="float-right"
+        class="float-end"
       >
         <strong
           class="d-inline"
@@ -446,18 +448,17 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 1
               </div>
             </div>
             <div
-              class="d-flex flex-row-reverse mr-4 mb-3"
+              class="d-flex flex-row-reverse me-4 mb-3"
               style=""
             >
               <button
-                class="btn btn-success"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-success"
                 type="button"
               >
                  Mark as Read 
@@ -501,18 +502,17 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 2
               </div>
             </div>
             <div
-              class="d-flex flex-row-reverse mr-4 mb-3"
+              class="d-flex flex-row-reverse me-4 mb-3"
               style=""
             >
               <button
-                class="btn btn-danger"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-danger"
                 type="button"
               >
                  Mark as Read 
@@ -531,6 +531,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
@@ -556,7 +557,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
       class="col-12"
     >
       <div
-        class="float-right"
+        class="float-end"
       >
         <strong
           class="d-inline"
@@ -624,18 +625,17 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 2
               </div>
             </div>
             <div
-              class="d-flex flex-row-reverse mr-4 mb-3"
+              class="d-flex flex-row-reverse me-4 mb-3"
               style=""
             >
               <button
-                class="btn btn-danger"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-danger"
                 type="button"
               >
                  Mark as Read 
@@ -679,18 +679,17 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
               class="card-body pb-0"
             >
               <div
-                id="notification-message"
+                class="notification-message"
               >
                 valid message 1
               </div>
             </div>
             <div
-              class="d-flex flex-row-reverse mr-4 mb-3"
+              class="d-flex flex-row-reverse me-4 mb-3"
               style=""
             >
               <button
-                class="btn btn-success"
-                id="btn-mark-as-read"
+                class="btn-mark-as-read btn btn-success"
                 type="button"
               >
                  Mark as Read 
@@ -709,6 +708,7 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications={[Function Boolean]}
   notificationService={[Function NotificationService]}
@@ -756,6 +756,7 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
+  __ngContext__={[Function Number]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}

@@ -38,7 +38,6 @@ import teammates.common.util.Const;
 public class MockHttpServletRequest implements HttpServletRequest {
 
     private List<Cookie> cookies;
-    private Map<String, Part> parts;
     private Map<String, List<String>> headers;
     private Map<String, List<String>> params;
     private String method;
@@ -48,7 +47,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     public MockHttpServletRequest(String method, String requestUrl, Map<String, List<String>> headers) {
         this.cookies = new ArrayList<>();
-        this.parts = new HashMap<>();
         this.headers = headers;
         this.params = new HashMap<>();
         this.method = method;
@@ -310,19 +308,19 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public Collection<Part> getParts() {
-        return this.parts.values();
+        return new ArrayList<>();
     }
 
     @Override
     public Part getPart(String s) {
-        return this.parts.get(s);
+        return null;
     }
 
     /**
      * Adds Part to the request.
      */
     public void addPart(String key, Part part) {
-        this.parts.putIfAbsent(key, part);
+        // not used
     }
 
     @Override

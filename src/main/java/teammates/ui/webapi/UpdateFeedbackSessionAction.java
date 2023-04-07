@@ -18,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionData;
@@ -81,10 +82,30 @@ class UpdateFeedbackSessionAction extends Action {
         String timeZone = feedbackSession.getTimeZone();
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 updateRequest.getSubmissionStartTime(), timeZone, true);
+        if (!updateRequest.getSubmissionStartTime().equals(feedbackSession.getStartTime())) {
+            String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
+            if (!startTimeError.isEmpty()) {
+                throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
+            }
+        }
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 updateRequest.getSubmissionEndTime(), timeZone, true);
+        if (!updateRequest.getSubmissionEndTime().equals(feedbackSession.getEndTime())) {
+            String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
+            if (!endTimeError.isEmpty()) {
+                throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
+            }
+        }
         Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 updateRequest.getSessionVisibleFromTime(), timeZone, true);
+        if (!updateRequest.getSessionVisibleFromTime().equals(feedbackSession.getSessionVisibleFromTime())) {
+            String visibilityStartAndSessionStartTimeError = FieldValidator
+                    .getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
+            if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
+                throw new InvalidHttpRequestBodyException("Invalid session visible time: "
+                        + visibilityStartAndSessionStartTimeError);
+            }
+        }
         Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 updateRequest.getResultsVisibleFromTime(), timeZone, true);
         studentDeadlines = studentDeadlines.entrySet()

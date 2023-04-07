@@ -5,3 +5,17 @@
 .no-border {
   border: 0;
 }
+
+@media (max-width: 768px) {
+  .col-4 {
+    width: auto;
+  }
+
+  .col-2 {
+    width: auto;
+  }
+
+  .col-1 {
+    width: auto;
+  }
+}

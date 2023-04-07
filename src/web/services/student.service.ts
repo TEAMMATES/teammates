@@ -35,7 +35,7 @@ export class StudentService {
     };
 
     if (queryParams.teamName) {
-      paramsMap.teamname = queryParams.teamName;
+      paramsMap['teamname'] = queryParams.teamName;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
@@ -56,10 +56,10 @@ export class StudentService {
       courseid: courseId,
     };
     if (studentEmail) {
-      paramsMap.studentemail = studentEmail;
+      paramsMap['studentemail'] = studentEmail;
     }
     if (regKey) {
-      paramsMap.key = regKey;
+      paramsMap['key'] = regKey;
     }
     return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
   }

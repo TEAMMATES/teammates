@@ -83,6 +83,8 @@ public class SessionResultsData extends ApiOutput {
                     false, hasCommentNotVisibleForPreview);
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
+            qnOutput.getFeedbackQuestion().hideInformationForStudent();
+
             if (questionDetails.isIndividualResponsesShownToStudents()) {
                 for (FeedbackResponseAttributes response : responses) {
                     boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());

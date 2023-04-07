@@ -1,8 +1,6 @@
 <div class="modal-header">
   <h5 class="modal-title">Comments</h5>
-  <button type="button" class="close" (click)="activeModal!.dismiss()">
-    <i class="fas fa-times"></i>
-  </button>
+  <button type="button" class="btn-close" (click)="activeModal!.dismiss()"></button>
 </div>
 <div class="modal-body" *ngIf="model">
   <tm-comment-table [model]="model"

@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
 /**
  * L&P test data generator.
@@ -54,10 +53,6 @@ public abstract class LNPTestData {
         return new HashMap<>();
     }
 
-    protected Map<String, StudentProfileAttributes> generateProfiles() {
-        return new HashMap<>();
-    }
-
     // CHECKSTYLE.ON:MissingJavadocMethod
 
     /**
@@ -74,7 +69,6 @@ public abstract class LNPTestData {
         dataBundle.feedbackQuestions = generateFeedbackQuestions();
         dataBundle.feedbackResponses = generateFeedbackResponses();
         dataBundle.feedbackResponseComments = generateFeedbackResponseComments();
-        dataBundle.profiles = generateProfiles();
 
         return dataBundle;
     }

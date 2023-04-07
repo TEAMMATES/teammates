@@ -83,12 +83,12 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     public void sortByName() {
-        click(browser.driver.findElement(By.id("sort-by-name")));
+        click(browser.driver.findElement(By.className("sort-by-name")));
         waitUntilAnimationFinish();
     }
 
     public void sortByStatus() {
-        click(browser.driver.findElement(By.id("sort-by-status")));
+        click(browser.driver.findElement(By.className("sort-by-status")));
         waitUntilAnimationFinish();
     }
 
@@ -111,27 +111,26 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     private String[][] getExpectedStudentValues(StudentAttributes[] students) {
-        String[][] expected = new String[students.length][6];
+        String[][] expected = new String[students.length][5];
         for (int i = 0; i < students.length; i++) {
             StudentAttributes student = students[i];
-            expected[i][0] = "View Photo";
-            expected[i][1] = student.getSection();
-            expected[i][2] = student.getTeam();
-            expected[i][3] = student.getName();
-            expected[i][4] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
-            expected[i][5] = student.getEmail();
+            expected[i][0] = student.getSection();
+            expected[i][1] = student.getTeam();
+            expected[i][2] = student.getName();
+            expected[i][3] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
+            expected[i][4] = student.getEmail();
         }
         return expected;
     }
 
     private WebElement getSendInviteButton(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        return studentRow.findElement(By.id("btn-send-invite"));
+        return studentRow.findElement(By.cssSelector("[id^='btn-send-invite-']"));
     }
 
     private WebElement getDeleteButton(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        return studentRow.findElement(By.id("btn-delete"));
+        return studentRow.findElement(By.cssSelector("[id^='btn-delete-']"));
     }
 
     private List<WebElement> getAllStudentRows() {
@@ -150,7 +149,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         List<WebElement> studentRows = getAllStudentRows();
         for (WebElement studentRow : studentRows) {
             List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));
-            if (studentCells.get(5).getText().equals(student.getEmail())) {
+            if (studentCells.get(4).getText().equals(student.getEmail())) {
                 return studentRow;
             }
         }
@@ -159,7 +158,7 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     public InstructorCourseStudentDetailsViewPage clickViewStudent(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        WebElement viewButton = studentRow.findElement(By.id("btn-view-details"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -168,7 +167,7 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        WebElement viewButton = studentRow.findElement(By.id("btn-edit-details"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -177,7 +176,7 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     public InstructorStudentRecordsPage clickViewAllRecords(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        WebElement viewButton = studentRow.findElement(By.id("btn-view-records"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();

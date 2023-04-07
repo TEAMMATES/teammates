@@ -12,7 +12,7 @@ import { MasqueradeModeService } from './masquerade-mode.service';
  */
 class CustomEncoder extends HttpUrlEncodingCodec {
 
-  encodeValue(value: string): string {
+  override encodeValue(value: string): string {
     return this.standardEncoding(value);
   }
 

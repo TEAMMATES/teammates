@@ -30,7 +30,7 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
     this.questionText = apiOutput.questionText;
   }
 
-  getQuestionCsvHeaders(): string[] {
+  override getQuestionCsvHeaders(): string[] {
     const optionsHeader: string[] = this.options.map((_: string, index: number) => `Rank ${index + 1}`);
     return ['Feedback', ...optionsHeader];
   }

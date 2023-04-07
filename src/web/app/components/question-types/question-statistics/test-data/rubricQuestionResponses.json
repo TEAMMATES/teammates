@@ -58,7 +58,7 @@
     }
   ],
   "expectedStatsMap": {
-    "Alice": {
+    "alice@gmail.com": {
       "answers": [
         [1, 1], [1, 1], [2, 0]
       ],
@@ -66,17 +66,17 @@
       "percentages": [
         [50, 50], [50, 50], [100, 0]
       ],
-      "percentagesAverage": [33.33, 16.67],
+      "percentagesAverage": [66.67, 33.33],
       "recipientEmail": "alice@gmail.com",
       "recipientName": "Alice",
       "recipientTeam": "Team 1",
       "subQuestionTotalChosenWeight": [1, 1, 0.8],
       "subQuestionWeightAverage": [0.5, 0.5, 0.4],
       "weightsAverage": [0.23, 0.77],
-      "overallWeightedSum": 0.56,
-      "overallWeightAverage": 0.09
+      "overallWeightedSum": 2.8,
+      "overallWeightAverage": 0.47
     },
-    "Bob": {
+    "bob@gmail.com": {
       "answers": [
         [2, 0], [1, 1], [2, 0]
       ],
@@ -84,15 +84,15 @@
       "percentages": [
         [100, 0], [50, 50], [100, 0]
       ],
-      "percentagesAverage": [41.67, 8.33],
+      "percentagesAverage": [83.33, 16.67],
       "recipientEmail": "bob@gmail.com",
       "recipientName": "Bob",
       "recipientTeam": "Team 2",
       "subQuestionTotalChosenWeight": [0.4, 1, 0.8],
       "subQuestionWeightAverage": [0.2, 0.5, 0.4],
       "weightsAverage": [0.23, 0.77],
-      "overallWeightedSum": 0.54,
-      "overallWeightAverage": 0.09
+      "overallWeightedSum": 2.2,
+      "overallWeightAverage": 0.37
     }
   }
 }

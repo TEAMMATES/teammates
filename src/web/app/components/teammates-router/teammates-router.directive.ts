@@ -23,7 +23,7 @@ export class TeammatesRouterDirective extends RouterLinkWithHref {
     this.queryParamsInternal = params;
   }
 
-  get queryParams(): { [k: string]: any } {
+  override get queryParams(): { [k: string]: any } {
     const userParam: string = this.masqueradeModeService.getMasqueradeUser();
     if (userParam !== '') {
       return { ...this.queryParamsInternal, user: userParam };

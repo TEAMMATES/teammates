@@ -2,11 +2,11 @@
   <div class="row">
     <div class="col-sm-4 text-color-gray mt-2">
       <strong>
-        Response Summary <span *ngIf="isStudent">(of received responses)</span>
+        Response Summary <span *ngIf="isStudent">(of received responses) </span>
       </strong>
       <span container="body" [ngbTooltip]="'Format: Response percentage (Response count)' + (hasWeights ? '[Weight of option]' : '') + ', e.g. 50% (2) ' + (hasWeights ? '[1.0]' : '')" class="fa fa-info-circle"></span>
     </div>
-    <div class="col-sm-8" style="text-align: right;">
+    <div class="col-sm-8 form-check" style="text-align: right;">
       <label class="form-check-label">
         <input id="exclude-self-checkbox" type="checkbox" [(ngModel)]="excludeSelf" (ngModelChange)="getTableData()" class="form-check-input"> <span container="body" class="ngb-tooltip-class" ngbTooltip="Excludes giver's responses to himself/herself from statistics">Exclude self evaluation</span>
       </label>
@@ -19,7 +19,7 @@
       ></tm-sortable-table>
     </div>
   </div>
-  <ng-container *ngIf="hasWeights">
+  <ng-container *ngIf="isWeightStatsVisible">
     <div class="row">
       <div class="col-sm-4 text-color-gray">
         <strong>

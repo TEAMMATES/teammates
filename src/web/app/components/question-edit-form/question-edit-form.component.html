@@ -1,59 +1,63 @@
 <div id="question-form-{{ model.questionNumber }}" class="card">
-  <div class="card-header bg-primary text-white cursor-pointer" (click)="triggerModelChange('isCollapsed', !model.isCollapsed)">
+  <button class="card-header bg-primary text-white cursor-pointer border-0" (click)="triggerModelChange('isCollapsed', !model.isCollapsed)">
     <div class="collapse-caret">
       <tm-panel-chevron [isExpanded]="!model.isCollapsed"></tm-panel-chevron>
     </div>
-    <div id="question-header">
-      <strong>Question <span id="question-number" *ngIf="!model.isEditable">{{ model.questionNumber }}</span></strong>
-      <select id="question-number-dropdown" class="form-control question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable" (click)="$event.stopPropagation()">
-        <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
-      </select>
-      {{ model.questionType | questionTypeName }}
-      <ng-container *ngIf="model.isCollapsed">
-        <br>
-        <div class="collapse-qn-description">{{ model.questionBrief }}</div>
-      </ng-container>
-    </div>
-    <div class="card-header-btn-toolbar">
-      <div *ngIf="formMode === QuestionEditFormMode.EDIT">
-        <button id="btn-edit-question" type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable"
-                (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();"
-                [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-          <i class="fas fa-pencil-alt"></i> Edit
-        </button>
-        <button id="btn-save-question" type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                (click)="saveQuestionHandler(); $event.stopPropagation();"
-                [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-          <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save
-        </button>
-        <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                (click)="discardChangesHandler(false); $event.stopPropagation();"
-                [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-          <i class="fas fa-ban"></i> Cancel
-        </button>
-        <button id="btn-delete-question" type="button" class="btn btn-primary btn-sm"
-                (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();"
-                [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-          <tm-ajax-loading *ngIf="model.isDeleting"></tm-ajax-loading><i class="fas fa-trash"></i> Delete
-        </button>
-        <button id="btn-duplicate-question" type="button" class="btn btn-primary btn-sm" container="body"
-                (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();"
-                [disabled]="model.isSaving || model.isDeleting || model.isDuplicating"
-                ngbTooltip="Make a copy of the existing question and add to the current feedback session."
-                container="body">
-          <tm-ajax-loading *ngIf="model.isDuplicating"></tm-ajax-loading><i class="far fa-copy"></i> Duplicate
-        </button>
+    <div class="d-flex flex-fill flex-sm-row flex-column align-items-sm-center align-items-start">
+      <div id="question-header" class="d-flex flex-column text-start">
+        <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start">
+          <h2 class="question-number fw-bold me-1">Question <span id="question-number" *ngIf="!model.isEditable">{{ model.questionNumber }}</span>
+            <select id="question-number-dropdown" class="form-control form-select question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable" (click)="$event.stopPropagation()">
+              <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
+            </select>
+          </h2>
+        <span id="question-type">{{ model.questionType | questionTypeName }}</span>
+        </div>
+        <ng-container *ngIf="model.isCollapsed">
+          <div class="collapse-qn-description">{{ model.questionBrief }}</div>
+        </ng-container>
       </div>
-      <div *ngIf="formMode === QuestionEditFormMode.ADD">
-        <button type="button" class="btn btn-primary btn-sm"
-                (click)="discardChangesHandler(true); $event.stopPropagation();"
-                [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-          <i class="fas fa-ban"></i>
-          Cancel
-        </button>
+      <div class="card-header-btn-toolbar ms-0 ms-sm-auto text-start">
+        <div *ngIf="formMode === QuestionEditFormMode.EDIT">
+          <button id="btn-edit-question" type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable"
+                  (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();"
+                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+            <i class="fas fa-pencil-alt"></i> Edit
+          </button>
+          <button id="btn-save-question" type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
+                  (click)="saveQuestionHandler(); $event.stopPropagation();"
+                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
+                  (click)="discardChangesHandler(false); $event.stopPropagation();"
+                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+            <i class="fas fa-ban"></i> Cancel
+          </button>
+          <button id="btn-delete-question" type="button" class="btn btn-primary btn-sm"
+                  (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();"
+                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+            <tm-ajax-loading *ngIf="model.isDeleting"></tm-ajax-loading><i class="fas fa-trash"></i> Delete
+          </button>
+          <button id="btn-duplicate-question" type="button" class="btn btn-primary btn-sm" container="body"
+                  (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();"
+                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating"
+                  ngbTooltip="Make a copy of the existing question and add to the current feedback session."
+                  container="body">
+            <tm-ajax-loading *ngIf="model.isDuplicating"></tm-ajax-loading><i class="far fa-copy"></i> Duplicate
+          </button>
+        </div>
+        <div *ngIf="formMode === QuestionEditFormMode.ADD">
+          <button type="button" class="btn btn-primary btn-sm"
+                  (click)="discardChangesHandler(true); $event.stopPropagation();"
+                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+            <i class="fas fa-ban"></i>
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </button>
   <div *ngIf="!model.isCollapsed" @collapseAnim>
     <div class="card-body">
       <div class="background-color-light-blue">
@@ -89,7 +93,7 @@
                            (triggerModelChangeBatch)="triggerModelChangeBatch($event)"
                            [visibilityStateMachine]="visibilityStateMachine"></tm-visibility-panel>
       <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
-        <div class="col-12 text-right">
+        <div class="col-12 text-end">
           <button type="button" class="btn btn-light btn-margin-right" *ngIf="model.isEditable"
                   (click)="discardChangesHandler(false)"
                   [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">

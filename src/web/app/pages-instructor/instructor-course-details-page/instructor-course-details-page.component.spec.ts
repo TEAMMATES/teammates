@@ -205,6 +205,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
           expect(args).toEqual('All the students have been removed from the course');
         });
 
+    jest.spyOn(simpleModalService, 'openLoadingModal')
+        .mockReturnValue(createMockNgbModalRef());
+
     component.deleteAllStudentsFromCourse(course.courseId);
 
     // given a limit of 100 students per call and 350 students,
@@ -225,11 +228,11 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    jest.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(throwError({
+    jest.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(throwError(() => ({
       error: {
         message: 'This is the error message.',
       },
-    }));
+    })));
 
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
@@ -237,6 +240,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
     component.deleteAllStudentsFromCourse(course.courseId);
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 });

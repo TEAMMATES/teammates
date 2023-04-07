@@ -21,7 +21,7 @@ export class AccountService {
   createAccount(key: string, timezone: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = { key };
     if (timezone) {
-      paramMap.timezone = timezone;
+      paramMap['timezone'] = timezone;
     }
     return this.httpRequestService.post(ResourceEndpoints.ACCOUNT, paramMap);
   }

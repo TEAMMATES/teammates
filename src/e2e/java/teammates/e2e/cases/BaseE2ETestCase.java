@@ -21,7 +21,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -44,9 +43,16 @@ import teammates.test.ThreadHelper;
  */
 public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
-    static final BackDoor BACKDOOR = BackDoor.getInstance();
+    /**
+     * Backdoor used to call APIs.
+     */
+    protected static final BackDoor BACKDOOR = BackDoor.getInstance();
 
-    DataBundle testData;
+    /**
+     * Data to be used in the test.
+     */
+    protected DataBundle testData;
+
     private Browser browser;
 
     @BeforeClass
@@ -234,12 +240,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getAccount(account.getGoogleId());
     }
 
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
-        return null; // BACKDOOR.getStudentProfile(studentProfileAttributes.googleId);
-    }
-
     CourseAttributes getCourse(String courseId) {
         return BACKDOOR.getCourse(courseId);
     }
@@ -302,7 +302,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
 
-    String getKeyForInstructor(String courseId, String instructorEmail) {
+    /**
+     * Gets registration key for a given instructor.
+     */
+    protected String getKeyForInstructor(String courseId, String instructorEmail) {
         return getInstructor(courseId, instructorEmail).getKey();
     }
 
@@ -311,7 +314,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return BACKDOOR.getStudent(student.getCourse(), student.getEmail());
     }
 
-    String getKeyForStudent(StudentAttributes student) {
+    /**
+     * Gets registration key for a given student.
+     */
+    protected String getKeyForStudent(StudentAttributes student) {
         return getStudent(student).getKey();
     }
 

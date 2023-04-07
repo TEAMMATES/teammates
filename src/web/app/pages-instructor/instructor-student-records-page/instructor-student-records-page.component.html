@@ -1,8 +1,4 @@
 <h1 id="records-header">{{studentName}}'s Records<small class="text-muted text-break"> - {{courseId}}</small></h1>
-<tm-loading-retry [shouldShowRetry]="hasStudentLoadingFailed || hasStudentProfileLoadingFailed" [message]="'Failed to load student records'" (retryEvent)="loadStudentRecords()">
-  <tm-student-profile *tmIsLoading="isStudentProfileLoading" [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
-  <tm-more-info *tmIsLoading="isStudentLoading" [studentName]="studentName" [moreInfoText]="studentProfile.moreInfo"></tm-more-info>
-</tm-loading-retry>
 <h2>Records in feedback sessions</h2>
 <tm-loading-retry [shouldShowRetry]="hasStudentResultsLoadingFailed" [message]="'Failed to load student results'" (retryEvent)="loadStudentResults()">
   <div *tmIsLoading="isStudentResultsLoading">

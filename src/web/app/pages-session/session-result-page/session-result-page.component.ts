@@ -137,73 +137,79 @@ export class SessionResultPageComponent implements OnInit {
       }
 
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
-      this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
-        const isPreview: boolean = !!(auth.user && this.previewAsPerson);
-        if (auth.user) {
-          this.loggedInUser = auth.user.id;
-        }
-        // prevent having both key and previewas parameters in URL
-        if (this.regKey && isPreview) {
-          this.navigationService.navigateWithErrorMessage('/web/front',
-            'You are not authorized to view this page.');
-          return;
-        }
-        if (this.regKey) {
-          this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
-            if (resp.isAllowedAccess) {
-              if (resp.isUsed) {
-                // The logged in user matches the registration key; redirect to the logged in URL
-
-                this.navigationService.navigateByURLWithParamEncoding(
-                  `/web/${this.entityType}/sessions/result`,
-                  { courseid: this.courseId, fsname: this.feedbackSessionName });
-              } else {
-                // Valid, unused registration key; load information based on the key
-                this.loadCourseInfo();
-                this.loadPersonName();
-                this.loadFeedbackSession();
-              }
-            } else if (resp.isValid) {
-              // At this point, registration key must already be used, otherwise access would be granted
-              if (this.loggedInUser) {
-                // Registration key belongs to another user who is not the logged in user
-                this.navigationService.navigateWithErrorMessage('/web/front',
-                  `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
-                    is not linked to this TEAMMATES account. If you used a different Google account to
-                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                    cannot remember which Google account you used before, please email us at
-                    ${environment.supportEmail} for help.`);
-              } else {
-                // There is no logged in user for a valid, used registration key, redirect to login page
-                // eslint-disable-next-line no-lonely-if
-                if (this.entityType === 'student') {
-                  window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-                } else if (this.entityType === 'instructor') {
-                  window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
-                }
-              }
-            } else {
-              // The registration key is invalid
-              this.navigationService.navigateWithErrorMessage('/web/front',
-                'You are not authorized to view this page.');
-            }
-          }, () => {
+      this.authService.getAuthUser(undefined, nextUrl).subscribe({
+        next: (auth: AuthInfo) => {
+          const isPreview: boolean = !!(auth.user && this.previewAsPerson);
+          if (auth.user) {
+            this.loggedInUser = auth.user.id;
+          }
+          // prevent having both key and previewas parameters in URL
+          if (this.regKey && isPreview) {
             this.navigationService.navigateWithErrorMessage('/web/front',
               'You are not authorized to view this page.');
-          });
-        } else if (this.loggedInUser) {
-          // Load information based on logged in user
-          // This will also cover preview cases
-          this.loadCourseInfo();
-          this.loadPersonName();
-          this.loadFeedbackSession();
-        } else {
+            return;
+          }
+          if (this.regKey) {
+            this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe({
+              next: (resp: RegkeyValidity) => {
+                if (resp.isAllowedAccess) {
+                  if (resp.isUsed) {
+                    // The logged in user matches the registration key; redirect to the logged in URL
+
+                    this.navigationService.navigateByURLWithParamEncoding(
+                        `/web/${this.entityType}/sessions/result`,
+                        { courseid: this.courseId, fsname: this.feedbackSessionName });
+                  } else {
+                    // Valid, unused registration key; load information based on the key
+                    this.loadCourseInfo();
+                    this.loadPersonName();
+                    this.loadFeedbackSession();
+                  }
+                } else if (resp.isValid) {
+                  // At this point, registration key must already be used, otherwise access would be granted
+                  if (this.loggedInUser) {
+                    // Registration key belongs to another user who is not the logged in user
+                    this.navigationService.navigateWithErrorMessage('/web/front',
+                        `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
+                        is not linked to this TEAMMATES account. If you used a different Google account to
+                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                        cannot remember which Google account you used before, please email us at
+                        ${environment.supportEmail} for help.`);
+                  } else {
+                    // There is no logged in user for a valid, used registration key, redirect to login page
+                    // eslint-disable-next-line no-lonely-if
+                    if (this.entityType === 'student') {
+                      window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+                    } else if (this.entityType === 'instructor') {
+                      window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
+                    }
+                  }
+                } else {
+                  // The registration key is invalid
+                  this.navigationService.navigateWithErrorMessage('/web/front',
+                      'You are not authorized to view this page.');
+                }
+              },
+              error: () => {
+                this.navigationService.navigateWithErrorMessage('/web/front',
+                    'You are not authorized to view this page.');
+              },
+            });
+          } else if (this.loggedInUser) {
+            // Load information based on logged in user
+            // This will also cover preview cases
+            this.loadCourseInfo();
+            this.loadPersonName();
+            this.loadFeedbackSession();
+          } else {
+            this.navigationService.navigateWithErrorMessage('/web/front',
+                'You are not authorized to view this page.');
+          }
+        },
+        error: () => {
           this.navigationService.navigateWithErrorMessage('/web/front',
-            'You are not authorized to view this page.');
-        }
-      }, () => {
-        this.navigationService.navigateWithErrorMessage('/web/front',
-          'You are not authorized to view this page.');
+              'You are not authorized to view this page.');
+        },
       });
     });
   }
@@ -226,12 +232,15 @@ export class SessionResultPageComponent implements OnInit {
         this.isCourseLoading = false;
         return;
     }
-    request.subscribe((resp: Course) => {
-      this.courseName = resp.courseName;
-      this.courseInstitute = resp.institute;
-      this.isCourseLoading = false;
-    }, () => {
-      this.isCourseLoading = false;
+    request.subscribe({
+      next: (resp: Course) => {
+        this.courseName = resp.courseName;
+        this.courseInstitute = resp.institute;
+        this.isCourseLoading = false;
+      },
+      error: () => {
+        this.isCourseLoading = false;
+      },
     });
   }
 
@@ -251,11 +260,12 @@ export class SessionResultPageComponent implements OnInit {
             feedbackSessionName: this.feedbackSessionName,
             studentEmail: this.personEmail,
             logType: FeedbackSessionLogType.VIEW_RESULT,
-          }).subscribe(
-            () => {
+          }).subscribe({
+            next: () => {
               // No action needed if log is successfully created.
             },
-            () => this.statusMessageService.showWarningToast('Failed to log feedback session view'));
+            error: () => this.statusMessageService.showWarningToast('Failed to log feedback session view'),
+          });
         });
         break;
       case Intent.INSTRUCTOR_RESULT:
@@ -284,14 +294,15 @@ export class SessionResultPageComponent implements OnInit {
       key: this.regKey,
       previewAs: this.previewAsPerson,
     })
-      .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
-      .subscribe((feedbackSession: FeedbackSession) => {
+    .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
+    .subscribe({
+      next: (feedbackSession: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
         this.session = feedbackSession;
         this.formattedSessionOpeningTime = this.timezoneService
-          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+            .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
         this.formattedSessionClosingTime = this.timezoneService
-          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
+            .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
         this.feedbackQuestionsService.getFeedbackQuestions({
           courseId: this.courseId,
           feedbackSessionName: this.feedbackSessionName,
@@ -301,32 +312,37 @@ export class SessionResultPageComponent implements OnInit {
         }).pipe(finalize(() => {
           this.isFeedbackSessionResultsLoading = false;
         }))
-          .subscribe((feedbackQuestions: FeedbackQuestions) => {
-            feedbackQuestions.questions.sort(
-              (a: FeedbackQuestion, b: FeedbackQuestion) =>
-                a.questionNumber - b.questionNumber);
-            for (const question of feedbackQuestions.questions) {
-              this.questions.push({
-                feedbackQuestion: question,
-                questionStatistics: '',
-                allResponses: [],
-                responsesToSelf: [],
-                responsesFromSelf: [],
-                otherResponses: [],
-                isLoading: false,
-                isLoaded: false,
-                hasResponse: true,
-                hasResponseButNotVisibleForPreview: false,
-                hasCommentNotVisibleForPreview: false,
-              });
-            }
-          }, (resp: ErrorMessageOutput) => {
-            this.handleError(resp);
-          });
-      }, (resp: ErrorMessageOutput) => {
+            .subscribe({
+              next: (feedbackQuestions: FeedbackQuestions) => {
+                feedbackQuestions.questions.sort(
+                    (a: FeedbackQuestion, b: FeedbackQuestion) =>
+                        a.questionNumber - b.questionNumber);
+                for (const question of feedbackQuestions.questions) {
+                  this.questions.push({
+                    feedbackQuestion: question,
+                    questionStatistics: '',
+                    allResponses: [],
+                    responsesToSelf: [],
+                    responsesFromSelf: [],
+                    otherResponses: [],
+                    isLoading: false,
+                    isLoaded: false,
+                    hasResponse: true,
+                    hasResponseButNotVisibleForPreview: false,
+                    hasCommentNotVisibleForPreview: false,
+                  });
+                }
+              },
+              error: (resp: ErrorMessageOutput) => {
+                this.handleError(resp);
+              },
+            });
+      },
+      error: (resp: ErrorMessageOutput) => {
         this.isFeedbackSessionResultsLoading = false;
         this.handleError(resp);
-      });
+      },
+    });
   }
 
   /**

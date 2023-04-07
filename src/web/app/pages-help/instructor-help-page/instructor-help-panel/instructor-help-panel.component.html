@@ -2,7 +2,7 @@
   <div class="card-header bg-light cursor-pointer" (click)="isPanelExpanded = !isPanelExpanded">
     {{ headerText }}
     <div class="card-header-btn-toolbar d-flex">
-      <div class="mr-2" (click)="changeBrowserUrl($event)">
+      <div class="me-2" (click)="changeBrowserUrl($event)">
         <div class="fas fa-anchor"></div>
       </div>
       <tm-panel-chevron [isExpanded]="isPanelExpanded"></tm-panel-chevron>

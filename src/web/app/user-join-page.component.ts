@@ -69,24 +69,27 @@ export class UserJoinPageComponent implements OnInit {
 
         this.courseService
           .getJoinCourseStatus(this.key, this.entityType, this.isCreatingAccount)
-          .subscribe((resp: JoinStatus) => {
-            this.hasJoined = resp.hasJoined;
-            if (this.hasJoined) {
-              // The regkey has been used; simply redirect the user to their home page,
-              // regardless of whether the regkey matches or not.
-              this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
-            } else {
-              this.isLoading = false;
-            }
-          }, (resp: ErrorMessageOutput) => {
-            if (resp.status === 404) {
-              this.validUrl = false;
-              this.isLoading = false;
-              return;
-            }
-            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-            modalRef.componentInstance.requestId = resp.error.requestId;
-            modalRef.componentInstance.errorMessage = resp.error.message;
+          .subscribe({
+            next: (resp: JoinStatus) => {
+              this.hasJoined = resp.hasJoined;
+              if (this.hasJoined) {
+                // The regkey has been used; simply redirect the user to their home page,
+                // regardless of whether the regkey matches or not.
+                this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
+              } else {
+                this.isLoading = false;
+              }
+            },
+            error: (resp: ErrorMessageOutput) => {
+              if (resp.status === 404) {
+                this.validUrl = false;
+                this.isLoading = false;
+                return;
+              }
+              const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+              modalRef.componentInstance.requestId = resp.error.requestId;
+              modalRef.componentInstance.errorMessage = resp.error.message;
+            },
           });
       });
     });
@@ -96,19 +99,22 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-    this.courseService.joinCourse(this.key, this.entityType).subscribe(() => {
-      this.navigationService.navigateByURL(`/web/${this.entityType}`);
-    }, (resp: ErrorMessageOutput) => {
-      const errorMessage = resp.error.message;
+    this.courseService.joinCourse(this.key, this.entityType).subscribe({
+      next: () => {
+        this.navigationService.navigateByURL(`/web/${this.entityType}`);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        const errorMessage = resp.error.message;
 
-      if (resp.status >= 500) {
-        const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-        modalRef.componentInstance.requestId = resp.error.requestId;
-        modalRef.componentInstance.errorMessage = errorMessage;
-      } else {
-        this.simpleModalService.openInformationModal('ERROR',
-            SimpleModalType.DANGER, errorMessage);
-      }
+        if (resp.status >= 500) {
+          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.errorMessage = errorMessage;
+        } else {
+          this.simpleModalService.openInformationModal('ERROR',
+              SimpleModalType.DANGER, errorMessage);
+        }
+      },
     });
   }
 
@@ -123,11 +129,11 @@ export class UserJoinPageComponent implements OnInit {
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.navigationService.navigateByURL('/web/instructor');
         },
-        (resp: ErrorMessageOutput) => {
+        error: (resp: ErrorMessageOutput) => {
           if (resp.status === 404) {
             this.validUrl = false;
           } else {
@@ -136,7 +142,7 @@ export class UserJoinPageComponent implements OnInit {
             modalRef.componentInstance.errorMessage = resp.error.message;
           }
         },
-      );
+      });
   }
 
 }

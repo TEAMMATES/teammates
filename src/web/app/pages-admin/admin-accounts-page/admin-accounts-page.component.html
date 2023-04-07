@@ -10,7 +10,7 @@
       <label class="col-sm-2 control-label">Email:</label>
       <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
 
-      <div class="mx-auto" style="margin-top: 20px;">
+      <div class="text-center" style="margin-top: 20px;">
         <button id="btn-delete-account" class="btn btn-sm btn-danger" (click)="deleteAccount()">
           <i class="fas fa-trash-alt"></i> Delete Account
         </button>
@@ -19,9 +19,9 @@
   </div>
 </div>
 
-<h3 style="margin-top: 20px; margin-bottom: 30px;">
+<h2 class="my-3">
   Instructor For {{ instructorCourses.length }} Courses
-</h3>
+</h2>
 
 <div *tmIsLoading="isLoadingInstructorCourses">
   <div class="card bg-light" *ngIf="instructorCourses.length">
@@ -48,9 +48,9 @@
   </div>
 </div>
 
-<h3 style="margin-top: 20px; margin-bottom: 30px;">
+<h2 class="my-3">
   Student For {{ studentCourses.length }} Courses
-</h3>
+</h2>
 <div *tmIsLoading="isLoadingStudentCourses">
   <div class="card bg-light" *ngIf="studentCourses.length">
     <table id="student-table" class="table table-striped">

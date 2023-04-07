@@ -42,7 +42,8 @@ export class IndividualExtensionDateModalComponent {
   @Input()
   feedbackSessionTimeZone: string = '';
 
-  @Output() onConfirmCallBack: EventEmitter<number> = new EventEmitter();
+  @Output()
+  confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -74,7 +75,7 @@ export class IndividualExtensionDateModalComponent {
 
   onConfirm(): void {
     if (this.getExtensionTimestamp() >= Date.now()) {
-      this.onConfirmCallBack.emit(this.getExtensionTimestamp());
+      this.confirmCallbackEvent.emit(this.getExtensionTimestamp());
       return;
     }
 
@@ -89,7 +90,7 @@ export class IndividualExtensionDateModalComponent {
           + ` The current time now is ${currentTimeString} and you are extending to`
           + ` ${extensionTimeString}. Do you wish to proceed?`,
       )
-      .result.then(() => this.onConfirmCallBack.emit(this.getExtensionTimestamp()), () => {});
+      .result.then(() => this.confirmCallbackEvent.emit(this.getExtensionTimestamp()), () => {});
   }
 
   onChangeDateTime(data: DateFormat | TimeFormat, field: DateTime): void {

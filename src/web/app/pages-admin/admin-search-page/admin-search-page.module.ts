@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { Pipes } from '../../pipes/pipes.module';
 import { AdminSearchPageComponent } from './admin-search-page.component';
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
     FormsModule,
     NgbTooltipModule,
     RouterModule.forChild(routes),
+    Pipes,
   ],
 })
 export class AdminSearchPageModule { }

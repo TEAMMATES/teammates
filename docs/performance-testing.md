@@ -16,7 +16,7 @@ The inherited test cases can run JMeter test by calling `runJmeter` method. When
 
 To help with debugging, you can open this `.jmx` file in the JMeter GUI and add Listeners.
 
-To see a sample implementation of a test case, you can refer to `StudentProfileLNPTest`. It is a _simple_ test case which load tests a GET endpoint (`/webapi/student/profile`).
+To see a sample implementation of a test case, you can refer to `FeedbackSessionSubmitLNPTest`. It is a _simple_ test case which load tests a PUT endpoint (`/webapi/responses`).
 
 ## Running Performance Tests
 

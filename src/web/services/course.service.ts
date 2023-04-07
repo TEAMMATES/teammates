@@ -46,7 +46,7 @@ export class CourseService {
       entitytype: 'instructor',
     };
     if (regKey) {
-      paramMap.key = regKey;
+      paramMap['key'] = regKey;
     }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }
@@ -70,7 +70,7 @@ export class CourseService {
       entitytype: 'student',
     };
     if (regKey) {
-      paramMap.key = regKey;
+      paramMap['key'] = regKey;
     }
     return this.httpRequestService.get(ResourceEndpoints.COURSE, paramMap);
   }
@@ -183,7 +183,7 @@ export class CourseService {
     };
 
     if (isCreatingAccount) {
-      paramMap.iscreatingaccount = 'true';
+      paramMap['iscreatingaccount'] = 'true';
     }
 
     return this.httpRequestService.get(ResourceEndpoints.JOIN, paramMap);

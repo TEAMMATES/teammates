@@ -1,10 +1,10 @@
 <div class="card-body background-color-light-blue text-center">
   <div class="row align-items-center">
-    <div class="col-lg-2 text-lg-right">
+    <div class="col-lg-2 text-lg-end">
       <b>Preview Session:</b>
     </div>
     <div class="col-lg-5">
-      <select id="preview-student" class="form-control preview-select" [(ngModel)]="emailOfStudentToPreview">
+      <select id="preview-student" class="form-control form-select preview-select" [(ngModel)]="emailOfStudentToPreview" aria-label="Select student to preview as">
         <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
       </select>
       <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" tmRouterLink="/web/sessions/submission"
@@ -19,7 +19,7 @@
       </ng-template>
     </div>
     <div class="col-lg-5">
-      <select id="preview-instructor" class="form-control preview-select" [(ngModel)]="emailOfInstructorToPreview">
+      <select id="preview-instructor" class="form-control form-select preview-select" [(ngModel)]="emailOfInstructorToPreview" aria-label="Select instructor to preview as">
         <option *ngFor="let instructor of instructorsCanBePreviewedAs" [ngValue]="instructor.email">{{ instructor.name }}</option>
       </select>
       <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" tmRouterLink="/web/instructor/sessions/submission"

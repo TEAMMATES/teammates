@@ -1,6 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { HttpRequestService } from './http-request.service';
 import { LogService } from './log.service';
 
 describe('LogService', () => {
@@ -8,8 +8,8 @@ describe('LogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        { provide: HttpRequestService },
+      imports: [
+        HttpClientTestingModule,
       ],
     });
     service = TestBed.inject(LogService);

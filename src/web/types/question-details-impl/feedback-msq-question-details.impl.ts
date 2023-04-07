@@ -39,7 +39,7 @@ export class FeedbackMsqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
     this.questionText = apiOutput.questionText;
   }
 
-  getQuestionCsvHeaders(): string[] {
+  override getQuestionCsvHeaders(): string[] {
     return ['Feedback', ...this.msqChoices];
   }
 

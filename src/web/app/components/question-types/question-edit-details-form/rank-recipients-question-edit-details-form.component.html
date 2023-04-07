@@ -1,29 +1,29 @@
 <div class="row">
-  <div class="col-8 padding-left-15px">
-    <label class="form-check-label">
+  <div class="col-sm-8 col-12 form-check ps-5">
+    <label class="form-check-label fw-bold">
       <input id="duplicate-rank-checkbox" class="form-check-input" type="checkbox"  [ngModel]="model.areDuplicatesAllowed"
              (ngModelChange)="triggerModelChange('areDuplicatesAllowed', $event)" [disabled]="!isEditable">
-      <b>Allow response giver to give the same rank to multiple options</b>
+      Allow response giver to give the same rank to multiple options
     </label>
     <br>
     <br>
-    <label class="form-check-label">
+    <label id="rank-recipients-question-min-options-label" class="form-check-label fw-bold">
       <input id="min-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isMinOptionsToBeRankedEnabled"
              (ngModelChange)="triggerMinOptionsToBeRankedChange($event)">
-      <b>Minimum number of options a respondent must rank</b>
+      Minimum number of options a respondent must rank
     </label>
-    <input id="min-options" type="number" class="form-control" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
+    <input id="min-options" type="number" class="form-control" aria-labelledby="rank-recipients-question-min-options-label" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMinOptionsToBeRanked"
            (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" min="1" max="{{ maxMinOptionsValue }}">
     <br>
-    <label class="form-check-label">
+    <label id="rank-recipients-question-max-options-label" class="form-check-label fw-bold">
       <input id="max-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isMaxOptionsToBeRankedEnabled"
              (ngModelChange)="triggerMaxOptionsToBeRankedChange($event)">
-      <b>Maximum number of options a respondent can rank</b>
+      Maximum number of options a respondent can rank
     </label>
-    <input id="max-options" type="number" class="form-control" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
+    <input id="max-options" type="number" class="form-control" aria-labelledby="rank-recipients-question-max-options-label" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMaxOptionsToBeRanked"
            (ngModelChange)="triggerModelChange('maxOptionsToBeRanked', $event)" [min]="isMinOptionsToBeRankedEnabled ? model.minOptionsToBeRanked : 1">
   </div>

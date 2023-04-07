@@ -1,15 +1,13 @@
-<h4>
-  <small>
-    Total: {{ totalOngoingSessions}} -
-    Opened: {{ totalOpenSessions}} -
-    Closed: {{ totalClosedSessions}} -
-    Waiting To Open: {{ totalAwaitingSessions }} -
-    Institutions: {{ totalInstitutes}}
-    <br>
-    {{ startTimeString }} &nbsp; <i class="fas fa-arrows-alt-h"></i> &nbsp; {{ endTimeString }} &nbsp; {{ timezoneString }}
-  </small>
+<span class="lead">
+  Total: {{ totalOngoingSessions}} -
+  Opened: {{ totalOpenSessions}} -
+  Closed: {{ totalClosedSessions}} -
+  Waiting To Open: {{ totalAwaitingSessions }} -
+  Institutions: {{ totalInstitutes}}
   <br>
-</h4>
+  {{ startTimeString }} &nbsp; <i class="fas fa-arrows-alt-h"></i> &nbsp; {{ endTimeString }} &nbsp; {{ timezoneString }}
+  <br>
+</span>
 <button class="btn btn-info btn-sm btn-margin-right" (click)="openAllInstitutions()">Open All</button>
 <button class="btn btn-warning btn-sm" (click)="closeAllInstitutions()">Collapse All</button>
 <div style="margin-top: 20px;">
@@ -35,11 +33,9 @@
                 <div class="form-group">
                   <div class="input-group">
                     <input class="form-control" id="start-date" placeholder="Date" name="dp1" [(ngModel)]="startDate" ngbDatepicker #dp1="ngbDatepicker">
-                    <div class="input-group-append">
-                      <button class="btn btn-light" (click)="dp1.toggle()" type="button">
-                        <i class="fas fa-calendar-alt"></i>
-                      </button>
-                    </div>
+                    <button class="btn btn-light input-group-text" (click)="dp1.toggle()" type="button">
+                      <i class="fas fa-calendar-alt"></i>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -61,11 +57,9 @@
                 <div class="form-group">
                   <div class="input-group">
                     <input class="form-control" id="end-date" placeholder="Date" name="dp2" [(ngModel)]="endDate" ngbDatepicker #dp2="ngbDatepicker">
-                    <div class="input-group-append">
-                      <button class="btn btn-light" (click)="dp2.toggle()" type="button">
-                        <i class="fas fa-calendar-alt"></i>
-                      </button>
-                    </div>
+                    <button class="btn btn-light input-group-text" (click)="dp2.toggle()" type="button">
+                      <i class="fas fa-calendar-alt"></i>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -83,12 +77,12 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <select id="filter-timezone" class="form-control" [(ngModel)]="filterTimezone">
+              <select id="filter-timezone" class="form-control form-select" [(ngModel)]="filterTimezone">
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
             </div>
-            <div class="col-6">
-              <button class="btn btn-primary btn-block" id="btn-get-sessions" (click)="getFeedbackSessions()">
+            <div class="col-6 d-grid">
+              <button class="btn btn-primary" id="btn-get-sessions" (click)="getFeedbackSessions()">
                 Filter by Range
               </button>
             </div>
@@ -112,7 +106,7 @@
         Display session start/end time in this time zone:
       </div>
       <div class="col-md-7">
-        <select id="table-timezone" class="form-control" [(ngModel)]="tableTimezone" (ngModelChange)="updateDisplayedTimes()">
+        <select aria-label="Timezone" id="table-timezone" class="form-control form-select" [(ngModel)]="tableTimezone" (ngModelChange)="updateDisplayedTimes()">
           <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
         </select>
       </div>

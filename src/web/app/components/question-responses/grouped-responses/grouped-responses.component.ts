@@ -57,11 +57,11 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     const team: Record<string, string> = {};
     const recipientTeamName: string = this.responses[0].allResponses[0].recipientTeam;
     if (recipientTeamName === '') {
-      team.recipient = '';
+      team['recipient'] = '';
     } else {
-      team.recipient = (recipientTeamName === '-') ? '(No Specific Team)' : `(${recipientTeamName})`;
+      team['recipient'] = (recipientTeamName === '-') ? '(No Specific Team)' : `(${recipientTeamName})`;
     }
-    team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
+    team['giver'] = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;
   }
 

@@ -1,77 +1,75 @@
-<div class="flex-container">
-  <div class="main-body col-lg-10" #helpPage>
-    <div id={{Sections.body}}>
-      <h1 class="color-orange"> Help for Instructors</h1>
-      <div>
-        <p>
-          Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
-          <br> If you are new to TEAMMATES, our <a [tmRouterLink]="instructorGettingStartedPath">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
-          <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We usually respond within 24 hours.
-        </p>
-        <div class="row">
-          <div class="col-md-9">
-            <div class="input-group">
-              <input type="text" [(ngModel)]="searchTerm" class="form-control" placeholder="How can we help?" (keyup.enter)="search()">
-              <button class="btn btn-primary" (click)="search()"><i class="fas fa-search"></i></button>
-              <button class="btn btn-danger" (click)="clear()"><i class="fas fa-times"></i></button>
-            </div>
+<div class="main-body col-lg-10">
+  <div id={{Sections.body}}>
+    <h1 class="color-orange"> Help for Instructors</h1>
+    <div>
+      <p>
+        Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
+        <br> If you are new to TEAMMATES, our <a [tmRouterLink]="instructorGettingStartedPath">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
+        <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We usually respond within 24 hours.
+      </p>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="input-group">
+            <input type="text" [(ngModel)]="searchTerm" class="form-control" placeholder="How can we help?" (keyup.enter)="search()">
+            <button class="btn btn-primary" (click)="search()"><i class="fas fa-search"></i></button>
+            <button class="btn btn-danger" (click)="clear()"><i class="fas fa-times"></i></button>
           </div>
         </div>
-        <div *ngIf="key" style="margin-top: 20px;">
-          <h4>{{ matchFound }} results found for "{{ key }}"</h4>
-        </div>
-        <hr/>
       </div>
-    </div>
-    <div id="{{Sections.students}}" class="section-body">
-      <tm-instructor-help-students-section #studentsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
-      </tm-instructor-help-students-section>
-    </div>
-    <div id="{{Sections.courses}}" class="section-body">
-      <tm-instructor-help-courses-section #coursesHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)" (collapseStudentEditDetails)="collapseStudentEditDetails()">
-      </tm-instructor-help-courses-section>
-    </div>
-    <div id="{{Sections.sessions}}" class="section-body">
-      <tm-instructor-help-sessions-section #sessionsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
-      </tm-instructor-help-sessions-section>
-    </div>
-    <div id="{{Sections.questions}}" class="section-body">
-      <tm-instructor-help-questions-section #questionsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)" (collapsePeerEvalTips)="collapsePeerEvalTips()">
-      </tm-instructor-help-questions-section>
-    </div>
-    <div id="{{Sections.general}}" class="section-body">
-      <tm-instructor-help-general-section #generalHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
-      </tm-instructor-help-general-section>
+      <div *ngIf="key" style="margin-top: 20px;">
+        <h4>{{ matchFound }} results found for "{{ key }}"</h4>
+      </div>
+      <hr/>
     </div>
   </div>
+  <div id="{{Sections.students}}" class="section-body">
+    <tm-instructor-help-students-section #studentsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
+    </tm-instructor-help-students-section>
+  </div>
+  <div id="{{Sections.courses}}" class="section-body">
+    <tm-instructor-help-courses-section #coursesHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)" (collapseStudentEditDetails)="collapseStudentEditDetails()">
+    </tm-instructor-help-courses-section>
+  </div>
+  <div id="{{Sections.sessions}}" class="section-body">
+    <tm-instructor-help-sessions-section #sessionsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
+    </tm-instructor-help-sessions-section>
+  </div>
+  <div id="{{Sections.questions}}" class="section-body">
+    <tm-instructor-help-questions-section #questionsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)" (collapsePeerEvalTips)="collapsePeerEvalTips()">
+    </tm-instructor-help-questions-section>
+  </div>
+  <div id="{{Sections.general}}" class="section-body">
+    <tm-instructor-help-general-section #generalHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
+    </tm-instructor-help-general-section>
+  </div>
+</div>
 
-  <div class="side-nav container-fluid col-lg-2">
-    <p><b>
-      Browse by topic:
-      <br>
-    </b></p>
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item">
-        <a (click)="scroll(Sections.students)" [tmRouterLink]="">Students</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="scroll(Sections.courses)" [tmRouterLink]="">Courses</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="scroll(Sections.sessions)" [tmRouterLink]="">Sessions</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="scroll(Sections.questions)" [tmRouterLink]="">Questions</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="scroll(Sections.general)" [tmRouterLink]="">General</a>
-      </li>
-    </ul>
+<div class="side-nav container-fluid col-lg-2">
+  <p><b>
+    Browse by topic:
     <br>
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item">
-        <a (click)="scroll(Sections.body)" [tmRouterLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
-      </li>
-    </ul>
-  </div>
+  </b></p>
+  <ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+      <a (click)="scroll(Sections.students)" [tmRouterLink]="[]">Students</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll(Sections.courses)" [tmRouterLink]="[]">Courses</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll(Sections.sessions)" [tmRouterLink]="[]">Sessions</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll(Sections.questions)" [tmRouterLink]="[]">Questions</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="scroll(Sections.general)" [tmRouterLink]="[]">General</a>
+    </li>
+  </ul>
+  <br>
+  <ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+      <a (click)="scroll(Sections.body)" [tmRouterLink]="[]">Back to Top <i class="fas fa-arrow-up"></i> </a>
+    </li>
+  </ul>
 </div>

@@ -16,9 +16,6 @@ import { ExtensionConfirmModalComponent } from './extension-confirm-modal.compon
     FormsModule,
     TeammatesCommonModule,
   ],
-  entryComponents: [
-    ExtensionConfirmModalComponent,
-  ],
   exports: [
     ExtensionConfirmModalComponent,
   ],

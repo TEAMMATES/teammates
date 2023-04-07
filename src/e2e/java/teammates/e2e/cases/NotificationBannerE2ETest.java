@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -15,7 +16,7 @@ import teammates.e2e.pageobjects.StudentHomePage;
 /**
  * SUT: The reusable notification banner, which can be displayed across many pages.
  * {@link Const.WebPageURIs#STUDENT_HOME_PAGE} is used to test the behaviour of the banner in this case,
- * {@link Const.WebPageURIs#STUDENT_PROFILE_PAGE}, {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}
+ * {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}
  */
 public class NotificationBannerE2ETest extends BaseE2ETestCase {
     @Override
@@ -58,10 +59,12 @@ public class NotificationBannerE2ETest extends BaseE2ETestCase {
         account.setReadNotifications(readNotifications);
         verifyPresentInDatabase(account);
 
-        ______TS("delete test notifications from database");
-        for (NotificationAttributes n : testData.notifications.values()) {
-            BACKDOOR.deleteNotification(n.getNotificationId());
-            verifyAbsentInDatabase(n);
+    }
+
+    @AfterClass
+    public void classTeardown() {
+        for (NotificationAttributes notification : testData.notifications.values()) {
+            BACKDOOR.deleteNotification(notification.getNotificationId());
         }
     }
 }

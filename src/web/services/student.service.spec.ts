@@ -58,8 +58,8 @@ describe('StudentService', () => {
     jest.spyOn(spyHttpRequestService, 'put');
 
     service.updateStudent({
-      courseId: paramMap.courseid,
-      studentEmail: paramMap.studentemail,
+      courseId: paramMap['courseid'],
+      studentEmail: paramMap['studentemail'],
       requestBody: defaultStudentUpdateRequest,
     });
 
@@ -75,8 +75,8 @@ describe('StudentService', () => {
     jest.spyOn(spyHttpRequestService, 'delete');
 
     service.batchDeleteStudentsFromCourse({
-      courseId: paramMap.courseid,
-      limit: parseInt(paramMap.limit, 10),
+      courseId: paramMap['courseid'],
+      limit: parseInt(paramMap['limit'], 10),
     });
 
     expect(spyHttpRequestService.delete)
@@ -90,7 +90,7 @@ describe('StudentService', () => {
     };
     jest.spyOn(spyHttpRequestService, 'post');
 
-    service.regenerateStudentKey(paramMap.courseid, paramMap.studentemail);
+    service.regenerateStudentKey(paramMap['courseid'], paramMap['studentemail']);
 
     expect(spyHttpRequestService.post)
         .toHaveBeenCalledWith(ResourceEndpoints.STUDENT_KEY, paramMap);

@@ -632,7 +632,7 @@ describe('QuestionResponsePanelComponent', () => {
         .mockReturnValue(of(testFeedbackSessionResult));
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
 
-    expect(fsSpy).toBeCalledTimes(1);
+    expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith({
       intent: 'STUDENT_RESULT',
       courseId: 'CS1231',

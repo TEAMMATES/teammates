@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
+// Required to use ngx-page-scroll service https://github.com/TEAMMATES/teammates/pull/12224#issuecomment-1480350769.
+html {
+  scroll-behavior: auto !important;
+}
+
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: .875rem;
@@ -100,15 +105,21 @@ h6,
   }
 }
 
-@media (max-width: 768px) {
-  .modal-dialog {
-    max-width: 80vw;
-    min-width: 65vw;
-  }
-}
-
 .modal-large .modal-dialog {
   width: 1000px;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: none;
+    min-width: 65vw;
+    max-height: none;
+    width: 95vw;
+  }
+
+  .modal-large .modal-dialog {
+    width: 95vw;
+  }
 }
 
 .close:focus {
@@ -271,4 +282,30 @@ h6,
 
 .handsontable .valid-row {
   background: white;
+}
+
+.alert.alert-no-bottom {
+  margin-bottom: 0;
+}
+
+// new rules to adapt to Bootstrap 5 changes
+
+.btn-link {
+  text-decoration: none;
+}
+
+label {
+  margin-bottom: .5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+// end of new rules to adapt to Bootstrap 5
+
+// overrides default bootstrap colours to increase contrast
+.navbar-dark {
+  --bs-navbar-color: rgba(255, 255, 255, .75);
+  --bs-navbar-hover-color: white;
 }

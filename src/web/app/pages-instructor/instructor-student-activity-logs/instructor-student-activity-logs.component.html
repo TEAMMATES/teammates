@@ -7,10 +7,10 @@
     <div class="row form-group">
       <div class="col-4">
         <div class="col-12">
-          <label for="activity-type-dropdown" class="font-weight-bold">Activity Type</label>
+          <label for="activity-type-dropdown" class="fw-bold">Activity Type</label>
         </div>
         <div class="col-12">
-          <select id="activity-type-dropdown" class="form-control col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
+          <select id="activity-type-dropdown" class="form-control form-select col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
             <option value="" disabled selected hidden>Select Activity Type</option>
             <option *ngFor="let logType of LOG_TYPES" [value]="logType.value">
               {{logType.label}}
@@ -20,12 +20,14 @@
       </div>
       <div class="col-8">
         <div class="col-12 mb-1">
-          <label for="logs-from-datepicker" class="font-weight-bold">Search period from</label>
+          <label class="fw-bold">Search period from</label>
         </div>
         <div class="input-group">
           <div id="logs-from-datepicker" class="col-md-6 input-group">
-            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="earliestSearchDate" [maxDate]="formModel.logsDateTo" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
+            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="earliestSearchDate"
+              [maxDate]="formModel.logsDateTo" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"
+              aria-label="Date to search from" />
+            <button class="btn btn-light" aria-label="Change date" (click)="logsFromDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
           </div>
@@ -38,10 +40,10 @@
     <div class="row form-group">
       <div class="col-4">
         <div class="col-12">
-          <label for="student-name-dropdown" class="font-weight-bold">Student Name (Optional)</label>
+          <label for="student-name-dropdown" class="fw-bold">Student Name (Optional)</label>
         </div>
         <div class="col-12">
-          <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
+          <select id="student-name-dropdown" class="form-control form-select col-12" [(ngModel)]="formModel.studentEmail">
             <option *ngFor="let student of students" [value]="student.email">
               {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
             </option>
@@ -50,20 +52,22 @@
       </div>
       <div class="col-8">
         <div class="col-12 mb-1">
-          <label for="logs-to-datepicker" class="font-weight-bold">Search period until</label>
+          <label for="logs-to-datepicker" class="fw-bold">Search period until</label>
         </div>
         <div class="input-group">
           <div id="logs-to-datepicker" class="col-md-6 input-group">
-            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="formModel.logsDateFrom" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
+            <input type="text" class="form-control" ngbDatepicker readonly [minDate]="formModel.logsDateFrom"
+              [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"
+              aria-label="Date to search until" />
+            <button class="btn btn-light" aria-label="Change date" (click)="logsToDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
           </div>
           <div class="col-md-3">
-            <tm-timepicker id="logs-to-timepicker" [(time)]="formModel.logsTimeTo"></tm-timepicker>
+            <tm-timepicker id="logs-to-timepicker" [(time)]="formModel.logsTimeTo" aria-label="Search period until time"></tm-timepicker>
           </div>
           <div class="col-md-2">
-            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="course.courseId === '' || isSearching">Search</button>
+            <button id="search-button" class="float-end btn btn-primary" (click)="search()" [disabled]="course.courseId === '' || isSearching">Search</button>
           </div>
         </div>
       </div>
@@ -71,10 +75,10 @@
     <div class="row form-group">
       <div class="col-5">
         <div class="col-12">
-          <label for="session-dropdown" class="font-weight-bold">Feedback Session Name (Optional)</label>
+          <label for="session-dropdown" class="fw-bold">Feedback Session Name (Optional)</label>
         </div>
         <div class="col-12">
-          <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
+          <select id="session-dropdown" class="form-control form-select col-md-12" [(ngModel)]="formModel.feedbackSessionName">
             <option value=""></option>
             <option *ngFor="let session of feedbackSessions | keyvalue" [value]="session.key">
               {{session.key}}
@@ -82,7 +86,7 @@
           </select>
         </div>
       </div>
-      <div class="row mt-md-1 ml-md-3">
+      <div class="row mt-md-1 ms-md-3">
         <div class="col-12 form-check" style="margin-top: 30px;">
           <label class="form-check-label">
             <input id="show-actions" class="form-check-input" type="checkbox" name="showActions" [checked]="formModel.showActions" (click)="triggerModelChange('showActions', $event.target.checked)">

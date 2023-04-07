@@ -109,17 +109,20 @@ export class UsageStatisticsPageComponent implements OnInit {
       this.formModel.toDate, this.formModel.toTime, this.timezone);
     this.usageStatisticsService.getUsageStatistics(
       timestampFrom, timestampUntil,
-    ).subscribe((statsRange: UsageStatisticsRange) => {
-      this.timeRange = {
-        startTime: timestampFrom,
-        endTime: timestampUntil,
-      };
-      this.fetchedData = statsRange.result;
-      this.drawLineChart();
-      this.isLoading = false;
-    }, (e: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(e.error.message);
-      this.isLoading = false;
+    ).subscribe({
+      next: (statsRange: UsageStatisticsRange) => {
+        this.timeRange = {
+          startTime: timestampFrom,
+          endTime: timestampUntil,
+        };
+        this.fetchedData = statsRange.result;
+        this.drawLineChart();
+        this.isLoading = false;
+      },
+      error: (e: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(e.error.message);
+        this.isLoading = false;
+      },
     });
   }
 

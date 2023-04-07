@@ -5,14 +5,26 @@
       <button class="dropdown-item" (click)="templateQuestionModalHandler()">Choose from template questions</button>
       <div class="dropdown-divider"></div>
       <ng-container *ngFor="let questionType of FeedbackQuestionType | enumToArray">
-      <button class="dropdown-item" *ngIf="questionType !== FeedbackQuestionType.CONSTSUM"
-              (click)="populateAndShowNewQuestionFormHandler(questionType)">
-        {{ questionType | questionTypeName }}
-      </button>
+        <div *ngIf="questionType !== FeedbackQuestionType.CONSTSUM">
+          <div class="d-flex btn-group justify-content-between" role="group">
+            <button class="dropdown-item" (click)="populateAndShowNewQuestionFormHandler(questionType)">
+              {{ questionType | questionTypeName }}
+            </button>
+            <a type="button" class="btn btn-link" *ngIf="!isLinkDisabled" target="_blank" rel="noopener noreferrer"
+              tmRouterLink="/web/instructor/help" aria-label="More info"
+              [queryParams]="{questionId: questionType | questionTypeHelpPath, section: 'questions'}">
+              <i class="fas fa-info-circle"></i>
+            </a>
+          </div>
+        </div>
       </ng-container>
     </div>
   </div>
-  <a type="button" class="btn btn-link" *ngIf="!isLinkDisabled" target="_blank" rel="noopener noreferrer" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
+  <a type="button" class="btn btn-link" *ngIf="!isLinkDisabled" target="_blank" rel="noopener noreferrer"
+    tmRouterLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}" aria-label="Help for questions">
+    <i class="fas fa-info-circle"></i>
+  </a>
   <a type="button" class="btn btn-link" *ngIf="isLinkDisabled"><i class="fas fa-info-circle"></i></a>
-  <button id="btn-copy-question" class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
+  <button id="btn-copy-question" class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()"
+    [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
 </div>

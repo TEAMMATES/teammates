@@ -13,8 +13,6 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.util.StringHelper;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -77,31 +75,13 @@ public class StudentCourseDetailsPage extends AppPage {
         assertEquals(studentDetails.getEmail(), studentEmailField.getText());
     }
 
-    private String convertGender(StudentProfileAttributes.Gender gender) {
-        switch (gender) {
-        case MALE:
-            return "Male";
-        case FEMALE:
-            return "Female";
-        default:
-            return "Not Specified";
-        }
-    }
-
-    public void verifyTeammatesDetails(StudentAttributes[] teammates, StudentProfileAttributes[] teammateProfiles) {
-        int numTables = teammateProfiles.length;
+    public void verifyTeammatesDetails(StudentAttributes[] teammates) {
+        int numTables = teammates.length;
 
         for (int i = 0; i < numTables; i++) {
             List<String> profileItems = new ArrayList<>();
             profileItems.add("Name: " + teammates[i].getName());
             profileItems.add("Email: " + teammates[i].getEmail());
-            profileItems.add("Gender: " + convertGender(teammateProfiles[i].getGender()));
-            if (!StringHelper.isEmpty(teammateProfiles[i].getNationality())) {
-                profileItems.add("Nationality: " + teammateProfiles[i].getNationality());
-            }
-            if (!StringHelper.isEmpty(teammateProfiles[i].getInstitute())) {
-                profileItems.add("Institute: " + teammateProfiles[i].getInstitute());
-            }
 
             WebElement actualProfile = browser.driver.findElement(By.id("teammates-details-" + i));
             assertEquals(profileItems.stream().collect(Collectors.joining(TestProperties.LINE_SEPARATOR)),

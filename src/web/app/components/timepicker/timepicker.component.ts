@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TimeFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
+import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } from '../../../types/datetime-const';
 
 /**
  * Time picker with fixed time to pick.
@@ -10,12 +10,26 @@ import { TimeFormat, getDefaultTimeFormat } from '../../../types/datetime-const'
   styleUrls: ['./timepicker.component.scss'],
 })
 export class TimepickerComponent {
-
   @Input()
   isDisabled: boolean = false;
 
   @Input()
   time: TimeFormat = getDefaultTimeFormat();
+
+  @Input()
+  minTime?: TimeFormat;
+
+  @Input()
+  maxTime?: TimeFormat;
+
+  @Input()
+  date: DateFormat = getDefaultDateFormat();
+
+  @Input()
+  minDate?: DateFormat;
+
+  @Input()
+  maxDate?: DateFormat;
 
   @Output()
   timeChange: EventEmitter<TimeFormat> = new EventEmitter();
@@ -45,6 +59,43 @@ export class TimepickerComponent {
    */
   timeCompareFn(t1: TimeFormat, t2: TimeFormat): boolean {
     return t1 && t2 && t1.hour === t2.hour && t1.minute === t2.minute;
+  }
+
+  /**
+   * Checks whether the time option should be disabled when a minimum datetime and/or a maximum datetime is/are
+   * specified.
+   *
+   * <p> The valid time option is greater or equal than the minimum datetime and smaller or equal than the maximum
+   * datetime.
+   */
+  isOptionDisabled(t: TimeFormat): boolean {
+    const date = this.toJsDate(this.date, t);
+
+    if (this.minDate && this.minTime) {
+      const minDate = this.toJsDate(this.minDate, this.minTime);
+      if (date < minDate) {
+        return true;
+      }
+    }
+
+    if (this.maxDate && this.maxTime) {
+      const maxDate = this.toJsDate(this.maxDate, this.maxTime);
+      if (date > maxDate) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private toJsDate(date: DateFormat, time: TimeFormat): Date {
+    return new Date(
+      date.year,
+      date.month - 1,
+      date.day,
+      time.hour,
+      time.minute,
+    );
   }
 
   /**

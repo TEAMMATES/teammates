@@ -11,9 +11,7 @@
       <i class="fas fa-exclamation-circle"></i> Some response submissions failed!
     </span>
   </h5>
-  <button type="button" class="close" (click)="activeModal.dismiss()">
-    <i class="fas fa-times"></i>
-  </button>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
   <p id="not-answered-questions" *ngIf="notYetAnsweredQuestions.length !== 0">

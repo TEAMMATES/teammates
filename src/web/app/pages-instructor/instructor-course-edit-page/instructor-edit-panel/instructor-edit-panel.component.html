@@ -32,40 +32,40 @@
   </div>
 
   <div class="card-body text-center" [ngClass]="{'fill-plain': editMode === EditMode.ADD}">
-    <div class="form-row form-group" *ngIf="editMode === EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
-      <label class="col-sm-2 control-label">
+    <div class="row form-group" *ngIf="editMode === EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
+      <label for="google-id-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label">
         Google ID:
       </label>
       <div class="col-sm-9" *ngIf="instructor.joinState === JoinState.JOINED">
-        <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" tabindex="3" [ngModel]="instructor.googleId" disabled>
+        <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" [ngModel]="instructor.googleId" disabled>
       </div>
-      <span class="text-danger col-sm-9 text-left margin-bottom-label" *ngIf="instructor.joinState === JoinState.NOT_JOINED">
+      <span class="text-danger col-sm-9 text-start margin-bottom-label" *ngIf="instructor.joinState === JoinState.NOT_JOINED">
         Not available. Instructor is yet to join this course.
       </span>
     </div>
-    <div class="form-row form-group">
-      <label class="col-sm-2 control-label">
+    <div class="row form-group">
+      <label for="name-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label">
         Name:
       </label>
       <div class="col-sm-9">
-        <input id="name-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="100" tabindex="4"
+        <input id="name-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="100"
                [ngModel]="instructor.name" (ngModelChange)="triggerModelChange('name', $event)" [disabled]="!instructor.isEditing">
       </div>
     </div>
-    <div class="form-row form-group">
-      <label class="col-sm-2 control-label">
+    <div class="row form-group">
+      <label for="email-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label">
         Email:
       </label>
       <div class="col-sm-9">
-        <input id="email-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" tabindex="5"
+        <input id="email-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254"
                [ngModel]="instructor.email" (ngModelChange)="triggerModelChange('email', $event)"
                [disabled]="!instructor.isEditing || (instructor.joinState === JoinState.NOT_JOINED && editMode !== EditMode.ADD)">
       </div>
     </div>
-    <div class="form-row form-group">
-      <label class="col-sm-2 control-label">
+    <div class="row form-group">
+      <label for="displayed-name-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label">
         <input id="checkbox-display-instructor-{{ instructorIndex + 1 }}" checked=""
-               type="checkbox" [ngModel]="instructor.isDisplayedToStudents"
+               type="checkbox" [ngModel]="instructor.isDisplayedToStudents" aria-label="Enable display name"
                (ngModelChange)="triggerModelChange('isDisplayedToStudents', $event)" [disabled]="!instructor.isEditing">
         &nbsp;
         <span class="ngb-tooltip-class" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course">Display to students as:</span>
@@ -80,13 +80,13 @@
                [ngModel]="instructor.isDisplayedToStudents ? instructor.displayedToStudentsAs : '(This instructor will NOT be displayed to students)'">
       </div>
     </div>
-    <div class="form-row form-group align-items-start text-left">
-      <label class="col-sm-2 control-label text-center text-md-right">
+    <div class="row form-group align-items-start text-start">
+      <label class="col-sm-2 control-label text-center text-md-end">
         Access Level:
       </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
         <ng-container *ngIf="instructor.isEditing">
-          <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="form-row">
+          <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="row">
             <label>
               <input id="{{role + instructorIndex + 1}}" type="radio" [checked]="role === instructor.role" (click)="triggerModelChange('role', role)" [disabled]="!instructor.isEditing">
               {{ role | instructorRoleDescription }}
@@ -103,12 +103,12 @@
       </div>
     </div>
 
-    <tm-custom-privilege-setting-panel class="text-left" id="custom-access-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+    <tm-custom-privilege-setting-panel class="text-start" id="custom-access-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
                                        [permission]="this.instructor.permission" (permissionChange)="triggerModelChange('permission', $event)"
                                        [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-custom-privilege-setting-panel>
 
     <div *ngIf="instructor.isEditing">
-      <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-success" tabindex="6" type="button" (click)="saveInstructor.emit()" [disabled]="instructor.isSavingInstructorEdit || isSavingNewInstructor">
+      <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-success" type="button" (click)="saveInstructor.emit()" [disabled]="instructor.isSavingInstructorEdit || isSavingNewInstructor">
         <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit || isSavingNewInstructor"></tm-ajax-loading>
         <span *ngIf="editMode === EditMode.EDIT">Save changes</span>
         <span *ngIf="editMode === EditMode.ADD">Add Instructor</span>

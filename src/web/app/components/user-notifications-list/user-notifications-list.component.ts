@@ -66,36 +66,40 @@ export class UserNotificationsListComponent implements OnInit {
     this.isLoadingNotifications = true;
 
     this.notificationService.getReadNotifications()
-      .subscribe((readNotifications: ReadNotifications) => {
-        this.readNotifications = new Set(readNotifications.readNotifications);
-      }, (resp: ErrorMessageOutput) => {
-        this.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    );
+      .subscribe({
+        next: (readNotifications: ReadNotifications) => {
+          this.readNotifications = new Set(readNotifications.readNotifications);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
 
     this.notificationService.getAllNotificationsForTargetUser(this.userType)
       .pipe(finalize(() => { this.isLoadingNotifications = false; }))
-      .subscribe((notifications: Notifications) => {
+      .subscribe({
+        next: (notifications: Notifications) => {
           notifications.notifications.forEach((notification: Notification) => {
             this.notificationTabs.push({
               notification,
               hasTabExpanded: !this.readNotifications.has(notification.notificationId),
               isRead: this.readNotifications.has(notification.notificationId),
               startDate: this.timezoneService.formatToString(
-                notification.startTimestamp, this.timezone, this.DATE_FORMAT,
+                  notification.startTimestamp, this.timezone, this.DATE_FORMAT,
               ),
               endDate: this.timezoneService.formatToString(
-                notification.endTimestamp, this.timezone, this.DATE_FORMAT,
+                  notification.endTimestamp, this.timezone, this.DATE_FORMAT,
               ),
             });
           });
           this.sortNotificationsBy(this.notificationsSortBy);
-        }, (resp: ErrorMessageOutput) => {
+        },
+        error: (resp: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-      );
+      });
   }
 
   toggleCard(notificationTab: NotificationTab): void {
@@ -108,17 +112,17 @@ export class UserNotificationsListComponent implements OnInit {
       notificationId: notification.notificationId,
       endTimestamp: notification.endTimestamp,
     })
-      .subscribe(
-        (readNotifications: ReadNotifications) => {
+      .subscribe({
+        next: (readNotifications: ReadNotifications) => {
           this.readNotifications = new Set(readNotifications.readNotifications);
           notificationTab.isRead = true;
           this.statusMessageService.showSuccessToast('Notification marked as read.');
           notificationTab.hasTabExpanded = false;
         },
-        (resp: ErrorMessageOutput) => {
+        error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
-      );
+      });
   }
 
   getBodyTextClass(notificationTab: NotificationTab): string {

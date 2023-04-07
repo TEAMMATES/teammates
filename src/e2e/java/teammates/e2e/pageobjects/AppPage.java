@@ -115,6 +115,10 @@ public abstract class AppPage {
         throw new IllegalStateException("Not in the correct page!");
     }
 
+    public Browser getBrowser() {
+        return browser;
+    }
+
     /**
      * Gets a new page object representation of the currently open web page in the browser.
      *
@@ -213,6 +217,7 @@ public abstract class AppPage {
      */
     public void waitForConfirmationModalAndClickOk() {
         waitForModalShown();
+        waitForElementVisibility(By.className("modal-btn-ok"));
         WebElement okayButton = browser.driver.findElement(By.className("modal-btn-ok"));
         waitForElementToBeClickable(okayButton);
         clickDismissModalButtonAndWaitForModalHidden(okayButton);
@@ -357,7 +362,7 @@ public abstract class AppPage {
 
         selectDropdownOptionByText(yearPicker, year);
         selectDropdownOptionByText(monthPicker, month);
-        dayPicker.findElement(By.cssSelector(String.format("[aria-label='%s']", date))).click();
+        click(dayPicker.findElement(By.cssSelector(String.format("[aria-label='%s']", date))));
     }
 
     protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) {
@@ -434,6 +439,7 @@ public abstract class AppPage {
      * Selects option in dropdown based on visible text.
      */
     protected void selectDropdownOptionByText(WebElement dropdown, String text) {
+        scrollElementToCenter(dropdown);
         Select select = new Select(dropdown);
         select.selectByVisibleText(text);
     }
@@ -442,6 +448,7 @@ public abstract class AppPage {
      * Selects option in dropdown based on value.
      */
     protected void selectDropdownOptionByValue(WebElement dropdown, String value) {
+        scrollElementToCenter(dropdown);
         Select select = new Select(dropdown);
         select.selectByValue(value);
     }
@@ -458,13 +465,46 @@ public abstract class AppPage {
     }
 
     /**
-     * Asserts that all values in the given table row are equal to the expectedRowValues.
+     * Asserts that all values in the row header of the given table are equal to the expectedRowHeaderValues.
+     */
+    protected void verifyTableRowHeaderValues(WebElement table, String[][] expectedTableRowHeaderValues) {
+        List<WebElement> rows = table.findElement(By.tagName("thead")).findElements(By.tagName("tr"));
+        assertTrue(expectedTableRowHeaderValues.length <= rows.size());
+        for (int rowIndex = 0; rowIndex < expectedTableRowHeaderValues.length; rowIndex++) {
+            verifyTableHeaderValues(rows.get(rowIndex), expectedTableRowHeaderValues[rowIndex]);
+        }
+    }
+
+    /**
+     * Asserts that all values in the column header of the given table are equal to the expectedTablColumnHeaderValues.
+     */
+    protected void verifyTableColumnHeaderValues(WebElement table, String[][] expectedTablColumnHeaderValues) {
+        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        assertTrue(expectedTablColumnHeaderValues.length <= rows.size());
+        for (int rowIndex = 0; rowIndex < expectedTablColumnHeaderValues.length; rowIndex++) {
+            verifyTableHeaderValues(rows.get(rowIndex), expectedTablColumnHeaderValues[rowIndex]);
+        }
+    }
+
+    /**
+     * Asserts that all data values in the given table row are equal to the expectedRowValues.
      */
     protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
         List<WebElement> cells = row.findElements(By.tagName("td"));
         assertTrue(expectedRowValues.length <= cells.size());
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
             assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
+        }
+    }
+
+    /**
+     * Asserts that all header values in the given table row are equal to the expectedRowHeaderValues.
+     */
+    protected void verifyTableHeaderValues(WebElement row, String[] expectedRowHeaderValues) {
+        List<WebElement> cells = row.findElements(By.tagName("th"));
+        assertTrue(expectedRowHeaderValues.length <= cells.size());
+        for (int cellIndex = 0; cellIndex < expectedRowHeaderValues.length; cellIndex++) {
+            assertEquals(expectedRowHeaderValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
 
@@ -591,6 +631,7 @@ public abstract class AppPage {
      */
     void scrollElementToCenter(WebElement element) {
         executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
+        ThreadHelper.waitFor(1000);
     }
 
     /**

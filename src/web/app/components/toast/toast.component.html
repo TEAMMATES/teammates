@@ -2,6 +2,6 @@
   <ng-template [ngIf]="isTemplate()">
     <ng-template [ngTemplateOutlet]="toast.message"></ng-template>
   </ng-template>
-  <button type="button" class="close" (click)="removeToast()"><i class="fas fa-times"></i></button>
+  <button type="button" class="btn-close" (click)="removeToast()"></button>
   <ng-container *ngIf="!isTemplate()">{{ toast.message }}</ng-container>
 </ngb-toast>

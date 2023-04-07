@@ -45,10 +45,6 @@ import { SessionsTableComponent } from './sessions-table.component';
     TeammatesCommonModule,
     TeammatesRouterModule,
   ],
-  entryComponents: [
-    ResendResultsLinkToRespondentModalComponent,
-    SendRemindersToRespondentsModalComponent,
-  ],
   exports: [SessionsTableComponent, RespondentListInfoTableComponent],
 })
 export class SessionsTableModule {}

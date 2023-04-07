@@ -1,9 +1,9 @@
 <div class="input-group">
   <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text"
-         (ngModelChange)="onConstsumOptionEntered($event.trim())">
+         (ngModelChange)="onConstsumOptionEntered($event.trim())" aria-label="Option">
   <span class="input-group-btn">
-    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;" tabindex="-1"
-            [disabled]="!isEditable" (click)="deleteConstsumOption()">
+    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;"
+            [disabled]="!isEditable" (click)="deleteConstsumOption()" aria-label="Delete Option">
       <span aria-hidden="true">&times;</span>
     </button>
   </span>

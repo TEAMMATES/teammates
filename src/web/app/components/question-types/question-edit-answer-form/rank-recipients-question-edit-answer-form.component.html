@@ -1,6 +1,6 @@
 <div class="margin-bottom-15px">
-  <select class="form-control" [ngModel]="responseDetails.answer"
-          (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
+  <select class="form-control form-select" [ngModel]="responseDetails.answer"
+          (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled" [attr.aria-label]="getAriaLabel()">
     <option [ngValue]="RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED"></option>
     <option *ngFor="let rank of ranksToBeAssigned" [ngValue]="rank">{{ rank }}</option>
   </select>

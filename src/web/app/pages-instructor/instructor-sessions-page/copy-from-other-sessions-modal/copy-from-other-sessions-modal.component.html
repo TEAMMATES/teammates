@@ -1,15 +1,13 @@
 <div class="modal-header">
   <h5 class="modal-title">Creating a new session by copying a previous session</h5>
-  <button type="button" class="close" (click)="activeModal.dismiss()">
-    <i class="fas fa-times"></i>
-  </button>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
   <div class="row">
     <div class="col-12">
       <div class="form-group">
         <label>Create in course</label>
-        <select id="copy-course-id" class="form-control" [(ngModel)]="copyToCourseId">
+        <select id="copy-course-id" class="form-control form-select" [(ngModel)]="copyToCourseId">
           <option *ngFor="let course of courseCandidates"
                   [ngValue]="course.courseId">{{ course.courseId }}</option>
         </select>

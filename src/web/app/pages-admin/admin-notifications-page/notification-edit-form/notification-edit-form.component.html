@@ -1,8 +1,6 @@
 <div class="card card-plain">
   <div class="close-header">
-    <button type="button" class="close" aria-label="Close" (click)="cancelHandler()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="btn-close float-end" aria-label="Close" (click)="cancelHandler()"></button>
   </div>
   <div class="card-body" *ngIf="model.shown">
     <div class="alert alert-danger mb-0">
@@ -15,11 +13,11 @@
       <div class="card-body">
 
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-weight-bold">
+          <div class="col-md-2 text-md-end fw-bold">
             <span class="ngb-tooltip-class" ngbTooltip="The intended recipients of this notification.">Target user group</span>
           </div>
-          <div class="col-md-auto text-md-left">
-            <select id="notification-target-user" class="form-control" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
+          <div class="col-md-auto text-md-start">
+            <select id="notification-target-user" class="form-control form-select" [ngModel]="model.targetUser" (ngModelChange)="triggerModelChange('targetUser', $event)">
               <option [ngValue]="NotificationTargetUser.STUDENT">Students</option>
               <option [ngValue]="NotificationTargetUser.INSTRUCTOR">Instructors</option>
               <option [ngValue]="NotificationTargetUser.GENERAL">General (for both students and instructors)</option>
@@ -29,11 +27,11 @@
         <br/>
 
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-weight-bold">
+          <div class="col-md-2 text-md-end fw-bold">
             <span class="ngb-tooltip-class" ngbTooltip="Different styles correspond to different background colours at display.">Notification style</span>
           </div>
-          <div class="col-md-auto text-md-left">
-            <select id="notification-style" class="form-control" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
+          <div class="col-md-auto text-md-start">
+            <select id="notification-style" class="form-control form-select" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
               <option *ngFor="let style of NotificationStyle | keyvalue" [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
             </select>
           </div>
@@ -44,10 +42,10 @@
         <br/>
 
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-weight-bold">
+          <div class="col-md-2 text-md-end fw-bold">
             <span class="ngb-tooltip-class" ngbTooltip="Enter the name of the notification e.g. Version Changelog 8.9.1.">Title</span>
           </div>
-          <div class="col-md-10 text-md-left">
+          <div class="col-md-10 text-md-start">
             <input id="notification-title" type="text" class="form-control" [ngModel]="model.title" (ngModelChange)="triggerModelChange('title', $event)" placeholder="e.g. Version Changelog 8.9.1" maxlength="{{NOTIFICATION_TITLE_MAX_LENGTH}}" />
             <div>
               {{NOTIFICATION_TITLE_MAX_LENGTH - model.title.length}} characters left
@@ -56,10 +54,10 @@
         </div>
         <br/>
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-weight-bold">
+          <div class="col-md-2 text-md-end fw-bold">
             <span class="ngb-tooltip-class" ngbTooltip="Message body of the notification.">Message content</span>
           </div>
-          <div class="col-md-10 text-md-left">
+          <div class="col-md-10 text-md-start">
             <tm-rich-text-editor id="notification-message" [richText]="model.message" (richTextChange)="triggerModelChange('message', $event)"></tm-rich-text-editor>
           </div>
         </div>
@@ -70,19 +68,19 @@
     <div class="card border-primary margin-top-20px">
       <div class="card-body">
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-weight-bold">
+          <div class="col-md-2 text-md-end fw-bold">
             <span class="ngb-tooltip-class" ngbTooltip="This timezone is deduced based on your system/browser's settings.">Timezone</span>
           </div>
-          <div id="submission-status" class="col-md-4 text-md-left">
+          <div id="submission-status" class="col-md-4 text-md-start">
             {{ guessTimezone }}
           </div>
         </div>
 
         <div class="row text-center margin-top-20px">
           <div class="col-md-6">
-            <div class="col-12 text-md-left">
+            <div class="col-12 text-md-start">
               <div>
-                <label class="ngb-tooltip-class label-control font-weight-bold" ngbTooltip="Users will be able to see the notification.">
+                <label class="ngb-tooltip-class label-control fw-bold" ngbTooltip="Users will be able to see the notification.">
                   Notification start time
                 </label>
               </div>
@@ -99,8 +97,8 @@
           </div>
           <div class="col-md-6 border-left-gray">
             <div class="row text-center">
-              <div class="col-12 text-md-left ml-md-2">
-                <label class="ngb-tooltip-class label-control font-weight-bold" ngbTooltip="Notification will be hidden from users.">
+              <div class="col-12 text-md-start ms-md-2">
+                <label class="ngb-tooltip-class label-control fw-bold" ngbTooltip="Notification will be hidden from users.">
                   Notification end time
                 </label>
               </div>

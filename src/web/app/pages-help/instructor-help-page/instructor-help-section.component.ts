@@ -46,7 +46,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.key) {
+    if (!changes['key']) {
       return;
     }
     // Collapse all questions when new search is initiated
@@ -56,7 +56,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
     if (this.key === '') {
       this.resetFaq();
     } else {
-      this.filterFaq(changes.key.currentValue);
+      this.filterFaq(changes['key'].currentValue);
     }
   }
 

@@ -5,6 +5,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -31,58 +32,69 @@ exports[`StudentListComponent should snap with default fields 1`] = `
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Team 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            aria-sort="none"
+            class="sort-by-name sortable-header"
           >
-             Student Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Student Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            aria-sort="none"
+            class="sort-by-status sortable-header"
           >
-             Status 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Status 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Email 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Email 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
             class="align-center"
@@ -103,6 +115,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton={[Function Boolean]}
@@ -129,70 +142,85 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Section 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Section 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Team 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            aria-sort="none"
+            class="sort-by-name sortable-header"
           >
-             Student Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Student Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            aria-sort="none"
+            class="sort-by-status sortable-header"
           >
-             Status 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Status 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Email 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Email 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
             class="align-center"
@@ -205,17 +233,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -237,7 +254,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -246,7 +263,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -254,20 +271,20 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-send-invite"
+              id="btn-send-invite--0"
             >
               Send Invite
             </button>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -278,17 +295,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -310,7 +316,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -319,7 +325,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -327,20 +333,20 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-send-invite"
+              id="btn-send-invite--1"
             >
               Send Invite
             </button>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -351,17 +357,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -383,7 +378,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -392,7 +387,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -400,14 +395,14 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -418,17 +413,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -450,7 +434,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -459,7 +443,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -467,14 +451,14 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -493,6 +477,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton={[Function Boolean]}
@@ -519,70 +504,85 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Section 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Section 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Team 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            aria-sort="none"
+            class="sort-by-name sortable-header"
           >
-             Student Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Student Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            aria-sort="none"
+            class="sort-by-status sortable-header"
           >
-             Status 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Status 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Email 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Email 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
             class="align-center"
@@ -595,17 +595,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -627,7 +616,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -636,7 +625,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -644,20 +633,20 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
-              id="btn-send-invite"
+              id="btn-send-invite--0"
             >
               Send Invite
             </button>
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -668,17 +657,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -700,7 +678,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -709,7 +687,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -717,14 +695,14 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -735,17 +713,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -767,7 +734,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -776,7 +743,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -784,14 +751,14 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -802,17 +769,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -834,7 +790,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -843,7 +799,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -851,14 +807,14 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -877,6 +833,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -903,70 +860,85 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Section 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Section 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Team 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            aria-sort="none"
+            class="sort-by-name sortable-header"
           >
-             Student Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Student Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            aria-sort="none"
+            class="sort-by-status sortable-header"
           >
-             Status 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Status 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Email 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Email 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
             class="align-center"
@@ -979,17 +951,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1011,7 +972,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1020,7 +981,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1028,14 +989,14 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1046,17 +1007,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1078,7 +1028,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1087,7 +1037,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1095,14 +1045,14 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1113,17 +1063,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -1145,7 +1084,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1154,7 +1093,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1162,14 +1101,14 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1180,17 +1119,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -1212,7 +1140,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1221,7 +1149,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1229,14 +1157,14 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1255,6 +1183,7 @@ exports[`StudentListComponent should snap with some student list data and some s
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -1281,70 +1210,85 @@ exports[`StudentListComponent should snap with some student list data and some s
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Section 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Section 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Team 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            aria-sort="none"
+            class="sort-by-name sortable-header"
           >
-             Student Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Student Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            aria-sort="none"
+            class="sort-by-status sortable-header"
           >
-             Status 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Status 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Email 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Email 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
             class="align-center"
@@ -1358,17 +1302,6 @@ exports[`StudentListComponent should snap with some student list data and some s
           hidden=""
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1390,7 +1323,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1399,7 +1332,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1407,14 +1340,14 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1425,17 +1358,6 @@ exports[`StudentListComponent should snap with some student list data and some s
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1457,7 +1379,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1466,7 +1388,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1474,14 +1396,14 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1493,17 +1415,6 @@ exports[`StudentListComponent should snap with some student list data and some s
           hidden=""
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -1525,7 +1436,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1534,7 +1445,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1542,14 +1453,14 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1560,17 +1471,6 @@ exports[`StudentListComponent should snap with some student list data and some s
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -1592,7 +1492,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1601,7 +1501,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1609,14 +1509,14 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1635,6 +1535,7 @@ exports[`StudentListComponent should snap with some student list data when not a
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -1661,70 +1562,85 @@ exports[`StudentListComponent should snap with some student list data when not a
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Section 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Section 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Team 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            aria-sort="none"
+            class="sort-by-name sortable-header"
           >
-             Student Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Student Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            aria-sort="none"
+            class="sort-by-status sortable-header"
           >
-             Status 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Status 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Email 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Email 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
             class="align-center"
@@ -1737,17 +1653,6 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1769,7 +1674,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1778,7 +1683,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1786,14 +1691,14 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1804,17 +1709,6 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 1
           </td>
@@ -1836,7 +1730,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1845,7 +1739,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1853,14 +1747,14 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
-              id="btn-delete"
+              id="btn-delete--1"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--1"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1871,17 +1765,6 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -1903,7 +1786,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1912,7 +1795,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1920,14 +1803,14 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--2"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--2"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1938,17 +1821,6 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Tutorial Group 2
           </td>
@@ -1970,7 +1842,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-details"
+              id="btn-view-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1979,7 +1851,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-edit-details"
+              id="btn-edit-details--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1987,14 +1859,14 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--3"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              id="btn-view-records"
+              id="btn-view-records--3"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -2013,6 +1885,7 @@ exports[`StudentListComponent should snap with some student list data with no se
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -2039,58 +1912,69 @@ exports[`StudentListComponent should snap with some student list data with no se
         class="thead-gray"
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Team 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            aria-sort="none"
+            class="sort-by-name sortable-header"
           >
-             Student Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Student Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            aria-sort="none"
+            class="sort-by-status sortable-header"
           >
-             Status 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Status 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Email 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Email 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
             class="align-center"
@@ -2103,17 +1987,6 @@ exports[`StudentListComponent should snap with some student list data with no se
         <tr
           s=""
         >
-          <td>
-            <tm-view-photo-popover>
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-            </tm-view-photo-popover>
-          </td>
           <td>
             Team 1
           </td>
@@ -2132,7 +2005,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              id="btn-view-details"
+              id="btn-view-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -2141,7 +2014,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              id="btn-edit-details"
+              id="btn-edit-details--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -2149,14 +2022,14 @@ exports[`StudentListComponent should snap with some student list data with no se
             </a>
             <button
               class="btn btn-light btn-sm btn-margin-right"
-              id="btn-delete"
+              id="btn-delete--0"
             >
               Delete
             </button>
             <a
               class="btn btn-light btn-sm btn-margin-right"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              id="btn-view-records"
+              id="btn-view-records--0"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -2175,6 +2048,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
@@ -2202,58 +2076,69 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
         hidden=""
       >
         <tr>
-          <th>
-            Photo
-          </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Team 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Team 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-name"
+            aria-sort="none"
+            class="sort-by-name sortable-header"
           >
-             Student Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Student Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
-            class="sortable-header"
-            id="sort-by-status"
+            aria-sort="none"
+            class="sort-by-status sortable-header"
           >
-             Status 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Status 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             Email 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Email 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
             class="align-center"

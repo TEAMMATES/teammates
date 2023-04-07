@@ -56,10 +56,13 @@ export class AdminAccountsPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoadingAccountInfo = false;
         }))
-        .subscribe((resp: Account) => {
-          this.accountInfo = resp;
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
+        .subscribe({
+          next: (resp: Account) => {
+            this.accountInfo = resp;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
 
     this.isLoadingStudentCourses = true;
@@ -67,12 +70,15 @@ export class AdminAccountsPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoadingStudentCourses = false;
         }))
-        .subscribe((resp: Courses) => {
-          this.studentCourses = resp.courses;
-        }, (resp: ErrorMessageOutput) => {
-          if (resp.status !== 403) {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          }
+        .subscribe({
+          next: (resp: Courses) => {
+            this.studentCourses = resp.courses;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            if (resp.status !== 403) {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            }
+          },
         });
 
     this.isLoadingInstructorCourses = true;
@@ -80,12 +86,15 @@ export class AdminAccountsPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoadingInstructorCourses = false;
         }))
-        .subscribe((resp: Courses) => {
-          this.instructorCourses = resp.courses;
-        }, (resp: ErrorMessageOutput) => {
-          if (resp.status !== 403) {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          }
+        .subscribe({
+          next: (resp: Courses) => {
+            this.instructorCourses = resp.courses;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            if (resp.status !== 403) {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            }
+          },
         });
   }
 
@@ -94,11 +103,14 @@ export class AdminAccountsPageComponent implements OnInit {
    */
   deleteAccount(): void {
     const id: string = this.accountInfo.googleId;
-    this.accountService.deleteAccount(id).subscribe(() => {
-      this.navigationService.navigateWithSuccessMessage('/web/admin/search',
-          `Account "${id}" is successfully deleted.`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.accountService.deleteAccount(id).subscribe({
+      next: () => {
+        this.navigationService.navigateWithSuccessMessage('/web/admin/search',
+            `Account "${id}" is successfully deleted.`);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -109,11 +121,14 @@ export class AdminAccountsPageComponent implements OnInit {
     this.studentService.deleteStudent({
       courseId,
       googleId: this.accountInfo.googleId,
-    }).subscribe(() => {
-      this.studentCourses = this.studentCourses.filter((course: Course) => course.courseId !== courseId);
-      this.statusMessageService.showSuccessToast(`Student is successfully deleted from course "${courseId}"`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    }).subscribe({
+      next: () => {
+        this.studentCourses = this.studentCourses.filter((course: Course) => course.courseId !== courseId);
+        this.statusMessageService.showSuccessToast(`Student is successfully deleted from course "${courseId}"`);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -124,11 +139,14 @@ export class AdminAccountsPageComponent implements OnInit {
     this.instructorService.deleteInstructor({
       courseId,
       instructorId: this.accountInfo.googleId,
-    }).subscribe(() => {
-      this.instructorCourses = this.instructorCourses.filter((course: Course) => course.courseId !== courseId);
-      this.statusMessageService.showSuccessToast(`Instructor is successfully deleted from course "${courseId}"`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    }).subscribe({
+      next: () => {
+        this.instructorCourses = this.instructorCourses.filter((course: Course) => course.courseId !== courseId);
+        this.statusMessageService.showSuccessToast(`Instructor is successfully deleted from course "${courseId}"`);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 

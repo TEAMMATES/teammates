@@ -1,9 +1,9 @@
 <div class="transparent-overlay" [ngClass]="{ 'display-none': type !== SimpleModalType.LOAD }"></div>
 <div class="modal-header"
      [ngClass]="{
-     'alert-danger' : type === SimpleModalType.DANGER,
-     'alert-warning' : type === SimpleModalType.WARNING,
-     'alert-info' : type === SimpleModalType.INFO || type === SimpleModalType.LOAD,
+     'bg-danger' : type === SimpleModalType.DANGER,
+     'bg-warning' : type === SimpleModalType.WARNING,
+     'bg-info' : type === SimpleModalType.INFO || type === SimpleModalType.LOAD,
      'bg-white' : type === SimpleModalType.NEUTRAL}">
   <div>
     <h5 class="modal-title">
@@ -13,9 +13,8 @@
       <span class="margin-left-5px" [innerHTML]="header"></span>
     </h5>
   </div>
-  <button type="button" class="close"
+  <button type="button" class="btn-close"
     (click)="type === SimpleModalType.LOAD ? activeModal.close() : activeModal.dismiss()">
-    <i class="fas fa-times"></i>
   </button>
 </div>
 <div class="modal-body">

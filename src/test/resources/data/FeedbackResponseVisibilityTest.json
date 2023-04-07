@@ -710,6 +710,30 @@
       "showRecipientNameTo": [
         "INSTRUCTORS"
       ]
+    },
+    "FRV.qn11InSession2InCourse1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "Students to Team excluding self Text question",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 11,
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS_EXCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {
@@ -1023,6 +1047,45 @@
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "My answer"
+      }
+    },
+    "FRV.response1ForQ11S2C1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "feedbackQuestionId": "11",
+      "giver": "FRV.student1InCourse1@gmail.tmt",
+      "recipient": "Team 1.3",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "From student 1 to Team 1.3"
+      }
+    },
+    "FRV.response2ForQ11S2C1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "feedbackQuestionId": "11",
+      "giver": "FRV.student6InCourse1@gmail.tmt",
+      "recipient": "Team 1.1</td></div>'\"",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "From student 6 to Team 1.1</td></div>'\""
+      }
+    },
+    "FRV.response3ForQ11S2C1": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "FRV.idOfTypicalCourse1",
+      "feedbackQuestionId": "11",
+      "giver": "FRV.student7InCourse1@gmail.tmt",
+      "recipient": "Team 1.2",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 2",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "From student 7 to Team 1.2"
       }
     }
   },

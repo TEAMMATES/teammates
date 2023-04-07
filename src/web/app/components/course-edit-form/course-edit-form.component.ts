@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -39,7 +39,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
   FormValidator: typeof FormValidator = FormValidator;
 
-  @ViewChild('courseForm') form!: FormGroup;
+  @ViewChild('courseForm') form!: UntypedFormGroup;
 
   @Input()
   isDisplayOnly: boolean = false;

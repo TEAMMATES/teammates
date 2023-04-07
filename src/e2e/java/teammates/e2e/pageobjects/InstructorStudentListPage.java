@@ -123,15 +123,14 @@ public class InstructorStudentListPage extends AppPage {
     }
 
     private String[][] getExpectedStudentValues(StudentAttributes[] students) {
-        String[][] expected = new String[students.length][6];
+        String[][] expected = new String[students.length][5];
         for (int i = 0; i < students.length; i++) {
             StudentAttributes student = students[i];
-            expected[i][0] = "View Photo";
-            expected[i][1] = student.getSection();
-            expected[i][2] = student.getTeam();
-            expected[i][3] = student.getName();
-            expected[i][4] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
-            expected[i][5] = student.getEmail();
+            expected[i][0] = student.getSection();
+            expected[i][1] = student.getTeam();
+            expected[i][2] = student.getName();
+            expected[i][3] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
+            expected[i][4] = student.getEmail();
         }
         return expected;
     }
@@ -143,7 +142,7 @@ public class InstructorStudentListPage extends AppPage {
 
     private WebElement getDeleteButton(CourseAttributes course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
-        return studentRow.findElement(By.id("btn-delete"));
+        return studentRow.findElement(By.cssSelector("[id^='btn-delete-']"));
     }
 
     private WebElement getStudentRow(CourseAttributes course, String studentEmail) {
@@ -155,7 +154,7 @@ public class InstructorStudentListPage extends AppPage {
         List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));
         for (WebElement studentRow : studentRows) {
             List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));
-            if (studentCells.get(5).getText().equals(studentEmail)) {
+            if (studentCells.get(4).getText().equals(studentEmail)) {
                 return studentRow;
             }
         }
@@ -172,7 +171,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorCourseStudentDetailsViewPage clickViewStudent(CourseAttributes course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
-        WebElement viewButton = studentRow.findElement(By.id("btn-view-details"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -181,7 +180,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(CourseAttributes course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
-        WebElement viewButton = studentRow.findElement(By.id("btn-edit-details"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
@@ -190,7 +189,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public InstructorStudentRecordsPage clickViewAllRecords(CourseAttributes course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
-        WebElement viewButton = studentRow.findElement(By.id("btn-view-records"));
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();

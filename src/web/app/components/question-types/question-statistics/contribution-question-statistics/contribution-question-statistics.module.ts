@@ -13,9 +13,6 @@ import { ContributionComponent } from './contribution.component';
     CommonModule,
     NgbTooltipModule,
   ],
-  entryComponents: [
-    ContributionComponent, ContributionRatingsListComponent,
-  ],
   exports: [
     ContributionComponent, ContributionRatingsListComponent,
   ],

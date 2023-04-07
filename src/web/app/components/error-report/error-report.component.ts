@@ -47,13 +47,16 @@ export class ErrorReportComponent implements OnInit {
     };
 
     this.sendButtonEnabled = false;
-    this.errorReportService.sendErrorReport({ request }).subscribe(() => {
-      this.errorReportSubmitted = true;
-      this.statusMessageService.showSuccessToast('Your error report has been successfully sent');
-      this.ngbActiveModal.close();
-    }, (res: ErrorMessageOutput) => {
-      this.sendButtonEnabled = true;
-      this.statusMessageService.showErrorToast(res.error.message);
+    this.errorReportService.sendErrorReport({ request }).subscribe({
+      next: () => {
+        this.errorReportSubmitted = true;
+        this.statusMessageService.showSuccessToast('Your error report has been successfully sent');
+        this.ngbActiveModal.close();
+      },
+      error: (res: ErrorMessageOutput) => {
+        this.sendButtonEnabled = true;
+        this.statusMessageService.showErrorToast(res.error.message);
+      },
     });
   }
 

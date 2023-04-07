@@ -33,11 +33,11 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
     this.questionText = apiOutput.questionText;
   }
 
-  getQuestionCsvHeaders(): string[] {
+  override getQuestionCsvHeaders(): string[] {
     return ['Sub Question', 'Choice Value', 'Choice Number'];
   }
 
-  getMissingResponseCsvAnswers(): string[][] {
+  override getMissingResponseCsvAnswers(): string[][] {
     return [['All Sub-Questions', 'No Response']];
   }
 
@@ -98,7 +98,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
             statsRows.push([
               perRecipientStats.recipientTeam,
               perRecipientStats.recipientName,
-              perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
+              perRecipientStats.recipientEmail ?? '',
               `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}`,
               ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
                 return `${perRecipientStats.percentages[questionIndex][choiceIndex]}% \
@@ -121,6 +121,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
       ...statsCalculation.choices,
       'Total',
       'Average',
+      'Per Criterion Average',
     ]);
 
     Object.values(statsCalculation.perRecipientStatsMap)
@@ -130,7 +131,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
         statsRows.push([
           perRecipientStats.recipientTeam,
           perRecipientStats.recipientName,
-          perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
+          perRecipientStats.recipientEmail ?? '',
           ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
           return `${perRecipientStats.percentagesAverage[choiceIndex]}% \
 (${perRecipientStats.answersSum[choiceIndex]}) \
@@ -138,6 +139,7 @@ ${statsCalculation.hasWeights ? `[${statsCalculation.weights[questionIndex][choi
           }),
           String(perRecipientStats.overallWeightedSum),
           String(perRecipientStats.overallWeightAverage),
+          String(perRecipientStats.subQuestionWeightAverage.toString()),
         ]);
       });
 

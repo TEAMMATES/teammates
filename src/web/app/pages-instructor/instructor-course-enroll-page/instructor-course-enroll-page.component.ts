@@ -1,7 +1,10 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
+import { DetailedSettings } from 'handsontable/plugins/contextMenu';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { concat, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -51,25 +54,28 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   statusMessage: StatusMessage[] = [];
   unsuccessfulEnrolls: { [email: string]: string } = {};
 
-  @ViewChild('moreInfo') moreInfo?: ElementRef;
-
   @Input() isNewStudentsPanelCollapsed: boolean = false;
   @Input() isExistingStudentsPanelCollapsed: boolean = true;
 
   colHeaders: string[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
-  contextMenuOptions: String[] | Object[] =
-    ['row_above',
-      'row_below',
-      'remove_row',
-      'undo',
-      'redo',
-      {
+  contextMenuOptions: DetailedSettings = {
+    items: {
+      row_above: {},
+      row_below: {},
+      remove_row: {},
+      undo: {},
+      redo: {},
+      cut: {},
+      copy: {},
+      paste: {
         key: 'paste',
         name: 'Paste',
         callback: this.pasteClick,
       },
-      'make_read_only',
-      'alignment'];
+      make_read_only: {},
+      alignment: {},
+    },
+  };
 
   hotRegisterer: HotTableRegisterer = new HotTableRegisterer();
   newStudentsHOT: string = 'newStudentsHOT';
@@ -96,7 +102,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private progressBarService: ProgressBarService,
-              private simpleModalService: SimpleModalService) { }
+              private simpleModalService: SimpleModalService,
+              private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -481,7 +489,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   addRows(numOfRows: number): void {
     this.hotRegisterer.getInstance(this.newStudentsHOT).alter(
-        'insert_row', [], numOfRows);
+        'insert_row_below', [], numOfRows);
   }
 
   /**
@@ -551,21 +559,24 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
-        (resp: Students) => {
-          if (resp.students.length) {
-            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
-          } else {
-            // Shows a message if there are no existing students. Panel would not be expanded.
-            this.isExistingStudentsPresent = false;
-            this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-          }
-        }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-      this.isAjaxSuccess = false;
-      this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-    }, () => {
-      this.isLoadingExistingStudents = false;
+    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe({
+      next: (resp: Students) => {
+        if (resp.students.length) {
+          this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
+        } else {
+          // Shows a message if there are no existing students. Panel would not be expanded.
+          this.isExistingStudentsPresent = false;
+          this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+        this.isAjaxSuccess = false;
+        this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+      },
+      complete: () => {
+        this.isLoadingExistingStudents = false;
+      },
     });
   }
 
@@ -597,41 +608,52 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.existingStudents = [];
     this.hasLoadingStudentsFailed = false;
     this.isLoadingCourseEnrollPage = true;
-    this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
-      this.coursePresent = true;
-      this.courseId = courseid;
-      if (resp.hasResponsesBySession === undefined) {
-        return;
-      }
-      for (const sessionName of Object.keys(resp.hasResponsesBySession)) {
-        if (resp.hasResponsesBySession[sessionName]) {
-          const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
+    this.courseService.hasResponsesForCourse(courseid).subscribe({
+      next: (resp: HasResponses) => {
+        this.coursePresent = true;
+        this.courseId = courseid;
+        if (resp.hasResponsesBySession === undefined) {
+          return;
+        }
+        for (const sessionName of Object.keys(resp.hasResponsesBySession)) {
+          if (resp.hasResponsesBySession[sessionName]) {
+            const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
           Modifying records of enrolled students will result in some existing responses
           from those modified students to be deleted. You may wish to download the data
           before you make the changes.`;
-          this.simpleModalService.openInformationModal(
-            'Existing feedback responses', SimpleModalType.WARNING, modalContent);
+            this.simpleModalService.openInformationModal(
+                'Existing feedback responses', SimpleModalType.WARNING, modalContent);
+          }
         }
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.coursePresent = false;
-      this.statusMessageService.showErrorToast(resp.error.message);
-    }, () => {
-      this.isLoadingCourseEnrollPage = false;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.coursePresent = false;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+      complete: () => {
+        this.isLoadingCourseEnrollPage = false;
+      },
     });
-    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
-      this.existingStudents = resp.students;
-    }, (resp: ErrorMessageOutput) => {
-      this.hasLoadingStudentsFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe({
+      next: (resp: Students) => {
+        this.existingStudents = resp.students;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasLoadingStudentsFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
   /**
-   * Shows user more information about the spreadsheet interfaces
+   * Scrolls user to the target section.
    */
-  navigateToMoreInfo(): void {
-    (this.moreInfo as ElementRef)
-        .nativeElement.scrollIntoView({ behavior: 'auto', block: 'start' });
+  navigateTo(target: string): void {
+    this.pageScrollService.scroll({
+      document: this.document,
+      duration: 500,
+      scrollTarget: `#${target}`,
+      scrollOffset: 70,
+    });
   }
 }

@@ -47,9 +47,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GenerateEmailAction.class,
                 GetFeedbackQuestionsAction.class,
                 GetOngoingSessionsAction.class,
-                GetStudentProfileAction.class,
-                UpdateStudentProfileAction.class,
-                GetNationalitiesAction.class,
                 AdminExceptionTestAction.class,
                 GetUserCookieAction.class,
                 RemindFeedbackSessionResultAction.class,
@@ -64,9 +61,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 UpdateStudentAction.class,
                 SearchStudentsAction.class,
                 FeedbackSessionRemindEmailWorkerAction.class,
-                DeleteStudentProfilePictureAction.class,
-                PostStudentProfilePictureAction.class,
-                GetStudentProfilePictureAction.class,
                 DeleteFeedbackSessionAction.class,
                 CreateFeedbackSessionAction.class,
                 GetFeedbackSessionAction.class,
@@ -143,7 +137,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetNotificationsAction.class,
                 MarkNotificationAsReadAction.class,
                 GetReadNotificationsAction.class,
-                GetDeadlineExtensionAction.class
+                GetDeadlineExtensionAction.class,
+                SendLoginEmailAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

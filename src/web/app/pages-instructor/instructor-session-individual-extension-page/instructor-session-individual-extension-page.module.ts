@@ -3,9 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { DatepickerModule } from '../../components/datepicker/datepicker.module';
-import {
-  ExtensionConfirmModalComponent,
-} from '../../components/extension-confirm-modal/extension-confirm-modal.component';
 import { ExtensionConfirmModalModule } from '../../components/extension-confirm-modal/extension-confirm-modal.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -37,7 +34,6 @@ const routes: Routes = [
     LoadingRetryModule,
     ExtensionConfirmModalModule,
   ],
-  entryComponents: [IndividualExtensionDateModalComponent, ExtensionConfirmModalComponent],
   declarations: [
     InstructorSessionIndividualExtensionPageComponent,
     IndividualExtensionDateModalComponent,

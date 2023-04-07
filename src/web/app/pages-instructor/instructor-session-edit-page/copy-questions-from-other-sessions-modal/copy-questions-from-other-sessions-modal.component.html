@@ -1,11 +1,9 @@
 <div class="modal-header">
   <h4 class="modal-title">Copy Questions</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
 <div id="copy-question-modal" class="modal-body">
-  <div class="col-12 mb-3 text-md-right">
+  <div class="col-12 mb-3 text-md-end">
     <strong class="d-inline"> Sort Sessions By: </strong>
     <div class="btn-group" data-toggle="buttons">
       <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortFeedbackSessionTabs(SortBy.COURSE_ID)">Course ID</button>
@@ -31,34 +29,38 @@
                   <thead class="bg-primary text-white">
                     <tr>
                       <th>#</th>
-                      <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TYPE)">
-                        Question Type
-                        <span class="fa-stack">
-                          <i class="fas fa-sort"></i>
-                          <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                          <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                        </span>
+                      <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TYPE)" [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TYPE)">
+                        <button>
+                          Question Type
+                          <span class="fa-stack" aria-hidden="true">
+                            <i class="fas fa-sort"></i>
+                            <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                            <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                          </span>
+                        </button>
                       </th>
-                      <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TEXT)">
-                        Question Text
-                        <span class="fa-stack">
-                          <i class="fas fa-sort"></i>
-                          <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                          <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                        </span>
+                      <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TEXT)" [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TEXT)">
+                        <button>
+                          Question Text
+                          <span class="fa-stack" aria-hidden="true">
+                            <i class="fas fa-sort"></i>
+                            <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.DESC)" class="fas fa-sort-down"></i>
+                            <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.ASC)" class="fas fa-sort-up"></i>
+                          </span>
+                        </button>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let questionCandidate of feedbackSessionTabModel.questionsTableRowModels">
-                      <td><input type="checkbox" class="form-control" [(ngModel)]="questionCandidate.isSelected"></td>
+                      <td><input type="checkbox" [(ngModel)]="questionCandidate.isSelected"></td>
                       <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
                       <td>{{ questionCandidate.question.questionBrief }}</td>
                     </tr>
                   </tbody>
                 </table>
               </ng-container>
-              <button (click)="loadQuestions(feedbackSessionTabModel)" class="btn btn-primary float-right mt-2 mb-3">
+              <button (click)="loadQuestions(feedbackSessionTabModel)" class="btn btn-primary float-end mt-2 mb-3">
                 <i class="fas fa-redo" aria-hidden="true"></i>
                 &nbsp;Reload
               </button>

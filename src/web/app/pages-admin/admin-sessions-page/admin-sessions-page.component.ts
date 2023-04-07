@@ -134,28 +134,31 @@ export class AdminSessionsPageComponent implements OnInit {
         .pipe(finalize(() => {
           this.isLoadingOngoingSessions = false;
         }))
-        .subscribe((resp: OngoingSessions) => {
-          this.totalOngoingSessions = resp.totalOngoingSessions;
-          this.totalOpenSessions = resp.totalOpenSessions;
-          this.totalClosedSessions = resp.totalClosedSessions;
-          this.totalAwaitingSessions = resp.totalAwaitingSessions;
-          this.totalInstitutes = resp.totalInstitutes;
-          Object.keys(resp.sessions).forEach((key: string) => {
-            this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
-              return {
-                ongoingSession,
-                startTimeString: this.showDateFromMillis(ongoingSession.startTime),
-                endTimeString: this.showDateFromMillis(ongoingSession.endTime),
-              };
+        .subscribe({
+          next: (resp: OngoingSessions) => {
+            this.totalOngoingSessions = resp.totalOngoingSessions;
+            this.totalOpenSessions = resp.totalOpenSessions;
+            this.totalClosedSessions = resp.totalClosedSessions;
+            this.totalAwaitingSessions = resp.totalAwaitingSessions;
+            this.totalInstitutes = resp.totalInstitutes;
+            Object.keys(resp.sessions).forEach((key: string) => {
+              this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
+                return {
+                  ongoingSession,
+                  startTimeString: this.showDateFromMillis(ongoingSession.startTime),
+                  endTimeString: this.showDateFromMillis(ongoingSession.endTime),
+                };
+              });
             });
-          });
 
-          this.institutionPanelsStatus = {};
-          for (const institution of Object.keys(resp.sessions)) {
-            this.institutionPanelsStatus[institution] = true;
-          }
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
+            this.institutionPanelsStatus = {};
+            for (const institution of Object.keys(resp.sessions)) {
+              this.institutionPanelsStatus[institution] = true;
+            }
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 
@@ -168,16 +171,19 @@ export class AdminSessionsPageComponent implements OnInit {
       event.stopPropagation();
     }
     this.feedbackSessionsService.loadSessionStatistics(courseId, feedbackSessionName)
-        .subscribe((resp: FeedbackSessionStats) => {
-          const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
-            session.ongoingSession.courseId === courseId
-            && session.ongoingSession.feedbackSessionName === feedbackSessionName,
-          );
-          if (sessions.length) {
-            sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-          }
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
+        .subscribe({
+          next: (resp: FeedbackSessionStats) => {
+            const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
+                session.ongoingSession.courseId === courseId
+                && session.ongoingSession.feedbackSessionName === feedbackSessionName,
+            );
+            if (sessions.length) {
+              sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+            }
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 

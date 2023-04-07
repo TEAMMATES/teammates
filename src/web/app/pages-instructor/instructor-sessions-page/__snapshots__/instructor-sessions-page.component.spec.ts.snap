@@ -7,9 +7,11 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -29,6 +31,8 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -121,9 +125,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -143,6 +149,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -235,9 +243,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -257,6 +267,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -317,9 +329,11 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -339,6 +353,8 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded={[Function Boolean]}
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -392,21 +408,16 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
       >
         <div
           class="card card-plain"
+          id="session-edit-form"
         >
           <div
             class="close-header"
           >
             <button
               aria-label="Close"
-              class="close"
+              class="btn-close"
               type="button"
-            >
-              <span
-                aria-hidden="true"
-              >
-                ×
-              </span>
-            </button>
+            />
           </div>
           <div
             class="card-body"
@@ -415,25 +426,23 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
               class="row"
             >
               <div
-                class="col-md-7"
+                class="col-lg-7"
               >
                 <div
-                  class="row align-items-center"
+                  class="row mb-2"
                 >
                   <div
-                    class="col-md-3"
+                    class="col-12 col-sm-3 session-heading-text"
                   >
-                    <h5
-                      class="text-right"
-                    >
+                    <h5>
                       Create new
                     </h5>
                   </div>
                   <div
-                    class="col-9 col-md-8"
+                    class="col-12 col-sm-9 create-new-dropdown-div"
                   >
                     <select
-                      class="form-control ng-untouched ng-pristine ng-valid"
+                      class="form-control form-select ng-untouched ng-pristine ng-valid"
                       id="session-type"
                     >
                       <option
@@ -452,11 +461,8 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                         session with my own questions
                       </option>
                     </select>
-                  </div>
-                  <div
-                    class="col-1 col-md-1"
-                  >
                     <a
+                      aria-label="Help for feedback sessions"
                       class="btn btn-link"
                       href="/web/instructor/help?questionId=sessions&section=sessions"
                       target="_blank"
@@ -471,25 +477,23 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                 </div>
               </div>
               <div
-                class="col-md-5"
+                class="col-lg-5"
               >
                 <div
-                  class="row text-center align-items-center mt-1"
+                  class="row"
                 >
                   <div
-                    class="col-md-2"
+                    class="col-12 col-sm-3 col-lg-1 session-heading-text"
                   >
-                    <h5
-                      class="text-md-right"
-                    >
-                      Or: 
+                    <h5>
+                      Or
                     </h5>
                   </div>
                   <div
-                    class="col-md-10 text-md-left"
+                    class="col-12 col-sm-9 col-lg-11 text-md-start"
                   >
                     <button
-                      class="btn btn-info align-row"
+                      class="btn btn-info"
                       id="btn-copy-session"
                       type="button"
                     >
@@ -515,7 +519,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-right font-bold col-form-label"
+                    class="col-md-2 text-md-end font-bold col-form-label"
                   >
                     <span
                       class="ngb-tooltip-class"
@@ -525,11 +529,11 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     </span>
                   </div>
                   <div
-                    class="col-md-auto text-md-left"
+                    class="col-md-auto text-md-start"
                   >
                     <div>
                       <select
-                        class="form-control is-invalid ng-untouched ng-pristine ng-valid"
+                        class="form-control form-select is-invalid ng-untouched ng-pristine ng-valid"
                         id="add-course-id"
                       >
                       </select>
@@ -546,12 +550,12 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-right font-bold col-form-label"
+                    class="col-md-2 text-md-end font-bold col-form-label"
                   >
                      Time Zone 
                   </div>
                   <div
-                    class="col-md-3 text-md-left col-form-label"
+                    class="col-md-3 text-md-start col-form-label"
                     id="time-zone"
                   >
                     <span
@@ -567,12 +571,12 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-right font-bold"
+                    class="col-md-2 text-md-end font-bold"
                   >
                      Course Name 
                   </div>
                   <div
-                    class="col-md-10 text-md-left"
+                    class="col-md-10 text-md-start"
                     id="course-name"
                   >
                   </div>
@@ -582,7 +586,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-right font-bold"
+                    class="col-md-2 text-md-end font-bold"
                   >
                     <span
                       class="ngb-tooltip-class"
@@ -592,7 +596,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     </span>
                   </div>
                   <div
-                    class="col-md-10 text-md-left"
+                    class="col-md-10 text-md-start"
                   >
                     <div>
                       <input
@@ -613,7 +617,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   class="row text-center"
                 >
                   <div
-                    class="col-md-2 text-md-right font-bold"
+                    class="col-md-2 text-md-end font-bold"
                   >
                     <span
                       class="ngb-tooltip-class"
@@ -623,7 +627,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     </span>
                   </div>
                   <div
-                    class="col-md-10 text-md-left"
+                    class="col-md-10 text-md-start"
                   >
                     <tm-rich-text-editor
                       id="instructions"
@@ -651,7 +655,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     class="col-md-4"
                   >
                     <div
-                      class="col-12 text-md-left"
+                      class="col-12 text-md-start"
                     >
                       <div>
                         <label
@@ -674,23 +678,21 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                             class="input-group"
                           >
                             <input
+                              aria-label="Date"
                               class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
                             />
-                            <div
-                              class="input-group-append"
+                            <button
+                              aria-label="Change date"
+                              class="btn btn-light input-group-text"
+                              type="button"
                             >
-                              <button
-                                class="btn btn-light"
-                                type="button"
-                              >
-                                <i
-                                  class="fas fa-calendar-alt"
-                                />
-                              </button>
-                            </div>
+                              <i
+                                class="fas fa-calendar-alt"
+                              />
+                            </button>
                           </div>
                         </tm-datepicker>
                       </div>
@@ -701,124 +703,149 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-start-time"
                         >
                           <select
-                            class="form-control ng-untouched ng-pristine ng-valid"
+                            aria-label="Select time"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
+                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
+                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
+                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
+                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
+                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
+                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
+                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
+                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
+                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
+                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
+                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
+                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
+                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
+                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
+                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
+                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
+                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
+                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
+                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -835,7 +862,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       class="row text-center"
                     >
                       <div
-                        class="col-12 text-md-left ml-md-2"
+                        class="col-12 text-md-start ms-md-2"
                       >
                         <label
                           class="ngb-tooltip-class label-control font-bold"
@@ -857,23 +884,21 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                             class="input-group"
                           >
                             <input
+                              aria-label="Date"
                               class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
                             />
-                            <div
-                              class="input-group-append"
+                            <button
+                              aria-label="Change date"
+                              class="btn btn-light input-group-text"
+                              type="button"
                             >
-                              <button
-                                class="btn btn-light"
-                                type="button"
-                              >
-                                <i
-                                  class="fas fa-calendar-alt"
-                                />
-                              </button>
-                            </div>
+                              <i
+                                class="fas fa-calendar-alt"
+                              />
+                            </button>
                           </div>
                         </tm-datepicker>
                       </div>
@@ -884,124 +909,149 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                           id="submission-end-time"
                         >
                           <select
-                            class="form-control ng-untouched ng-pristine ng-valid"
+                            aria-label="Select time"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
                             <option
+                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
+                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
+                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
+                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
+                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
+                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
+                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
+                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
+                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
+                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
+                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
+                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
+                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
+                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
+                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
+                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
+                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
+                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
+                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -1018,11 +1068,12 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       class="row text-center"
                     >
                       <div
-                        class="ngb-tooltip-class col-12 text-md-left ml-md-2"
+                        class="ngb-tooltip-class col-12 text-md-start ms-md-2"
                         ngbtooltip="Amount of time the system will continue accepting submissions after the specified deadline."
                       >
                         <label
                           class="control-label font-bold"
+                          for="grace-period"
                         >
                            Grace period 
                         </label>
@@ -1035,7 +1086,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                         class="col-12"
                       >
                         <select
-                          class="form-control ng-untouched ng-pristine ng-valid"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
                           id="grace-period"
                         >
                           <option
@@ -1080,7 +1131,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       class="row"
                     >
                       <a
-                        class="pl-3 pt-2 disabled-link ngb-tooltip-class"
+                        class="ps-3 pt-2 disabled-link ngb-tooltip-class"
                         ngbtooltip="You must save the new session before setting individual deadline extensions"
                       >
                          Individual Deadline Extensions 
@@ -1159,7 +1210,9 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
     <div
       class="margin-top-30px"
     >
-      <div>
+      <div
+        class="table-responsive"
+      >
         <tm-loading-spinner>
           <div
             class="loading-container"
@@ -1219,9 +1272,11 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1241,6 +1296,8 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1333,9 +1390,11 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1355,6 +1414,8 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}
@@ -1447,9 +1508,11 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   SessionsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  __ngContext__={[Function Number]}
   courseCandidates={[Function Array]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
@@ -1469,6 +1532,8 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   isResultActionLoading="false"
   isSendReminderLoading="false"
   isSessionEditFormExpanded="false"
+  modifiedSession={[Function Object]}
+  modifiedTimestampsModal={[Function TemplateRef2]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function ProgressBarService]}

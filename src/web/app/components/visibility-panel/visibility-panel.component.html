@@ -1,7 +1,7 @@
 <div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
   <div>
     <div *ngIf="model.isQuestionHasResponses">
-      <h5>Changing the visibility after collecting responses is not recommended.</h5>
+      <p class="fs-6 fw-bold">Changing the visibility after collecting responses is not recommended.</p>
       <p>Reason: The existing responses were submitted under the 'promise' of a certain visibility and changing the visibility later 'breaks' that promise.</p>
     </div>
     <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
@@ -15,16 +15,19 @@
     </button>
     <ul id="question-visibility-dropdown" ngbDropdownMenu>
       <li class="dropdown-header">Common visibility options</li>
-      <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
-          (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
-      <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
-      <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerCustomVisibilitySetting()">Custom visibility options...</li>
+      <li class="text-wrap dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings">
+        <button class="dropdown-button" (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</button>
+      </li>
+      <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed" aria-hidden="true"></li>
+      <li class="text-wrap dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed">
+        <button class="dropdown-button" (click)="triggerCustomVisibilitySetting()">Custom visibility options...</button>
+      </li>
     </ul>
   </div>
-  <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
+  <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting" aria-label="Custom Visibility Options Table">
     <thead>
     <tr>
-      <th scope="col" class="text-left">User/Group</th>
+      <th scope="col" class="text-start">User/Group</th>
       <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControl | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
     </tr>
     </thead>
@@ -36,7 +39,8 @@
           <input type="checkbox"
                  (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
                  [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
-                 [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable">
+                 [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable"
+                 [attr.aria-label]="getCheckboxAriaLabel(visibilityType, visibilityControl)">
         </td>
       </tr>
     </ng-container>

@@ -51,4 +51,46 @@ export class DateTimeService {
     convertDateToTimeFormat(date: Date): TimeFormat {
         return { hour: date.getHours(), minute: date.getMinutes() };
     }
+
+    /**
+     * Gets a moment instance from a date.
+     */
+    getMomentInstanceFromDate(date: DateFormat): moment.Moment {
+        const inst: moment.Moment = moment();
+        inst.set('year', date.year);
+        inst.set('month', date.month - 1); // moment month is from 0-11
+        inst.set('date', date.day);
+        return inst;
+    }
+
+    /**
+     * Gets a moment instance from a time.
+     */
+    getMomentInstanceFromTime(time: TimeFormat): moment.Moment {
+        const inst: moment.Moment = moment();
+        inst.set('hour', time.hour);
+        inst.set('minute', time.minute);
+        return inst;
+    }
+
+    /**
+     * Gets a date instance from a moment.
+     */
+    getDateInstance(mmt: moment.Moment): DateFormat {
+        return {
+            year: mmt.year(),
+            month: mmt.month() + 1, // moment month is from 0-11
+            day: mmt.date(),
+        };
+    }
+
+    /**
+     * Gets a time instance from a moment.
+     */
+    getTimeInstance(mmt: moment.Moment): TimeFormat {
+        return {
+            hour: mmt.hour(),
+            minute: mmt.minute(),
+        };
+    }
 }

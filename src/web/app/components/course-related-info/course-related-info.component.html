@@ -1,0 +1,56 @@
+<div class="card border-primary">
+  <div class="card-body fill-plain">
+    <div class="form form-horizontal text-center">
+      <div class="form-group">
+        <div class="col-sm-12 text-md-start">
+          <h2 class="h4 fw-bold">Enrollment Details</h2>
+        </div>
+      </div>
+      <div class="form-group student-info-row row">
+        <div class="col-md-2 text-md-end">
+          <label>Course</label>
+        </div>
+        <div id="course-id" class="col-md-9 text-md-start">
+          <a href="javascript:;" *ngIf="isDisplayOnly">
+            <span>{{student?.courseId}}</span>
+          </a>
+          <a tmRouterLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.courseId}" *ngIf="!isDisplayOnly">
+            <span>{{student?.courseId}}</span>
+          </a>
+        </div>
+      </div>
+      <div class="form-group student-info-row row" *ngIf="student?.sectionName">
+        <div class="col-md-2 text-md-end">
+          <label>Section Name</label>
+        </div>
+        <div id="section-name" class="col-md-9 text-md-start">
+          <span>{{student?.sectionName}}</span>
+        </div>
+      </div>
+      <div class="form-group student-info-row row">
+        <div class="col-md-2 text-md-end">
+          <label>Team Name</label>
+        </div>
+        <div id="team-name" class="col-md-9 text-md-start">
+          <span>{{student?.teamName}}</span>
+        </div>
+      </div>
+      <div class="form-group student-info-row row">
+        <div class="col-md-2 text-md-end">
+          <label>Official Email</label>
+        </div>
+        <div id="email" class="col-md-9 text-md-start">
+          <span>{{student?.email}}</span>
+        </div>
+      </div>
+      <div class="form-group student-info-row row">
+        <div class="col-md-2 text-md-end">
+          <label>Comments</label>
+        </div>
+        <div id="comments" class="col-md-9 text-md-start">
+          <span>{{student?.comments}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

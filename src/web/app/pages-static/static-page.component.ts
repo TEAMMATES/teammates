@@ -66,27 +66,30 @@ export class StaticPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
-    this.authService.getAuthUser().subscribe((res: AuthInfo) => {
-      if (res.user) {
-        this.user = res.user.id;
-        if (res.masquerade) {
-          this.user += ' (M)';
+    this.authService.getAuthUser().subscribe({
+      next: (res: AuthInfo) => {
+        if (res.user) {
+          this.user = res.user.id;
+          if (res.masquerade) {
+            this.user += ' (M)';
+          }
+          this.isInstructor = res.user.isInstructor;
+          this.isStudent = res.user.isStudent;
+          this.isAdmin = res.user.isAdmin;
+          this.isMaintainer = res.user.isMaintainer;
+        } else {
+          this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
+          this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
         }
-        this.isInstructor = res.user.isInstructor;
-        this.isStudent = res.user.isStudent;
-        this.isAdmin = res.user.isAdmin;
-        this.isMaintainer = res.user.isMaintainer;
-      } else {
-        this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
-        this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
-      }
-      this.isFetchingAuthDetails = false;
-    }, () => {
-      this.isInstructor = false;
-      this.isStudent = false;
-      this.isAdmin = false;
-      this.isMaintainer = false;
-      this.isFetchingAuthDetails = false;
+        this.isFetchingAuthDetails = false;
+      },
+      error: () => {
+        this.isInstructor = false;
+        this.isStudent = false;
+        this.isAdmin = false;
+        this.isMaintainer = false;
+        this.isFetchingAuthDetails = false;
+      },
     });
   }
 

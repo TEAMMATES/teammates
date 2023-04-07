@@ -208,7 +208,6 @@ public class TestDataValidityTest extends BaseTestCase {
                 .replaceFirst("Results?", "Res")
                 .replace("Details", "Det")
                 .replace("Confirmation", "Conf")
-                .replace("Profile", "Prof")
                 .replace("Reminders", "Rem")
                 .replace("Notification", "Notif")
                 .replace("Activity", "Act")

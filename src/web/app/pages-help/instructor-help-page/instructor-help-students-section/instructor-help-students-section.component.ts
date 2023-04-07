@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { Student, StudentProfile } from '../../../../types/api-output';
+import { Student } from '../../../../types/api-output';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import {
   SearchStudentsListRowTable,
@@ -11,7 +11,6 @@ import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
   EXAMPLE_SINGLE_STUDENT_RESULT_TABLES,
   EXAMPLE_STUDENT_ATTRIBUTES,
-  EXAMPLE_STUDENT_PROFILE,
 } from './instructor-help-students-data';
 import { StudentsSectionQuestions } from './students-section-questions';
 
@@ -31,7 +30,6 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
   Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;
-  readonly exampleStudentProfile: StudentProfile = EXAMPLE_STUDENT_PROFILE;
   readonly exampleStudentAttributes: Student = EXAMPLE_STUDENT_ATTRIBUTES;
   readonly exampleSingleStudentResultTables: SearchStudentsListRowTable[] = EXAMPLE_SINGLE_STUDENT_RESULT_TABLES;
   readonly exampleMultipleStudentResultTables: SearchStudentsListRowTable[] = EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES;

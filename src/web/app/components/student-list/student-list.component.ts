@@ -13,7 +13,6 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
  */
 export interface StudentListRowModel {
   student: Student;
-  photoUrl?: string;
   isAllowedToViewStudentInSection: boolean;
   isAllowedToModifyStudent: boolean;
 }
@@ -98,10 +97,13 @@ export class StudentListComponent {
    */
   remindStudentFromCourse(studentEmail: string): void {
     this.courseService.remindStudentForJoin(this.courseId, studentEmail)
-      .subscribe((resp: MessageOutput) => {
-        this.statusMessageService.showSuccessToast(resp.message);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      .subscribe({
+        next: (resp: MessageOutput) => {
+          this.statusMessageService.showSuccessToast(resp.message);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
       });
   }
 
@@ -124,5 +126,12 @@ export class StudentListComponent {
    */
   sortStudentList(by: SortBy): void {
     this.sortStudentListEvent.emit(by);
+  }
+
+  getAriaSort(by: SortBy): String {
+    if (by !== this.tableSortBy) {
+      return 'none';
+    }
+    return this.tableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 }

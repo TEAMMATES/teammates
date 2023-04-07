@@ -1,122 +1,123 @@
-<div class="card-header bg-primary text-white">
+<div class="card">
+  <div class="card-header bg-primary text-white">
     <strong *ngIf="isInEditMode">Course</strong>
     <strong *ngIf="isInAddMode">Create a new Course</strong>
     <div class="card-header-btn-toolbar">
-        <ng-container *ngIf="isInEditMode">
-            <button id="btn-edit-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse" *ngIf="!isEditing"
-                (click)="setIsEditing($event)">
-                <i class="fa fa-pen" aria-hidden="true"></i>
-                Edit
-            </button>
-            <button id="btn-cancel-course" *ngIf="isEditing" class="btn btn-primary btn-sm" [disabled]="isSaving"
-                (click)="discardChangesHandler()">
-                <i class="fa fa-times" aria-hidden="true"></i>
-                Cancel
-            </button>
-            <button id="btn-delete-course" class="btn btn-primary btn-sm"
-                ngbTooltip="Delete the course and its corresponding students and sessions"
-                [disabled]="!canModifyCourse || isSaving" (click)="deleteCourseHandler()">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-                Delete
-            </button>
-        </ng-container>
-        <ng-container *ngIf="isInAddMode">
-            <button id="btn-copy-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse"
-                (click)="copyCourseHandler()" [disabled]="isCopying || isInstitutesArrayEmpty">
-                <i class="fa fa-copy" aria-hidden="true" *ngIf="!isCopying"></i>
-                <tm-ajax-loading *ngIf="isCopying"></tm-ajax-loading>
-                Copy from previous courses
-            </button>
-            <button id="btn-close-form" class="btn btn-primary btn-sm" (click)="closeFormHandler()">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </button>
-        </ng-container>
+      <ng-container *ngIf="isInEditMode">
+        <button id="btn-edit-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse" *ngIf="!isEditing"
+          (click)="setIsEditing($event)">
+          <i class="fa fa-pen" aria-hidden="true"></i>
+          Edit
+        </button>
+        <button id="btn-cancel-course" *ngIf="isEditing" class="btn btn-primary btn-sm" [disabled]="isSaving"
+          (click)="discardChangesHandler()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+          Cancel
+        </button>
+        <button id="btn-delete-course" class="btn btn-primary btn-sm"
+          ngbTooltip="Delete the course and its corresponding students and sessions"
+          [disabled]="!canModifyCourse || isSaving" (click)="deleteCourseHandler()">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Delete
+        </button>
+      </ng-container>
+      <ng-container *ngIf="isInAddMode">
+        <button id="btn-copy-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse"
+          (click)="copyCourseHandler()" [disabled]="isCopying || isInstitutesArrayEmpty">
+          <i class="fa fa-copy" aria-hidden="true" *ngIf="!isCopying"></i>
+          <tm-ajax-loading *ngIf="isCopying"></tm-ajax-loading>
+          Copy from previous courses
+        </button>
+        <button id="btn-close-form" class="btn btn-primary btn-sm" (click)="closeFormHandler()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </ng-container>
     </div>
-</div>
-<div class="card-body fill-plain">
+  </div>
+  <div class="card-body fill-plain">
     <form #courseForm="ngForm" (ngSubmit)="submitHandler()">
-        <div class="form-row form-group">
-            <label class="col-sm-2 font-weight-bold text-md-right">Course ID:</label>
-            <div class="col-sm-9">
-                <input id="course-id" name="courseId" class="col-xs-12 form-control" type="text" tabindex="1"
-                    placeholder="e.g. CS3215-2013Semester1" #courseId="ngModel" [(ngModel)]="model.course.courseId"
-                    [disabled]="isInEditMode || isInputDisabled" [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH"
-                    required>
-                <div [hidden]="courseId.valid || (courseId.pristine && courseId.untouched) || isSaving || isDisplayOnly"
-                 class="invalid-field">
-                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                    The field Course ID should not be empty.
-                </div>
-            </div>
+      <div class="row form-group">
+        <label for="course-id" class="col-sm-2 fw-bold text-md-end">Course ID:</label>
+        <div class="col-sm-9">
+          <input id="course-id" name="courseId" class="col-xs-12 form-control" type="text"
+            placeholder="e.g. CS3215-2013Semester1" #courseId="ngModel" [(ngModel)]="model.course.courseId"
+            [disabled]="isInEditMode || isInputDisabled" [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH" required>
+          <div [hidden]="courseId.valid || (courseId.pristine && courseId.untouched) || isSaving || isDisplayOnly"
+            class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field Course ID should not be empty.
+          </div>
         </div>
-        <div class="form-row form-group">
-            <label class="col-sm-2 font-weight-bold text-md-right">Course Name:</label>
-            <div class="col-sm-9">
-                <input id="course-name" class="form-control" name="courseName" type="text" tabindex="2"
-                    placeholder="e.g. Software Engineering" [disabled]="isInputDisabled" #courseName="ngModel"
-                    [(ngModel)]="model.course.courseName" [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
-                <div [hidden]="courseName.valid || (courseName.pristine && courseName.untouched) || isSaving || isDisplayOnly"
-                    class="invalid-field">
-                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                    The field Course Name should not be empty.
-                </div>
-            </div>
+      </div>
+      <div class="row form-group">
+        <label for="course-name" class="col-sm-2 fw-bold text-md-end">Course Name:</label>
+        <div class="col-sm-9">
+          <input id="course-name" class="form-control" name="courseName" type="text"
+            placeholder="e.g. Software Engineering" [disabled]="isInputDisabled" #courseName="ngModel"
+            [(ngModel)]="model.course.courseName" [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
+          <div [hidden]="courseName.valid || (courseName.pristine && courseName.untouched) || isSaving || isDisplayOnly"
+            class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field Course Name should not be empty.
+          </div>
         </div>
-        <div class="form-row form-group">
-            <label class="col-sm-2 font-weight-bold text-md-right">
-                <ng-container *ngIf="isInAddMode; else withoutToolTip">
-                    <span class="ngb-tooltip-class"
-                        ngbTooltip="Note that you can only create a new course under an institute in which you are already a course co-owner.">
-                        Course institute:
-                    </span>
-                </ng-container>
-                <ng-template #withoutToolTip>
-                    Course institute:
-                </ng-template>
-            </label>
-            <div class="col-sm-9">
-                <select id="course-institute" class="col-xs-12 form-control" type="text" name="institute"
-                    [(ngModel)]="model.course.institute" [disabled]="isInEditMode || isInputDisabled" required>
-                    <option *ngIf="isInEditMode" [value]="model.course.institute" selected>{{ model.course.institute }}
-                    </option>
-                    <option *ngFor="let institute of institutes" [value]="institute">{{ institute }}</option>
-                </select>
-            </div>
+      </div>
+      <div class="row form-group">
+        <label for="course-institute" class="col-sm-2 fw-bold text-md-end">
+          <ng-container *ngIf="isInAddMode; else withoutToolTip">
+            <span class="ngb-tooltip-class"
+              ngbTooltip="Note that you can only create a new course under an institute in which you are already a course co-owner.">
+              Course institute:
+            </span>
+          </ng-container>
+          <ng-template #withoutToolTip>
+            Course institute:
+          </ng-template>
+        </label>
+        <div class="col-sm-9">
+          <select id="course-institute" class="col-xs-12 form-control form-select" type="text" name="institute"
+            [(ngModel)]="model.course.institute" [disabled]="isInEditMode || isInputDisabled" required>
+            <option *ngIf="isInEditMode" [value]="model.course.institute" selected>{{ model.course.institute }}
+            </option>
+            <option *ngFor="let institute of institutes" [value]="institute">{{ institute }}</option>
+          </select>
         </div>
-        <div class="form-row form-group">
-            <label class="col-xs-12 col-sm-2 font-weight-bold text-md-right"><span class="ngb-tooltip-class"
-                    ngbTooltip="You should not need to change this as it is auto-detected based on your
+      </div>
+      <div class="row form-group">
+        <label for="time-zone" class="col-xs-12 col-sm-2 fw-bold text-md-end"><span class="ngb-tooltip-class"
+            ngbTooltip="You should not need to change this as it is auto-detected based on your
                 device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
-                    Time Zone:</span></label>
-            <div class="col-xs-12 col-sm-9">
-                <div class="input-group">
-                    <select id="time-zone" class="form-control" name="timeZone" #timeZone="ngModel"
-                        [(ngModel)]="model.course.timeZone" [disabled]="isInputDisabled" required>
-                        <option *ngFor="let timezone of model.timezones" [value]="timezone.id">{{ timezone.id }} ({{
-                            timezone.offset }})</option>
-                    </select>
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type=button [disabled]="isInputDisabled"
-                            (click)="detectTimezoneHandler()">
-                            Auto-Detect
-                        </button>
-                    </span>
-                </div>
-            </div>
+            Time Zone:</span></label>
+        <div class="col-xs-12 col-sm-9">
+          <div class="input-group">
+            <select id="time-zone" class="form-control form-select" name="timeZone" #timeZone="ngModel"
+              [(ngModel)]="model.course.timeZone" [disabled]="isInputDisabled" required>
+              <option *ngFor="let timezone of model.timezones" [value]="timezone.id">{{ timezone.id }} ({{
+                timezone.offset }})</option>
+            </select>
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type=button [disabled]="isInputDisabled"
+                (click)="detectTimezoneHandler()">
+                Auto-Detect
+              </button>
+            </span>
+          </div>
         </div>
-        <div class="form-group m-0">
-            <div class=" col-sm-12 text-center">
-                <button id="btn-save-course" class="btn btn-success" type="submit"
-                    [disabled]="form?.invalid || isSaving" *ngIf="isEditing">
-                    <tm-ajax-loading *ngIf="isSaving"></tm-ajax-loading>
-                    Save Changes
-                </button>
-                <button id="btn-submit-course" class="btn btn-success" type="submit"
-                    [disabled]="form?.invalid || isSaving || isInstitutesArrayEmpty" *ngIf="isInAddMode">
-                    <tm-ajax-loading *ngIf="isSaving"></tm-ajax-loading>
-                    Add Course
-                </button>
-            </div>
+      </div>
+      <div class="form-group m-0">
+        <div class=" col-sm-12 text-center">
+          <button id="btn-save-course" class="btn btn-success" type="submit" [disabled]="form?.invalid || isSaving"
+            *ngIf="isEditing">
+            <tm-ajax-loading *ngIf="isSaving"></tm-ajax-loading>
+            Save Changes
+          </button>
+          <button id="btn-submit-course" class="btn btn-success" type="submit"
+            [disabled]="form?.invalid || isSaving || isInstitutesArrayEmpty" *ngIf="isInAddMode">
+            <tm-ajax-loading *ngIf="isSaving"></tm-ajax-loading>
+            Add Course
+          </button>
         </div>
+      </div>
     </form>
+  </div>
 </div>

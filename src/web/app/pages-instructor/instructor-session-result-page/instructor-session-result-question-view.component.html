@@ -1,5 +1,5 @@
-<div id="question-panel" class="card margin-bottom-15px" *ngFor="let question of questionsOrder">
-  <div id="question-header" class="card-header bg-info text-white cursor-pointer" (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)">
+<div id="question-panel-{{ question.question.questionNumber }}" class="card margin-bottom-15px" *ngFor="let question of questionsOrder">
+  <div class="card-header bg-info cursor-pointer" (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)">
     <tm-question-text-with-info [questionNumber]="question.question.questionNumber"
                                 [questionDetails]="question.question.questionDetails"
                                 [shouldShowDownloadQuestionResult]="true"

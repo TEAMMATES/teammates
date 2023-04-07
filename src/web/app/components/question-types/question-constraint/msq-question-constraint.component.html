@@ -1,5 +1,5 @@
 <div *ngIf="questionDetails.maxSelectableChoices !== NO_VALUE || questionDetails.minSelectableChoices !== NO_VALUE" class="text-info">
-  <p class="text-left font-weight-bold">Note:</p>
+  <p class="text-start fw-bold">Note:</p>
   <p id="min-options-message" *ngIf="questionDetails.minSelectableChoices !== NO_VALUE">
     <span class="fa fa-info-circle"></span> Choose <strong> at least {{ questionDetails.minSelectableChoices }}</strong> options.
   </p>

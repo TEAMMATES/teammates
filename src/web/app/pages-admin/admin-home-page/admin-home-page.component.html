@@ -5,7 +5,7 @@
       <p class="text-muted">
         <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution
       </p>
-      <textarea class="form-control" id="instructor-details-single-line" [(ngModel)]="instructorDetails"></textarea>
+      <textarea class="form-control" id="instructor-details-single-line" [(ngModel)]="instructorDetails" aria-label="Add multiple instructors"></textarea>
     </div>
 
     <div class="top-padded">
@@ -21,17 +21,23 @@
     </div>
 
     <div class="top-padded">
-      <strong>Name:</strong>
+      <label for="instructor-name">
+        <strong>Name:</strong>
+      </label>
       <input class="form-control" type="text" id="instructor-name" [(ngModel)]="instructorName">
     </div>
 
     <div class="top-padded">
-      <strong>Email: </strong>
+      <label for="instructor-email">
+        <strong>Email:</strong>
+      </label>
       <input class="form-control" type="text" id="instructor-email" [(ngModel)]="instructorEmail">
     </div>
 
     <div class="top-padded">
-      <strong>Institution: </strong>
+      <label for="instructor-institution">
+        <strong>Institution:</strong>
+      </label>
       <input class="form-control" type="text" id="instructor-institution" [(ngModel)]="instructorInstitution">
     </div>
 

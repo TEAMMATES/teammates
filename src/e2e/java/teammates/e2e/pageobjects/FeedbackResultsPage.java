@@ -117,20 +117,14 @@ public class FeedbackResultsPage extends AppPage {
         verifyTableRowValues(getNumScaleStatistics(questionNum), expectedStats);
     }
 
-    public void verifyRubricStatistics(int questionNum, String[][] expectedStats, String[][] expectedStatsExcludingSelf,
-                                       String[][] expectedStatsPerRecipient) {
+    public void verifyRubricStatistics(int questionNum, String[][] expectedStats,
+                                       String[][] expectedStatsExcludingSelf) {
         WebElement excludeSelfCheckbox = getRubricExcludeSelfCheckbox(questionNum);
         markOptionAsUnselected(excludeSelfCheckbox);
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStats);
 
         markOptionAsSelected(excludeSelfCheckbox);
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStatsExcludingSelf);
-
-        sortRubricPerRecipientStatsPerCriterion(questionNum, 2);
-        verifyTableBodyValues(getRubricPerRecipientStatsPerCriterion(questionNum), expectedStatsPerRecipient);
-
-        sortRubricPerRecipientStatsOverall(questionNum, 2);
-        verifyTableBodyValues(getRubricPerRecipientStatsPerCriterion(questionNum), expectedStatsPerRecipient);
     }
 
     public void verifyContributionStatistics(int questionNum, String[] expectedStats) {
@@ -364,7 +358,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getQuestionText(int questionNum) {
-        return getQuestionResponsesSection(questionNum).findElement(By.id("question-text")).getText().trim();
+        return getQuestionResponsesSection(questionNum).findElement(By.className("question-text")).getText().trim();
     }
 
     private String getMcqAddInfo(FeedbackMcqQuestionDetails questionDetails) {
@@ -457,7 +451,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void showAdditionalInfo(int qnNumber) {
-        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber).findElement(By.id("additional-info-link"));
+        WebElement additionalInfoLink =
+                getQuestionResponsesSection(qnNumber).findElement(By.className("additional-info-button"));
         if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
             waitUntilAnimationFinish();
@@ -466,7 +461,7 @@ public class FeedbackResultsPage extends AppPage {
 
     private String getAdditionalInfo(int questionNum) {
         showAdditionalInfo(questionNum);
-        return getQuestionResponsesSection(questionNum).findElement(By.id("additional-info")).getText();
+        return getQuestionResponsesSection(questionNum).findElement(By.className("additional-info")).getText();
     }
 
     private WebElement getGivenResponseField(int questionNum, String receiver) {
@@ -583,24 +578,8 @@ public class FeedbackResultsPage extends AppPage {
         return getQuestionResponsesSection(questionNum).findElement(By.id("rubric-statistics"));
     }
 
-    private WebElement getRubricPerRecipientStatsPerCriterion(int questionNum) {
-        return getQuestionResponsesSection(questionNum).findElement(By.id("rubric-recipient-statistics-per-criterion"));
-    }
-
-    private void sortRubricPerRecipientStatsPerCriterion(int questionNum, int colNum) {
-        click(getRubricPerRecipientStatsPerCriterion(questionNum).findElements(By.tagName("th")).get(colNum - 1));
-    }
-
-    private WebElement getRubricPerRecipientStatsOverall(int questionNum) {
-        return getQuestionResponsesSection(questionNum).findElement(By.id("rubric-recipient-statistics-overall"));
-    }
-
-    private void sortRubricPerRecipientStatsOverall(int questionNum, int colNum) {
-        click(getRubricPerRecipientStatsOverall(questionNum).findElements(By.tagName("th")).get(colNum - 1));
-    }
-
     private boolean isCommentByResponseGiver(WebElement commentField) {
-        return commentField.findElements(By.id("by-response-giver")).size() > 0;
+        return commentField.findElements(By.className("by-response-giver")).size() > 0;
     }
 
     private String getCommentGiver(WebElement commentField) {
@@ -620,7 +599,7 @@ public class FeedbackResultsPage extends AppPage {
     private WebElement getCommentField(int questionNum, String commentString) {
         List<WebElement> commentFields = getCommentFields(questionNum);
         for (WebElement comment : commentFields) {
-            if (comment.findElement(By.id("comment-text")).getText().equals(commentString)) {
+            if (comment.findElement(By.className("comment-text")).getText().equals(commentString)) {
                 return comment;
             }
         }

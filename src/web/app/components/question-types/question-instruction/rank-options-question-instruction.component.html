@@ -1,5 +1,5 @@
 <div class="text-info">
-  <p *ngIf="questionDetails.minOptionsToBeRanked !== NO_VALUE || questionDetails.maxOptionsToBeRanked !== NO_VALUE" class="font-weight-bold">Note:</p>
+  <p *ngIf="questionDetails.minOptionsToBeRanked !== NO_VALUE || questionDetails.maxOptionsToBeRanked !== NO_VALUE" class="fw-bold">Note:</p>
   <p id="min-options-message" *ngIf="questionDetails.minOptionsToBeRanked !== NO_VALUE">
     <span class="fa fa-info-circle"></span> Rank <strong>at least {{ questionDetails.minOptionsToBeRanked }}</strong> options.
   </p>

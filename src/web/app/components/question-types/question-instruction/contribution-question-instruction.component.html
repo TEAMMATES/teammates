@@ -1,7 +1,12 @@
-<div class="text-info" *ngIf="questionDetails.isZeroSum">
-  <p class="text-left font-weight-bold">Note:</p>
-  <p id="total-contributions-message">
-    <span class="fa fa-info-circle"></span>
-    Total contributions distributed should <strong>add up to <code>{{ numOfRecipients }} x Equal Share</code></strong>.
-  </p>
-</div>
+<p class="text-start fw-bold mt-3 mb-0">Note:</p>
+<p class="text-info mt-3 mb-0 ms-3" id="total-contributions-message" *ngIf="questionDetails.isZeroSum">
+  <span class="fa fa-info-circle"></span>
+  Total contributions distributed should <strong>add up to <code>{{ numOfRecipients }} x Equal Share</code></strong>.
+</p>
+<button type="button" class="btn btn-link mt-3 ms-3 p-0" (click)="openHelpModal(equalShareHelp)"><i class="fas fa-exclamation-circle"></i> More info about the <code>Equal Share</code> scale</button>
+<ng-template #equalShareHelp>
+  <p><code>Equal share</code> is a relative measure of individual contribution to a team task.</p>
+  <p>For example, in a 3-person team, <code>Equal share</code> means a third of the work done.</p>
+  <p><code>Equal share + 10%</code> means the person did about 10% <em>more</em> than an equal share,
+    <code>Equal share - 10%</code> means about 10% <em>less</em> than an equal share, and so on.</p>
+</ng-template>

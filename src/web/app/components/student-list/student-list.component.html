@@ -1,60 +1,65 @@
 <div class="table-responsive">
   <table class="table table-bordered table-striped m-0">
     <thead
-        [ngClass]="{'thead-gray': useGrayHeading, 'alert-primary font-weight-bold': !useGrayHeading}"
+        [ngClass]="{'thead-gray': useGrayHeading, 'bg-info fw-bold': !useGrayHeading}"
         [hidden]="isHideTableHead"
     >
     <tr>
-      <th>Photo</th>
-      <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentList(SortBy.SECTION_NAME)">
-        Section
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentList(SortBy.SECTION_NAME)" [attr.aria-sort]="getAriaSort(SortBy.SECTION_NAME)">
+        <button>
+          Section
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.TEAM_NAME)">
-        Team
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sortable-header" (click)="sortStudentList(SortBy.TEAM_NAME)" [attr.aria-sort]="getAriaSort(SortBy.TEAM_NAME)">
+        <button>
+          Team
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
-      <th id="sort-by-name" class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)">
-        Student Name
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sort-by-name sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)" [attr.aria-sort]="getAriaSort(SortBy.RESPONDENT_NAME)">
+        <button>
+          Student Name
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
-      <th id="sort-by-status" class="sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)">
-        Status
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sort-by-status sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)" [attr.aria-sort]="getAriaSort(SortBy.JOIN_STATUS)">
+        <button>
+          Status
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_EMAIL)">
-        Email
-        <span class="fa-stack">
-          <i class="fas fa-sort"></i>
-          <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-          <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-        </span>
+      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_EMAIL)" [attr.aria-sort]="getAriaSort(SortBy.RESPONDENT_EMAIL)">
+        <button>
+          Email
+          <span class="fa-stack" aria-hidden="true">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
+        </button>
       </th>
       <th class="align-center">Action(s)</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let studentModel of students; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
-      <td>
-        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId"
-                               [useViewPhotoBtn]="true"></tm-view-photo-popover>
-      </td>
+    <tr *ngFor="let studentModel of students; trackBy: trackByFn; let idx = index;" [hidden]="isStudentToHide(studentModel.student.email)" s>
       <td *ngIf="hasSection()" [innerHtml]="studentModel.student.sectionName | highlighter:searchString"></td>
       <td [innerHtml]="studentModel.student.teamName | highlighter:searchString"></td>
       <td [innerHtml]="studentModel.student.name | highlighter:searchString"></td>
@@ -72,26 +77,26 @@
             {{name}}</a>
         </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {
-        id: 'btn-view-details',
-        isEnabled: studentModel.isAllowedToViewStudentInSection && isActionButtonsEnabled,
-        tooltip: 'View the details of the student',
-        name: 'View',
-        tmRouterLink: '/web/instructor/courses/student/details',
-        queryParams: {courseid: courseId, studentemail: studentModel.student.email}
-      }"></ng-container>
+          id: 'btn-view-details-' + courseId + '-' + idx,
+          isEnabled: studentModel.isAllowedToViewStudentInSection && isActionButtonsEnabled,
+          tooltip: 'View the details of the student',
+          name: 'View',
+          tmRouterLink: '/web/instructor/courses/student/details',
+          queryParams: {courseid: courseId, studentemail: studentModel.student.email}
+        }"></ng-container>
         <ng-container *ngTemplateOutlet="actionButton; context: {
-        id: 'btn-edit-details',
-        isEnabled: studentModel.isAllowedToModifyStudent && isActionButtonsEnabled,
-        tooltip: 'Use this to edit the details of this student. To edit multiple students'
-          + ' in one go, you can use the enroll page: '
-          + 'Simply enroll students using the updated data and existing data will be updated accordingly',
-        name: 'Edit',
-        tmRouterLink: '/web/instructor/courses/student/edit',
-        queryParams: {courseid: courseId, studentemail: studentModel.student.email}
-      }"></ng-container>
+          id: 'btn-edit-details-' + courseId + '-' + idx,
+          isEnabled: studentModel.isAllowedToModifyStudent && isActionButtonsEnabled,
+          tooltip: 'Use this to edit the details of this student. To edit multiple students'
+            + ' in one go, you can use the enroll page: '
+            + 'Simply enroll students using the updated data and existing data will be updated accordingly',
+          name: 'Edit',
+          tmRouterLink: '/web/instructor/courses/student/edit',
+          queryParams: {courseid: courseId, studentemail: studentModel.student.email}
+        }"></ng-container>
       <ng-container *ngIf="enableRemindButton">
         <ng-container *ngIf="studentModel.student.joinState === JoinState.NOT_JOINED">
-          <button id="btn-send-invite" class="btn btn-light btn-sm btn-margin-right"
+          <button id="btn-send-invite-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
             [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
             [disabled]=!isActionButtonsEnabled
             [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
@@ -102,7 +107,7 @@
             (click)="openRemindModal(studentModel)">Send Invite</button>
         </ng-container>
       </ng-container>
-      <button id="btn-delete" class="btn btn-light btn-sm btn-margin-right"
+      <button id="btn-delete-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
         [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
         [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
           ? 'Delete the student and the corresponding submissions from the course'
@@ -110,7 +115,7 @@
         [disabled]="!isActionButtonsEnabled"
         (click)="openDeleteModal(studentModel)">Delete</button>
       <ng-container *ngTemplateOutlet="actionButton; context: {
-        id: 'btn-view-records',
+        id: 'btn-view-records-' + courseId + '-' + idx,
         isEnabled: isActionButtonsEnabled,
         tooltip: 'View all data about this student',
         name: 'All Records',

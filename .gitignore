@@ -55,6 +55,9 @@ src/lnp/resources/results/*
 src/lnp/resources/tests/*
 !src/lnp/resources/jmeter/bin
 
+# Angular
+.angular/cache
+
 # TEAMMATES
 gradle.properties
 build.properties
@@ -68,6 +71,7 @@ chromedriver*
 api-output.ts
 api-request.ts
 api-const.ts
+src/main/resources/firebase-credentials.json
 src/client/java/teammates/client/scripts/statistics/data/
 src/client/java/teammates/client/scripts/log/
 src/e2e/resources/gmail-api/

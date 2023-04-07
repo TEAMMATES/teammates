@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.logic.api.Logic;
 
 /**
  * Provides access control mechanisms.
@@ -17,7 +16,6 @@ import teammates.logic.api.Logic;
 final class GateKeeper {
 
     private static final GateKeeper instance = new GateKeeper();
-    private final Logic logic = Logic.inst();
 
     private GateKeeper() {
         // prevent initialization
@@ -284,39 +282,4 @@ final class GateKeeper {
         }
     }
 
-    /**
-     * Verifies that the action is accessible when the user is either an instructor of the course, a student of the course
-     * or his/her team member.
-     */
-    void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(String googleId, String courseId,
-            String section, String email)
-            throws UnauthorizedAccessException {
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, googleId);
-        if (instructor != null) {
-            verifyInstructorCanViewProfile(instructor, section);
-            return;
-        }
-
-        StudentAttributes student = logic.getStudentForGoogleId(courseId, googleId);
-        if (student != null) {
-            verifyStudentCanViewProfile(student, courseId, email);
-            return;
-        }
-
-        throw new UnauthorizedAccessException("User is not in the course that student belongs to");
-    }
-
-    private void verifyInstructorCanViewProfile(InstructorAttributes instructor, String section)
-            throws UnauthorizedAccessException {
-        if (!instructor.isAllowedForPrivilege(section, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS)) {
-            throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the profile.");
-        }
-    }
-
-    private void verifyStudentCanViewProfile(StudentAttributes student, String courseId, String email)
-            throws UnauthorizedAccessException {
-        if (!logic.isStudentsInSameTeam(courseId, email, student.getEmail())) {
-            throw new UnauthorizedAccessException("Student does not have enough privileges to view the profile.");
-        }
-    }
 }

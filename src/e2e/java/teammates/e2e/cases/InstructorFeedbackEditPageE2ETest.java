@@ -1,5 +1,8 @@
 package teammates.e2e.cases;
 
+import java.time.Duration;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
@@ -52,8 +55,10 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("edit session details");
         feedbackSession.setInstructions("<p><strong>new instructions</strong></p>");
-        feedbackSession.setStartTime(feedbackSession.getStartTime().minus(30, ChronoUnit.DAYS));
-        feedbackSession.setEndTime(feedbackSession.getEndTime().plus(30, ChronoUnit.DAYS));
+        feedbackSession.setStartTime(ZonedDateTime.now(ZoneId.of(feedbackSession.getTimeZone())).plus(Duration.ofDays(2))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        feedbackSession.setEndTime(ZonedDateTime.now(ZoneId.of(feedbackSession.getTimeZone())).plus(Duration.ofDays(7))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
         feedbackSession.setGracePeriodMinutes(30);
         feedbackSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         feedbackSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);

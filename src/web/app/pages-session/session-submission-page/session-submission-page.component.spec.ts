@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -324,6 +325,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
@@ -348,6 +350,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: false,
+    isTabExpanded: true,
   };
 
   const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -371,6 +374,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -398,6 +402,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -422,6 +427,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -449,6 +455,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -471,6 +478,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -497,6 +505,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -519,6 +528,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -543,6 +553,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
+    isTabExpanded: true,
   };
 
   const testInfo: AuthInfo = {
@@ -597,6 +608,7 @@ describe('SessionSubmissionPageComponent', () => {
         QuestionSubmissionFormModule,
         LoadingSpinnerModule,
         LoadingRetryModule,
+        BrowserAnimationsModule,
       ],
       providers: [
         {
@@ -771,10 +783,10 @@ describe('SessionSubmissionPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/front',
         `You are trying to access TEAMMATES using the Google account user-id, which
-                    is not linked to this TEAMMATES account. If you used a different Google account to
-                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                    cannot remember which Google account you used before, please email us at
-                    ${environment.supportEmail} for help.`);
+                        is not linked to this TEAMMATES account. If you used a different Google account to
+                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                        cannot remember which Google account you used before, please email us at
+                        ${environment.supportEmail} for help.`);
   });
 
   it('should deny unallowed access with invalid reg key', () => {
@@ -875,25 +887,25 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should show session not found modal when loading non-existent feedback session', () => {
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: { message: 'This is an error' },
       status: 404,
-    }));
+    })));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
     component.loadFeedbackSession(false, testInfo);
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-        'The session does not exist (most likely deleted by the instructor after the submission link was sent).',
+        'The session does not exist (most likely deleted by an instructor after the submission link was sent).',
         { onClosed: expect.any(Function) }, { backdrop: 'static' });
   });
 
   it('should show session not visible modal when loading non-viewable feedback session', () => {
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError({
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
       error: { message: 'This is an error' },
       status: 403,
-    }));
+    })));
     const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
 
     component.loadFeedbackSession(false, testInfo);
@@ -1049,7 +1061,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
-    expect(responseSpy).toBeCalledTimes(2);
+    expect(responseSpy).toHaveBeenCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
       responses: [{
         recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
@@ -1106,7 +1118,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
-    expect(responseSpy).toBeCalledTimes(1);
+    expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(1, testQuestionSubmissionForm1.feedbackQuestionId, {
       responses: [{
         recipient: testMcqRecipientSubmissionForm.recipientIdentifier,

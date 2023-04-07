@@ -359,6 +359,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     private void selectNewTimeZone(String timeZone) {
+        scrollElementToCenter(timeZoneDropDown);
         Select dropdown = new Select(timeZoneDropDown);
         dropdown.selectByValue(timeZone);
     }

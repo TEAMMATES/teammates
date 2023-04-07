@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
+import { DateTimeService } from '../../../services/datetime.service';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
@@ -10,7 +11,13 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { DateFormat, getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
+import {
+  DateFormat,
+  TimeFormat,
+  getDefaultDateFormat,
+  getDefaultTimeFormat,
+  getLatestTimeFormat,
+} from '../../../types/datetime-const';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
@@ -113,7 +120,9 @@ export class SessionEditFormComponent {
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) { }
+  constructor(private simpleModalService: SimpleModalService,
+              private datetimeService: DateTimeService,
+              public calendar: NgbCalendar) { }
 
   /**
    * Triggers the change of the model for the form.
@@ -144,7 +153,130 @@ export class SessionEditFormComponent {
   }
 
   /**
+   * Gets the minimum date for a session to be opened.
+   *
+   * <p> The minimum session opening datetime is 2 hours before now.
+   */
+  get minDateForSubmissionStart(): DateFormat {
+    const twoHoursBeforeNow = moment().tz(this.model.timeZone).subtract(2, 'hours');
+    return this.datetimeService.getDateInstance(twoHoursBeforeNow);
+  }
+
+  /**
+   * Gets the minimum time for a session to be opened.
+   *
+   * <p> The minimum session opening datetime is 2 hours before now.
+   */
+  get minTimeForSubmissionStart(): TimeFormat {
+    const twoHoursBeforeNow = moment().tz(this.model.timeZone).subtract(2, 'hours');
+    return this.datetimeService.getTimeInstance(twoHoursBeforeNow);
+  }
+
+  /**
+   * Gets the maximum date for a session to be opened.
+   *
+   * <p> The maximum session opening datetime is 90 days from now.
+   */
+  get maxDateForSubmissionStart(): DateFormat {
+    const ninetyDaysFromNow = moment().tz(this.model.timeZone).add(90, 'days');
+    return this.datetimeService.getDateInstance(ninetyDaysFromNow);
+  }
+
+  /**
+   * Gets the maximum time for a session to be opened.
+   *
+   * <p> The maximum session opening datetime is 90 days from now.
+   */
+  get maxTimeForSubmissionStart(): TimeFormat {
+    return getLatestTimeFormat();
+  }
+
+  /**
+   * Gets the minimum date for a session to be closed.
+   *
+   * <p> The minimum session closing datetime is on session opening datetime or 1 hour before now, whichever is later.
+   */
+  get minDateForSubmissionEnd(): DateFormat {
+    const submissionStartDate: moment.Moment =
+        this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
+    const oneHourBeforeNow = moment().tz(this.model.timeZone).subtract(1, 'hours');
+
+    return submissionStartDate.isAfter(oneHourBeforeNow)
+        ? this.model.submissionStartDate
+        : this.datetimeService.getDateInstance(oneHourBeforeNow);
+  }
+
+  /**
+   * Gets the minimum time for a session to be closed.
+   *
+   * <p> The minimum session closing datetime is on session opening datetime or 1 hour before now, whichever is later.
+   */
+  get minTimeForSubmissionEnd(): TimeFormat {
+    const submissionStartDate: moment.Moment =
+        this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
+    const submissionStartTime: moment.Moment =
+        this.datetimeService.getMomentInstanceFromTime(this.model.submissionStartTime);
+    const submissionStartDateTime: moment.Moment = submissionStartDate
+        .add(submissionStartTime.hour()).add(submissionStartTime.minute());
+    const oneHourBeforeNow = moment().tz(this.model.timeZone).subtract(1, 'hours');
+
+    if (submissionStartDateTime.isAfter(oneHourBeforeNow)) {
+      return this.datetimeService.getTimeInstance(submissionStartDateTime);
+    }
+    return this.datetimeService.getTimeInstance(oneHourBeforeNow);
+  }
+
+  /**
+   * Gets the maximum date for a session to be closed.
+   *
+   * <p> The maximum session closing datetime is 180 days from now.
+   */
+  get maxDateForSubmissionEnd(): DateFormat {
+    const oneHundredAndEightyDaysFromNow = moment().tz(this.model.timeZone).add(180, 'days');
+    return this.datetimeService.getDateInstance(oneHundredAndEightyDaysFromNow);
+  }
+
+  /**
+   * Gets the maximum time for a session to be closed.
+   *
+   * <p> The maximum session closing datetime is 180 days from now.
+   */
+  get maxTimeForSubmissionEnd(): TimeFormat {
+    return getLatestTimeFormat();
+  }
+
+  /**
+   * Gets the minimum date for a session to be visible based on the input model.
+   *
+   * <p> The minimum session visible datetime is 30 days before session opening datetime.
+   */
+  get minDateForSessionVisible(): DateFormat {
+    const thirtyDaysBeforeSubmissionStartDate: moment.Moment =
+        this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate).subtract(30, 'days');
+    return this.datetimeService.getDateInstance(thirtyDaysBeforeSubmissionStartDate);
+  }
+
+  /**
+   * Gets the minimum time for a session to be visible based on the input model.
+   *
+   * <p> The minimum session visible datetime is 30 days before session opening datetime.
+   */
+  get minTimeForSessionVisible(): TimeFormat {
+    const submissionStartDate: moment.Moment =
+        this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
+    const submissionStartTime: moment.Moment =
+        this.datetimeService.getMomentInstanceFromTime(this.model.submissionStartTime);
+    const submissionStartDateTime: moment.Moment =
+        submissionStartDate.add(submissionStartTime.hour()).add(submissionStartTime.minute());
+    const thirtyDaysBeforeSubmissionStartDateTime: moment.Moment =
+        submissionStartDateTime.subtract(30, 'days');
+    return this.datetimeService.getTimeInstance(thirtyDaysBeforeSubmissionStartDateTime);
+  }
+
+  /**
    * Gets the maximum date for a session to be visible based on the input model.
+   *
+   * <p> The maximum session visible datetime is on response visible datetime.
    */
   get maxDateForSessionVisible(): DateFormat {
     switch (this.model.responseVisibleSetting) {
@@ -152,25 +284,49 @@ export class SessionEditFormComponent {
       case ResponseVisibleSetting.AT_VISIBLE:
         return this.model.submissionStartDate;
       case ResponseVisibleSetting.CUSTOM: {
-        const submissionStartDate: moment.Moment = this.getMomentInstance(this.model.submissionStartDate);
-        const responseVisibleDate: moment.Moment = this.getMomentInstance(this.model.customResponseVisibleDate);
+        const submissionStartDate: moment.Moment =
+            this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
+        const responseVisibleDate: moment.Moment =
+            this.datetimeService.getMomentInstanceFromDate(this.model.customResponseVisibleDate);
         if (submissionStartDate.isBefore(responseVisibleDate)) {
           return this.model.submissionStartDate;
         }
-
         return this.model.customResponseVisibleDate;
       }
       default:
-        return {
-          year: 0,
-          month: 0,
-          day: 0,
-        };
+        return getDefaultDateFormat();
+    }
+  }
+
+  /**
+   * Gets the maximum time for a session to be visible based on the input model.
+   *
+   * <p> The maximum session visible datetime is on response visible datetime.
+   */
+  get maxTimeForSessionVisible(): TimeFormat {
+    switch (this.model.responseVisibleSetting) {
+      case ResponseVisibleSetting.LATER:
+      case ResponseVisibleSetting.AT_VISIBLE:
+        return this.model.submissionStartTime;
+      case ResponseVisibleSetting.CUSTOM: {
+        const submissionStartDate: moment.Moment =
+            this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
+        const responseVisibleDate: moment.Moment =
+            this.datetimeService.getMomentInstanceFromDate(this.model.customResponseVisibleDate);
+        if (submissionStartDate.isBefore(responseVisibleDate)) {
+          return this.model.submissionStartTime;
+        }
+        return this.model.customResponseVisibleTime;
+      }
+      default:
+        return getDefaultTimeFormat();
     }
   }
 
   /**
    * Gets the minimum date for responses to be visible based on the input model.
+   *
+   * <p> The minimum response visible datetime is on session visible datetime.
    */
   get minDateForResponseVisible(): DateFormat {
     switch (this.model.sessionVisibleSetting) {
@@ -179,23 +335,24 @@ export class SessionEditFormComponent {
       case SessionVisibleSetting.CUSTOM:
         return this.model.customSessionVisibleDate;
       default:
-        return {
-          year: 0,
-          month: 0,
-          day: 0,
-        };
+        return getDefaultDateFormat();
     }
   }
 
   /**
-   * Gets a moment instance from a date.
+   * Gets the minimum time for responses to be visible based on the input model.
+   *
+   * <p> The minimum response visible datetime is on session visible datetime.
    */
-  getMomentInstance(date: DateFormat): moment.Moment {
-    const inst: moment.Moment = moment();
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    return inst;
+  get minTimeForResponseVisible(): TimeFormat {
+    switch (this.model.sessionVisibleSetting) {
+      case SessionVisibleSetting.AT_OPEN:
+        return this.model.submissionStartTime;
+      case SessionVisibleSetting.CUSTOM:
+        return this.model.customSessionVisibleTime;
+      default:
+        return getDefaultTimeFormat();
+    }
   }
 
   /**

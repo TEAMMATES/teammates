@@ -5,6 +5,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CommentBoxModule } from '../comment-box/comment-box.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
 import {
   QuestionEditAnswerFormModule,
@@ -33,6 +34,7 @@ import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
     CommentBoxModule,
     LoadingSpinnerModule,
     AjaxLoadingModule,
+    PanelChevronModule,
   ],
   declarations: [
     QuestionSubmissionFormComponent,

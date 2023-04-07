@@ -1,51 +1,54 @@
-<div class="form-group row text-left" *ngFor="let option of questionDetails.constSumOptions; let i = index;">
-  <div class="col-md-5 col-xs-12 text-md-right col-form-label">
-    <strong>{{ option }}</strong>
+<div [attr.aria-label]="getAriaLabel()">
+  <div class="form-group row text-start" *ngFor="let option of questionDetails.constSumOptions; let i = index;">
+    <div class="col-md-5 col-xs-12 text-md-end col-form-label">
+      <strong>{{ option }}</strong>
+    </div>
+    <div class="col-md-7 col-xs-12 text-md-start">
+      <input type="number" class="form-control"
+            [ngModel]="i < responseDetails.answers.length ? responseDetails.answers[i] : ''"
+            (ngModelChange)="triggerResponse(i, $event)"
+            [disabled]="isDisabled"
+            [attr.aria-label]="getAriaLabelForOption(option)"
+            min="0" step="1"
+            tmDisableWheel>
+    </div>
   </div>
-  <div class="col-md-7 col-xs-12 text-md-left">
-    <input type="number" class="form-control"
-           [ngModel]="i < responseDetails.answers.length ? responseDetails.answers[i] : ''"
-           (ngModelChange)="triggerResponse(i, $event)"
-           [disabled]="isDisabled"
-           min="0" step="1"
-           tmDisableWheel>
+  <div class="form-group row" *ngIf="responseDetails.answers.length !== 0">
+    <div class="col-12 col-sm-5 offset-sm-2">
+      <button type="button" class="btn btn-light btn-sm" (click)="triggerResponseDetailsChange('answers', [])" [disabled]="isDisabled">Clear Points</button>
+    </div>
   </div>
-</div>
-<div class="form-group row" *ngIf="responseDetails.answers.length !== 0">
-  <div class="col-12 col-sm-5 offset-sm-2">
-    <button type="button" class="btn btn-light btn-sm" (click)="triggerResponseDetailsChange('answers', [])" [disabled]="isDisabled">Clear Points</button>
-  </div>
-</div>
-<div class="row" *ngIf="responseDetails.answers.length !== 0">
-  <div class="col-12">
-    <p *ngIf="totalAnsweredPoints < totalRequiredPoints" class="text-danger"><span class="fa fa-times"></span>
-      Actual total is {{ totalAnsweredPoints }}! Distribute the remaining {{ totalRequiredPoints - totalAnsweredPoints }} points.</p>
+  <div class="row" *ngIf="responseDetails.answers.length !== 0">
+    <div class="col-12">
+      <p *ngIf="totalAnsweredPoints < totalRequiredPoints" class="text-danger"><span class="fa fa-times"></span>
+        Actual total is {{ totalAnsweredPoints }}! Distribute the remaining {{ totalRequiredPoints - totalAnsweredPoints }} points.</p>
 
-    <p *ngIf="totalAnsweredPoints > totalRequiredPoints" class="text-danger"><span class="fa fa-times"></span>
-      Actual total is {{ totalAnsweredPoints }}! Remove the extra  {{ totalAnsweredPoints - totalRequiredPoints }} points allocated.</p>
+      <p *ngIf="totalAnsweredPoints > totalRequiredPoints" class="text-danger"><span class="fa fa-times"></span>
+        Actual total is {{ totalAnsweredPoints }}! Remove the extra  {{ totalAnsweredPoints - totalRequiredPoints }} points allocated.</p>
 
-    <p *ngIf="totalAnsweredPoints === totalRequiredPoints" class="text-success"><span class="fa fa-check"></span>
-      All points distributed!</p>
+      <p *ngIf="totalAnsweredPoints === totalRequiredPoints" class="text-success"><span class="fa fa-check"></span>
+        All points distributed!</p>
 
-    <p *ngIf="isAnyPointsNegative" class="text-danger"><span class="fa fa-times"></span>
-      Points cannot be negative!</p>
+      <p *ngIf="isAnyPointsNegative" class="text-danger"><span class="fa fa-times"></span>
+        Points cannot be negative!</p>
 
-    <p *ngIf="isAnyPointAboveMaximum" class="text-danger"><span class="fa fa-times"></span>
-      Points cannot be above: {{ questionDetails.maxPoint }}</p>
+      <p *ngIf="isAnyPointAboveMaximum" class="text-danger"><span class="fa fa-times"></span>
+        Points cannot be above: {{ questionDetails.maxPoint }}</p>
 
-    <p *ngIf="isAnyPointBelowMinimum" class="text-danger"><span class="fa fa-times"></span>
-      Points cannot be below: {{ questionDetails.minPoint }}</p>
+      <p *ngIf="isAnyPointBelowMinimum" class="text-danger"><span class="fa fa-times"></span>
+        Points cannot be below: {{ questionDetails.minPoint }}</p>
 
-    <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY && !isAllPointsUneven" class="text-danger"><span class="fa fa-times"></span>
-      Multiple options are given same points!</p>
+      <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY && !isAllPointsUneven" class="text-danger"><span class="fa fa-times"></span>
+        Multiple options are given same points!</p>
 
-    <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY && isAllPointsUneven" class="text-success"><span class="fa fa-check"></span>
-      All allocated points are different!</p>
+      <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY && isAllPointsUneven" class="text-success"><span class="fa fa-check"></span>
+        All allocated points are different!</p>
 
-    <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY && !isSomePointsUneven" class="text-danger"><span class="fa fa-times"></span>
-      All options are given {{ responseDetails.answers[0] }} points. Please allocate different points to at least one option.</p>
+      <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY && !isSomePointsUneven" class="text-danger"><span class="fa fa-times"></span>
+        All options are given {{ responseDetails.answers[0] }} points. Please allocate different points to at least one option.</p>
 
-    <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY && isSomePointsUneven" class="text-success"><span class="fa fa-check"></span>
-      At least one option has been allocated different number of points.</p>
+      <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY && isSomePointsUneven" class="text-success"><span class="fa fa-check"></span>
+        At least one option has been allocated different number of points.</p>
+    </div>
   </div>
 </div>

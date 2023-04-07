@@ -59,18 +59,21 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
     this.instructorService.loadInstructors({
       courseId: course.courseId,
       intent: Intent.FULL_DETAIL,
-    }).subscribe((response: Instructors) => {
-      response.instructors.forEach((i: Instructor) => {
-        const instructorToCopy: InstructorToCopyCandidateModel = {
-          instructor: i,
-          isSelected: false,
-        };
-        course.instructorCandidates.push(instructorToCopy);
-      });
-      course.hasInstructorsLoaded = true;
-    }, (resp: ErrorMessageOutput) => {
-      course.hasLoadingFailed = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
+    }).subscribe({
+      next: (response: Instructors) => {
+        response.instructors.forEach((i: Instructor) => {
+          const instructorToCopy: InstructorToCopyCandidateModel = {
+            instructor: i,
+            isSelected: false,
+          };
+          course.instructorCandidates.push(instructorToCopy);
+        });
+        course.hasInstructorsLoaded = true;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        course.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
@@ -120,6 +123,13 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   sortCourses(by: SortBy): void {
     this.coursesSortBy = by;
     this.courses.sort(this.sortCoursesBy(by));
+  }
+
+  getAriaSort(course: CourseTabModel, by: SortBy): String {
+    if (course.instructorCandidatesSortBy !== by) {
+      return 'none';
+    }
+    return course.instructorCandidatesSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
   /**

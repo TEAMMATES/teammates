@@ -9,7 +9,7 @@
   <ng-template #coursesContainer>
     <div *ngIf="courses.length" class="row mb-2">
       <div class="col-12">
-        <div class="float-right">
+        <div class="float-end">
           <strong class="d-inline"> Sort By: </strong>
           <div class="btn-group">
             <button id="sort-course-id-btn" class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_ID" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>

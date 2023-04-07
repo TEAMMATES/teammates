@@ -1,5 +1,6 @@
 <div *ngIf="studentListInfoTableRowModels.length > 0; else noStudentsToShow">
   <table id="student-list-table" class="table table-bordered">
+    <thead>
     <tr class="background-color-medium-gray">
       <th>
         <label>
@@ -47,6 +48,8 @@
         </span>
       </th>
     </tr>
+    </thead>
+    <tbody>
     <tr [ngClass]="{'bg-warning': shouldDisplayHasSubmittedSessionColumn && !studentListInfoTableRowModel.hasSubmittedSession}" *ngFor="let studentListInfoTableRowModel of studentListInfoTableRowModels">
       <td class="align-center">
         <label>
@@ -70,11 +73,13 @@
         <span *ngIf="!studentListInfoTableRowModel.hasSubmittedSession">No</span>
       </td>
     </tr>
+    </tbody>
   </table>
 </div>
 <br />
 <div *ngIf="instructorListInfoTableRowModels.length > 0; else noInstructorsToShow">
   <table id="instructor-list-table" class="table table-bordered">
+    <thead>
     <tr class="background-color-medium-gray">
       <th>
         <label>
@@ -106,6 +111,8 @@
         </span>
       </th>
     </tr>
+    </thead>
+    <tbody>
     <tr [ngClass]="{'bg-warning': shouldDisplayHasSubmittedSessionColumn && !instructorListInfoTableRowModel.hasSubmittedSession}" *ngFor="let instructorListInfoTableRowModel of instructorListInfoTableRowModels">
       <td class="align-center">
         <label>
@@ -123,17 +130,18 @@
         <span *ngIf="!instructorListInfoTableRowModel.hasSubmittedSession">No</span>
       </td>
     </tr>
+    </tbody>
   </table>
 </div>
 
 <ng-template #noStudentsToShow>
-  <h4 class="p-2 bg-info text-white">
+  <h4 class="p-2 bg-info">
     There are no students enrolled to remind.
   </h4>
 </ng-template>
 
 <ng-template #noInstructorsToShow>
-  <h4 class="p-2 bg-info text-white">
+  <h4 class="p-2 bg-info">
     There are no instructors involved to remind.
   </h4>
 </ng-template>
