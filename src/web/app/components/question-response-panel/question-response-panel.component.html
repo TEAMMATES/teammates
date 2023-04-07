@@ -8,8 +8,8 @@
     <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card bg-light mt-4" *ngIf="question.hasResponse">
       <div class="card-body">
         <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text-with-info"></tm-question-text-with-info>
-        <div id="all-responses" *ngIf="!question.hasResponseButNotVisibleForPreview, else nonViewableForPreview">
-          <div id="non-visible-comment-alert" *ngIf="question.hasCommentNotVisibleForPreview" class="alert alert-warning my-3" role="alert">
+        <div class="all-responses" *ngIf="!question.hasResponseButNotVisibleForPreview, else nonViewableForPreview">
+          <div *ngIf="question.hasCommentNotVisibleForPreview" class="alert alert-warning my-3 non-visible-comment-alert" role="alert">
             <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted from this preview because they are not visible to instructors, as per their visibility settings.
           </div>
           <div class="other-responses" *ngIf="canUserSeeResponses(question), else nonViewableResponse">
@@ -43,8 +43,8 @@
           </div>
         </div>
         <ng-template #nonViewableForPreview>
-          <div id="non-visible-response-alert" class="alert alert-warning other-response" role="alert">
-            <i class="fas fa-eye-slash"></i> Responses received for this question are omitted from this preview because some (or all) parts of them are not visible to instructors, as per their visibility settings.
+          <div class="alert alert-warning other-response non-visible-response-alert" role="alert">
+            <i class="fas fa-eye-slash"></i> Responses received for this question are omitted from this preview because some or all parts of them are not visible to instructors, as per their visibility settings.
           </div>
         </ng-template>
       </div>

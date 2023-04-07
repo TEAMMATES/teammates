@@ -48,8 +48,8 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
     <div
       class="col-12 text-center text-break"
     >
-      <h5>
-        You are previewing session results as 
+      <h4>
+        Previewing Session Results as 
         <span>
           student
         </span>
@@ -58,9 +58,9 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
           class="btn btn-link no-shadow"
           type="button"
         >
-          [More]
+          [more]
         </button>
-      </h5>
+      </h4>
     </div>
   </div><div
     class="card card-plain mt-3"

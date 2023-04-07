@@ -48,7 +48,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </span>
           </tm-question-text-with-info>
           <div
-            id="all-responses"
+            class="all-responses"
           >
             <div
               class="other-response"
@@ -153,7 +153,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </span>
           </tm-question-text-with-info>
           <div
-            id="all-responses"
+            class="all-responses"
           >
             <div
               class="other-response"
@@ -305,7 +305,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </span>
           </tm-question-text-with-info>
           <div
-            id="all-responses"
+            class="all-responses"
           >
             <div
               class="other-response"
@@ -485,7 +485,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </span>
           </tm-question-text-with-info>
           <div
-            id="all-responses"
+            class="all-responses"
           >
             <div
               class="other-response"
@@ -679,7 +679,7 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
             </span>
           </tm-question-text-with-info>
           <div
-            id="all-responses"
+            class="all-responses"
           >
             <div
               class="other-response"
@@ -800,14 +800,13 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
             </span>
           </tm-question-text-with-info>
           <div
-            class="alert alert-warning other-response"
-            id="non-visible-response-alert"
+            class="alert alert-warning other-response non-visible-response-alert"
             role="alert"
           >
             <i
               class="fas fa-eye-slash"
             />
-             Responses received for this question are omitted from this preview because some (or all) parts of them are not visible to instructors, as per their visibility settings. 
+             Responses received for this question are omitted from this preview because some or all parts of them are not visible to instructors, as per their visibility settings. 
           </div>
         </div>
       </div>
@@ -848,11 +847,10 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
             </span>
           </tm-question-text-with-info>
           <div
-            id="all-responses"
+            class="all-responses"
           >
             <div
-              class="alert alert-warning my-3"
-              id="non-visible-comment-alert"
+              class="alert alert-warning my-3 non-visible-comment-alert"
               role="alert"
             >
               <i
@@ -1022,7 +1020,7 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
             </span>
           </tm-question-text-with-info>
           <div
-            id="all-responses"
+            class="all-responses"
           >
             <div
               class="other-responses"

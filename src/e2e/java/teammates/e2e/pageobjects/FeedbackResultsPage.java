@@ -150,7 +150,7 @@ public class FeedbackResultsPage extends AppPage {
     private void verifyQuestionDoesNotShowResponses(int questionNum) {
         WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
         try {
-            questionResponsesSection.findElement(By.id("all-responses"));
+            questionResponsesSection.findElement(By.className("all-responses"));
             fail("Question " + questionNum + " should not display any actual responses when previewing results.");
         } catch (NoSuchElementException e) {
             // success
@@ -171,7 +171,7 @@ public class FeedbackResultsPage extends AppPage {
     private void verifyNonVisibleResponseAlertPresent(int questionNum) {
         WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
         try {
-            questionResponsesSection.findElement(By.id("non-visible-response-alert"));
+            questionResponsesSection.findElement(By.className("non-visible-response-alert"));
         } catch (NoSuchElementException e) {
             fail("Question " + questionNum
                     + " should display an alert message for hidden responses when previewing results.");
@@ -181,7 +181,7 @@ public class FeedbackResultsPage extends AppPage {
     private void verifyNonVisibleCommentAlertPresent(int questionNum) {
         WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
         try {
-            questionResponsesSection.findElement(By.id("non-visible-comment-alert"));
+            questionResponsesSection.findElement(By.className("non-visible-comment-alert"));
         } catch (NoSuchElementException e) {
             fail("Question " + questionNum
                     + " should display an alert message for hidden comments when previewing results.");

@@ -3,21 +3,20 @@
 </h1>
 <div class="bg-light" *ngIf="previewAsPerson">
   <div class="col-12 text-center text-break">
-    <h5>You are previewing session results as
+    <h4>Previewing Session Results as
       <span *ngIf="intent === Intent.STUDENT_RESULT">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_RESULT">instructor</span>
       {{ personName }} ({{ previewAsPerson }})
-      <button type="button" class="btn btn-link no-shadow" *ngIf="!isPreviewHintExpanded" (click)="isPreviewHintExpanded = true">[More]</button>
-      <button type="button" class="btn btn-link no-shadow" *ngIf="isPreviewHintExpanded" (click)="isPreviewHintExpanded = false">[Less]</button>
-    </h5>
-    <div *ngIf="isPreviewHintExpanded" class="text-left">
+      <button type="button" class="btn btn-link no-shadow" *ngIf="!isPreviewHintExpanded" (click)="isPreviewHintExpanded = true">[more]</button>
+      <button type="button" class="btn btn-link no-shadow" *ngIf="isPreviewHintExpanded" (click)="isPreviewHintExpanded = false">[less]</button>
+    </h4>
+    <div *ngIf="isPreviewHintExpanded" class="text-start">
       <p>
-        The page below resembles the session results page as seen by the respondent {{ personName }} ({{ previewAsPerson }}).
-        You can use it to check what the respondent has access to when the session results are published.
+        The page below resembles the session results page as seen by {{ personName }} ({{ previewAsPerson }}).
       </p>
       <p>
-        Note that due to visibility settings, contents that are not supposed to be shown to instructors (i.e you) but can be seen by the respondent are not shown in the page below.
-        For those, a yellow message box is shown instead (which won't be seen by the actual respondent).
+        Note that due to visibility settings, contents that are not supposed to be shown to instructors (e.g. yourself) but can be seen by the respondent will not be shown in the page below.
+        Instead, you will see a message box (not seen by the actual respondent) in their place.
       </p>
     </div>
   </div>
