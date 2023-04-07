@@ -11,6 +11,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
@@ -172,6 +173,35 @@ public final class UsersLogic {
         }
 
         throw new InstructorUpdateException("Could not regenerate a new course registration key for the instructor.");
+    }
+
+    /**
+     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     *
+     * @return the student with the new registration key.
+     * @throws StudentUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the student does not exist.
+     */
+    public Student regenerateStudentRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, StudentUpdateException {
+        Student student = getStudentForEmail(courseId, email);
+        if (student == null) {
+            String errorMessage = String.format(
+                    "The student with the email %s could not be found for the course with ID [%s].", email, courseId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        String oldKey = student.getRegKey();
+        int numTries = 0;
+        while (numTries < MAX_KEY_REGENERATION_TRIES) {
+            student.generateNewRegistrationKey();
+            if (!student.getRegKey().equals(oldKey)) {
+                return student;
+            }
+            numTries++;
+        }
+
+        throw new StudentUpdateException("Could not regenerate a new course registration key for the student.");
     }
 
     /**
