@@ -286,7 +286,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         this.instructorService.loadInstructors({
           courseId: this.courseId,
           intent: Intent.FULL_DETAIL,
-        }).subscribe((instructors: Instructors) => {
+        }).subscribe({
+          next: (instructors: Instructors) => {
             this.allInstructorsInCourse = instructors.instructors;
 
             // sort the instructor list based on name
@@ -298,7 +299,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
             if (this.allInstructorsInCourse.length >= 1) {
               this.emailOfInstructorToPreview = this.allInstructorsInCourse[0].email;
             }
-          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
 
         // load current instructor name
         this.instructorService.getInstructor({

@@ -408,7 +408,7 @@ describe('SessionResultPageComponent', () => {
       feedbackSessionName: testQueryParams['fsname'],
       intent: Intent.STUDENT_RESULT,
       key: testQueryParams['key'],
-      previewAs: testQueryParams.previewas,
+      previewAs: testQueryParams['previewas'],
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);

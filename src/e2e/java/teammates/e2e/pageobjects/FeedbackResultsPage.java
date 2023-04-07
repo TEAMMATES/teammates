@@ -161,7 +161,7 @@ public class FeedbackResultsPage extends AppPage {
         List<WebElement> commentsOfQuestion = getCommentFields(questionNum);
         for (String commentString : commentsNotVisible) {
             for (WebElement comment : commentsOfQuestion) {
-                if (comment.findElement(By.id("comment-text")).getText().equals(commentString)) {
+                if (comment.findElement(By.className("comment-text")).getText().equals(commentString)) {
                     fail("Comment \"" + commentString + "\" should not be present in question " + questionNum);
                 }
             }

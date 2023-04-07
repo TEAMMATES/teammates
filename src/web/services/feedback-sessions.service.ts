@@ -398,7 +398,7 @@ export class FeedbackSessionsService {
     }
 
     if (queryParams.previewAs) {
-      paramMap.previewas = queryParams.previewAs;
+      paramMap['previewas'] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.RESULT, paramMap);
