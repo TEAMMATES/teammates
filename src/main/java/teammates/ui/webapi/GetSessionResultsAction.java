@@ -29,7 +29,6 @@ class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
         boolean isPreviewResults = !StringHelper.isEmpty(previewAsPerson);
-        // TODO: It may be better to prevent previewAs when the intent is FULL_DETAIL: return a BAD REQUEST
         switch (intent) {
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);

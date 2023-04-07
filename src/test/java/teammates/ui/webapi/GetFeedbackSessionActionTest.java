@@ -1239,7 +1239,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         params = generateParameters(feedbackSession, Intent.STUDENT_RESULT, "", "", student1InCourse1.getEmail());
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, params);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 
     @Test
@@ -1282,7 +1282,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                 generateParameters(feedbackSession, Intent.INSTRUCTOR_RESULT,
                         "", "", instructor1OfCourse1.getEmail());
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, previewInstructorResultParams);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, previewInstructorResultParams);
     }
 
     private String[] generateParameters(FeedbackSessionAttributes session, Intent intent,

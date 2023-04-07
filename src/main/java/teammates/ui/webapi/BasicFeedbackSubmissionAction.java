@@ -74,24 +74,10 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     student.getSection(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            // TODO: How is CAN_MODIFY_SESSION related to preview submission? Why not CAN_VIEW_SESSION_IN_SECTIONS?
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
+            checkAccessControlForPreview(feedbackSession, false);
         } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
-            if (!StringHelper.isEmpty(student.getGoogleId())) {
-                // TODO: Why are these checks not present in the original GetFeedbackQuestionsAction
-                // TODO: for STUDENT_RESULT intent? View results is less strict than submit result?
-                if (userInfo == null) {
-                    // Student is associated to a google ID; even if registration key is passed, do not allow access
-                    throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!userInfo.id.equals(student.getGoogleId())) {
-                    // Logged in student is not the same as the student registered for the given key, do not allow access
-                    throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
-                }
-            }
+            verifyMatchingGoogleId(student.getGoogleId());
         }
     }
 
@@ -105,26 +91,12 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
 
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-        boolean isPreview = !StringHelper.isEmpty(previewAsPerson);
 
-        if (isPreview) {
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-
-            String courseId = feedbackSession.getCourseId();
-            InstructorAttributes instructorPreviewer = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            // TODO: The key question to address here is instructors with what set of permissions
-            // TODO: should be allowed to preview results (i.e., to view results as any student)
-            // TODO: [or perform any action using this method?]
-
-            // previewer should have permission to view the session
-            gateKeeper.verifyAccessible(instructorPreviewer, feedbackSession, student.getSection(),
-                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-            // previewer should have permission to view students' info [debatable!]
-            // gateKeeper.verifyAccessible(instructorPreviewer, logic.getCourse(courseId),
-            //        Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
-        } else {
+        if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyAccessible(student, feedbackSession);
-            // TODO: No extra (GoogleID) check following the original way of checking access control for STUDENT_RESULT!
+            verifyMatchingGoogleId(student.getGoogleId());
+        } else {
+            checkAccessControlForPreview(feedbackSession, false);
         }
     }
 
@@ -161,21 +133,10 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+            checkAccessControlForPreview(feedbackSession, true);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
-            if (!StringHelper.isEmpty(instructor.getGoogleId())) {
-                if (userInfo == null) {
-                    // Instructor is associated to a google ID; even if registration key is passed, do not allow access
-                    throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!userInfo.id.equals(instructor.getGoogleId())) {
-                    // Logged in instructor is not the same as the instructor registered for the given key,
-                    // do not allow access
-                    throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
-                }
-            }
+            verifyMatchingGoogleId(instructor.getGoogleId());
         }
     }
 
@@ -189,21 +150,40 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
 
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-        boolean isPreview = !StringHelper.isEmpty(previewAsPerson);
 
-        if (isPreview) {
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-            // TODO: It may be better to check whether previewAsPerson (instructor) has permission to view session
-            // TODO: if not, return specific error message [i.e., when preview as an instructor without permission]
-        } else {
+        if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyAccessible(instructor, feedbackSession,
                     Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-            // TODO: Original GetFeedbackQuestionsAction requires instructor to be logged in for INSTRUCTOR_RESULT
-            // TODO: Original GetSessionResultsAction does not verify feedbackSession, just like for STUDENT_RESULT!
-            // TODO: No extra (GoogleID) check following the original way of checking access control for INSTRUCTOR_RESULT!
-            // TODO: Copy here from the method above if needed!
+            verifyMatchingGoogleId(instructor.getGoogleId());
+        } else {
+            checkAccessControlForPreview(feedbackSession, true);
+        }
+    }
+
+    private void verifyMatchingGoogleId(String googleId) throws UnauthorizedAccessException {
+        if (!StringHelper.isEmpty(googleId)) {
+            if (userInfo == null) {
+                // Student/Instructor is associated to a google ID; even if registration key is passed, do not allow access
+                throw new UnauthorizedAccessException("Login is required to access this feedback session");
+            } else if (!userInfo.id.equals(googleId)) {
+                // Logged in student/instructor is not the same as the student/instructor registered for the given key,
+                // do not allow access
+                throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
+            }
+        }
+    }
+
+    private void checkAccessControlForPreview(FeedbackSessionAttributes feedbackSession, boolean isInstructor)
+            throws UnauthorizedAccessException {
+        gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+        if (isInstructor) {
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        } else {
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
         }
     }
 
