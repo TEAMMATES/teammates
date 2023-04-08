@@ -4,6 +4,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.RegkeyValidityData;
 import teammates.ui.request.Intent;
 
@@ -27,19 +29,35 @@ class GetRegkeyValidityAction extends Action {
     @Override
     public JsonResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+        String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
         boolean isValid = false;
         String googleId = null;
 
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
-            StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
+            // Try to get googleId for not migrated user
+            StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(regKey);
+            if (studentAttributes != null) {
+                isValid = true;
+                googleId = studentAttributes.getGoogleId();
+            }
+
+            // Try to get googleId for migrated user
+            Student student = sqlLogic.getStudentByRegistrationKey(regKey);
             if (student != null) {
                 isValid = true;
                 googleId = student.getGoogleId();
             }
         } else if (intent == Intent.INSTRUCTOR_SUBMISSION || intent == Intent.INSTRUCTOR_RESULT) {
-            InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
+            // Try to get googleId for not migrated user
+            InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(regKey);
+            if (instructorAttributes != null) {
+                isValid = true;
+                googleId = instructorAttributes.getGoogleId();
+            }
+
+            // Try to get googleId for migrated user
+            Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regKey);
             if (instructor != null) {
                 isValid = true;
                 googleId = instructor.getGoogleId();
