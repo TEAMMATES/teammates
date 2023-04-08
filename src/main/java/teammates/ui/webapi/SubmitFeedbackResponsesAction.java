@@ -62,17 +62,24 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         try {
             feedbackQuestionSqlId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
             sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionSqlId);
+
+            if (sqlFeedbackQuestion == null) {
+                throw new EntityNotFoundException("The feedback question does not exist.");
+            }
+
             courseId = sqlFeedbackQuestion.getCourseId();
         } catch (InvalidHttpParameterException verifyHttpParameterFailure) {
             // if the question id cannot be converted to UUID, we check the datastore for the question
             feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+
+            if (feedbackQuestion == null) {
+                throw new EntityNotFoundException("The feedback question does not exist."); //NOPMD
+            }
+
             courseId = feedbackQuestion.getCourseId();
         }
 
         if (!isCourseMigrated(courseId)) {
-            if (feedbackQuestion == null) {
-                throw new EntityNotFoundException("The feedback question does not exist.");
-            }
             FeedbackSessionAttributes feedbackSession =
                     getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
 
@@ -109,10 +116,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             }
 
             return;
-        }
-
-        if (sqlFeedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
         FeedbackSession feedbackSession =
