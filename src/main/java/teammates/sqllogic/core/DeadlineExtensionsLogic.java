@@ -1,6 +1,7 @@
 package teammates.sqllogic.core;
 
 import java.time.Instant;
+import java.util.List;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -22,6 +23,8 @@ public final class DeadlineExtensionsLogic {
 
     private DeadlineExtensionsDb deadlineExtensionsDb;
 
+    private FeedbackSessionsLogic feedbackSessionsLogic;
+
     private DeadlineExtensionsLogic() {
         // prevent initialization
     }
@@ -30,8 +33,9 @@ public final class DeadlineExtensionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb) {
+    void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb, FeedbackSessionsLogic feedbackSessionsLogic) {
         this.deadlineExtensionsDb = deadlineExtensionsDb;
+        this.feedbackSessionsLogic = feedbackSessionsLogic;
     }
 
     /**
@@ -90,6 +94,26 @@ public final class DeadlineExtensionsLogic {
     public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
             throws InvalidParametersException, EntityDoesNotExistException {
         return deadlineExtensionsDb.updateDeadlineExtension(de);
+    }
+
+    /**
+     * Deletes the user email address for all their deadlines in the feedback sessions of the given course.
+     */
+    public void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress) {
+        List<FeedbackSession> feedbackSessions = feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
+
+        feedbackSessions.forEach(feedbackSession -> {
+            List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
+
+            deadlineExtensions
+                    .stream()
+                    .filter(deadlineExtension ->
+                            deadlineExtension.getUser().getEmail().equalsIgnoreCase(emailAddress));
+
+            for (DeadlineExtension deadlineExtension : deadlineExtensions) {
+                deleteDeadlineExtension(deadlineExtension);
+            }
+        });
     }
 
 }

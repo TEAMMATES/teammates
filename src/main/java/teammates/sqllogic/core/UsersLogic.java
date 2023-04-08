@@ -39,7 +39,7 @@ public final class UsersLogic {
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
 
-    private FeedbackSessionsLogic feedbackSessionsLogic;
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private UsersLogic() {
         // prevent initialization
@@ -50,11 +50,11 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
-            FeedbackResponsesLogic feedbackResponsesLogic, FeedbackSessionsLogic feedbackSessionsLogic) {
+            FeedbackResponsesLogic feedbackResponsesLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
-        this.feedbackSessionsLogic = feedbackSessionsLogic;
+        this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
     /**
@@ -428,7 +428,7 @@ public final class UsersLogic {
         }
 
         usersDb.deleteUser(student);
-        feedbackSessionsLogic.deleteFeedbackSessionsDeadlinesForUser(courseId, studentEmail);
+        deadlineExtensionsLogic.deleteFeedbackSessionsDeadlinesForUser(courseId, studentEmail);
 
         feedbackResponsesLogic.updateFeedbackResponsesForDeletingStudent(courseId);
     }

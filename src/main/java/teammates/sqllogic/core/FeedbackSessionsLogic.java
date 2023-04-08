@@ -14,7 +14,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
-import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -38,7 +37,6 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
-    private DeadlineExtensionsLogic deLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -49,12 +47,10 @@ public final class FeedbackSessionsLogic {
     }
 
     void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
-            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
-            DeadlineExtensionsLogic deLogic) {
+            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
-        this.deLogic = deLogic;
     }
 
     /**
@@ -302,26 +298,6 @@ public final class FeedbackSessionsLogic {
 
         // if there is no question for instructor, session is attempted
         return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
-    }
-
-    /**
-     * Deletes the user email address for all their deadlines in the feedback sessions of the given course.
-     */
-    public void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress) {
-        List<FeedbackSession> feedbackSessions = fsDb.getFeedbackSessionEntitiesForCourse(courseId);
-
-        feedbackSessions.forEach(feedbackSession -> {
-            List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
-
-            deadlineExtensions
-                    .stream()
-                    .filter(deadlineExtension ->
-                            deadlineExtension.getUser().getEmail().equalsIgnoreCase(emailAddress));
-
-            for (DeadlineExtension deadlineExtension : deadlineExtensions) {
-                deLogic.deleteDeadlineExtension(deadlineExtension);
-            }
-        });
     }
 
 }
