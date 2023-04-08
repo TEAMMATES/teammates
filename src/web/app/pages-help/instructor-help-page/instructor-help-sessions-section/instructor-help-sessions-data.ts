@@ -320,6 +320,8 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
             isMissingResponse: false,
           },
         ],
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
         responsesToSelf: [],
         responsesFromSelf: [],
         otherResponses: [],
@@ -415,4 +417,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
   isLoaded: true,
   isLoading: false,
   hasResponse: true,
+  hasResponseButNotVisibleForPreview: false,
+  hasCommentNotVisibleForPreview: false,
 }];
