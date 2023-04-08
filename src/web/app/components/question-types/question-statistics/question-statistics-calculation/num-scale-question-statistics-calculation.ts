@@ -14,6 +14,7 @@ export class NumScaleQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackNumericalScaleQuestionDetails, FeedbackNumericalScaleResponseDetails> {
 
   teamToRecipientToScores: Record<string, Record<string, any>> = {};
+  recipientEmails: Record<string, string> = {};
 
   calculateStatistics(): void {
     this.teamToRecipientToScores = {};
@@ -29,6 +30,8 @@ export class NumScaleQuestionStatisticsCalculation
         answer: response.responseDetails.answer,
         isSelf: giver === recipient,
       });
+
+      this.recipientEmails[recipient] = this.recipientEmails[recipient] || response.recipientEmail || '';
     }
 
     for (const team of Object.keys(this.teamToRecipientToScores)) {
