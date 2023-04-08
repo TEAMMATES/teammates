@@ -313,6 +313,7 @@ public final class FeedbackResponsesLogic {
                 FeedbackRankRecipientsResponseDetails
                         .updateResponsesForRankRecipientQuestions(responses, numberOfRecipients);
             }
+            break;
         }
     }
 

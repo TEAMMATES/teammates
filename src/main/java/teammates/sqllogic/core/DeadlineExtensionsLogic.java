@@ -108,7 +108,7 @@ public final class DeadlineExtensionsLogic {
 
             deadlineExtensions = deadlineExtensions
                     .stream()
-                    .filter(deadlineExtension -> 
+                    .filter(deadlineExtension ->
                             deadlineExtension.getUser().getEmail().equalsIgnoreCase(emailAddress))
                     .collect(Collectors.toList());
 
