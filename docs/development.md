@@ -32,7 +32,7 @@ First, you need to compile some type definitions from the back-end to be used in
 ./gradlew generateTypes
 ```
 
-To start the dev server, run the following command until you see something like `｢wdm｣: Compiled successfully.`:
+To start the dev server, run the following command until you see something like `Angular Live Development Server is listening on localhost`:
 
 ```sh
 npm run start
@@ -96,7 +96,7 @@ The dev server URL will be `http://localhost:8080`.
 
 If you started the server in the background, use any method available in your OS to stop the process at port `8080`.
 
-If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
+If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it.
 
 ## Building front-end files
 

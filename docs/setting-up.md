@@ -17,7 +17,7 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
 ## Step 1: Obtain your own copy of the repository
 
 1. Install Git.
-   1. (Optional but recommended) Install Sourcetree or other similar Git client.
+   * (Optional but recommended) Install Sourcetree or other similar Git client.
 
 1. Fork our repo at https://github.com/TEAMMATES/teammates. Clone the fork to your hard disk.
 
