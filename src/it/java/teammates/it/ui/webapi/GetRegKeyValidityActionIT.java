@@ -11,8 +11,8 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.RegkeyValidityData;
 import teammates.ui.request.Intent;
-import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.GetRegkeyValidityAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetRegKeyValidityAction}.
@@ -44,7 +44,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         Instructor instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String student1Key = student1.getRegKey();
         String instructor1Key = instructor1.getRegKey();
-        
 
         ______TS("Normal case: No logged in user for a used regkey; should be valid/used/disallowed");
 
@@ -76,7 +75,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertTrue(output.isUsed());
         assertFalse(output.isAllowedAccess());
 
-
         ______TS("Normal case: Wrong logged in user for a used regkey; should be valid/used/disallowed");
 
         loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1").getGoogleId());
@@ -93,7 +91,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertTrue(output.isValid());
         assertTrue(output.isUsed());
         assertFalse(output.isAllowedAccess());
-
 
         ______TS("Normal case: Correct logged in user for a used regkey; should be valid/used/allowed");
 
@@ -126,7 +123,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertTrue(output.isValid());
         assertTrue(output.isUsed());
         assertTrue(output.isAllowedAccess());
-
 
         ______TS("Normal case: No logged in user for an unused regkey; should be valid/unused/allowed");
 
@@ -165,7 +161,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertFalse(output.isUsed());
         assertTrue(output.isAllowedAccess());
 
-
         ______TS("Normal case: Any logged in user for an unused regkey; should be valid/unused/allowed");
 
         loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1").getGoogleId());
@@ -182,7 +177,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertTrue(output.isValid());
         assertFalse(output.isUsed());
         assertTrue(output.isAllowedAccess());
-
 
         ______TS("Normal case: Invalid regkey; should be invalid/unused/disallowed");
 
@@ -212,7 +206,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertFalse(output.isUsed());
         assertFalse(output.isAllowedAccess());
 
-
         ______TS("Normal case: Invalid intent; should be invalid/unused/disallowed");
 
         logoutUser();
@@ -230,7 +223,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertFalse(output.isUsed());
         assertFalse(output.isAllowedAccess());
 
-
         ______TS("Failure Case: No intent parameter");
 
         params = new String[] {
@@ -238,7 +230,6 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         };
 
         verifyHttpParameterFailure(params);
-
 
         ______TS("Failure Case: No regkey parameter");
 
