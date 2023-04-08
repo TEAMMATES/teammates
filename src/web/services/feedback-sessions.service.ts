@@ -373,6 +373,7 @@ export class FeedbackSessionsService {
     groupBySection?: string,
     key?: string,
     sectionByGiverReceiver?: string,
+    previewAs?: string,
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
@@ -394,6 +395,10 @@ export class FeedbackSessionsService {
 
     if (queryParams.sectionByGiverReceiver) {
       paramMap['sectionByGiverReceiver'] = queryParams.sectionByGiverReceiver;
+    }
+
+    if (queryParams.previewAs) {
+      paramMap['previewas'] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.RESULT, paramMap);

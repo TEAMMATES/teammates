@@ -52,7 +52,10 @@ export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQue
     this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {
       return [
         { value: this.emailToTeamName[key] },
-        { value: this.emailToName[key] },
+        {
+          value: this.emailToName[key]
+          + (key === this.emailToName[key] ? '' : key),
+        },
         { value: this.ranksReceivedPerOption[key].join(', ') },
         { value: this.selfRankPerOption[key] || '-' },
         { value: this.rankPerOption[key] || '-' },

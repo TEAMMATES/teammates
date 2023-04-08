@@ -43,12 +43,12 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+            checkAccessControlForInstructorFeedbackResult(instructorAttributes, feedbackSession);
             break;
         case STUDENT_RESULT:
-            gateKeeper.verifyAccessible(getStudentOfCourseFromRequest(courseId), feedbackSession);
+            studentAttributes = getStudentOfCourseFromRequest(courseId);
+            checkAccessControlForStudentFeedbackResult(studentAttributes, feedbackSession);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
