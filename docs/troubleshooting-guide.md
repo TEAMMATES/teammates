@@ -36,7 +36,7 @@ Simply rerun the command to build the type definitions to resolve the problem.
 
 <panel header="A handful of failed E2E test cases (< 10)" no-close>
 
-Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the issue tracker](https://github.com/TEAMMATES/teammates/issues/new?template=help-request.md).
+Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the discussion forum](https://github.com/TEAMMATES/teammates/discussions/new?category=help-requests).
 </panel>
 
 <panel header="Tests fail due to accented characters" no-close>
