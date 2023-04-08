@@ -8,7 +8,7 @@ This is the project-wide development workflow for TEAMMATES.
 
 ## Overview
 
-<img src="images/workflow.png" width="600">
+<puml src="diagrams/workflow.puml"></puml>
 
 * This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/).
 * If you need any help regarding the workflow, please [post a new issue in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
