@@ -14,7 +14,7 @@ import teammates.ui.request.Intent;
  *
  * <p>This does not log in or log out the user.
  */
-class GetRegkeyValidityAction extends Action {
+public class GetRegkeyValidityAction extends Action {
 
     @Override
     public AuthType getMinAuthLevel() {
