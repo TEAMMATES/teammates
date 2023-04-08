@@ -49,7 +49,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
-  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts="0"
@@ -207,7 +206,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
-  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -362,7 +360,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
-  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -517,7 +514,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
-  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -804,7 +800,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
-  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -1107,137 +1102,137 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Team)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-mcq-question-edit-answer-form>
-                      <tr
-                        aria-label="Response for To-Be-Selected"
-                      >
-                        <td>
-                          <div>
-                            <div
-                              class="radio"
-                            >
-                              <label
-                                class="margin-right-15px"
-                              >
-                                <input
-                                  class="margin-right-15px"
-                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                  type="radio"
-                                />
-                                <span
-                                  class="option-text"
-                                  id="radioOptionSpan"
-                                >
-                                  choice 1
-                                </span>
-                              </label>
-                            </div>
-                            <div
-                              class="radio"
-                            >
-                              <label
-                                class="margin-right-15px"
-                              >
-                                <input
-                                  class="margin-right-15px"
-                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                  type="radio"
-                                />
-                                <span
-                                  class="option-text"
-                                  id="radioOptionSpan"
-                                >
-                                  choice 2
-                                </span>
-                              </label>
-                            </div>
-                            <div
-                              class="radio"
-                            >
-                              <label
-                                class="margin-right-15px"
-                              >
-                                <input
-                                  class="margin-right-15px"
-                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                  type="radio"
-                                />
-                                <span
-                                  class="option-text"
-                                  id="radioOptionSpan"
-                                >
-                                  choice 3
-                                </span>
-                              </label>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tm-mcq-question-edit-answer-form>
-                  </div>
-                  <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
-                    id="comment-section-qn-1-idx-0"
-                  >
-                    <div>
-                      <tm-comment-row>
-                        <div
-                          class="card"
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-mcq-question-edit-answer-form>
+                        <tr
+                          aria-label="Response for To-Be-Selected"
                         >
+                          <td>
+                            <div>
+                              <div
+                                class="radio"
+                              >
+                                <label
+                                  class="margin-right-15px"
+                                >
+                                  <input
+                                    class="margin-right-15px"
+                                    name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                    type="radio"
+                                  />
+                                  <span
+                                    class="option-text"
+                                    id="radioOptionSpan"
+                                  >
+                                    choice 1
+                                  </span>
+                                </label>
+                              </div>
+                              <div
+                                class="radio"
+                              >
+                                <label
+                                  class="margin-right-15px"
+                                >
+                                  <input
+                                    class="margin-right-15px"
+                                    name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                    type="radio"
+                                  />
+                                  <span
+                                    class="option-text"
+                                    id="radioOptionSpan"
+                                  >
+                                    choice 2
+                                  </span>
+                                </label>
+                              </div>
+                              <div
+                                class="radio"
+                              >
+                                <label
+                                  class="margin-right-15px"
+                                >
+                                  <input
+                                    class="margin-right-15px"
+                                    name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                    type="radio"
+                                  />
+                                  <span
+                                    class="option-text"
+                                    id="radioOptionSpan"
+                                  >
+                                    choice 3
+                                  </span>
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tm-mcq-question-edit-answer-form>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-1-idx-0"
+                    >
+                      <div>
+                        <tm-comment-row>
                           <div
-                            class="card-body"
+                            class="card"
                           >
                             <div
-                              class="row comment-row"
+                              class="card-body"
                             >
                               <div
-                                class="col-12"
+                                class="row comment-row"
                               >
-                                <span
-                                  class="by-response-giver text-secondary"
-                                >
-                                   Comment by response giver. 
-                                </span>
-                                <i
-                                  aria-hidden="true"
-                                  class="fa fa-eye"
-                                />
                                 <div
-                                  class="float-end"
+                                  class="col-12"
                                 >
-                                  <button
-                                    class="btn-edit-comment btn btn-outline-primary btn-sm"
-                                    ngbtooltip="Edit this comment"
-                                    type="button"
+                                  <span
+                                    class="by-response-giver text-secondary"
                                   >
-                                    <i
-                                      class="fas fa-pencil-alt"
-                                    />
-                                  </button>
-                                  <button
-                                    class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
-                                    ngbtooltip="Delete this comment"
-                                    type="button"
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
                                   >
-                                    <i
-                                      class="fas fa-trash"
-                                    />
-                                  </button>
+                                    <button
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      ngbtooltip="Edit this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="comment-text col-12"
-                              >
-                                comment text
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </tm-comment-row>
+                        </tm-comment-row>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1375,24 +1370,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Instructor)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-text-question-edit-answer-form>
-                      <div
-                        class="plain-text-area"
-                      >
-                        <textarea
-                          aria-label="Response for To-Be-Selected"
-                          class="ng-untouched ng-pristine ng-valid"
-                        />
-                      </div>
-                      <div
-                        class="margin-top-7px text-secondary text-end"
-                      >
-                      </div>
-                    </tm-text-question-edit-answer-form>
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-text-question-edit-answer-form>
+                        <div
+                          class="plain-text-area"
+                        >
+                          <textarea
+                            aria-label="Response for To-Be-Selected"
+                            class="ng-untouched ng-pristine ng-valid"
+                          />
+                        </div>
+                        <div
+                          class="margin-top-7px text-secondary text-end"
+                        >
+                        </div>
+                      </tm-text-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1669,123 +1664,123 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-msq-question-edit-answer-form>
-                      <tr
-                        aria-label="Response for Barry Harris"
-                      >
-                        <td>
-                          <div
-                            class="check-box"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                type="checkbox"
-                              />
-                              <strong>
-                                first
-                              </strong>
-                            </label>
-                          </div>
-                          <div
-                            class="check-box"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                type="checkbox"
-                              />
-                              <strong>
-                                second
-                              </strong>
-                            </label>
-                          </div>
-                          <div
-                            class="check-box"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                type="checkbox"
-                              />
-                              <strong>
-                                third
-                              </strong>
-                            </label>
-                          </div>
-                        </td>
-                      </tr>
-                    </tm-msq-question-edit-answer-form>
-                  </div>
-                  <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
-                    id="comment-section-qn-4-idx-0"
-                  >
-                    <div>
-                      <tm-comment-row>
-                        <div
-                          class="card"
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-msq-question-edit-answer-form>
+                        <tr
+                          aria-label="Response for Barry Harris"
                         >
+                          <td>
+                            <div
+                              class="check-box"
+                            >
+                              <label
+                                class="margin-right-15px"
+                              >
+                                <input
+                                  class="margin-right-15px"
+                                  type="checkbox"
+                                />
+                                <strong>
+                                  first
+                                </strong>
+                              </label>
+                            </div>
+                            <div
+                              class="check-box"
+                            >
+                              <label
+                                class="margin-right-15px"
+                              >
+                                <input
+                                  class="margin-right-15px"
+                                  type="checkbox"
+                                />
+                                <strong>
+                                  second
+                                </strong>
+                              </label>
+                            </div>
+                            <div
+                              class="check-box"
+                            >
+                              <label
+                                class="margin-right-15px"
+                              >
+                                <input
+                                  class="margin-right-15px"
+                                  type="checkbox"
+                                />
+                                <strong>
+                                  third
+                                </strong>
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                      </tm-msq-question-edit-answer-form>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-4-idx-0"
+                    >
+                      <div>
+                        <tm-comment-row>
                           <div
-                            class="card-body"
+                            class="card"
                           >
                             <div
-                              class="row comment-row"
+                              class="card-body"
                             >
                               <div
-                                class="col-12"
+                                class="row comment-row"
                               >
-                                <span
-                                  class="by-response-giver text-secondary"
-                                >
-                                   Comment by response giver. 
-                                </span>
-                                <i
-                                  aria-hidden="true"
-                                  class="fa fa-eye"
-                                />
                                 <div
-                                  class="float-end"
+                                  class="col-12"
                                 >
-                                  <button
-                                    class="btn-edit-comment btn btn-outline-primary btn-sm"
-                                    ngbtooltip="Edit this comment"
-                                    type="button"
+                                  <span
+                                    class="by-response-giver text-secondary"
                                   >
-                                    <i
-                                      class="fas fa-pencil-alt"
-                                    />
-                                  </button>
-                                  <button
-                                    class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
-                                    ngbtooltip="Delete this comment"
-                                    type="button"
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
                                   >
-                                    <i
-                                      class="fas fa-trash"
-                                    />
-                                  </button>
+                                    <button
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      ngbtooltip="Edit this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="comment-text col-12"
-                              >
-                                comment text
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </tm-comment-row>
+                        </tm-comment-row>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1936,50 +1931,50 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-num-scale-question-edit-answer-form>
-                      <div
-                        class="row text-start"
-                      >
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-num-scale-question-edit-answer-form>
                         <div
-                          class="col-md-3 col-xs-5"
+                          class="row text-start"
                         >
-                          <input
-                            aria-label="Response for Barry Harris"
-                            class="form-control ng-untouched ng-pristine ng-valid"
-                            max="10"
-                            min="1"
-                            step="1"
-                            tmdisablewheel=""
-                            type="number"
-                          />
-                        </div>
-                        <div
-                          class="col-md-9 col-xs-6 text-secondary"
-                          id="possible-values"
-                        >
-                           Possible values: [1,
+                          <div
+                            class="col-md-3 col-xs-5"
+                          >
+                            <input
+                              aria-label="Response for Barry Harris"
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              max="10"
+                              min="1"
+                              step="1"
+                              tmdisablewheel=""
+                              type="number"
+                            />
+                          </div>
+                          <div
+                            class="col-md-9 col-xs-6 text-secondary"
+                            id="possible-values"
+                          >
+                             Possible values: [1,
              2,
              3,
              ...,
              8,
              9,
              10] 
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        class="row mt-1"
-                      >
                         <div
-                          class="col-12"
+                          class="row mt-1"
                         >
+                          <div
+                            class="col-12"
+                          >
+                          </div>
                         </div>
-                      </div>
-                      <br />
-                    </tm-num-scale-question-edit-answer-form>
+                        <br />
+                      </tm-num-scale-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2149,26 +2144,26 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-constsum-recipients-question-edit-answer-form>
-                      <div>
-                        <div
-                          class="form-group"
-                        >
-                          <input
-                            aria-label="Response for Barry Harris"
-                            class="form-control ng-untouched ng-pristine ng-valid"
-                            min="0"
-                            step="1"
-                            tmdisablewheel=""
-                            type="number"
-                          />
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-constsum-recipients-question-edit-answer-form>
+                        <div>
+                          <div
+                            class="form-group"
+                          >
+                            <input
+                              aria-label="Response for Barry Harris"
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              min="0"
+                              step="1"
+                              tmdisablewheel=""
+                              type="number"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    </tm-constsum-recipients-question-edit-answer-form>
+                      </tm-constsum-recipients-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2354,274 +2349,274 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-contribution-question-edit-answer-form>
-                      <div
-                        class="row"
-                      >
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-contribution-question-edit-answer-form>
                         <div
-                          class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
+                          class="row"
                         >
-                          <select
-                            aria-label="Response for Barry Harris"
-                            class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
+                          <div
+                            class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                           >
-                            <option
-                              value="0: -999"
-                            />
-                            <option
-                              class="color-positive fw-bold"
-                              value="1: 100"
+                            <select
+                              aria-label="Response for Barry Harris"
+                              class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
                             >
-                              Equal share
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="2: 200"
-                            >
-                              Equal share + 100%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="3: 195"
-                            >
-                              Equal share + 95%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="4: 190"
-                            >
-                              Equal share + 90%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="5: 185"
-                            >
-                              Equal share + 85%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="6: 180"
-                            >
-                              Equal share + 80%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="7: 175"
-                            >
-                              Equal share + 75%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="8: 170"
-                            >
-                              Equal share + 70%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="9: 165"
-                            >
-                              Equal share + 65%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="10: 160"
-                            >
-                              Equal share + 60%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="11: 155"
-                            >
-                              Equal share + 55%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="12: 150"
-                            >
-                              Equal share + 50%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="13: 145"
-                            >
-                              Equal share + 45%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="14: 140"
-                            >
-                              Equal share + 40%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="15: 135"
-                            >
-                              Equal share + 35%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="16: 130"
-                            >
-                              Equal share + 30%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="17: 125"
-                            >
-                              Equal share + 25%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="18: 120"
-                            >
-                              Equal share + 20%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="19: 115"
-                            >
-                              Equal share + 15%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="20: 110"
-                            >
-                              Equal share + 10%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="21: 105"
-                            >
-                              Equal share + 5%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="22: 95"
-                            >
-                              Equal share - 5%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="23: 90"
-                            >
-                              Equal share - 10%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="24: 85"
-                            >
-                              Equal share - 15%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="25: 80"
-                            >
-                              Equal share - 20%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="26: 75"
-                            >
-                              Equal share - 25%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="27: 70"
-                            >
-                              Equal share - 30%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="28: 65"
-                            >
-                              Equal share - 35%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="29: 60"
-                            >
-                              Equal share - 40%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="30: 55"
-                            >
-                              Equal share - 45%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="31: 50"
-                            >
-                              Equal share - 50%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="32: 45"
-                            >
-                              Equal share - 55%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="33: 40"
-                            >
-                              Equal share - 60%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="34: 35"
-                            >
-                              Equal share - 65%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="35: 30"
-                            >
-                              Equal share - 70%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="36: 25"
-                            >
-                              Equal share - 75%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="37: 20"
-                            >
-                              Equal share - 80%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="38: 15"
-                            >
-                              Equal share - 85%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="39: 10"
-                            >
-                              Equal share - 90%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="40: 5"
-                            >
-                              Equal share - 95%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="41: 0"
-                            >
-                              0%
-                            </option>
-                          </select>
+                              <option
+                                value="0: -999"
+                              />
+                              <option
+                                class="color-positive fw-bold"
+                                value="1: 100"
+                              >
+                                Equal share
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="2: 200"
+                              >
+                                Equal share + 100%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="3: 195"
+                              >
+                                Equal share + 95%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="4: 190"
+                              >
+                                Equal share + 90%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="5: 185"
+                              >
+                                Equal share + 85%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="6: 180"
+                              >
+                                Equal share + 80%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="7: 175"
+                              >
+                                Equal share + 75%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="8: 170"
+                              >
+                                Equal share + 70%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="9: 165"
+                              >
+                                Equal share + 65%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="10: 160"
+                              >
+                                Equal share + 60%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="11: 155"
+                              >
+                                Equal share + 55%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="12: 150"
+                              >
+                                Equal share + 50%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="13: 145"
+                              >
+                                Equal share + 45%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="14: 140"
+                              >
+                                Equal share + 40%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="15: 135"
+                              >
+                                Equal share + 35%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="16: 130"
+                              >
+                                Equal share + 30%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="17: 125"
+                              >
+                                Equal share + 25%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="18: 120"
+                              >
+                                Equal share + 20%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="19: 115"
+                              >
+                                Equal share + 15%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="20: 110"
+                              >
+                                Equal share + 10%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="21: 105"
+                              >
+                                Equal share + 5%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="22: 95"
+                              >
+                                Equal share - 5%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="23: 90"
+                              >
+                                Equal share - 10%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="24: 85"
+                              >
+                                Equal share - 15%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="25: 80"
+                              >
+                                Equal share - 20%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="26: 75"
+                              >
+                                Equal share - 25%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="27: 70"
+                              >
+                                Equal share - 30%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="28: 65"
+                              >
+                                Equal share - 35%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="29: 60"
+                              >
+                                Equal share - 40%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="30: 55"
+                              >
+                                Equal share - 45%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="31: 50"
+                              >
+                                Equal share - 50%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="32: 45"
+                              >
+                                Equal share - 55%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="33: 40"
+                              >
+                                Equal share - 60%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="34: 35"
+                              >
+                                Equal share - 65%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="35: 30"
+                              >
+                                Equal share - 70%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="36: 25"
+                              >
+                                Equal share - 75%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="37: 20"
+                              >
+                                Equal share - 80%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="38: 15"
+                              >
+                                Equal share - 85%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="39: 10"
+                              >
+                                Equal share - 90%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="40: 5"
+                              >
+                                Equal share - 95%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="41: 0"
+                              >
+                                0%
+                              </option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                    </tm-contribution-question-edit-answer-form>
+                      </tm-contribution-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2771,181 +2766,181 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-rubric-question-edit-answer-form>
-                      <table
-                        aria-label="Response for Barry Harris"
-                        class="table table-bordered desktop-view"
-                      >
-                        <thead>
-                          <tr>
-                            <td />
-                            <th
-                              scope="col"
-                            >
-                              choice 1
-                            </th>
-                            <th
-                              scope="col"
-                            >
-                              choice 2
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 1
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-rubric-question-edit-answer-form>
+                        <table
+                          aria-label="Response for Barry Harris"
+                          class="table table-bordered desktop-view"
+                        >
+                          <thead>
+                            <tr>
+                              <td />
+                              <th
+                                scope="col"
                               >
-                                 description 1 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                choice 1
+                              </th>
+                              <th
+                                scope="col"
                               >
-                                 description 2 
-                              </label>
-                            </td>
-                          </tr>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
+                                choice 2
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              class="row-answered"
                             >
-                              subquestion 2
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                              <th
+                                class="fw-normal"
+                                scope="row"
                               >
-                                 description 3 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                subquestion 1
+                              </th>
+                              <td
+                                class="text-secondary answer-cell"
                               >
-                                 description 4 
-                              </label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div
-                        aria-label="Response for Barry Harris"
-                        class="mobile-view"
-                      >
+                                <input
+                                  id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                  type="radio"
+                                />
+                                <label
+                                  for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                >
+                                   description 1 
+                                </label>
+                              </td>
+                              <td
+                                class="text-secondary answer-cell"
+                              >
+                                <input
+                                  id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                  type="radio"
+                                />
+                                <label
+                                  for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                >
+                                   description 2 
+                                </label>
+                              </td>
+                            </tr>
+                            <tr
+                              class="row-answered"
+                            >
+                              <th
+                                class="fw-normal"
+                                scope="row"
+                              >
+                                subquestion 2
+                              </th>
+                              <td
+                                class="text-secondary answer-cell"
+                              >
+                                <input
+                                  id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                  type="radio"
+                                />
+                                <label
+                                  for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                >
+                                   description 3 
+                                </label>
+                              </td>
+                              <td
+                                class="text-secondary answer-cell"
+                              >
+                                <input
+                                  id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                  type="radio"
+                                />
+                                <label
+                                  for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                >
+                                   description 4 
+                                </label>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                         <div
-                          class="card"
+                          aria-label="Response for Barry Harris"
+                          class="mobile-view"
                         >
                           <div
-                            class="card-header bg-light"
+                            class="card"
                           >
-                             subquestion 1 
+                            <div
+                              class="card-header bg-light"
+                            >
+                               subquestion 1 
+                            </div>
+                            <div
+                              class="card-body row-answered"
+                            >
+                              <div>
+                                <label>
+                                  <input
+                                    aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
+                                    type="radio"
+                                  />
+                                   choice 1 - description 1 
+                                </label>
+                              </div>
+                              <div>
+                                <label>
+                                  <input
+                                    aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
+                                    type="radio"
+                                  />
+                                   choice 2 - description 2 
+                                </label>
+                              </div>
+                            </div>
                           </div>
                           <div
-                            class="card-body row-answered"
+                            class="card"
                           >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 1 
-                              </label>
+                            <div
+                              class="card-header bg-light"
+                            >
+                               subquestion 2 
                             </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 2 
-                              </label>
+                            <div
+                              class="card-body row-answered"
+                            >
+                              <div>
+                                <label>
+                                  <input
+                                    aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
+                                    type="radio"
+                                  />
+                                   choice 1 - description 3 
+                                </label>
+                              </div>
+                              <div>
+                                <label>
+                                  <input
+                                    aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
+                                    type="radio"
+                                  />
+                                   choice 2 - description 4 
+                                </label>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="card"
-                        >
-                          <div
-                            class="card-header bg-light"
-                          >
-                             subquestion 2 
-                          </div>
-                          <div
-                            class="card-body row-answered"
-                          >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 3 
-                              </label>
-                            </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 4 
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </tm-rubric-question-edit-answer-form>
+                      </tm-rubric-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3128,84 +3123,84 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-rank-options-question-edit-answer-form>
-                      <div
-                        aria-label="Response for Barry Harris"
-                      >
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-rank-options-question-edit-answer-form>
                         <div
-                          class="form-group row text-start"
+                          aria-label="Response for Barry Harris"
                         >
                           <div
-                            class="col-md-5 col-xs-12 text-md-end col-form-label"
+                            class="form-group row text-start"
                           >
-                            <strong>
-                              option 1
-                            </strong>
-                          </div>
-                          <div
-                            class="col-md-7 col-xs-12 text-md-start"
-                          >
-                            <select
-                              aria-label="Response for Barry Harris for option 1 Option"
-                              class="form-control form-select ng-untouched ng-pristine ng-valid"
+                            <div
+                              class="col-md-5 col-xs-12 text-md-end col-form-label"
                             >
-                              <option
-                                value="0: -999"
-                              />
-                              <option
-                                value="1: 1"
-                              >
-                                1
-                              </option>
-                              <option
-                                value="2: 2"
-                              >
-                                2
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                        <div
-                          class="form-group row text-start"
-                        >
-                          <div
-                            class="col-md-5 col-xs-12 text-md-end col-form-label"
-                          >
-                            <strong>
-                              option 2
-                            </strong>
-                          </div>
-                          <div
-                            class="col-md-7 col-xs-12 text-md-start"
-                          >
-                            <select
-                              aria-label="Response for Barry Harris for option 2 Option"
-                              class="form-control form-select ng-untouched ng-pristine ng-valid"
+                              <strong>
+                                option 1
+                              </strong>
+                            </div>
+                            <div
+                              class="col-md-7 col-xs-12 text-md-start"
                             >
-                              <option
-                                value="0: -999"
-                              />
-                              <option
-                                value="1: 1"
+                              <select
+                                aria-label="Response for Barry Harris for option 1 Option"
+                                class="form-control form-select ng-untouched ng-pristine ng-valid"
                               >
-                                1
-                              </option>
-                              <option
-                                value="2: 2"
+                                <option
+                                  value="0: -999"
+                                />
+                                <option
+                                  value="1: 1"
+                                >
+                                  1
+                                </option>
+                                <option
+                                  value="2: 2"
+                                >
+                                  2
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div
+                            class="form-group row text-start"
+                          >
+                            <div
+                              class="col-md-5 col-xs-12 text-md-end col-form-label"
+                            >
+                              <strong>
+                                option 2
+                              </strong>
+                            </div>
+                            <div
+                              class="col-md-7 col-xs-12 text-md-start"
+                            >
+                              <select
+                                aria-label="Response for Barry Harris for option 2 Option"
+                                class="form-control form-select ng-untouched ng-pristine ng-valid"
                               >
-                                2
-                              </option>
-                            </select>
+                                <option
+                                  value="0: -999"
+                                />
+                                <option
+                                  value="1: 1"
+                                >
+                                  1
+                                </option>
+                                <option
+                                  value="2: 2"
+                                >
+                                  2
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div>
                           </div>
                         </div>
-                        <div>
-                        </div>
-                      </div>
-                    </tm-rank-options-question-edit-answer-form>
+                      </tm-rank-options-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3388,29 +3383,29 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-rank-recipients-question-edit-answer-form>
-                      <div
-                        class="margin-bottom-15px"
-                      >
-                        <select
-                          aria-label="Response for Barry Harris"
-                          class="form-control form-select ng-untouched ng-pristine ng-valid"
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-rank-recipients-question-edit-answer-form>
+                        <div
+                          class="margin-bottom-15px"
                         >
-                          <option
-                            value="0: -999"
-                          />
-                          <option
-                            value="1: 1"
+                          <select
+                            aria-label="Response for Barry Harris"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
-                            1
-                          </option>
-                        </select>
-                      </div>
-                    </tm-rank-recipients-question-edit-answer-form>
+                            <option
+                              value="0: -999"
+                            />
+                            <option
+                              value="1: 1"
+                            >
+                              1
+                            </option>
+                          </select>
+                        </div>
+                      </tm-rank-recipients-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3514,7 +3509,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   personName=""
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
-  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -3817,142 +3811,142 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Team)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-mcq-question-edit-answer-form>
-                      <tr
-                        aria-label="Response for To-Be-Selected"
-                      >
-                        <td>
-                          <div>
-                            <div
-                              class="radio"
-                            >
-                              <label
-                                class="margin-right-15px"
-                              >
-                                <input
-                                  class="margin-right-15px"
-                                  disabled=""
-                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                  type="radio"
-                                />
-                                <span
-                                  class="option-text"
-                                  id="radioOptionSpan"
-                                >
-                                  choice 1
-                                </span>
-                              </label>
-                            </div>
-                            <div
-                              class="radio"
-                            >
-                              <label
-                                class="margin-right-15px"
-                              >
-                                <input
-                                  class="margin-right-15px"
-                                  disabled=""
-                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                  type="radio"
-                                />
-                                <span
-                                  class="option-text"
-                                  id="radioOptionSpan"
-                                >
-                                  choice 2
-                                </span>
-                              </label>
-                            </div>
-                            <div
-                              class="radio"
-                            >
-                              <label
-                                class="margin-right-15px"
-                              >
-                                <input
-                                  class="margin-right-15px"
-                                  disabled=""
-                                  name="mcq-feedback-question-id-mcqbarry-harris-id"
-                                  type="radio"
-                                />
-                                <span
-                                  class="option-text"
-                                  id="radioOptionSpan"
-                                >
-                                  choice 3
-                                </span>
-                              </label>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tm-mcq-question-edit-answer-form>
-                  </div>
-                  <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
-                    id="comment-section-qn-1-idx-0"
-                  >
-                    <div>
-                      <tm-comment-row>
-                        <div
-                          class="card"
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-mcq-question-edit-answer-form>
+                        <tr
+                          aria-label="Response for To-Be-Selected"
                         >
+                          <td>
+                            <div>
+                              <div
+                                class="radio"
+                              >
+                                <label
+                                  class="margin-right-15px"
+                                >
+                                  <input
+                                    class="margin-right-15px"
+                                    disabled=""
+                                    name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                    type="radio"
+                                  />
+                                  <span
+                                    class="option-text"
+                                    id="radioOptionSpan"
+                                  >
+                                    choice 1
+                                  </span>
+                                </label>
+                              </div>
+                              <div
+                                class="radio"
+                              >
+                                <label
+                                  class="margin-right-15px"
+                                >
+                                  <input
+                                    class="margin-right-15px"
+                                    disabled=""
+                                    name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                    type="radio"
+                                  />
+                                  <span
+                                    class="option-text"
+                                    id="radioOptionSpan"
+                                  >
+                                    choice 2
+                                  </span>
+                                </label>
+                              </div>
+                              <div
+                                class="radio"
+                              >
+                                <label
+                                  class="margin-right-15px"
+                                >
+                                  <input
+                                    class="margin-right-15px"
+                                    disabled=""
+                                    name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                    type="radio"
+                                  />
+                                  <span
+                                    class="option-text"
+                                    id="radioOptionSpan"
+                                  >
+                                    choice 3
+                                  </span>
+                                </label>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tm-mcq-question-edit-answer-form>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-1-idx-0"
+                    >
+                      <div>
+                        <tm-comment-row>
                           <div
-                            class="card-body"
+                            class="card"
                           >
                             <div
-                              class="row comment-row"
+                              class="card-body"
                             >
                               <div
-                                class="col-12"
+                                class="row comment-row"
                               >
-                                <span
-                                  class="by-response-giver text-secondary"
-                                >
-                                   Comment by response giver. 
-                                </span>
-                                <i
-                                  aria-hidden="true"
-                                  class="fa fa-eye"
-                                />
                                 <div
-                                  class="float-end"
+                                  class="col-12"
                                 >
-                                  <button
-                                    class="btn-edit-comment btn btn-outline-primary btn-sm"
-                                    disabled=""
-                                    ngbtooltip="Edit this comment"
-                                    type="button"
+                                  <span
+                                    class="by-response-giver text-secondary"
                                   >
-                                    <i
-                                      class="fas fa-pencil-alt"
-                                    />
-                                  </button>
-                                  <button
-                                    class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
-                                    disabled=""
-                                    ngbtooltip="Delete this comment"
-                                    type="button"
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
                                   >
-                                    <i
-                                      class="fas fa-trash"
-                                    />
-                                  </button>
+                                    <button
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      disabled=""
+                                      ngbtooltip="Edit this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      disabled=""
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="comment-text col-12"
-                              >
-                                comment text
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </tm-comment-row>
+                        </tm-comment-row>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -4090,24 +4084,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Instructor)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-text-question-edit-answer-form>
-                      <div
-                        class="plain-text-area"
-                      >
-                        <textarea
-                          aria-label="Response for To-Be-Selected"
-                          class="ng-untouched ng-pristine ng-valid"
-                        />
-                      </div>
-                      <div
-                        class="margin-top-7px text-secondary text-end"
-                      >
-                      </div>
-                    </tm-text-question-edit-answer-form>
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-text-question-edit-answer-form>
+                        <div
+                          class="plain-text-area"
+                        >
+                          <textarea
+                            aria-label="Response for To-Be-Selected"
+                            class="ng-untouched ng-pristine ng-valid"
+                          />
+                        </div>
+                        <div
+                          class="margin-top-7px text-secondary text-end"
+                        >
+                        </div>
+                      </tm-text-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -4384,128 +4378,128 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-msq-question-edit-answer-form>
-                      <tr
-                        aria-label="Response for Barry Harris"
-                      >
-                        <td>
-                          <div
-                            class="check-box"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                type="checkbox"
-                              />
-                              <strong>
-                                first
-                              </strong>
-                            </label>
-                          </div>
-                          <div
-                            class="check-box"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                type="checkbox"
-                              />
-                              <strong>
-                                second
-                              </strong>
-                            </label>
-                          </div>
-                          <div
-                            class="check-box"
-                          >
-                            <label
-                              class="margin-right-15px"
-                            >
-                              <input
-                                class="margin-right-15px"
-                                disabled=""
-                                type="checkbox"
-                              />
-                              <strong>
-                                third
-                              </strong>
-                            </label>
-                          </div>
-                        </td>
-                      </tr>
-                    </tm-msq-question-edit-answer-form>
-                  </div>
-                  <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
-                    id="comment-section-qn-4-idx-0"
-                  >
-                    <div>
-                      <tm-comment-row>
-                        <div
-                          class="card"
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-msq-question-edit-answer-form>
+                        <tr
+                          aria-label="Response for Barry Harris"
                         >
+                          <td>
+                            <div
+                              class="check-box"
+                            >
+                              <label
+                                class="margin-right-15px"
+                              >
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  type="checkbox"
+                                />
+                                <strong>
+                                  first
+                                </strong>
+                              </label>
+                            </div>
+                            <div
+                              class="check-box"
+                            >
+                              <label
+                                class="margin-right-15px"
+                              >
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  type="checkbox"
+                                />
+                                <strong>
+                                  second
+                                </strong>
+                              </label>
+                            </div>
+                            <div
+                              class="check-box"
+                            >
+                              <label
+                                class="margin-right-15px"
+                              >
+                                <input
+                                  class="margin-right-15px"
+                                  disabled=""
+                                  type="checkbox"
+                                />
+                                <strong>
+                                  third
+                                </strong>
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                      </tm-msq-question-edit-answer-form>
+                    </div>
+                    <div
+                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      id="comment-section-qn-4-idx-0"
+                    >
+                      <div>
+                        <tm-comment-row>
                           <div
-                            class="card-body"
+                            class="card"
                           >
                             <div
-                              class="row comment-row"
+                              class="card-body"
                             >
                               <div
-                                class="col-12"
+                                class="row comment-row"
                               >
-                                <span
-                                  class="by-response-giver text-secondary"
-                                >
-                                   Comment by response giver. 
-                                </span>
-                                <i
-                                  aria-hidden="true"
-                                  class="fa fa-eye"
-                                />
                                 <div
-                                  class="float-end"
+                                  class="col-12"
                                 >
-                                  <button
-                                    class="btn-edit-comment btn btn-outline-primary btn-sm"
-                                    disabled=""
-                                    ngbtooltip="Edit this comment"
-                                    type="button"
+                                  <span
+                                    class="by-response-giver text-secondary"
                                   >
-                                    <i
-                                      class="fas fa-pencil-alt"
-                                    />
-                                  </button>
-                                  <button
-                                    class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
-                                    disabled=""
-                                    ngbtooltip="Delete this comment"
-                                    type="button"
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
                                   >
-                                    <i
-                                      class="fas fa-trash"
-                                    />
-                                  </button>
+                                    <button
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      disabled=""
+                                      ngbtooltip="Edit this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      disabled=""
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="comment-text col-12"
-                              >
-                                comment text
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </tm-comment-row>
+                        </tm-comment-row>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -4657,50 +4651,50 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-num-scale-question-edit-answer-form>
-                      <div
-                        class="row text-start"
-                      >
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-num-scale-question-edit-answer-form>
                         <div
-                          class="col-md-3 col-xs-5"
+                          class="row text-start"
                         >
-                          <input
-                            aria-label="Response for Barry Harris"
-                            class="form-control ng-untouched ng-pristine ng-valid"
-                            max="10"
-                            min="1"
-                            step="1"
-                            tmdisablewheel=""
-                            type="number"
-                          />
-                        </div>
-                        <div
-                          class="col-md-9 col-xs-6 text-secondary"
-                          id="possible-values"
-                        >
-                           Possible values: [1,
+                          <div
+                            class="col-md-3 col-xs-5"
+                          >
+                            <input
+                              aria-label="Response for Barry Harris"
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              max="10"
+                              min="1"
+                              step="1"
+                              tmdisablewheel=""
+                              type="number"
+                            />
+                          </div>
+                          <div
+                            class="col-md-9 col-xs-6 text-secondary"
+                            id="possible-values"
+                          >
+                             Possible values: [1,
              2,
              3,
              ...,
              8,
              9,
              10] 
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        class="row mt-1"
-                      >
                         <div
-                          class="col-12"
+                          class="row mt-1"
                         >
+                          <div
+                            class="col-12"
+                          >
+                          </div>
                         </div>
-                      </div>
-                      <br />
-                    </tm-num-scale-question-edit-answer-form>
+                        <br />
+                      </tm-num-scale-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -4871,26 +4865,26 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-constsum-recipients-question-edit-answer-form>
-                      <div>
-                        <div
-                          class="form-group"
-                        >
-                          <input
-                            aria-label="Response for Barry Harris"
-                            class="form-control ng-untouched ng-pristine ng-valid"
-                            min="0"
-                            step="1"
-                            tmdisablewheel=""
-                            type="number"
-                          />
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-constsum-recipients-question-edit-answer-form>
+                        <div>
+                          <div
+                            class="form-group"
+                          >
+                            <input
+                              aria-label="Response for Barry Harris"
+                              class="form-control ng-untouched ng-pristine ng-valid"
+                              min="0"
+                              step="1"
+                              tmdisablewheel=""
+                              type="number"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    </tm-constsum-recipients-question-edit-answer-form>
+                      </tm-constsum-recipients-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5077,274 +5071,274 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-contribution-question-edit-answer-form>
-                      <div
-                        class="row"
-                      >
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-contribution-question-edit-answer-form>
                         <div
-                          class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
+                          class="row"
                         >
-                          <select
-                            aria-label="Response for Barry Harris"
-                            class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
+                          <div
+                            class="col-lg-5 col-md-12 col-sm-6 col-xs-12"
                           >
-                            <option
-                              value="0: -999"
-                            />
-                            <option
-                              class="color-positive fw-bold"
-                              value="1: 100"
+                            <select
+                              aria-label="Response for Barry Harris"
+                              class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
                             >
-                              Equal share
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="2: 200"
-                            >
-                              Equal share + 100%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="3: 195"
-                            >
-                              Equal share + 95%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="4: 190"
-                            >
-                              Equal share + 90%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="5: 185"
-                            >
-                              Equal share + 85%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="6: 180"
-                            >
-                              Equal share + 80%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="7: 175"
-                            >
-                              Equal share + 75%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="8: 170"
-                            >
-                              Equal share + 70%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="9: 165"
-                            >
-                              Equal share + 65%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="10: 160"
-                            >
-                              Equal share + 60%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="11: 155"
-                            >
-                              Equal share + 55%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="12: 150"
-                            >
-                              Equal share + 50%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="13: 145"
-                            >
-                              Equal share + 45%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="14: 140"
-                            >
-                              Equal share + 40%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="15: 135"
-                            >
-                              Equal share + 35%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="16: 130"
-                            >
-                              Equal share + 30%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="17: 125"
-                            >
-                              Equal share + 25%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="18: 120"
-                            >
-                              Equal share + 20%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="19: 115"
-                            >
-                              Equal share + 15%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="20: 110"
-                            >
-                              Equal share + 10%
-                            </option>
-                            <option
-                              class="color-positive"
-                              value="21: 105"
-                            >
-                              Equal share + 5%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="22: 95"
-                            >
-                              Equal share - 5%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="23: 90"
-                            >
-                              Equal share - 10%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="24: 85"
-                            >
-                              Equal share - 15%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="25: 80"
-                            >
-                              Equal share - 20%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="26: 75"
-                            >
-                              Equal share - 25%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="27: 70"
-                            >
-                              Equal share - 30%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="28: 65"
-                            >
-                              Equal share - 35%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="29: 60"
-                            >
-                              Equal share - 40%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="30: 55"
-                            >
-                              Equal share - 45%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="31: 50"
-                            >
-                              Equal share - 50%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="32: 45"
-                            >
-                              Equal share - 55%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="33: 40"
-                            >
-                              Equal share - 60%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="34: 35"
-                            >
-                              Equal share - 65%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="35: 30"
-                            >
-                              Equal share - 70%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="36: 25"
-                            >
-                              Equal share - 75%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="37: 20"
-                            >
-                              Equal share - 80%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="38: 15"
-                            >
-                              Equal share - 85%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="39: 10"
-                            >
-                              Equal share - 90%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="40: 5"
-                            >
-                              Equal share - 95%
-                            </option>
-                            <option
-                              class="color-negative"
-                              value="41: 0"
-                            >
-                              0%
-                            </option>
-                          </select>
+                              <option
+                                value="0: -999"
+                              />
+                              <option
+                                class="color-positive fw-bold"
+                                value="1: 100"
+                              >
+                                Equal share
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="2: 200"
+                              >
+                                Equal share + 100%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="3: 195"
+                              >
+                                Equal share + 95%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="4: 190"
+                              >
+                                Equal share + 90%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="5: 185"
+                              >
+                                Equal share + 85%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="6: 180"
+                              >
+                                Equal share + 80%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="7: 175"
+                              >
+                                Equal share + 75%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="8: 170"
+                              >
+                                Equal share + 70%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="9: 165"
+                              >
+                                Equal share + 65%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="10: 160"
+                              >
+                                Equal share + 60%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="11: 155"
+                              >
+                                Equal share + 55%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="12: 150"
+                              >
+                                Equal share + 50%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="13: 145"
+                              >
+                                Equal share + 45%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="14: 140"
+                              >
+                                Equal share + 40%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="15: 135"
+                              >
+                                Equal share + 35%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="16: 130"
+                              >
+                                Equal share + 30%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="17: 125"
+                              >
+                                Equal share + 25%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="18: 120"
+                              >
+                                Equal share + 20%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="19: 115"
+                              >
+                                Equal share + 15%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="20: 110"
+                              >
+                                Equal share + 10%
+                              </option>
+                              <option
+                                class="color-positive"
+                                value="21: 105"
+                              >
+                                Equal share + 5%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="22: 95"
+                              >
+                                Equal share - 5%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="23: 90"
+                              >
+                                Equal share - 10%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="24: 85"
+                              >
+                                Equal share - 15%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="25: 80"
+                              >
+                                Equal share - 20%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="26: 75"
+                              >
+                                Equal share - 25%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="27: 70"
+                              >
+                                Equal share - 30%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="28: 65"
+                              >
+                                Equal share - 35%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="29: 60"
+                              >
+                                Equal share - 40%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="30: 55"
+                              >
+                                Equal share - 45%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="31: 50"
+                              >
+                                Equal share - 50%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="32: 45"
+                              >
+                                Equal share - 55%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="33: 40"
+                              >
+                                Equal share - 60%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="34: 35"
+                              >
+                                Equal share - 65%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="35: 30"
+                              >
+                                Equal share - 70%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="36: 25"
+                              >
+                                Equal share - 75%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="37: 20"
+                              >
+                                Equal share - 80%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="38: 15"
+                              >
+                                Equal share - 85%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="39: 10"
+                              >
+                                Equal share - 90%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="40: 5"
+                              >
+                                Equal share - 95%
+                              </option>
+                              <option
+                                class="color-negative"
+                                value="41: 0"
+                              >
+                                0%
+                              </option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                    </tm-contribution-question-edit-answer-form>
+                      </tm-contribution-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5495,189 +5489,189 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-rubric-question-edit-answer-form>
-                      <table
-                        aria-label="Response for Barry Harris"
-                        class="table table-bordered desktop-view"
-                      >
-                        <thead>
-                          <tr>
-                            <td />
-                            <th
-                              scope="col"
-                            >
-                              choice 1
-                            </th>
-                            <th
-                              scope="col"
-                            >
-                              choice 2
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 1
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-rubric-question-edit-answer-form>
+                        <table
+                          aria-label="Response for Barry Harris"
+                          class="table table-bordered desktop-view"
+                        >
+                          <thead>
+                            <tr>
+                              <td />
+                              <th
+                                scope="col"
                               >
-                                 description 1 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                choice 1
+                              </th>
+                              <th
+                                scope="col"
                               >
-                                 description 2 
-                              </label>
-                            </td>
-                          </tr>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
+                                choice 2
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              class="row-answered"
                             >
-                              subquestion 2
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                              <th
+                                class="fw-normal"
+                                scope="row"
                               >
-                                 description 3 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                subquestion 1
+                              </th>
+                              <td
+                                class="text-secondary answer-cell"
                               >
-                                 description 4 
-                              </label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div
-                        aria-label="Response for Barry Harris"
-                        class="mobile-view"
-                      >
+                                <input
+                                  disabled=""
+                                  id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                  type="radio"
+                                />
+                                <label
+                                  for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                >
+                                   description 1 
+                                </label>
+                              </td>
+                              <td
+                                class="text-secondary answer-cell"
+                              >
+                                <input
+                                  disabled=""
+                                  id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                  type="radio"
+                                />
+                                <label
+                                  for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                >
+                                   description 2 
+                                </label>
+                              </td>
+                            </tr>
+                            <tr
+                              class="row-answered"
+                            >
+                              <th
+                                class="fw-normal"
+                                scope="row"
+                              >
+                                subquestion 2
+                              </th>
+                              <td
+                                class="text-secondary answer-cell"
+                              >
+                                <input
+                                  disabled=""
+                                  id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                  type="radio"
+                                />
+                                <label
+                                  for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                >
+                                   description 3 
+                                </label>
+                              </td>
+                              <td
+                                class="text-secondary answer-cell"
+                              >
+                                <input
+                                  disabled=""
+                                  id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                  type="radio"
+                                />
+                                <label
+                                  for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                >
+                                   description 4 
+                                </label>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                         <div
-                          class="card"
+                          aria-label="Response for Barry Harris"
+                          class="mobile-view"
                         >
                           <div
-                            class="card-header bg-light"
+                            class="card"
                           >
-                             subquestion 1 
+                            <div
+                              class="card-header bg-light"
+                            >
+                               subquestion 1 
+                            </div>
+                            <div
+                              class="card-body row-answered"
+                            >
+                              <div>
+                                <label>
+                                  <input
+                                    aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
+                                    disabled=""
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
+                                    type="radio"
+                                  />
+                                   choice 1 - description 1 
+                                </label>
+                              </div>
+                              <div>
+                                <label>
+                                  <input
+                                    aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
+                                    disabled=""
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
+                                    type="radio"
+                                  />
+                                   choice 2 - description 2 
+                                </label>
+                              </div>
+                            </div>
                           </div>
                           <div
-                            class="card-body row-answered"
+                            class="card"
                           >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 1 
-                              </label>
+                            <div
+                              class="card-header bg-light"
+                            >
+                               subquestion 2 
                             </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 2 
-                              </label>
+                            <div
+                              class="card-body row-answered"
+                            >
+                              <div>
+                                <label>
+                                  <input
+                                    aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
+                                    disabled=""
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
+                                    type="radio"
+                                  />
+                                   choice 1 - description 3 
+                                </label>
+                              </div>
+                              <div>
+                                <label>
+                                  <input
+                                    aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
+                                    disabled=""
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
+                                    type="radio"
+                                  />
+                                   choice 2 - description 4 
+                                </label>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="card"
-                        >
-                          <div
-                            class="card-header bg-light"
-                          >
-                             subquestion 2 
-                          </div>
-                          <div
-                            class="card-body row-answered"
-                          >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 3 
-                              </label>
-                            </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 4 
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </tm-rubric-question-edit-answer-form>
+                      </tm-rubric-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5861,84 +5855,84 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-rank-options-question-edit-answer-form>
-                      <div
-                        aria-label="Response for Barry Harris"
-                      >
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-rank-options-question-edit-answer-form>
                         <div
-                          class="form-group row text-start"
+                          aria-label="Response for Barry Harris"
                         >
                           <div
-                            class="col-md-5 col-xs-12 text-md-end col-form-label"
+                            class="form-group row text-start"
                           >
-                            <strong>
-                              option 1
-                            </strong>
-                          </div>
-                          <div
-                            class="col-md-7 col-xs-12 text-md-start"
-                          >
-                            <select
-                              aria-label="Response for Barry Harris for option 1 Option"
-                              class="form-control form-select ng-untouched ng-pristine ng-valid"
+                            <div
+                              class="col-md-5 col-xs-12 text-md-end col-form-label"
                             >
-                              <option
-                                value="0: -999"
-                              />
-                              <option
-                                value="1: 1"
-                              >
-                                1
-                              </option>
-                              <option
-                                value="2: 2"
-                              >
-                                2
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-                        <div
-                          class="form-group row text-start"
-                        >
-                          <div
-                            class="col-md-5 col-xs-12 text-md-end col-form-label"
-                          >
-                            <strong>
-                              option 2
-                            </strong>
-                          </div>
-                          <div
-                            class="col-md-7 col-xs-12 text-md-start"
-                          >
-                            <select
-                              aria-label="Response for Barry Harris for option 2 Option"
-                              class="form-control form-select ng-untouched ng-pristine ng-valid"
+                              <strong>
+                                option 1
+                              </strong>
+                            </div>
+                            <div
+                              class="col-md-7 col-xs-12 text-md-start"
                             >
-                              <option
-                                value="0: -999"
-                              />
-                              <option
-                                value="1: 1"
+                              <select
+                                aria-label="Response for Barry Harris for option 1 Option"
+                                class="form-control form-select ng-untouched ng-pristine ng-valid"
                               >
-                                1
-                              </option>
-                              <option
-                                value="2: 2"
+                                <option
+                                  value="0: -999"
+                                />
+                                <option
+                                  value="1: 1"
+                                >
+                                  1
+                                </option>
+                                <option
+                                  value="2: 2"
+                                >
+                                  2
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div
+                            class="form-group row text-start"
+                          >
+                            <div
+                              class="col-md-5 col-xs-12 text-md-end col-form-label"
+                            >
+                              <strong>
+                                option 2
+                              </strong>
+                            </div>
+                            <div
+                              class="col-md-7 col-xs-12 text-md-start"
+                            >
+                              <select
+                                aria-label="Response for Barry Harris for option 2 Option"
+                                class="form-control form-select ng-untouched ng-pristine ng-valid"
                               >
-                                2
-                              </option>
-                            </select>
+                                <option
+                                  value="0: -999"
+                                />
+                                <option
+                                  value="1: 1"
+                                >
+                                  1
+                                </option>
+                                <option
+                                  value="2: 2"
+                                >
+                                  2
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div>
                           </div>
                         </div>
-                        <div>
-                        </div>
-                      </div>
-                    </tm-rank-options-question-edit-answer-form>
+                      </tm-rank-options-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -6122,29 +6116,29 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         (Student)
                       </span>
                     </div>
-                  </div>
-                  <div
-                    class="margin-top-20px col"
-                  >
-                    <tm-rank-recipients-question-edit-answer-form>
-                      <div
-                        class="margin-bottom-15px"
-                      >
-                        <select
-                          aria-label="Response for Barry Harris"
-                          class="form-control form-select ng-untouched ng-pristine ng-valid"
+                    <div
+                      class="margin-top-20px col"
+                    >
+                      <tm-rank-recipients-question-edit-answer-form>
+                        <div
+                          class="margin-bottom-15px"
                         >
-                          <option
-                            value="0: -999"
-                          />
-                          <option
-                            value="1: 1"
+                          <select
+                            aria-label="Response for Barry Harris"
+                            class="form-control form-select ng-untouched ng-pristine ng-valid"
                           >
-                            1
-                          </option>
-                        </select>
-                      </div>
-                    </tm-rank-recipients-question-edit-answer-form>
+                            <option
+                              value="0: -999"
+                            />
+                            <option
+                              value="1: 1"
+                            >
+                              1
+                            </option>
+                          </select>
+                        </div>
+                      </tm-rank-recipients-question-edit-answer-form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -6250,7 +6244,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
-  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -6406,7 +6399,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   personName={[Function String]}
   previewAsPerson=""
   questionSubmissionForms={[Function Array]}
-  questionSubmissionFormsCopy={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}

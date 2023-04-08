@@ -3,15 +3,15 @@
           [ngClass]="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ?
             (isSavedForRecipient(recipientId) ? 'bg-success' : 'bg-primary') :
             (isSaved ? 'bg-success' : 'bg-primary')"
-          [attr.aria-expanded]="this.model.isTabExpanded">
+          [attr.aria-expanded]="shouldTabExpand()">
     <div class="collapse-caret">
-      <tm-panel-chevron [isExpanded]="model.isTabExpanded" aria-hidden="true"></tm-panel-chevron>
+      <tm-panel-chevron [isExpanded]="shouldTabExpand()" aria-hidden="true"></tm-panel-chevron>
     </div>
     <i class="fas fa-check me-2" *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ? isSavedForRecipient(recipientId) : isSaved" aria-hidden="true"></i>
     <h2 class="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</h2>
   </button>
 
-  <div *ngIf="model.isTabExpanded" @collapseAnim>
+  <div *ngIf="shouldTabExpand()" @collapseAnim>
     <div class="card-body" *tmIsLoading="model.isLoading">
       <div class="card mb-3" *ngIf="model.questionDescription">
         <div class="card-header">

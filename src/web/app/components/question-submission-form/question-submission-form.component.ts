@@ -80,12 +80,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
     this.recipientLabelType = this.getSelectionLabelType(model.recipientType);
 
-    // Initialise the hasResponseChanged variable for a recipient when the recipients of
-    // the questions is not loaded.
+    // Initialise the "hasResponseChanged" variable and the "isTabExpandedForRecipients" variable
+    // for a recipient when the recipients of the questions is not loaded.
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
       if (!this.model.hasResponseChangedForRecipients.has(recipient.recipientIdentifier)) {
         this.model.hasResponseChangedForRecipients.set(recipient.recipientIdentifier, false);
       }
+
+      this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
   }
 
@@ -141,6 +143,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     showResponsesTo: [],
 
     hasResponseChangedForRecipients: new Map<string, boolean>(),
+    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
@@ -207,8 +210,23 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   toggleQuestionTab(): void {
-    this.model.isTabExpanded = !this.model.isTabExpanded;
+    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
+      this.model.isTabExpanded = !this.model.isTabExpanded;
+    } else {
+      this.model.isTabExpandedForRecipients.set(this.recipientId, !(this.model.isTabExpandedForRecipients.get(this.recipientId)!));
+    }
     this.formModelChange.emit(this.model);
+  }
+
+  shouldTabExpand(): boolean {
+    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
+      return this.model.isTabExpanded;
+    }
+
+    if (this.model.isTabExpandedForRecipients.get(this.recipientId) === undefined) {
+      this.model.isTabExpandedForRecipients.set(this.recipientId, true);
+    }
+    return this.model.isTabExpandedForRecipients.get(this.recipientId)!;
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient,

@@ -327,6 +327,7 @@ describe('SessionSubmissionPageComponent', () => {
     isLoaded: true,
     hasResponseChangedForRecipients: new Map<string, boolean>(),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
@@ -353,6 +354,7 @@ describe('SessionSubmissionPageComponent', () => {
     isLoaded: false,
     hasResponseChangedForRecipients: new Map<string, boolean>(),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -378,6 +380,7 @@ describe('SessionSubmissionPageComponent', () => {
     isLoaded: true,
     hasResponseChangedForRecipients: new Map<string, boolean>(),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -407,6 +410,7 @@ describe('SessionSubmissionPageComponent', () => {
     isLoaded: true,
     hasResponseChangedForRecipients: new Map<string, boolean>(),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -435,6 +439,9 @@ describe('SessionSubmissionPageComponent', () => {
       ['barry-harris-id', false],
     ]),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', true],
+    ]),
   };
 
   const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -466,6 +473,9 @@ describe('SessionSubmissionPageComponent', () => {
       ['barry-harris-id', false],
     ]),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', true],
+    ]),
   };
 
   const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -492,6 +502,9 @@ describe('SessionSubmissionPageComponent', () => {
       ['barry-harris-id', false],
     ]),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', true],
+    ]),
   };
 
   const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -522,6 +535,9 @@ describe('SessionSubmissionPageComponent', () => {
       ['barry-harris-id', false],
     ]),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', true],
+    ]),
   };
 
   const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -548,6 +564,9 @@ describe('SessionSubmissionPageComponent', () => {
       ['barry-harris-id', false],
     ]),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', true],
+    ]),
   };
 
   const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -576,6 +595,9 @@ describe('SessionSubmissionPageComponent', () => {
       ['barry-harris-id', false],
     ]),
     isTabExpanded: true,
+    isTabExpandedForRecipients: new Map<string, boolean>([
+      ['barry-harris-id', true],
+    ]),
   };
 
   const testInfo: AuthInfo = {
@@ -1081,7 +1103,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms, true, false, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
@@ -1091,6 +1113,7 @@ describe('SessionSubmissionPageComponent', () => {
       }],
     }, {
       intent: 'STUDENT_SUBMISSION',
+      issinglerecipientsubmission: "false",
       key: 'reg-key',
       moderatedperson: '',
     });
@@ -1098,6 +1121,7 @@ describe('SessionSubmissionPageComponent', () => {
       responses: [], // do not call for empty response details
     }, {
       intent: 'STUDENT_SUBMISSION',
+      issinglerecipientsubmission: "false",
       key: 'reg-key',
       moderatedperson: '',
     });
@@ -1138,7 +1162,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms, true, false, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(1, testQuestionSubmissionForm1.feedbackQuestionId, {
@@ -1148,6 +1172,7 @@ describe('SessionSubmissionPageComponent', () => {
       }],
     }, {
       intent: 'STUDENT_SUBMISSION',
+      issinglerecipientsubmission: "false",
       key: 'reg-key',
       moderatedperson: '',
     });

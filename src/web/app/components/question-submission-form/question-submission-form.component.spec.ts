@@ -103,6 +103,12 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   ]),
 
   isTabExpanded: true,
+  isTabExpandedForRecipients: new Map<string, boolean>([
+    ['rogers-alan-id', true],
+    ['buck-arthur-id', true],
+    ['harris-barry-id', true],
+    ['hans-charlie-id', true],
+  ]),
 };
 
 describe('QuestionSubmissionFormComponent', () => {
