@@ -26,9 +26,7 @@ Grouped Labels
 * **Priority (`p.*`)**: Classifies issues based on **importance**, as determined by the project maintainers
 * **Aspect (`a-*`)**: Classifies issues based on the **aspect**
   * No `a-*` label: no specific aspect tackled, usually the case for enhancements or new features
-* **Technology (`t-*`)**: Classifies issues based on the **technology/tool stack** involved
-  * No `t-*` label: usually documentation update, or mixture of many languages
-  
+
 Standalone Labels
 
 * `enhancement`: Indicates new feature requests that have been accepted
