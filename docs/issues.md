@@ -8,7 +8,7 @@ This document describes how the issue tracker is used by the TEAMMATES project.
 
 ## Issue lifecycle
 
-<img src="images/IssueLifecycle.png" width="600">
+<puml src="diagrams/IssueLifecycle.puml"></puml>
 
 Given above is an illustration of the issue lifecycle.
 Colors indicate which roles are involved in which states/transitions.
