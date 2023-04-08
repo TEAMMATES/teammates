@@ -194,7 +194,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Deletes all feedback responses involved an entity, cascade its associated comments.
      */
-    public void deleteFeedbackResponsesInvolvedEntityOfCourseCascade(String courseId, String entityEmail) {
+    public void deleteFeedbackResponsesForCourseCascade(String courseId, String entityEmail) {
         // delete responses from the entity
         List<FeedbackResponse> responsesFromStudent =
                 getFeedbackResponsesFromGiverForCourse(courseId, entityEmail);
@@ -245,11 +245,7 @@ public final class FeedbackResponsesLogic {
      * This method takes care of the following:
      * Making existing responses of 'rank recipient question' consistent.
      */
-    public void updateFeedbackResponsesForDeletingStudent(String courseId) {
-        updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
-    }
-
-    private void updateRankRecipientQuestionResponsesAfterDeletingStudent(String courseId) {
+    public void updateRankRecipientQuestionResponsesAfterDeletingStudent(String courseId) {
         List<FeedbackQuestion> filteredQuestions =
                 fqLogic.getFeedbackQuestionForCourseWithType(courseId, FeedbackQuestionType.RANK_RECIPIENTS);
         SqlCourseRoster roster = new SqlCourseRoster(
@@ -270,9 +266,8 @@ public final class FeedbackResponsesLogic {
      */
     private void makeRankRecipientQuestionResponsesConsistent(
             FeedbackQuestion question, SqlCourseRoster roster) {
-        if (!question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS)) {
-            return;
-        }
+        assert !question.getQuestionDetailsCopy().getQuestionType()
+                .equals(FeedbackQuestionType.RANK_RECIPIENTS);
 
         FeedbackParticipantType giverType = question.getGiverType();
         List<FeedbackResponse> responses;
@@ -288,7 +283,7 @@ public final class FeedbackResponsesLogic {
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail());
 
                 FeedbackRankRecipientsResponseDetails
-                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients);
+                        .updateResponsesForRankRecipientQuestions(responses, numberOfRecipients);
             }
             break;
         case TEAMS:
@@ -306,7 +301,7 @@ public final class FeedbackResponsesLogic {
                                 question.getId(), question.getCourseId(), team, roster);
 
                 FeedbackRankRecipientsResponseDetails
-                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients);
+                        .updateResponsesForRankRecipientQuestions(responses, numberOfRecipients);
             }
             break;
         default:
@@ -316,9 +311,8 @@ public final class FeedbackResponsesLogic {
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
 
                 FeedbackRankRecipientsResponseDetails
-                        .getUpdatedResponsesForRankRecipientQuestionsMigrated(responses, numberOfRecipients);
+                        .updateResponsesForRankRecipientQuestions(responses, numberOfRecipients);
             }
-            break;
         }
     }
 

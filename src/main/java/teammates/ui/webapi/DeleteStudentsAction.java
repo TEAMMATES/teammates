@@ -46,7 +46,7 @@ public class DeleteStudentsAction extends Action {
             return new JsonResult("Successful");
         }
 
-        sqlLogic.deleteStudentsInCourseCascade(courseId, Integer.parseInt(limit));
+        sqlLogic.deleteStudentsInCourseCascade(courseId);
 
         return new JsonResult("Successful");
     }

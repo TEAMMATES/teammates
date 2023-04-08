@@ -2,6 +2,7 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -105,10 +106,11 @@ public final class DeadlineExtensionsLogic {
         feedbackSessions.forEach(feedbackSession -> {
             List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
 
-            deadlineExtensions
+            deadlineExtensions = deadlineExtensions
                     .stream()
-                    .filter(deadlineExtension ->
-                            deadlineExtension.getUser().getEmail().equalsIgnoreCase(emailAddress));
+                    .filter(deadlineExtension -> 
+                            deadlineExtension.getUser().getEmail().equalsIgnoreCase(emailAddress))
+                    .collect(Collectors.toList());
 
             for (DeadlineExtension deadlineExtension : deadlineExtensions) {
                 deleteDeadlineExtension(deadlineExtension);

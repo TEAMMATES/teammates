@@ -115,7 +115,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
      * @param responses responses to one feedback question, from one giver
      * @param maxRank the maximum rank in each response
      */
-    public static void getUpdatedResponsesForRankRecipientQuestionsMigrated(
+    public static void updateResponsesForRankRecipientQuestions(
             List<FeedbackResponse> responses, int maxRank) {
         if (maxRank <= 0) {
             return;

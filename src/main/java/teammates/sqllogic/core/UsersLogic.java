@@ -302,16 +302,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets a list of students for the specified course in specified batches.
-     */
-    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
-        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId, batchSize);
-        sortByName(studentReturnList);
-
-        return studentReturnList;
-    }
-
-    /**
      * Gets a list of unregistered students for the specified course.
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
@@ -418,27 +408,26 @@ public final class UsersLogic {
         }
 
         feedbackResponsesLogic
-                .deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
+                .deleteFeedbackResponsesForCourseCascade(courseId, studentEmail);
 
         if (usersDb.getStudentCountForTeam(student.getTeamName(), student.getCourseId()) == 1) {
             // the student is the only student in the team, delete responses related to the team
             feedbackResponsesLogic
-                    .deleteFeedbackResponsesInvolvedEntityOfCourseCascade(
+                    .deleteFeedbackResponsesForCourseCascade(
                         student.getCourse().getId(), student.getTeamName());
         }
 
         usersDb.deleteUser(student);
         deadlineExtensionsLogic.deleteFeedbackSessionsDeadlinesForUser(courseId, studentEmail);
 
-        feedbackResponsesLogic.updateFeedbackResponsesForDeletingStudent(courseId);
+        feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
     }
 
     /**
-     * Deletes the first {@code batchSize} of the remaining students in the course cascade their
-     * associated responses, deadline extensions, and comments.
-    */
-    public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
-        List<Student> studentsInCourse = getStudentsForCourse(courseId, batchSize);
+     * Deletes students in the course cascade their associated responses, deadline extensions, and comments.
+     */
+    public void deleteStudentsInCourseCascade(String courseId) {
+        List<Student> studentsInCourse = getStudentsForCourse(courseId);
 
         for (Student student : studentsInCourse) {
             RequestTracer.checkRemainingTime();

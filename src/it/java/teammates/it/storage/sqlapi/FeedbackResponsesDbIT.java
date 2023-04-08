@@ -47,9 +47,9 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGetFeedbackResponsesFromGiverForQuestion() {
         ______TS("success: typical case");
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
+        FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
 
-        List<FeedbackResponse> expectedQuestions = List.of(fr1);
+        List<FeedbackResponse> expectedQuestions = List.of(fr);
 
         List<FeedbackResponse> actualQuestions =
                 frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), "student1@teammates.tmt");

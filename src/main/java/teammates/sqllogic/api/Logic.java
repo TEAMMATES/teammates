@@ -772,12 +772,12 @@ public class Logic {
      * Deletes all the students in the course cascade their associated responses, deadline extensions and comments.
      *
      * <br/>Preconditions: <br>
-     * All parameters are non-null.
+     * Parameter is non-null.
      */
-    public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
+    public void deleteStudentsInCourseCascade(String courseId) {
         assert courseId != null;
 
-        usersLogic.deleteStudentsInCourseCascade(courseId, batchSize);
+        usersLogic.deleteStudentsInCourseCascade(courseId);
     }
 
     /**
