@@ -10,7 +10,7 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 
 Understand what TEAMMATES is about, both as a product (users' point of view) and a project (developers' point of view).
 
-* [Product intro page](https://teammatesv4.appspot.com) shown to potential users
+* [Product intro page](https://teammatesv4.appspot.com) shown to potential users
 * [Features overview](https://teammatesv4.appspot.com/web/front/features)
 * [Project vision, challenges, and principles](overview.md)
 
@@ -56,17 +56,29 @@ Of course we are happy to guide you if you encounter any difficulties when doing
 
 Although TEAMMATES uses many tools and technologies, you need not know all of them before you can contribute. The diagram below shows which technologies you need to learn to contribute in different roles.
 
-![RolesAndTechnologies.png](images/RolesAndTechnologies.png)
+| Tool                 | Web page Developer | Front-end Developer | Test Developer | DevOps Developer | Back-end Developer |
+|:---------------------|--------------------|---------------------|----------------|:-----------------|:-------------------|
+| Git                  | ✅                  | ✅                   | ✅              | ✅                | ✅                  |
+| HTML                 | ✅                  | ✅                   |                |                  |                    |
+| SCSS, Bootstrap      | ✅                  | ✅                   |                |                  |                    |
+| Angular, TypeScript  |                    | ✅                   | ✅              | ✅                |                    |
+| Jest                 |                    | ✅                   | ✅              |                  |                    |
+| Node.js              |                    |                     |                | ✅                |                    |
+| Java                 |                    |                     | ✅              | ✅                | ✅                  |
+| Datastore, Objectify |                    |                     |                |                  | ✅                  |
+| TestNG               |                    |                     | ✅              |                  | ✅                  |
+| Gradle               |                    |                     |                | ✅                |                    |
+| Selenium             |                    |                     | ✅              |                  |                    |
 
 Note that these roles are not fixed or formally assigned; it is simply for guidance only.
 
 Roles:
 
-* **Web page developer**: Works on static web pages, such as those used in the TEAMMATES product web site.
-* **Front-end developer**: Works on the front-end of the app, i.e. the dynamically-generated user interface.
-* **Test developer**: Works on automating system tests.
-* **Back-end developer**: Works on the back-end logic of the app, including data storage.
-* **DevOps developer**: Works on automations (CI, static analysis, scripting) and operations (logging, monitoring, troubleshooting).
+* **Web page developer**: Works on static web pages, such as those used in the TEAMMATES product website.
+* **Front-end developer**: Works on the front-end of the app, i.e. the dynamically-generated user interface.
+* **Test developer**: Works on automating system tests.
+* **Back-end developer**: Works on the back-end logic of the app, including data storage.
+* **DevOps developer**: Works on automations (CI, static analysis, scripting) and operations (logging, monitoring, troubleshooting).
 
 ### Orientation task list
 
