@@ -52,7 +52,10 @@ To stop the dev server, press `Ctrl + C`.
 
 ## Managing the dev server: back-end
 
+<box type="definition">
+
 Back-end dev server is the Jetty-based server handling all the business logic, including data storage.
+</box>
 
 ### Pre-requisites
 
@@ -67,6 +70,11 @@ docker-compose up -d
 ```
 
 ### Starting the dev server
+
+<box type="wrong">
+
+Some IDEs may offer a shortcut to run the Application main class directly. Do not run the server this way.
+</box>
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
