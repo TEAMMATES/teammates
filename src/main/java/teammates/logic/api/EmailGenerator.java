@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.persistence.EntityNotFoundException;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -28,6 +29,12 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.sqllogic.core.UsersLogic;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
@@ -63,6 +70,8 @@ public final class EmailGenerator {
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
+
+    private final UsersLogic usersLogic = UsersLogic.inst();
 
     private EmailGenerator() {
         // prevent initialization
@@ -619,6 +628,20 @@ public final class EmailGenerator {
     }
 
     /**
+     * Generates deadline extension granted emails.
+     */
+    public List<EmailWrapper> generateDeadlineGrantedEmails(Course course,
+            FeedbackSession session, List<DeadlineExtension> createdDeadlines, boolean areInstructors) {
+        return createdDeadlines
+                .stream()
+                .map(de ->
+                        generateDeadlineExtensionEmail(course, session,
+                                de, session.getEndTime(), de.getEndTime(), EmailType.DEADLINE_EXTENSION_GRANTED,
+                                de.getUser().getEmail(), areInstructors))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Generates deadline extension updated emails.
      */
     public List<EmailWrapper> generateDeadlineUpdatedEmails(CourseAttributes course, FeedbackSessionAttributes session,
@@ -633,6 +656,32 @@ public final class EmailGenerator {
     }
 
     /**
+     * Generates deadline extension updated emails.
+     */
+    public List<EmailWrapper> generateDeadlineUpdatedEmails(Course course, FeedbackSession session,
+            List<DeadlineExtension> updatedDeadlines, List<DeadlineExtension> oldDeadlines, boolean areInstructors)
+            throws EntityNotFoundException {
+
+        Map<String, DeadlineExtension> emailToOldDeadlineExtension = new HashMap<>();
+        for (DeadlineExtension oldDe : oldDeadlines) {
+            emailToOldDeadlineExtension.put(oldDe.getUser().getEmail(), oldDe);
+        }
+        List<EmailWrapper> emailWrappers = new ArrayList<>();
+
+        for (DeadlineExtension updatedDeadlineExtension : updatedDeadlines) {
+            DeadlineExtension oldDeadlineExtension = emailToOldDeadlineExtension.get(updatedDeadlineExtension.getUser().getEmail());
+            if (oldDeadlineExtension == null) {
+                throw new EntityNotFoundException("Unable to find matching old deadline to update for.");
+            }
+            EmailWrapper ew = generateDeadlineExtensionEmail(course, session, updatedDeadlineExtension,
+                    updatedDeadlineExtension.getEndTime(), oldDeadlineExtension.getEndTime(),
+                    EmailType.DEADLINE_EXTENSION_UPDATED, updatedDeadlineExtension.getUser().getEmail(), areInstructors);
+            emailWrappers.add(ew);
+        }
+        return emailWrappers;
+    }
+
+    /**
      * Generates deadline extension revoked emails.
      */
     public List<EmailWrapper> generateDeadlineRevokedEmails(CourseAttributes course,
@@ -643,6 +692,20 @@ public final class EmailGenerator {
                         generateDeadlineExtensionEmail(course, session,
                                 entry.getValue(), session.getEndTime(), EmailType.DEADLINE_EXTENSION_REVOKED,
                                 entry.getKey(), areInstructors))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Generates deadline extension revoked emails.
+     */
+    public List<EmailWrapper> generateDeadlineRevokedEmails(Course course,
+        FeedbackSession session, List<DeadlineExtension> revokedDeadlines, boolean areInstructors) {
+        return revokedDeadlines
+                .stream()
+                .map(de ->
+                        generateDeadlineExtensionEmail(course, session,
+                                null, de.getEndTime(), session.getEndTime(), EmailType.DEADLINE_EXTENSION_REVOKED,
+                                de.getUser().getEmail(), areInstructors))
                 .collect(Collectors.toList());
     }
 
@@ -692,6 +755,60 @@ public final class EmailGenerator {
             }
             return generateFeedbackSessionEmailBaseForStudents(
                     course, session, student, template, emailType, feedbackAction, additionalContactInformation);
+        }
+    }
+
+    /**
+     * Generate a default deadline extension email message.
+     *
+     * @param de pass in null if de does not or no longer exists ie. has been deleted/revoked
+     */
+    private EmailWrapper generateDeadlineExtensionEmail(
+        Course course, FeedbackSession session, DeadlineExtension de, Instant oldEndTime, Instant endTime,
+        EmailType emailType, String userEmail, boolean isInstructor) {
+    String status;
+
+        switch (emailType) {
+        case DEADLINE_EXTENSION_GRANTED:
+            status = "You have been granted a deadline extension for the following feedback session.";
+            break;
+        case DEADLINE_EXTENSION_UPDATED:
+            status = "Your deadline for the following feedback session has been updated.";
+            break;
+        case DEADLINE_EXTENSION_REVOKED:
+            status = "Your deadline extension for the following feedback session has been revoked.";
+            break;
+        default:
+            throw new AssertionError("Invalid email type: " + emailType);
+        }
+
+        String additionalContactInformation = getAdditionalContactInformationFragment(course, isInstructor);
+        Instant oldEndTimeFormatted =
+                TimeHelper.getMidnightAdjustedInstantBasedOnZone(oldEndTime, session.getCourse().getTimeZone(), false);
+        Instant newEndTimeFormatted =
+                TimeHelper.getMidnightAdjustedInstantBasedOnZone(endTime, session.getCourse().getTimeZone(), false);
+        String template = EmailTemplates.USER_DEADLINE_EXTENSION
+                .replace("${status}", status)
+                .replace("${oldEndTime}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(oldEndTimeFormatted, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)))
+                .replace("${newEndTime}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(newEndTimeFormatted, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)));
+        String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
+
+        if (isInstructor) {
+            Instructor instructor = usersLogic.getInstructorForEmail(course.getId(), userEmail);
+            if (instructor == null) {
+                return null;
+            }
+            return generateFeedbackSessionEmailBaseForInstructors(
+                    course, session, instructor, template, emailType, feedbackAction, additionalContactInformation, endTime, de);
+        } else {
+            Student student = usersLogic.getStudentForEmail(course.getId(), userEmail);
+            if (student == null) {
+                return null;
+            }
+            return generateFeedbackSessionEmailBaseForStudents(
+                    course, session, student, template, emailType, feedbackAction, additionalContactInformation, endTime, de);
         }
     }
 
@@ -759,6 +876,46 @@ public final class EmailGenerator {
         return email;
     }
 
+    private EmailWrapper generateFeedbackSessionEmailBaseForStudents(
+            Course course, FeedbackSession session, Student student, String template,
+            EmailType type, String feedbackAction, String additionalContactInformation,
+            Instant newEndTime, DeadlineExtension deadlineExtension) {
+        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getName())
+                .withRegistrationKey(student.getRegKey())
+                .toAbsoluteString();
+
+        String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getName())
+                .withRegistrationKey(student.getRegKey())
+                .toAbsoluteString();
+
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                newEndTime, session.getCourse().getTimeZone(), false);
+        String emailBody = Templates.populateTemplate(template,
+                "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(endTime, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT))
+                        + (deadlineExtension == null ? "" : " (after extension)"),
+                "${instructorPreamble}", "",
+                "${sessionInstructions}", session.getInstructionsString(),
+                "${submitUrl}", submitUrl,
+                "${reportUrl}", reportUrl,
+                "${feedbackAction}", feedbackAction,
+                "${additionalContactInformation}", additionalContactInformation);
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
+        email.setType(type);
+        email.setSubjectFromType(course.getName(), session.getName());
+        email.setContent(emailBody);
+        return email;
+    }
+
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes course, FeedbackSessionAttributes session, InstructorAttributes instructor,
             String template, EmailType type, String feedbackAction, String additionalContactInformation) {
@@ -796,6 +953,48 @@ public final class EmailGenerator {
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(type);
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
+        email.setContent(emailBody);
+        return email;
+    }
+
+    private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
+            Course course, FeedbackSession session, Instructor instructor,
+            String template, EmailType type, String feedbackAction, String additionalContactInformation,
+            Instant newEndTime, DeadlineExtension deadlineExtension) {
+        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getName())
+                .withRegistrationKey(instructor.getRegKey())
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
+
+        String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+                .withCourseId(course.getId())
+                .withSessionName(session.getName())
+                .withRegistrationKey(instructor.getRegKey())
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
+
+        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                newEndTime, session.getCourse().getTimeZone(), false);
+        String emailBody = Templates.populateTemplate(template,
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(endTime, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT))
+                        + (deadlineExtension == null ? "" : " (after extension)"),
+                "${instructorPreamble}", "",
+                "${sessionInstructions}", session.getInstructionsString(),
+                "${submitUrl}", submitUrl,
+                "${reportUrl}", reportUrl,
+                "${feedbackAction}", feedbackAction,
+                "${additionalContactInformation}", additionalContactInformation);
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
+        email.setType(type);
+        email.setSubjectFromType(course.getName(), session.getName());
         email.setContent(emailBody);
         return email;
     }
@@ -1071,6 +1270,19 @@ public final class EmailGenerator {
      * @return The contact information after replacing the placeholders.
      */
     private String getAdditionalContactInformationFragment(CourseAttributes course, boolean isInstructor) {
+        String particulars = isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
+                : "team/student data (e.g. wrong team, misspelled name)";
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,
+                "${particulars}", particulars,
+                "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+    }
+
+    /**
+     * Generates additional contact information for User Email Templates.
+     * @return The contact information after replacing the placeholders.
+     */
+    private String getAdditionalContactInformationFragment(Course course, boolean isInstructor) {
         String particulars = isInstructor ? "instructor data (e.g. wrong permission, misspelled name)"
                 : "team/student data (e.g. wrong team, misspelled name)";
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION,

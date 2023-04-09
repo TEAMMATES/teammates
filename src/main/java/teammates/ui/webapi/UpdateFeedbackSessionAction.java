@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
@@ -21,8 +22,11 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -74,28 +78,33 @@ class UpdateFeedbackSessionAction extends Action {
 
             List<DeadlineExtension> prevDeadlineExtensions = feedbackSession.getDeadlineExtensions();
 
+            Map<String, DeadlineExtension> oldStudentDeadlines = new HashMap<>();
+            Map<String, DeadlineExtension> oldInstructorDeadlines = new HashMap<>();
+            for (DeadlineExtension de : prevDeadlineExtensions) {
+                if (de.getUser() instanceof Student) {
+                    oldStudentDeadlines.put(de.getUser().getEmail(),de);
+                } else if (de.getUser() instanceof Instructor) {
+                    oldInstructorDeadlines.put(de.getUser().getEmail(), de);
+                }
+            }
+
             Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
             Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
 
             // check that students and instructors are valid
-            
-            // try {
-
-            //     // These ensure the existence checks are only done whenever necessary in order to reduce data reads.
-
-            //     boolean hasExtraStudents = !oldStudentDeadlines.keySet()
-            //             .containsAll(studentDeadlines.keySet());
-            //     boolean hasExtraInstructors = !oldInstructorDeadlines.keySet()
-            //             .containsAll(instructorDeadlines.keySet());
-            //     if (hasExtraStudents) {
-            //         logic.verifyAllStudentsExistInCourse(courseId, studentDeadlines.keySet());
-            //     }
-            //     if (hasExtraInstructors) {
-            //         logic.verifyAllInstructorsExistInCourse(courseId, instructorDeadlines.keySet());
-            //     }
-            // } catch (EntityDoesNotExistException e) {
-            //     throw new EntityNotFoundException(e);
-            // }
+            // These ensure the existence checks are only done whenever necessary in order to reduce data reads.
+            boolean hasInvalidStudentEmails = !oldStudentDeadlines.keySet()
+                    .containsAll(studentDeadlines.keySet()) &&
+                    sqlLogic.verifyStudentsExistInCourse(courseId, new ArrayList<>(studentDeadlines.keySet()));
+            boolean hasInvalidInstructorEmails = !oldInstructorDeadlines.keySet()
+                    .containsAll(instructorDeadlines.keySet()) &&
+                    sqlLogic.verifyInstructorsExistInCourse(courseId, new ArrayList<>(instructorDeadlines.keySet()));
+            if (hasInvalidStudentEmails) {
+                throw new EntityNotFoundException("There are students which do not exist in the course.");
+            }
+            if (hasInvalidInstructorEmails) {
+                throw new EntityNotFoundException("There are instructors which do not exist in the course.");
+            }
 
             String timeZone = feedbackSession.getCourse().getTimeZone();
             Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
@@ -160,9 +169,9 @@ class UpdateFeedbackSessionAction extends Action {
 
             List<EmailWrapper> emailsToSend = new ArrayList<>();
 
-            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldStudentDeadlines, studentDeadlines,
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, new ArrayList<>(oldStudentDeadlines.values()), studentDeadlines,
                     false, notifyAboutDeadlines));
-            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldInstructorDeadlines, instructorDeadlines,
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, new ArrayList<>(oldInstructorDeadlines.values()), instructorDeadlines,
                     true, notifyAboutDeadlines));
 
             taskQueuer.scheduleEmailsForSending(emailsToSend);
@@ -266,6 +275,68 @@ class UpdateFeedbackSessionAction extends Action {
 
             return new JsonResult(new FeedbackSessionData(feedbackSession));
         }
+    }
+
+    private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSession session,
+        List<DeadlineExtension> oldDeadlines, Map<String, Instant> newEmailDeadlinesMap,
+        boolean areInstructors, boolean areUsersNotified) {
+        // check if same
+        Predicate<DeadlineExtension> deadlineNotInNewDeadlinesMap =
+                de -> !newEmailDeadlinesMap.containsKey(de.getUser().getEmail()) || !newEmailDeadlinesMap.get(de.getUser().getEmail()).equals(de.getEndTime());
+        Predicate<DeadlineExtension> deadlineInNewDeadlinesMap = Predicate.not(deadlineNotInNewDeadlinesMap);
+
+                boolean noChanges = oldDeadlines.stream().anyMatch(deadlineNotInNewDeadlinesMap);
+        if (noChanges) {
+            return Collections.emptyList();
+        }
+
+        // revoke deadline extensions that are in the old deadlines but not in the new
+        List<DeadlineExtension> deadlinesToRevoke = oldDeadlines.stream().filter(deadlineNotInNewDeadlinesMap).collect(Collectors.toList());
+        deadlinesToRevoke.stream().forEach(de -> sqlLogic.deleteDeadlineExtension(de));
+
+        // create deadline extensions that are in the new but not in the old
+        Map<String, Instant> deadlinesToCreateMap = new HashMap<>(newEmailDeadlinesMap);
+        oldDeadlines.stream().filter(deadlineInNewDeadlinesMap).forEach(de -> deadlinesToCreateMap.remove(de.getUser().getEmail()));
+
+        List<DeadlineExtension> deadlinesToCreate = deadlinesToCreateMap.entrySet()
+        .stream()
+        .map(entry -> new DeadlineExtension(
+                areInstructors
+                    ? sqlLogic.getInstructorForEmail(courseId, entry.getKey())
+                    : sqlLogic.getStudentForEmail(courseId, entry.getKey())
+                , session, entry.getValue())).collect(Collectors.toList());
+
+        deadlinesToCreate
+        .forEach(deadlineExtension -> {
+            try {
+                sqlLogic.createDeadlineExtension(deadlineExtension);
+            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+                log.severe("Unexpected error while creating deadline extension", e);
+            }
+        });
+
+        // update deadline extensions that are in the new and the old
+        List<DeadlineExtension> deadlinesToUpdate = oldDeadlines.stream().filter(deadlineInNewDeadlinesMap).collect(Collectors.toList());
+        deadlinesToUpdate
+        .forEach(de -> {
+            try {
+                sqlLogic.updateDeadlineExtension(de);
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                log.severe("Unexpected error while updating deadline extension", e);
+            }
+        });
+
+        List<EmailWrapper> emailsToSend = new ArrayList<>();
+        if (areUsersNotified) {
+            Course course = sqlLogic.getCourse(courseId);
+            emailsToSend.addAll(emailGenerator
+                    .generateDeadlineRevokedEmails(course, session, deadlinesToRevoke, areInstructors));
+            emailsToSend.addAll(emailGenerator
+                    .generateDeadlineGrantedEmails(course, session, deadlinesToCreate, areInstructors));
+            emailsToSend.addAll(emailGenerator
+                    .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate, oldDeadlines, areInstructors));
+        }
+        return emailsToSend;
     }
 
     private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSessionAttributes session,

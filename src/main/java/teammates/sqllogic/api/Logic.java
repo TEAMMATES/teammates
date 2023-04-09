@@ -268,6 +268,25 @@ public class Logic {
     }
 
     /**
+     * Updates a deadline extension.
+     *
+     * @return updated deadline extension
+     * @throws EntityDoesNotExistException if the deadline extension does not exist
+     * @throws InvalidParametersException if the deadline extension is not valid
+     *
+     */
+    public DeadlineExtension updateDeadlineExtension(DeadlineExtension de) throws InvalidParametersException, EntityDoesNotExistException {
+        return deadlineExtensionsLogic.updateDeadlineExtension(de);
+    }
+
+    /**
+     * Deletes a deadline extension.
+     */
+    public void deleteDeadlineExtension(DeadlineExtension de) {
+        deadlineExtensionsLogic.deleteDeadlineExtension(de);
+    }
+
+    /**
      * Fetch the deadline extension for a given user and session feedback.
      *
      * @return deadline extension instant if exists, else the default end time instant
