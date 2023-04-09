@@ -18,7 +18,7 @@ import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
 import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.storage.sqlsearch.SearchManagerFactory;
-
+import teammates.storage.sqlsearch.StudentSearchManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -42,8 +42,12 @@ public final class UsersDb extends EntitiesDb {
         return instance;
     }
 
-    private InstructorSearchManager getSearchManager() {
+    public InstructorSearchManager getInstructorSearchManager() {
         return SearchManagerFactory.getInstructorSearchManager();
+    }
+
+    public StudentSearchManager getStudentSearchManager() {
+        return SearchManagerFactory.getStudentSearchManager();
     }
 
     /**
@@ -240,7 +244,7 @@ public final class UsersDb extends EntitiesDb {
             return new ArrayList<>();
         }
 
-        return getSearchManager().searchInstructors(queryString);
+        return getInstructorSearchManager().searchInstructors(queryString);
     }
 
     /**

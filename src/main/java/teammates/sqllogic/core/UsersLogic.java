@@ -21,6 +21,8 @@ import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlsearch.InstructorSearchManager;
+import teammates.storage.sqlsearch.StudentSearchManager;
 
 /**
  * Handles operations related to user (instructor & student).
@@ -56,6 +58,28 @@ public final class UsersLogic {
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
+    }
+
+    private InstructorSearchManager getInstructorSearchManager() {
+        return usersDb.getInstructorSearchManager();
+    }
+
+    private StudentSearchManager getStudentSearchManager() {
+        return usersDb.getStudentSearchManager();
+    }
+
+    /**
+     * Creates or updates search document for the given instructor.
+     */
+    public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
+        getInstructorSearchManager().putDocument(instructor);
+    }
+        
+    /**
+     * Creates or updates search document for the given student.
+     */
+    public void putStudentDocument(Student student) throws SearchServiceException {
+        getStudentSearchManager().putDocument(student);
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.UUID;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -322,5 +323,30 @@ public final class DataBundleLogic {
     // throw new InvalidParametersException("Null data bundle");
     // }
     // }
+
+    /**
+     * Creates document for entities that have document, i.e. searchable.
+     */
+    public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
+        Map<String, Student> students = dataBundle.students;
+        for (Student student : students.values()) {
+            Student studentInDb = usersLogic.getStudentForEmail(student.getCourseId(), student.getEmail());
+            usersLogic.putStudentDocument(studentInDb);
+        }
+
+        Map<String, Instructor> instructors = dataBundle.instructors;
+        for (Instructor instructor : instructors.values()) {
+            Instructor instructorInDb = usersLogic.getInstructorForEmail(instructor.getCourseId(),
+                    instructor.getEmail());
+            usersLogic.putInstructorDocument(instructorInDb);
+        }
+
+        Map<String, AccountRequest> accountRequests = dataBundle.accountRequests;
+        for (AccountRequest accountRequest : accountRequests.values()) {
+            AccountRequest accountRequestInDb = accountRequestsLogic.getAccountRequest(accountRequest.getEmail(),
+                    accountRequest.getInstitute());
+            accountRequestsLogic.putDocument(accountRequestInDb);
+        }
+    }
 
 }

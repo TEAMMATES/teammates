@@ -970,6 +970,10 @@ public class Logic {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
 
+    public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
+        dataBundleLogic.putDocuments(dataBundle);
+    }
+
     /**
      * Populates fields that need dynamic generation in a question.
      *
