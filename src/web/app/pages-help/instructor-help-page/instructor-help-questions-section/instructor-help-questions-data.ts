@@ -1573,7 +1573,7 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
     ['alice', false],
     ['bob', false],
   ]),
-  isTabExpandedForRecipients : new Map<string, boolean>([
+  isTabExpandedForRecipients: new Map<string, boolean>([
     ['alice', true],
     ['bob', true],
   ]),

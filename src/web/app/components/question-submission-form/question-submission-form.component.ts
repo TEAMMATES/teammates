@@ -213,7 +213,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
       this.model.isTabExpanded = !this.model.isTabExpanded;
     } else {
-      this.model.isTabExpandedForRecipients.set(this.recipientId, !(this.model.isTabExpandedForRecipients.get(this.recipientId)!));
+      this.model.isTabExpandedForRecipients
+          .set(this.recipientId, !(this.model.isTabExpandedForRecipients.get(this.recipientId)!));
     }
     this.formModelChange.emit(this.model);
   }

@@ -1113,7 +1113,7 @@ describe('SessionSubmissionPageComponent', () => {
       }],
     }, {
       intent: 'STUDENT_SUBMISSION',
-      issinglerecipientsubmission: "false",
+      issinglerecipientsubmission: 'false',
       key: 'reg-key',
       moderatedperson: '',
     });
@@ -1121,7 +1121,7 @@ describe('SessionSubmissionPageComponent', () => {
       responses: [], // do not call for empty response details
     }, {
       intent: 'STUDENT_SUBMISSION',
-      issinglerecipientsubmission: "false",
+      issinglerecipientsubmission: 'false',
       key: 'reg-key',
       moderatedperson: '',
     });
@@ -1172,7 +1172,7 @@ describe('SessionSubmissionPageComponent', () => {
       }],
     }, {
       intent: 'STUDENT_SUBMISSION',
-      issinglerecipientsubmission: "false",
+      issinglerecipientsubmission: 'false',
       key: 'reg-key',
       moderatedperson: '',
     });
