@@ -22,7 +22,6 @@ component E2E {
     }
 
     package "e2e:util" as Util {
-        rectangle FileHelper
         rectangle TestProperties
         rectangle EmailAccount
         rectangle BackDoor
@@ -31,14 +30,12 @@ component E2E {
 
 file test.properties
 rectangle SeleniumWebDriver
-rectangle LocalFilesForTesting
 rectangle EmailServer
 rectangle WebApiRequests
 
 PageObjects ..> SeleniumWebDriver
 Cases ..> Util
 Cases ..> PageObjects
-FileHelper ..> LocalFilesForTesting
 TestProperties ..> test.properties
 EmailAccount ..> EmailServer
 BackDoor ..> WebApiRequests
@@ -53,14 +50,11 @@ PageE2ETest -> BaseE2ETestCase
 BaseE2ETestCase -[hidden]down- InstructorHomePageE2ETest
 BaseE2ETestCase -[hidden]down- PageE2ETest
 
-FileHelper -[hidden]right- TestProperties
 TestProperties -[hidden]right- EmailAccount
 EmailAccount -[hidden]right- BackDoor
 
-LocalFilesForTesting -[hidden]right- test.properties
 test.properties -[hidden]right- EmailServer
 EmailServer -[hidden]right- WebApiRequests
-PageE2ETest -[hidden]down- LocalFilesForTesting
 
 Cases -[hidden]right- Util
 Util -[hidden]left- Cases

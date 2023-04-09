@@ -8,7 +8,7 @@ This is the project-wide development workflow for TEAMMATES.
 
 ## Overview
 
-<img src="images/workflow.png" width="600">
+<puml src="diagrams/workflow.puml"></puml>
 
 * This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/).
 * If you need any help regarding the workflow, please [post a new issue in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new).
@@ -19,7 +19,6 @@ The following are the roles involved:
 
 * **Dev**: fixing issues
 * **Reviewer**: reviewing pull requests (PRs); usually a core team member
-* **Code quality reviewer**: approving PRs; usually the Project Manager
 
 > *Roles* are related to the development process and they are different from *Positions*, which relate to the organization structure of the TEAMMATES developer community.
 
@@ -188,12 +187,14 @@ Your code will be reviewed, in this sequence, by:
   If there are failed tests, the build will be marked as a failure.
   You can consult the CI log to find which tests.<br>
   Ensure that all tests pass before triggering another build.
-* Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR (`s.FinalReview`) or suggest changes (`s.Ongoing`).
-  Feel free to add a comment if:
-  * a reviewer is not assigned within 24 hours.
-  * the PR does not get any review within 48 hours of review request.
-  * you want to clarify or discuss about the suggestions given by your reviewer.
-* Code quality reviewer: final review for maintainability and style.
+* Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR or suggest changes.
+  * Depending on the complexity of the issue, there may be multiple reviewers assigned to the PR.
+  * Sometimes, the additional reviewer(s) will focus on code style and maintainability.
+
+Feel free to add a comment if:
+* a reviewer is not assigned within 24 hours.
+* the PR does not get any review within 48 hours of review request.
+* you want to clarify or discuss about the suggestions given by your reviewer.
 
 #### Updating the PR
 
@@ -241,15 +242,6 @@ To remove whitespace-only changes from being shown, append `?w=1` to url of the 
     Bundle the review comments with the "Start a review" and "Add review comment" features, and finish it with "Request changes", preferably with the review summary.
   * Change the status of the PR to `s.Ongoing`.
 * If the code is OK in all aspects, change the PR status to `s.FinalReview` and "Approve" the PR.
-
-<box type="info" light>
-  <thumbnail circle slot="icon" text=":fas-marker:" background="#fac090" size="32"/>
-
-**Role: Code quality reviewer**
-</box>
-
-* Review the code for maintainability and style.
-* The follow-up action is the same as that of reviewers, with the only difference being the label to be applied is `s.ToMerge`.
 
 ## Merging a PR
 

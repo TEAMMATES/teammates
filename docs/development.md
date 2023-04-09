@@ -32,7 +32,7 @@ First, you need to compile some type definitions from the back-end to be used in
 ./gradlew generateTypes
 ```
 
-To start the dev server, run the following command until you see something like `｢wdm｣: Compiled successfully.`:
+To start the dev server, run the following command until you see something like `Angular Live Development Server is listening on localhost`:
 
 ```sh
 npm run start
@@ -52,7 +52,10 @@ To stop the dev server, press `Ctrl + C`.
 
 ## Managing the dev server: back-end
 
+<box type="definition">
+
 Back-end dev server is the Jetty-based server handling all the business logic, including data storage.
+</box>
 
 ### Pre-requisites
 
@@ -67,6 +70,11 @@ docker-compose up -d
 ```
 
 ### Starting the dev server
+
+<box type="wrong">
+
+Some IDEs may offer a shortcut to run the Application main class directly. Do not run the server this way.
+</box>
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
@@ -88,7 +96,7 @@ The dev server URL will be `http://localhost:8080`.
 
 If you started the server in the background, use any method available in your OS to stop the process at port `8080`.
 
-If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
+If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it.
 
 ## Building front-end files
 
