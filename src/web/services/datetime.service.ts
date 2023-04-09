@@ -69,8 +69,9 @@ export class DateTimeService {
     }
 
     /**
-     * Gets a DateFormat and a TimeFormat from a DateFormat and a TimeFormat Delta changed by x minutes.
-     * minutes can be postive or negative
+     * Gets a DateFormat and a TimeFormat from a DateFormat and a TimeFormat Delta changed by deltaMinutes.
+     *
+     * @param deltaMinutes accepts a postive or negative number.
      */
     getDateTimeFromDateTimeDeltaMinutes(
         date: DateFormat, time: TimeFormat, deltaMinutes: number): [DateFormat, TimeFormat] {
