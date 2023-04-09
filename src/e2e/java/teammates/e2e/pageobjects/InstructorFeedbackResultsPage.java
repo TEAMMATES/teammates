@@ -240,8 +240,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
             for (FeedbackResponseAttributes response : responses) {
                 String[] expectedResponses = getExpectedGqrDetails(question, response, instructors, students);
                 String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient(), students);
-                String recipientName = getName(question.getRecipientType(), response.getRecipient(), instructors, students);
-                verifyTableRowValues(getResponseRow(questionPanel, recipientTeam, recipientName), expectedResponses);
+                String recipientNameAndEmail = getNameAndEmail(question.getRecipientType(), response.getRecipient(),
+                        instructors, students);
+                verifyTableRowValues(getResponseRow(questionPanel, recipientTeam, recipientNameAndEmail),
+                        expectedResponses);
             }
         }
     }
@@ -267,8 +269,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
             for (FeedbackResponseAttributes response : responses) {
                 String[] expectedResponses = getExpectedRqgDetails(question, response, instructors, students);
                 String giverTeam = getTeam(question.getGiverType(), response.getGiver(), students);
-                String giverName = getName(question.getGiverType(), response.getGiver(), instructors, students);
-                verifyTableRowValues(getResponseRow(questionPanel, giverTeam, giverName), expectedResponses);
+                String giverNameAndEmail = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors,
+                        students);
+                verifyTableRowValues(getResponseRow(questionPanel, giverTeam, giverNameAndEmail), expectedResponses);
             }
         }
     }
@@ -454,9 +457,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
 
         String giverTeam = getTeam(question.getGiverType(), response.getGiver(), students);
-        String giverName = getName(question.getGiverType(), response.getGiver(), instructors, students);
+        String giverName = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors, students);
         String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient(), students);
-        String recipientName = getName(question.getRecipientType(), response.getRecipient(), instructors, students);
+        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(), instructors,
+                students);
         WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverName, recipientTeam, recipientName);
 
         verifyResponseRowComment(responseRow, comment, instructors, students);
@@ -473,7 +477,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         WebElement questionPanel = getQuestionPanel(giverPanel, question.getQuestionNumber());
         String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient(), students);
-        String recipientName = getName(question.getRecipientType(), response.getRecipient(), instructors, students);
+        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient(), instructors,
+                students);
         WebElement responseRow = getResponseRow(questionPanel, recipientTeam, recipientName);
 
         verifyResponseRowComment(responseRow, comment, instructors, students);
@@ -491,8 +496,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         WebElement questionPanel = getQuestionPanel(recipientPanel, question.getQuestionNumber());
         String giverTeam = getTeam(question.getGiverType(), response.getGiver(), students);
-        String giverName = getName(question.getGiverType(), response.getGiver(), instructors, students);
-        WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverName);
+        String giverNameAndEmail = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors, students);
+        WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverNameAndEmail);
 
         verifyResponseRowComment(responseRow, comment, instructors, students);
     }
@@ -539,8 +544,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
-        String editor = getName(comment.getCommentGiverType(), comment.getLastEditorEmail(), instructors, students);
-        String commentGiver = getName(comment.getCommentGiverType(), comment.getCommentGiver(), instructors, students);
+        String editor = getName(comment.getCommentGiverType(),
+                comment.getLastEditorEmail(), instructors, students);
+        String commentGiver = getName(comment.getCommentGiverType(), comment.getCommentGiver(),
+                instructors, students);
         verifyCommentDetails(commentModal, commentGiver, editor, comment.getCommentText(), true);
     }
 
@@ -550,8 +557,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                               Collection<StudentAttributes> students) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
-        String editor = getName(comment.getCommentGiverType(), comment.getLastEditorEmail(), instructors, students);
-        String commentGiver = getName(comment.getCommentGiverType(), comment.getCommentGiver(), instructors, students);
+        String editor = getName(comment.getCommentGiverType(), comment.getLastEditorEmail(),
+                instructors, students);
+        String commentGiver = getName(comment.getCommentGiverType(), comment.getCommentGiver(),
+                instructors, students);
         verifyCommentDetails(questionPanel, commentGiver, editor, comment.getCommentText(), false);
     }
 
@@ -585,7 +594,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String[][] expectedDetails = new String[noResponseStudents.size()][2];
         for (int i = 0; i < noResponseStudents.size(); i++) {
             expectedDetails[i][0] = noResponseStudents.get(i).getTeam();
-            expectedDetails[i][1] = noResponseStudents.get(i).getName();
+            expectedDetails[i][1] = String.format("%s (%s)",
+                    noResponseStudents.get(i).getName(),
+                    noResponseStudents.get(i).getEmail()
+            );
         }
         return expectedDetails;
     }
@@ -601,13 +613,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int i = 0; i < responses.size(); i++) {
             FeedbackResponseAttributes response = responses.get(i);
             expected[i][0] = getTeam(giverType, response.getGiver(), students);
-            expected[i][1] = getName(giverType, response.getGiver(), instructors, students);
+            expected[i][1] = getNameAndEmail(giverType, response.getGiver(), instructors, students);
             if (recipientType.equals(FeedbackParticipantType.NONE)) {
                 expected[i][2] = NO_TEAM_LABEL;
                 expected[i][3] = NO_USER_LABEL;
             } else {
                 expected[i][2] = getTeam(recipientType, response.getRecipient(), students);
-                expected[i][3] = getName(recipientType, response.getRecipient(), instructors, students);
+                expected[i][3] = getNameAndEmail(recipientType, response.getRecipient(), instructors, students);
             }
             if (isMissingResponse(response)) {
                 expected[i][4] = NO_RESPONSE_LABEL;
@@ -629,7 +641,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             expected[1] = NO_USER_LABEL;
         } else {
             expected[0] = getTeam(recipientType, response.getRecipient(), students);
-            expected[1] = getName(recipientType, response.getRecipient(), instructors, students);
+            expected[1] = getNameAndEmail(recipientType, response.getRecipient(), instructors, students);
         }
         if (response.getFeedbackSessionName() == null) {
             expected[2] = NO_RESPONSE_LABEL;
@@ -650,7 +662,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             expected[1] = NO_USER_LABEL;
         } else {
             expected[0] = getTeam(giverType, response.getGiver(), students);
-            expected[1] = getName(giverType, response.getGiver(), instructors, students);
+            expected[1] = getNameAndEmail(giverType, response.getGiver(), instructors, students);
         }
         if (response.getFeedbackSessionName() == null) {
             expected[2] = NO_RESPONSE_LABEL;
@@ -694,7 +706,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int i = 0; i < recipients.size(); i++) {
             String recipient = recipients.get(i);
             expectedStatistics[i][0] = getTeam(question.getRecipientType(), recipient, students);
-            expectedStatistics[i][1] = getName(question.getRecipientType(), recipient, instructors, students);
+            expectedStatistics[i][1] = getNameAndEmail(question.getRecipientType(), recipient, instructors, students);
         }
 
         return expectedStatistics;
@@ -958,15 +970,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     // For other views
-    private WebElement getResponseRow(WebElement questionPanel, String userTeam, String userName) {
+    private WebElement getResponseRow(WebElement questionPanel, String userTeam, String userNameAndEmail) {
         List<WebElement> responseRows = getResponseTable(questionPanel).findElements(By.cssSelector("tbody tr"));
         for (WebElement responseRow : responseRows) {
             List<WebElement> cells = responseRow.findElements(By.tagName("td"));
-            if (cells.get(0).getText().equals(userTeam) && cells.get(1).getText().equals(userName)) {
+            if (cells.get(0).getText().equals(userTeam) && cells.get(1).getText().equals(userNameAndEmail)) {
                 return responseRow;
             }
         }
-        throw new RuntimeException("Response not found for " + userName);
+        throw new RuntimeException("Response not found for " + userNameAndEmail);
     }
 
     private List<WebElement> getAllGroupedResponses(WebElement userPanel) {
@@ -1112,8 +1124,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return teamName;
     }
 
-    private String getName(FeedbackParticipantType type, String participant, Collection<InstructorAttributes> instructors,
-                           Collection<StudentAttributes> students) {
+    private String getName(FeedbackParticipantType type, String participant,
+                                   Collection<InstructorAttributes> instructors,
+                                   Collection<StudentAttributes> students) {
         String name;
         if (type.equals(FeedbackParticipantType.NONE)) {
             name = NO_USER_LABEL;
@@ -1130,6 +1143,35 @@ public class InstructorFeedbackResultsPage extends AppPage {
                     .filter(student -> student.getEmail().equals(participant))
                     .findFirst()
                     .map(StudentAttributes::getName)
+                    .orElse(null);
+        }
+
+        if (name == null) {
+            throw new RuntimeException("Could not find name for : " + participant);
+        }
+
+        return name;
+    }
+
+    private String getNameAndEmail(FeedbackParticipantType type, String participant,
+                           Collection<InstructorAttributes> instructors,
+                           Collection<StudentAttributes> students) {
+        String name;
+        if (type.equals(FeedbackParticipantType.NONE)) {
+            name = NO_USER_LABEL;
+        } else if (type.equals(FeedbackParticipantType.TEAMS)) {
+            name = participant;
+        } else if (type.equals(FeedbackParticipantType.INSTRUCTORS)) {
+            name = instructors.stream()
+                    .filter(instructor -> instructor.getEmail().equals(participant))
+                    .findFirst()
+                    .map(instructor -> String.format("%s (%s)", instructor.getName(), instructor.getEmail()))
+                    .orElse(null);
+        } else {
+            name = students.stream()
+                    .filter(student -> student.getEmail().equals(participant))
+                    .findFirst()
+                    .map(student -> String.format("%s (%s)", student.getName(), student.getEmail()))
                     .orElse(null);
         }
 
