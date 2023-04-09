@@ -52,9 +52,9 @@ class UpdateFeedbackSessionAction extends Action {
             FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
 
             gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
-                feedbackSession,
-                Const.InstructorPermissions.CAN_MODIFY_SESSION);
+                    sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                    feedbackSession,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
@@ -82,26 +82,25 @@ class UpdateFeedbackSessionAction extends Action {
             Map<String, DeadlineExtension> oldInstructorDeadlines = new HashMap<>();
             for (DeadlineExtension de : prevDeadlineExtensions) {
                 if (de.getUser() instanceof Student) {
-                    oldStudentDeadlines.put(de.getUser().getEmail(),de);
+                    oldStudentDeadlines.put(de.getUser().getEmail(), de);
                 } else if (de.getUser() instanceof Instructor) {
                     oldInstructorDeadlines.put(de.getUser().getEmail(), de);
                 }
             }
 
-            Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
-            Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
-
             // check that students and instructors are valid
             // These ensure the existence checks are only done whenever necessary in order to reduce data reads.
+            Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
             boolean hasInvalidStudentEmails = !oldStudentDeadlines.keySet()
-                    .containsAll(studentDeadlines.keySet()) &&
-                    sqlLogic.verifyStudentsExistInCourse(courseId, new ArrayList<>(studentDeadlines.keySet()));
-            boolean hasInvalidInstructorEmails = !oldInstructorDeadlines.keySet()
-                    .containsAll(instructorDeadlines.keySet()) &&
-                    sqlLogic.verifyInstructorsExistInCourse(courseId, new ArrayList<>(instructorDeadlines.keySet()));
+                    .containsAll(studentDeadlines.keySet())
+                    && sqlLogic.verifyStudentsExistInCourse(courseId, new ArrayList<>(studentDeadlines.keySet()));
             if (hasInvalidStudentEmails) {
                 throw new EntityNotFoundException("There are students which do not exist in the course.");
             }
+            Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
+            boolean hasInvalidInstructorEmails = !oldInstructorDeadlines.keySet()
+                    .containsAll(instructorDeadlines.keySet())
+                    && sqlLogic.verifyInstructorsExistInCourse(courseId, new ArrayList<>(instructorDeadlines.keySet()));
             if (hasInvalidInstructorEmails) {
                 throw new EntityNotFoundException("There are instructors which do not exist in the course.");
             }
@@ -169,9 +168,11 @@ class UpdateFeedbackSessionAction extends Action {
 
             List<EmailWrapper> emailsToSend = new ArrayList<>();
 
-            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, new ArrayList<>(oldStudentDeadlines.values()), studentDeadlines,
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession,
+                    new ArrayList<>(oldStudentDeadlines.values()), studentDeadlines,
                     false, notifyAboutDeadlines));
-            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, new ArrayList<>(oldInstructorDeadlines.values()), instructorDeadlines,
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession,
+                    new ArrayList<>(oldInstructorDeadlines.values()), instructorDeadlines,
                     true, notifyAboutDeadlines));
 
             taskQueuer.scheduleEmailsForSending(emailsToSend);
@@ -266,9 +267,11 @@ class UpdateFeedbackSessionAction extends Action {
 
             List<EmailWrapper> emailsToSend = new ArrayList<>();
 
-            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldStudentDeadlines, studentDeadlines,
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession,
+                    oldStudentDeadlines, studentDeadlines,
                     false, notifyAboutDeadlines));
-            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession, oldInstructorDeadlines, instructorDeadlines,
+            emailsToSend.addAll(processDeadlineExtensions(courseId, feedbackSession,
+                    oldInstructorDeadlines, instructorDeadlines,
                     true, notifyAboutDeadlines));
 
             taskQueuer.scheduleEmailsForSending(emailsToSend);
@@ -278,53 +281,58 @@ class UpdateFeedbackSessionAction extends Action {
     }
 
     private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSession session,
-        List<DeadlineExtension> oldDeadlines, Map<String, Instant> newEmailDeadlinesMap,
-        boolean areInstructors, boolean areUsersNotified) {
+            List<DeadlineExtension> oldDeadlines, Map<String, Instant> newEmailDeadlinesMap,
+            boolean areInstructors, boolean areUsersNotified) {
         // check if same
         Predicate<DeadlineExtension> deadlineNotInNewDeadlinesMap =
-                de -> !newEmailDeadlinesMap.containsKey(de.getUser().getEmail()) || !newEmailDeadlinesMap.get(de.getUser().getEmail()).equals(de.getEndTime());
-        Predicate<DeadlineExtension> deadlineInNewDeadlinesMap = Predicate.not(deadlineNotInNewDeadlinesMap);
+                de -> !newEmailDeadlinesMap.containsKey(de.getUser().getEmail())
+                || !newEmailDeadlinesMap.get(de.getUser().getEmail()).equals(de.getEndTime());
 
-                boolean noChanges = oldDeadlines.stream().anyMatch(deadlineNotInNewDeadlinesMap);
+        boolean noChanges = oldDeadlines.stream().anyMatch(deadlineNotInNewDeadlinesMap);
         if (noChanges) {
             return Collections.emptyList();
         }
+        Predicate<DeadlineExtension> deadlineInNewDeadlinesMap = Predicate.not(deadlineNotInNewDeadlinesMap);
 
         // revoke deadline extensions that are in the old deadlines but not in the new
-        List<DeadlineExtension> deadlinesToRevoke = oldDeadlines.stream().filter(deadlineNotInNewDeadlinesMap).collect(Collectors.toList());
+        List<DeadlineExtension> deadlinesToRevoke = oldDeadlines.stream()
+                .filter(deadlineNotInNewDeadlinesMap).collect(Collectors.toList());
         deadlinesToRevoke.stream().forEach(de -> sqlLogic.deleteDeadlineExtension(de));
 
         // create deadline extensions that are in the new but not in the old
         Map<String, Instant> deadlinesToCreateMap = new HashMap<>(newEmailDeadlinesMap);
-        oldDeadlines.stream().filter(deadlineInNewDeadlinesMap).forEach(de -> deadlinesToCreateMap.remove(de.getUser().getEmail()));
+        oldDeadlines.stream().filter(deadlineInNewDeadlinesMap)
+                .forEach(de -> deadlinesToCreateMap.remove(de.getUser().getEmail()));
 
         List<DeadlineExtension> deadlinesToCreate = deadlinesToCreateMap.entrySet()
-        .stream()
-        .map(entry -> new DeadlineExtension(
-                areInstructors
-                    ? sqlLogic.getInstructorForEmail(courseId, entry.getKey())
-                    : sqlLogic.getStudentForEmail(courseId, entry.getKey())
-                , session, entry.getValue())).collect(Collectors.toList());
+                .stream()
+                .map(entry -> new DeadlineExtension(
+                        areInstructors
+                            ? sqlLogic.getInstructorForEmail(courseId, entry.getKey())
+                            : sqlLogic.getStudentForEmail(courseId, entry.getKey()),
+                        session, entry.getValue())).collect(Collectors.toList());
 
         deadlinesToCreate
-        .forEach(deadlineExtension -> {
-            try {
-                sqlLogic.createDeadlineExtension(deadlineExtension);
-            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                log.severe("Unexpected error while creating deadline extension", e);
-            }
-        });
+                .forEach(deadlineExtension -> {
+                    try {
+                        sqlLogic.createDeadlineExtension(deadlineExtension);
+                    } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+                        log.severe("Unexpected error while creating deadline extension", e);
+                    }
+                });
 
         // update deadline extensions that are in the new and the old
-        List<DeadlineExtension> deadlinesToUpdate = oldDeadlines.stream().filter(deadlineInNewDeadlinesMap).collect(Collectors.toList());
+        List<DeadlineExtension> deadlinesToUpdate = oldDeadlines.stream()
+                 .filter(deadlineInNewDeadlinesMap).collect(Collectors.toList());
+
         deadlinesToUpdate
-        .forEach(de -> {
-            try {
-                sqlLogic.updateDeadlineExtension(de);
-            } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                log.severe("Unexpected error while updating deadline extension", e);
-            }
-        });
+                .forEach(de -> {
+                    try {
+                        sqlLogic.updateDeadlineExtension(de);
+                    } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                        log.severe("Unexpected error while updating deadline extension", e);
+                    }
+                });
 
         List<EmailWrapper> emailsToSend = new ArrayList<>();
         if (areUsersNotified) {
@@ -404,5 +412,4 @@ class UpdateFeedbackSessionAction extends Action {
         }
         return emailsToSend;
     }
-
 }

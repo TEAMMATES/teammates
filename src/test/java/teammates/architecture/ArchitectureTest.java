@@ -212,7 +212,13 @@ public class ArchitectureTest {
     public void testArchitecture_logic_logicCanOnlyAccessStorageApi() {
         noClasses().that().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
+                .should().accessClassesThat(new DescribedPredicate<>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
+                                && !input.getPackageName().startsWith(STORAGE_SQL_ENTITY_PACKAGE);
+                    }
+                })
                 .check(forClasses(LOGIC_PACKAGE, STORAGE_PACKAGE));
 
         noClasses().that().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))

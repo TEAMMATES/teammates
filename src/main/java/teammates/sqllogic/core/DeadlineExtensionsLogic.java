@@ -1,9 +1,7 @@
 package teammates.sqllogic.core;
 
 import java.time.Instant;
-import java.util.List;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -85,8 +83,9 @@ public final class DeadlineExtensionsLogic {
 
     /**
      * Updates a deadline extension.
-     * @throws EntityDoesNotExistException
-     * @throws InvalidParametersException
+     *
+     * @throws EntityDoesNotExistException if the deadline extension does not exist
+     * @throws InvalidParametersException if the deadline extension is not valid
      */
     public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
             throws InvalidParametersException, EntityDoesNotExistException {

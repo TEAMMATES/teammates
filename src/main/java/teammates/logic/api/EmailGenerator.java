@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import jakarta.persistence.EntityNotFoundException;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -659,8 +658,7 @@ public final class EmailGenerator {
      * Generates deadline extension updated emails.
      */
     public List<EmailWrapper> generateDeadlineUpdatedEmails(Course course, FeedbackSession session,
-            List<DeadlineExtension> updatedDeadlines, List<DeadlineExtension> oldDeadlines, boolean areInstructors)
-            throws EntityNotFoundException {
+            List<DeadlineExtension> updatedDeadlines, List<DeadlineExtension> oldDeadlines, boolean areInstructors) {
 
         Map<String, DeadlineExtension> emailToOldDeadlineExtension = new HashMap<>();
         for (DeadlineExtension oldDe : oldDeadlines) {
@@ -669,12 +667,11 @@ public final class EmailGenerator {
         List<EmailWrapper> emailWrappers = new ArrayList<>();
 
         for (DeadlineExtension updatedDeadlineExtension : updatedDeadlines) {
-            DeadlineExtension oldDeadlineExtension = emailToOldDeadlineExtension.get(updatedDeadlineExtension.getUser().getEmail());
-            if (oldDeadlineExtension == null) {
-                throw new EntityNotFoundException("Unable to find matching old deadline to update for.");
-            }
+            DeadlineExtension oldDeadlineExtension = emailToOldDeadlineExtension
+                    .get(updatedDeadlineExtension.getUser().getEmail());
             EmailWrapper ew = generateDeadlineExtensionEmail(course, session, updatedDeadlineExtension,
-                    updatedDeadlineExtension.getEndTime(), oldDeadlineExtension.getEndTime(),
+                    updatedDeadlineExtension.getEndTime(),
+                    oldDeadlineExtension != null ? oldDeadlineExtension.getEndTime() : null,
                     EmailType.DEADLINE_EXTENSION_UPDATED, updatedDeadlineExtension.getUser().getEmail(), areInstructors);
             emailWrappers.add(ew);
         }
@@ -699,7 +696,7 @@ public final class EmailGenerator {
      * Generates deadline extension revoked emails.
      */
     public List<EmailWrapper> generateDeadlineRevokedEmails(Course course,
-        FeedbackSession session, List<DeadlineExtension> revokedDeadlines, boolean areInstructors) {
+            FeedbackSession session, List<DeadlineExtension> revokedDeadlines, boolean areInstructors) {
         return revokedDeadlines
                 .stream()
                 .map(de ->
@@ -764,9 +761,9 @@ public final class EmailGenerator {
      * @param de pass in null if de does not or no longer exists ie. has been deleted/revoked
      */
     private EmailWrapper generateDeadlineExtensionEmail(
-        Course course, FeedbackSession session, DeadlineExtension de, Instant oldEndTime, Instant endTime,
-        EmailType emailType, String userEmail, boolean isInstructor) {
-    String status;
+            Course course, FeedbackSession session, DeadlineExtension de, Instant oldEndTime, Instant endTime,
+            EmailType emailType, String userEmail, boolean isInstructor) {
+        String status;
 
         switch (emailType) {
         case DEADLINE_EXTENSION_GRANTED:
@@ -784,15 +781,17 @@ public final class EmailGenerator {
 
         String additionalContactInformation = getAdditionalContactInformationFragment(course, isInstructor);
         Instant oldEndTimeFormatted =
-                TimeHelper.getMidnightAdjustedInstantBasedOnZone(oldEndTime, session.getCourse().getTimeZone(), false);
+                TimeHelper.getMidnightAdjustedInstantBasedOnZone(oldEndTime, course.getTimeZone(), false);
         Instant newEndTimeFormatted =
-                TimeHelper.getMidnightAdjustedInstantBasedOnZone(endTime, session.getCourse().getTimeZone(), false);
+                TimeHelper.getMidnightAdjustedInstantBasedOnZone(endTime, course.getTimeZone(), false);
         String template = EmailTemplates.USER_DEADLINE_EXTENSION
                 .replace("${status}", status)
                 .replace("${oldEndTime}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(oldEndTimeFormatted, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)))
+                        TimeHelper.formatInstant(oldEndTimeFormatted, course.getTimeZone(),
+                        DATETIME_DISPLAY_FORMAT)))
                 .replace("${newEndTime}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(newEndTimeFormatted, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)));
+                        TimeHelper.formatInstant(newEndTimeFormatted, course.getTimeZone(),
+                        DATETIME_DISPLAY_FORMAT)));
         String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
 
         if (isInstructor) {
@@ -801,14 +800,16 @@ public final class EmailGenerator {
                 return null;
             }
             return generateFeedbackSessionEmailBaseForInstructors(
-                    course, session, instructor, template, emailType, feedbackAction, additionalContactInformation, endTime, de);
+                    course, session, instructor, template, emailType,
+                    feedbackAction, additionalContactInformation, endTime, de);
         } else {
             Student student = usersLogic.getStudentForEmail(course.getId(), userEmail);
             if (student == null) {
                 return null;
             }
             return generateFeedbackSessionEmailBaseForStudents(
-                    course, session, student, template, emailType, feedbackAction, additionalContactInformation, endTime, de);
+                    course, session, student, template, emailType,
+                    feedbackAction, additionalContactInformation, endTime, de);
         }
     }
 
@@ -893,14 +894,14 @@ public final class EmailGenerator {
                 .toAbsoluteString();
 
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                newEndTime, session.getCourse().getTimeZone(), false);
+                newEndTime, course.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(endTime, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT))
+                        TimeHelper.formatInstant(endTime, course.getTimeZone(), DATETIME_DISPLAY_FORMAT))
                         + (deadlineExtension == null ? "" : " (after extension)"),
                 "${instructorPreamble}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
@@ -976,14 +977,14 @@ public final class EmailGenerator {
                 .toAbsoluteString();
 
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                newEndTime, session.getCourse().getTimeZone(), false);
+                newEndTime, course.getTimeZone(), false);
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(endTime, session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT))
+                        TimeHelper.formatInstant(endTime, course.getTimeZone(), DATETIME_DISPLAY_FORMAT))
                         + (deadlineExtension == null ? "" : " (after extension)"),
                 "${instructorPreamble}", "",
                 "${sessionInstructions}", session.getInstructionsString(),

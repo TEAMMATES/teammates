@@ -275,7 +275,8 @@ public class Logic {
      * @throws InvalidParametersException if the deadline extension is not valid
      *
      */
-    public DeadlineExtension updateDeadlineExtension(DeadlineExtension de) throws InvalidParametersException, EntityDoesNotExistException {
+    public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
+            throws InvalidParametersException, EntityDoesNotExistException {
         return deadlineExtensionsLogic.updateDeadlineExtension(de);
     }
 
