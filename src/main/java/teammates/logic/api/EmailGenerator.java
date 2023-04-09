@@ -658,20 +658,14 @@ public final class EmailGenerator {
      * Generates deadline extension updated emails.
      */
     public List<EmailWrapper> generateDeadlineUpdatedEmails(Course course, FeedbackSession session,
-            List<DeadlineExtension> updatedDeadlines, List<DeadlineExtension> oldDeadlines, boolean areInstructors) {
+            List<DeadlineExtension> updatedDeadlines, Map<String, Instant> oldEndTimes, boolean areInstructors) {
 
-        Map<String, DeadlineExtension> emailToOldDeadlineExtension = new HashMap<>();
-        for (DeadlineExtension oldDe : oldDeadlines) {
-            emailToOldDeadlineExtension.put(oldDe.getUser().getEmail(), oldDe);
-        }
         List<EmailWrapper> emailWrappers = new ArrayList<>();
 
         for (DeadlineExtension updatedDeadlineExtension : updatedDeadlines) {
-            DeadlineExtension oldDeadlineExtension = emailToOldDeadlineExtension
-                    .get(updatedDeadlineExtension.getUser().getEmail());
             EmailWrapper ew = generateDeadlineExtensionEmail(course, session, updatedDeadlineExtension,
                     updatedDeadlineExtension.getEndTime(),
-                    oldDeadlineExtension != null ? oldDeadlineExtension.getEndTime() : null,
+                    oldEndTimes.get(updatedDeadlineExtension.getUser().getEmail()),
                     EmailType.DEADLINE_EXTENSION_UPDATED, updatedDeadlineExtension.getUser().getEmail(), areInstructors);
             emailWrappers.add(ew);
         }

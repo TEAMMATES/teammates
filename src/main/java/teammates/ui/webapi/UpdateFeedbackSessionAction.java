@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Updates a feedback session.
  */
-class UpdateFeedbackSessionAction extends Action {
+public class UpdateFeedbackSessionAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
@@ -72,6 +73,7 @@ class UpdateFeedbackSessionAction extends Action {
 
         if (isCourseMigrated(courseId)) {
             FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+            assert feedbackSession != null;
 
             FeedbackSessionUpdateRequest updateRequest =
                     getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
@@ -284,15 +286,17 @@ class UpdateFeedbackSessionAction extends Action {
             List<DeadlineExtension> oldDeadlines, Map<String, Instant> newEmailDeadlinesMap,
             boolean areInstructors, boolean areUsersNotified) {
         // check if same
-        Predicate<DeadlineExtension> deadlineNotInNewDeadlinesMap =
+        Predicate<DeadlineExtension> oldDeadlineNeedsChanges =
                 de -> !newEmailDeadlinesMap.containsKey(de.getUser().getEmail())
                 || !newEmailDeadlinesMap.get(de.getUser().getEmail()).equals(de.getEndTime());
 
-        boolean noChanges = oldDeadlines.stream().anyMatch(deadlineNotInNewDeadlinesMap);
-        if (noChanges) {
+        boolean hasChanges = newEmailDeadlinesMap.size() > oldDeadlines.size()
+                || oldDeadlines.stream().anyMatch(oldDeadlineNeedsChanges);
+        if (!hasChanges) {
             return Collections.emptyList();
         }
-        Predicate<DeadlineExtension> deadlineInNewDeadlinesMap = Predicate.not(deadlineNotInNewDeadlinesMap);
+        Predicate<DeadlineExtension> deadlineNotInNewDeadlinesMap =
+                de -> !newEmailDeadlinesMap.containsKey(de.getUser().getEmail());
 
         // revoke deadline extensions that are in the old deadlines but not in the new
         List<DeadlineExtension> deadlinesToRevoke = oldDeadlines.stream()
@@ -301,11 +305,11 @@ class UpdateFeedbackSessionAction extends Action {
 
         // create deadline extensions that are in the new but not in the old
         Map<String, Instant> deadlinesToCreateMap = new HashMap<>(newEmailDeadlinesMap);
-        oldDeadlines.stream().filter(deadlineInNewDeadlinesMap)
-                .forEach(de -> deadlinesToCreateMap.remove(de.getUser().getEmail()));
+        Set<String> oldEmails = oldDeadlines.stream().map(de -> de.getUser().getEmail()).collect(Collectors.toSet());
 
         List<DeadlineExtension> deadlinesToCreate = deadlinesToCreateMap.entrySet()
                 .stream()
+                .filter(entry -> !oldEmails.contains(entry.getKey()))
                 .map(entry -> new DeadlineExtension(
                         areInstructors
                             ? sqlLogic.getInstructorForEmail(courseId, entry.getKey())
@@ -321,9 +325,19 @@ class UpdateFeedbackSessionAction extends Action {
                     }
                 });
 
+        Predicate<DeadlineExtension> deadlineNeedsUpdate = de -> newEmailDeadlinesMap.containsKey(de.getUser().getEmail())
+                && !newEmailDeadlinesMap.get(de.getUser().getEmail()).equals(de.getEndTime());
+
+        Map<String, Instant> oldEndTimes = new HashMap<>();
         // update deadline extensions that are in the new and the old
         List<DeadlineExtension> deadlinesToUpdate = oldDeadlines.stream()
-                 .filter(deadlineInNewDeadlinesMap).collect(Collectors.toList());
+                .filter(deadlineNeedsUpdate)
+                .map(de -> {
+                    oldEndTimes.put(de.getUser().getEmail(), de.getEndTime());
+                    de.setEndTime(newEmailDeadlinesMap.get(de.getUser().getEmail()));
+                    return de;
+                })
+                 .collect(Collectors.toList());
 
         deadlinesToUpdate
                 .forEach(de -> {
@@ -342,7 +356,7 @@ class UpdateFeedbackSessionAction extends Action {
             emailsToSend.addAll(emailGenerator
                     .generateDeadlineGrantedEmails(course, session, deadlinesToCreate, areInstructors));
             emailsToSend.addAll(emailGenerator
-                    .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate, oldDeadlines, areInstructors));
+                    .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate, oldEndTimes, areInstructors));
         }
         return emailsToSend;
     }
