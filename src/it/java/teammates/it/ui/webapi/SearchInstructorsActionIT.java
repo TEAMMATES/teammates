@@ -4,8 +4,11 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.test.TestProperties;
 import teammates.ui.output.InstructorsData;
@@ -20,12 +23,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
 
     private final Instructor acc = typicalBundle.instructors.get("instructor1OfCourse1");
 
-    // @Override
-    // protected void prepareTestData() {
-    //     DataBundle dataBundle = getTypicalDataBundle();
-    //     removeAndRestoreDataBundle(dataBundle);
-    //     putDocuments(dataBundle);
-    // }
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
@@ -180,8 +177,9 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
 
     @Override
     @Test
-    protected void testAccessControl() {
-        // verifyOnlyAdminCanAccess();
+    protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = typicalBundle.courses.get("course1");
+        verifyOnlyAdminCanAccess(course);
     }
 
 }

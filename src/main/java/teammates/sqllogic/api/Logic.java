@@ -16,8 +16,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.StudentUpdateException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.exception.StudentUpdateException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -970,6 +970,11 @@ public class Logic {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
 
+    /**
+     * Puts searchable documents from the data bundle to the database.
+     *
+     * @see DataBundleLogic#putDocuments(DataBundle)
+     */
     public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
     }

@@ -74,7 +74,7 @@ public final class UsersLogic {
     public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
         getInstructorSearchManager().putDocument(instructor);
     }
-        
+
     /**
      * Creates or updates search document for the given student.
      */
