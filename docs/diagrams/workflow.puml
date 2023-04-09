@@ -1,0 +1,71 @@
+@startuml
+!include diagrams/style.puml
+
+box Local UI_COLOR_T1
+participant LocalRepo UI_COLOR
+end box
+
+box GitHub LOGIC_COLOR_T1
+participant ForkRepo LOGIC_COLOR
+participant MainRepo LOGIC_COLOR
+end box
+
+box PM MODEL_COLOR_T1
+participant PM MODEL_COLOR
+end box
+
+box GAE STORAGE_COLOR_T1
+participant GoogleAppEngine STORAGE_COLOR
+end box
+
+MainRepo -> ForkRepo : fork
+activate MainRepo
+activate ForkRepo
+
+ForkRepo -> LocalRepo : pull
+activate LocalRepo
+
+loop fix issue
+    LocalRepo -> LocalRepo : branch, fix, test
+
+    loop sync branch
+        MainRepo -> ForkRepo : sync
+        ForkRepo -> LocalRepo : pull
+    end
+
+    LocalRepo -> ForkRepo : push
+end
+
+loop merge fixes
+    ForkRepo -> MainRepo : create PR
+    MainRepo --> ForkRepo
+
+    loop PR review
+        ForkRepo -> ForkRepo : review
+        ForkRepo -> LocalRepo : fix (same as fix issue)
+        LocalRepo -> ForkRepo : push changes
+    end
+
+    ForkRepo -> MainRepo : merge
+    deactivate LocalRepo
+    deactivate ForkRepo
+end
+
+MainRepo -> MainRepo : release to PM
+
+MainRepo -> PM : pull
+deactivate MainRepo
+activate PM
+
+PM -> GoogleAppEngine : deploy
+activate GoogleAppEngine
+
+GoogleAppEngine --> PM
+
+PM -> PM : live test
+
+PM -> GoogleAppEngine : release to users
+deactivate PM
+deactivate GoogleAppEngine
+
+@enduml
