@@ -2,6 +2,7 @@ package teammates.sqllogic.core;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -149,6 +150,9 @@ public final class DataBundleLogic {
             questionMap.put(placeholderId, question);
             FeedbackSession fs = sessionsMap.get(question.getFeedbackSession().getId());
             question.setFeedbackSession(fs);
+            List<FeedbackQuestion> feedbackQuestions = fs.getFeedbackQuestions();
+            feedbackQuestions.add(question);
+            fs.setFeedbackQuestions(feedbackQuestions);
         }
 
         for (FeedbackResponse response : responses) {
@@ -161,6 +165,9 @@ public final class DataBundleLogic {
             response.setFeedbackQuestion(fq);
             response.setGiverSection(giverSection);
             response.setRecipientSection(recipientSection);
+            List<FeedbackResponse> feedbackResponses = fq.getFeedbackResponses();
+            feedbackResponses.add(response);
+            fq.setFeedbackResponses(feedbackResponses);
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
