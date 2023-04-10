@@ -7,8 +7,6 @@ import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
  * Contains specific structure and processing logic for rank recipients feedback responses.
