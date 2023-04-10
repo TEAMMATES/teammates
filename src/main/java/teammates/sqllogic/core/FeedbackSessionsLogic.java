@@ -323,7 +323,7 @@ public final class FeedbackSessionsLogic {
                     .collect(Collectors.toList());
             expectedTotal += creatorEmails.size();
         }
- 
+
         return expectedTotal;
     }
 }
