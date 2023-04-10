@@ -18,6 +18,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 
 /**
  * Handles operations related to feedback sessions.
@@ -270,9 +271,8 @@ public final class FeedbackResponsesLogic {
                 .equals(FeedbackQuestionType.RANK_RECIPIENTS);
 
         FeedbackParticipantType giverType = question.getGiverType();
-        List<FeedbackResponse> responses;
-
-        int numberOfRecipients;
+        List<FeedbackResponse> responses = new ArrayList<>();
+        int numberOfRecipients = 0;
 
         switch (giverType) {
         case INSTRUCTORS:
@@ -281,9 +281,6 @@ public final class FeedbackResponsesLogic {
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, instructor, null, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail());
-
-                FeedbackRankRecipientsResponseDetails
-                        .updateResponsesForRankRecipientQuestions(responses, numberOfRecipients);
             }
             break;
         case TEAMS:
@@ -299,9 +296,6 @@ public final class FeedbackResponsesLogic {
                 responses =
                         getFeedbackResponsesFromTeamForQuestion(
                                 question.getId(), question.getCourseId(), team, roster);
-
-                FeedbackRankRecipientsResponseDetails
-                        .updateResponsesForRankRecipientQuestions(responses, numberOfRecipients);
             }
             break;
         default:
@@ -309,11 +303,80 @@ public final class FeedbackResponsesLogic {
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, null, student, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
-
-                FeedbackRankRecipientsResponseDetails
-                        .updateResponsesForRankRecipientQuestions(responses, numberOfRecipients);
             }
             break;
+        }
+
+        updateFeedbackResponsesForRankRecipientQuestions(responses, numberOfRecipients);
+    }
+
+    /**
+     * Updates responses for 'rank recipient question', such that the ranks in the responses are consistent.
+     * @param responses responses to one feedback question, from one giver
+     * @param maxRank the maximum rank in each response
+     */
+    private void updateFeedbackResponsesForRankRecipientQuestions(
+            List<FeedbackResponse> responses, int maxRank) {
+        if (maxRank <= 0) {
+            return;
+        }
+
+        FeedbackRankRecipientsResponseDetails responseDetails;
+        boolean[] isRankUsed;
+        boolean isUpdateNeeded = false;
+        int answer;
+        int maxUnusedRank = 0;
+
+        // Checks whether update is needed.
+        for (FeedbackResponse response : responses) {
+            if (!(response instanceof FeedbackRankRecipientsResponse)) {
+                continue;
+            }
+            responseDetails = ((FeedbackRankRecipientsResponse) response).getAnswer();
+            answer = responseDetails.getAnswer();
+            if (answer > maxRank) {
+                isUpdateNeeded = true;
+                break;
+            }
+        }
+
+        // Updates repeatedly, until all responses are consistent.
+        while (isUpdateNeeded) {
+            isUpdateNeeded = false; // will be set to true again once invalid rank appears after update
+            isRankUsed = new boolean[maxRank];
+
+            // Obtains the largest unused rank.
+            for (FeedbackResponse response : responses) {
+                if (!(response instanceof FeedbackRankRecipientsResponse)) {
+                    continue;
+                }
+                responseDetails = ((FeedbackRankRecipientsResponse) response).getAnswer();
+                answer = responseDetails.getAnswer();
+                if (answer <= maxRank) {
+                    isRankUsed[answer - 1] = true;
+                }
+            }
+            for (int i = maxRank - 1; i >= 0; i--) {
+                if (!isRankUsed[i]) {
+                    maxUnusedRank = i + 1;
+                    break;
+                }
+            }
+            assert maxUnusedRank > 0; // if update is needed, there must be at least one unused rank
+
+            for (FeedbackResponse response : responses) {
+                if (response instanceof FeedbackRankRecipientsResponse) {
+                    responseDetails = ((FeedbackRankRecipientsResponse) response).getAnswer();
+                    answer = responseDetails.getAnswer();
+                    if (answer > maxUnusedRank) {
+                        answer--;
+                        responseDetails.setAnswer(answer);
+                    }
+                    if (answer > maxRank) {
+                        isUpdateNeeded = true; // sets the flag to true if the updated rank is still invalid
+                    }
+                }
+            }
         }
     }
 
