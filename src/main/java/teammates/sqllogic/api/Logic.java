@@ -445,6 +445,20 @@ public class Logic {
     }
 
     /**
+     * Gets the expected number of submissions for a feedback session.
+     */
+    public int getExpectedTotalSubmission(FeedbackSession fs) {
+        return feedbackSessionsLogic.getExpectedTotalSubmission(fs);
+    }
+
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     */
+    public int getActualTotalSubmission(FeedbackSession fs) {
+        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getName(), fs.getCourse().getId()).size();
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
