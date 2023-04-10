@@ -4,6 +4,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.RegkeyValidityData;
 import teammates.ui.request.Intent;
 
@@ -12,7 +14,7 @@ import teammates.ui.request.Intent;
  *
  * <p>This does not log in or log out the user.
  */
-class GetRegkeyValidityAction extends Action {
+public class GetRegkeyValidityAction extends Action {
 
     @Override
     public AuthType getMinAuthLevel() {
@@ -27,20 +29,36 @@ class GetRegkeyValidityAction extends Action {
     @Override
     public JsonResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+        String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
         boolean isValid = false;
         String googleId = null;
 
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
-            StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
-            if (student != null) {
+            // Try to get googleId for not migrated user
+            StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(regKey);
+            if (studentAttributes != null && !isCourseMigrated(studentAttributes.getCourse())) {
+                isValid = true;
+                googleId = studentAttributes.getGoogleId();
+            }
+
+            // Try to get googleId for migrated user
+            Student student = sqlLogic.getStudentByRegistrationKey(regKey);
+            if (student != null) { // assume that if student has been migrated, course has been migrated
                 isValid = true;
                 googleId = student.getGoogleId();
             }
         } else if (intent == Intent.INSTRUCTOR_SUBMISSION || intent == Intent.INSTRUCTOR_RESULT) {
-            InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
-            if (instructor != null) {
+            // Try to get googleId for not migrated user
+            InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(regKey);
+            if (instructorAttributes != null && !isCourseMigrated(instructorAttributes.getCourseId())) {
+                isValid = true;
+                googleId = instructorAttributes.getGoogleId();
+            }
+
+            // Try to get googleId for migrated user
+            Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regKey);
+            if (instructor != null) { // assume that if instructor has been migrated, course has been migrated
                 isValid = true;
                 googleId = instructor.getGoogleId();
             }
