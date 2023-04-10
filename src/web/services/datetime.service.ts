@@ -71,6 +71,8 @@ export class DateTimeService {
     /**
      * Gets a DateFormat and a TimeFormat from a DateFormat and a TimeFormat Delta changed by deltaMinutes.
      *
+     * @param date accepts a DateFormat object.
+     * @param time accepts a TimeFormat object.
      * @param deltaMinutes accepts a postive or negative number.
      */
     getDateTimeFromDateTimeDeltaMinutes(
