@@ -37,28 +37,28 @@ public class GetRegkeyValidityAction extends Action {
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
             // Try to get googleId for not migrated user
             StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(regKey);
-            if (studentAttributes != null) {
+            if (studentAttributes != null && !isCourseMigrated(studentAttributes.getCourse())) {
                 isValid = true;
                 googleId = studentAttributes.getGoogleId();
             }
 
             // Try to get googleId for migrated user
             Student student = sqlLogic.getStudentByRegistrationKey(regKey);
-            if (student != null) {
+            if (student != null) { // assume that if student has been migrated, course has been migrated
                 isValid = true;
                 googleId = student.getGoogleId();
             }
         } else if (intent == Intent.INSTRUCTOR_SUBMISSION || intent == Intent.INSTRUCTOR_RESULT) {
             // Try to get googleId for not migrated user
             InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(regKey);
-            if (instructorAttributes != null) {
+            if (instructorAttributes != null && !isCourseMigrated(instructorAttributes.getCourseId())) {
                 isValid = true;
                 googleId = instructorAttributes.getGoogleId();
             }
 
             // Try to get googleId for migrated user
             Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regKey);
-            if (instructor != null) {
+            if (instructor != null) { // assume that if instructor has been migrated, course has been migrated
                 isValid = true;
                 googleId = instructor.getGoogleId();
             }
