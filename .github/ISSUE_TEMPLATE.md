@@ -4,7 +4,6 @@ Go to the "Preview" tab and click on the relevant issue type to be redirected to
 
 - [Bug reports](?template=bug-report.md)
 - [Feature/enhancement requests, enhancement to build process](?template=feature-request.md)
-- [Help requests](?template=help-request.md)
 - [Data migration](?template=data-migration.md)
 
 For other tasks (e.g. refactoring, adding tests, fixing typo), there is no template to follow. Simply provide a clear issue title and description of the work to be done.
