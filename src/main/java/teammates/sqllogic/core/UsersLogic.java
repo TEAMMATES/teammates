@@ -417,9 +417,8 @@ public final class UsersLogic {
                         student.getCourse().getId(), student.getTeamName());
         }
 
+        deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
         usersDb.deleteUser(student);
-        deadlineExtensionsLogic.deleteFeedbackSessionsDeadlinesForUser(courseId, studentEmail);
-
         feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
     }
 

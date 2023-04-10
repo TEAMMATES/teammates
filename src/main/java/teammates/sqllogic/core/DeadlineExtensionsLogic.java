@@ -98,9 +98,10 @@ public final class DeadlineExtensionsLogic {
     }
 
     /**
-     * Deletes the user email address for all their deadlines in the feedback sessions of the given course.
+     * Deletes a user's deadline extensions.
      */
-    public void deleteFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress) {
+    public void deleteDeadlineExtensionsForUser(User user) {
+        String courseId = user.getCourseId();
         List<FeedbackSession> feedbackSessions = feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
 
         feedbackSessions.forEach(feedbackSession -> {
@@ -108,8 +109,7 @@ public final class DeadlineExtensionsLogic {
 
             deadlineExtensions = deadlineExtensions
                     .stream()
-                    .filter(deadlineExtension ->
-                            deadlineExtension.getUser().getEmail().equalsIgnoreCase(emailAddress))
+                    .filter(deadlineExtension -> deadlineExtension.getUser().equals(user))
                     .collect(Collectors.toList());
 
             for (DeadlineExtension deadlineExtension : deadlineExtensions) {
