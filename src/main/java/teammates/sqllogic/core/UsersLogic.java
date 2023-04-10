@@ -396,7 +396,7 @@ public final class UsersLogic {
     }
 
     /**
-     * Deletes a student cascade its associated feedback responses, deadline extensions and comments.
+     * Deletes a student along with its associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the student does not exist.
      */
