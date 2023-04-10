@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * Handles operations related to feedback sessions.
@@ -37,6 +38,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
+    private UsersLogic usersLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -47,10 +49,11 @@ public final class FeedbackSessionsLogic {
     }
 
     void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
-            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic) {
+            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic, UsersLogic usersLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
+        this.usersLogic = usersLogic;
     }
 
     /**
@@ -286,5 +289,41 @@ public final class FeedbackSessionsLogic {
 
         // if there is no question for instructor, session is attempted
         return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
+    }
+
+    /**
+     * Gets the expected number of submissions for a feedback session.
+     */
+    public int getExpectedTotalSubmission(FeedbackSession fs) {
+        int expectedTotal = 0;
+
+        String courseId = fs.getCourse().getId();
+
+        if (fqLogic.hasFeedbackQuestionsForStudents(fs.getFeedbackQuestions())) {
+            expectedTotal += usersLogic.getNumberOfStudentsForCourse(courseId);
+        }
+
+        // Pre-flight check to ensure there are questions for instructors.
+        if (!fqLogic.hasFeedbackQuestionsForInstructors(fs.getFeedbackQuestions(), true)) {
+            return expectedTotal;
+        }
+
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(courseId);
+        if (instructors.isEmpty()) {
+            return expectedTotal;
+        }
+
+        // Check presence of questions for instructors.
+        if (fqLogic.hasFeedbackQuestionsForInstructors(fs.getFeedbackQuestions(), false)) {
+            expectedTotal += instructors.size();
+        } else {
+            // No questions for instructors. There must be questions for creator.
+            List<Instructor> creatorEmails = instructors.stream()
+                    .filter((Instructor instructor) -> fs.isCreator(instructor.getEmail()))
+                    .collect(Collectors.toList());
+            expectedTotal += creatorEmails.size();
+        }
+ 
+        return expectedTotal;
     }
 }
