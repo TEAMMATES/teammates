@@ -60,7 +60,7 @@ export class DateTimeService {
     }
 
     /**
-     * Converts a a single Date instance to a DateFormat object and a TimeFormat object.
+     * Converts a single Date instance to a DateFormat object and a TimeFormat object.
      */
     convertDateToDateFormatAndTimeFormat(date: Date): [DateFormat, TimeFormat] {
         const newDate: DateFormat = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
