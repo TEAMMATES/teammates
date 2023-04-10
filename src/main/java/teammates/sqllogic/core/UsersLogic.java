@@ -248,6 +248,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets the number of students for the specified course.
+     */
+    public int getNumberOfStudentsForCourse(String courseId) {
+        return  usersDb.getStudentsForCourse(courseId).size();
+    }
+
+    /**
      * Gets a list of unregistered students for the specified course.
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
