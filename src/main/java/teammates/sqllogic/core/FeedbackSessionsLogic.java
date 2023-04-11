@@ -8,14 +8,15 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.User;
 
 /**
  * Handles operations related to feedback sessions.
@@ -37,6 +38,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
+    private UsersLogic usersLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -46,11 +48,14 @@ public final class FeedbackSessionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
-            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic) {
+    void initLogicDependencies(
+            FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
+            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
+            UsersLogic usersLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
+        this.usersLogic = usersLogic;
     }
 
     /**
@@ -105,18 +110,18 @@ public final class FeedbackSessionsLogic {
     /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
+    public Set<String> getGiverSetThatAnswerFeedbackSession(String feedbackSessionName, String courseId) {
         assert courseId != null;
         assert feedbackSessionName != null;
 
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
-
         Set<String> giverSet = new HashSet<>();
-        feedbackSession.getFeedbackQuestions().forEach(question -> {
-            question.getFeedbackResponses().forEach(response -> {
-                giverSet.add(response.getGiver());
-            });
-        });
+        FeedbackSession fs = fsDb.getFeedbackSession(feedbackSessionName, courseId);
+
+        for (FeedbackQuestion fq : fs.getFeedbackQuestions()) {
+            for (FeedbackResponse fr : fq.getFeedbackResponses()) {
+                giverSet.add(fr.getGiver());
+            }
+        }
 
         return giverSet;
     }
@@ -183,6 +188,48 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets the expected number of submissions for a feedback session.
+     */
+    public int getExpectedTotalSubmission(FeedbackSession fs) {
+        int expectedTotal = 0;
+
+        if (fqLogic.hasFeedbackQuestionsForStudents(fs.getFeedbackQuestions())) {
+            expectedTotal += usersLogic.getStudentsForCourse(fs.getCourse().getId()).size();
+        }
+
+        // Pre-flight check to ensure there are questions for instructors.
+        if (!fqLogic.hasFeedbackQuestionsForInstructors(fs.getFeedbackQuestions(), true)) {
+            return expectedTotal;
+        }
+
+        List<String> instructorEmails = usersLogic.getInstructorsForCourse(
+                fs.getCourse().getId()).stream().map(User::getEmail).collect(Collectors.toList());
+        if (instructorEmails.isEmpty()) {
+            return expectedTotal;
+        }
+
+        // Check presence of questions for instructors.
+        if (fqLogic.hasFeedbackQuestionsForInstructors(fs.getFeedbackQuestions(), false)) {
+            expectedTotal += instructorEmails.size();
+        } else {
+            // No questions for instructors. There must be questions for creator.
+            List<String> creatorEmails = instructorEmails.stream()
+                    .filter(instructorEmail -> fs.getCreatorEmail().equals(instructorEmail))
+                    .collect(Collectors.toList());
+            expectedTotal += creatorEmails.size();
+        }
+
+        return expectedTotal;
+    }
+
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     */
+    public int getActualTotalSubmission(FeedbackSession fs) {
+        return getGiverSetThatAnswerFeedbackSession(fs.getCourse().getId(), fs.getName()).size();
+    }
+
+    /**
      * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
@@ -243,48 +290,5 @@ public final class FeedbackSessionsLogic {
         }
 
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
-    }
-
-    /**
-     * Checks whether a student has attempted a feedback session.
-     *
-     * <p>If feedback session consists of all team questions, session is attempted by student only
-     * if someone from the team has responded. If feedback session has some individual questions,
-     * session is attempted only if the student has responded to any of the individual questions
-     * (regardless of the completion status of the team questions).</p>
-     */
-    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
-        assert session != null;
-        assert userEmail != null;
-        assert userTeam != null;
-
-        if (!fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions())) {
-            // if there are no questions for student, session is attempted
-            return true;
-        } else if (fqLogic.hasFeedbackQuestionsForGiverType(
-                session.getFeedbackQuestions(), FeedbackParticipantType.STUDENTS)) {
-            // case where there are some individual questions
-            return frLogic.hasGiverRespondedForSession(userEmail, session.getFeedbackQuestions());
-        } else {
-            // case where all are team questions
-            return frLogic.hasGiverRespondedForSession(userTeam, session.getFeedbackQuestions());
-        }
-    }
-
-    /**
-     * Checks whether an instructor has attempted a feedback session.
-     *
-     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
-     */
-    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
-        assert session != null;
-        assert userEmail != null;
-
-        if (frLogic.hasGiverRespondedForSession(userEmail, session.getFeedbackQuestions())) {
-            return true;
-        }
-
-        // if there is no question for instructor, session is attempted
-        return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
     }
 }
