@@ -3,6 +3,7 @@ package teammates.sqllogic.api;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -13,7 +14,9 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.StudentUpdateException;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -40,6 +43,8 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
+import teammates.ui.request.FeedbackQuestionUpdateRequest;
+import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -273,6 +278,15 @@ public class Logic {
     }
 
     /**
+     * Fetch the deadline extension for a given user and session feedback.
+     *
+     * @return deadline extension instant if exists, else return null since no deadline extensions.
+     */
+    public Instant getExtendedDeadlineForUser(FeedbackSession session, User user) {
+        return deadlineExtensionsLogic.getExtendedDeadlineForUser(session, user);
+    }
+
+    /**
      * Gets a feedback session.
      *
      * @return null if not found.
@@ -306,6 +320,16 @@ public class Logic {
     }
 
     /**
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     */
+    public Set<String> getGiverSetThatAnswerFeedbackSession(String feedbackSessionName, String courseId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+
+        return feedbackSessionsLogic.getGiverSetThatAnswerFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
      * Creates a feedback session.
      *
      * @return returns the created feedback session.
@@ -316,6 +340,13 @@ public class Logic {
         assert feedbackSession.getCourse() != null && feedbackSession.getCourse().getId() != null;
 
         return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    }
+
+    /**
+     * Gets all feedback sessions of a course, except those that are soft-deleted.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
+        return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
     }
 
     /**
@@ -343,6 +374,24 @@ public class Logic {
         assert courseId != null;
 
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Checks whether a student has attempted a feedback session.
+     *
+     * <p>If there is no question for students, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(session, userEmail, userTeam);
+    }
+
+    /**
+     * Checks whether an instructor has attempted a feedback session.
+     *
+     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
+     */
+    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
+        return feedbackSessionsLogic.isFeedbackSessionAttemptedByInstructor(session, userEmail);
     }
 
     /**
@@ -602,6 +651,16 @@ public class Logic {
     }
 
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Empty list if none found.
+     */
+    public List<Student> getUnregisteredStudentsForCourse(String courseId) {
+        assert courseId != null;
+        return usersLogic.getUnregisteredStudentsForCourse(courseId);
+    }
+
+    /**
      * Gets a student by associated {@code regkey}.
      */
     public Student getStudentByRegistrationKey(String regKey) {
@@ -677,6 +736,52 @@ public class Logic {
     public void resetStudentGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
+    }
+
+    /**
+     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     *
+     * @return the instructor with the new registration key.
+     * @throws InstructorUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, InstructorUpdateException {
+
+        assert courseId != null;
+        assert email != null;
+
+        return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
+    }
+
+    /**
+     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     *
+     * @return the student with the new registration key.
+     * @throws StudentUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the student does not exist.
+     */
+    public Student regenerateStudentRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, StudentUpdateException {
+
+        assert courseId != null;
+        assert email != null;
+
+        return usersLogic.regenerateStudentRegistrationKey(courseId, email);
+    }
+
+    /**
+     * Updates the instructor being edited to ensure validity of instructors for the course.
+     * * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see UsersLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, Instructor)
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, Instructor instructorToEdit) {
+        assert courseId != null;
+        assert instructorToEdit != null;
+
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
     }
 
     /**
@@ -760,6 +865,18 @@ public class Logic {
     }
 
     /**
+     * Deletes a feedback question cascade its responses and comments.
+     *
+     * <p>Silently fail if question does not exist.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteFeedbackQuestionCascade(UUID questionId) {
+        feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
+    }
+
+    /**
      * Gets the recipients of a feedback question for student.
      *
      * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
@@ -770,6 +887,13 @@ public class Logic {
         assert question != null;
 
         return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
+    }
+
+    /**
+     * Gets a feedbackResponse or null if it does not exist.
+     */
+    public FeedbackResponse getFeedbackResponse(UUID frId) {
+        return feedbackResponsesLogic.getFeedbackResponse(frId);
     }
 
     /**
@@ -792,10 +916,79 @@ public class Logic {
     }
 
     /**
+     * Gets an feedback response comment by feedback response comment id.
+     * @param id of feedback response comment.
+     * @return the specified feedback response comment.
+     */
+    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
+        return feedbackResponseCommentsLogic.getFeedbackResponseComment(id);
+    }
+
+    /**
+     * Updates a feedback response comment.
+     * @throws EntityDoesNotExistException if the comment does not exist
+     */
+    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
+            FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
+            throws EntityDoesNotExistException {
+        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
+    }
+
+    /**
+     * Checks whether there are responses for a question.
+     */
+    public boolean areThereResponsesForQuestion(UUID questionId) {
+        return feedbackResponsesLogic.areThereResponsesForQuestion(questionId);
+    }
+
+    /**
+     * Checks whether there are responses for a course.
+     */
+    public boolean hasResponsesForCourse(String courseId) {
+        return feedbackResponsesLogic.hasResponsesForCourse(courseId);
+    }
+
+    /**
      * Gets the comment associated with the response.
      */
     public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
             UUID feedbackResponseId) {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+    }
+
+    /**
+     * Creates a feedback response comment.
+     * @throws EntityAlreadyExistsException if the comment alreadty exists
+     * @throws InvalidParametersException if the comment is invalid
+     */
+    public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return feedbackResponseCommentsLogic.createFeedbackResponseComment(frc);
+    }
+
+    /**
+     * Deletes a feedbackResponseComment.
+     */
+    public void deleteFeedbackResponseComment(Long frcId) {
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
+    }
+
+    /**
+     * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
+     *
+     * <p>Cascade adjust the question number of questions in the same session.
+     *
+     * <p>Cascade adjust the existing response of the question.
+     *
+     * <br/> Preconditions: <br/>
+     * * All parameters are non-null.
+     *
+     * @return updated feedback question
+     * @throws InvalidParametersException if attributes to update are not valid
+     * @throws EntityDoesNotExistException if the feedback question cannot be found
+     */
+    public FeedbackQuestion updateFeedbackQuestionCascade(UUID questionId, FeedbackQuestionUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackQuestionsLogic.updateFeedbackQuestionCascade(questionId, updateRequest);
     }
 }
