@@ -75,6 +75,18 @@ public class FeedbackSession extends BaseEntity {
     private boolean isPublishedEmailEnabled;
 
     @Column(nullable = false)
+    private boolean isOpeningSoonEmailSent;
+
+    @Column(nullable = false)
+    private boolean isOpenEmailSent;
+
+    @Column(nullable = false)
+    private boolean isClosingSoonEmailSent;
+
+    @Column(nullable = false)
+    private boolean isClosedEmailSent;
+
+    @Column(nullable = false)
     private boolean isPublishedEmailSent;
 
     @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
@@ -322,6 +334,38 @@ public class FeedbackSession extends BaseEntity {
         this.feedbackQuestions = feedbackQuestions;
     }
 
+    public boolean isOpeningSoonEmailSent() {
+        return isOpeningSoonEmailSent;
+    }
+
+    public void setOpeningEmailSent(boolean isOpeningSoonEmailSent) {
+        this.isOpeningSoonEmailSent = isOpeningSoonEmailSent;
+    }
+
+    public boolean isOpenEmailSent() {
+        return isOpenEmailSent;
+    }
+
+    public void setOpenEmailSent(boolean isOpenEmailSent) {
+        this.isOpenEmailSent = isOpenEmailSent;
+    }
+
+    public boolean isClosingSoonEmailSent() {
+        return isClosingSoonEmailSent;
+    }
+
+    public void setClosingSoonEmailSent(boolean isClosingSoonEmailSent) {
+        this.isClosingSoonEmailSent = isClosingSoonEmailSent;
+    }
+
+    public boolean isClosedEmailSent() {
+        return isClosedEmailSent;
+    }
+
+    public void setClosedEmailSent(boolean isClosedEmailSent) {
+        this.isClosedEmailSent = isClosedEmailSent;
+    }
+
     public boolean isPublishedEmailSent() {
         return isPublishedEmailSent;
     }
@@ -354,7 +398,10 @@ public class FeedbackSession extends BaseEntity {
                 + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpeningEmailEnabled="
                 + isOpeningEmailEnabled + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + ", deadlineExtensions=" + deadlineExtensions
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+                + ", isOpeningSoonEmailSent=" + isOpeningSoonEmailSent + ", isOpenEmailSent=" + isOpenEmailSent
+                + ", isClosingSoonEmailSent=" + isClosingSoonEmailSent + ", isClosedEmailSent=" + isClosedEmailSent
+                + ", isPublishedEmailSent=" + isPublishedEmailSent + ", deadlineExtensions=" + deadlineExtensions
                 + ", feedbackQuestions=" + feedbackQuestions + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }
