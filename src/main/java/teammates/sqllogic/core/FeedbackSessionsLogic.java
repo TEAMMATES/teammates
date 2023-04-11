@@ -14,6 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.TimeHelper;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -34,6 +35,9 @@ public final class FeedbackSessionsLogic {
             + "Session has already been published.";
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
             + "Session has already been unpublished.";
+
+    private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
+    private static final int NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT = 24;
 
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
@@ -309,5 +313,92 @@ public final class FeedbackSessionsLogic {
         log.info(String.format("Number of sessions under consideration after filtering: %d",
                 requiredSessions.size()));
         return requiredSessions;
+    }
+
+    /**
+     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * and need an open email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
+        List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            if (session.isOpened() && session.getCourse().getDeletedAt() == null) {
+                sessionsToSendEmailsFor.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                sessionsToSendEmailsFor.size()));
+        return sessionsToSendEmailsFor;
+    }
+
+    /**
+     * Returns returns a list of sessions that are going to open in 24 hours.
+     */
+    public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
+        List<FeedbackSession> requiredSessions = new ArrayList<>();
+
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            if (session.isOpeningWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT)
+                    && session.getCourse().getDeletedAt() == null) {
+                requiredSessions.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
+        return requiredSessions;
+    }
+
+    /**
+     * Returns returns a list of sessions that are going to close within the next 24 hours.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
+        List<FeedbackSession> requiredSessions = new ArrayList<>();
+
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSession session : sessions) {
+            if (session.isClosingWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
+                    && session.getCourse().getDeletedAt() == null) {
+                requiredSessions.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
+        return requiredSessions;
+    }
+
+    /**
+     * Criteria: must be published, publishEmail must be enabled and
+     * resultsVisibleTime must be custom.
+     *
+     * @return returns a list of sessions that require automated emails to be
+     *         sent as they are published
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
+        List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+        List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
+
+        for (FeedbackSession session : sessions) {
+            // automated emails are required only for custom publish times
+            if (session.isPublished()
+                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())
+                    && session.getCourse().getDeletedAt() == null) {
+                sessionsToSendEmailsFor.add(session);
+            }
+        }
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                sessionsToSendEmailsFor.size()));
+        return sessionsToSendEmailsFor;
     }
 }

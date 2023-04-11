@@ -452,6 +452,34 @@ public class Logic {
     }
 
     /**
+     * Returns returns a list of sessions that are going to close soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
+    }
+
+    /**
+     * Returns returns a list of sessions that are going to open soon.
+     */
+    public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+    }
+
+    /**
+     * Returns a list of sessions that require automated emails to be sent as they are published.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+    }
+
+    /**
+     * Returns a list of feedback sessions that need an open email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
