@@ -137,7 +137,7 @@ public class GetCoursesAction extends Action {
         coursesDataList.sort(Comparator.comparing(CourseData::getCourseId));
 
         coursesDataList.forEach(courseData -> {
-            if (isCourseMigrated(courseData.getCourseId())) {
+            if (sqlCourseIdToInstructor.containsKey(courseData.getCourseId())) {
                 Instructor instructor = sqlCourseIdToInstructor.get(courseData.getCourseId());
                 if (instructor == null) {
                     return;
