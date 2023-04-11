@@ -250,19 +250,19 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         verifyInvalidOperation(requestBody, params);
 
         ______TS("Typical Success Case with no existing responses");
-        FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
-        Student giver = typicalBundle.students.get("student1InCourse2");
+        FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        Student giver = typicalBundle.students.get("student1InCourse1");
 
         loginAsStudent(giver.getGoogleId());
 
-        int questionNumber = 1;
+        int questionNumber = 7;
         FeedbackQuestion question = getQuestion(feedbackSession, questionNumber);
         params = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
         };
 
-        List<Student> studentRecipients = getStudents("student2InCourse2");
+        List<Student> studentRecipients = getStudents("student2InCourse1", "student3InCourse1");
         requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, params);
