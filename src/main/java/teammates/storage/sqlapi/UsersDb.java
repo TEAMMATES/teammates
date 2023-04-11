@@ -297,7 +297,7 @@ public final class UsersDb extends EntitiesDb {
     /**
      * Gets instructors with the specified {@code userEmail}.
      */
-    public List<Instructor> getInstructorsForEmail(String courseId, List<String> userEmails) {
+    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
         assert courseId != null;
         assert userEmails != null;
 
@@ -340,7 +340,7 @@ public final class UsersDb extends EntitiesDb {
     /**
      * Gets students with the specified {@code userEmail}.
      */
-    public List<Student> getStudentsForEmail(String courseId, List<String> userEmails) {
+    public List<Student> getStudentsForEmails(String courseId, List<String> userEmails) {
         assert courseId != null;
         assert userEmails != null;
 

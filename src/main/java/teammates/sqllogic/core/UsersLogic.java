@@ -91,8 +91,8 @@ public final class UsersLogic {
     /**
      * Gets instructors matching any of the specified emails.
      */
-    public List<Instructor> getInstructorsForEmail(String courseId, List<String> userEmails) {
-        return usersDb.getInstructorsForEmail(courseId, userEmails);
+    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
+        return usersDb.getInstructorsForEmails(courseId, userEmails);
     }
 
     /**
@@ -150,7 +150,7 @@ public final class UsersLogic {
      * Check if the instructors with the provided emails exist in the course.
      */
     public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
-        List<Instructor> instructors = usersDb.getInstructorsForEmail(courseId, emails);
+        List<Instructor> instructors = usersDb.getInstructorsForEmails(courseId, emails);
         for (String email : emails) {
             Optional<Instructor> instructor = instructors
                     .stream()
@@ -259,7 +259,7 @@ public final class UsersLogic {
     * Check if the students with the provided emails exist in the course.
     */
     public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
-        List<Student> students = usersDb.getStudentsForEmail(courseId, emails);
+        List<Student> students = usersDb.getStudentsForEmails(courseId, emails);
         for (String email : emails) {
             Optional<Student> student = students
                     .stream()
