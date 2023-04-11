@@ -338,7 +338,7 @@ public class FeedbackSession extends BaseEntity {
         return isOpeningSoonEmailSent;
     }
 
-    public void setOpeningEmailSent(boolean isOpeningSoonEmailSent) {
+    public void setOpeningSoonEmailSent(boolean isOpeningSoonEmailSent) {
         this.isOpeningSoonEmailSent = isOpeningSoonEmailSent;
     }
 
