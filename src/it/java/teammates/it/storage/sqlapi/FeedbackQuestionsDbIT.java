@@ -49,8 +49,9 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackQuestion fq4 = typicalDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         FeedbackQuestion fq5 = typicalDataBundle.feedbackQuestions.get("qn5InSession1InCourse1");
         FeedbackQuestion fq6 = typicalDataBundle.feedbackQuestions.get("qn6InSession1InCourse1NoResponses");
+        FeedbackQuestion fq7 = typicalDataBundle.feedbackQuestions.get("qn7InSession1InCourse1NoResponses");
 
-        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4, fq5, fq6);
+        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4, fq5, fq6, fq7);
 
         List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForSession(fs.getId());
 
@@ -64,8 +65,9 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackQuestion fq2 = typicalDataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        FeedbackQuestion fq3 = typicalDataBundle.feedbackQuestions.get("qn7InSession1InCourse1NoResponses");
 
-        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);
+        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3);
 
         List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.STUDENTS);
 
