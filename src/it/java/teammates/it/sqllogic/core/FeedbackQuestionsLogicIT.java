@@ -74,8 +74,9 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         FeedbackQuestion fq4 = typicalDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         FeedbackQuestion fq5 = typicalDataBundle.feedbackQuestions.get("qn5InSession1InCourse1");
         FeedbackQuestion fq6 = typicalDataBundle.feedbackQuestions.get("qn6InSession1InCourse1NoResponses");
+        FeedbackQuestion fq7 = typicalDataBundle.feedbackQuestions.get("qn7InSession1InCourse1NoResponses");
 
-        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4, fq5, fq6);
+        List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4, fq5, fq6, fq7);
 
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs);
 
