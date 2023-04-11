@@ -185,6 +185,13 @@ public class Logic {
     }
 
     /**
+     * Gets all students associated with a googleId.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        return usersLogic.getStudentsByGoogleId(googleId);
+    }
+
+    /**
      * Gets a course by course id.
      * @param courseId courseId of the course.
      * @return the specified course.
