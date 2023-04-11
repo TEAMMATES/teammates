@@ -405,7 +405,7 @@ public class FeedbackSession extends BaseEntity {
      * This occurs only when the current time is after both the deadline and the grace period.
      */
     public boolean isClosed() {
-        return !isOpened() && Instant.now().isAfter(endTime);
+        return !isOpened() && Instant.now().isAfter(endTime.plus(gracePeriod));
     }
 
     /**
@@ -431,7 +431,7 @@ public class FeedbackSession extends BaseEntity {
     public boolean isOpenedGivenExtendedDeadline(Instant extendedDeadline) {
         Instant now = Instant.now();
         return (now.isAfter(startTime) || now.equals(startTime))
-                && now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod));
+                && (now.isBefore(extendedDeadline) || now.isBefore(endTime));
     }
 
     /**
