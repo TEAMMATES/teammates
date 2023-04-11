@@ -43,7 +43,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
 
         if (isCourseMigrated(courseId)) {
             FeedbackSessionSubmittedGiverSet output = new FeedbackSessionSubmittedGiverSet(
-                    sqlLogic.getGiverSetThatAnswerFeedbackSession(feedbackSessionName, courseId)
+                    sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId)
             );
 
             return new JsonResult(output);

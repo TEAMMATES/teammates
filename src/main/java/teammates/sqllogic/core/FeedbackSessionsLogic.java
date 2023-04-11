@@ -111,18 +111,18 @@ public final class FeedbackSessionsLogic {
     /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
-    public Set<String> getGiverSetThatAnswerFeedbackSession(String feedbackSessionName, String courseId) {
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
         assert courseId != null;
         assert feedbackSessionName != null;
 
-        Set<String> giverSet = new HashSet<>();
-        FeedbackSession fs = fsDb.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
 
-        for (FeedbackQuestion fq : fs.getFeedbackQuestions()) {
-            for (FeedbackResponse fr : fq.getFeedbackResponses()) {
-                giverSet.add(fr.getGiver());
-            }
-        }
+        Set<String> giverSet = new HashSet<>();
+        feedbackSession.getFeedbackQuestions().forEach(question -> {
+            question.getFeedbackResponses().forEach(response -> {
+                giverSet.add(response.getGiver());
+            });
+        });
 
         return giverSet;
     }
@@ -226,7 +226,7 @@ public final class FeedbackSessionsLogic {
      * Gets the actual number of submissions for a feedback session.
      */
     public int getActualTotalSubmission(FeedbackSession fs) {
-        return getGiverSetThatAnswerFeedbackSession(fs.getCourse().getId(), fs.getName()).size();
+        return getGiverSetThatAnsweredFeedbackSession(fs.getCourse().getId(), fs.getName()).size();
     }
 
     /**

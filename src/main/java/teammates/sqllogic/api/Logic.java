@@ -322,11 +322,11 @@ public class Logic {
     /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
-    public Set<String> getGiverSetThatAnswerFeedbackSession(String feedbackSessionName, String courseId) {
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
         assert feedbackSessionName != null;
         assert courseId != null;
 
-        return feedbackSessionsLogic.getGiverSetThatAnswerFeedbackSession(feedbackSessionName, courseId);
+        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**

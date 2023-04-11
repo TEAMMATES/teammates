@@ -51,7 +51,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         expectedGivers.add(typicalDataBundle.students.get("student2InCourse1").getEmail());
         expectedGivers.add(typicalDataBundle.students.get("student3InCourse1").getEmail());
 
-        Set<String> givers = fsLogic.getGiverSetThatAnswerFeedbackSession(fs.getName(), fs.getCourse().getId());
+        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getName(), fs.getCourse().getId());
         assertEquals(expectedGivers.size(), givers.size());
         assertEquals(expectedGivers, givers);
     }
