@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
@@ -26,6 +27,7 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -78,13 +80,13 @@ public class UpdateFeedbackSessionAction extends Action {
 
             List<DeadlineExtension> prevDeadlineExtensions = feedbackSession.getDeadlineExtensions();
 
-            Map<String, Instant> oldStudentDeadlines = new HashMap<>();
-            Map<String, Instant> oldInstructorDeadlines = new HashMap<>();
+            Map<String, DeadlineExtension> oldStudentDeadlines = new HashMap<>();
+            Map<String, DeadlineExtension> oldInstructorDeadlines = new HashMap<>();
             for (DeadlineExtension de : prevDeadlineExtensions) {
                 if (de.getUser() instanceof Student) {
-                    oldStudentDeadlines.put(de.getUser().getEmail(), de.getEndTime());
+                    oldStudentDeadlines.put(de.getUser().getEmail(), de);
                 } else if (de.getUser() instanceof Instructor) {
-                    oldInstructorDeadlines.put(de.getUser().getEmail(), de.getEndTime());
+                    oldInstructorDeadlines.put(de.getUser().getEmail(), de);
                 }
             }
 
@@ -281,18 +283,24 @@ public class UpdateFeedbackSessionAction extends Action {
     }
 
     private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSession session,
-            Map<String, Instant> oldDeadlines, Map<String, Instant> newDeadlines,
+            Map<String, DeadlineExtension> oldDeadlines, Map<String, Instant> newDeadlines,
             boolean areInstructors, boolean notifyUsers) {
-        if (oldDeadlines.equals(newDeadlines)) {
+        // check if same
+        Predicate<DeadlineExtension> oldDeadlineNeedsChanges =
+                de -> !newDeadlines.containsKey(de.getUser().getEmail())
+                || !newDeadlines.get(de.getUser().getEmail()).equals(de.getEndTime());
+
+        boolean hasChanges = newDeadlines.size() > oldDeadlines.size()
+                || oldDeadlines.values().stream().anyMatch(oldDeadlineNeedsChanges);
+        if (!hasChanges) {
             return Collections.emptyList();
         }
-
         // Revoke deadline extensions
-        Map<String, Instant> deadlinesToRevoke = new HashMap<>(oldDeadlines);
+        Map<String, DeadlineExtension> deadlinesToRevoke = new HashMap<>(oldDeadlines);
         deadlinesToRevoke.keySet().removeAll(newDeadlines.keySet());
 
-        deadlinesToRevoke.keySet().forEach(email ->
-                logic.deleteDeadlineExtension(courseId, session.getName(), email, areInstructors));
+        deadlinesToRevoke.values().forEach(de ->
+                sqlLogic.deleteDeadlineExtension(de));
 
         // Create deadline extensions
         Map<String, Instant> deadlinesToCreate = new HashMap<>(newDeadlines);
@@ -300,13 +308,15 @@ public class UpdateFeedbackSessionAction extends Action {
 
         deadlinesToCreate.entrySet()
                 .stream()
-                .map(entry -> DeadlineExtensionAttributes
-                        .builder(courseId, session.getName(), entry.getKey(), areInstructors)
-                        .withEndTime(entry.getValue())
-                        .build())
+                .map(entry -> {
+                    User u = areInstructors
+                            ? sqlLogic.getInstructorForEmail(courseId, entry.getKey())
+                            : sqlLogic.getStudentForEmail(courseId, entry.getKey());
+                    return new DeadlineExtension(u, session, entry.getValue());
+                })
                 .forEach(deadlineExtension -> {
                     try {
-                        logic.createDeadlineExtension(deadlineExtension);
+                        sqlLogic.createDeadlineExtension(deadlineExtension);
                     } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                         log.severe("Unexpected error while creating deadline extension", e);
                     }
@@ -319,29 +329,37 @@ public class UpdateFeedbackSessionAction extends Action {
                         && !entry.getValue().equals(oldDeadlines.get(entry.getKey())))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        deadlinesToUpdate.entrySet()
-                .stream()
-                .map(entry -> DeadlineExtensionAttributes
-                        .updateOptionsBuilder(courseId, session.getName(), entry.getKey(), areInstructors)
-                        .withEndTime(entry.getValue())
-                        .build())
-                .forEach(updateOptions -> {
+        deadlinesToUpdate
+                .entrySet()
+                .forEach(entry -> {
                     try {
-                        logic.updateDeadlineExtension(updateOptions);
+                        DeadlineExtension deToUpdate = oldDeadlines.get(entry.getKey());
+                        deToUpdate.setEndTime(entry.getValue());
+                        sqlLogic.updateDeadlineExtension(deToUpdate);
                     } catch (InvalidParametersException | EntityDoesNotExistException e) {
                         log.severe("Unexpected error while updating deadline extension", e);
                     }
                 });
 
+        Map<String, Instant> revokedDeadlinesEmailToInstantMap = new HashMap<>();
+        deadlinesToRevoke.entrySet().forEach(entry ->
+                revokedDeadlinesEmailToInstantMap.put(entry.getKey(), entry.getValue().getEndTime()));
+
+        Map<String, Instant> oldDeadlinesEmailToInstantMap = new HashMap<>();
+        oldDeadlines.entrySet().forEach(entry ->
+                oldDeadlinesEmailToInstantMap.put(entry.getKey(), entry.getValue().getEndTime()));
+
         List<EmailWrapper> emailsToSend = new ArrayList<>();
         if (notifyUsers) {
             Course course = sqlLogic.getCourse(courseId);
             emailsToSend.addAll(sqlEmailGenerator
-                    .generateDeadlineRevokedEmails(course, session, deadlinesToRevoke, areInstructors));
+                    .generateDeadlineRevokedEmails(course, session,
+                            revokedDeadlinesEmailToInstantMap, areInstructors));
             emailsToSend.addAll(sqlEmailGenerator
                     .generateDeadlineGrantedEmails(course, session, deadlinesToCreate, areInstructors));
             emailsToSend.addAll(sqlEmailGenerator
-                    .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate, oldDeadlines, areInstructors));
+                    .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate,
+                            oldDeadlinesEmailToInstantMap, areInstructors));
         }
         return emailsToSend;
     }
