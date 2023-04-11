@@ -92,7 +92,8 @@
       "feedbackSession": {
         "id": "00000000-0000-4000-8000-000000000701"
       },
-      "endTime": "2027-04-30T23:00:00Z"
+      "endTime": "2027-04-30T23:00:00Z",
+      "isClosingSoonEmailSent": false
     },
     "instructor1InCourse1Session1": {
       "id": "00000000-0000-4000-8000-000000000402",
@@ -103,7 +104,8 @@
       "feedbackSession": {
         "id": "00000000-0000-4000-8000-000000000701"
       },
-      "endTime": "2027-04-30T23:00:00Z"
+      "endTime": "2027-04-30T23:00:00Z",
+      "isClosingSoonEmailSent": false
     }
   },
   "instructors": {

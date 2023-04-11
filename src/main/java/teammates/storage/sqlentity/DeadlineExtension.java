@@ -37,6 +37,9 @@ public class DeadlineExtension extends BaseEntity {
     @Column(nullable = false)
     private Instant endTime;
 
+    @Column(nullable = false)
+    private boolean isClosingSoonEmailSent;
+
     @UpdateTimestamp
     @Column(nullable = false)
     private Instant updatedAt;
@@ -84,6 +87,14 @@ public class DeadlineExtension extends BaseEntity {
         this.endTime = endTime;
     }
 
+    public boolean isClosingSoonEmailSent() {
+        return isClosingSoonEmailSent;
+    }
+
+    public void setClosingSoonEmailSent(boolean isClosingSoonEmailSent) {
+        this.isClosingSoonEmailSent = isClosingSoonEmailSent;
+    }
+
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -95,7 +106,8 @@ public class DeadlineExtension extends BaseEntity {
     @Override
     public String toString() {
         return "DeadlineExtension [id=" + id + ", user=" + user + ", feedbackSessionId=" + feedbackSession.getId()
-                + ", endTime=" + endTime + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
+                + ", endTime=" + endTime + ", isClosingSoonEmailSent=" + isClosingSoonEmailSent
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override
