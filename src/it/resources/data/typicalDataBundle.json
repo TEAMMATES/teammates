@@ -760,45 +760,6 @@
         "questionType": "MCQ"
       }
     },
-    "response1ForQ6C1": {
-      "id": "00000000-0000-4000-8000-000000000907",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000807",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000704"
-        },
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "What is the best selling point of your product?"
-        },
-        "description": "This is a text question.",
-        "questionNumber": 6,
-        "giverType": "STUDENTS",
-        "recipientType": "SELF",
-        "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
-      },
-      "giver": "instr1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "answer": {
-        "questionType": "TEXT",
-        "answer": "Student 1 self feedback."
-      }
-    },
     "response1ForQ1C2": {
       "id": "00000000-0000-4000-8000-000000000908",
       "feedbackQuestion": {
