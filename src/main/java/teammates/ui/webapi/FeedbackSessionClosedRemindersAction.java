@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session closed emails to be sent.
@@ -16,9 +17,15 @@ class FeedbackSessionClosedRemindersAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosedWithinThePastHour();
+        List<FeedbackSessionAttributes> sessionAttributes = logic.getFeedbackSessionsClosedWithinThePastHour();
 
-        for (FeedbackSessionAttributes session : sessions) {
+        for (FeedbackSessionAttributes session : sessionAttributes) {
+
+            // If course has been migrated, use sql email logic instead.
+            if (!isCourseMigrated(session.getCourseId())) {
+                continue;
+            }
+
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosedEmails(session);
             try {
@@ -28,6 +35,18 @@ class FeedbackSessionClosedRemindersAction extends AdminOnlyAction {
                                 .updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
                                 .withSentClosedEmail(true)
                                 .build());
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+
+        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        for (FeedbackSession session : sessions) {
+            RequestTracer.checkRemainingTime();
+            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionClosedEmails(session);
+            try {
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
             }

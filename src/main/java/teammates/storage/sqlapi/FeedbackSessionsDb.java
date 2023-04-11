@@ -6,11 +6,13 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -202,6 +204,29 @@ public final class FeedbackSessionsDb extends EntitiesDb {
                 .where(cb.and(
                     cb.greaterThanOrEqualTo(root.get("startTime"), after),
                     cb.equal(root.get("courseId"), courseId)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
+     * and possibly need a closed email to be sent.
+     */
+    public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingClosedEmail() {
+        return getFeedbackSessionEntitiesPossiblyNeedingClosedEmail().stream()
+                .filter(session -> session.getDeletedAt() == null)
+                .collect(Collectors.toList());
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosedEmail() {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cr.from(FeedbackSession.class);
+
+        cr.select(root)
+                .where(cb.and(
+                    cb.greaterThan(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
+                    cb.equal(root.get("isClosingEmailEnabled"), true)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

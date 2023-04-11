@@ -445,6 +445,13 @@ public class Logic {
     }
 
     /**
+     * Returns returns a list of sessions that were closed within past hour.
+     */
+    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
