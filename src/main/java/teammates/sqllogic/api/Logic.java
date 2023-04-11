@@ -327,6 +327,28 @@ public class Logic {
     }
 
     /**
+     * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
+     * <br>
+     * Omits sessions if the corresponding courses are archived or in Recycle Bin
+     */
+    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+        assert instructorList != null;
+
+        return feedbackSessionsLogic.getSoftDeletedFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
+     * Gets a list of feedback sessions for instructors.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+        assert instructorList != null;
+
+        return feedbackSessionsLogic.getFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
     public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
