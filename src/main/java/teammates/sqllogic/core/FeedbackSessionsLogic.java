@@ -16,7 +16,7 @@ import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * Handles operations related to feedback sessions.
@@ -202,21 +202,20 @@ public final class FeedbackSessionsLogic {
             return expectedTotal;
         }
 
-        List<String> instructorEmails = usersLogic.getInstructorsForCourse(
-                fs.getCourse().getId()).stream().map(User::getEmail).collect(Collectors.toList());
-        if (instructorEmails.isEmpty()) {
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(fs.getCourse().getId());
+        if (instructors.isEmpty()) {
             return expectedTotal;
         }
 
         // Check presence of questions for instructors.
         if (fqLogic.hasFeedbackQuestionsForInstructors(fs.getFeedbackQuestions(), false)) {
-            expectedTotal += instructorEmails.size();
+            expectedTotal += instructors.size();
         } else {
             // No questions for instructors. There must be questions for creator.
-            List<String> creatorEmails = instructorEmails.stream()
-                    .filter(instructorEmail -> fs.getCreatorEmail().equals(instructorEmail))
+            List<Instructor> creators = instructors.stream()
+                    .filter(instructor -> fs.getCreatorEmail().equals(instructor.getEmail()))
                     .collect(Collectors.toList());
-            expectedTotal += creatorEmails.size();
+            expectedTotal += creators.size();
         }
 
         return expectedTotal;
