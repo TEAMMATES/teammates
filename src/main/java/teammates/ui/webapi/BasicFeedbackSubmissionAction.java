@@ -336,9 +336,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     }
 
     /**
-     * Gets the section name of a recipient.
+     * Gets the section of a recipient.
      */
-    String getRecipientSectionName(
+    String getRecipientSection(
             String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             String recipientIdentifier) {
         if (!isCourseMigrated(courseId)) {
@@ -423,52 +423,6 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
             return student == null ? Const.DEFAULT_SECTION : student.getSection();
-        default:
-            assert false : "Unknown recipient type " + recipientType;
-            return null;
-        }
-    }
-
-    /**
-     * Gets the section of a recipient.
-     */
-    Section getRecipientSection(
-            String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
-            String recipientIdentifier) {
-        switch (recipientType) {
-        case SELF:
-            switch (giverType) {
-            case INSTRUCTORS:
-            case SELF:
-                return null;
-            case TEAMS:
-            case TEAMS_IN_SAME_SECTION:
-                Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-                return section == null ? null : section;
-            case STUDENTS:
-            case STUDENTS_IN_SAME_SECTION:
-                Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? null : student.getSection();
-            default:
-                assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
-                return null;
-            }
-        case INSTRUCTORS:
-        case NONE:
-            return null;
-        case TEAMS:
-        case TEAMS_EXCLUDING_SELF:
-        case TEAMS_IN_SAME_SECTION:
-        case OWN_TEAM:
-            Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-            return section == null ? null : section;
-        case STUDENTS:
-        case STUDENTS_EXCLUDING_SELF:
-        case STUDENTS_IN_SAME_SECTION:
-        case OWN_TEAM_MEMBERS:
-        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? null : student.getSection();
         default:
             assert false : "Unknown recipient type " + recipientType;
             return null;

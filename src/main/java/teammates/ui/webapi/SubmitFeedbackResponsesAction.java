@@ -238,7 +238,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                 FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
 
                 if (existingResponsesPerRecipient.containsKey(recipient)) {
-                    String recipientSection = getRecipientSectionName(feedbackQuestion.getCourseId(),
+                    String recipientSection = getRecipientSection(feedbackQuestion.getCourseId(),
                             feedbackQuestion.getGiverType(),
                             feedbackQuestion.getRecipientType(), recipient);
                     FeedbackResponseAttributes updatedResponse =
@@ -259,7 +259,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                     FeedbackResponseAttributes feedbackResponse = FeedbackResponseAttributes
                             .builder(feedbackQuestion.getId(), giverIdentifier, recipient)
                             .withGiverSection(giverSection)
-                            .withRecipientSection(getRecipientSectionName(feedbackQuestion.getCourseId(),
+                            .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(),
                                     feedbackQuestion.getGiverType(),
                                     feedbackQuestion.getRecipientType(), recipient))
                             .withCourseId(feedbackQuestion.getCourseId())
@@ -379,13 +379,11 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         for (FeedbackResponseRequest responseRequest : responseRequests) {
             String recipient = responseRequest.getRecipient();
+            Student studentRecipient = sqlLogic.getStudentForEmail(sqlFeedbackQuestion.getCourseId(), recipient);
+            Section recipientSection = studentRecipient.getSection();
             FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
 
             if (existingResponsesPerRecipient.containsKey(recipient)) {
-                Section recipientSection = getRecipientSection(sqlFeedbackQuestion.getCourseId(),
-                        sqlFeedbackQuestion.getGiverType(),
-                        sqlFeedbackQuestion.getRecipientType(), recipient);
-
                 FeedbackResponse existingResponse = existingResponsesPerRecipient.get(recipient);
                 FeedbackResponse updatedResponse =
                         FeedbackResponse.makeResponse(
@@ -396,14 +394,10 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                 feedbackResponsesToValidate.add(updatedResponse);
                 feedbackResponsesToUpdate.add(updatedResponse);
             } else {
-                Section recipientSection = getRecipientSection(sqlFeedbackQuestion.getCourseId(),
-                        sqlFeedbackQuestion.getGiverType(),
-                        sqlFeedbackQuestion.getRecipientType(), recipient);
-
                 FeedbackResponse feedbackResponse =
                         FeedbackResponse.makeResponse(
                                 sqlFeedbackQuestion, giverIdentifier, giverSection,
-                                recipientSection.getName(), recipientSection, responseDetails);
+                                recipient, recipientSection, responseDetails);
 
                 feedbackResponsesToValidate.add(feedbackResponse);
                 feedbackResponsesToAdd.add(feedbackResponse);
