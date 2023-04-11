@@ -173,6 +173,10 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": true,
+      "isOpenEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
       "isPublishedEmailSent": false
     },
     "session2InTypicalCourse": {
@@ -191,6 +195,10 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": true,
+      "isOpenEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
       "isPublishedEmailSent": false
     }
   },

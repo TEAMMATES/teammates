@@ -234,6 +234,10 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": true,
+      "isOpenEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
       "isPublishedEmailSent": true
     },
     "session2InTypicalCourse": {
@@ -252,6 +256,10 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": true,
+      "isOpenEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
       "isPublishedEmailSent": false
     },
     "unpublishedSession1InTypicalCourse": {
@@ -270,6 +278,10 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": true,
+      "isOpenEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
       "isPublishedEmailSent": false
     }
   },
