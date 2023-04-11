@@ -15,7 +15,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 
