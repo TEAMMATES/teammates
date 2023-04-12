@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import { StringHelper } from '../../../../services/string-helper';
 import {
   FeedbackParticipantType,
   FeedbackQuestionDetails,
@@ -9,7 +10,6 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { StringHelper } from '../../../../services/string-helper';
 
 /**
  * The component that will map a generic response statistics to its specialized view component.

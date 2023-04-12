@@ -4,10 +4,10 @@
 export class StringHelper {
 
   static readonly REGEX_FOR_ANOYNMOUS_PARTICIPANT: RegExp = new RegExp(
-    "Anonymous (student|instructor|team) "
-  + "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}" 
-  + "-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}" 
-  + "-[0-9a-fA-F]{12}");
+    'Anonymous (student|instructor|team) '
+  + '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}'
+  + '-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}'
+  + '-[0-9a-fA-F]{12}');
 
   /**
    * Get the human-readable text from a HTML string.
@@ -50,6 +50,11 @@ export class StringHelper {
    */
   static removeExtraSpace(str: string): string {
     return str.trim().replace(/\s+/g, ' ');
+  }
+
+  static removeExtraSpaceAndHash(str: string): string {
+    const trimmedStr: string = str.trim().replace(/\s+/g, ' ');
+    return this.removeAnonymousHash(trimmedStr);
   }
 
   /**

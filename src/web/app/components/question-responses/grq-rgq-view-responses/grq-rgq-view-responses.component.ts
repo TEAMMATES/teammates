@@ -1,6 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import { StringHelper } from '../../../../services/string-helper';
 import {
   FeedbackParticipantType,
   FeedbackSession,
@@ -14,7 +15,6 @@ import {
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
-import { StringHelper } from '../../../../services/string-helper';
 
 /**
  * Component to display list of responses in GRQ/RGQ view.

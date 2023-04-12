@@ -143,10 +143,10 @@ export class SessionResultCsvService {
 
     for (const response of question.allResponses) {
       const giverTeamName: string = StringHelper.removeExtraSpace(response.giverTeam);
-      const giverName: string = StringHelper.removeExtraSpace(response.giver);
+      const giverName: string = StringHelper.removeExtraSpaceAndHash(response.giver);
       const giverEmail: string = response.giverEmail ? StringHelper.removeExtraSpace(response.giverEmail) : '';
       const recipientTeamName: string = StringHelper.removeExtraSpace(response.recipientTeam);
-      const recipientName: string = StringHelper.removeExtraSpace(response.recipient);
+      const recipientName: string = StringHelper.removeExtraSpaceAndHash(response.recipient);
       const recipientEmail: string =
           response.recipientEmail ? StringHelper.removeExtraSpace(response.recipientEmail) : '';
 

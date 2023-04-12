@@ -1,11 +1,15 @@
 package teammates.common.datatransfer;
 
-import teammates.common.util.Const;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import teammates.common.util.Const;
+
+/**
+ * Bundles both SessionResultsBundle
+ * and randomly generated identifier groups for anonymous participants.
+ */
 public class SessionResultsAndUserData {
 
     private final SessionResultsBundle bundle;
@@ -17,9 +21,13 @@ public class SessionResultsAndUserData {
         this.identifierMap = new HashMap<>();
     }
 
+    /**
+     * Creates new randomly generated identifier for anonymous participant,
+     * or get existing identifier if it has already been generated before.
+     */
     public String getNewIdentifier(String identifier, FeedbackParticipantType type) {
-        if(!identifierMap.containsKey(identifier)) {
-            String randomIdentifier =  UUID.randomUUID().toString();
+        if (!identifierMap.containsKey(identifier)) {
+            String randomIdentifier = UUID.randomUUID().toString();
             String participantType = type.toSingularFormString();
             String newIdentifier = String.format("%s %s %s",
                     Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT,

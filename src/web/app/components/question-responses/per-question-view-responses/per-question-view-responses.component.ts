@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import { StringHelper } from '../../../../services/string-helper';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -12,7 +13,6 @@ import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
-import { StringHelper } from '../../../../services/string-helper';
 
 /**
  * Component to display list of responses for one question.
@@ -81,7 +81,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     for (const response of this.responses) {
       response.recipient = StringHelper.removeAnonymousHash(response.recipient);
       response.giver = StringHelper.removeAnonymousHash(response.giver);
-      
+
       if (!this.indicateMissingResponses && response.isMissingResponse) {
         // filter out missing responses
         continue;
