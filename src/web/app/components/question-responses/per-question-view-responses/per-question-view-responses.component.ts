@@ -12,6 +12,7 @@ import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
+import { StringHelper } from 'src/web/services/string-helper';
 
 /**
  * Component to display list of responses for one question.
@@ -78,6 +79,9 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   private filterResponses(): void {
     const responsesToShow: ResponseOutput[] = [];
     for (const response of this.responses) {
+      response.recipient = StringHelper.removeAnonymousHash(response.recipient);
+      response.giver = StringHelper.removeAnonymousHash(response.giver);
+      
       if (!this.indicateMissingResponses && response.isMissingResponse) {
         // filter out missing responses
         continue;

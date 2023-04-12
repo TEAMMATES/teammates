@@ -77,6 +77,11 @@ export class StringHelper {
    * Removes the hash from the name of an anonymous student, instructor, or team.
    */
   static removeAnonymousHash(str: string): string {
-    return str.replace(/Anonymous (student|instructor|team) [0-9]{1,10}/, 'Anonymous $1');
+    console.log("anonymous stirng is " + str);
+    const re = new RegExp("Anonymous (student|instructor|team) "
+    + "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}" 
+    + "-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}" 
+    + "-[0-9a-fA-F]{12}");
+    return str.replace(re, 'Anonymous $1');
   }
 }

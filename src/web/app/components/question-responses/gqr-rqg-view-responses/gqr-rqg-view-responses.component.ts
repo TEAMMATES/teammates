@@ -12,6 +12,7 @@ import {
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
+import { StringHelper } from 'src/web/services/string-helper';
 
 interface QuestionTab {
   questionOutput: QuestionOutput;
@@ -221,5 +222,9 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
         }
       }
     }
+  }
+
+  removeAnonymousHash(str: string) : string {
+    return StringHelper.removeAnonymousHash(str);
   }
 }

@@ -8,6 +8,7 @@ import {
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
 import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
+import { StringHelper } from '../../../../services/string-helper';
 
 /**
  * A list of responses grouped in GRQ/RGQ mode.
@@ -51,6 +52,14 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
   ngOnInit(): void {
     this.hasRealResponses = this.responses.some((question: QuestionOutput) =>
         question.allResponses.some((response: ResponseOutput) => !response.isMissingResponse));
+
+   this.removeAnonymousHash();  
+  }
+
+  removeAnonymousHash(): void {
+    const response: ResponseOutput = this.responses[0].allResponses[0];
+    response['recipient'] = StringHelper.removeAnonymousHash(response['recipient']);
+    response['giver'] = StringHelper.removeAnonymousHash(response['giver']);
   }
 
   get teamInfo(): Record<string, string> {

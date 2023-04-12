@@ -14,6 +14,7 @@ import {
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
+import { StringHelper } from '../../../../services/string-helper';
 
 /**
  * Component to display list of responses in GRQ/RGQ view.
@@ -201,5 +202,9 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
         }
       }
     }
+  }
+
+  removeAnonymousHash(str: string) : string {
+    return StringHelper.removeAnonymousHash(str);
   }
 }

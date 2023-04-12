@@ -37,7 +37,7 @@
     <div id="user-header" class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       <div>
         {{ isGrq ? 'From' : 'To' }}:
-        {{ userInfo === '-' ? 'No Specific User' : userInfo }}
+        {{ userInfo === '-' ? 'No Specific User' : removeAnonymousHash(userInfo) }}
         {{ usersToTeams[userInfo] !== ''
           ? '('
             + (usersToTeams[userInfo] === '-' ? 'No Specific Team' : usersToTeams[userInfo])

@@ -9,6 +9,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { StringHelper } from 'src/web/services/string-helper';
 
 /**
  * The component that will map a generic response statistics to its specialized view component.
@@ -61,6 +62,11 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
 
       return this.feedbackResponsesService
           .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+    });
+
+    this.responses.forEach((response: ResponseOutput) => {
+      response.giver = StringHelper.removeAnonymousHash(response.giver);
+      response.recipient = StringHelper.removeAnonymousHash(response.recipient);
     });
   }
 
