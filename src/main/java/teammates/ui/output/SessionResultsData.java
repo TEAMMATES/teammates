@@ -1,17 +1,8 @@
 package teammates.ui.output;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-
-import javax.annotation.Nullable;
-
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.SessionResultsAndUserData;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -23,12 +14,23 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+
 /**
  * API output format for session results, including statistics.
  */
 public class SessionResultsData extends ApiOutput {
 
-    private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
+    private static final String REGEX_ANONYMOUS_PARTICIPANT_IDENTIFIER = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}" +
+            "-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}" +
+            "-[0-9a-fA-F]{12}$";
 
     final List<QuestionOutput> questions = new ArrayList<>();
 
@@ -41,6 +43,7 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForInstructor(SessionResultsBundle bundle) {
         SessionResultsData sessionResultsData = new SessionResultsData();
+        SessionResultsAndUserData sessionResultsAndUserData = new SessionResultsAndUserData(bundle);
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
@@ -51,12 +54,14 @@ public class SessionResultsData extends ApiOutput {
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionDetails.getQuestionResultStatisticsJson(question, null, bundle), false, false);
             // put normal responses
-            List<ResponseOutput> allResponses = buildResponsesForInstructor(responses, bundle, false);
+            List<ResponseOutput> allResponses =
+                    buildResponsesForInstructor(responses, sessionResultsAndUserData, false);
             qnOutput.allResponses.addAll(allResponses);
 
             // put missing responses
             List<FeedbackResponseAttributes> missingResponses = bundle.getQuestionMissingResponseMap().get(questionId);
-            qnOutput.allResponses.addAll(buildResponsesForInstructor(missingResponses, bundle, true));
+            qnOutput.allResponses.addAll(
+                    buildResponsesForInstructor(missingResponses, sessionResultsAndUserData, true));
 
             sessionResultsData.questions.add(qnOutput);
         });
@@ -69,6 +74,7 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForStudent(SessionResultsBundle bundle, StudentAttributes student) {
         SessionResultsData sessionResultsData = new SessionResultsData();
+        SessionResultsAndUserData sessionResultsAndUserData = new SessionResultsAndUserData(bundle);
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
@@ -95,7 +101,8 @@ public class SessionResultsData extends ApiOutput {
                     boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
                             && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                             || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
-                    ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
+                    ResponseOutput responseOutput =
+                            buildSingleResponseForStudent(response, sessionResultsAndUserData, student);
 
                     if (isUserRecipient) {
                         qnOutput.responsesToSelf.add(responseOutput);
@@ -131,7 +138,10 @@ public class SessionResultsData extends ApiOutput {
     }
 
     private static ResponseOutput buildSingleResponseForStudent(
-            FeedbackResponseAttributes response, SessionResultsBundle bundle, StudentAttributes student) {
+            FeedbackResponseAttributes response,
+            SessionResultsAndUserData sessionResultsAndUserData,
+            StudentAttributes student) {
+        SessionResultsBundle bundle = sessionResultsAndUserData.getBundle();
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
         boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
 
@@ -151,7 +161,7 @@ public class SessionResultsData extends ApiOutput {
             giverTeam = student.getTeam();
         } else {
             // we don't want student to figure out who is who by using the hash
-            giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle));
+            giverName = removeAnonymousHash(getGiverNameOfResponse(response, sessionResultsAndUserData));
         }
 
         // process recipient
@@ -171,7 +181,7 @@ public class SessionResultsData extends ApiOutput {
             recipientTeam = response.getRecipient();
         } else {
             // we don't want student to figure out who is who by using the hash
-            recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, bundle));
+            recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, sessionResultsAndUserData));
             if (!recipientName.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT)) {
                 recipientTeam = bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
             }
@@ -201,23 +211,26 @@ public class SessionResultsData extends ApiOutput {
 
     private static String removeAnonymousHash(String identifier) {
         return identifier.replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
-                + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
+                + REGEX_ANONYMOUS_PARTICIPANT_IDENTIFIER, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
     }
 
     private static List<ResponseOutput> buildResponsesForInstructor(
-            List<FeedbackResponseAttributes> responses, SessionResultsBundle bundle, boolean areMissingResponses) {
+            List<FeedbackResponseAttributes> responses, SessionResultsAndUserData sessionResultsAndUserData,
+            boolean areMissingResponses) {
         List<ResponseOutput> output = new ArrayList<>();
 
         for (FeedbackResponseAttributes response : responses) {
-            output.add(buildSingleResponseForInstructor(response, bundle, areMissingResponses));
+            output.add(buildSingleResponseForInstructor(response, sessionResultsAndUserData, areMissingResponses));
         }
 
         return output;
     }
 
     private static ResponseOutput buildSingleResponseForInstructor(
-            FeedbackResponseAttributes response, SessionResultsBundle bundle, boolean isMissingResponse) {
+            FeedbackResponseAttributes response, SessionResultsAndUserData sessionResultsAndUserData,
+            boolean isMissingResponse) {
         // process giver
+        SessionResultsBundle bundle = sessionResultsAndUserData.getBundle();
         String giverEmail = null;
         String relatedGiverEmail = null;
         if (bundle.isResponseGiverVisible(response)) {
@@ -231,7 +244,7 @@ public class SessionResultsData extends ApiOutput {
                 giverEmail = null;
             }
         }
-        String giverName = getGiverNameOfResponse(response, bundle);
+        String giverName = getGiverNameOfResponse(response, sessionResultsAndUserData);
         String giverTeam = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
         String giverSection = response.getGiverSection();
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
@@ -244,7 +257,7 @@ public class SessionResultsData extends ApiOutput {
 
         // process recipient
         String recipientEmail = null;
-        String recipientName = getRecipientNameOfResponse(response, bundle);
+        String recipientName = getRecipientNameOfResponse(response, sessionResultsAndUserData);
         String recipientTeam =
                 bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
         String recipientSection = response.getRecipientSection();
@@ -294,7 +307,9 @@ public class SessionResultsData extends ApiOutput {
      *
      * <p>Anonymized the name if necessary.
      */
-    private static String getGiverNameOfResponse(FeedbackResponseAttributes response, SessionResultsBundle bundle) {
+    private static String getGiverNameOfResponse(FeedbackResponseAttributes response,
+                                                 SessionResultsAndUserData sessionResultsAndUserData) {
+        SessionResultsBundle bundle = sessionResultsAndUserData.getBundle();
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
         FeedbackParticipantType participantType = question.getGiverType();
 
@@ -302,7 +317,7 @@ public class SessionResultsData extends ApiOutput {
         String name = userInfo.getName();
 
         if (!bundle.isResponseGiverVisible(response)) {
-            name = SessionResultsBundle.getAnonName(participantType, name);
+            name = sessionResultsAndUserData.getNewIdentifier(name, participantType);
         }
 
         return name;
@@ -313,7 +328,9 @@ public class SessionResultsData extends ApiOutput {
      *
      * <p>Anonymized the name if necessary.
      */
-    private static String getRecipientNameOfResponse(FeedbackResponseAttributes response, SessionResultsBundle bundle) {
+    private static String getRecipientNameOfResponse(FeedbackResponseAttributes response,
+                                                     SessionResultsAndUserData sessionResultsAndUserData) {
+        SessionResultsBundle bundle = sessionResultsAndUserData.getBundle();
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
         FeedbackParticipantType participantType = question.getRecipientType();
         if (participantType == FeedbackParticipantType.SELF) {
@@ -328,7 +345,7 @@ public class SessionResultsData extends ApiOutput {
             name = Const.USER_NOBODY_TEXT;
         }
         if (!bundle.isResponseRecipientVisible(response)) {
-            name = SessionResultsBundle.getAnonName(participantType, name);
+            name = sessionResultsAndUserData.getNewIdentifier(name, participantType);
         }
 
         return name;
@@ -446,7 +463,8 @@ public class SessionResultsData extends ApiOutput {
 
         private String giver;
         /**
-         * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
+         * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team
+         * member's
          * email or null.
          */
         @Nullable
