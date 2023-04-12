@@ -3,6 +3,12 @@
  */
 export class StringHelper {
 
+  static readonly REGEX_FOR_ANOYNMOUS_PARTICIPANT: RegExp = new RegExp(
+    "Anonymous (student|instructor|team) "
+  + "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}" 
+  + "-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}" 
+  + "-[0-9a-fA-F]{12}");
+
   /**
    * Get the human-readable text from a HTML string.
    */
@@ -77,11 +83,6 @@ export class StringHelper {
    * Removes the hash from the name of an anonymous student, instructor, or team.
    */
   static removeAnonymousHash(str: string): string {
-    console.log("anonymous stirng is " + str);
-    const re = new RegExp("Anonymous (student|instructor|team) "
-    + "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}" 
-    + "-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}" 
-    + "-[0-9a-fA-F]{12}");
-    return str.replace(re, 'Anonymous $1');
+    return str.replace(StringHelper.REGEX_FOR_ANOYNMOUS_PARTICIPANT, 'Anonymous $1');
   }
 }
