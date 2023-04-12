@@ -93,15 +93,15 @@ describe('integerToLowerCaseAlphabeticalIndex', () => {
 
 describe('removeAnonymousHash', () => {
   it('should remove hash for anonymous student', () => {
-    expect(StringHelper.removeAnonymousHash('Anonymous student 1234567890')).toEqual('Anonymous student');
+    expect(StringHelper.removeAnonymousHash('Anonymous student 058a9d0a-1ccc-4459-9081-e5162dbf9004')).toEqual('Anonymous student');
   });
 
   it('should remove hash for anonymous instructor', () => {
-    expect(StringHelper.removeAnonymousHash('Anonymous instructor 5555')).toEqual('Anonymous instructor');
+    expect(StringHelper.removeAnonymousHash('Anonymous instructor 862b7530-b1c5-420e-babd-87ab89bb2a2e')).toEqual('Anonymous instructor');
   });
 
   it('should remove hash for anonymous team', () => {
-    expect(StringHelper.removeAnonymousHash('Anonymous team 00001111')).toEqual('Anonymous team');
+    expect(StringHelper.removeAnonymousHash('Anonymous team 4cae3358-eadb-4204-8050-4ab38fdfd385')).toEqual('Anonymous team');
   });
 
   it('should not remove hash for regular name', () => {

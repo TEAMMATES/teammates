@@ -9,7 +9,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { StringHelper } from 'src/web/services/string-helper';
+import { StringHelper } from '../../../../services/string-helper';
 
 /**
  * The component that will map a generic response statistics to its specialized view component.

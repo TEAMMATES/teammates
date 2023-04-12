@@ -52,8 +52,10 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
   ngOnInit(): void {
     this.hasRealResponses = this.responses.some((question: QuestionOutput) =>
         question.allResponses.some((response: ResponseOutput) => !response.isMissingResponse));
-
-   this.removeAnonymousHash();  
+        
+    if (this.hasRealResponses) {
+      this.removeAnonymousHash(); 
+    }
   }
 
   removeAnonymousHash(): void {

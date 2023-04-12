@@ -12,7 +12,7 @@ import {
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
-import { StringHelper } from 'src/web/services/string-helper';
+import { StringHelper } from '../../../../services/string-helper';
 
 interface QuestionTab {
   questionOutput: QuestionOutput;
