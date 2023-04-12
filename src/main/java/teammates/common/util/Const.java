@@ -22,6 +22,12 @@ public final class Const {
 
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
 
+    public static final String REGEX_FOR_ANONYMOUS_PARTICIPANT = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
+            + "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}" +
+            "-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}" +
+            "-[0-9a-fA-F]{12}$";
+
+
     public static final int SECTION_SIZE_LIMIT = 100;
 
     public static final String DEFAULT_SECTION = "None";

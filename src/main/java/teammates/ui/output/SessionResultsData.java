@@ -28,10 +28,6 @@ import java.util.Queue;
  */
 public class SessionResultsData extends ApiOutput {
 
-    private static final String REGEX_ANONYMOUS_PARTICIPANT_IDENTIFIER = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}" +
-            "-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}" +
-            "-[0-9a-fA-F]{12}$";
-
     final List<QuestionOutput> questions = new ArrayList<>();
 
     SessionResultsData() {
@@ -210,8 +206,8 @@ public class SessionResultsData extends ApiOutput {
     }
 
     private static String removeAnonymousHash(String identifier) {
-        return identifier.replaceAll(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " (student|instructor|team) "
-                + REGEX_ANONYMOUS_PARTICIPANT_IDENTIFIER, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
+        return identifier.replaceAll(Const.REGEX_FOR_ANONYMOUS_PARTICIPANT,
+                Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
     }
 
     private static List<ResponseOutput> buildResponsesForInstructor(

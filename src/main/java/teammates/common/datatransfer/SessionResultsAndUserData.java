@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SessionResultsAndUserData {
-    private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
     private final SessionResultsBundle bundle;
 
