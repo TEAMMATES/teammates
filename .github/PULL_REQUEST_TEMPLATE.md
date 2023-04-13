@@ -11,5 +11,4 @@ Fixes #
 **Outline of Solution**
 
 <!-- Give a brief description of how you solved the issue. -->
-<!-- If the solution includes any changes in UI, do also attach screenshots of the new UI. -->
-<!-- This portion can be skipped if the fix is trivial. -->
+<!-- If the solution includes any changes in UI, do also attach screenshots of the new UI. --> 
