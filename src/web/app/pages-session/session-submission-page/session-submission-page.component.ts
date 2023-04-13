@@ -740,7 +740,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               });
             }
           });
-      
+
       isQuestionFullyAnswered = responses.length > 0;
 
       if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
