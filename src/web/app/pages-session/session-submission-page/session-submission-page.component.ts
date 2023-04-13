@@ -746,7 +746,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * only. This parameter will be null when saving responses for all questions or saving responses for one question.
    */
   saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[],
-                        isSubmitAll: boolean, isSubmitForSingleRecipient: boolean, recipientId: string | null): void {
+                        isSubmitAll: boolean, recipientId: string | null): void {
     if (isSubmitAll) {
       this.isSubmitAllClicked = true;
     }
@@ -802,7 +802,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               intent: this.intent,
               key: this.regKey,
               moderatedperson: this.moderatedPerson,
-              issinglerecipientsubmission: isSubmitForSingleRecipient.toString(),
+              singlerecipientidforsubmission: recipientId?.toString() || '',
             }).pipe(
                 tap((resp: FeedbackResponses) => {
                   const responsesMap: Record<string, FeedbackResponse> = {};
@@ -1033,7 +1033,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       .filter((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
           questionsToRecipient!.has(questionSubmissionFormModel.questionNumber));
 
-    this.saveFeedbackResponses(recipientQSForms, false, true, recipientId);
+    this.saveFeedbackResponses(recipientQSForms, false, recipientId);
   }
 
   private addQuestionForRecipient(recipientId: string, questionId: any): void {
