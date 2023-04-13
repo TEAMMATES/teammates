@@ -305,6 +305,26 @@ public class Logic {
     }
 
     /**
+     * Updates a deadline extension.
+     *
+     * @return updated deadline extension
+     * @throws EntityDoesNotExistException if the deadline extension does not exist
+     * @throws InvalidParametersException if the deadline extension is not valid
+     *
+     */
+    public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return deadlineExtensionsLogic.updateDeadlineExtension(de);
+    }
+
+    /**
+     * Deletes a deadline extension.
+     */
+    public void deleteDeadlineExtension(DeadlineExtension de) {
+        deadlineExtensionsLogic.deleteDeadlineExtension(de);
+    }
+
+    /**
      * Fetch the deadline extension for a given user and session feedback.
      *
      * @return deadline extension instant if exists, else the default end time instant
@@ -364,6 +384,16 @@ public class Logic {
         assert courseId != null;
 
         return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Updates a feedback session.
+     *
+     * @return returns the updated feedback session.
+     */
+    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackSessionsLogic.updateFeedbackSession(feedbackSession);
     }
 
     /**
@@ -653,6 +683,20 @@ public class Logic {
      */
     public Student getStudentForEmail(String courseId, String email) {
         return usersLogic.getStudentForEmail(courseId, email);
+    }
+
+    /**
+     * Check if the students with the provided emails exist in the course.
+     */
+    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
+        return usersLogic.verifyStudentsExistInCourse(courseId, emails);
+    }
+
+    /**
+     * Check if the instructors with the provided emails exist in the course.
+     */
+    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
+        return usersLogic.verifyInstructorsExistInCourse(courseId, emails);
     }
 
     /**
