@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { CourseService } from '../../../services/course.service';
@@ -20,7 +20,6 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -275,6 +274,7 @@ describe('InstructorCoursesPageComponent', () => {
         RouterTestingModule,
         TeammatesRouterModule,
         NgbModule,
+        NgbDropdownModule,
         BrowserAnimationsModule,
         LoadingSpinnerModule,
         AjaxLoadingModule,
