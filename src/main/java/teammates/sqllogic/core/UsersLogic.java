@@ -4,7 +4,9 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -88,6 +90,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets instructors matching any of the specified emails.
+     */
+    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
+        return usersDb.getInstructorsForEmails(courseId, userEmails);
+    }
+
+    /**
      * Gets an instructor by associated {@code regkey}.
      */
     public Instructor getInstructorByRegistrationKey(String regKey) {
@@ -136,6 +145,21 @@ public final class UsersLogic {
         sortByName(instructorReturnList);
 
         return instructorReturnList;
+    }
+
+    /**
+     * Check if the instructors with the provided emails exist in the course.
+     */
+    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
+        List<Instructor> instructors = usersDb.getInstructorsForEmails(courseId, emails);
+        Map<String, User> emailInstructorMap = convertUserListToEmailUserMap(instructors);
+
+        for (String email : emails) {
+            if (!emailInstructorMap.containsKey(email)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -228,6 +252,21 @@ public final class UsersLogic {
      */
     public Student getStudentForEmail(String courseId, String userEmail) {
         return usersDb.getStudentForEmail(courseId, userEmail);
+    }
+
+    /**
+    * Check if the students with the provided emails exist in the course.
+    */
+    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
+        List<Student> students = usersDb.getStudentsForEmails(courseId, emails);
+        Map<String, User> emailStudentMap = convertUserListToEmailUserMap(students);
+
+        for (String email : emails) {
+            if (!emailStudentMap.containsKey(email)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -408,5 +447,18 @@ public final class UsersLogic {
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> instructor.getCourse())
                 .anyMatch(course -> institute.equals(course.getInstitute()));
+    }
+
+    /**
+     * Utility function to convert user list to email-user map for faster email lookup.
+     *
+     * @param users users list which contains users with unique email addresses
+     * @return email-user map for faster email lookup
+     */
+    private Map<String, User> convertUserListToEmailUserMap(List<? extends User> users) {
+        Map<String, User> emailUserMap = new HashMap<>();
+        users.forEach(u -> emailUserMap.put(u.getEmail(), u));
+
+        return emailUserMap;
     }
 }
