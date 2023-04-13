@@ -99,6 +99,8 @@ export class QuestionEditFormComponent {
         }
       }
     }
+
+    this.unsavedModel = JSON.parse(JSON.stringify(this.model));
   }
 
   /**
@@ -161,6 +163,45 @@ export class QuestionEditFormComponent {
     isQuestionDetailsChanged: false,
   };
 
+  unsavedModel: QuestionEditFormModel = {
+    feedbackQuestionId: '',
+
+    questionNumber: 0,
+    questionBrief: '',
+    questionDescription: '',
+
+    isQuestionHasResponses: false,
+
+    questionType: FeedbackQuestionType.TEXT,
+    questionDetails: {
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: '',
+    } as FeedbackTextQuestionDetails,
+
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
+
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 1,
+
+    showResponsesTo: [],
+    showGiverNameTo: [],
+    showRecipientNameTo: [],
+
+    commonVisibilitySettingName: '',
+
+    isUsingOtherFeedbackPath: false,
+    isUsingOtherVisibilitySetting: false,
+    isDeleting: false,
+    isDuplicating: false,
+    isEditable: false,
+    isSaving: false,
+    isCollapsed: false,
+    isVisibilityChanged: false,
+    isFeedbackPathChanged: false,
+    isQuestionDetailsChanged: false,
+  };
+
   @Output()
   formModelChange: EventEmitter<QuestionEditFormModel> = new EventEmitter();
 
@@ -172,12 +213,6 @@ export class QuestionEditFormComponent {
 
   @Output()
   duplicateCurrentQuestionEvent: EventEmitter<void> = new EventEmitter();
-
-  @Output()
-  discardExistingQuestionChangesEvent: EventEmitter<void> = new EventEmitter();
-
-  @Output()
-  discardNewQuestionEvent: EventEmitter<void> = new EventEmitter();
 
   @Output()
   createNewQuestionEvent: EventEmitter<void> = new EventEmitter();
@@ -201,41 +236,42 @@ export class QuestionEditFormComponent {
     return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
   }
 
-  /**
-   * Triggers the change of the model for the form.
-   */
-  triggerModelChange(field: keyof QuestionEditFormModel,
-                     data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
-    this.formModelChange.emit({
-      ...this.model,
-      [field]: data,
-      ...(!this.model.isVisibilityChanged && VISIBILITY_PROPERTIES.has(field)
-        && { isVisibilityChanged: true }),
-      ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field)
-        && { isFeedbackPathChanged: true }),
-      ...(!this.model.isQuestionDetailsChanged && QUESTION_DETAIL_PROPERTIES.has(field)
-        && { isQuestionDetailsChanged: true }),
-    });
-  }
 
   /**
-   * Triggers the change of the model for the form.
+   * Triggers the change of the unsaved model for the form.
    */
-  triggerModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
-    this.formModelChange.emit({
-      ...this.model,
-      ...obj,
-      ...(!this.model.isVisibilityChanged
-          && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
-          && { isVisibilityChanged: true }),
-      ...(!this.model.isFeedbackPathChanged
-          && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
-          && { isFeedbackPathChanged: true }),
-      ...(!this.model.isQuestionDetailsChanged
-          && Object.keys(obj).some((key: string) => QUESTION_DETAIL_PROPERTIES.has(key))
-          && { isQuestionDetailsChanged: true }),
-    });
+  triggerUnsavedModelChange(field: keyof QuestionEditFormModel,
+                     data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
+    this.unsavedModel = {
+      ...this.unsavedModel,
+      [field]: data,
+      ...(!this.unsavedModel.isVisibilityChanged && VISIBILITY_PROPERTIES.has(field)
+        && { isVisibilityChanged: true }),
+      ...(!this.unsavedModel.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field)
+        && { isFeedbackPathChanged: true }),
+      ...(!this.unsavedModel.isQuestionDetailsChanged && QUESTION_DETAIL_PROPERTIES.has(field)
+        && { isQuestionDetailsChanged: true }),
+    };
   }
+
+    /**
+   * Triggers the change of the unsaved model for the form.
+   */
+    triggerUnsavedModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
+      this.unsavedModel = {
+        ...this.unsavedModel,
+        ...obj,
+        ...(!this.unsavedModel.isVisibilityChanged
+            && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
+            && { isVisibilityChanged: true }),
+        ...(!this.unsavedModel.isFeedbackPathChanged
+            && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
+            && { isFeedbackPathChanged: true }),
+        ...(!this.unsavedModel.isQuestionDetailsChanged
+            && Object.keys(obj).some((key: string) => QUESTION_DETAIL_PROPERTIES.has(key))
+            && { isQuestionDetailsChanged: true }),
+      };
+    }
 
   /**
    * Helper methods to create a range.
@@ -251,39 +287,28 @@ export class QuestionEditFormComponent {
   /**
    * Handle event to discard changes users made.
    */
-  discardChangesHandler(isNewQuestion: boolean): void {
-    if (!this.model.isVisibilityChanged
-      && !this.model.isFeedbackPathChanged
-      && !this.model.isQuestionDetailsChanged) {
-      this.discardChanges();
+  discardChangesHandler(isNewQuestion: boolean): void {;
+    if (!this.checkChangesNeedWarning()) {
+      this.unsavedModel = JSON.parse(JSON.stringify(this.model));
       return;
     }
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+
+    this.simpleModalService.openConfirmationModal(
         `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING,
         'Warning: Any unsaved changes will be lost',
         { cancelMessage: 'No, go back to editing' });
-    modalRef.result.then(() => {
-      this.discardChanges();
-    }, () => {});
-  }
-
-  private discardChanges(): void {
-    if (this.formMode === QuestionEditFormMode.EDIT) {
-      this.discardExistingQuestionChangesEvent.emit();
-    }
-    if (this.formMode === QuestionEditFormMode.ADD) {
-      this.discardNewQuestionEvent.emit();
-    }
   }
 
   /**
    * Saves the question.
    */
   saveQuestionHandler(): void {
+    const doChangesNeedWarning: boolean = this.checkChangesNeedWarning();
+    this.model = {...this.unsavedModel};
+    this.formModelChange.emit(this.model);
+
     if (this.formMode === QuestionEditFormMode.EDIT) {
-      const doChangesNeedWarning: boolean = this.model.isQuestionDetailsChanged
-        || this.model.isVisibilityChanged
-        || this.model.isFeedbackPathChanged;
+
       if (!this.isQuestionPublished && (!this.model.isQuestionHasResponses || !doChangesNeedWarning)) {
         this.saveExistingQuestionEvent.emit();
       } else if (this.model.isFeedbackPathChanged) {
@@ -322,9 +347,65 @@ export class QuestionEditFormComponent {
         }, () => {});
       }
     }
+
     if (this.formMode === QuestionEditFormMode.ADD) {
       this.createNewQuestionEvent.emit();
     }
+  }
+
+  private checkChangesNeedWarning(): boolean {
+    this.unsavedModel.isVisibilityChanged &&= this.checkPropertyValuesDifferent(FEEDBACK_PATH_PROPERTIES);
+    this.unsavedModel.isQuestionDetailsChanged &&= this.checkVisibilityValuesDifferent();
+    this.unsavedModel.isFeedbackPathChanged &&= this.checkPropertyValuesDifferent(QUESTION_DETAIL_PROPERTIES);
+   
+    return this.unsavedModel.isVisibilityChanged
+    || this.unsavedModel.isQuestionDetailsChanged
+    || this.unsavedModel.isFeedbackPathChanged;
+  }
+
+  private checkPropertyValuesDifferent(properties: Set<string>): boolean {
+    for(var property of properties) {
+      const field: keyof QuestionEditFormModel 
+      = property as keyof QuestionEditFormModel;
+      if(this.model[field] !== this.unsavedModel[field]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private checkVisibilityValuesDifferent(): boolean {
+    if (this.model['isUsingOtherVisibilitySetting'] 
+    !== this.unsavedModel['isUsingOtherVisibilitySetting']) {
+      return true;
+    }
+
+    if (this.model['commonVisibilitySettingName'] 
+    !== this.unsavedModel['commonVisibilitySettingName']) {
+      return true;
+    }
+
+    return this.checkValueArrayDifferent('showResponsesTo')
+    || this.checkValueArrayDifferent('showGiverNameTo')
+    || this.checkValueArrayDifferent('showRecipientNameTo')
+
+  }
+
+  private checkValueArrayDifferent(property: string) : boolean {
+    const field: keyof QuestionEditFormModel
+    = property as keyof QuestionEditFormModel;
+    
+    const modelValueArray: any[]= this.model[field] as any[];
+    const unsavedModelValueArray: any[] = this.unsavedModel[field] as any[];
+
+    if(!modelValueArray || !unsavedModelValueArray
+      || modelValueArray.length !== unsavedModelValueArray.length) {
+        return true;
+      }
+
+    return modelValueArray.some((value, index) => 
+    value !== unsavedModelValueArray[index])
   }
 
   /**
