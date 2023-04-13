@@ -131,9 +131,9 @@
               <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">
                 Enroll
               </button>
-              <div [ngbDropdown]="i == 0 ? 'dropdown-up' : 'dropdown-down'" class="d-inline-block">
+              <div [ngbDropdown]="i === 0 ? 'dropdown-up' : 'dropdown-down'" class="d-inline-block">
                 <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
-                <div ngbDropdownMenu [class.dropup]="i == 0">
+                <div ngbDropdownMenu [class.dropup]="i === 0">
                   <a class="btn btn-primary btn-sm dropdown-item clickable"
                           tmRouterLink="/web/instructor/courses/details"
                           [queryParams]="{courseid: course.course.courseId}">
