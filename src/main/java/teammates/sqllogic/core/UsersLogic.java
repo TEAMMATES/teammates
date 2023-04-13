@@ -277,6 +277,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all students associated with a googleId.
+     */
+    public List<Student> getAllStudentsByGoogleId(String googleId) {
+        return usersDb.getAllStudentsByGoogleId(googleId);
+    }
+
+    /**
      * Gets a list of students for the specified course.
      */
     public List<Student> getStudentsForCourse(String courseId) {

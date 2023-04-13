@@ -3,6 +3,7 @@ package teammates.sqllogic.core;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
+import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 
 /**
@@ -26,6 +29,8 @@ public final class CoursesLogic {
 
     private CoursesDb coursesDb;
 
+    private UsersLogic usersLogic;
+
     // private FeedbackSessionsLogic fsLogic;
 
     private CoursesLogic() {
@@ -36,8 +41,9 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic) {
         this.coursesDb = coursesDb;
+        this.usersLogic = usersLogic;
         // this.fsLogic = fsLogic;
     }
 
@@ -58,6 +64,48 @@ public final class CoursesLogic {
      */
     public Course getCourse(String courseId) {
         return coursesDb.getCourse(courseId);
+    }
+
+    /**
+     * Returns a list of {@link Course} for all courses a given student is enrolled in.
+     *
+     * @param googleId The Google ID of the student
+     */
+    public List<Course> getCoursesForStudentAccount(String googleId) {
+        List<Student> students = usersLogic.getAllStudentsByGoogleId(googleId);
+
+        return students
+                .stream()
+                .map(Student::getCourse)
+                .filter(course -> !course.isCourseDeleted())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a list of {@link Course} for all courses for a given list of instructors
+     * except for courses in Recycle Bin.
+     */
+    public List<Course> getCoursesForInstructors(List<Instructor> instructors) {
+        assert instructors != null;
+
+        return instructors
+                .stream()
+                .map(Instructor::getCourse)
+                .filter(course -> !course.isCourseDeleted())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a list of soft-deleted {@link Course} for a given list of instructors.
+     */
+    public List<Course> getSoftDeletedCoursesForInstructors(List<Instructor> instructors) {
+        assert instructors != null;
+
+        return instructors
+                .stream()
+                .map(Instructor::getCourse)
+                .filter(course -> course.isCourseDeleted())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -189,4 +237,12 @@ public final class CoursesLogic {
     public List<Team> getTeamsForCourse(String courseId) {
         return coursesDb.getTeamsForCourse(courseId);
     }
+
+    /**
+     * Sorts the courses list alphabetically by id.
+     */
+    public static void sortById(List<Course> courses) {
+        courses.sort(Comparator.comparing(Course::getId));
+    }
+
 }
