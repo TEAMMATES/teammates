@@ -14,24 +14,24 @@ component TestDriver {
         }
 
         folder "::common" as Common {
-            rectangle "Test cases that do not need \n simulated GAE environment" as TC1
+            rectangle "Test cases that do not need \n simulated database" as TC1
         }
 
-       folder "::logic, ::storage, ::webapi" as LogicStorageWebAPI {
-            rectangle "Test cases that need stimulated \n GAE environment" as TC2
+       folder "::logic, ::storage, ::ui" as LogicStorageWebAPI {
+            rectangle "Test cases that need \n simulated database" as TC2
        }
     }
 
     package test {
         rectangle BaseTestCase
-        rectangle BaseComponentTestCase
+        rectangle BaseTestCaseWithDatabaseAccess
         rectangle "Mock*" as Mock
         rectangle TestProperties
-        rectangle GaeSimulation
         rectangle FileHelper
     }
 }
 
+file test.properties
 rectangle TestNG
 rectangle Jest
 rectangle LocalFilesForTesting
@@ -39,16 +39,15 @@ rectangle LocalFilesForTesting
 TestNG ..> TestCases
 Jest ..> FrontEndUnitTests
 TC1 -> BaseTestCase
-TC2 -> BaseComponentTestCase
-BaseComponentTestCase -> BaseTestCase
-BaseComponentTestCase ..> GaeSimulation
+TC2 -> BaseTestCaseWithDatabaseAccess
+BaseTestCaseWithDatabaseAccess -> BaseTestCase
 FileHelper ..> LocalFilesForTesting
+TestProperties ..> test.properties
 
 ' The hidden associations are for positioning purposes only
 TestCases -[hidden]down- test
-BaseComponentTestCase -[hidden]down- Mock
-BaseComponentTestCase -[hidden]down- TestProperties
-BaseTestCase -[hidden]down- GaeSimulation
+BaseTestCaseWithDatabaseAccess -[hidden]down- Mock
+BaseTestCaseWithDatabaseAccess -[hidden]down- TestProperties
 BaseTestCase -[hidden]down- FileHelper
 
 

@@ -7,7 +7,7 @@
       "giverSection": "",
       "recipient": "Alice",
       "recipientTeam": "Team 1",
-      "recipientEmail": "",
+      "recipientEmail": "alice@gmail.com",
       "recipientSection": "",
       "responseDetails": {
         "answer": "optionA",
@@ -23,7 +23,7 @@
       "giverSection": "",
       "recipient": "Bob",
       "recipientTeam": "Team 2",
-      "recipientEmail": "",
+      "recipientEmail": "bob@gmail.com",
       "recipientSection": "",
       "responseDetails": {
         "answer": "optionA",
@@ -39,7 +39,7 @@
       "giverSection": "",
       "recipient": "Charles",
       "recipientTeam": "Team 1",
-      "recipientEmail": "",
+      "recipientEmail": "charles@gmail.com",
       "recipientSection": "",
       "responseDetails": {
         "answer": "optionB",
@@ -57,7 +57,7 @@
       "giverSection": "",
       "recipient": "Alice",
       "recipientTeam": "Team 1",
-      "recipientEmail": "",
+      "recipientEmail": "alice@gmail.com",
       "recipientSection": "",
       "responseDetails": {
         "answer": "etcetra",
@@ -73,7 +73,7 @@
       "giverSection": "",
       "recipient": "Bob",
       "recipientTeam": "Team 2",
-      "recipientEmail": "",
+      "recipientEmail": "bob@gmail.com",
       "recipientSection": "",
       "responseDetails": {
         "answer": "optionA",
@@ -89,7 +89,7 @@
       "giverSection": "",
       "recipient": "Charles",
       "recipientTeam": "Team 1",
-      "recipientEmail": "",
+      "recipientEmail": "charles@gmail.com",
       "recipientSection": "",
       "responseDetails": {
         "answer": "optionB",
@@ -104,6 +104,7 @@
       "Alice": {
         "average": 1,
         "recipient": "Alice",
+        "recipientEmail": "alice@gmail.com",
         "recipientTeam": "Team 1",
         "responses": {
           "optionA": 1,
@@ -115,6 +116,7 @@
       "Bob": {
         "average": 1,
         "recipient": "Bob",
+        "recipientEmail": "bob@gmail.com",
         "recipientTeam": "Team 2",
         "responses": {
           "optionA": 1,
@@ -126,6 +128,7 @@
       "Charles": {
         "average": 2,
         "recipient": "Charles",
+        "recipientEmail": "charles@gmail.com",
         "recipientTeam": "Team 1",
         "responses": {
           "optionA": 0,
@@ -140,6 +143,7 @@
       "Alice": {
         "average": 4,
         "recipient": "Alice",
+        "recipientEmail": "alice@gmail.com",
         "recipientTeam": "Team 1",
         "responses": {
           "Other": 1,
@@ -152,6 +156,7 @@
       "Bob": {
         "average": 1,
         "recipient": "Bob",
+        "recipientEmail": "bob@gmail.com",
         "recipientTeam": "Team 2",
         "responses": {
           "Other": 0,
@@ -164,6 +169,7 @@
       "Charles": {
         "average": 2,
         "recipient": "Charles",
+        "recipientEmail": "charles@gmail.com",
         "recipientTeam": "Team 1",
         "responses": {
           "Other": 0,

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -17,6 +18,8 @@ import teammates.common.util.StringHelper;
 public class SessionResultsBundle {
 
     private final Map<String, FeedbackQuestionAttributes> questionsMap;
+    private final Map<String, FeedbackQuestionAttributes> questionsNotVisibleForPreviewMap;
+    private final Set<String> questionsWithCommentNotVisibleForPreview;
     private final Map<String, List<FeedbackResponseAttributes>> questionResponseMap;
     private final Map<String, List<FeedbackResponseAttributes>> questionMissingResponseMap;
     private final Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap;
@@ -26,6 +29,8 @@ public class SessionResultsBundle {
     private final CourseRoster roster;
 
     public SessionResultsBundle(Map<String, FeedbackQuestionAttributes> questionsMap,
+                                Map<String, FeedbackQuestionAttributes> questionsNotVisibleForPreviewMap,
+                                Set<String> questionsWithCommentNotVisibleForPreview,
                                 List<FeedbackResponseAttributes> responses,
                                 List<FeedbackResponseAttributes> missingResponses,
                                 Map<String, Boolean> responseGiverVisibilityTable,
@@ -35,6 +40,8 @@ public class SessionResultsBundle {
                                 CourseRoster roster) {
 
         this.questionsMap = questionsMap;
+        this.questionsNotVisibleForPreviewMap = questionsNotVisibleForPreviewMap;
+        this.questionsWithCommentNotVisibleForPreview = questionsWithCommentNotVisibleForPreview;
         this.responseCommentsMap = responseCommentsMap;
         this.responseGiverVisibilityTable = responseGiverVisibilityTable;
         this.responseRecipientVisibilityTable = responseRecipientVisibilityTable;
@@ -135,6 +142,14 @@ public class SessionResultsBundle {
 
     public Map<String, FeedbackQuestionAttributes> getQuestionsMap() {
         return questionsMap;
+    }
+
+    public Map<String, FeedbackQuestionAttributes> getQuestionsNotVisibleForPreviewMap() {
+        return questionsNotVisibleForPreviewMap;
+    }
+
+    public Set<String> getQuestionsWithCommentNotVisibleForPreview() {
+        return questionsWithCommentNotVisibleForPreview;
     }
 
     public Map<String, List<FeedbackResponseCommentAttributes>> getResponseCommentsMap() {
