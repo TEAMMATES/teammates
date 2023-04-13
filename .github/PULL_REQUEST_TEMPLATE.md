@@ -3,11 +3,9 @@
 
 <!-- PR title: Copy-and-paste the name of the issue this PR is fixing, -->
 <!-- and include the issue number in front in square brackets. -->
-<!-- e.g. [#3942] Remove unnecessary System.out.printlns from Java files. -->
-<!-- If your PR only fixes part of the issue, there is no need to copy-paste the issue name. -->
+<!-- e.g. [#3942] Remove unnecessary System.out.printlns from Java files -->
 
-<!-- Add the issue number to the "Fixes" keyword below, e.g. Fixes #3942. -->
-<!-- If your PR only fixes part of the issue, change "Fixes" to "Part of". -->
+<!-- Add the issue number to the "Fixes" keyword below, e.g. Fixes #3942 -->
 Fixes #
 
 **Outline of Solution**
