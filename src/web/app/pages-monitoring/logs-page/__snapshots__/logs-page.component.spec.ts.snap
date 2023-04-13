@@ -232,7 +232,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </div>
             </div>
             <div
-              class="col-md-4 mb-2"
+              class="col-md-4 mb-4"
               id="logs-to-timepicker"
             >
               <ngb-timepicker
