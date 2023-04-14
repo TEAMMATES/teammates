@@ -178,6 +178,18 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Updates a feedback session.
+     *
+     * @return updated feedback session
+     * @throws EntityDoesNotExistException if the feedback session does not exist
+     * @throws InvalidParametersException if the new fields for feedback session are invalid
+     */
+    public FeedbackSession updateFeedbackSession(FeedbackSession session)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return fsDb.updateFeedbackSession(session);
+    }
+
+    /**
      * Unpublishes a feedback session.
      *
      * @return the unpublished feedback session
