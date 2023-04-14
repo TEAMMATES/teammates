@@ -223,7 +223,6 @@ export class QuestionEditFormComponent {
   @Output()
   discardNewQuestionEvent: EventEmitter<void> = new EventEmitter();
 
-
   commonFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
 
   allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
@@ -243,7 +242,6 @@ export class QuestionEditFormComponent {
     return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
   }
 
-
   /**
    * Triggers the change of the unsaved model for the form.
    */
@@ -261,7 +259,7 @@ export class QuestionEditFormComponent {
     };
   }
 
-    /**
+  /**
    * Triggers the change of the unsaved model for the form.
    */
     triggerUnsavedModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
@@ -294,7 +292,7 @@ export class QuestionEditFormComponent {
   /**
    * Handle event to discard changes users made.
    */
-  discardChangesHandler(isNewQuestion: boolean): void {;
+  discardChangesHandler(isNewQuestion: boolean): void {
     if (!this.checkChangesNeedWarning()) {
       this.discardChanges();
       return;
@@ -304,7 +302,7 @@ export class QuestionEditFormComponent {
       `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING,
       'Warning: Any unsaved changes will be lost',
       { cancelMessage: 'No, go back to editing' });
-      
+
       modalRef.result.then(() => {
         this.discardChanges();
       }, () => {});
@@ -320,13 +318,12 @@ export class QuestionEditFormComponent {
     }
   }
 
-
   /**
    * Saves the question.
    */
   saveQuestionHandler(): void {
     const doChangesNeedWarning: boolean = this.checkChangesNeedWarning();
-    this.model = {...this.unsavedModel};
+    this.model = { ...this.unsavedModel };
     this.formModelChange.emit(this.model);
 
     if (this.formMode === QuestionEditFormMode.EDIT) {
@@ -376,10 +373,10 @@ export class QuestionEditFormComponent {
   }
 
   private checkChangesNeedWarning(): boolean {
-    this.unsavedModel.isVisibilityChanged &&=  this.checkVisibilityValuesDifferent(); 
+    this.unsavedModel.isVisibilityChanged &&= this.checkVisibilityValuesDifferent();
     this.unsavedModel.isQuestionDetailsChanged &&= this.checkQuestionDetailValuesDifferent();
     this.unsavedModel.isFeedbackPathChanged &&= this.checkPropertyValuesDifferent(FEEDBACK_PATH_PROPERTIES);
-   
+
     return this.unsavedModel.isVisibilityChanged
     || this.unsavedModel.isQuestionDetailsChanged
     || this.unsavedModel.isFeedbackPathChanged;
@@ -393,8 +390,8 @@ export class QuestionEditFormComponent {
   }
 
   private checkFeedbackQuestionDetailsDifferent(): boolean {
-    const modelQuestionDetails = this.model['questionDetails'];
-    const unsavedModelQuestionDetails = this.unsavedModel['questionDetails'];
+    const modelQuestionDetails = this.model.questionDetails;
+    const unsavedModelQuestionDetails = this.unsavedModel.questionDetails;
 
     const modelQuestionText = modelQuestionDetails.questionText;
     const unsavedModelQuestionText = unsavedModelQuestionDetails.questionText;
@@ -407,8 +404,8 @@ export class QuestionEditFormComponent {
   }
 
   private checkPropertyValuesDifferent(properties: Set<string>): boolean {
-    for(var property of properties) {
-      if(this.checkPropertyValueDifferent(property)){
+    for (const property of properties) {
+      if (this.checkPropertyValueDifferent(property)) {
         return true;
       }
     }
@@ -417,8 +414,8 @@ export class QuestionEditFormComponent {
   }
 
   private checkPropertyValueDifferent(property: string): boolean {
-    const field: keyof QuestionEditFormModel 
-    = property as keyof QuestionEditFormModel;
+    const field: keyof QuestionEditFormModel =
+    property as keyof QuestionEditFormModel;
 
     const modelField = this.model[field];
     const unsavedModelField = this.unsavedModel[field];
@@ -428,32 +425,32 @@ export class QuestionEditFormComponent {
   }
 
   private checkVisibilityValuesDifferent(): boolean {
-    if (this.unsavedModel['isUsingOtherVisibilitySetting']) {
-      this.unsavedModel['commonVisibilitySettingName'] = undefined;
+    if (this.unsavedModel.isUsingOtherVisibilitySetting) {
+      this.unsavedModel.commonVisibilitySettingName = undefined;
     }
 
     return this.checkPropertyValueDifferent('isUsingOtherVisibilitySetting')
     || this.checkPropertyValueDifferent('commonVisibilitySettingName')
-  
+
     || this.checkValueArrayDifferent('showResponsesTo')
     || this.checkValueArrayDifferent('showGiverNameTo')
     || this.checkValueArrayDifferent('showRecipientNameTo');
   }
 
   private checkValueArrayDifferent(property: string) : boolean {
-    const field: keyof QuestionEditFormModel
-    = property as keyof QuestionEditFormModel;
-    
-    const modelValueArray: any[]= this.model[field] as any[];
+    const field: keyof QuestionEditFormModel =
+    property as keyof QuestionEditFormModel;
+
+    const modelValueArray: any[] = this.model[field] as any[];
     const unsavedModelValueArray: any[] = this.unsavedModel[field] as any[];
 
-    if(!modelValueArray || !unsavedModelValueArray
+    if (!modelValueArray || !unsavedModelValueArray
       || modelValueArray.length !== unsavedModelValueArray.length) {
         return true;
       }
 
-    return modelValueArray.some((value, index) => 
-    value !== unsavedModelValueArray[index])
+    return modelValueArray.some((value, index) =>
+    value !== unsavedModelValueArray[index]);
   }
 
   /**

@@ -105,25 +105,25 @@ export class VisibilityPanelComponent {
   ]);
 
   triggerCustomVisibilitySetting(): void {
-    for(var visibilityTypeStr in FeedbackVisibilityType) {
+    for (const visibilityTypeStr of Object.keys(FeedbackVisibilityType)) {
       const visibilityType = visibilityTypeStr as FeedbackVisibilityType;
-      if(!this.visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)) {
+      if (!this.visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)) {
         continue;
       }
 
-      for(var visibilityControlStr in VisibilityControl) {
+      for (const visibilityControlStr of Object.keys(VisibilityControl)) {
         const visibilityControl = visibilityControlStr as VisibilityControl;
-        if(!this.visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) 
+        if (!this.visibilityStateMachine.isCellEditable(visibilityType, visibilityControl)
         || !this.model.isEditable) {
           continue;
         }
-        if(!this.visibilityStateMachine.isVisible(visibilityType, visibilityControl)) {
+        if (!this.visibilityStateMachine.isVisible(visibilityType, visibilityControl)) {
           continue;
         }
         this.modifyVisibilityControl(true, visibilityType, visibilityControl);
       }
     }
-    
+
     this.customVisibilitySetting.emit(true);
   }
 
