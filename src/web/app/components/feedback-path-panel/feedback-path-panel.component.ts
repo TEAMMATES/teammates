@@ -80,7 +80,7 @@ export class FeedbackPathPanelComponent {
     new EventEmitter<NumberOfEntitiesToGiveFeedbackToSetting>();
 
   @Output()
-  triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
+  triggerUnsavedModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
     new EventEmitter<Partial<QuestionEditFormModel>>();
 
   subMenuStatuses: Map<FeedbackParticipantType, boolean> = new Map();
@@ -129,12 +129,12 @@ export class FeedbackPathPanelComponent {
       // do not reset the visibility settings if reverting feedback path to preset template provided
       if (this.model.isUsingOtherFeedbackPath) {
         // remove the custom feedback if selecting a common feedback path
-        this.triggerModelChangeBatch.emit({
+        this.triggerUnsavedModelChangeBatch.emit({
           isUsingOtherFeedbackPath: false,
         });
       }
     } else {
-      this.triggerModelChangeBatch.emit({
+      this.triggerUnsavedModelChangeBatch.emit({
         giverType,
         recipientType: newRecipientType,
         commonVisibilitySettingName: 'Please select a visibility option',

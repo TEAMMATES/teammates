@@ -26,7 +26,8 @@
           </button>
           <button id="btn-save-question" type="button" class="btn btn-primary btn-sm" *ngIf="unsavedModel.isEditable"
                   (click)="saveQuestionHandler(); $event.stopPropagation();"
-                  [disabled]="unsavedModel.isSaving || unsavedModel.isDeleting || unsavedModel.isDuplicating">
+                  [disabled]="unsavedModel.isSaving || unsavedModel.isDeleting || unsavedModel.isDuplicating
+                  || isVisibilityEmpty()">
             <tm-ajax-loading *ngIf="unsavedModel.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save
           </button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="unsavedModel.isEditable"
@@ -100,7 +101,8 @@
             <i class="fas fa-ban"></i> Cancel
           </button>
           <button class="btn btn-success"
-              [disabled]="!unsavedModel.isEditable || unsavedModel.isSaving || unsavedModel.isDeleting || unsavedModel.isDuplicating"
+              [disabled]="!unsavedModel.isEditable || unsavedModel.isSaving || unsavedModel.isDeleting || unsavedModel.isDuplicating
+              || isVisibilityEmpty()"
               (click)="saveQuestionHandler()">
             <tm-ajax-loading *ngIf="unsavedModel.isSaving"></tm-ajax-loading>
             <span *ngIf="formMode === QuestionEditFormMode.EDIT" ><i class="fas fa-check"></i> Save Changes</span>

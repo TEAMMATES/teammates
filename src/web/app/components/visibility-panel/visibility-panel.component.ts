@@ -84,7 +84,7 @@ export class VisibilityPanelComponent {
   customVisibilitySetting: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output()
-  triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
+  triggerUnsavedModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
     new EventEmitter<Partial<QuestionEditFormModel>>();
 
   @Output()
@@ -105,6 +105,25 @@ export class VisibilityPanelComponent {
   ]);
 
   triggerCustomVisibilitySetting(): void {
+    for(var visibilityTypeStr in FeedbackVisibilityType) {
+      const visibilityType = visibilityTypeStr as FeedbackVisibilityType;
+      if(!this.visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)) {
+        continue;
+      }
+
+      for(var visibilityControlStr in VisibilityControl) {
+        const visibilityControl = visibilityControlStr as VisibilityControl;
+        if(!this.visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) 
+        || !this.model.isEditable) {
+          continue;
+        }
+        if(!this.visibilityStateMachine.isVisible(visibilityType, visibilityControl)) {
+          continue;
+        }
+        this.modifyVisibilityControl(true, visibilityType, visibilityControl);
+      }
+    }
+    
     this.customVisibilitySetting.emit(true);
   }
 
@@ -118,7 +137,7 @@ export class VisibilityPanelComponent {
    * Applies the common visibility setting.
    */
   applyCommonVisibilitySettings(commonSettings: CommonVisibilitySetting): void {
-    this.triggerModelChangeBatch.emit({
+    this.triggerUnsavedModelChangeBatch.emit({
       showResponsesTo: commonSettings.visibilitySettings.SHOW_RESPONSE,
       showGiverNameTo: commonSettings.visibilitySettings.SHOW_GIVER_NAME,
       showRecipientNameTo: commonSettings.visibilitySettings.SHOW_RECIPIENT_NAME,
@@ -139,7 +158,7 @@ export class VisibilityPanelComponent {
       this.visibilityStateMachine.disallowToSee(visibilityType, visibilityControl);
       this.visibilityStateMachineChange.emit(this.visibilityStateMachine);
     }
-    this.triggerModelChangeBatch.emit({
+    this.triggerUnsavedModelChangeBatch.emit({
       showResponsesTo:
           this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE),
       showGiverNameTo:
