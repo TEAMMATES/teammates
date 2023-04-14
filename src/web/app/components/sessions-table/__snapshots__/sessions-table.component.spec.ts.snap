@@ -40,43 +40,55 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           class="bg-primary text-white"
         >
           <th
+            aria-sort="none"
             class="sort-session-name sortable-header"
           >
-             Session Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Session Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="ascending"
             class="sortable-header"
           >
-             Start Date 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-              <i
-                class="fas fa-sort-up"
-              />
-            </span>
+            <button>
+               Start Date 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                <i
+                  class="fas fa-sort-up"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="none"
             class="sortable-header"
           >
-             End Date 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               End Date 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th>
             Submissions
@@ -491,31 +503,39 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
           class="bg-primary text-white"
         >
           <th
+            aria-sort="none"
             class="sort-course-id sortable-header"
           >
-             Course ID 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-            </span>
+            <button>
+               Course ID 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+            </button>
           </th>
           <th
+            aria-sort="ascending"
             class="sort-session-name sortable-header"
           >
-             Session Name 
-            <span
-              class="fa-stack"
-            >
-              <i
-                class="fas fa-sort"
-              />
-              <i
-                class="fas fa-sort-up"
-              />
-            </span>
+            <button>
+               Session Name 
+              <span
+                aria-hidden="true"
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                <i
+                  class="fas fa-sort-up"
+                />
+              </span>
+            </button>
           </th>
           <th>
             Submissions

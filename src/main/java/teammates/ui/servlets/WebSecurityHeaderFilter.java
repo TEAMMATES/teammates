@@ -24,12 +24,12 @@ public class WebSecurityHeaderFilter implements Filter {
 
     private static final String CSP_POLICY = String.join("; ", Arrays.asList(
             "default-src 'none'",
-            "script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net/",
-            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/",
-            "frame-src 'self' docs.google.com https://www.google.com/recaptcha/",
+            "script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net/  https://apis.google.com/",
+            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/ https://fonts.googleapis.com/",
+            "frame-src 'self' docs.google.com https://www.google.com/recaptcha/ https://*.firebaseapp.com/",
             "img-src " + IMG_SRC_CSP,
-            "font-src 'self' https://cdn.jsdelivr.net/",
-            "connect-src 'self'",
+            "font-src 'self' https://cdn.jsdelivr.net/ https://fonts.gstatic.com/",
+            "connect-src 'self' https://*.googleapis.com/",
             "manifest-src 'self'",
             "form-action 'none'",
             "frame-ancestors 'self'",

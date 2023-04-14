@@ -4,28 +4,26 @@
   </div>
   <div class="card-body">
     <div class="row" *ngIf="formMode === SessionEditFormMode.ADD">
-      <div class="col-md-7">
-        <div class="row align-items-center">
-          <div class="col-md-3">
-            <h5 class="text-end">Create new</h5>
+      <div class="col-lg-7">
+        <div class="row mb-2">
+          <div class="col-12 col-sm-3 session-heading-text">
+            <h5>Create new</h5>
           </div>
-          <div class="col-9 col-md-8">
+          <div class="col-12 col-sm-9 create-new-dropdown-div">
             <select id="session-type" class="form-control form-select" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
               <option *ngFor="let templateSession of templateSessions" [ngValue]="templateSession.name">{{ templateSession.name }}</option>
             </select>
-          </div>
-          <div class="col-1 col-md-1">
             <a type="button" class="btn btn-link" tmRouterLink="/web/instructor/help" [queryParams]="{ questionId: 'sessions', section: 'sessions' }" target="_blank" aria-label="Help for feedback sessions"><i class="fas fa-info-circle"></i></a>
           </div>
         </div>
       </div>
-      <div class="col-md-5">
-        <div class="row text-center align-items-center mt-1">
-          <div class="col-md-2">
-            <h5 class="text-md-end">Or: </h5>
+      <div class="col-lg-5">
+        <div class="row">
+          <div class="col-12 col-sm-3 col-lg-1 session-heading-text">
+            <h5>Or</h5>
           </div>
-          <div class="col-md-10 text-md-start">
-            <button id="btn-copy-session" type="button" class="btn btn-info align-row" (click)="copyOthersHandler()">
+          <div class="col-12 col-sm-9 col-lg-11 text-md-start">
+            <button id="btn-copy-session" type="button" class="btn btn-info" (click)="copyOthersHandler()">
               <span>Copy from previous feedback sessions</span>
               <div class="padding-left-7px">
                 <tm-ajax-loading *ngIf="isCopyOtherSessionLoading"></tm-ajax-loading>

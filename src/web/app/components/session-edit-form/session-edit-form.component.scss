@@ -42,3 +42,23 @@
   cursor: not-allowed;
   color: gray;
 }
+
+.create-new-dropdown-div {
+  display: flex;
+}
+
+.session-heading-text {
+  display: flex;
+
+  @media (max-width: 768px) {
+    width: 120px;
+  }
+}
+
+.session-heading-text h5 {
+  margin: auto auto auto 0;
+
+  @media (max-width: 576px) {
+    margin-bottom: .5rem;
+  }
+}

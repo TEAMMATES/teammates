@@ -68,6 +68,13 @@ export class SessionsRecycleBinTableComponent {
     this.sortRecycleBinFeedbackSessionRowsEvent.emit(by);
   }
 
+  getAriaSort(by: SortBy): String {
+    if (by !== this.recycleBinFeedbackSessionRowModelsSortBy) {
+      return 'none';
+    }
+    return this.recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   /**
    * Set row number of button clicked.
    */

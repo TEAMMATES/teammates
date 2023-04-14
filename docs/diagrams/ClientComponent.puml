@@ -14,18 +14,18 @@ component Client {
         }
     }
 
-    package client::remoteapi {
-        rectangle RemoteApiClient
+    package client::connector {
+        rectangle DatastoreClient
     }
 }
 
-database "GoogleCloud\nDatastore" as GCD STORAGE_COLOR_T1
+database "Google\nCloud\nDatastore" as GCD STORAGE_COLOR_T1
 rectangle LogicAPI
 rectangle StorageAPI
 
-ClientScripts -> RemoteApiClient
+ClientScripts -> DatastoreClient
 ClientScripts ..> LogicAPI
 ClientScripts ..> StorageAPI
-RemoteApiClient ..> GCD
+DatastoreClient ..> GCD
 
 @enduml
