@@ -141,6 +141,10 @@ public class Course extends BaseEntity {
         this.deletedAt = deletedAt;
     }
 
+    public boolean isCourseDeleted() {
+        return this.deletedAt != null;
+    }
+
     @Override
     public String toString() {
         return "Course [id=" + id + ", name=" + name + ", timeZone=" + timeZone + ", institute=" + institute
