@@ -53,6 +53,7 @@ public class FeedbackSessionUnpublishedEmailWorkerAction extends AdminOnlyAction
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
 
             session.setPublishedEmailSent(false);
+            sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
         } catch (Exception e) {
             log.severe("Unexpected error", e);
         }

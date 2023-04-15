@@ -526,4 +526,20 @@ public class FeedbackSession extends BaseEntity {
     public boolean isCreator(String userEmail) {
         return creatorEmail.equals(userEmail);
     }
+
+    /**
+     * Returns true if session's start time is opening from now to anytime before
+     * now() + the specific number of {@param hours} supplied in the argument.
+     */
+    public boolean isOpeningInHours(long hours) {
+        return startTime.isAfter(Instant.now())
+                && Instant.now().plus(Duration.ofHours(hours)).isAfter(startTime);
+    }
+
+    /**
+     * Returns true if the feedback session is closed after the number of specified hours.
+     */
+    public boolean isClosedAfter(long hours) {
+        return Instant.now().plus(Duration.ofHours(hours)).isAfter(endTime);
+    }
 }

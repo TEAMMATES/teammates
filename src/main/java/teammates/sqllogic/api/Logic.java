@@ -445,6 +445,15 @@ public class Logic {
     }
 
     /**
+     * After an update to feedback session's fields, may need to adjust the email status of the session.
+     * @param session recently updated session.
+     */
+    public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
+        assert session != null;
+        feedbackSessionsLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
+    }
+
+    /**
      * Get usage statistics within a time range.
      */
     public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
