@@ -27,9 +27,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     private FeedbackQuestionsDb fqDb;
+
     private UsersLogic usersLogic;
-    // private FeedbackResponsesLogic frLogic;
-    // private FeedbackSessionsLogic feedbackSessionsLogic;
 
     private SqlDataBundle typicalDataBundle;
 
