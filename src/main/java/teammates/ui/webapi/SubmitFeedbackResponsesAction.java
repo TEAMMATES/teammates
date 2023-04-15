@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -95,6 +96,15 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         String recipientId = getRequestParamValue(Const.ParamsNames.SINGLE_RECIPIENT_ID_FOR_SUBMISSION);
         boolean isSingleRecipientSubmission = !StringHelper.isEmpty(recipientId);
         // TODO validate if isSingleRecipientSubmission is allowed for the given question type
+
+        FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
+        
+        if (isSingleRecipientSubmission &&
+                (feedbackQuestionType.equals(FeedbackQuestionType.CONSTSUM_RECIPIENTS)
+                        || feedbackQuestionType.equals(FeedbackQuestionType.RANK_RECIPIENTS)
+                        || feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB))) {
+            throw new InvalidOperationException("Single Recipient Submission is not allowed for the given question type");
+        }
 
         List<FeedbackResponseAttributes> existingResponses;
         Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
