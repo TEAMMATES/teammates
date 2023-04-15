@@ -194,6 +194,8 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Deletes all feedback responses involved an entity, cascade its associated comments.
+     * Deletion will automatically be cascaded to each feedback response's comments,
+     * handled by Hibernate using the OnDelete annotation.
      */
     public void deleteFeedbackResponsesForCourseCascade(String courseId, String entityEmail) {
         // delete responses from the entity
