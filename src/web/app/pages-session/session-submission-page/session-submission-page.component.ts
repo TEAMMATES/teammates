@@ -741,7 +741,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    *
    * @param questionSubmissionForms An array of question submission forms to be saved
    * @param isSubmitAll Is the 'Submit Responses for All Questions' button clicked when saving responses
-   * @param isSubmitForSingleRecipient Is the submission for oen single recipient
    * @param recipientId The recipient identifier of the selected recipient when saving responses for this recipient
    * only. This parameter will be null when saving responses for all questions or saving responses for one question.
    */
