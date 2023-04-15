@@ -91,7 +91,7 @@
         <label class="col-md-2 text-md-end">Group by:</label>
         <div id="group-by" class="col-md-10 text-md-start">
           <select class="w-25 form-control form-select" id="select-group-by" (change)="toggleViewChange($event.target.value)">
-            <option *ngFor="let entry of allSessionViews | keyvalue" [value]="entry.value">
+            <option *ngFor="let entry of allSessionViews | keyvalue" [value]="entry.value" [attr.aria-label]="'Group by ' + entry.value + ' view'">
               {{ entry.value }}
             </option>
           </select>
