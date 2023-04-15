@@ -1265,6 +1265,7 @@ public class Logic {
             FeedbackQuestionAttributes question, StudentAttributes student, StudentAttributes recipient) {
         assert question != null;
         assert student != null;
+        assert recipient != null;
 
         return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                 question, student, recipient);
