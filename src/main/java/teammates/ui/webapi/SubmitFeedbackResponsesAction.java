@@ -111,8 +111,10 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             giverSection = studentAttributes.getSection();
 
             if (isSingleRecipientSubmission) {
-                // TODO optimize the response fetching here
-                existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, studentAttributes);
+                StudentAttributes recipientAttributes = logic.getStudentForEmail(feedbackQuestion.getCourseId(), recipientId);
+
+                existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(
+                        feedbackQuestion, studentAttributes, recipientAttributes);
             } else {
                 existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, studentAttributes);
             }
@@ -127,8 +129,10 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             giverSection = Const.DEFAULT_SECTION;
 
             if (isSingleRecipientSubmission) {
-                // TODO possibly can optimize the response fetching here
-                existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructorAttributes);
+                StudentAttributes recipientAttributes = logic.getStudentForEmail(feedbackQuestion.getCourseId(), recipientId);
+                
+                existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(
+                        feedbackQuestion, instructorAttributes, recipientAttributes);
             } else {
                 existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructorAttributes);
             }

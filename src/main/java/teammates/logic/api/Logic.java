@@ -1259,6 +1259,18 @@ public class Logic {
     }
 
     /**
+     * Get existing feedback responses from student or his team for the given question and recipient.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
+            FeedbackQuestionAttributes question, StudentAttributes student, StudentAttributes recipient) {
+        assert question != null;
+        assert student != null;
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
+                question, student, recipient);
+    }    
+
+    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromInstructorForQuestion(
@@ -1268,6 +1280,20 @@ public class Logic {
 
         return feedbackResponsesLogic.getFeedbackResponsesFromGiverForQuestion(
                 question.getFeedbackQuestionId(), instructorAttributes.getEmail());
+    }
+
+    /**
+     * Get existing feedback responses from instructor for the given question and recipient.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromInstructorForQuestion(
+            FeedbackQuestionAttributes question, InstructorAttributes instructorAttributes,
+            StudentAttributes recipientAttributes) {
+        assert question != null;
+        assert instructorAttributes != null;
+        assert recipientAttributes != null;
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForQuestionAndRecipient(
+                question.getFeedbackQuestionId(), instructorAttributes.getEmail(), recipientAttributes.getEmail());
     }
 
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
