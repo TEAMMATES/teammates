@@ -20,7 +20,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -92,10 +91,6 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
-        String recipientId = getRequestParamValue(Const.ParamsNames.SINGLE_RECIPIENT_ID_FOR_SUBMISSION);
-        boolean isSingleRecipientSubmission = !StringHelper.isEmpty(recipientId);
-        // TODO validate if isSingleRecipientSubmission is allowed for the given question type
-
         List<FeedbackResponseAttributes> existingResponses;
         Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
 
@@ -109,14 +104,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                     feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
             giverSection = studentAttributes.getSection();
-
-            if (isSingleRecipientSubmission) {
-                // TODO optimize the response fetching here
-                existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, studentAttributes);
-            } else {
-                existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, studentAttributes);
-            }
-
+            existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, studentAttributes);
             recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, studentAttributes);
             logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
                     studentAttributes.getEmail(), studentAttributes.getTeam());
@@ -125,14 +113,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructorAttributes.getEmail();
             giverSection = Const.DEFAULT_SECTION;
-
-            if (isSingleRecipientSubmission) {
-                // TODO possibly can optimize the response fetching here
-                existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructorAttributes);
-            } else {
-                existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructorAttributes);
-            }
-
+            existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructorAttributes);
             recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructorAttributes, null);
             logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
                     instructorAttributes.getEmail(), null);
@@ -215,18 +196,14 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
         }
 
-        if (!isSingleRecipientSubmission) {
-            // TODO delete a single recipient submission
+        List<String> recipients = submitRequest.getRecipients();
+        List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
+                .filter(entry -> !recipients.contains(entry.getKey()))
+                .map(entry -> entry.getValue())
+                .collect(Collectors.toList());
 
-            List<String> recipients = submitRequest.getRecipients();
-            List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
-                    .filter(entry -> !recipients.contains(entry.getKey()))
-                    .map(entry -> entry.getValue())
-                    .collect(Collectors.toList());
-    
-            for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
-                logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
-            }
+        for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
+            logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
         }
 
         List<FeedbackResponseAttributes> output = new ArrayList<>();
