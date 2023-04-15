@@ -267,7 +267,7 @@ public final class SqlEmailGenerator {
         List<FeedbackSession> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSession fs : fsInCourse) {
-            if (fs.isOpened() || fs.isPublished()) {
+            if (fs.isOpenEmailSent() || fs.isPublishedEmailSent()) {
                 sessions.add(fs);
             }
         }
