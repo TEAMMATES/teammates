@@ -95,10 +95,9 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         String recipientId = getRequestParamValue(Const.ParamsNames.SINGLE_RECIPIENT_ID_FOR_SUBMISSION);
         boolean isSingleRecipientSubmission = !StringHelper.isEmpty(recipientId);
-        // TODO validate if isSingleRecipientSubmission is allowed for the given question type
 
+        // validate if single-recipient submission is allowed for the given question type
         FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
-        
         if (isSingleRecipientSubmission &&
                 (feedbackQuestionType.equals(FeedbackQuestionType.CONSTSUM_RECIPIENTS)
                         || feedbackQuestionType.equals(FeedbackQuestionType.RANK_RECIPIENTS)
@@ -120,14 +119,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
             giverSection = studentAttributes.getSection();
 
-            if (isSingleRecipientSubmission) {
-                StudentAttributes recipientAttributes = logic.getStudentForEmail(feedbackQuestion.getCourseId(), recipientId);
-
-                existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(
-                        feedbackQuestion, studentAttributes, recipientAttributes);
-            } else {
-                existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, studentAttributes);
-            }
+            existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, studentAttributes);
 
             recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, studentAttributes);
             logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
@@ -138,14 +130,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             giverIdentifier = instructorAttributes.getEmail();
             giverSection = Const.DEFAULT_SECTION;
 
-            if (isSingleRecipientSubmission) {
-                StudentAttributes recipientAttributes = logic.getStudentForEmail(feedbackQuestion.getCourseId(), recipientId);
-                
-                existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(
-                        feedbackQuestion, instructorAttributes, recipientAttributes);
-            } else {
-                existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructorAttributes);
-            }
+            existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructorAttributes);
 
             recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructorAttributes, null);
             logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
@@ -160,6 +145,15 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
         log.info(JsonUtils.toCompactJson(submitRequest));
+
+        if (isSingleRecipientSubmission) {
+            // only keep the response for the recipient when the request is a single-recipient submission
+            List<FeedbackResponsesRequest.FeedbackResponseRequest> responseRequests = submitRequest.getResponses();
+            submitRequest.setResponses(
+                    responseRequests.stream()
+                            .filter(r -> recipientId.equals(r.getRecipient()))
+                            .collect(Collectors.toList()));
+        }
 
         for (String recipient : submitRequest.getRecipients()) {
             if (!recipientsOfTheQuestion.containsKey(recipient)) {
@@ -230,8 +224,6 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         }
 
         if (!isSingleRecipientSubmission) {
-            // TODO delete a single recipient submission
-
             List<String> recipients = submitRequest.getRecipients();
             List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
                     .filter(entry -> !recipients.contains(entry.getKey()))
@@ -240,6 +232,12 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     
             for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
                 logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
+            }
+        } else if (submitRequest.getRecipients().isEmpty()) {
+            // delete a single recipient submission
+            if (existingResponsesPerRecipient.containsKey(recipientId)) {
+                FeedbackResponseAttributes feedbackResponseToDelete = existingResponsesPerRecipient.get(recipientId);
+                logic.deleteFeedbackResponseCascade(feedbackResponseToDelete.getId());
             }
         }
 
