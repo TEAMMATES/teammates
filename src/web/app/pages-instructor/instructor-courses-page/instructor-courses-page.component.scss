@@ -2,7 +2,7 @@
   cursor: pointer;
 
   i {
-    margin-left: .3em;
+    margin-left: 0.3em;
   }
 
   .fa-stack {
@@ -34,7 +34,7 @@
 }
 
 .background-color-medium-gray {
-  background-color: #E5E5E6;
+  background-color: #e5e5e6;
 }
 
 .text-color-black {
@@ -80,7 +80,7 @@
 }
 
 .dropdown-menu {
-  min-width: .5rem;
+  min-width: 0.5rem;
 }
 
 .table-responsive {
@@ -89,4 +89,65 @@
 
 .d-inline-block {
   position: inherit;
+}
+// scss for responsive header
+// Set the base font size and line height
+$base-font-size: 16px;
+$base-line-height: 1.5;
+
+// Define media queries for different screen sizes
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Define header styles for each media query
+h1 {
+  font-size: $base-font-size * 2;
+  line-height: $base-line-height * 2;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $base-font-size * 1.5;
+    line-height: $base-line-height * 1.5;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    font-size: $base-font-size * 1.2;
+    line-height: $base-line-height * 1.2;
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    font-size: $base-font-size * 1.1;
+    line-height: $base-line-height * 1.1;
+  }
+
+  @media (max-width: $breakpoint-xl) {
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+  }
+}
+
+h2 {
+  font-size: $base-font-size * 1.5;
+  line-height: $base-line-height * 1.5;
+
+  @media (max-width: $breakpoint-sm) {
+    font-size: $base-font-size * 1.3;
+    line-height: $base-line-height * 1.3;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    font-size: $base-font-size * 1.2;
+    line-height: $base-line-height * 1.2;
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    font-size: $base-font-size * 1.1;
+    line-height: $base-line-height * 1.1;
+  }
+
+  @media (max-width: $breakpoint-xl) {
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+  }
 }
