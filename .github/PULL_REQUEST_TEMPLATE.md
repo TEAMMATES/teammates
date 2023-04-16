@@ -5,7 +5,7 @@
 <!-- and include the issue number in front in square brackets. -->
 <!-- e.g. [#3942] Remove unnecessary System.out.printlns from Java files -->
 
-<!-- Add the issue number to the "Fixes" keyword below, e.g. Fixes #3942 -->
+<!-- Add the issue number to the "Fixes" keyword below. -->
 Fixes #
 
 **Outline of Solution**
