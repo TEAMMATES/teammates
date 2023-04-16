@@ -12,8 +12,20 @@
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt"
     },
-    "student1": {
+    "instructorOfArchivedCourse": {
       "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "instructorOfArchivedCourse",
+      "name": "Instructor Of Archived Course",
+      "email": "instructorOfArchivedCourse@archiveCourse.tmt"
+    },
+    "instructorOfUnregisteredCourse": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "InstructorOfUnregisteredCourse",
+      "name": "Instructor Of Unregistered Course",
+      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt"
+    },
+    "student1": {
+      "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "idOfStudent1Course1",
       "name": "Student 1",
       "email": "student1@teammates.tmt"
@@ -195,7 +207,7 @@
       "course": {
         "id": "archived-course"
       },
-      "name": "InstructorOfArchivedCourse",
+      "name": "Instructor Of Archived Course",
       "email": "instructorOfArchivedCourse@archiveCourse.tmt",
       "isArchived": true,
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -224,8 +236,8 @@
       "course": {
         "id": "unregistered-course"
       },
-      "name": "InstructorOfUnregisteredCourse",
-      "email": "InstructorOfUnregisteredCourse@UnregisteredCourse.tmt",
+      "name": "Instructor Of Unregistered Course",
+      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt",
       "isArchived": false,
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
@@ -250,7 +262,7 @@
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
+        "id": "00000000-0000-4000-8000-000000000005"
       },
       "course": {
         "id": "course-1"

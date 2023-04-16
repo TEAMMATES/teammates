@@ -60,13 +60,13 @@ public class InstructorSearchIT extends BaseSearchIT {
 
         ______TS("success: search for instructors in whole system; instructors in archived courses should be included");
 
-        results = usersDb.searchInstructorsInWholeSystem("InstructorOfArchivedCourse");
+        results = usersDb.searchInstructorsInWholeSystem("\"Instructor Of Archived Course\"");
         verifySearchResults(results, insInArchivedCourse);
 
         ______TS(
                 "success: search for instructors in whole system; instructors in unregistered course should be included");
 
-        results = usersDb.searchInstructorsInWholeSystem("InstructorOfUnregisteredCourse");
+        results = usersDb.searchInstructorsInWholeSystem("\"Instructor Of Unregistered Course\"");
         verifySearchResults(results, insInUnregCourse);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by course id");
@@ -81,7 +81,7 @@ public class InstructorSearchIT extends BaseSearchIT {
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their name");
 
-        results = usersDb.searchInstructorsInWholeSystem("\"InstructorOfUnregisteredCourse\"");
+        results = usersDb.searchInstructorsInWholeSystem("\"Instructor Of Unregistered Course\"");
         verifySearchResults(results, insInUnregCourse);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their email");
