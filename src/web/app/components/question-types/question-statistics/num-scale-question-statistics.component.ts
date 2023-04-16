@@ -52,9 +52,13 @@ export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatist
     for (const team of Object.keys(this.teamToRecipientToScores)) {
       for (const recipient of Object.keys(this.teamToRecipientToScores[team])) {
         const stats: any = this.teamToRecipientToScores[team][recipient];
+        const recipientEmail: string = this.recipientEmails[recipient];
         this.rowsData.push([
           { value: team },
-          { value: recipient },
+          {
+            value: recipient
+            + (recipientEmail ? ` (${recipientEmail})` : ''),
+          },
           { value: stats.average },
           { value: stats.max },
           { value: stats.min },

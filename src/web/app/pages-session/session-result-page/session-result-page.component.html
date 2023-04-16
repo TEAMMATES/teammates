@@ -1,6 +1,26 @@
 <h1>
   Feedback Session Results
 </h1>
+<div class="bg-light" *ngIf="previewAsPerson">
+  <div class="col-12 text-center text-break">
+    <h4>Previewing Session Results as
+      <span *ngIf="intent === Intent.STUDENT_RESULT">student</span>
+      <span *ngIf="intent === Intent.INSTRUCTOR_RESULT">instructor</span>
+      {{ personName }} ({{ previewAsPerson }})
+      <button type="button" class="btn btn-link no-shadow" *ngIf="!isPreviewHintExpanded" (click)="isPreviewHintExpanded = true">[more]</button>
+      <button type="button" class="btn btn-link no-shadow" *ngIf="isPreviewHintExpanded" (click)="isPreviewHintExpanded = false">[less]</button>
+    </h4>
+    <div *ngIf="isPreviewHintExpanded" class="text-start">
+      <p>
+        The page below resembles the session results page as seen by {{ personName }} ({{ previewAsPerson }}).
+      </p>
+      <p>
+        Note that due to visibility settings, contents that are not supposed to be shown to instructors (e.g. yourself) but can be seen by the respondent will not be shown in the page below.
+        Instead, you will see a message box (not seen by the actual respondent) in their place.
+      </p>
+    </div>
+  </div>
+</div>
 <div class="row" *ngIf="regKey">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
@@ -61,7 +81,7 @@
       </div>
     </div>
     <tm-question-response-panel [questions]="questions" [session]="session"
-                                [intent]="intent" [regKey]="regKey"
+                                [intent]="intent" [regKey]="regKey" [previewAsPerson]="previewAsPerson"
     ></tm-question-response-panel>
   </div>
 </tm-loading-retry>

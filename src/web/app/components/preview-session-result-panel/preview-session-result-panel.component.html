@@ -1,0 +1,37 @@
+<div class="card-body background-color-light-blue text-center">
+  <div class="row align-items-center">
+    <div class="col-lg-2 text-lg-end">
+      <b>Preview Results:</b>
+    </div>
+    <div class="col-lg-5">
+      <select id="preview-student" class="form-control form-select preview-select" [(ngModel)]="emailOfStudentToPreview" aria-label="Select student to preview as">
+        <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
+      </select>
+      <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" tmRouterLink="/web/sessions/result"
+         [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfStudentToPreview }"
+         target="_blank"
+         rel="noopener noreferrer"
+         [ngbTooltip]="emailOfStudentToPreview.length !== 0 ? 'View how the session results would look like to a student.' : 'Preview is unavailable if the course has yet to have any student enrolled.'">
+        <ng-container *ngTemplateOutlet="previewStudentBtn"></ng-container>
+      </a>
+      <ng-template #previewStudentBtn>
+        <button id="btn-preview-student" class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0 || forDisplayOnly">Preview as Student</button>
+      </ng-template>
+    </div>
+    <div class="col-lg-5">
+      <select id="preview-instructor" class="form-control form-select preview-select" [(ngModel)]="emailOfInstructorToPreview" aria-label="Select instructor to preview as">
+        <option *ngFor="let instructor of instructorsOfCourse" [ngValue]="instructor.email">{{ instructor.name }}</option>
+      </select>
+      <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" tmRouterLink="/web/instructor/sessions/result"
+         [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfInstructorToPreview }"
+         target="_blank"
+         rel="noopener noreferrer"
+         ngbTooltip="View how the session results would look like to an instructor.">
+        <ng-container *ngTemplateOutlet="previewInstructorBtn"></ng-container>
+      </a>
+      <ng-template #previewInstructorBtn>
+        <button id="btn-preview-instructor" class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0 || forDisplayOnly">Preview as Instructor</button>
+      </ng-template>
+    </div>
+  </div>
+</div>

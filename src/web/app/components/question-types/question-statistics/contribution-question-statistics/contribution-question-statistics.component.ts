@@ -83,7 +83,7 @@ export class ContributionQuestionStatisticsComponent
     this.rowsData = Object.keys(this.emailToName).map((email: string) => {
       return [
         { value: this.emailToTeamName[email] },
-        { value: this.emailToName[email] },
+        { value: `${this.emailToName[email]} (${email})` },
         {
           value: statistics.results[email].claimed,
           customComponent: {
