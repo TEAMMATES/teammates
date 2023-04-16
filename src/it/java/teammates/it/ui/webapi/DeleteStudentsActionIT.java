@@ -1,5 +1,7 @@
 package teammates.it.ui.webapi;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -7,6 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.webapi.DeleteStudentsAction;
 
 /**
@@ -36,18 +39,28 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
     @Override
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        String courseId = instructor.getCourseId();
+        // TODO Remove limit after migration completes
         int deleteLimit = 3;
 
         ______TS("Typical Success Case delete a limited number of students");
         loginAsInstructor(instructor.getGoogleId());
 
+        List<Student> studentsToDelete = logic.getStudentsForCourse(courseId);
+
+        assertEquals(3, studentsToDelete.size());
+
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.LIMIT, String.valueOf(deleteLimit),
         };
 
         DeleteStudentsAction deleteStudentsAction = getAction(params);
         getJsonResult(deleteStudentsAction);
+
+        for (Student student : studentsToDelete) {
+            assertNull(logic.getStudentByGoogleId(courseId, student.getGoogleId()));
+        }
 
         ______TS("Random course given, fails silently");
         params = new String[] {

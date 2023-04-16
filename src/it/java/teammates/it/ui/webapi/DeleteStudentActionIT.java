@@ -39,39 +39,47 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student student2InCourse1 = typicalBundle.students.get("student2InCourse1");
+        Student student3InCourse1 = typicalBundle.students.get("student3InCourse1");
+        String courseId = instructor.getCourseId();
 
         ______TS("Typical Success Case delete a student by email");
         loginAsInstructor(instructor.getGoogleId());
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
 
         DeleteStudentAction deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
+        assertNull(logic.getStudentForEmail(courseId, student1InCourse1.getEmail()));
+
         ______TS("Typical Success Case delete a student by id");
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
         };
 
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
+
+        assertNull(logic.getStudentByGoogleId(courseId, student2InCourse1.getGoogleId()));
 
         ______TS("Course does not exist, fails silently");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, "non-existent-course",
-                Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
+                Const.ParamsNames.STUDENT_ID, student3InCourse1.getGoogleId(),
         };
 
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
+        assertNotNull(logic.getStudentByGoogleId(student3InCourse1.getCourseId(), student3InCourse1.getGoogleId()));
+
         ______TS("Student does not exist, fails silently");
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_ID, "non-existent-id",
         };
 
@@ -82,7 +90,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         verifyHttpParameterFailure();
 
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.COURSE_ID, courseId,
         };
 
         verifyHttpParameterFailure(params);
@@ -101,7 +109,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
 
         ______TS("Random email given, fails silently");
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, "random-email",
         };
 
