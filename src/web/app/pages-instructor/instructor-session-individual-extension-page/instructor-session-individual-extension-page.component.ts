@@ -77,6 +77,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   sortInstructorOrder: SortOrder = SortOrder.DESC;
 
   isAllStudentsSelected: boolean = false;
+  isAllYetToStudentsSelected: boolean = false;
   isAllInstructorsSelected: boolean = false;
 
   isLoadingAllStudents: boolean = true;
@@ -415,6 +416,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   selectAllStudents(): void {
     this.isAllStudentsSelected = !this.isAllStudentsSelected;
     this.studentsOfCourse.forEach((x) => { x.isSelected = this.isAllStudentsSelected; });
+  }
+
+  selectAllYetToStudents(): void {
+    this.selectNonSubmitterStudents();
   }
 
   selectAllInstructors(): void {

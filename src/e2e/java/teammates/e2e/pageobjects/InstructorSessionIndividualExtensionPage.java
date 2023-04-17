@@ -176,6 +176,11 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
+    public void selectAllYetToStudents() {
+        click(waitForElementPresence(By.id("select-all-students-not-yet-btn")));
+        waitUntilAnimationFinish();
+    }
+
     public void selectAllInstructors() {
         click(waitForElementPresence(By.id("select-all-instructor-btn")));
         waitUntilAnimationFinish();

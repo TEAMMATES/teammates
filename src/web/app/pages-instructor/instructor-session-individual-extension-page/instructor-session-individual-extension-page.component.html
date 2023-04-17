@@ -50,7 +50,12 @@
           <tr>
             <th (click)="selectAllStudents()">
               <input type="checkbox" id="select-all-student-btn" [checked]="isAllStudentsSelected" aria-label="Select all students" />
-              Select all
+              Select all students
+            </th>
+            <th (click)="selectAllYetToStudents()">
+              <input type="checkbox" id="select-all-students-not-yet-btn" [checked]="isAllYetToStudentsSelected"
+                aria-label="Select all students not yet submitted" />
+              Select all students not yet submitted
             </th>
             <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SECTION_NAME)">
               Section
