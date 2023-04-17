@@ -74,6 +74,11 @@ export const EXAMPLE_ESSAY_QUESTION_MODEL: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
+
+export const EXAMPLE_ESSAY_QUESTION_MODEL_WITH_RESPONSES: QuestionEditFormModel = {
+  ...EXAMPLE_ESSAY_QUESTION_MODEL,
+  isQuestionHasResponses: true,
+};
 /**
  * Structure for example of numerical scale question model
  */

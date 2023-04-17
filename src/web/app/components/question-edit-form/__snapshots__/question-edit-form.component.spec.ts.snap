@@ -26,6 +26,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   numOfQuestions="0"
   saveExistingQuestionEvent={[Function EventEmitter_]}
   simpleModalService={[Function SimpleModalService]}
+  unsavedModel={[Function Object]}
   visibilityStateMachine={[Function VisibilityStateMachine]}
 >
   <div

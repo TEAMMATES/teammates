@@ -4760,6 +4760,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 </button>
                 <button
                   class="btn btn-success"
+                  disabled=""
                 >
                   <span
                     id="btn-save-new"

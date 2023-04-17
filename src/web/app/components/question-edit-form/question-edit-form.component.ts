@@ -323,14 +323,14 @@ export class QuestionEditFormComponent {
    */
   saveQuestionHandler(): void {
     const doChangesNeedWarning: boolean = this.checkChangesNeedWarning();
-    this.model = { ...this.unsavedModel };
-    this.formModelChange.emit(this.model);
 
     if (this.formMode === QuestionEditFormMode.EDIT) {
 
       if (!this.isQuestionPublished && (!this.model.isQuestionHasResponses || !doChangesNeedWarning)) {
+        this.formModelChange.emit(this.unsavedModel);
         this.saveExistingQuestionEvent.emit();
-      } else if (this.model.isFeedbackPathChanged) {
+
+      } else if (this.unsavedModel.isFeedbackPathChanged) {
         // warn user that editing feedback path will delete all messages
         const modalContent: string = `
             <p>You seem to have changed the feedback path settings of this question. Please note that changing the
@@ -339,9 +339,11 @@ export class QuestionEditFormComponent {
         const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
             'Save the question?', SimpleModalType.DANGER, modalContent);
         modalRef.result.then(() => {
+          this.formModelChange.emit(this.unsavedModel);
           this.saveExistingQuestionEvent.emit();
         }, () => {});
-      } else if (this.model.isQuestionDetailsChanged) {
+
+      } else if (this.unsavedModel.isQuestionDetailsChanged) {
         // alert user that editing question may result in deletion of responses
         const modalContent: string = `
             <p>Editing question settings in a way that potentially affects the validity of existing responses <b> may
@@ -350,9 +352,11 @@ export class QuestionEditFormComponent {
         const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
             'Save the question?', SimpleModalType.DANGER, modalContent);
         modalRef.result.then(() => {
+          this.formModelChange.emit(this.unsavedModel);
           this.saveExistingQuestionEvent.emit();
         }, () => {});
-      } else if (this.model.isVisibilityChanged) {
+
+      } else if (this.unsavedModel.isVisibilityChanged) {
         // alert user that editing visibility options will not delete responses
         const modalContent: string = `
             <p>You seem to have changed the visibility settings of this question. Please note that <b>the existing
@@ -362,12 +366,14 @@ export class QuestionEditFormComponent {
         const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
             'Save the question?', SimpleModalType.WARNING, modalContent);
         modalRef.result.then(() => {
+          this.formModelChange.emit(this.unsavedModel);
           this.saveExistingQuestionEvent.emit();
         }, () => {});
       }
     }
 
     if (this.formMode === QuestionEditFormMode.ADD) {
+      this.formModelChange.emit(this.unsavedModel);
       this.createNewQuestionEvent.emit();
     }
   }
