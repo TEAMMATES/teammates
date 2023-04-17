@@ -44,6 +44,12 @@
   (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingAllStudents">
     <h1>Students</h1>
+    <!--NEW-->
+    <th (click)="selectAllUnsubmittedStudents()">
+      <input type="checkbox" id="select-all-unsub-student-btn" [checked]="isAllStudentsSelected"/>
+      <label for="select-all-unsub-student-btn">&nbsp;Select all students who have not submitted</label>
+    </th>
+    <!--toHERE-->
     <div class="table-responsive">
       <table id="student-list-table" class="table table-bordered table-hover">
         <thead>
