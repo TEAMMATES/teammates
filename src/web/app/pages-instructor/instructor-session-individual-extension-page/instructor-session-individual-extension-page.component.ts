@@ -35,6 +35,12 @@ import {
   IndividualExtensionDateModalComponent,
 } from './individual-extension-date-modal/individual-extension-date-modal.component';
 
+//new
+import {
+  StudentListInfoTableRowModel,
+} from '../respondent-list-info-table/respondent-list-info-table-model';
+//toHere
+
 /**
  * Send reminders to respondents modal.
  */
@@ -78,7 +84,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   isAllStudentsSelected: boolean = false;
   isAllInstructorsSelected: boolean = false;
-
+    //new
+  isAllUnsubSelected: boolean = false;
+  check: string = '';
+  //tohere
   isLoadingAllStudents: boolean = true;
   hasLoadedAllStudentsFailed: boolean = false;
   isLoadingAllInstructors: boolean = true;
@@ -411,7 +420,23 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     return this.studentsOfCourse.some((user) => user.isSelected && user.hasExtension)
       || this.instructorsOfCourse.some((user) => user.isSelected && user.hasExtension);
   }
-
+  
+  //New
+  selectAllUnsubmittedStudents(): void{
+    this.isAllUnsubSelected = !this.isAllUnsubSelected;
+    this.studentsOfCourse.forEach((model: StudentListInfoTableRowModel) => {
+      if(!model.hasSubmittedSession){
+        this.check = model.name
+        this.studentsOfCourse.forEach((x) => {
+          if(x.name==this.check){
+            x.isSelected=this.isAllUnsubSelected;
+          }
+        })
+      }
+    });
+  }
+  //toHere
+  
   selectAllStudents(): void {
     this.isAllStudentsSelected = !this.isAllStudentsSelected;
     this.studentsOfCourse.forEach((x) => { x.isSelected = this.isAllStudentsSelected; });
