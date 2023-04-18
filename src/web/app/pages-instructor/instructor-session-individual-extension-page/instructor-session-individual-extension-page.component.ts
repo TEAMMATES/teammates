@@ -10,6 +10,11 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
+
+import {
+  StudentListInfoTableRowModel,
+} from '../respondent-list-info-table/respondent-list-info-table-model';
+
 import {
   Course,
   FeedbackSession,
@@ -35,11 +40,8 @@ import {
   IndividualExtensionDateModalComponent,
 } from './individual-extension-date-modal/individual-extension-date-modal.component';
 
-//new
-import {
-  StudentListInfoTableRowModel,
-} from '../respondent-list-info-table/respondent-list-info-table-model';
-//toHere
+
+
 
 /**
  * Send reminders to respondents modal.
@@ -421,21 +423,21 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       || this.instructorsOfCourse.some((user) => user.isSelected && user.hasExtension);
   }
   
-  //New
-  selectAllUnsubmittedStudents(): void{
+
+  selectAllUnsubmittedStudents(): void {
     this.isAllUnsubSelected = !this.isAllUnsubSelected;
     this.studentsOfCourse.forEach((model: StudentListInfoTableRowModel) => {
-      if(!model.hasSubmittedSession){
+      if (!model.hasSubmittedSession) {
         this.check = model.name
         this.studentsOfCourse.forEach((x) => {
-          if(x.name==this.check){
+          if (x.name==this.check) {
             x.isSelected=this.isAllUnsubSelected;
           }
         })
       }
     });
   }
-  //toHere
+
   
   selectAllStudents(): void {
     this.isAllStudentsSelected = !this.isAllStudentsSelected;
