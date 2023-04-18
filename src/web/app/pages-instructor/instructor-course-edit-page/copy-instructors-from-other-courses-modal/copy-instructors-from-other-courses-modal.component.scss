@@ -24,7 +24,12 @@
 #copy-instructor-modal {
   table-layout: auto;
   margin-bottom: 10px;
-  width: 70vw;
+}
+
+@media (min-width: 768px) {
+  #copy-instructor-modal{
+    width: 70vw;
+  }
 }
 
 .modal-footer {
