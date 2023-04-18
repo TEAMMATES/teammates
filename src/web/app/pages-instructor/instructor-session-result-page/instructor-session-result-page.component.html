@@ -106,7 +106,7 @@
 </tm-loading-retry>
 
 <tm-loading-retry [shouldShowRetry]="hasNoResponseLoadingFailed" [message]="'Failed to load students who have not responded'" (retryEvent)="loadNoResponseStudents(courseId, fsName)">
-  <div class="card top-padded" *ngIf="isNoResponsePanelLoaded">
+  <div class="top-padded" *ngIf="isNoResponsePanelLoaded">
     <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
                                              [noResponseStudents]="noResponseStudents"
                                              [section]="section" [session]="session"
