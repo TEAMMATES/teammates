@@ -1,8 +1,8 @@
 <span class="d-flex flex-column flex-sm-row align-items-sm-center">
   <h2 *ngIf="shouldShowDownloadQuestionResult" class="question-number">
-    <button ngbTooltip="Download Question Results" type="button" class="btn btn-link p-0" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
+    <div class="question">
       Question {{ questionNumber }}:
-    </button>
+    </div>
   </h2>
   <h2 *ngIf="!shouldShowDownloadQuestionResult" class="question-number">
     Question {{ questionNumber }}:
@@ -11,6 +11,11 @@
   <button class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)">
     [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
   </button>
+  <div class="space">
+    <button ngbTooltip="Download Question Results" type="button" class="btn btn-primary btn-sm button" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
+      Download Question Results
+    </button>
+  </div>
 </span>
 
 <div class="additional-info info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
