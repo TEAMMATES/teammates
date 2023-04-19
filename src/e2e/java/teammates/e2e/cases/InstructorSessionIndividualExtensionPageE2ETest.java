@@ -135,6 +135,20 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
 
+        individualExtensionPage.selectAllUnsubmittedStudents();
+        individualExtensionPage.selectAllInstructors();
+
+        individualExtensionPage.expectedDeadlinToOneDay(feedbackSession false);
+
+        updateSession = getFeedbackSession(feedbackSession.getCourseId, feedbackSession.getFeedbackSessionName());
+        updatedStudentDeadlines = updatedSession.getStudentDeadlines();
+        updatedInstructorDeadlines = updatedSession.getInstructorDeadlines();
+
+        assertEquals(5, updatedStudentDeadlines.size());
+        assertEquals(2, updatedInstructorDeadlines.size());
+
+        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+
         ______TS("verify delete all deadlines, notifyUsers disabled");
 
         individualExtensionPage.selectAllStudents();
