@@ -111,6 +111,7 @@ describe('SessionResultPageComponent', () => {
     courseid: 'CS3281',
     fsname: 'Peer Feedback',
     key: 'reg-key',
+    previewas: '',
   };
 
   beforeEach(waitForAsync(() => {
@@ -235,6 +236,18 @@ describe('SessionResultPageComponent', () => {
       studentDeadlines: {},
       instructorDeadlines: {},
     };
+    component.questions = [];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when previewing results', () => {
+    component.intent = Intent.STUDENT_RESULT;
+    component.regKey = '';
+    component.previewAsPerson = 'alice2@tmt.tmt';
+    component.personName = 'Alice2';
+    component.personEmail = 'alice2@tmt.tmt';
+    component.session = testFeedbackSession;
     component.questions = [];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -379,6 +392,8 @@ describe('SessionResultPageComponent', () => {
       isLoading: false,
       isLoaded: false,
       hasResponse: true,
+      hasResponseButNotVisibleForPreview: false,
+      hasCommentNotVisibleForPreview: false,
     };
 
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
@@ -393,6 +408,7 @@ describe('SessionResultPageComponent', () => {
       feedbackSessionName: testQueryParams['fsname'],
       intent: Intent.STUDENT_RESULT,
       key: testQueryParams['key'],
+      previewAs: testQueryParams['previewas'],
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);

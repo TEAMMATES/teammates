@@ -58,7 +58,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
         ______TS("unregistered student: questions with responses loaded");
-        verifyLoadedQuestions(unregistered);
+        verifyLoadedQuestions(unregistered, false);
 
         ______TS("registered student: can access results");
         StudentAttributes student = testData.students.get("Alice");
@@ -70,7 +70,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
         ______TS("registered student: questions with responses loaded");
-        verifyLoadedQuestions(student);
+        verifyLoadedQuestions(student, false);
 
         ______TS("verify responses");
         questions.forEach(question -> verifyResponseDetails(student, question));
@@ -111,14 +111,57 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
         ______TS("registered instructor: questions with responses loaded");
-        verifyLoadedQuestions(instructor);
+        verifyLoadedQuestions(instructor, false);
 
         ______TS("verify responses");
         questions.forEach(question -> verifyResponseDetails(instructor, question));
 
+        ______TS("preview results as student: can access results");
+        url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+                .withCourseId(openSession.getCourseId())
+                .withSessionName(openSession.getFeedbackSessionName())
+                .withParam("previewas", student.getEmail());
+        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
+
+        resultsPage.verifyFeedbackSessionDetails(openSession, course);
+
+        ______TS("preview results as student: questions with responses loaded and invisible responses excluded");
+        verifyLoadedQuestions(student, true);
+
+        ______TS("preview results as student: visible responses shown");
+        questions.stream().filter(this::canInstructorSeeQuestion)
+                .forEach(question -> verifyResponseDetails(student, question));
+
+        ______TS("preview results as student: invisible comments excluded");
+        List<String> commentsNotVisibleForPreview = List.of(
+                testData.feedbackResponseComments.get("qn3Comment1").getCommentText());
+        resultsPage.verifyQuestionHasCommentsNotVisibleForPreview(3, commentsNotVisibleForPreview);
+
+        ______TS("preview results as student: visible comments shown");
+        verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
+        verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
+        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"), student);
+        verifyCommentDetails(4, testData.feedbackResponseComments.get("qn4Comment1"), student);
+
+        ______TS("preview results as instructor: can access results");
+        url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
+                .withCourseId(openSession.getCourseId())
+                .withSessionName(openSession.getFeedbackSessionName())
+                .withParam("previewas", instructor.getEmail());
+        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
+
+        resultsPage.verifyFeedbackSessionDetails(openSession, course);
+
+        ______TS("preview results as instructor: questions with responses loaded and invisible responses excluded");
+        verifyLoadedQuestions(instructor, true);
+
+        ______TS("preview results as instructor: visible responses shown");
+        questions.stream().filter(this::canInstructorSeeQuestion)
+                .forEach(question -> verifyResponseDetails(instructor, question));
+
     }
 
-    private void verifyLoadedQuestions(StudentAttributes currentStudent) {
+    private void verifyLoadedQuestions(StudentAttributes currentStudent, boolean isPreview) {
         Set<FeedbackQuestionAttributes> qnsWithResponse = getQnsWithResponses(currentStudent);
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
@@ -127,9 +170,17 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 resultsPage.verifyQuestionNotPresent(qn.getQuestionNumber());
             }
         });
+
+        if (isPreview) {
+            Set<FeedbackQuestionAttributes> qnsWithResponseNotVisibleForPreview = qnsWithResponse.stream()
+                    .filter(qn -> !canInstructorSeeQuestion(qn))
+                    .collect(Collectors.toSet());
+            qnsWithResponseNotVisibleForPreview.forEach(qn ->
+                    resultsPage.verifyQuestionHasResponsesNotVisibleForPreview(qn.getQuestionNumber()));
+        }
     }
 
-    private void verifyLoadedQuestions(InstructorAttributes currentInstructor) {
+    private void verifyLoadedQuestions(InstructorAttributes currentInstructor, boolean isPreview) {
         Set<FeedbackQuestionAttributes> qnsWithResponse = getQnsWithResponses(currentInstructor);
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
@@ -138,6 +189,14 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 resultsPage.verifyQuestionNotPresent(qn.getQuestionNumber());
             }
         });
+
+        if (isPreview) {
+            Set<FeedbackQuestionAttributes> qnsWithResponseNotVisibleForPreview = qnsWithResponse.stream()
+                    .filter(qn -> !canInstructorSeeQuestion(qn))
+                    .collect(Collectors.toSet());
+            qnsWithResponseNotVisibleForPreview.forEach(qn ->
+                    resultsPage.verifyQuestionHasResponsesNotVisibleForPreview(qn.getQuestionNumber()));
+        }
     }
 
     private void verifyResponseDetails(StudentAttributes currentStudent, FeedbackQuestionAttributes question) {
@@ -167,6 +226,16 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             giver = getIdentifier(currentStudent, comment.getCommentGiver());
         }
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
+    }
+
+    private boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        boolean isGiverVisibleToInstructor =
+                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isRecipientVisibleToInstructor =
+                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isResponseVisibleToInstructor =
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
+        return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 
     private Set<FeedbackQuestionAttributes> getQnsWithResponses(StudentAttributes currentStudent) {

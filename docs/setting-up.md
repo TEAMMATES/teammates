@@ -17,7 +17,7 @@ All the instructions in this document work for Linux, OS X, and Windows, with th
 ## Step 1: Obtain your own copy of the repository
 
 1. Install Git.
-   1. (Optional but recommended) Install Sourcetree or other similar Git client.
+   * (Optional but recommended) Install Sourcetree or other similar Git client.
 
 1. Fork our repo at https://github.com/TEAMMATES/teammates. Clone the fork to your hard disk.
 
@@ -45,6 +45,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 These tools are necessary regardless of whether you are developing front-end or back-end:
 
 1. Install Java JDK 11.
+   * Alternatively, it is possible to use JDK 17, as long as newer language features are not used.
 
 If you want to develop front-end, you need to install the following:
 

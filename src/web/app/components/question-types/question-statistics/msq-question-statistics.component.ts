@@ -71,9 +71,13 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
     ];
 
     this.perRecipientRowsData = Object.keys(this.perRecipientResponses).map((key: string) => {
+      const recipientEmail: string = this.perRecipientResponses[key].recipientEmail;
       return [
         { value: this.perRecipientResponses[key].recipientTeam },
-        { value: this.perRecipientResponses[key].recipient },
+        {
+          value: this.perRecipientResponses[key].recipient
+          + (recipientEmail ? ` (${recipientEmail})` : ''),
+        },
         ...Object.keys(this.weightPerOption).map((option: string) => {
           return {
             value: this.perRecipientResponses[key].responses[option],
