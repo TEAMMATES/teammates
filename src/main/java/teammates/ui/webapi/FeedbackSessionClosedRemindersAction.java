@@ -22,7 +22,7 @@ class FeedbackSessionClosedRemindersAction extends AdminOnlyAction {
         for (FeedbackSessionAttributes session : sessionAttributes) {
 
             // If course has been migrated, use sql email logic instead.
-            if (!isCourseMigrated(session.getCourseId())) {
+            if (isCourseMigrated(session.getCourseId())) {
                 continue;
             }
 

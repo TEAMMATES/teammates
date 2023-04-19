@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session opening emails to be sent.
@@ -16,9 +17,15 @@ class FeedbackSessionOpeningRemindersAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+        List<FeedbackSessionAttributes> sessionAttributes = logic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
-        for (FeedbackSessionAttributes session : sessions) {
+        for (FeedbackSessionAttributes session : sessionAttributes) {
+
+            // If course has been migrated, use sql email logic instead.
+            if (isCourseMigrated(session.getCourseId())) {
+                continue;
+            }
+
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionOpeningEmails(session);
             try {
@@ -32,6 +39,19 @@ class FeedbackSessionOpeningRemindersAction extends AdminOnlyAction {
                 log.severe("Unexpected error", e);
             }
         }
+
+        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+
+        for (FeedbackSession session : sessions) {
+            RequestTracer.checkRemainingTime();
+            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionOpeningEmails(session);
+            try {
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
+        }
+
         return new JsonResult("Successful");
     }
 
