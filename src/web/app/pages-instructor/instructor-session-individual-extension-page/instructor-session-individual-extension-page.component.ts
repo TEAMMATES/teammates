@@ -86,10 +86,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   isAllStudentsSelected: boolean = false;
   isAllInstructorsSelected: boolean = false;
-    //new
   isAllUnsubSelected: boolean = false;
   check: string = '';
-  //tohere
+  
   isLoadingAllStudents: boolean = true;
   hasLoadedAllStudentsFailed: boolean = false;
   isLoadingAllInstructors: boolean = true;
@@ -430,10 +429,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       if (!model.hasSubmittedSession) {
         this.check = model.name
         this.studentsOfCourse.forEach((x) => {
-          if (x.name==this.check) {
-            x.isSelected=this.isAllUnsubSelected;
+          if (x.name === this.check) {
+            x.isSelected = this.isAllUnsubSelected;
           }
-        })
+        });
       }
     });
   }
