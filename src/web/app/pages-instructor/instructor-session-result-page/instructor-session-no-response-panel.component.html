@@ -1,8 +1,5 @@
 <div id="no-response-panel" class="card">
-  <button class="card-header bg-secondary text-white cursor-pointer border-0" (click)="toggleTab()">
-    <div class="chevron-collapse">
-      <tm-panel-chevron [isExpanded]="isTabExpanded"></tm-panel-chevron>
-    </div>
+  <div class="card-header bg-secondary text-white cursor-pointer border-0" (click)="toggleTab()">
     <div class="d-flex w-100 flex-fill flex-md-row flex-column align-items-md-center align-items-start">
       <div class="text-start">
         Participants who have not responded to any question
@@ -25,7 +22,10 @@
         </button>
       </div>
     </div>
-  </button>
+    <div class="chevron-collapse">
+      <tm-panel-chevron [isExpanded]="isTabExpanded"></tm-panel-chevron>
+    </div>
+  </div>
   <div *ngIf="isTabExpanded" @collapseAnim>
     <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
       <div *ngIf="noResponseStudentsInSection.length">
