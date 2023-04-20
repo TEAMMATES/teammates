@@ -164,19 +164,6 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     /**
-     * Gets all responses given by a user for a question and recipient.
-     */
-    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestionAndRecipient(
-            String feedbackQuestionId, String giverEmail, String recipientEmail) {
-        assert feedbackQuestionId != null;
-        assert giverEmail != null;
-        assert recipientEmail != null;
-
-        return makeAttributes(getFeedbackResponseEntitiesFromGiverForQuestionAndRecipient(
-                feedbackQuestionId, giverEmail, recipientEmail));
-    }
-
-    /**
      * Gets all responses received by a user for a question.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
@@ -395,15 +382,6 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverEmail =", giverEmail)
-                .list();
-    }
-
-    private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestionAndRecipient(
-            String feedbackQuestionId, String giverEmail, String recipientEmail) {
-        return load()
-                .filter("feedbackQuestionId =", feedbackQuestionId)
-                .filter("giverEmail =", giverEmail)
-                .filter("receiver =", recipientEmail)
                 .list();
     }
 
