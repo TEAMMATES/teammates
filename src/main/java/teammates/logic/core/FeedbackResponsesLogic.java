@@ -163,6 +163,14 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets all responses given by a user for a question and recipient.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestionAndRecipient(
+            String feedbackQuestionId, String userEmail, String recipientEmail) {
+        return frDb.getFeedbackResponsesFromGiverForQuestionAndRecipient(feedbackQuestionId, userEmail, recipientEmail);
+    }
+
+    /**
      * Gets all responses received by a user for a question.
      */
     private List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
@@ -205,6 +213,20 @@ public final class FeedbackResponsesLogic {
                     question.getId(), question.getCourseId(), student.getTeam(), null);
         }
         return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
+    }
+
+    /**
+     * Get existing feedback responses from student or his team for the given
+     * question and recipient.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
+            FeedbackQuestionAttributes question, StudentAttributes student, StudentAttributes recipient) {
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
+            return getFeedbackResponsesFromTeamForQuestion(
+                    question.getId(), question.getCourseId(), student.getTeam(), null);
+        }
+        return frDb.getFeedbackResponsesFromGiverForQuestionAndRecipient(
+                question.getId(), student.getEmail(), recipient.getEmail());
     }
 
     /**
