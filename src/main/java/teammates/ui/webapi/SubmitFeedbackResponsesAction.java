@@ -98,8 +98,8 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         // validate if single-recipient submission is allowed for the given question type
         FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
-        if (isSingleRecipientSubmission &&
-                (feedbackQuestionType.equals(FeedbackQuestionType.CONSTSUM_RECIPIENTS)
+        if (isSingleRecipientSubmission
+                && (feedbackQuestionType.equals(FeedbackQuestionType.CONSTSUM_RECIPIENTS)
                         || feedbackQuestionType.equals(FeedbackQuestionType.RANK_RECIPIENTS)
                         || feedbackQuestionType.equals(FeedbackQuestionType.CONTRIB))) {
             throw new InvalidOperationException("Single Recipient Submission is not allowed for the given question type");
@@ -225,16 +225,14 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                     .filter(entry -> !recipients.contains(entry.getKey()))
                     .map(entry -> entry.getValue())
                     .collect(Collectors.toList());
-    
+
             for (FeedbackResponseAttributes feedbackResponse : feedbackResponsesToDelete) {
                 logic.deleteFeedbackResponseCascade(feedbackResponse.getId());
             }
-        } else if (submitRequest.getRecipients().isEmpty()) {
+        } else if (submitRequest.getRecipients().isEmpty() && existingResponsesPerRecipient.containsKey(recipientId)) {
             // delete a single recipient submission
-            if (existingResponsesPerRecipient.containsKey(recipientId)) {
-                FeedbackResponseAttributes feedbackResponseToDelete = existingResponsesPerRecipient.get(recipientId);
-                logic.deleteFeedbackResponseCascade(feedbackResponseToDelete.getId());
-            }
+            FeedbackResponseAttributes feedbackResponseToDelete = existingResponsesPerRecipient.get(recipientId);
+            logic.deleteFeedbackResponseCascade(feedbackResponseToDelete.getId());
         }
 
         List<FeedbackResponseAttributes> output = new ArrayList<>();
