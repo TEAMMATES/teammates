@@ -424,7 +424,8 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         
         feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo", "test", "passed")));
         feedbackQuestionDetails.setMinPoint(10);
-        feedbackQuestionDetails.setMaxPoint(35);
+        feedbackQuestionDetails.setMaxPoint(100);
+        feedbackQuestionDetails.setPointsPerOption(true);
 
         assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
     }
