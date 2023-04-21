@@ -279,20 +279,22 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
-    this.hasResponseChanged = true;
-    this.isSubmitAllClickedChange.emit(false);
+    if (!this.isFormsDisabled) {
+      this.hasResponseChanged = true;
+      this.isSubmitAllClickedChange.emit(false);
 
-    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-        this.model.recipientSubmissionForms.slice();
-    recipientSubmissionForms[index] = {
-      ...recipientSubmissionForms[index],
-      [field]: data,
-    };
+      const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+          this.model.recipientSubmissionForms.slice();
+      recipientSubmissionForms[index] = {
+        ...recipientSubmissionForms[index],
+        [field]: data,
+      };
 
-    this.formModelChange.emit({
-      ...this.model,
-      recipientSubmissionForms,
-    });
+      this.formModelChange.emit({
+        ...this.model,
+        recipientSubmissionForms,
+      });
+    }
   }
 
   /**

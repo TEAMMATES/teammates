@@ -43,6 +43,8 @@ export interface FeedbackQuestionModel {
   isLoaded: boolean;
   hasResponse: boolean;
   errorMessage?: string;
+  hasResponseButNotVisibleForPreview: boolean;
+  hasCommentNotVisibleForPreview: boolean;
 }
 
 /**
@@ -92,6 +94,9 @@ export class SessionResultPageComponent implements OnInit {
 
   intent: Intent = Intent.STUDENT_RESULT;
 
+  previewAsPerson: string = '';
+  isPreviewHintExpanded: boolean = false;
+
   isCourseLoading: boolean = true;
   isFeedbackSessionDetailsLoading: boolean = true;
   isFeedbackSessionResultsLoading: boolean = true;
@@ -125,6 +130,7 @@ export class SessionResultPageComponent implements OnInit {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
       this.regKey = queryParams.key || '';
+      this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
       if (queryParams.entitytype === 'instructor') {
         this.entityType = 'instructor';
         this.intent = Intent.INSTRUCTOR_RESULT;
@@ -133,8 +139,15 @@ export class SessionResultPageComponent implements OnInit {
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe({
         next: (auth: AuthInfo) => {
+          const isPreview: boolean = !!(auth.user && this.previewAsPerson);
           if (auth.user) {
             this.loggedInUser = auth.user.id;
+          }
+          // prevent having both key and previewas parameters in URL
+          if (this.regKey && isPreview) {
+            this.navigationService.navigateWithErrorMessage('/web/front',
+              'You are not authorized to view this page.');
+            return;
           }
           if (this.regKey) {
             this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe({
@@ -184,6 +197,7 @@ export class SessionResultPageComponent implements OnInit {
             });
           } else if (this.loggedInUser) {
             // Load information based on logged in user
+            // This will also cover preview cases
             this.loadCourseInfo();
             this.loadPersonName();
             this.loadFeedbackSession();
@@ -205,7 +219,11 @@ export class SessionResultPageComponent implements OnInit {
     let request: Observable<Course>;
     switch (this.intent) {
       case Intent.STUDENT_RESULT:
-        request = this.courseService.getCourseAsStudent(this.courseId, this.regKey);
+        if (this.previewAsPerson) {
+          request = this.courseService.getCourseAsInstructor(this.courseId);
+        } else {
+          request = this.courseService.getCourseAsStudent(this.courseId, this.regKey);
+        }
         break;
       case Intent.INSTRUCTOR_RESULT:
         request = this.courseService.getCourseAsInstructor(this.courseId, this.regKey);
@@ -229,7 +247,11 @@ export class SessionResultPageComponent implements OnInit {
   private loadPersonName(): void {
     switch (this.intent) {
       case Intent.STUDENT_RESULT:
-        this.studentService.getStudent(this.courseId, '', this.regKey).subscribe((student: Student) => {
+        this.studentService.getStudent(
+          this.courseId,
+          this.previewAsPerson,
+          this.regKey,
+        ).subscribe((student: Student) => {
           this.personName = student.name;
           this.personEmail = student.email;
 
@@ -252,6 +274,7 @@ export class SessionResultPageComponent implements OnInit {
           feedbackSessionName: this.feedbackSessionName,
           intent: this.intent,
           key: this.regKey,
+          previewAs: this.previewAsPerson,
         }).subscribe((instructor: Instructor) => {
           this.personName = instructor.name;
           this.personEmail = instructor.email;
@@ -269,6 +292,7 @@ export class SessionResultPageComponent implements OnInit {
       feedbackSessionName: this.feedbackSessionName,
       intent: this.intent,
       key: this.regKey,
+      previewAs: this.previewAsPerson,
     })
     .pipe(finalize(() => { this.isFeedbackSessionDetailsLoading = false; }))
     .subscribe({
@@ -284,6 +308,7 @@ export class SessionResultPageComponent implements OnInit {
           feedbackSessionName: this.feedbackSessionName,
           intent: this.intent,
           key: this.regKey,
+          previewAs: this.previewAsPerson,
         }).pipe(finalize(() => {
           this.isFeedbackSessionResultsLoading = false;
         }))
@@ -303,6 +328,8 @@ export class SessionResultPageComponent implements OnInit {
                     isLoading: false,
                     isLoaded: false,
                     hasResponse: true,
+                    hasResponseButNotVisibleForPreview: false,
+                    hasCommentNotVisibleForPreview: false,
                   });
                 }
               },

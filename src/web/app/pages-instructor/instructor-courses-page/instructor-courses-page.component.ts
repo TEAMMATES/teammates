@@ -802,6 +802,13 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
   }
 
+  getAriaSortActive(by: SortBy): String {
+    if (by !== this.activeTableSortBy) {
+      return 'none';
+    }
+    return this.activeTableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   /**
    * Active courses default sort on page load
    */
@@ -821,6 +828,13 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
   }
 
+  getAriaSortArchived(by: SortBy): String {
+    if (by !== this.archivedTableSortBy) {
+      return 'none';
+    }
+    return this.archivedTableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  }
+
   /**
    * Archived courses default sort on page load
    */
@@ -838,6 +852,13 @@ export class InstructorCoursesPageComponent implements OnInit {
         ? SortOrder.DESC : SortOrder.ASC;
     this.deletedTableSortBy = by;
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
+  }
+
+  getAriaSortDeleted(by: SortBy): String {
+    if (by !== this.deletedTableSortBy) {
+      return 'none';
+    }
+    return this.deletedTableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
   /**

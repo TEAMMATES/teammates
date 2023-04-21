@@ -531,40 +531,52 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     <thead>
                       <tr>
                         <th
+                          aria-sort="none"
                           class="sort-session-name sortable-header"
                         >
-                           Session Name 
-                          <span
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
+                          <button>
+                             Session Name 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
                         </th>
                         <th
+                          aria-sort="none"
                           class="sortable-header"
                         >
-                           Start Date 
-                          <span
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
+                          <button>
+                             Start Date 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
                         </th>
                         <th
+                          aria-sort="none"
                           class="sortable-header"
                         >
-                           End Date 
-                          <span
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
+                          <button>
+                             End Date 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
                         </th>
                         <th>
                           Submissions
@@ -1012,40 +1024,52 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     <thead>
                       <tr>
                         <th
+                          aria-sort="none"
                           class="sort-session-name sortable-header"
                         >
-                           Session Name 
-                          <span
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
+                          <button>
+                             Session Name 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
                         </th>
                         <th
+                          aria-sort="none"
                           class="sortable-header"
                         >
-                           Start Date 
-                          <span
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
+                          <button>
+                             Start Date 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
                         </th>
                         <th
+                          aria-sort="none"
                           class="sortable-header"
                         >
-                           End Date 
-                          <span
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
+                          <button>
+                             End Date 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
                         </th>
                         <th>
                           Submissions

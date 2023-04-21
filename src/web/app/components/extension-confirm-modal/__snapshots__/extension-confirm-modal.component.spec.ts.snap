@@ -59,75 +59,95 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
           Students
         </h1>
         <table
-          class="table table-bordered"
+          class="table table-bordered mb-3"
           id="student-list-table"
         >
           <thead>
             <tr>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                <span>
-                  Original Deadline 
-                </span>
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                  <span>
+                    Original Deadline 
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>

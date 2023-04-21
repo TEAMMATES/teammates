@@ -1,0 +1,82 @@
+<div class="d-flex flex-column align-items-center" *tmIsLoading="isPageLoading">
+  <div class="card bg-light" style="width: 500px;">
+    <div *ngIf="isLoginPage">
+      <div class="card-header">
+        <strong>Not Logged In</strong>
+      </div>
+      <div class="card-body d-flex flex-column align-items-center">
+        <div>
+          <button class="btn btn-light" style="min-width: 150px;" (click)="logInWithGoogle()" [disabled]="isLoggingInWithGoogle">
+            <tm-ajax-loading *ngIf="isLoggingInWithGoogle"></tm-ajax-loading>Log In with Google
+          </button>
+        </div>
+        <div class="mt-2">
+          <button class="btn btn-danger" style="min-width: 150px;" (click)="isLogInWithEmail = true; isLoginPage = false;">Log In with Email</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLogInWithEmail">
+      <div class="card-header">
+        <strong>Log In with Email</strong>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formLogin" (ngSubmit)="logInWithEmail(formLogin)">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">
+              <strong>Email:</strong>
+            </label>
+            <div class="col-sm-10">
+              <input class="form-control" type="email" formControlName="email" maxlength="254" email="true" spellcheck="false">
+            </div>
+          </div>
+          <div *ngIf="captchaSiteKey !== ''" class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+              <ngx-recaptcha2 #captchaElem
+                              [siteKey]="captchaSiteKey"
+                              (success)="handleCaptchaSuccess($event)"
+                              [useGlobalDomain]="false"
+                              [size]="size"
+                              [hl]="lang"
+                              formControlName="recaptcha">
+              </ngx-recaptcha2>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary" [disabled]="isLoggingInWithEmail">
+                <tm-ajax-loading *ngIf="isLoggingInWithEmail"></tm-ajax-loading>Login
+              </button>
+              <button class="btn btn-light ms-2" (click)="isLogInWithEmail=false; isLoginPage=true">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="isLoginEmailSent">
+      <div class="card-header">
+        <strong>Login Email Sent</strong>
+      </div>
+      <div class="card-body">
+        <p>An email with additional instructions has been sent to {{formLogin.controls['email'].value}}. Please check your email to complete the login process.</p>
+        <a href="#" style="text-decoration: underline;" (click)="isTroubleGettingEmail=true; isLoginEmailSent=false;">
+          Trouble getting email?
+        </a>
+      </div>
+    </div>
+    <div *ngIf="isTroubleGettingEmail">
+      <div class="card-header">
+        <strong>Trouble Getting Email</strong>
+      </div>
+      <div class="card-body">
+        <p>We have sent an email to {{formLogin.controls['email'].value}}.</p>
+        <p class="mt-3">If you haven't received this within a few minutes, it may have landed in your spam folder. Still having trouble? Try resending this email by clicking the resend button below.</p>
+        <div>
+          <button class="btn btn-primary" (click)="resendEmail()">Resend</button>
+          <button class="btn btn-light ms-2" (click)="isTroubleGettingEmail=false; isLoginEmailSent=true;">Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
