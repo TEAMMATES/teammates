@@ -21,6 +21,7 @@ import {
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
+import { ModifiedTimestampModalModule } from '../modified-timestamps-modal/modified-timestamps-module.module';
 
 const routes: Routes = [
   {
@@ -52,6 +53,7 @@ const routes: Routes = [
     PreviewSessionPanelModule,
     PanelChevronModule,
     ExtensionConfirmModalModule,
+    ModifiedTimestampModalModule,
   ],
   declarations: [
     InstructorSessionEditPageComponent,

@@ -9,6 +9,7 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
+import { ModifiedTimestampModalModule } from '../modified-timestamps-modal/modified-timestamps-module.module';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
     LoadingRetryModule,
     PanelChevronModule,
     TeammatesRouterModule,
+    ModifiedTimestampModalModule,
   ],
   exports: [
     InstructorHomePageComponent,

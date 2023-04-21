@@ -1,97 +1,60 @@
-<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackSessionFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSession()">
-  <tm-session-edit-form *tmIsLoading="isLoadingFeedbackSession" [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()" (cancelEditingSessionEvent)="cancelEditingSessionHandler()"
-                      (deleteExistingSessionEvent)="deleteExistingSessionHandler()" (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
+<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackSessionFailed" [message]="'Failed to load feedback session'"
+  (retryEvent)="loadFeedbackSession()">
+  <tm-session-edit-form *tmIsLoading="isLoadingFeedbackSession" [formMode]="SessionEditFormMode.EDIT"
+    [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()"
+    (cancelEditingSessionEvent)="cancelEditingSessionHandler()"
+    (deleteExistingSessionEvent)="deleteExistingSessionHandler()"
+    (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
 </tm-loading-retry>
 
-<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'" (retryEvent)="loadFeedbackQuestions()">
+<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'"
+  (retryEvent)="loadFeedbackQuestions()">
   <div *ngIf="!isLoadingFeedbackQuestions && questionEditFormModels.length" class="offset-md-10 margin-vertical-20px">
-    <button id="btn-collapse-expand" class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
+    <button id="btn-collapse-expand" class="btn expand-btn btn-light margin-top-30px"
+      (click)="isAllCollapsed ? expandAll() : collapseAll()">
       {{isAllCollapsed ? "Expand" : "Collapse" }} All
     </button>
   </div>
 
   <div *tmIsLoading="isLoadingFeedbackQuestions">
-    <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn">
-      <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
-                             [numOfQuestions]="questionEditFormModels.length"
-                             (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
-                             (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
-                             (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
-                             (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
-                             [(formModel)]="questionEditFormModels[i]"
-                             [isQuestionPublished]="sessionEditFormModel.publishStatus === FeedbackSessionPublishStatus.PUBLISHED"></tm-question-edit-form>
+    <div
+      *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn">
+      <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT" [numOfQuestions]="questionEditFormModels.length"
+        (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
+        (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
+        (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
+        (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)" [(formModel)]="questionEditFormModels[i]"
+        [isQuestionPublished]="sessionEditFormModel.publishStatus === FeedbackSessionPublishStatus.PUBLISHED"></tm-question-edit-form>
     </div>
     <a class="d-block text-end cursor-pointer" (click)="scrollToTopOfPage()">
       Back to Top <i class="fas fa-arrow-up"></i>
     </a>
   </div>
   <div *tmIsLoading="isAddingFromTemplate"></div>
-  <br/>
+  <br />
   <div class="card" *ngIf="!isLoadingFeedbackQuestions && !isAddingQuestionPanelExpanded">
     <tm-adding-question-panel (templateQuestionModalEvent)="templateQuestionModalHandler()"
-                              (populateAndShowNewQuestionFormEvent)="populateAndShowNewQuestionForm($event)"
-                              (copyQuestionsFromOtherSessionsEvent)="copyQuestionsFromOtherSessionsHandler()"
-                              [isCopyingQuestion]="isCopyingQuestion"></tm-adding-question-panel>
+      (populateAndShowNewQuestionFormEvent)="populateAndShowNewQuestionForm($event)"
+      (copyQuestionsFromOtherSessionsEvent)="copyQuestionsFromOtherSessionsHandler()"
+      [isCopyingQuestion]="isCopyingQuestion"></tm-adding-question-panel>
   </div>
-  <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
-                         [formMode]="QuestionEditFormMode.ADD"
-                         [numOfQuestions]="questionEditFormModels.length + 1"
-                         (discardNewQuestionEvent)="isAddingQuestionPanelExpanded = false"
-                         (createNewQuestionEvent)="createNewQuestionHandler()"
-                         [(formModel)]="newQuestionEditFormModel"
-  ></tm-question-edit-form>
-  <br/>
+  <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded" [formMode]="QuestionEditFormMode.ADD"
+    [numOfQuestions]="questionEditFormModels.length + 1"
+    (discardNewQuestionEvent)="isAddingQuestionPanelExpanded = false"
+    (createNewQuestionEvent)="createNewQuestionHandler()"
+    [(formModel)]="newQuestionEditFormModel"></tm-question-edit-form>
+  <br />
   <div *ngIf="!isLoadingFeedbackQuestions" class="card">
     <tm-preview-session-panel [courseId]="courseId" [feedbackSessionName]="feedbackSessionName"
-                              [emailOfStudentToPreview]="emailOfStudentToPreview" [studentsOfCourse]="studentsOfCourse"
-                              [instructorsCanBePreviewedAs]="instructorsOfCourse" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
-    ></tm-preview-session-panel>
+      [emailOfStudentToPreview]="emailOfStudentToPreview" [studentsOfCourse]="studentsOfCourse"
+      [instructorsCanBePreviewedAs]="instructorsOfCourse"
+      [emailOfInstructorToPreview]="emailOfInstructorToPreview"></tm-preview-session-panel>
   </div>
 </tm-loading-retry>
 
+
 <ng-template #modifiedTimestampsModal>
-  <p>
-    The feedback session has been copied to all courses. However, changes are made to some session timings as the
-    existing timings are no longer valid in these courses: {{ this.coursesOfModifiedSession.join(', ') }}.
-    The changes are as follows:
-  </p>
-  <table class="table table-bordered">
-    <thead>
-    <tr>
-      <th>Session Name</th>
-      <th>Timings</th>
-      <th>Existing</th>
-      <th>Modified</th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-container *ngFor="let session of this.modifiedSession | keyvalue">
-      <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionStartTimestamp === session.value.newTimestamp.submissionStartTimestamp}">
-        <td rowspan="4">{{ session.key }}</td>
-        <td>Submission opening time</td>
-        <td>{{ session.value.oldTimestamp.submissionStartTimestamp }}</td>
-        <td>{{ session.value.newTimestamp.submissionStartTimestamp }}</td>
-      </tr>
-      <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionEndTimestamp === session.value.newTimestamp.submissionEndTimestamp}">
-        <td>Submission closing time</td>
-        <td>{{ session.value.oldTimestamp.submissionEndTimestamp }}</td>
-        <td>{{ session.value.newTimestamp.submissionEndTimestamp }}</td>
-      </tr>
-      <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.sessionVisibleTimestamp === session.value.newTimestamp.sessionVisibleTimestamp}">
-        <td>Session visible time</td>
-        <td>{{ session.value.oldTimestamp.sessionVisibleTimestamp }}</td>
-        <td>{{ session.value.newTimestamp.sessionVisibleTimestamp }}</td>
-      </tr>
-      <tr [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.responseVisibleTimestamp === session.value.newTimestamp.responseVisibleTimestamp}">
-        <td>Response visible time</td>
-        <td>{{ session.value.oldTimestamp.responseVisibleTimestamp }}</td>
-        <td>{{ session.value.newTimestamp.responseVisibleTimestamp }}</td>
-      </tr>
-    </ng-container>
-    </tbody>
-  </table>
-  <br>
-  <p>
-    Please modify the timings as necessary.
-  </p>
+  <tm-modified-timestamps-modal [coursesOfModifiedSession]="this.coursesOfModifiedSession"
+    [modifiedSessions]="this.modifiedSession">
+  </tm-modified-timestamps-modal>
 </ng-template>

@@ -12,6 +12,7 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
+import { ModifiedTimestampModalModule } from '../modified-timestamps-modal/modified-timestamps-module.module';
 
 const routes: Routes = [
   {
@@ -45,6 +46,7 @@ const routes: Routes = [
     CopyCourseModalModule,
     ProgressBarModule,
     CourseEditFormModule,
+    ModifiedTimestampModalModule,
   ],
 })
 export class InstructorCoursesPageModule { }

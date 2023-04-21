@@ -22,6 +22,7 @@ import {
 import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
+import { ModifiedTimestampModalModule } from '../modified-timestamps-modal/modified-timestamps-module.module';
 
 const routes: Routes = [
   {
@@ -45,6 +46,7 @@ const routes: Routes = [
     LoadingSpinnerModule,
     LoadingRetryModule,
     TeammatesRouterModule,
+    ModifiedTimestampModalModule,
   ],
   declarations: [
     InstructorSessionsPageComponent,
