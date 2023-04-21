@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import {
+  ModifiedTimestampModalModule,
+} from '../../components/modified-timestamps-modal/modified-timestamps-module.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import {
   SessionsRecycleBinTableModule,
@@ -22,7 +25,6 @@ import {
 import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
-import { ModifiedTimestampModalModule } from '../modified-timestamps-modal/modified-timestamps-module.module';
 
 const routes: Routes = [
   {

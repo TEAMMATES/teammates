@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ModifiedTimestampModalComponent } from '../modified-timestamps-modal/modified-timestamps-modal.component';
+import { ModifiedTimestampModalComponent } from './modified-timestamps-modal.component';
 
 /**
  * Module for instructor home page.

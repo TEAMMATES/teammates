@@ -8,11 +8,13 @@ import { CopyCourseModalModule } from '../../components/copy-course-modal/copy-c
 import { CourseEditFormModule } from '../../components/course-edit-form/course-edit-form.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import {
+  ModifiedTimestampModalModule,
+} from '../../components/modified-timestamps-modal/modified-timestamps-module.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
-import { ModifiedTimestampModalModule } from '../modified-timestamps-modal/modified-timestamps-module.module';
 
 const routes: Routes = [
   {

@@ -7,7 +7,7 @@ exports[`ModifiedTimestampModalComponent should snap with coursesOfModifiedSessi
   modifiedSessions={[Function Object]}
 >
   <p>
-     The feedback session has been copied to all courses. However, changes are made to some session timings as the existing timings are no longer valid in these courses: u.gma-demo. The changes are as follows:
+     The feedback session has been copied to all courses. However, changes are made to some session timings as the existing timings are no longer valid in these courses: CS315-Semester12023. The changes are as follows:
   </p><table
     class="table table-bordered"
   >
