@@ -24,19 +24,19 @@ nav {
   }
 }
 
-@media (min-width: 314px) and (max-width: 575px) { 
+@media (min-width: 314px) and (max-width: 575px) {
   .main-content {
     min-height: calc(100vh - 144px);
   }
 }
 
-@media (min-width: 576px) and (max-width: 589px) { 
+@media (min-width: 576px) and (max-width: 589px) {
   .main-content {
     min-height: calc(100vh - 123px);
   }
 }
 
-@media (min-width: 590px) { 
+@media (min-width: 590px) {
   .main-content {
     min-height: calc(100vh - 102px);
   }
