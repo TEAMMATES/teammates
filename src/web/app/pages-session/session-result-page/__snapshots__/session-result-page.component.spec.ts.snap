@@ -1,5 +1,152 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SessionResultPageComponent should snap when previewing results 1`] = `
+<tm-session-result-page
+  Intent={[Function Object]}
+  __ngContext__={[Function Number]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  courseInstitute=""
+  courseName=""
+  courseService={[Function CourseService]}
+  entityType={[Function String]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isCourseLoading="false"
+  isFeedbackSessionDetailsLoading="false"
+  isFeedbackSessionResultsLoading="false"
+  isPreviewHintExpanded="false"
+  logService={[Function LogService]}
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personEmail={[Function String]}
+  personName={[Function String]}
+  previewAsPerson={[Function String]}
+  questions={[Function Array]}
+  regKey=""
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
+>
+  <h1>
+     Feedback Session Results
+  </h1><div
+    class="bg-light"
+  >
+    <div
+      class="col-12 text-center text-break"
+    >
+      <h4>
+        Previewing Session Results as 
+        <span>
+          student
+        </span>
+         Alice2 (alice2@tmt.tmt) 
+        <button
+          class="btn btn-link no-shadow"
+          type="button"
+        >
+          [more]
+        </button>
+      </h4>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-end"
+        >
+          Course ID:
+        </label>
+        <div
+          class="col-md-7 text-md-start"
+          id="course-id"
+        >
+          CS3281
+        </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-end"
+        >
+          Session:
+        </label>
+        <div
+          class="col-md-7 text-md-start"
+          id="session-name"
+        >
+          Peer Feedback
+        </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-end"
+        >
+          Opening time:
+        </label>
+        <div
+          class="col-md-7 text-md-start"
+          id="opening-time"
+        >
+        </div>
+      </div>
+      <div
+        class="row text-center"
+      >
+        <label
+          class="col-md-2 text-md-end"
+        >
+          Closing time:
+        </label>
+        <div
+          class="col-md-7 text-md-start"
+          id="closing-time"
+        >
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-retry>
+    <div>
+      <div
+        class="mt-4"
+      >
+        <div
+          class="alert alert-primary d-flex align-items-center justify-content-center"
+          role="alert"
+          style="background-color: #D1ECF1;"
+        >
+           Nothing to show. The responses are either not configured to be visible or there are no responses. 
+        </div>
+      </div>
+      <tm-question-response-panel>
+      </tm-question-response-panel>
+    </div>
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
 exports[`SessionResultPageComponent should snap when session results failed to load 1`] = `
 <tm-session-result-page
   Intent={[Function Object]}
@@ -22,12 +169,14 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
+  isPreviewHintExpanded="false"
   logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  previewAsPerson=""
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -171,12 +320,14 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
+  isPreviewHintExpanded="false"
   logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  previewAsPerson=""
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -317,12 +468,14 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
+  isPreviewHintExpanded="false"
   logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  previewAsPerson=""
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -463,12 +616,14 @@ exports[`SessionResultPageComponent should snap with session details and results
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionDetailsLoading={[Function Boolean]}
   isFeedbackSessionResultsLoading={[Function Boolean]}
+  isPreviewHintExpanded="false"
   logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  previewAsPerson=""
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -558,12 +713,14 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading={[Function Boolean]}
+  isPreviewHintExpanded="false"
   logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName=""
+  previewAsPerson=""
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -704,12 +861,14 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
+  isPreviewHintExpanded="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName={[Function String]}
+  previewAsPerson=""
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
@@ -851,12 +1010,14 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   isCourseLoading="false"
   isFeedbackSessionDetailsLoading="false"
   isFeedbackSessionResultsLoading="false"
+  isPreviewHintExpanded="false"
   logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   personEmail=""
   personName={[Function String]}
+  previewAsPerson=""
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}

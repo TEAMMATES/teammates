@@ -732,7 +732,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             const isFeedbackResponseDetailsEmpty: boolean =
                 this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
                     questionSubmissionFormModel.questionType, recipientSubmissionFormModel.responseDetails);
-            isQuestionFullyAnswered = isQuestionFullyAnswered && !isFeedbackResponseDetailsEmpty;
 
             if (!isFeedbackResponseDetailsEmpty) {
               responses.push({
@@ -741,6 +740,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               });
             }
           });
+
+      isQuestionFullyAnswered = responses.length > 0;
 
       if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
         savingRequests.push(

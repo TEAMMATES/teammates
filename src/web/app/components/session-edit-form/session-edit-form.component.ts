@@ -216,8 +216,11 @@ export class SessionEditFormComponent {
         this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
     const submissionStartTime: moment.Moment =
         this.datetimeService.getMomentInstanceFromTime(this.model.submissionStartTime);
-    const submissionStartDateTime: moment.Moment = submissionStartDate
-        .add(submissionStartTime.hour()).add(submissionStartTime.minute());
+
+    const submissionStartDateTime: moment.Moment = submissionStartDate.clone()
+    .hours(submissionStartTime.hour())
+    .minutes(submissionStartTime.minute());
+
     const oneHourBeforeNow = moment().tz(this.model.timeZone).subtract(1, 'hours');
 
     if (submissionStartDateTime.isAfter(oneHourBeforeNow)) {

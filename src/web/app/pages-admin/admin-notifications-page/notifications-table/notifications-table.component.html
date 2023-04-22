@@ -1,55 +1,67 @@
 <div class="row">
-  <div class="col-12">
+  <div class="col-12 table-responsive">
     <table id="notifications-table" class="table table-responsive-lg table-striped table-bordered margin-bottom-0">
       <thead>
       <tr [ngClass]="{ 'bg-primary text-white': headerColorScheme === NotificationsTableHeaderColorScheme.BLUE }">
-        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_TITLE)">
-          Title
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_TITLE && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
-            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_TITLE && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
-          </span>
+        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_TITLE)" [attr.aria-sort]="getAriaSort(SortBy.NOTIFICATION_TITLE)">
+          <button>
+            Title
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_TITLE && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
+              <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_TITLE && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
+            </span>
+          </button>
         </th>
-        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_START_TIME)">
-          Start Time
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_START_TIME && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
-            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_START_TIME && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
-          </span>
+        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_START_TIME)" [attr.aria-sort]="getAriaSort(SortBy.NOTIFICATION_START_TIME)">
+          <button>
+            Start Time
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_START_TIME && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
+              <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_START_TIME && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
+            </span>
+          </button>
         </th>
-        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_END_TIME)">
-          End Time
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_END_TIME && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
-            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_END_TIME && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
-          </span>
+        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_END_TIME)" [attr.aria-sort]="getAriaSort(SortBy.NOTIFICATION_END_TIME)">
+          <button>
+            End Time
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_END_TIME && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
+              <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_END_TIME && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
+            </span>
+          </button>
         </th>
-        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_TARGET_USER)">
-          Target User
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_TARGET_USER && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
-            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_TARGET_USER && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
-          </span>
+        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_TARGET_USER)" [attr.aria-sort]="getAriaSort(SortBy.NOTIFICATION_TARGET_USER)">
+          <button>
+            Target User
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_TARGET_USER && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
+              <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_TARGET_USER && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
+            </span>
+          </button>
         </th>
-        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_STYLE)">
-          Style
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_STYLE && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
-            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_STYLE && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
-          </span>
+        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_STYLE)" [attr.aria-sort]="getAriaSort(SortBy.NOTIFICATION_STYLE)">
+          <button>
+            Style
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_STYLE && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
+              <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_STYLE && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
+            </span>
+          </button>
         </th>
-        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_CREATE_TIME)">
-          Creation Time
-          <span class="fa-stack">
-            <i class="fas fa-sort"></i>
-            <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_CREATE_TIME && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
-            <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_CREATE_TIME && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
-          </span>
+        <th class="sortable-header" (click)="sortNotificationsTableRowModels(SortBy.NOTIFICATION_CREATE_TIME)" [attr.aria-sort]="getAriaSort(SortBy.NOTIFICATION_CREATE_TIME)">
+          <button>
+            Creation Time
+            <span class="fa-stack" aria-hidden="true">
+              <i class="fas fa-sort"></i>
+              <i class="fas fa-sort-down" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_CREATE_TIME && notificationsTableRowModelsSortOrder === SortOrder.DESC"></i>
+              <i class="fas fa-sort-up" *ngIf="notificationsTableRowModelsSortBy === SortBy.NOTIFICATION_CREATE_TIME && notificationsTableRowModelsSortOrder === SortOrder.ASC"></i>
+            </span>
+          </button>
         </th>
         <th>Actions</th>
       </tr>

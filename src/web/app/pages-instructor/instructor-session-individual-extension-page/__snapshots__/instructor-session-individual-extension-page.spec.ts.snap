@@ -150,74 +150,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -327,62 +349,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -617,74 +658,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -794,62 +857,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -1004,74 +1086,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -1096,62 +1200,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -1337,74 +1460,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -1514,62 +1659,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -1755,74 +1919,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -1847,62 +2033,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -2139,74 +2344,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -2316,62 +2543,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -2607,74 +2853,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -2891,62 +3159,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -3055,74 +3342,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -3147,62 +3456,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -3311,74 +3639,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -3403,62 +3753,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -3644,74 +4013,96 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             <tr>
               <th>
                 <input
-                  aria-label="Select all students"
                   id="select-all-student-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-student-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Section 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Section 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Team 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Team 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -4020,62 +4411,81 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
             <tr>
               <th>
                 <input
-                  aria-label="Select all instructors"
                   id="select-all-instructor-btn"
                   type="checkbox"
                 />
-                 Select all 
+                <label
+                  for="select-all-instructor-btn"
+                >
+                   Select all
+                </label>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Name 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Name 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Email 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Email 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="none"
                 class="sortable-header"
               >
-                 Role 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
+                <button>
+                   Role 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
               </th>
               <th
+                aria-sort="descending"
                 class="sortable-header"
               >
-                 Current Deadline 
-                <span
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
+                <button>
+                   Current Deadline 
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>

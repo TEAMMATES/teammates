@@ -85,8 +85,10 @@ export class MsqQuestionStatisticsCalculation
 
     const perRecipientResponse: Record<string, Record<string, number>> = {};
     const recipientToTeam: Record<string, string> = {};
+    const recipientEmails: Record<string, string> = {};
     for (const response of this.responses) {
       perRecipientResponse[response.recipient] = perRecipientResponse[response.recipient] || {};
+      recipientEmails[response.recipient] = recipientEmails[response.recipient] || response.recipientEmail || '';
       for (const choice of this.question.msqChoices) {
         perRecipientResponse[response.recipient][choice] = 0;
       }
@@ -114,6 +116,7 @@ export class MsqQuestionStatisticsCalculation
 
       this.perRecipientResponses[recipient] = {
         recipient,
+        recipientEmail: recipientEmails[recipient],
         total: +total.toFixed(5),
         average: +average.toFixed(2),
         recipientTeam: recipientToTeam[recipient],

@@ -71,6 +71,7 @@ chromedriver*
 api-output.ts
 api-request.ts
 api-const.ts
+src/main/resources/firebase-credentials.json
 src/client/java/teammates/client/scripts/statistics/data/
 src/client/java/teammates/client/scripts/log/
 src/e2e/resources/gmail-api/

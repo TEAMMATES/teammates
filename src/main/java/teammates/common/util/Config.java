@@ -40,6 +40,9 @@ public final class Config {
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
+    /** The value of the "app.auth.type" in build.properties file. */
+    public static final String AUTH_TYPE;
+
     /** The value of the "app.oauth2.client.id" in build.properties file. */
     public static final String OAUTH2_CLIENT_ID;
 
@@ -145,6 +148,7 @@ public final class Config {
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
+        AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
         OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
         OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
@@ -272,6 +276,10 @@ public final class Config {
      */
     public static AppUrl getFrontEndAppUrl(String relativeUrl) {
         return new AppUrl(APP_FRONTEND_URL + relativeUrl);
+    }
+
+    public static boolean isUsingFirebase() {
+        return "firebase".equalsIgnoreCase(AUTH_TYPE);
     }
 
     public static boolean isUsingSendgrid() {

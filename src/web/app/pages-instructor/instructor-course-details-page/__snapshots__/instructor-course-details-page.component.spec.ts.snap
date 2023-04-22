@@ -405,64 +405,84 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               >
                 <tr>
                   <th
+                    aria-sort="none"
                     class="sortable-header"
                   >
-                     Section 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Section 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
+                    aria-sort="none"
                     class="sortable-header"
                   >
-                     Team 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Team 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
+                    aria-sort="none"
                     class="sort-by-name sortable-header"
                   >
-                     Student Name 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Student Name 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
+                    aria-sort="none"
                     class="sort-by-status sortable-header"
                   >
-                     Status 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Status 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
+                    aria-sort="none"
                     class="sortable-header"
                   >
-                     Email 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
+                    <button>
+                       Email 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
                   </th>
                   <th
                     class="align-center"
