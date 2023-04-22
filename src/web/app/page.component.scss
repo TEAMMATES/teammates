@@ -18,7 +18,13 @@ nav {
   padding: 20px 70px;
 }
 
-@media (max-width: 575px) { 
+@media (max-width: 313px) {
+  .main-content {
+    min-height: calc(100vh - 165px);
+  }
+}
+
+@media (min-width: 314px) and (max-width: 575px) { 
   .main-content {
     min-height: calc(100vh - 144px);
   }
