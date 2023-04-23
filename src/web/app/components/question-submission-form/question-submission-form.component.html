@@ -179,35 +179,14 @@
                                   [isFeedbackParticipantComment]="true"
                                   [questionShowResponsesTo]="model.showResponsesTo"
                                   [shouldHideSavingButton]="true"
-                                  (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
-                                  (closeEditingEvent)="discardEditedParticipantComment(i)"
+                                  [model]="recipientSubmissionFormModel.commentByGiver"
+                                  (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
+                                  (closeEditingEvent)="cancelAddingNewParticipantComment(i)"
                                   [isDisabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
                   <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
                     You must provide a valid response in order to give a comment or your comment will not be saved!
                   </div>
                 </div>
-                <ng-template #newComment>
-                  <div style="display: inline-block;" [ngbTooltip]="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails) ? 'Give a valid response in order to comment' : ''">
-                    <button id="btn-add-comment" *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-light btn-sm"
-                            (click)="addNewParticipantCommentToResponse(i)"
-                            [disabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
-                      <i class="fas fa-comment"></i> [Optional] Comment on your response
-                    </button>
-                  </div>
-                  <div *ngIf="recipientSubmissionFormModel.commentByGiver">
-                    <tm-comment-row [mode]="CommentRowMode.ADD" [isVisibilityOptionEnabled]="false"
-                                    [isFeedbackParticipantComment]="true"
-                                    [questionShowResponsesTo]="model.showResponsesTo"
-                                    [shouldHideSavingButton]="true"
-                                    [model]="recipientSubmissionFormModel.commentByGiver"
-                                    (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
-                                    (closeEditingEvent)="cancelAddingNewParticipantComment(i)"
-                                    [isDisabled]="isFormsDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
-                    <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
-                      You must provide a valid response in order to give a comment or your comment will not be saved!
-                    </div>
-                  </div>
-                </ng-template>
               </ng-template>
             </div>
           </ng-container>
