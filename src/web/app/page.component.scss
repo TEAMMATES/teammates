@@ -14,14 +14,8 @@ nav {
 
 .main-content {
   margin-top: 50px;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 102px);
   padding: 20px 70px;
-}
-
-@media (max-width: 313px) {
-  .main-content {
-    min-height: calc(100vh - 165px);
-  }
 }
 
 @media (min-width: 314px) and (max-width: 575px) {
@@ -33,12 +27,6 @@ nav {
 @media (min-width: 576px) and (max-width: 589px) {
   .main-content {
     min-height: calc(100vh - 123px);
-  }
-}
-
-@media (min-width: 590px) {
-  .main-content {
-    min-height: calc(100vh - 102px);
   }
 }
 
