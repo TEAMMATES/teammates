@@ -812,9 +812,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     // Methods for interacting with WebElements
 
     private WebElement getNoResponseTable() {
+        WebElement noResponseHeader = noResponsePanel.findElement(By.className("card-header"));
         By tableId = By.id("no-response-table");
         if (!isElementPresent(tableId)) {
-            click(noResponsePanel);
+            click(noResponseHeader);
         }
         return waitForElementPresence(tableId);
     }
