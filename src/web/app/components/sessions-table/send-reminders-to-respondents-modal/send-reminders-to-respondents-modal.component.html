@@ -7,17 +7,23 @@
     <div *ngIf="studentListInfoTableRowModels.length > 0">
      <div class="form-check">
       <input id="remindAllStu" class="form-check-input" type="checkbox" [ngModel]="isAllStudentsSelected" (ngModelChange)="changeSelectionStatusForAllStudentsHandler($event)"/>
-      <label for="remindAllStu" class="remind-all form-check-label">&nbsp;Select all students</label>
+      <label for="remindAllStu" class="remind-all form-check-label">Select all students</label>
+    </div>
+    <div class="form-check">
       <input id="remindNotSubmittedStu" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitStudentsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedStudentsHandler($event)"/>
-      <label for="remindNotSubmittedStu" class="form-check-label">&nbsp;Select all students not yet submitted</label>
+      <label for="remindNotSubmittedStu" class="form-check-label">Select all students not yet submitted</label>
+    </div>
     </div>
     </div>
     <div *ngIf="instructorListInfoTableRowModels.length > 0">
       <div class="form-check">
       <input id="remindAllIns" class="form-check-input" type="checkbox" [ngModel]="isAllInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllInstructorsHandler($event)"/>
-      <label for="remindAllIns" class="remind-all form-check-label">&nbsp;Select all instructors</label>
+      <label for="remindAllIns" class="remind-all form-check-label">Select all instructors</label>
+      </div>
+      <div class ="form-check">
       <input id="remindNotSubmittedIns" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedInstructorsHandler($event)"/>
-      <label for="remindNotSubmittedIns" class="form-check-label">&nbsp;Select all instructors not yet submitted</label>
+      <label for="remindNotSubmittedIns" class="form-check-label">Select all instructors not yet submitted</label>
+    </div>
     </div>
     </div>
   </div>
