@@ -41,7 +41,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
           class="form-check form-check-inline"
         >
           <label
-            class="form-check-label fw-bold"
+            class="form-check-label ngb-tooltip-class fw-bold"
             container="body"
             ngbtooltip="Assign weights to the choices for calculating statistics."
           >
@@ -204,7 +204,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
           class="form-check form-check-inline"
         >
           <label
-            class="form-check-label fw-bold"
+            class="form-check-label ngb-tooltip-class fw-bold"
             container="body"
             ngbtooltip="Assign weights to the choices for calculating statistics."
           >
@@ -367,7 +367,7 @@ exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. 
           class="form-check form-check-inline"
         >
           <label
-            class="form-check-label fw-bold"
+            class="form-check-label ngb-tooltip-class fw-bold"
             container="body"
             ngbtooltip="Assign weights to the choices for calculating statistics."
           >
