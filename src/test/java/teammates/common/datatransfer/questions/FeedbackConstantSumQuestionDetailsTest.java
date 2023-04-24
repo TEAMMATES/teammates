@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -342,5 +343,90 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
     public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
+    }
+
+    @Test
+    public void testValidateQuestionDetails_invalidMaxMinOptions_errorReturned() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails =
+                new FeedbackConstantSumQuestionDetails("Is this a test?");
+
+        feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("Yes", "No")));
+        feedbackQuestionDetails.setMinPoint(101);
+        feedbackQuestionDetails.setMaxPoint(-1);
+
+        List<String> errors = feedbackQuestionDetails.validateQuestionDetails();
+
+        assertEquals(5, errors.size());
+        assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MIN_GREATER_THAN_MAX));
+        assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MIN_POINT_ABOVE_UPPER_BOUND + "50"));
+        assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MAX_POINT_BELOW_LOWER_BOUND + "50"));
+        assertTrue(errors.contains(String.format(FeedbackConstantSumQuestionDetails.CONST_SUM_TEMPLATE_NEGATIVE,
+                FeedbackConstantSumQuestionDetails.MAX_POINT_STRING)));
+        assertTrue(errors.contains(String.format(FeedbackConstantSumQuestionDetails.CONST_SUM_TEMPLATE_EXCEEDS_POINTS,
+                FeedbackConstantSumQuestionDetails.MIN_POINT_STRING, 100)));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_duplicateOptions_errorReturned() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+
+        feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo", "No", "foo")));
+
+        assertTrue(feedbackQuestionDetails.validateQuestionDetails()
+                .contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_DUPLICATE_OPTIONS));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_invalidConstSumOptionSize_errorReturned() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+
+        feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo")));
+
+        assertTrue(feedbackQuestionDetails.validateQuestionDetails()
+                .contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
+                        + FeedbackConstantSumQuestionDetails.CONST_SUM_MIN_NUM_OF_OPTIONS + "."));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_invalidPoint_errorReturned() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        feedbackQuestionDetails.setPoints(0);
+
+        assertTrue(feedbackQuestionDetails.validateQuestionDetails()
+                .contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_NOT_ENOUGH_POINTS
+                        + FeedbackConstantSumQuestionDetails.CONST_SUM_MIN_NUM_OF_POINTS + "."));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_destributeToRecipients_noMinMaxOptionErrorsReturned() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+
+        feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo", "test")));
+        feedbackQuestionDetails.setMinPoint(101);
+        feedbackQuestionDetails.setMaxPoint(-1);
+        feedbackQuestionDetails.setDistributeToRecipients(true);
+
+        assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
+    }
+
+    @Test
+    public void testValidateQuestionDetails_noMinMaxOptions_noMinMaxOptionErrorsReturned() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+
+        feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo", "test")));
+
+        assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
+    }
+
+    @Test
+    public void testValidateQuestionDetails_validMinMaxOption_noErrorsReturned() {
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+
+        feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo", "test", "passed")));
+        feedbackQuestionDetails.setMinPoint(10);
+        feedbackQuestionDetails.setMaxPoint(100);
+        feedbackQuestionDetails.setPointsPerOption(true);
+
+        assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
     }
 }
