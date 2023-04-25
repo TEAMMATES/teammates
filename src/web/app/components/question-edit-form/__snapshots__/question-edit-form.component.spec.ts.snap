@@ -256,7 +256,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             >
               <button
                 aria-expanded="false"
-                class="dropdown-toggle btn btn-light white-space-normal mw-100 overflow-scroll d-inline-block"
+                class="dropdown-toggle btn btn-light white-space-normal mw-100 d-inline-block"
                 disabled=""
                 id="btn-feedback-path"
                 ngbdropdowntoggle=""
