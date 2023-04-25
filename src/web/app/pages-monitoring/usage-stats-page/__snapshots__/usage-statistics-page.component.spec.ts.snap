@@ -44,10 +44,10 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             </label>
           </div>
           <div
-            class="col-12 row"
+            class="row"
           >
             <div
-              class="col-md-7"
+              class="col-6"
             >
               <div
                 class="input-group"
@@ -69,7 +69,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
               </div>
             </div>
             <div
-              class="col-md-5"
+              class="col-6"
             >
               <ngb-timepicker
                 class="ng-untouched ng-pristine ng-valid"
@@ -127,10 +127,10 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
             </label>
           </div>
           <div
-            class="col-12 row"
+            class="row"
           >
             <div
-              class="col-md-7"
+              class="col-6"
             >
               <div
                 class="input-group"
@@ -152,7 +152,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
               </div>
             </div>
             <div
-              class="col-md-5"
+              class="col-6"
             >
               <ngb-timepicker
                 class="ng-untouched ng-pristine ng-valid"
