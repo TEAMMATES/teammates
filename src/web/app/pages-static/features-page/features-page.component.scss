@@ -7,13 +7,13 @@ img {
   margin: 0 20px;
 }
 
-@media (max-width: 991px){
-  img{
+@media (max-width: 991px) {
+  img {
     margin: 0;
     max-width: 100%;
   }
 
-  .inner-content{
+  .inner-content {
     margin: 0;
   }
 }
