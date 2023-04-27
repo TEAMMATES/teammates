@@ -61,7 +61,7 @@ public class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
             List<Student> studentsToRemindList = studentList
                     .stream()
                     .filter(student -> !sqlLogic.isFeedbackSessionAttemptedByStudent(
-                            session, student.getEmail(), student.getTeam().getName()))
+                            session, student.getEmail(), student.getTeamName()))
                     .collect(Collectors.toList());
 
             List<Instructor> instructorsToRemindList = instructorList

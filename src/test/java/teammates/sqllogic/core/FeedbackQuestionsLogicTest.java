@@ -27,8 +27,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     private FeedbackQuestionsDb fqDb;
+
     private UsersLogic usersLogic;
-    // private FeedbackResponsesLogic frLogic;
 
     private SqlDataBundle typicalDataBundle;
 
@@ -43,7 +43,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
         usersLogic = mock(UsersLogic.class);
         FeedbackResponsesLogic frLogic = mock(FeedbackResponsesLogic.class);
-        fqLogic.initLogicDependencies(fqDb, coursesLogic, frLogic, usersLogic);
+        FeedbackSessionsLogic feedbackSessionsLogic = mock(FeedbackSessionsLogic.class);
+        fqLogic.initLogicDependencies(fqDb, coursesLogic, frLogic, usersLogic, feedbackSessionsLogic);
     }
 
     @Test(enabled = false)

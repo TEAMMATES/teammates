@@ -276,6 +276,21 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets the list of students for the specified {@code courseId} in batches with {@code batchSize}.
+     */
+    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> root = cr.from(Student.class);
+
+        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+
+        return HibernateUtil.createQuery(cr).setMaxResults(batchSize).getResultList();
+    }
+
+    /**
      * Gets the instructor with the specified {@code userEmail}.
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
@@ -434,6 +449,27 @@ public final class UsersDb extends EntitiesDb {
                     cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets count of students of a team of a course.
+     */
+    public long getStudentCountForTeam(String teamName, String courseId) {
+        assert teamName != null;
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> courseJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(cb.count(studentRoot.get("id")))
+                .where(cb.and(
+                    cb.equal(courseJoin.get("id"), courseId),
+                    cb.equal(teamsJoin.get("name"), teamName)));
+
+        return HibernateUtil.createQuery(cr).getSingleResult();
     }
 
 }
