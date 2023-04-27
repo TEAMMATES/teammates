@@ -479,4 +479,9 @@ public class FeedbackSession extends BaseEntity {
     public boolean isCreator(String userEmail) {
         return creatorEmail.equals(userEmail);
     }
+
+    public boolean isSessionDeleted() {
+        return this.deletedAt != null;
+    }
+
 }

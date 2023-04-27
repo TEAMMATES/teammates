@@ -342,4 +342,5 @@ public final class FeedbackSessionsLogic {
         // if there is no question for instructor, session is attempted
         return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
     }
+
 }

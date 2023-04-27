@@ -90,7 +90,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         when(mockLogic.getInstructorByGoogleId(courseId, instructorGoogleId)).thenReturn(null);
 
         // Feedback Session not attempted yet by users.
-        when(mockLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam().getName()))
+        when(mockLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeamName()))
                 .thenReturn(true);
         when(mockLogic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())).thenReturn(true);
 
@@ -131,7 +131,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         when(mockLogic.getInstructorByGoogleId(courseId, instructorGoogleId)).thenReturn(null);
 
         // Feedback Session not attempted yet by users.
-        when(mockLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeam().getName()))
+        when(mockLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeamName()))
                 .thenReturn(false);
         when(mockLogic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail())).thenReturn(false);
 

@@ -15,6 +15,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.RequestTracer;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -36,6 +37,10 @@ public final class UsersLogic {
 
     private AccountsLogic accountsLogic;
 
+    private FeedbackResponsesLogic feedbackResponsesLogic;
+
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
+
     private UsersLogic() {
         // prevent initialization
     }
@@ -44,9 +49,12 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
+            FeedbackResponsesLogic feedbackResponsesLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
+        this.feedbackResponsesLogic = feedbackResponsesLogic;
+        this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
     /**
@@ -393,6 +401,45 @@ public final class UsersLogic {
                 .equals(instructorToEdit.getGoogleId()));
         if (isLastRegInstructorWithPrivilege) {
             instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+        }
+    }
+
+    /**
+     * Deletes a student along with its associated feedback responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     */
+    public void deleteStudentCascade(String courseId, String studentEmail) {
+        Student student = getStudentForEmail(courseId, studentEmail);
+
+        if (student == null) {
+            return;
+        }
+
+        feedbackResponsesLogic
+                .deleteFeedbackResponsesForCourseCascade(courseId, studentEmail);
+
+        if (usersDb.getStudentCountForTeam(student.getTeamName(), student.getCourseId()) == 1) {
+            // the student is the only student in the team, delete responses related to the team
+            feedbackResponsesLogic
+                    .deleteFeedbackResponsesForCourseCascade(
+                        student.getCourse().getId(), student.getTeamName());
+        }
+
+        deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
+        usersDb.deleteUser(student);
+        feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
+    }
+
+    /**
+     * Deletes students in the course cascade their associated responses, deadline extensions, and comments.
+     */
+    public void deleteStudentsInCourseCascade(String courseId) {
+        List<Student> studentsInCourse = getStudentsForCourse(courseId);
+
+        for (Student student : studentsInCourse) {
+            RequestTracer.checkRemainingTime();
+            deleteStudentCascade(courseId, student.getEmail());
         }
     }
 
