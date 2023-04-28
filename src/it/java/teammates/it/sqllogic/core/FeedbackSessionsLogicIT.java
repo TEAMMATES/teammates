@@ -1,6 +1,8 @@
 package teammates.it.sqllogic.core;
 
+import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
@@ -14,7 +16,9 @@ import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * SUT: {@link FeedbackSessionsLogic}.
@@ -92,6 +96,35 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 "non-existent name", publishedFs.getCourse().getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
                 publishedFs.getName(), "random-course-id"));
+    }
+
+    @Test
+    public void testGetFeedbackSessionsForInstructors() {
+        Instructor instructor = typicalDataBundle.instructors.get("instructor1OfCourse1");
+        Course course = instructor.getCourse();
+        List<FeedbackSession> expectedFsList = fsLogic.getFeedbackSessionsForCourse(course.getId());
+        List<FeedbackSession> actualFsList = fsLogic.getFeedbackSessionsForInstructors(List.of(instructor));
+
+        assertEquals(expectedFsList.size(), actualFsList.size());
+        for (int i = 0; i < expectedFsList.size(); i++) {
+            verifyEquals(expectedFsList.get(i), actualFsList.get(i));
+        }
+    }
+
+    @Test
+    public void testGetSoftDeletedFeedbackSessionsForInstructors() {
+        Instructor instructor = typicalDataBundle.instructors.get("instructor1OfCourse1");
+        Course course = instructor.getCourse();
+        List<FeedbackSession> expectedFsList = fsLogic.getFeedbackSessionsForCourse(course.getId());
+        for (FeedbackSession fs : expectedFsList) {
+            fs.setDeletedAt(Instant.now());
+        }
+        List<FeedbackSession> actualFsList = fsLogic.getSoftDeletedFeedbackSessionsForInstructors(List.of(instructor));
+
+        assertEquals(expectedFsList.size(), actualFsList.size());
+        for (int i = 0; i < expectedFsList.size(); i++) {
+            verifyEquals(expectedFsList.get(i), actualFsList.get(i));
+        }
     }
 
     @Test

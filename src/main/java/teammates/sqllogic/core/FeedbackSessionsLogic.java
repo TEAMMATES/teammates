@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * Handles operations related to feedback sessions.
@@ -37,6 +38,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
+    private CoursesLogic coursesLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -51,6 +53,7 @@ public final class FeedbackSessionsLogic {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
+        this.coursesLogic = coursesLogic;
     }
 
     /**
@@ -100,6 +103,46 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
         return fsDb.getSoftDeletedFeedbackSession(courseId, feedbackSessionName);
+    }
+
+    /**
+     * Gets a list of feedback sessions for instructors.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+
+        List<Instructor> courseNotDeletedInstructorList = instructorList.stream()
+                .filter(instructor -> coursesLogic.getCourse(instructor.getCourseId()).getDeletedAt() == null)
+                .collect(Collectors.toList());
+
+        List<FeedbackSession> fsList = new ArrayList<>();
+
+        for (Instructor instructor : courseNotDeletedInstructorList) {
+            fsList.addAll(getFeedbackSessionsForCourse(instructor.getCourseId()));
+        }
+
+        return fsList;
+    }
+
+    /**
+     * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
+     * <br>
+     * Omits sessions if the corresponding courses are archived or in Recycle Bin
+     */
+    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+
+        List<Instructor> courseNotDeletedInstructorList = instructorList.stream()
+                .filter(instructor -> coursesLogic.getCourse(instructor.getCourseId()).getDeletedAt() == null)
+                .collect(Collectors.toList());
+
+        List<FeedbackSession> fsList = new ArrayList<>();
+
+        for (Instructor instructor : courseNotDeletedInstructorList) {
+            fsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(instructor.getCourseId()));
+        }
+
+        return fsList;
     }
 
     /**

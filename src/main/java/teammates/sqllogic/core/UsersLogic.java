@@ -351,6 +351,15 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all students associated with a googleId.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        assert googleId != null;
+
+        return usersDb.getStudentsByGoogleId(googleId);
+    }
+
+    /**
      * Returns true if the user associated with the googleId is a student in any course in the system.
      */
     public boolean isStudentInAnyCourse(String googleId) {

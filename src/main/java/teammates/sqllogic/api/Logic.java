@@ -185,6 +185,13 @@ public class Logic {
     }
 
     /**
+     * Gets all students associated with a googleId.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        return usersLogic.getStudentsByGoogleId(googleId);
+    }
+
+    /**
      * Gets a course by course id.
      * @param courseId courseId of the course.
      * @return the specified course.
@@ -374,6 +381,28 @@ public class Logic {
         assert courseId != null;
 
         return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
+     * <br>
+     * Omits sessions if the corresponding courses are archived or in Recycle Bin
+     */
+    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+        assert instructorList != null;
+
+        return feedbackSessionsLogic.getSoftDeletedFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
+     * Gets a list of feedback sessions for instructors.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+        assert instructorList != null;
+
+        return feedbackSessionsLogic.getFeedbackSessionsForInstructors(instructorList);
     }
 
     /**

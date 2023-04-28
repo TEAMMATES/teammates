@@ -83,6 +83,20 @@ public final class FeedbackSessionsDb extends EntitiesDb {
     }
 
     /**
+     * Gets soft-deleted feedback sessions for course.
+     */
+    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+        cq.select(fsRoot).where(cb.and(
+                cb.isNotNull(fsRoot.get("deletedAt")),
+                cb.equal(fsJoin.get("id"), courseId)));
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
      * Restores a specific soft deleted feedback session.
      */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
@@ -179,10 +193,10 @@ public final class FeedbackSessionsDb extends EntitiesDb {
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
-        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
-        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+        Root<FeedbackSession> root = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> courseJoin = root.join("course");
 
-        cq.select(fsRoot).where(cb.equal(fsJoin.get("id"), courseId));
+        cq.select(root).where(cb.equal(courseJoin.get("id"), courseId));
 
         return HibernateUtil.createQuery(cq).getResultList();
     }

@@ -255,6 +255,28 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertTrue(expectedStudents.containsAll(actualStudents));
     }
 
+    @Test
+    public void testGetStudentsByGoogleId()
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        Course course2 = new Course("course-id-2", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
+        Student student2 = getTypicalStudent();
+        Account account = new Account("google-id", student.getName(), student.getEmail());
+
+        accountsDb.createAccount(account);
+        coursesDb.createCourse(course2);
+        student.setAccount(account);
+        student2.setAccount(account);
+        student2.setCourse(course2);
+        usersDb.createStudent(student2);
+
+        List<Student> expectedStudents = List.of(student, student2);
+
+        List<Student> actualStudents = usersDb.getStudentsByGoogleId(student.getGoogleId());
+
+        assertEquals(expectedStudents.size(), actualStudents.size());
+        assertTrue(expectedStudents.containsAll(actualStudents));
+    }
+
     private Student getTypicalStudent() {
         return new Student(course, "student-name", "valid-student@email.tmt", "comments");
     }
