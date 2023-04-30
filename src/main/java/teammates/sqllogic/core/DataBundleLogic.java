@@ -330,22 +330,17 @@ public final class DataBundleLogic {
     public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
         Map<String, Student> students = dataBundle.students;
         for (Student student : students.values()) {
-            Student studentInDb = usersLogic.getStudentForEmail(student.getCourseId(), student.getEmail());
-            usersLogic.putStudentDocument(studentInDb);
+            usersLogic.putStudentDocument(student);
         }
 
         Map<String, Instructor> instructors = dataBundle.instructors;
         for (Instructor instructor : instructors.values()) {
-            Instructor instructorInDb = usersLogic.getInstructorForEmail(instructor.getCourseId(),
-                    instructor.getEmail());
-            usersLogic.putInstructorDocument(instructorInDb);
+            usersLogic.putInstructorDocument(instructor);
         }
 
         Map<String, AccountRequest> accountRequests = dataBundle.accountRequests;
         for (AccountRequest accountRequest : accountRequests.values()) {
-            AccountRequest accountRequestInDb = accountRequestsLogic.getAccountRequest(accountRequest.getEmail(),
-                    accountRequest.getInstitute());
-            accountRequestsLogic.putDocument(accountRequestInDb);
+            accountRequestsLogic.putDocument(accountRequest);
         }
     }
 
