@@ -21,7 +21,7 @@ import teammates.ui.webapi.SearchInstructorsAction;
  */
 public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAction> {
 
-    private final Instructor acc = typicalBundle.instructors.get("instructor1OfCourse1");
+    private final Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
     @Override
     @BeforeMethod
@@ -60,12 +60,12 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getCourseId() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getCourseId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
     }
@@ -77,12 +77,12 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getDisplayName() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getDisplayName() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
     }
@@ -94,12 +94,12 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getEmail() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getEmail() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
         assertTrue(response.getInstructors().get(0).getKey() != null);
@@ -113,12 +113,12 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getGoogleId() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getGoogleId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
         assertTrue(response.getInstructors().get(0).getKey() != null);
@@ -132,12 +132,12 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         }
 
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getName() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getName() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(acc.getName()))
+                .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
         assertTrue(response.getInstructors().get(0).getKey() != null);
