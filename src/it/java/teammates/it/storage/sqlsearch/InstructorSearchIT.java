@@ -3,9 +3,13 @@ package teammates.it.storage.sqlsearch;
 import java.util.Arrays;
 import java.util.List;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.HibernateUtil;
+import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
 import teammates.test.AssertHelper;
@@ -15,9 +19,19 @@ import teammates.test.TestProperties;
  * SUT: {@link UsersDb},
  * {@link teammates.storage.sqlsearch.InstructorSearchDocument}.
  */
-public class InstructorSearchIT extends BaseSearchIT {
+public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
+    private final SqlDataBundle typicalBundle = getTypicalSqlDataBundle();
     private final UsersDb usersDb = UsersDb.inst();
+
+    @Override
+    @BeforeMethod
+    protected void setUp() throws Exception {
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        putDocuments(typicalBundle);
+        HibernateUtil.flushSession();
+    }
 
     @Test
     public void allTests() throws Exception {
