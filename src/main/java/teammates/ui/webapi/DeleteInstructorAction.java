@@ -9,7 +9,7 @@ import teammates.storage.sqlentity.Instructor;
 /**
  * Deletes an instructor from a course, unless it's the last instructor in the course.
  */
-class DeleteInstructorAction extends Action {
+public class DeleteInstructorAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
