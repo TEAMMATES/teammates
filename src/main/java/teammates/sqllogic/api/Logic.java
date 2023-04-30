@@ -286,13 +286,6 @@ public class Logic {
     }
 
     /**
-     * Gets the institute associated with the course.
-     */
-    public String getCourseInstitute(String courseId) {
-        return coursesLogic.getCourseInstitute(courseId);
-    }
-
-    /**
      * Gets a list of section names for the given {@code courseId}.
      */
     public List<String> getSectionNamesForCourse(String courseId)

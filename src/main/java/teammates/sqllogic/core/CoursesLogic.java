@@ -248,13 +248,4 @@ public final class CoursesLogic {
     public static void sortById(List<Course> courses) {
         courses.sort(Comparator.comparing(Course::getId));
     }
-
-    /**
-     * Gets the institute associated with the course.
-     */
-    public String getCourseInstitute(String courseId) {
-        Course cd = getCourse(courseId);
-        assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
-        return cd.getInstitute();
-    }
 }
