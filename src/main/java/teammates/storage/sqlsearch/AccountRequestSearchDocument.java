@@ -19,17 +19,14 @@ class AccountRequestSearchDocument extends SearchDocument<AccountRequest> {
     Map<String, Object> getSearchableFields() {
         Map<String, Object> fields = new HashMap<>();
         AccountRequest accountRequest = entity;
-        String email = accountRequest.getEmail();
-        String institute = accountRequest.getInstitute();
-
         String[] searchableTexts = {
-                accountRequest.getName(), email, institute,
+                accountRequest.getName(), accountRequest.getEmail(), accountRequest.getInstitute(),
         };
 
-        fields.put("id", email + '%' + institute);
+        fields.put("id", accountRequest.getId());
         fields.put("_text_", String.join(" ", searchableTexts));
-        fields.put("email", email);
-        fields.put("institute", institute);
+        fields.put("email", accountRequest.getEmail());
+        fields.put("institute", accountRequest.getInstitute());
 
         return fields;
     }

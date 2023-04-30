@@ -29,7 +29,7 @@ class InstructorSearchDocument extends SearchDocument<Instructor> {
                 instructor.getGoogleId(), instructor.getRole().getRoleName(), instructor.getDisplayName(),
         };
 
-        fields.put("id", instructor.getEmail() + "%" + instructor.getCourseId());
+        fields.put("id", instructor.getId());
         fields.put("_text_", String.join(" ", searchableTexts));
         fields.put("courseId", instructor.getCourseId());
         fields.put("email", instructor.getEmail());
