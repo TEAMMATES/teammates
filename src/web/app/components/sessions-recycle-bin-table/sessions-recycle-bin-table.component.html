@@ -15,7 +15,7 @@
           </div>
         </div>
       <div *ngIf="isRecycleBinExpanded" class="table-responsive overflow-auto" @collapseAnim>
-        <table id="deleted-sessions-table" class="table table-striped table-bordered recycle-bin-table">
+        <table id="deleted-sessions-table" class="table table-striped table-bordered recycle-bin-table table-responsive-lg">
           <thead class="recycle-bin-table-header">
           <tr>
             <th id="sort-deleted-course-id" (click)="sortRecycleBinFeedbackSessionRows(SortBy.COURSE_ID)" class="sortable-header" [attr.aria-sort]="getAriaSort(SortBy.COURSE_ID)">
