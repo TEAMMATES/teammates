@@ -5,6 +5,7 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
 import { NotificationsTableRowModel } from './notifications-table-model';
 import { NotificationsTableComponent } from './notifications-table.component';
+import { SortableTableModule } from '../../../components/sortable-table/sortable-table.module';
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
   isHighlighted: true,
@@ -42,9 +43,11 @@ describe('NotificationsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [NotificationsTableComponent],
       imports: [
         AdminNotificationsPageModule,
         HttpClientTestingModule,
+        SortableTableModule,
       ],
     })
     .compileComponents();
