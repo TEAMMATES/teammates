@@ -13,6 +13,7 @@ import { ColumnData, SortableTableCellData } from '../../../components/sortable-
 })
 export class NotificationsTableComponent 
   implements OnInit, OnChanges {
+
   SortBy = SortBy;
   SortOrder = SortOrder;
   NotificationsTableHeaderColorScheme = NotificationsTableHeaderColorScheme;
@@ -56,41 +57,75 @@ export class NotificationsTableComponent
 
   private getTableData(): void {
     this.columnsData = [
-      { header: 'Title', sortBy: SortBy.NOTIFICATION_TITLE },
+      { header: 'Title', sortBy: SortBy.NOTIFICATION_TITLE,  },
       { header: 'Start Time', sortBy: SortBy.NOTIFICATION_START_TIME },
       { header: 'End Time', sortBy: SortBy.NOTIFICATION_END_TIME },
       { header: 'Target User', sortBy: SortBy.NOTIFICATION_TARGET_USER },
       { header: 'Style', sortBy: SortBy.NOTIFICATION_STYLE },
       { header: 'Creation Time', sortBy: SortBy.NOTIFICATION_CREATE_TIME },
+      { header: 'Actions' },
     ];
 
     this.rowsData = [];
     for (const row of this.notificationsTableRowModels) {
       const notification = row.notification;
+      var formattedStartTime = new Date(notification.startTimestamp).toLocaleString('en-US', {timeZone: 'America/New_York'});
+      var formattedEndTime = new Date(notification.endTimestamp).toLocaleString('en-US', {timeZone: 'America/New_York'});
+      var formattedCreationTime = new Date(notification.createdAt).toLocaleString('en-US', {timeZone: 'America/New_York'});
+
+      // Create Actions buttons
+      // const buttons = document.createElement("button");
+      // buttons.innerHTML = "Edit";
+      // buttons.setAttribute('onClick', 'loadNotificationEditForm(notificationsTableRowModel.notification)');
+      // buttons.setAttribute('class', 'btn btn-light btn-sm');
+      // const deleteButton = document.createElement("button");
+      // deleteButton.innerHTML = "Delete";
+      // deleteButton.setAttribute('onClick', 'deleteNotification(notificationsTableRowModel.notification.notificationId, notificationsTableRowModel.notification.title)');
+      // deleteButton.setAttribute('class', 'btn btn-danger btn-sm');
+      // buttons.append(deleteButton);
+
+
+      // var buttons = "<div class='d-flex'>" + 
+      //                 "<button type='button' class='btn btn-light btn-sm' (click)='loadNotificationEditForm(notificationsTableRowModel.notification)''>" +
+      //                 "Edit" +
+      //                 "</button>" +
+      //                 "<button type='button' class='btn btn-danger btn-sm' (click)='deleteNotification(notificationsTableRowModel.notification.notificationId, notificationsTableRowModel.notification.title)'>" +
+      //                 "Delete" +
+      //                 "</button>" +
+      //                 "</div>";
+
+      // var ngVal = document.getElementById("sortable-table-buttons");
+      // console.log(ngVal);
+      // if (ngVal != null) {
+      //   console.log("HELLO\n");
+      //   ngVal.innerHTML = buttons;
+      // }
+      // console.log("GOOD BYTE\n");
+   
       this.rowsData.push([
         { value: notification.title },
-        { value: notification.startTimestamp },
-        { value: notification.endTimestamp },
+        { value: formattedStartTime } ,
+        { value: formattedEndTime },
         { value: notification.targetUser },
         { value: notification.style },
-        { value: notification.createdAt },
+        { value: formattedCreationTime },
       ])
     }
   }
 
-  /**
-   * Sorts the list of feedback session row.
-   */
-  sortNotificationsTableRowModels(by: SortBy): void {
-    this.sortNotificationsTableRowModelsEvent.emit(by);
-  }
+  // /**
+  //  * Sorts the list of feedback session row.
+  //  */
+  // sortNotificationsTableRowModels(by: SortBy): void {
+  //   this.sortNotificationsTableRowModelsEvent.emit(by);
+  // }
 
-  getAriaSort(by: SortBy): String {
-    if (by !== this.notificationsTableRowModelsSortBy) {
-      return 'none';
-    }
-    return this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
-  }
+  // getAriaSort(by: SortBy): String {
+  //   if (by !== this.notificationsTableRowModelsSortBy) {
+  //     return 'none';
+  //   }
+  //   return this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+  // }
 
   /**
    * Deletes a notification based on its ID.

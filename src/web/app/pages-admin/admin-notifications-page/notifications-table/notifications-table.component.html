@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <tm-sortable-table [rows]="rowsData" [columns]="columnsData"></tm-sortable-table>
+    <tm-sortable-table [rows]="rowsData" [columns]="columnsData" [initialSortBy]="SortBy.NOTIFICATION_CREATE_TIME"></tm-sortable-table>
     <!-- <table id="notifications-table" class="table table-responsive-lg table-striped table-bordered margin-bottom-0">
       <thead>
       <tr [ngClass]="{ 'bg-primary text-white': headerColorScheme === NotificationsTableHeaderColorScheme.BLUE }">

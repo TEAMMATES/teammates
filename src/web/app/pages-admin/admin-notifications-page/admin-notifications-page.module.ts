@@ -13,6 +13,7 @@ import { TimepickerModule } from '../../components/timepicker/timepicker.module'
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
 import { NotificationEditFormComponent } from './notification-edit-form/notification-edit-form.component';
 import { NotificationsTableComponent } from './notifications-table/notifications-table.component';
+import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
 
 const routes: Routes = [
   {
@@ -45,6 +46,7 @@ const routes: Routes = [
     NgbTooltipModule,
     TeammatesCommonModule,
     TimepickerModule,
+    SortableTableModule,
   ],
 })
 export class AdminNotificationsPageModule { }
