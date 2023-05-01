@@ -43,6 +43,7 @@
   * [UI Design]({{ baseUrl }}/best-practices/ui-design.html)
   * [Accessibility]({{ baseUrl }}/best-practices/accessibility.html)
   * [Mobile-Friendliness]({{ baseUrl }}/best-practices/mobile-friendliness.html)
+  * [Frontend Development]({{ baseUrl }}/best-practices/frontend-development.html)
 * How-to :expanded:
   * [Captcha]({{ baseUrl }}/captcha.html)
   * [Documentation]({{ baseUrl }}/documentation.html)

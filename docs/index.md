@@ -21,6 +21,7 @@ Here are some documents important for TEAMMATES developers.
 * The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
 * [**Developer Troubleshooting Guide**](troubleshooting-guide.md)
 * How the [**issue tracker**](issues.md) is used - issue lifecycle, issue labels, etc.
+* [**Frontend style standardizations**](best-practices/frontend-development.md)
 
 ### Supplementary documents
 
@@ -36,6 +37,7 @@ Here are some documents important for TEAMMATES developers.
   * [UI design](best-practices/ui-design.md)
   * [Accessibility](best-practices/accessibility.md)
   * [Mobile-friendliness](best-practices/mobile-friendliness.md)
+  * [Frontend Development](best-practices/frontend-development.md)
 
 * **How-to guides** for:
   * [Static analysis](static-analysis.md): Performing code quality checks
