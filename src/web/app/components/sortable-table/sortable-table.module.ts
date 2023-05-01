@@ -5,13 +5,16 @@ import { DynamicModule } from 'ng-dynamic-component';
 import {
   ContributionQuestionStatisticsModule,
 } from '../question-types/question-statistics/contribution-question-statistics/contribution-question-statistics.module';
-import { SortableTableComponent } from './sortable-table.component';
+import { SortableTableComponent, SafeHtmlPipe } from './sortable-table.component';
 
 /**
  * Module for displaying data in a sortable table
  */
 @NgModule({
-  declarations: [SortableTableComponent],
+  declarations: [
+    SortableTableComponent,
+    SafeHtmlPipe
+  ],
   imports: [
     CommonModule,
     NgbTooltipModule,

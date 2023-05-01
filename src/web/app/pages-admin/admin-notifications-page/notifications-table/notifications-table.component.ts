@@ -73,34 +73,16 @@ export class NotificationsTableComponent
       var formattedEndTime = new Date(notification.endTimestamp).toLocaleString('en-US', {timeZone: 'America/New_York'});
       var formattedCreationTime = new Date(notification.createdAt).toLocaleString('en-US', {timeZone: 'America/New_York'});
 
-      // Create Actions buttons
-      // const buttons = document.createElement("button");
-      // buttons.innerHTML = "Edit";
-      // buttons.setAttribute('onClick', 'loadNotificationEditForm(notificationsTableRowModel.notification)');
-      // buttons.setAttribute('class', 'btn btn-light btn-sm');
-      // const deleteButton = document.createElement("button");
-      // deleteButton.innerHTML = "Delete";
-      // deleteButton.setAttribute('onClick', 'deleteNotification(notificationsTableRowModel.notification.notificationId, notificationsTableRowModel.notification.title)');
-      // deleteButton.setAttribute('class', 'btn btn-danger btn-sm');
-      // buttons.append(deleteButton);
-
-
-      // var buttons = "<div class='d-flex'>" + 
-      //                 "<button type='button' class='btn btn-light btn-sm' (click)='loadNotificationEditForm(notificationsTableRowModel.notification)''>" +
-      //                 "Edit" +
-      //                 "</button>" +
-      //                 "<button type='button' class='btn btn-danger btn-sm' (click)='deleteNotification(notificationsTableRowModel.notification.notificationId, notificationsTableRowModel.notification.title)'>" +
-      //                 "Delete" +
-      //                 "</button>" +
-      //                 "</div>";
-
-      // var ngVal = document.getElementById("sortable-table-buttons");
-      // console.log(ngVal);
-      // if (ngVal != null) {
-      //   console.log("HELLO\n");
-      //   ngVal.innerHTML = buttons;
-      // }
-      // console.log("GOOD BYTE\n");
+      var buttons = "<td class='actions-cell'>" +
+                    "<div class='d-flex'>" +
+                    "<button type='button' class='btn btn-light btn-sm' (mouseDown)='loadNotificationEditForm(" + notification + ")'>" +
+                    "Edit" +
+                    "</button>" +
+                    "<button type='button' class='btn btn-danger btn-sm' (mouseDown)='deleteNotification(" + notification.notificationId + ", " + notification.title  + ")'>" +
+                    "Delete" +
+                    "</button>" +
+                    "</div>" +
+                    "</td>";
    
       this.rowsData.push([
         { value: notification.title },
@@ -109,23 +91,10 @@ export class NotificationsTableComponent
         { value: notification.targetUser },
         { value: notification.style },
         { value: formattedCreationTime },
+        { button: buttons },
       ])
     }
   }
-
-  // /**
-  //  * Sorts the list of feedback session row.
-  //  */
-  // sortNotificationsTableRowModels(by: SortBy): void {
-  //   this.sortNotificationsTableRowModelsEvent.emit(by);
-  // }
-
-  // getAriaSort(by: SortBy): String {
-  //   if (by !== this.notificationsTableRowModelsSortBy) {
-  //     return 'none';
-  //   }
-  //   return this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
-  // }
 
   /**
    * Deletes a notification based on its ID.

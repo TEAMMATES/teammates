@@ -1,6 +1,8 @@
-import { Component, Input, OnChanges, OnInit, Type } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Type, Pipe, PipeTransform } from '@angular/core';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+
+import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * Column data for sortable table
@@ -22,10 +24,20 @@ export interface SortableTableCellData {
   value?: any; // Optional value used for sorting with sortBy provided in ColumnData
   displayValue?: string; // Raw string to be display in the cell
   style?: string; // Optional value used to set style of data
+  button?: string;
   customComponent?: {
     component: Type<any>,
     componentData: Record<string, any>, // @Input values for component
   };
+}
+
+@Pipe({name: 'safeHtml'})
+export class SafeHtmlPipe implements PipeTransform {
+  constructor( protected sanitizer: DomSanitizer) {}
+  
+  transform(value: any) {
+    return this.sanitizer.bypassSecurityTrustHtml(value);
+  }
 }
 
 /**
@@ -53,7 +65,13 @@ export class SortableTableComponent implements OnInit, OnChanges {
   @Input()
   initialSortBy: SortBy = SortBy.NONE;
 
-  columnToSortBy: string = '';
+  private _columnToSortBy: string = '';
+  public get columnToSortBy(): string {
+    return this._columnToSortBy;
+  }
+  public set columnToSortBy(value: string) {
+    this._columnToSortBy = value;
+  }
   sortOrder: SortOrder = SortOrder.ASC;
   tableRows: SortableTableCellData[][] = [];
 
