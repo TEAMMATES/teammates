@@ -4,6 +4,7 @@
 
 .recycle-bin-table {
   margin-bottom: 0;
+  min-width: 700px;
 }
 
 .recycle-bin-table-header {
@@ -46,8 +47,4 @@
 
 .padding-left-7px {
   padding-left: 7px;
-}
-
-#deleted-sessions-table {
-  min-width: 700px;
 }
