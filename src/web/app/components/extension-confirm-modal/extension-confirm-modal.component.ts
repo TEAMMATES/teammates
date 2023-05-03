@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output,  OnInit, OnChanges } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -6,6 +6,7 @@ import {
   StudentExtensionTableColumnModel,
   InstructorExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
+import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
 
 export enum ExtensionModalType {
   EXTEND,
@@ -18,7 +19,7 @@ export enum ExtensionModalType {
   templateUrl: './extension-confirm-modal.component.html',
   styleUrls: ['./extension-confirm-modal.component.scss'],
 })
-export class ExtensionConfirmModalComponent {
+export class ExtensionConfirmModalComponent implements OnInit, OnChanges {
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
 
@@ -38,6 +39,54 @@ export class ExtensionConfirmModalComponent {
   confirmExtensionCallbackEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) {}
+
+  studentsColumnsData: ColumnData[] = [];
+  studentsRowsData: SortableTableCellData[][] = [];
+
+  instructorsColumnsData: ColumnData[] = [];
+  instructorsRowsData: SortableTableCellData[][] = [];
+
+  ngOnInit(): void {
+    this.getTableData();
+  }
+
+  ngOnChanges(): void {
+    this.getTableData();
+  }
+
+  private getTableData(): void {
+    this.studentsColumnsData = [
+      { header: 'Section', sortBy: SortBy.SECTION_NAME },
+      { header: 'Team', sortBy: SortBy.TEAM_NAME },
+      { header: 'Name', sortBy: SortBy.RESPONDENT_NAME },
+      { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL},
+    ]
+
+    this.instructorsColumnsData = [
+      { header: 'Name', sortBy: SortBy.RESPONDENT_NAME },
+      { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
+      { header: 'Role', sortBy: SortBy.INSTRUCTOR_PERMISSION_ROLE },
+    ]
+
+    for (const student of this.selectedStudents) {
+      this.studentsRowsData.push([
+        { value: student.sectionName },
+        { value: student.teamName } ,
+        { value: student.name },
+        { value: student.email },
+        { value: student.extensionDeadline },
+      ])
+    }
+
+    for (const instructor of this.selectedInstructors) {
+      this.instructorsRowsData.push([
+        { value: instructor.name },
+        { value: instructor.email } ,
+        { value: instructor.role },
+        { value: instructor.extensionDeadline },
+      ])
+    }
+  }
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;

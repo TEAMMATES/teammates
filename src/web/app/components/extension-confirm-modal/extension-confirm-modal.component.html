@@ -26,7 +26,8 @@
 
     <div class="table-responsive" *ngIf="selectedStudents.length !== 0">
       <h1>Students</h1>
-      <table id="student-list-table" class="table table-bordered mb-3">
+      <tm-sortable-table [rows]="studentsRowsData" [columns]="studentsColumnsData"></tm-sortable-table> 
+      <!-- <table id="student-list-table" class="table table-bordered mb-3">
         <thead>
           <tr>
             <th class="sortable-header" (click)="sortStudentColumnsBy(SortBy.SECTION_NAME)" [attr.aria-sort]="getAriaSortStudent(SortBy.SECTION_NAME)">
@@ -99,12 +100,13 @@
           <td>{{ student.email }}</td>
           <td>{{ student.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
         </tr>
-      </table>
+      </table> -->
     </div>
 
     <div class="table-responsive" *ngIf="selectedInstructors.length !== 0">
       <h1>Instructors</h1>
-      <table id="instructor-list-table" class="table table-bordered mb-3">
+      <tm-sortable-table [rows]="instructorsRowsData" [columns]="instructorsColumnsData"></tm-sortable-table> 
+      <!-- <table id="instructor-list-table" class="table table-bordered mb-3">
         <thead>
           <tr>
             <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_NAME)" [attr.aria-sort]="getAriaSortInstructor(SortBy.RESPONDENT_NAME)">
@@ -164,7 +166,7 @@
           <td>{{ instructor.role | instructorRoleName }}</td>
           <td>{{ instructor.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
         </tr>
-      </table>
+      </table> -->
     </div>
 
     <div class="form-check" *ngIf="isDeleteModal() || isExtendModal()">

@@ -11,6 +11,8 @@ import {
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
 import { ExtensionConfirmModalComponent } from './extension-confirm-modal.component';
 import { ExtensionConfirmModalModule } from './extension-confirm-modal.module';
+import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
+
 
 describe('ExtensionConfirmModalComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -69,7 +71,8 @@ describe('ExtensionConfirmModalComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, ExtensionConfirmModalModule],
+        declarations: [ExtensionConfirmModalComponent],
+        imports: [HttpClientTestingModule, ExtensionConfirmModalModule, SortableTableModule],
         providers: [NgbActiveModal],
       }).compileComponents();
     }),
