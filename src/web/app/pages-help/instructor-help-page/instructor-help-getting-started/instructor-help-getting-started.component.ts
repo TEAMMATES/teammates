@@ -44,11 +44,12 @@ export class InstructorHelpGettingStartedComponent {
    */
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
-    if (destination) {
-      destination.scrollIntoView();
-      // to prevent the navbar from covering the text
-      window.scrollTo(0, window.scrollY - 50);
-    }
+  if (destination) {
+    const topHeight = destination.getBoundingClientRect().height;
+    const scrollPosition = window.scrollY;
+    const topOffset = destination.getBoundingClientRect().top;
+      window.scrollTo({top: 0, left: scrollPosition + topOffset - topHeight, behavior: "smooth"});
+  }
     return false;
   }
 
