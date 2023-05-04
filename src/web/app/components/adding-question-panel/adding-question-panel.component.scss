@@ -1,3 +1,17 @@
 .background-color-light-blue {
   background-color: #EAEFF5;
 }
+
+@media (max-width: 480px) {
+  #btn-new-question {
+    padding: 0 0.25rem 0 0.25rem;
+  }
+
+  #btn-copy-question {
+    padding: 0 0.25rem 0 0.25rem;
+  }
+
+  #btn-icon {
+    padding: 0 0.25rem 0 0.25rem;
+  }
+}
