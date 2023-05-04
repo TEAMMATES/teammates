@@ -95,7 +95,7 @@ exports[`ModifiedTimestampModalComponent should snap with default fields 1`] = `
   modifiedSessions={[Function Object]}
 >
   <p>
-     The feedback session has been copied to all courses. However, changes are made to some session timings as the existing timings are no longer valid in these courses: . The changes are as follows:
+     The course has been added. However, changes are made to some session timings as the existing timings are no longer valid. The changes are as follows:
   </p><table
     class="table table-bordered"
   >
@@ -130,7 +130,7 @@ exports[`ModifiedTimestampModalComponent should snap with modifiedSessions 1`] =
   modifiedSessions={[Function Object]}
 >
   <p>
-     The feedback session has been copied to all courses. However, changes are made to some session timings as the existing timings are no longer valid in these courses: . The changes are as follows:
+     The course has been added. However, changes are made to some session timings as the existing timings are no longer valid. The changes are as follows:
   </p><table
     class="table table-bordered"
   >
