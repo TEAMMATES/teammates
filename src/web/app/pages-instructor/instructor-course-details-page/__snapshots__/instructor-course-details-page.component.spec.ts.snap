@@ -415,7 +415,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                         class="fa-stack"
                       >
                         <i
-                          class="fas fa-sort"
+                          class="fas fa-sort fa-bg-white"
                         />
                       </span>
                     </button>
@@ -431,7 +431,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                         class="fa-stack"
                       >
                         <i
-                          class="fas fa-sort"
+                          class="fas fa-sort fa-bg-white"
                         />
                       </span>
                     </button>
@@ -447,7 +447,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                         class="fa-stack"
                       >
                         <i
-                          class="fas fa-sort"
+                          class="fas fa-sort fa-bg-white"
                         />
                       </span>
                     </button>
@@ -463,7 +463,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                         class="fa-stack"
                       >
                         <i
-                          class="fas fa-sort"
+                          class="fas fa-sort fa-bg-white"
                         />
                       </span>
                     </button>
@@ -479,7 +479,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                         class="fa-stack"
                       >
                         <i
-                          class="fas fa-sort"
+                          class="fas fa-sort fa-bg-white"
                         />
                       </span>
                     </button>

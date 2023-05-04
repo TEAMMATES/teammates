@@ -1,15 +1,15 @@
 <div class="table-responsive">
   <table class="table table-bordered table-striped m-0">
     <thead
-        [ngClass]="{'thead-gray': useGrayHeading, 'bg-info fw-bold': !useGrayHeading}"
-        [hidden]="isHideTableHead"
+            [ngClass]="{'thead-gray': useGrayHeading, 'bg-info fw-bold': !useGrayHeading}"
+            [hidden]="isHideTableHead"
     >
     <tr>
       <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentList(SortBy.SECTION_NAME)" [attr.aria-sort]="getAriaSort(SortBy.SECTION_NAME)">
         <button>
           Section
           <span class="fa-stack" aria-hidden="true">
-            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort fa-bg-white"></i>
             <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
             <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
           </span>
@@ -19,7 +19,7 @@
         <button>
           Team
           <span class="fa-stack" aria-hidden="true">
-            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort fa-bg-white"></i>
             <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
             <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
           </span>
@@ -29,7 +29,7 @@
         <button>
           Student Name
           <span class="fa-stack" aria-hidden="true">
-            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort fa-bg-white"></i>
             <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
             <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
           </span>
@@ -39,7 +39,7 @@
         <button>
           Status
           <span class="fa-stack" aria-hidden="true">
-            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort fa-bg-white"></i>
             <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
             <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
           </span>
@@ -49,7 +49,7 @@
         <button>
           Email
           <span class="fa-stack" aria-hidden="true">
-            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort fa-bg-white"></i>
             <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
             <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
           </span>
@@ -94,27 +94,27 @@
           tmRouterLink: '/web/instructor/courses/student/edit',
           queryParams: {courseid: courseId, studentemail: studentModel.student.email}
         }"></ng-container>
-      <ng-container *ngIf="enableRemindButton">
-        <ng-container *ngIf="studentModel.student.joinState === JoinState.NOT_JOINED">
-          <button id="btn-send-invite-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
-            [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
-            [disabled]=!isActionButtonsEnabled
-            [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
+        <ng-container *ngIf="enableRemindButton">
+          <ng-container *ngIf="studentModel.student.joinState === JoinState.NOT_JOINED">
+            <button id="btn-send-invite-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
+                    [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
+                    [disabled]=!isActionButtonsEnabled
+                    [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
             ? 'Email an invitation to the student requesting him/her to join the course using his/her'
             + ' Google Account. Note: Students can use TEAMMATES without \'joining\','
             + ' but a joined student can access extra features e.g. set up a user profile'
             : 'You do not have the permissions to access this feature'"
-            (click)="openRemindModal(studentModel)">Send Invite</button>
+                    (click)="openRemindModal(studentModel)">Send Invite</button>
+          </ng-container>
         </ng-container>
-      </ng-container>
-      <button id="btn-delete-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
-        [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
-        [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
+        <button id="btn-delete-{{ courseId }}-{{ idx }}" class="btn btn-light btn-sm btn-margin-right"
+                [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
+                [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
           ? 'Delete the student and the corresponding submissions from the course'
           : 'You do not have the permissions to access this feature'"
-        [disabled]="!isActionButtonsEnabled"
-        (click)="openDeleteModal(studentModel)">Delete</button>
-      <ng-container *ngTemplateOutlet="actionButton; context: {
+                [disabled]="!isActionButtonsEnabled"
+                (click)="openDeleteModal(studentModel)">Delete</button>
+        <ng-container *ngTemplateOutlet="actionButton; context: {
         id: 'btn-view-records-' + courseId + '-' + idx,
         isEnabled: isActionButtonsEnabled,
         tooltip: 'View all data about this student',

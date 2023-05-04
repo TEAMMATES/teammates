@@ -169,7 +169,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           class="fa-stack"
                         >
                           <i
-                            class="fas fa-sort"
+                            class="fas fa-sort fa-bg-white"
                           />
                         </span>
                       </button>
@@ -185,7 +185,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           class="fa-stack"
                         >
                           <i
-                            class="fas fa-sort"
+                            class="fas fa-sort fa-bg-white"
                           />
                         </span>
                       </button>
@@ -201,7 +201,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           class="fa-stack"
                         >
                           <i
-                            class="fas fa-sort"
+                            class="fas fa-sort fa-bg-white"
                           />
                         </span>
                       </button>
@@ -217,7 +217,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           class="fa-stack"
                         >
                           <i
-                            class="fas fa-sort"
+                            class="fas fa-sort fa-bg-white"
                           />
                         </span>
                       </button>
@@ -233,7 +233,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           class="fa-stack"
                         >
                           <i
-                            class="fas fa-sort"
+                            class="fas fa-sort fa-bg-white"
                           />
                         </span>
                       </button>
