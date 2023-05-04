@@ -52,4 +52,31 @@ export class InstructorHelpGettingStartedComponent {
     return false;
   }
 
+  /**
+   * To scroll to top of page in a visually pleasing way
+   */
+  jumpToTop(target: string): boolean {
+    const scrollDuration = 300; // Duration of the scrolling animation in milliseconds
+    const targetElement = document.getElementById(target);
+  
+    if (targetElement) {
+      const targetOffset = targetElement.getBoundingClientRect().top + window.scrollY;
+      const scrollStep = (targetOffset - window.scrollY) / (scrollDuration / 15); // Distance to scroll each step in pixels
+  
+      // Define the animation function
+      function scrollToTarget() {
+        if (Math.abs(window.scrollY - targetOffset) > 1) {
+          window.scrollBy(0, scrollStep);
+          setTimeout(scrollToTarget, 15);
+        } else {
+          window.scrollTo(0, targetOffset);
+        }
+      }
+  
+      // Call the animation function
+      scrollToTarget();
+    }
+  
+    return false;
+  }
 }
