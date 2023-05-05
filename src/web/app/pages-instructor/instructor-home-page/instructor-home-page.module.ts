@@ -5,6 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import {
+  ModifiedTimestampModalModule,
+} from '../../components/modified-timestamps-modal/modified-timestamps-module.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
@@ -36,6 +39,7 @@ const routes: Routes = [
     LoadingRetryModule,
     PanelChevronModule,
     TeammatesRouterModule,
+    ModifiedTimestampModalModule,
   ],
   exports: [
     InstructorHomePageComponent,

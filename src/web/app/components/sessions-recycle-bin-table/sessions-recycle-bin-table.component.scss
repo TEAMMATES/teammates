@@ -4,6 +4,7 @@
 
 .recycle-bin-table {
   margin-bottom: 0;
+  min-width: 700px;
 }
 
 .recycle-bin-table-header {
@@ -37,11 +38,6 @@
 
 .actions-cell button {
   margin-right: var(--btn-margin);
-}
-
-.align-row {
-  display: flex;
-  flex-direction: row;
 }
 
 .padding-left-7px {
