@@ -44,8 +44,8 @@
   (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingAllStudents">
     <div *ngIf="studentsOfCourse.length > 0">
-      <input id="remindNotSubmittedStu" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitStudentsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedStudentsHandler($event)"/>
-      <label for="remindNotSubmittedStu" class="form-check-label">Select all students not yet submitted</label>
+      <input id="select-not-submitted-student-btn" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitStudentsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedStudentsHandler($event)"/>
+      <label for="select-not-submitted-student-btn" class="form-check-label">Select all students not yet submitted</label>
     </div>
     </div>
 </tm-loading-retry>
@@ -54,8 +54,8 @@
   (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingAllInstructors">
     <div *ngIf="instructorsOfCourse.length > 0">
-      <input id="remindNotSubmittedStu" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedInstructorsHandler($event)"/>
-      <label for="remindNotSubmittedStu" class="form-check-label">Select all instructors not yet submitted</label>
+      <input id="select-not-submitted-instructor-btn" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedInstructorsHandler($event)"/>
+      <label for="select-not-submitted-instructor-btn" class="form-check-label">Select all instructors not yet submitted</label>
     </div>
     </div>
 </tm-loading-retry>

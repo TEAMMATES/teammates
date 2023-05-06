@@ -206,21 +206,24 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.studentsOfCourse
-            .forEach((studentColumnModel: StudentExtensionTableColumnModel) =>
-                studentColumnModel.hasSubmittedSession = 
-                feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(studentColumnModel.email));
+            .forEach((studentColumnModel: StudentExtensionTableColumnModel) => {
+                studentColumnModel.hasSubmittedSession =
+                feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(studentColumnModel.email);
+              });
       },
       error: (resp: ErrorMessageOutput) => {
+        this.hasLoadedAllStudentsFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
   }
 
-   
   /**
    * Changes selection state for all yet to submit students.
    */
   changeSelectionStatusForAllYetSubmittedStudentsHandler(shouldSelect: boolean): void {
+    this.isAllYetToSubmitStudentsSelected = shouldSelect;
+
     this.studentsOfCourse.forEach((model: StudentExtensionTableColumnModel) => {
       if (!model.hasSubmittedSession) {
         model.isSelected = shouldSelect;
@@ -265,20 +268,24 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.instructorsOfCourse
-            .filter((instructorColumnModel: InstructorExtensionTableColumnModel) =>
+            .forEach((instructorColumnModel: InstructorExtensionTableColumnModel) => {
                 instructorColumnModel.hasSubmittedSession =
-                feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(instructorColumnModel.email));
+                feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(instructorColumnModel.email);
+              });
       },
       error: (resp: ErrorMessageOutput) => {
+        this.hasLoadedAllInstructorsFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
   }
-  
+
   /**
    * Changes selection state for all yet to submit instructors.
    */
   changeSelectionStatusForAllYetSubmittedInstructorsHandler(shouldSelect: boolean): void {
+    this.isAllYetToSubmitInstructorsSelected = shouldSelect;
+
     this.instructorsOfCourse.forEach((model: InstructorExtensionTableColumnModel) => {
       if (!model.hasSubmittedSession) {
         model.isSelected = shouldSelect;
