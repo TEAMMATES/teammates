@@ -458,6 +458,10 @@ exports[`LogsPageComponent should snap when searching for details in search form
         </div>
       </tm-loading-spinner>
       <div
+        class="overflow-x-scroll"
+      >
+      </div>
+      <div
         class="center mb-4"
       >
       </div>
