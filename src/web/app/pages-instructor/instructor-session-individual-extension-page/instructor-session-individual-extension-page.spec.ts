@@ -479,7 +479,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
     const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
-    expect(component.isPreSelectingNonSubmitters).toBeFalsy();
+    expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
+    expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
     expect(studentOneCheckBox.checked).toBeFalsy();
     expect(studentTwoCheckBox.checked).toBeFalsy();
     expect(studentThreeCheckBox.checked).toBeFalsy();
@@ -505,7 +506,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
     const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
-    expect(component.isPreSelectingNonSubmitters).toBeTruthy();
+    expect(component.isAllYetToSubmitInstructorsSelected).toBeTruthy();
+    expect(component.isAllYetToSubmitStudentsSelected).toBeTruthy();
     expect(studentOneCheckBox.checked).toBeTruthy();
     expect(studentTwoCheckBox.checked).toBeFalsy();
     expect(studentThreeCheckBox.checked).toBeTruthy();
