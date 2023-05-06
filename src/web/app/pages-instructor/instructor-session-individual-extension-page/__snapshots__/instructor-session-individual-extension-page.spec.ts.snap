@@ -21,10 +21,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected={[Function Boolean]}
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -133,6 +134,38 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -529,10 +562,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected={[Function Boolean]}
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -641,6 +675,38 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -1037,10 +1103,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession={[Function Boolean]}
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -1070,6 +1137,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
         </div>
       </div>
     </tm-loading-spinner>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
       <h1>
@@ -1331,10 +1404,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -1443,6 +1517,25 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -1790,10 +1883,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -1902,6 +1996,25 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -2215,10 +2328,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -2327,6 +2441,38 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -2725,10 +2871,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors={[Function Boolean]}
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -2837,6 +2984,25 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
     </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
     <div>
       <h1>
@@ -3015,10 +3181,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents={[Function Boolean]}
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -3126,6 +3293,25 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <tm-loading-spinner>
@@ -3290,10 +3476,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -3325,6 +3512,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         />
          Retry
       </button>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -3587,10 +3780,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -3622,6 +3816,12 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         />
          Retry
       </button>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -3884,10 +4084,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -3996,6 +4197,41 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all students not yet submitted
+        </label>
+      </div>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load all instructors
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
@@ -4263,10 +4499,11 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
   isAllStudentsSelected="false"
+  isAllYetToSubmitInstructorsSelected="false"
+  isAllYetToSubmitStudentsSelected="false"
   isLoadingAllInstructors="false"
   isLoadingAllStudents="false"
   isLoadingFeedbackSession="false"
-  isPreSelectingNonSubmitters="false"
   isSubmittingDeadlines="false"
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
@@ -4375,6 +4612,41 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load all students
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry><tm-loading-retry>
+    <div>
+      <div>
+        <input
+          class="form-check-input ng-untouched ng-pristine ng-valid"
+          id="remindNotSubmittedStu"
+          type="checkbox"
+        />
+        <label
+          class="form-check-label"
+          for="remindNotSubmittedStu"
+        >
+          Select all instructors not yet submitted
+        </label>
+      </div>
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div
