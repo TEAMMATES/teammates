@@ -62,7 +62,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseId: string = '';
   courseName: string = '';
   feedbackSessionName: string = '';
-  isPreSelectingNonSubmitters: boolean = false;
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
@@ -79,6 +78,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   isAllStudentsSelected: boolean = false;
   isAllInstructorsSelected: boolean = false;
 
+  isAllYetToSubmitStudentsSelected: boolean = false;
+  isAllYetToSubmitInstructorsSelected: boolean = false;
+
   isLoadingAllStudents: boolean = true;
   hasLoadedAllStudentsFailed: boolean = false;
   isLoadingAllInstructors: boolean = true;
@@ -91,7 +93,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
-      this.isPreSelectingNonSubmitters = queryParams.preselectnonsubmitters === 'true';
+      this.isAllYetToSubmitInstructorsSelected = queryParams.preselectnonsubmitters === 'true';
+      this.isAllYetToSubmitStudentsSelected = queryParams.preselectnonsubmitters === 'true';
       this.loadFeedbackSessionAndIndividuals();
     });
   }
@@ -158,8 +161,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         next: (studentModels: StudentExtensionTableColumnModel[]) => {
           this.studentsOfCourse = studentModels;
           this.initialSortOfStudents();
-          if (this.isPreSelectingNonSubmitters) {
-            this.selectNonSubmitterStudents();
+          this.getNonSubmitterStudents();
+
+          if (this.isAllYetToSubmitStudentsSelected) {
+            this.changeSelectionStatusForAllYetSubmittedStudentsHandler(true);
           }
         },
         error: (resp: ErrorMessageOutput) => {
@@ -194,22 +199,32 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SESSION_END_DATE));
   }
 
-  private selectNonSubmitterStudents(): void {
+  private getNonSubmitterStudents(): void {
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.studentsOfCourse
-            .filter((studentColumnModel: StudentExtensionTableColumnModel) =>
-                !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(studentColumnModel.email))
-            .forEach((studentColumnModel: StudentExtensionTableColumnModel) => {
-              studentColumnModel.isSelected = true;
-            });
+            .forEach((studentColumnModel: StudentExtensionTableColumnModel) =>
+                studentColumnModel.hasSubmittedSession = 
+                feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(studentColumnModel.email));
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
+    });
+  }
+
+   
+  /**
+   * Changes selection state for all yet to submit students.
+   */
+  changeSelectionStatusForAllYetSubmittedStudentsHandler(shouldSelect: boolean): void {
+    this.studentsOfCourse.forEach((model: StudentExtensionTableColumnModel) => {
+      if (!model.hasSubmittedSession) {
+        model.isSelected = shouldSelect;
+      }
     });
   }
 
@@ -225,6 +240,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         next: (instructorModels: InstructorExtensionTableColumnModel[]) => {
           this.instructorsOfCourse = instructorModels;
           this.initialSortOfInstructors();
+          this.getNonSubmitterInstructors();
+
+          if (this.isAllYetToSubmitInstructorsSelected) {
+            this.changeSelectionStatusForAllYetSubmittedInstructorsHandler(true);
+          }
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasLoadedAllInstructorsFailed = true;
@@ -236,6 +256,34 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   private initialSortOfInstructors(): void {
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.INSTRUCTOR_PERMISSION_ROLE));
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.SESSION_END_DATE));
+  }
+
+  private getNonSubmitterInstructors(): void {
+    this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+    }).subscribe({
+      next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+        this.instructorsOfCourse
+            .filter((instructorColumnModel: InstructorExtensionTableColumnModel) =>
+                instructorColumnModel.hasSubmittedSession =
+                feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(instructorColumnModel.email));
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+  }
+  
+  /**
+   * Changes selection state for all yet to submit instructors.
+   */
+  changeSelectionStatusForAllYetSubmittedInstructorsHandler(shouldSelect: boolean): void {
+    this.instructorsOfCourse.forEach((model: InstructorExtensionTableColumnModel) => {
+      if (!model.hasSubmittedSession) {
+        model.isSelected = shouldSelect;
+      }
+    });
   }
 
   /**
