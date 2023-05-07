@@ -19,6 +19,8 @@ export interface CourseTabModel {
   hasLoadingFailed: boolean;
 }
 
+
+
 /**
  * The model for an instructor to copy.
  */

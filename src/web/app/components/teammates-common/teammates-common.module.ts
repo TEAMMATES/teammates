@@ -24,6 +24,7 @@ import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
+import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
 import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 import {
   VisibilityControlNamePipe,
@@ -41,6 +42,7 @@ import {
     NgbPopoverModule,
     NgbTooltipModule,
     TeammatesRouterModule,
+    SortableTableModule,
   ],
   declarations: [
     EnumToArrayPipe,

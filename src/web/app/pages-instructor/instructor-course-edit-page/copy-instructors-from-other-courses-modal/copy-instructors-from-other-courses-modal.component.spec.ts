@@ -18,6 +18,7 @@ import { PanelChevronModule } from '../../../components/panel-chevron/panel-chev
 import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
 import { CopyInstructorsFromOtherCoursesModalComponent } from './copy-instructors-from-other-courses-modal.component';
+import { SortableTableModule } from '../../../components/sortable-table/sortable-table.module';
 
 describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
 
@@ -149,6 +150,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
         LoadingRetryModule,
         AjaxLoadingModule,
         HttpClientTestingModule,
+        SortableTableModule,
       ],
       providers: [
         NgbActiveModal,

@@ -11,7 +11,7 @@
       <button id="sort-course-creation-date" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortCourses(SortBy.COURSE_CREATION_DATE)">Creation Date</button>
     </div>
   </div>
-  <div *ngFor="let course of courses">
+  <div *ngFor="let course of courses"; let i = "index" [attr.data-index]="i">
     <div class="card">
       <div class="card-header cursor-pointer" [ngClass]="{'bg-primary text-white': !course.isArchived, 'bg-info': course.isArchived}" (click)="toggleCard(course)">
         <strong class="text-break" *ngIf="!course.isArchived">[{{course.courseId}}]: {{course.courseName}}</strong>
@@ -26,69 +26,9 @@
           <div *tmIsLoading="!course.hasInstructorsLoaded">
             <div *ngIf="!course.hasLoadingFailed" class="card-body">
               <ng-container *ngIf="course.hasInstructorsLoaded">
-                <table id="copy-instructor-table" class="table table-bordered table-responsive-lg">
-                  <thead [ngClass]="{'bg-primary text-white': !course.isArchived, 'bg-info': course.isArchived}">
-                    <tr>
-                      <th>#</th>
-                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_NAME)" [attr.aria-sort]="getAriaSort(course, SortBy.RESPONDENT_NAME)">
-                        <button>
-                          Instructor Name
-                          <span class="fa-stack" aria-hidden="true">
-                            <i class="fas fa-sort"></i>
-                            <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_NAME, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                            <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_NAME, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                          </span>
-                        </button>
-                      </th>
-                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.RESPONDENT_EMAIL)" [attr.aria-sort]="getAriaSort(course, SortBy.RESPONDENT_EMAIL)">
-                        <button>
-                          Instructor Email
-                          <span class="fa-stack" aria-hidden="true">
-                            <i class="fas fa-sort"></i>
-                            <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_EMAIL, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                            <i *ngIf="isSortInstructorsBy(course, SortBy.RESPONDENT_EMAIL, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                          </span>
-                        </button>
-                      </th>
-                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT)" [attr.aria-sort]="getAriaSort(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT)">
-                        <button>
-                          Displayed to Student As
-                          <span class="fa-stack" aria-hidden="true">
-                            <i class="fas fa-sort"></i>
-                            <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                            <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_DISPLAYED_TEXT, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                          </span>
-                        </button>
-                      </th>
-                      <th class="sortable-header" (click)="sortInstructorsToCopyForCourse(course, SortBy.INSTRUCTOR_PERMISSION_ROLE)" [attr.aria-sort]="getAriaSort(course, SortBy.INSTRUCTOR_PERMISSION_ROLE)">
-                        <button>
-                          Access Level
-                          <span class="fa-stack" aria-hidden="true">
-                            <i class="fas fa-sort"></i>
-                            <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_PERMISSION_ROLE, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                            <i *ngIf="isSortInstructorsBy(course, SortBy.INSTRUCTOR_PERMISSION_ROLE, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                          </span>
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let instructorCandidate of course.instructorCandidates">
-                      <td>
-                        <div *ngIf="instructorCandidate.instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM" class="ngb-tooltip-class" ngbTooltip="This instructor has a customised access level and cannot be copied.">
-                          <input disabled type="checkbox" class="form-check-input no-shadow">
-                        </div>
-                        <div *ngIf="instructorCandidate.instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM">
-                          <input id="enabled-checkbox" [disabled]="isCopyingSelectedInstructors" type="checkbox" class="form-check-input no-shadow" [(ngModel)]="instructorCandidate.isSelected">
-                        </div>
-                      </td>
-                      <td>{{ instructorCandidate.instructor.name }}</td>
-                      <td>{{ instructorCandidate.instructor.email }}</td>
-                      <td>{{ instructorCandidate.instructor.isDisplayedToStudents ? instructorCandidate.instructor.displayedToStudentsAs : notDisplayedToStudentText }}</td>
-                      <td>{{ instructorCandidate.instructor.role  | instructorRoleName }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+
+                <tm-sortable-table [rows]="rowsDataAll[i]" [columns]="columnsData"></tm-sortable-table>
+                
               </ng-container>
               <button class="btn btn-secondary float-end mt-2 mb-3" (click)="loadInstructors(course)" [disabled]="isCopyingSelectedInstructors">
                 <i class="fas fa-redo" aria-hidden="true"></i>

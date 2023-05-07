@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnChanges } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorService } from '../../../../services/instructor.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -8,6 +8,7 @@ import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../../error-message-output';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
+import { ColumnData, SortableTableCellData } from '../../../components/sortable-table/sortable-table.component';
 
 /**
  * Modal to select instructors to copy from other courses.
@@ -17,8 +18,9 @@ import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructo
   templateUrl: './copy-instructors-from-other-courses-modal.component.html',
   styleUrls: ['./copy-instructors-from-other-courses-modal.component.scss'],
 })
-export class CopyInstructorsFromOtherCoursesModalComponent {
+export class CopyInstructorsFromOtherCoursesModalComponent implements OnInit, OnChanges{
 
+  
   @Output()
   copyClickedEvent: EventEmitter<Instructor[]> = new EventEmitter();
 
@@ -38,6 +40,48 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
               public statusMessageService: StatusMessageService,
               public instructorService: InstructorService,
               private tableComparatorService: TableComparatorService) { }
+
+  
+
+  columnsData: ColumnData[] = [];
+  rowsDataAll: SortableTableCellData[][][] = [];
+            
+  ngOnInit(): void {
+      this.getTableData();
+  }
+
+
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Instructor Name', sortBy: SortBy.RESPONDENT_NAME,  },
+      { header: 'Instructor Email', sortBy: SortBy.RESPONDENT_EMAIL },
+      { header: 'Displayed to Student As', sortBy: SortBy.INSTRUCTOR_DISPLAYED_TEXT },
+      { header: 'Access Level', sortBy: SortBy.INSTRUCTOR_PERMISSION_ROLE },
+    ];
+
+    this.rowsDataAll = [];
+    for (let i=0; i<this.courses.length; i++) {
+      const course= this.courses[i];
+      const candidates = course.instructorCandidates;
+      for(const candidate of candidates){
+        const name =candidate.instructor.name;
+        const email= candidate.instructor.email;
+        const display =candidate.instructor.isDisplayedToStudents ? candidate.instructor.displayedToStudentsAs : this.notDisplayedToStudentText;
+        const role = candidate.instructor.role;
+        this.rowsDataAll[i].push([
+          {value: name},
+          {value: email},
+          {value: display},
+          {value: role},
+        ])
+      }
+
+      
+    }
+  }
+            
+  
+  
 
   /**
    * Toggles specific card and loads instructors if needed.
