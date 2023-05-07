@@ -7,6 +7,8 @@ import {
   InstructorExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { TimezoneService } from '../../../services/timezone.service';
+
 
 export enum ExtensionModalType {
   EXTEND,
@@ -38,7 +40,9 @@ export class ExtensionConfirmModalComponent implements OnInit, OnChanges {
   @Output()
   confirmExtensionCallbackEvent: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) {}
+  constructor(public activeModal: NgbActiveModal, 
+              private tableComparatorService: TableComparatorService,
+              private timezoneService: TimezoneService) {}
 
   studentsColumnsData: ColumnData[] = [];
   studentsRowsData: SortableTableCellData[][] = [];
@@ -54,18 +58,28 @@ export class ExtensionConfirmModalComponent implements OnInit, OnChanges {
     this.getTableData();
   }
 
+  private formatTimestamp(timestamp: number, timeZone: string): string {
+    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM YYYY h:mm A');
+  }
+
   private getTableData(): void {
+    var deadlineType = '';
+    if (this.isExtendModal()) var deadlineType = 'Original Deadline';
+    if (this.isDeleteModal() || this.isSessionDeleteModal()) var deadlineType = 'Current Deadline';
+
     this.studentsColumnsData = [
       { header: 'Section', sortBy: SortBy.SECTION_NAME },
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Name', sortBy: SortBy.RESPONDENT_NAME },
       { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL},
+      { header: deadlineType, sortBy: SortBy.SESSION_END_DATE },
     ]
 
     this.instructorsColumnsData = [
       { header: 'Name', sortBy: SortBy.RESPONDENT_NAME },
       { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
       { header: 'Role', sortBy: SortBy.INSTRUCTOR_PERMISSION_ROLE },
+      { header: deadlineType, sortBy: SortBy.SESSION_END_DATE },
     ]
 
     for (const student of this.selectedStudents) {
@@ -74,16 +88,17 @@ export class ExtensionConfirmModalComponent implements OnInit, OnChanges {
         { value: student.teamName } ,
         { value: student.name },
         { value: student.email },
-        { value: student.extensionDeadline },
+        { value: this.formatTimestamp(student.extensionDeadline, 'America/New_York') },
       ])
+
     }
 
-    for (const instructor of this.selectedInstructors) {
+    for (const instructor of this.selectedInstructors) {  
       this.instructorsRowsData.push([
         { value: instructor.name },
         { value: instructor.email } ,
         { value: instructor.role },
-        { value: instructor.extensionDeadline },
+        { value: this.formatTimestamp(instructor.extensionDeadline, 'America/New_York') },
       ])
     }
   }
