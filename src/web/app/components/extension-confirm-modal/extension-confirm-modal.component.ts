@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output,  OnInit, OnChanges } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -6,6 +6,9 @@ import {
   StudentExtensionTableColumnModel,
   InstructorExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
+import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { TimezoneService } from '../../../services/timezone.service';
+
 
 export enum ExtensionModalType {
   EXTEND,
@@ -18,7 +21,7 @@ export enum ExtensionModalType {
   templateUrl: './extension-confirm-modal.component.html',
   styleUrls: ['./extension-confirm-modal.component.scss'],
 })
-export class ExtensionConfirmModalComponent {
+export class ExtensionConfirmModalComponent implements OnInit, OnChanges {
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
 
@@ -37,7 +40,68 @@ export class ExtensionConfirmModalComponent {
   @Output()
   confirmExtensionCallbackEvent: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) {}
+  constructor(public activeModal: NgbActiveModal, 
+              private tableComparatorService: TableComparatorService,
+              private timezoneService: TimezoneService) {}
+
+  studentsColumnsData: ColumnData[] = [];
+  studentsRowsData: SortableTableCellData[][] = [];
+
+  instructorsColumnsData: ColumnData[] = [];
+  instructorsRowsData: SortableTableCellData[][] = [];
+
+  ngOnInit(): void {
+    this.getTableData();
+  }
+
+  ngOnChanges(): void {
+    this.getTableData();
+  }
+
+  private formatTimestamp(timestamp: number, timeZone: string): string {
+    return this.timezoneService.formatToString(timestamp, timeZone, 'D MMM YYYY h:mm A');
+  }
+
+  private getTableData(): void {
+    var deadlineType = '';
+    if (this.isExtendModal()) var deadlineType = 'Original Deadline';
+    if (this.isDeleteModal() || this.isSessionDeleteModal()) var deadlineType = 'Current Deadline';
+
+    this.studentsColumnsData = [
+      { header: 'Section', sortBy: SortBy.SECTION_NAME },
+      { header: 'Team', sortBy: SortBy.TEAM_NAME },
+      { header: 'Name', sortBy: SortBy.RESPONDENT_NAME },
+      { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL},
+      { header: deadlineType, sortBy: SortBy.SESSION_END_DATE },
+    ]
+
+    this.instructorsColumnsData = [
+      { header: 'Name', sortBy: SortBy.RESPONDENT_NAME },
+      { header: 'Email', sortBy: SortBy.RESPONDENT_EMAIL },
+      { header: 'Role', sortBy: SortBy.INSTRUCTOR_PERMISSION_ROLE },
+      { header: deadlineType, sortBy: SortBy.SESSION_END_DATE },
+    ]
+
+    for (const student of this.selectedStudents) {
+      this.studentsRowsData.push([
+        { value: student.sectionName },
+        { value: student.teamName } ,
+        { value: student.name },
+        { value: student.email },
+        { value: this.formatTimestamp(student.extensionDeadline, 'America/New_York') },
+      ])
+
+    }
+
+    for (const instructor of this.selectedInstructors) {  
+      this.instructorsRowsData.push([
+        { value: instructor.name },
+        { value: instructor.email } ,
+        { value: instructor.role },
+        { value: this.formatTimestamp(instructor.extensionDeadline, 'America/New_York') },
+      ])
+    }
+  }
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;

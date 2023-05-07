@@ -222,7 +222,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
     </div>
     <br />
     <div
-      class="modal-footer py-1 px-3"
+      class="modal-footer"
     >
       <button
         class="btn btn-light"
