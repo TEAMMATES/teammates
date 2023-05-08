@@ -8,28 +8,28 @@ import { SessionsSectionQuestions } from '../instructor-help-sessions-section/se
 import { StudentsSectionQuestions } from '../instructor-help-students-section/students-section-questions';
 import { Sections } from '../sections';
 
-/**
- * Getting Started Section for Instructors
- */
+/*
+* Getting Started Section for Instructors
+*/
 @Component({
-  selector: 'tm-instructor-help-getting-started',
-  templateUrl: './instructor-help-getting-started.component.html',
-  styleUrls: ['./instructor-help-getting-started.component.scss'],
+selector: 'tm-instructor-help-getting-started',
+templateUrl: './instructor-help-getting-started.component.html',
+styleUrls: ['./instructor-help-getting-started.component.scss'],
 })
 export class InstructorHelpGettingStartedComponent {
 
-  // enum
-  StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
-  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
-  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
-  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
-  Sections: typeof Sections = Sections;
+// enum
+StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
+CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
+QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
+CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
+Sections: typeof Sections = Sections;
 
-  readonly supportEmail: string = environment.supportEmail;
-  instructorHelpPath: string = '';
+readonly supportEmail: string = environment.supportEmail;
+instructorHelpPath: string = '';
 
-  constructor(private route: ActivatedRoute) {
+constructor(private route: ActivatedRoute) {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;
@@ -48,7 +48,11 @@ export class InstructorHelpGettingStartedComponent {
     const topHeight = destination.getBoundingClientRect().height;
     const scrollPosition = window.scrollY;
     const topOffset = destination.getBoundingClientRect().top;
-      window.scrollTo({top: 0, left: scrollPosition + topOffset - topHeight, behavior: "smooth"});
+      window.scrollTo({
+         top: 0,
+         left: scrollPosition + topOffset - topHeight,
+         behavior: 'smooth',
+       });
   }
     return false;
   }
