@@ -9,10 +9,9 @@ import { ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/ap
 import {
   StudentExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
+import { SortableTableModule } from '../components/sortable-table/sortable-table.module';
 import { ExtensionConfirmModalComponent } from './extension-confirm-modal.component';
 import { ExtensionConfirmModalModule } from './extension-confirm-modal.module';
-import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
-
 
 describe('ExtensionConfirmModalComponent', () => {
   const testFeedbackSession: FeedbackSession = {
