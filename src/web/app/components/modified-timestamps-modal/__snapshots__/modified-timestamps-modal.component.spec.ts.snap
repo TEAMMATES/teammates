@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModifiedTimestampModalComponent should snap with coursesOfModifiedSession and modifiedSessions 1`] = `
+<tm-modified-timestamps-modal
+  __ngContext__={[Function Number]}
+  coursesOfModifiedSession={[Function Array]}
+  modifiedSessions={[Function Object]}
+>
+  <p>
+     The feedback session has been copied to all courses. However, changes are made to some session timings as the existing timings are no longer valid in these courses: CS315-Semester12023. The changes are as follows:
+  </p><table
+    class="table table-bordered"
+  >
+    <thead>
+      <tr>
+        <th>
+          Session Name
+        </th>
+        <th>
+          Timings
+        </th>
+        <th>
+          Existing
+        </th>
+        <th>
+          Modified
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          rowspan="4"
+        >
+          Instructor Feedback Session
+        </td>
+        <td>
+          Submission opening time
+        </td>
+        <td>
+          22 Mar 2023 9:00 PM
+        </td>
+        <td>
+          23 Apr 2023 9:00 PM
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Submission closing time
+        </td>
+        <td>
+          31 Mar 2023 11:59 PM
+        </td>
+        <td>
+          27 Apr 2023 11:59 PM
+        </td>
+      </tr>
+      <tr
+        class="text-color-lightgray"
+      >
+        <td>
+          Session visible time
+        </td>
+        <td>
+          On submission opening time
+        </td>
+        <td>
+          On submission opening time
+        </td>
+      </tr>
+      <tr
+        class="text-color-lightgray"
+      >
+        <td>
+          Response visible time
+        </td>
+        <td>
+          Not now (publish manually)
+        </td>
+        <td>
+          Not now (publish manually)
+        </td>
+      </tr>
+    </tbody>
+  </table><br /><p>
+     Please modify the timings as necessary.
+  </p>
+</tm-modified-timestamps-modal>
+`;
+
+exports[`ModifiedTimestampModalComponent should snap with default fields 1`] = `
+<tm-modified-timestamps-modal
+  __ngContext__={[Function Number]}
+  coursesOfModifiedSession={[Function Array]}
+  modifiedSessions={[Function Object]}
+>
+  <p>
+     The course has been added. However, changes are made to some session timings as the existing timings are no longer valid. The changes are as follows:
+  </p><table
+    class="table table-bordered"
+  >
+    <thead>
+      <tr>
+        <th>
+          Session Name
+        </th>
+        <th>
+          Timings
+        </th>
+        <th>
+          Existing
+        </th>
+        <th>
+          Modified
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table><br /><p>
+     Please modify the timings as necessary.
+  </p>
+</tm-modified-timestamps-modal>
+`;
+
+exports[`ModifiedTimestampModalComponent should snap with modifiedSessions 1`] = `
+<tm-modified-timestamps-modal
+  __ngContext__={[Function Number]}
+  coursesOfModifiedSession={[Function Array]}
+  modifiedSessions={[Function Object]}
+>
+  <p>
+     The course has been added. However, changes are made to some session timings as the existing timings are no longer valid. The changes are as follows:
+  </p><table
+    class="table table-bordered"
+  >
+    <thead>
+      <tr>
+        <th>
+          Session Name
+        </th>
+        <th>
+          Timings
+        </th>
+        <th>
+          Existing
+        </th>
+        <th>
+          Modified
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          rowspan="4"
+        >
+          Instructor Feedback Session
+        </td>
+        <td>
+          Submission opening time
+        </td>
+        <td>
+          22 Mar 2023 9:00 PM
+        </td>
+        <td>
+          23 Apr 2023 9:00 PM
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Submission closing time
+        </td>
+        <td>
+          31 Mar 2023 11:59 PM
+        </td>
+        <td>
+          27 Apr 2023 11:59 PM
+        </td>
+      </tr>
+      <tr
+        class="text-color-lightgray"
+      >
+        <td>
+          Session visible time
+        </td>
+        <td>
+          On submission opening time
+        </td>
+        <td>
+          On submission opening time
+        </td>
+      </tr>
+      <tr
+        class="text-color-lightgray"
+      >
+        <td>
+          Response visible time
+        </td>
+        <td>
+          Not now (publish manually)
+        </td>
+        <td>
+          Not now (publish manually)
+        </td>
+      </tr>
+    </tbody>
+  </table><br /><p>
+     Please modify the timings as necessary.
+  </p>
+</tm-modified-timestamps-modal>
+`;
