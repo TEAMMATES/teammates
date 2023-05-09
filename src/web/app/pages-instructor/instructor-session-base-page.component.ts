@@ -479,7 +479,7 @@ interface SessionTimestampData {
   responseVisibleTimestamp: string;
 }
 
-interface TweakedTimestampData {
+export interface TweakedTimestampData {
   oldTimestamp: SessionTimestampData;
   newTimestamp: SessionTimestampData;
 }
