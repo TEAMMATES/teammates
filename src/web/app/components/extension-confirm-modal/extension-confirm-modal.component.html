@@ -26,12 +26,12 @@
 
     <div class="table-responsive" *ngIf="selectedStudents.length !== 0">
       <h1>Students</h1>
-      <tm-sortable-table [rows]="studentsRowsData" [columns]="studentsColumnsData"></tm-sortable-table> 
+      <tm-sortable-table [rows]="studentsRowsData" [columns]="studentsColumnsData"></tm-sortable-table>
     </div>
 
     <div class="table-responsive" *ngIf="selectedInstructors.length !== 0">
       <h1>Instructors</h1>
-      <tm-sortable-table [rows]="instructorsRowsData" [columns]="instructorsColumnsData"></tm-sortable-table> 
+      <tm-sortable-table [rows]="instructorsRowsData" [columns]="instructorsColumnsData"></tm-sortable-table>
     </div>
 
     <div class="form-check" *ngIf="isDeleteModal() || isExtendModal()">
