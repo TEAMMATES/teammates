@@ -11,30 +11,36 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 import { DOCUMENT } from '@angular/common';
 import { Inject } from '@angular/core';
 
-/**
- * Getting Started Section for Instructors
- */
+/*
+* Getting Started Section for Instructors
+*/
 @Component({
   selector: 'tm-instructor-help-getting-started',
   templateUrl: './instructor-help-getting-started.component.html',
   styleUrls: ['./instructor-help-getting-started.component.scss'],
   })
   export class InstructorHelpGettingStartedComponent {
+selector: 'tm-instructor-help-getting-started',
+templateUrl: './instructor-help-getting-started.component.html',
+styleUrls: ['./instructor-help-getting-started.component.scss'],
+})
+export class InstructorHelpGettingStartedComponent {
 
-  // enum
-  StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
-  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
-  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
-  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
-  Sections: typeof Sections = Sections;
+// enum
+StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
+CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
+QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
+CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
+Sections: typeof Sections = Sections;
 
-  readonly supportEmail: string = environment.supportEmail;
-  instructorHelpPath: string = '';
+readonly supportEmail: string = environment.supportEmail;
+instructorHelpPath: string = '';
 
   constructor(private route: ActivatedRoute,
               private pageScrollService: PageScrollService,
               @Inject(DOCUMENT) private document: any) {
+constructor(private route: ActivatedRoute) {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;
