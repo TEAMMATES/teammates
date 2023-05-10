@@ -7,6 +7,9 @@ import { QuestionsSectionQuestions } from '../instructor-help-questions-section/
 import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
 import { StudentsSectionQuestions } from '../instructor-help-students-section/students-section-questions';
 import { Sections } from '../sections';
+import { PageScrollService } from 'ngx-page-scroll-core';
+import { DOCUMENT } from '@angular/common';
+import { Inject } from '@angular/core';
 
 /**
  * Getting Started Section for Instructors
@@ -15,8 +18,8 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-getting-started',
   templateUrl: './instructor-help-getting-started.component.html',
   styleUrls: ['./instructor-help-getting-started.component.scss'],
-})
-export class InstructorHelpGettingStartedComponent {
+  })
+  export class InstructorHelpGettingStartedComponent {
 
   // enum
   StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
@@ -29,7 +32,9 @@ export class InstructorHelpGettingStartedComponent {
   readonly supportEmail: string = environment.supportEmail;
   instructorHelpPath: string = '';
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: any) {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;
@@ -44,12 +49,13 @@ export class InstructorHelpGettingStartedComponent {
    */
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
-  if (destination) {
-    const topHeight = destination.getBoundingClientRect().height;
-    const scrollPosition = window.scrollY;
-    const topOffset = destination.getBoundingClientRect().top;
-      window.scrollTo({top: 0, left: scrollPosition + topOffset - topHeight, behavior: "smooth"});
-  }
+       if (destination) {
+        this.pageScrollService.scroll({
+              document: this.document,
+              scrollTarget: `#${target}`,
+              scrollOffset: 70,
+            });
+      }
     return false;
   }
 
