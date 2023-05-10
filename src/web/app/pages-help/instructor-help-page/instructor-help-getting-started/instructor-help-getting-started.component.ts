@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../../environments/environment';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
@@ -7,9 +9,6 @@ import { QuestionsSectionQuestions } from '../instructor-help-questions-section/
 import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
 import { StudentsSectionQuestions } from '../instructor-help-students-section/students-section-questions';
 import { Sections } from '../sections';
-import { PageScrollService } from 'ngx-page-scroll-core';
-import { DOCUMENT } from '@angular/common';
-import { Inject } from '@angular/core';
 
 /**
  * Getting Started Section for Instructors
@@ -35,7 +34,6 @@ import { Inject } from '@angular/core';
   constructor(private route: ActivatedRoute,
               private pageScrollService: PageScrollService,
               @Inject(DOCUMENT) private document: any) {
-constructor(private route: ActivatedRoute) {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;
