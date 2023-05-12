@@ -47,6 +47,10 @@ export interface TemplateQuestion {
 export class FeedbackQuestionsService {
 
   constructor(private httpRequestService: HttpRequestService) { }
+  private static readonly questionsAllowedToHaveParticipantComment: Set<FeedbackQuestionType> = 
+  new Set<FeedbackQuestionType>([FeedbackQuestionType.MCQ, FeedbackQuestionType.MSQ, FeedbackQuestionType.TEXT])
+
+
 
   /**
    * Gets allowed feedback paths based on question type as some feedback paths does not make
@@ -568,7 +572,9 @@ export class FeedbackQuestionsService {
    * Checks whether the current question is allowed to have participant comment.
    */
   isAllowedToHaveParticipantComment(questionType: FeedbackQuestionType): boolean {
-    return questionType === FeedbackQuestionType.MCQ || questionType === FeedbackQuestionType.MSQ;
+    return FeedbackQuestionsService
+    .questionsAllowedToHaveParticipantComment
+    .has(questionType);
   }
 
   /**
