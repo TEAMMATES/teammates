@@ -17,8 +17,8 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-getting-started',
   templateUrl: './instructor-help-getting-started.component.html',
   styleUrls: ['./instructor-help-getting-started.component.scss'],
-  })
-  export class InstructorHelpGettingStartedComponent {
+})
+export class InstructorHelpGettingStartedComponent {
 
   // enum
   StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
