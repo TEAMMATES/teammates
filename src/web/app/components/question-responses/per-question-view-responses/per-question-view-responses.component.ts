@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
@@ -61,7 +60,6 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   currResponseToAdd?: ResponseOutput;
 
   constructor(private tableComparatorService: TableComparatorService,
-    private questionsService: FeedbackQuestionsService,
     private feedbackResponsesService: FeedbackResponsesService,
     private ngbModal: NgbModal) {
     super();
