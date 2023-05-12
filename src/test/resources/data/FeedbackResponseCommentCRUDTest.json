@@ -573,6 +573,24 @@
       "lastEditedAt": "2012-04-02T23:59:01Z",
       "commentText": "Instructor comment to comment response"
     },
+    "comment1FromInstructor1Question2": {
+      "courseId": "idOfCourse1",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "2",
+      "commentGiver": "instructor1@course1.tmt",
+      "giverSection": "None",
+      "receiverSection": "Section A",
+      "feedbackResponseId": "2%instructor1@course1.tmt%student1InCourse1@gmail.tmt",
+      "showCommentTo": [ "INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": [  "INSTRUCTORS" ],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2021-12-12T23:59:01Z",
+      "lastEditorEmail": "instructor1@course1.tmt",
+      "lastEditedAt": "2022-05-02T23:59:01Z",
+      "commentText": "Instructor comment to comment response"
+    },
     "comment1FromStudent1": {
       "courseId": "idOfCourse1",
       "feedbackSessionName": "First Session",

@@ -353,17 +353,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     @Test
-    protected void testAccessControl_textTypeQuestionResponse_notAllowedToAddComment() {
-        String[] submissionParamsInstructor = new String[] {
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ2.getId()),
-        };
-
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyHttpParameterFailureAcl(submissionParamsInstructor);
-    }
-
-    @Test
     public void testAccessControl_contributionQuestionResponse_instructorNotAllowedToAddComment() {
         DataBundle contributionDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(contributionDataBundle);
