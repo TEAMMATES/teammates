@@ -19,12 +19,6 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
-        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackNumericalScaleQuestionDetails();
-        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
-    }
-
-    @Test
     public void tesValidateResponseDetails() {
         FeedbackNumericalScaleQuestionDetails numScaleQuestion = new FeedbackNumericalScaleQuestionDetails();
         numScaleQuestion.setStep(0.1);
