@@ -48,13 +48,13 @@ import { Sections } from '../sections';
    */
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
-       if (destination) {
-        this.pageScrollService.scroll({
-              document: this.document,
-              scrollTarget: `#${target}`,
-              scrollOffset: 70,
-            });
-      }
+    if (destination) {
+      this.pageScrollService.scroll({
+        document: this.document,
+        scrollTarget: `#${target}`,
+        scrollOffset: 70,
+      });
+    }
     return false;
   }
 
