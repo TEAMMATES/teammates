@@ -1939,6 +1939,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       <br />
                     </tm-num-scale-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-5-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -2127,6 +2144,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </div>
                       </div>
                     </tm-constsum-recipients-question-edit-answer-form>
+                  </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-6-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2581,6 +2615,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-contribution-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-7-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -2905,6 +2956,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-rubric-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-8-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -3165,6 +3233,23 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-rank-options-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-9-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -3369,6 +3454,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </select>
                       </div>
                     </tm-rank-recipients-question-edit-answer-form>
+                  </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-10-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -4684,6 +4787,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       <br />
                     </tm-num-scale-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-5-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -4873,6 +4994,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </div>
                       </div>
                     </tm-constsum-recipients-question-edit-answer-form>
+                  </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-6-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5328,6 +5467,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-contribution-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-7-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -5661,6 +5818,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-rubric-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-8-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -5922,6 +6097,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-rank-options-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-9-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -6127,6 +6320,24 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         </select>
                       </div>
                     </tm-rank-recipients-question-edit-answer-form>
+                  </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-10-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                      <button
+                        class="btn-add-comment btn btn-light btn-sm"
+                        disabled=""
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
