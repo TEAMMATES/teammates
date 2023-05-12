@@ -61,9 +61,9 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   currResponseToAdd?: ResponseOutput;
 
   constructor(private tableComparatorService: TableComparatorService,
-              private questionsService: FeedbackQuestionsService,
-              private feedbackResponsesService: FeedbackResponsesService,
-              private ngbModal: NgbModal) {
+    private questionsService: FeedbackQuestionsService,
+    private feedbackResponsesService: FeedbackResponsesService,
+    private ngbModal: NgbModal) {
     super();
   }
 
@@ -94,7 +94,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     }
 
     const hasRealResponse: boolean =
-        responsesToShow.some((response: ResponseOutput) => !response.isMissingResponse);
+      responsesToShow.some((response: ResponseOutput) => !response.isMissingResponse);
     if (hasRealResponse) {
       this.responsesToShow = responsesToShow;
       this.sortResponses(this.sortBy);
@@ -127,9 +127,9 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
       // Default order: giver team > giver name > recipient team > recipient name
       return ((a: ResponseOutput, b: ResponseOutput): number => {
         return this.tableComparatorService.compare(SortBy.GIVER_TEAM, order, a.giverTeam, b.giverTeam)
-            || this.tableComparatorService.compare(SortBy.GIVER_NAME, order, a.giver, b.giver)
-            || this.tableComparatorService.compare(SortBy.RECIPIENT_TEAM, order, a.recipientTeam, b.recipientTeam)
-            || this.tableComparatorService.compare(SortBy.RECIPIENT_NAME, order, a.recipient, b.recipient);
+          || this.tableComparatorService.compare(SortBy.GIVER_NAME, order, a.giver, b.giver)
+          || this.tableComparatorService.compare(SortBy.RECIPIENT_TEAM, order, a.recipientTeam, b.recipientTeam)
+          || this.tableComparatorService.compare(SortBy.RECIPIENT_NAME, order, a.recipient, b.recipient);
       });
     }
     return ((a: ResponseOutput, b: ResponseOutput): number => {
@@ -170,15 +170,8 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
 
     const commentModalRef: NgbModalRef = this.ngbModal.open(modal);
     this.currResponseToAdd = selectedResponse;
-    commentModalRef.result.then(() => {}, () => {
+    commentModalRef.result.then(() => { }, () => {
       this.currResponseToAdd = undefined;
     });
-  }
-
-  /**
-   * Check whether the question can have participant comments.
-   */
-  get canResponseHasComment(): boolean {
-    return this.questionsService.isAllowedToHaveParticipantComment(this.question.questionType);
   }
 }
