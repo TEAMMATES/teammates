@@ -1288,6 +1288,70 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       </div>
                     </tm-text-question-edit-answer-form>
                   </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-3-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                    </div>
+                    <div>
+                      <tm-comment-row>
+                        <tm-comment-edit-form>
+                          <div
+                            class="row"
+                          >
+                            <div
+                              class="col-6"
+                            >
+                               Your comment about the above response 
+                            </div>
+                            <div
+                              class="col-6"
+                            >
+                              <div
+                                class="float-end"
+                              >
+                                <span>
+                                </span>
+                                <span
+                                  style="margin-left: 10px;"
+                                >
+                                  <button
+                                    aria-label="Close"
+                                    class="btn-close"
+                                    type="button"
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            style="margin: 10px 0;"
+                          >
+                            <tm-rich-text-editor
+                              placeholdertext="Enter your comment here"
+                            >
+                              <div
+                                inviewport=""
+                              >
+                              </div>
+                            </tm-rich-text-editor>
+                          </div>
+                          <button
+                            class="btn btn-light btn-sm float-end"
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-times"
+                            />
+                             Cancel
+                          </button>
+                        </tm-comment-edit-form>
+                      </tm-comment-row>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div
@@ -3961,6 +4025,71 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       >
                       </div>
                     </tm-text-question-edit-answer-form>
+                  </div>
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section-qn-3-idx-0"
+                  >
+                    <div
+                      style="display: inline-block;"
+                    >
+                    </div>
+                    <div>
+                      <tm-comment-row>
+                        <tm-comment-edit-form>
+                          <div
+                            class="row"
+                          >
+                            <div
+                              class="col-6"
+                            >
+                               Your comment about the above response 
+                            </div>
+                            <div
+                              class="col-6"
+                            >
+                              <div
+                                class="float-end"
+                              >
+                                <span>
+                                </span>
+                                <span
+                                  style="margin-left: 10px;"
+                                >
+                                  <button
+                                    aria-label="Close"
+                                    class="btn-close"
+                                    type="button"
+                                  />
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            style="margin: 10px 0;"
+                          >
+                            <tm-rich-text-editor
+                              placeholdertext="Enter your comment here"
+                            >
+                              <div
+                                inviewport=""
+                              >
+                              </div>
+                            </tm-rich-text-editor>
+                          </div>
+                          <button
+                            class="btn btn-light btn-sm float-end"
+                            disabled=""
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-times"
+                            />
+                             Cancel
+                          </button>
+                        </tm-comment-edit-form>
+                      </tm-comment-row>
+                    </div>
                   </div>
                 </div>
               </div>

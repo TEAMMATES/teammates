@@ -1,5 +1,211 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`InstructorStudentRecordsPageComponent should show instructor, student records and student results when query params are populated 1`] = `
+<tm-instructor-student-records-page
+  __ngContext__={[Function Number]}
+  commentService={[Function FeedbackResponseCommentService]}
+  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
+  commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
+  courseId={[Function String]}
+  currInstructorName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasStudentLoadingFailed="false"
+  hasStudentResultsLoadingFailed="false"
+  instructorCommentTableModel={[Function Object]}
+  instructorService={[Function InstructorService]}
+  isStudentLoading="false"
+  isStudentResultsLoading="false"
+  route={[Function Object]}
+  sessionTabs={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  studentEmail={[Function String]}
+  studentName={[Function String]}
+  studentSection={[Function String]}
+  studentService={[Function StudentService]}
+  studentTeam={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <h1
+    id="records-header"
+  >
+    Punk Lim's Records
+    <small
+      class="text-muted text-break"
+    >
+       - su1337
+    </small>
+  </h1><h2>
+    Records in feedback sessions
+  </h2><tm-loading-retry>
+    <div>
+      <div
+        class="card card-default mb-4"
+      >
+        <div
+          class="card-header cursor-pointer"
+        >
+          <strong
+            class="text-break"
+          >
+            Feedback Session: Feedback Session
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div
+          class="card-body ng-trigger ng-trigger-collapseAnim ng-animating"
+          style=""
+        >
+          <tm-grq-rgq-view-responses
+            style=""
+          >
+            <div>
+              <div>
+                <div
+                  class="card top-padded border-primary"
+                  id="user-panel"
+                >
+                  <div
+                    class="card-header bg-primary text-white cursor-pointer"
+                    id="user-header"
+                  >
+                    <div>
+                       To: Punk Lim (Tutorial Group 13) 
+                      <a
+                        class="text-white"
+                        href="mailto:punk@punk.com"
+                      >
+                         [punk@punk.com] 
+                      </a>
+                    </div>
+                    <div
+                      class="card-header-btn-toolbar"
+                    >
+                      <tm-panel-chevron>
+                        <div
+                          class="chevron"
+                        >
+                          <i
+                            class="fas fa-chevron-up"
+                          />
+                        </div>
+                      </tm-panel-chevron>
+                    </div>
+                  </div>
+                  <div
+                    class="ng-trigger ng-trigger-collapseAnim ng-animating"
+                    style=""
+                  >
+                    <div
+                      class="card-body"
+                    >
+                      <div
+                        class="top-padded"
+                        id="grouped-responses"
+                        style=""
+                      >
+                        <tm-grouped-responses>
+                          <div
+                            class="row"
+                          >
+                            <div
+                              class="col-md-3"
+                              id="users-details"
+                            >
+                              <div>
+                                 From: giver1 (team1) 
+                              </div>
+                              <div
+                                class="top-padded"
+                              >
+                                 To: Punk Lim (Tutorial Group 13) 
+                              </div>
+                              <div
+                                class="top-padded"
+                              >
+                              </div>
+                            </div>
+                            <div
+                              class="col-md-9"
+                            >
+                              <div
+                                id="question-panel-2"
+                              >
+                                <div
+                                  class="card bottom-padded alert-primary-border"
+                                >
+                                  <div
+                                    class="card-header alert alert-primary alert-no-bottom"
+                                  >
+                                    <tm-question-text-with-info>
+                                      <span
+                                        class="d-flex flex-column flex-sm-row align-items-sm-center"
+                                      >
+                                        <h2
+                                          class="question-number"
+                                        >
+                                           Question 2: 
+                                        </h2>
+                                        <span
+                                          class="question-text mx-sm-2"
+                                        >
+                                          Rate your teammates in contribution
+                                        </span>
+                                        <button
+                                          class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
+                                        >
+                                           [more] 
+                                        </button>
+                                      </span>
+                                    </tm-question-text-with-info>
+                                  </div>
+                                  <div
+                                    class="card-body"
+                                  >
+                                    <div
+                                      id="response"
+                                      style="margin: 0;"
+                                    >
+                                      <tm-single-response>
+                                      </tm-single-response>
+                                    </div>
+                                    <br />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </tm-grouped-responses>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tm-grq-rgq-view-responses>
+          <div
+            style=""
+          >
+             No feedback responses from Punk Lim (Team 5) found. 
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</tm-instructor-student-records-page>
+`;
+
 exports[`InstructorStudentRecordsPageComponent should snap when student results are still loading 1`] = `
 <tm-instructor-student-records-page
   __ngContext__={[Function Number]}
