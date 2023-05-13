@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
@@ -33,8 +32,8 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("The feedback question does not exist.");
         }
-        FeedbackSessionAttributes feedbackSession =
-                getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(),
+                feedbackQuestion.getCourseId());
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
         verifyNotPreview();
@@ -48,7 +47,8 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
+            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(
+                    feedbackSession.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
         default:
@@ -66,11 +66,14 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(questionAttributes.getCourseId());
-            responses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(questionAttributes, studentAttributes);
+            responses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(questionAttributes,
+                    studentAttributes);
             break;
         case INSTRUCTOR_SUBMISSION:
-            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(questionAttributes.getCourseId());
-            responses = logic.getFeedbackResponsesFromInstructorForQuestion(questionAttributes, instructorAttributes);
+            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(
+                    questionAttributes.getCourseId());
+            responses = logic.getFeedbackResponsesFromInstructorForQuestion(questionAttributes,
+                    instructorAttributes);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -80,8 +83,8 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         responses.forEach(response -> {
             FeedbackResponseData data = new FeedbackResponseData(response);
-            FeedbackResponseCommentAttributes comment =
-                    logic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
+            FeedbackResponseCommentAttributes comment = logic
+                    .getFeedbackResponseCommentForResponseFromParticipant(response.getId());
             if (comment != null) {
                 data.setGiverComment(new FeedbackResponseCommentData(comment));
             }

@@ -1,20 +1,26 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import {
+  CommentOutput, FeedbackQuestion, FeedbackTextQuestionDetails,
+  FeedbackTextResponseDetails, ResponseOutput,
+} from 'src/web/types/api-output';
 import SpyInstance = jest.SpyInstance;
+import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import {
+  CommentVisibilityType, FeedbackParticipantType, FeedbackQuestionType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+} from '../../../../types/api-request';
 import {
   ResponseModerationButtonModule,
 } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
 import { CommentBoxModule } from '../../comment-box/comment-box.module';
+import { CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
+import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
-import { CommentOutput, FeedbackQuestion, FeedbackTextQuestionDetails, FeedbackTextResponseDetails, ResponseOutput } from 'src/web/types/api-output';
-import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
-import { CommentVisibilityType, FeedbackParticipantType, FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../../types/api-request';
-import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
-import { CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
 
 describe('PerQuestionViewResponsesComponent', () => {
   let component: PerQuestionViewResponsesComponent;
@@ -98,43 +104,42 @@ describe('PerQuestionViewResponsesComponent', () => {
     showGiverNameTo: [],
     showRecipientNameTo: [],
     customNumberOfEntitiesToGiveFeedbackTo: 0,
-  }
+  };
 
   const commentRowModel: CommentRowModel = {
-
     commentEditFormModel: {
       commentText: '',
       isUsingCustomVisibilities: false,
       showCommentTo: [CommentVisibilityType.RECIPIENT],
-      showGiverNameTo: [CommentVisibilityType.RECIPIENT]
+      showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     },
     isEditing: false,
-  }
+  };
 
   const commentTableModel: CommentTableModel = {
     commentRows: [],
     newCommentRow: commentRowModel,
     isAddingNewComment: false,
     isReadOnly: false,
-  }
+  };
 
   const instructorCommentTableModel: Record<string, CommentTableModel> = {
     'resp-id-101': commentTableModel,
   };
 
-
   it('should snap response with comments', () => {
     component.question = feedbackQuestion;
     component.instructorCommentTableModel = instructorCommentTableModel;
     component.responses = [responseOutput];
-    const feedbackResponseSpy: SpyInstance = jest.spyOn(feedbackResponsesService, 'isFeedbackResponsesDisplayedOnSection')
+    const feedbackResponseSpy: SpyInstance = jest.spyOn(feedbackResponsesService,
+      'isFeedbackResponsesDisplayedOnSection')
       .mockReturnValue(true);
 
     component.ngOnInit();
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
 
-    expect(feedbackResponseSpy).toBeCalledTimes(1);
+    expect(feedbackResponseSpy).toHaveBeenCalledTimes(1);
     expect(JSON.stringify(component.responsesToShow[0]))
       .toBe(JSON.stringify(responseOutput));
   });
