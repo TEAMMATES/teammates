@@ -108,7 +108,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     private courseService: CourseService,
     private tableComparatorService: TableComparatorService,
     private instructorService: InstructorService,
-  ) {}
+  ) { }
 
   /**
    * Loads a feedback session and individuals
@@ -206,10 +206,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.studentsOfCourse
-            .forEach((studentColumnModel: StudentExtensionTableColumnModel) => {
-                studentColumnModel.hasSubmittedSession =
-                feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(studentColumnModel.email);
-              });
+          .forEach((studentColumnModel: StudentExtensionTableColumnModel) => {
+            studentColumnModel.hasSubmittedSession =
+              feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(studentColumnModel.email);
+          });
       },
       error: (resp: ErrorMessageOutput) => {
         this.hasLoadedAllStudentsFailed = true;
@@ -229,6 +229,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         model.isSelected = shouldSelect;
       }
     });
+    this.updateSelectAllStudents();
   }
 
   /**
@@ -268,10 +269,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.instructorsOfCourse
-            .forEach((instructorColumnModel: InstructorExtensionTableColumnModel) => {
-                instructorColumnModel.hasSubmittedSession =
-                feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(instructorColumnModel.email);
-              });
+          .forEach((instructorColumnModel: InstructorExtensionTableColumnModel) => {
+            instructorColumnModel.hasSubmittedSession =
+              feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(instructorColumnModel.email);
+          });
       },
       error: (resp: ErrorMessageOutput) => {
         this.hasLoadedAllInstructorsFailed = true;
@@ -291,6 +292,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         model.isSelected = shouldSelect;
       }
     });
+    this.updateSelectAllInstructors();
   }
 
   /**
