@@ -137,7 +137,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-valid ng-dirty"
           id="select-not-submitted-student-btn"
@@ -614,7 +616,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-valid ng-dirty"
           id="select-not-submitted-student-btn"
@@ -630,7 +634,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-valid ng-dirty"
           id="select-not-submitted-instructor-btn"
@@ -1155,7 +1161,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-student-btn"
@@ -1171,7 +1179,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-instructor-btn"
@@ -1696,7 +1706,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-student-btn"
@@ -1712,7 +1724,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-instructor-btn"
@@ -2538,7 +2552,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-student-btn"
@@ -3020,7 +3036,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-instructor-btn"
@@ -3462,7 +3480,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-student-btn"
@@ -3478,7 +3498,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-instructor-btn"
@@ -5456,7 +5478,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-student-btn"
@@ -5890,7 +5914,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-pristine ng-valid"
           id="select-not-submitted-instructor-btn"
@@ -6240,7 +6266,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-valid ng-dirty"
           id="select-not-submitted-instructor-btn"
@@ -6681,7 +6709,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
     </div>
   </tm-loading-retry><tm-loading-retry>
     <div>
-      <div>
+      <div
+        class="form-check"
+      >
         <input
           class="form-check-input ng-untouched ng-valid ng-dirty"
           id="select-not-submitted-student-btn"
