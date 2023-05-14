@@ -3,6 +3,7 @@
 exports[`NotificationBannerComponent should snap with 1 unread notification 1`] = `
 <tm-notification-banner
   __ngContext__={[Function Number]}
+  isInstructorHelpPage="false"
   isShown={[Function Boolean]}
   notificationService={[Function NotificationService]}
   notificationTargetUser={[Function String]}
@@ -47,6 +48,7 @@ exports[`NotificationBannerComponent should snap with 1 unread notification 1`] 
 exports[`NotificationBannerComponent should snap with multiple unread notifications 1`] = `
 <tm-notification-banner
   __ngContext__={[Function Number]}
+  isInstructorHelpPage="false"
   isShown={[Function Boolean]}
   notificationService={[Function NotificationService]}
   notificationTargetUser={[Function String]}
@@ -91,6 +93,7 @@ exports[`NotificationBannerComponent should snap with multiple unread notificati
 exports[`NotificationBannerComponent should snap with no unread notifications 1`] = `
 <tm-notification-banner
   __ngContext__={[Function Number]}
+  isInstructorHelpPage="false"
   isShown={[Function Boolean]}
   notificationService={[Function NotificationService]}
   notificationTargetUser={[Function String]}
