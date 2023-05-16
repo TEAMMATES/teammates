@@ -9,6 +9,8 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
+  instructorsColumnsData={[Function Array]}
+  instructorsRowsData={[Function Array]}
   isNotifyDeadlines="false"
   isSubmitting="false"
   modalType="0"
@@ -18,7 +20,10 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
   sortInstructorsBy={[Function Number]}
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
+  studentsColumnsData={[Function Array]}
+  studentsRowsData={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
 >
   <fieldset>
     <div
@@ -58,151 +63,118 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
         <h1>
           Students
         </h1>
-        <table
-          class="table table-bordered mb-3"
-          id="student-list-table"
-        >
-          <thead>
-            <tr>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Section 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Team 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Name 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="none"
-                class="sortable-header"
-              >
-                <button>
-                   Email 
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                  </span>
-                </button>
-              </th>
-              <th
-                aria-sort="descending"
-                class="sortable-header"
-              >
-                <button>
-                  <span>
-                    Original Deadline 
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    class="fa-stack"
-                  >
-                    <i
-                      class="fas fa-sort"
-                    />
-                    <i
-                      class="fas fa-sort-down"
-                    />
-                  </span>
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tr>
-            <td>
-              Test Section 1
-            </td>
-            <td>
-              Test Section 1
-            </td>
-            <td>
-              Test Student 1
-            </td>
-            <td>
-              testStudent1@gmail.com
-            </td>
-            <td>
-              5 Apr 2000 2:00:00
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Test Section 2
-            </td>
-            <td>
-              Test Section 2
-            </td>
-            <td>
-              Test Student 2
-            </td>
-            <td>
-              testStudent2@gmail.com
-            </td>
-            <td>
-              5 Apr 2000 2:00:00
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Test Section 3
-            </td>
-            <td>
-              Test Section 3
-            </td>
-            <td>
-              Test Student 3
-            </td>
-            <td>
-              testStudent3@gmail.com
-            </td>
-            <td>
-              5 Apr 2000 2:00:00
-            </td>
-          </tr>
-        </table>
+        <tm-sortable-table>
+          <table
+            class="table table-bordered table-striped margin-bottom-20px"
+          >
+            <thead>
+              <tr>
+                <th
+                  aria-sort="none"
+                  class="sortable-header"
+                >
+                  <button>
+                    <span
+                      container="body"
+                    >
+                      Section
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="sortable-header"
+                >
+                  <button>
+                    <span
+                      container="body"
+                    >
+                      Team
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="sortable-header"
+                >
+                  <button>
+                    <span
+                      container="body"
+                    >
+                      Name
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="sortable-header"
+                >
+                  <button>
+                    <span
+                      container="body"
+                    >
+                      Email
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-sort="none"
+                  class="sortable-header"
+                >
+                  <button>
+                    <span
+                      container="body"
+                    >
+                      Original Deadline
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                    </span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </tm-sortable-table>
       </div>
       <div
         class="form-check"

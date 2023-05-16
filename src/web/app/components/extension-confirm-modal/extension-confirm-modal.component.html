@@ -33,7 +33,6 @@
       <h1>Instructors</h1>
       <tm-sortable-table [rows]="instructorsRowsData" [columns]="instructorsColumnsData"></tm-sortable-table>
     </div>
-
     <div class="form-check" *ngIf="isDeleteModal() || isExtendModal()">
       <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyDeadlines" id="flexCheckChecked">
       <label class="form-check-label" for="flexCheckChecked" *ngIf="isExtendModal()">
