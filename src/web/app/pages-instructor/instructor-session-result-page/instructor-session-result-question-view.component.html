@@ -5,7 +5,7 @@
                                 [shouldShowDownloadQuestionResult]="false"
     ></tm-question-text-with-info>
     <div>
-      <button class=btn (click)="triggerDownloadQuestionResult({
+      <button type="button" class="btn btn-primary" (click)="triggerDownloadQuestionResult({
         questionNumber: question.question.questionNumber,
         questionId: question.question.feedbackQuestionId})">Download Results</button>
     </div>
