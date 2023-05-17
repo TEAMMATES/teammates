@@ -50,9 +50,10 @@ public class UsersLogicTest extends BaseTestCase {
         usersDb = mock(UsersDb.class);
         accountsLogic = mock(AccountsLogic.class);
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
+        FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = mock(FeedbackResponseCommentsLogic.class);
         DeadlineExtensionsLogic deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
-        usersLogic.initLogicDependencies(usersDb, accountsLogic,
-                feedbackResponsesLogic, deadlineExtensionsLogic);
+        usersLogic.initLogicDependencies(usersDb, accountsLogic, feedbackResponsesLogic,
+                feedbackResponseCommentsLogic, deadlineExtensionsLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         instructor = getTypicalInstructor();

@@ -15,7 +15,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Edits an instructor in a course.
  */
-class UpdateInstructorAction extends Action {
+public class UpdateInstructorAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -37,7 +37,7 @@ class UpdateInstructorAction extends Action {
         } else {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
             gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
         }
     }
 
@@ -60,7 +60,7 @@ class UpdateInstructorAction extends Action {
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         }
-        
+
         sqlLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
 
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
@@ -71,7 +71,8 @@ class UpdateInstructorAction extends Action {
         return new JsonResult(newInstructorData);
     }
 
-    private JsonResult executeWithDatastore(String courseId, InstructorCreateRequest instructorRequest) throws InvalidHttpRequestBodyException, InvalidOperationException {
+    private JsonResult executeWithDatastore(String courseId, InstructorCreateRequest instructorRequest)
+            throws InvalidHttpRequestBodyException, InvalidOperationException {
         InstructorAttributes instructorToEdit =
                 retrieveEditedInstructor(courseId, instructorRequest.getId(),
                         instructorRequest.getName(), instructorRequest.getEmail(),

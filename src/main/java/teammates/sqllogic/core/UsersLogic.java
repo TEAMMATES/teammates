@@ -59,7 +59,7 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-        FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
@@ -100,9 +100,11 @@ public final class UsersLogic {
             throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
         }
 
-        verifyAtLeastOneInstructorIsDisplayed(courseId, instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
+        verifyAtLeastOneInstructorIsDisplayed(
+                courseId, instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
 
         String originalEmail = instructor.getEmail();
+        boolean needsCascade = false;
 
         String newDisplayName = instructorRequest.getDisplayName();
         if (newDisplayName == null || newDisplayName.isEmpty()) {
@@ -119,6 +121,14 @@ public final class UsersLogic {
         String newEmail = instructor.getEmail();
 
         if (!originalEmail.equals(newEmail)) {
+            needsCascade = true;
+        }
+
+        if (!instructor.isValid()) {
+            throw new InvalidParametersException(instructor.getInvalidityInfo());
+        }
+
+        if (needsCascade) {
             // cascade responses
             List<FeedbackResponse> responsesFromUser =
                     feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
@@ -130,7 +140,7 @@ public final class UsersLogic {
                 }
             }
             List<FeedbackResponse> responsesToUser =
-                feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
+                    feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
             for (FeedbackResponse responseToUser : responsesToUser) {
                 FeedbackQuestion question = responseToUser.getFeedbackQuestion();
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
