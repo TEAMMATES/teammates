@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
@@ -16,10 +19,14 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
+import teammates.ui.request.InstructorCreateRequest;
 
 /**
  * Handles operations related to user (instructor & student).
@@ -39,6 +46,8 @@ public final class UsersLogic {
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
 
+    private FeedbackResponseCommentsLogic feedbackResponseCommentsLogic;
+
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private UsersLogic() {
@@ -49,11 +58,12 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
-            FeedbackResponsesLogic feedbackResponsesLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
+        FeedbackResponseCommentsLogic feedbackResponseCommentsLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
+        this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
@@ -66,6 +76,91 @@ public final class UsersLogic {
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return usersDb.createInstructor(instructor);
+    }
+
+    /**
+     * Updates an instructor and cascades to responses and comments if needed.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if the instructor update request is invalid
+     * @throws InstructorUpdateException if the update violates instructor validity
+     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     */
+    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
+            InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
+        Instructor instructor;
+        String instructorId = instructorRequest.getId();
+        if (instructorId == null) {
+            instructor = getInstructorForEmail(courseId, instructorRequest.getEmail());
+        } else {
+            instructor = getInstructorByGoogleId(courseId, instructorId);
+        }
+
+        if (instructor == null) {
+            throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
+        }
+
+        verifyAtLeastOneInstructorIsDisplayed(courseId, instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
+
+        String originalEmail = instructor.getEmail();
+
+        String newDisplayName = instructorRequest.getDisplayName();
+        if (newDisplayName == null || newDisplayName.isEmpty()) {
+            newDisplayName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
+        }
+
+        instructor.setName(SanitizationHelper.sanitizeName(instructorRequest.getName()));
+        instructor.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
+        instructor.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
+        instructor.setPrivileges(new InstructorPrivileges(instructorRequest.getRoleName()));
+        instructor.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
+        instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
+
+        String newEmail = instructor.getEmail();
+
+        if (!originalEmail.equals(newEmail)) {
+            // cascade responses
+            List<FeedbackResponse> responsesFromUser =
+                    feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
+            for (FeedbackResponse responseFromUser : responsesFromUser) {
+                FeedbackQuestion question = responseFromUser.getFeedbackQuestion();
+                if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                        || question.getGiverType() == FeedbackParticipantType.SELF) {
+                    responseFromUser.setGiver(newEmail);
+                }
+            }
+            List<FeedbackResponse> responsesToUser =
+                feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
+            for (FeedbackResponse responseToUser : responsesToUser) {
+                FeedbackQuestion question = responseToUser.getFeedbackQuestion();
+                if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                        || question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                        && question.getRecipientType() == FeedbackParticipantType.SELF) {
+                    responseToUser.setRecipient(newEmail);
+                }
+            }
+            // cascade comments
+            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, newEmail);
+        }
+
+        return instructor;
+    }
+
+    /**
+     * Verifies that at least one instructor is displayed to studens.
+     *
+     * @throws InstructorUpdateException if there is no instructor displayed to students.
+     */
+    void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
+                                               boolean isEditedInstructorDisplayed)
+            throws InstructorUpdateException {
+        List<Instructor> instructorsDisplayed = usersDb.getInstructorsDisplayedToStudents(courseId);
+        boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
+        boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
+
+        if (isNoInstructorMadeVisible || instructorsDisplayed.size() == 1 && isEditedInstructorChangedToNonVisible) {
+            throw new InstructorUpdateException("At least one instructor must be displayed to students");
+        }
     }
 
     /**

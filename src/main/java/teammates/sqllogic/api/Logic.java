@@ -45,6 +45,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.InstructorCreateRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -697,6 +698,19 @@ public class Logic {
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return usersLogic.createInstructor(instructor);
+    }
+
+    /**
+     * Updates an instructor and cascades to responses and comments if needed.
+     *
+     * @return updated instructor
+     * @throws InvalidParametersException if the instructor update request is invalid
+     * @throws InstructorUpdateException if the update violates instructor validity
+     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     */
+    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
+            InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
+        return usersLogic.updateInstructorCascade(courseId, instructorRequest);
     }
 
     /**

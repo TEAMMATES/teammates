@@ -108,6 +108,21 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets all instructors that will be displayed to students of a course.
+     */
+    public List<Instructor> getInstructorsDisplayedToStudents(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+
+        cr.select(instructorRoot).where(cb.and(
+                cb.equal(instructorRoot.get("courseId"), courseId),
+                cb.equal(instructorRoot.get("isDisplayedToStudents"), true)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets a student by its {@code id}.
      */
     public Student getStudent(UUID id) {

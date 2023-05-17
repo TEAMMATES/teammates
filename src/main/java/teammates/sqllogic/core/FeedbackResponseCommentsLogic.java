@@ -88,4 +88,13 @@ public final class FeedbackResponseCommentsLogic {
 
         return comment;
     }
+
+    /**
+     * Updates all email fields of feedback response comments.
+     */
+    public void updateFeedbackResponseCommentsEmails(String courseId, String oldEmail, String updatedEmail) {
+        frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+        frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+    }
+
 }
