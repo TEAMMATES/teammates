@@ -150,23 +150,23 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         DataBundle dataBundle = loadDataBundle("/FeedbackResponseCommentCRUDTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackQuestionAttributes qn2InSession1 = dataBundle.feedbackQuestions.get("qn2InSession1");
-        FeedbackResponseAttributes response1ForQ2 = dataBundle.feedbackResponses.get("response1ForQ2");
-        FeedbackResponseCommentAttributes comment1FromInstructor1Question2 =
-                dataBundle.feedbackResponseComments.get("comment1FromInstructor1Question2");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        FeedbackQuestionAttributes qn7InSession1 = dataBundle.feedbackQuestions.get("qn7InSession1");
+        FeedbackResponseAttributes response1ForQ7 = dataBundle.feedbackResponses.get("response1ForQ7");
+        FeedbackResponseCommentAttributes comment3FromStudent1 =
+                dataBundle.feedbackResponseComments.get("comment3FromStudent1");
 
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InSession1.getId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn7InSession1.getId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
         FeedbackResponsesData actualData = getFeedbackResponse(params);
         List<FeedbackResponseData> actualResponses = actualData.getResponses();
 
         assertEquals(1, actualResponses.size());
-        verifyFeedbackResponseEquals(response1ForQ2, actualResponses.get(0));
-        verifyFeedbackCommentEquals(comment1FromInstructor1Question2, actualResponses.get(0).getGiverComment());
+        verifyFeedbackResponseEquals(response1ForQ7, actualResponses.get(0));
+        verifyFeedbackCommentEquals(comment3FromStudent1, actualResponses.get(0).getGiverComment());
     }
 
     @Test

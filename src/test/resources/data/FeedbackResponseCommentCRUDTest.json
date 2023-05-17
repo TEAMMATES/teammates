@@ -393,6 +393,29 @@
         "INSTRUCTORS",
         "RECEIVER"
       ]
+    },
+    "qn7InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 1 other student's product"
+      },
+      "questionNumber": 7,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS_EXCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     }
   },
   "feedbackResponses": {
@@ -516,6 +539,19 @@
         "otherFieldContent": "",
         "questionType": "MCQ"
       }
+    },
+    "response1ForQ7": {
+      "feedbackSessionName": "First Session",
+      "courseId": "idOfCourse1",
+      "feedbackQuestionId": "7",
+      "giver": "student1InCourse1@gmail.tmt",
+      "recipient": "student2InCourse1@gmail.tmt",
+      "giverSection": "Section A",
+      "recipientSection": "Section A",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Student feedback to student 3 on student 3's project"
+      }
     }
   },
   "feedbackResponseComments": {
@@ -573,24 +609,6 @@
       "lastEditedAt": "2012-04-02T23:59:01Z",
       "commentText": "Instructor comment to comment response"
     },
-    "comment1FromInstructor1Question2": {
-      "courseId": "idOfCourse1",
-      "feedbackSessionName": "First Session",
-      "feedbackQuestionId": "2",
-      "commentGiver": "instructor1@course1.tmt",
-      "giverSection": "None",
-      "receiverSection": "Section A",
-      "feedbackResponseId": "2%instructor1@course1.tmt%student1InCourse1@gmail.tmt",
-      "showCommentTo": [ "INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": [  "INSTRUCTORS" ],
-      "commentGiverType": "INSTRUCTORS",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
-      "createdAt": "2021-12-12T23:59:01Z",
-      "lastEditorEmail": "instructor1@course1.tmt",
-      "lastEditedAt": "2022-05-02T23:59:01Z",
-      "commentText": "Instructor comment to comment response"
-    },
     "comment1FromStudent1": {
       "courseId": "idOfCourse1",
       "feedbackSessionName": "First Session",
@@ -622,6 +640,22 @@
       "isCommentFromFeedbackParticipant": true,
       "createdAt": "2026-03-01T23:59:00Z",
       "commentText": "Student 1 comment"
+    },
+    "comment3FromStudent1": {
+      "courseId": "idOfCourse1",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "7",
+      "commentGiver": "student1InCourse1@gmail.tmt",
+      "giverSection": "Section A",
+      "receiverSection": "Section A",
+      "feedbackResponseId": "7%student1InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-03-01T23:59:00Z",
+      "commentText": "Student 1 comment to Student 2 for Question 7"
     },
     "comment1FromTeam1": {
       "courseId": "idOfCourse1",
