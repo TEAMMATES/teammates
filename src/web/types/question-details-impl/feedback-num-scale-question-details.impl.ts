@@ -38,7 +38,7 @@ export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQ
     }
     statsCalculation.calculateStatistics();
 
-    const header: string[] = ['Team', 'Recipient', 'Average', 'Minimum', 'Maximum'];
+    const header: string[] = ['Team', 'Recipient', 'Recipient Email', 'Average', 'Minimum', 'Maximum'];
     const shouldShowAvgExcludingSelf: boolean =
         this.shouldShowAverageExcludingSelfInCsvStats(question, statsCalculation);
     if (shouldShowAvgExcludingSelf) {
@@ -52,6 +52,7 @@ export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQ
         const currRow: string[] = [
           team,
           recipient,
+          statsCalculation.recipientEmails[recipient],
           String(stats.average),
           String(stats.min),
           String(stats.max),
