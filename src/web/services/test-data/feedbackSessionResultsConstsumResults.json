@@ -68,6 +68,15 @@
             ],
             "questionType": "CONSTSUM"
           },
+          "participantComment": {
+            "feedbackResponseCommentId": 435465,
+            "commentText": "Instructor 1 comment",
+            "createdAt": 1451692743000,
+            "lastEditedAt": 1451692740010,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
+          },
           "instructorComments": []
         }
       ],
@@ -445,6 +454,15 @@
               20
             ],
             "questionType": "CONSTSUM"
+          },
+          "participantComment": {
+            "feedbackResponseCommentId": 95676,
+            "commentText": "Student 2 comment",
+            "createdAt": 1451692743000,
+            "lastEditedAt": 1451692740010,
+            "isVisibilityFollowingFeedbackQuestion": true,
+            "showGiverNameTo": [],
+            "showCommentTo": []
           },
           "instructorComments": []
         },
