@@ -24,7 +24,6 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
 
   isShown: boolean = true;
   notifications: Notification[] = [];
-  isInstructorHelpPage: boolean = false;
 
   constructor(private notificationService: NotificationService,
               private statusMessageService: StatusMessageService) { }
@@ -40,7 +39,6 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
     if (this.url.includes('notifications')) {
       this.closeNotification();
     }
-    this.isInstructorHelpPage = this.url.includes('instructor/help');
   }
 
   fetchNotifications(): void {
