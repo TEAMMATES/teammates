@@ -542,4 +542,9 @@ public class FeedbackSession extends BaseEntity {
     public boolean isClosedAfter(long hours) {
         return Instant.now().plus(Duration.ofHours(hours)).isAfter(endTime);
     }
+
+    public boolean isSessionDeleted() {
+        return this.deletedAt != null;
+    }
+
 }

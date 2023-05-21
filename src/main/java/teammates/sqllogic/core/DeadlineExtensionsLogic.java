@@ -1,8 +1,11 @@
 package teammates.sqllogic.core;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -21,6 +24,8 @@ public final class DeadlineExtensionsLogic {
 
     private DeadlineExtensionsDb deadlineExtensionsDb;
 
+    private FeedbackSessionsLogic feedbackSessionsLogic;
+
     private DeadlineExtensionsLogic() {
         // prevent initialization
     }
@@ -29,8 +34,9 @@ public final class DeadlineExtensionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb) {
+    void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb, FeedbackSessionsLogic feedbackSessionsLogic) {
         this.deadlineExtensionsDb = deadlineExtensionsDb;
+        this.feedbackSessionsLogic = feedbackSessionsLogic;
     }
 
     /**
@@ -72,4 +78,44 @@ public final class DeadlineExtensionsLogic {
         assert deadlineExtension != null;
         return deadlineExtensionsDb.createDeadlineExtension(deadlineExtension);
     }
+
+    /**
+     * Deletes a deadline extension.
+     */
+    public void deleteDeadlineExtension(DeadlineExtension de) {
+        deadlineExtensionsDb.deleteDeadlineExtension(de);
+    }
+
+    /**
+     * Updates a deadline extension.
+     *
+     * @throws EntityDoesNotExistException if the deadline extension does not exist
+     * @throws InvalidParametersException if the deadline extension is not valid
+     */
+    public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return deadlineExtensionsDb.updateDeadlineExtension(de);
+    }
+
+    /**
+     * Deletes a user's deadline extensions.
+     */
+    public void deleteDeadlineExtensionsForUser(User user) {
+        String courseId = user.getCourseId();
+        List<FeedbackSession> feedbackSessions = feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
+
+        feedbackSessions.forEach(feedbackSession -> {
+            List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
+
+            deadlineExtensions = deadlineExtensions
+                    .stream()
+                    .filter(deadlineExtension -> deadlineExtension.getUser().equals(user))
+                    .collect(Collectors.toList());
+
+            for (DeadlineExtension deadlineExtension : deadlineExtensions) {
+                deleteDeadlineExtension(deadlineExtension);
+            }
+        });
+    }
+
 }

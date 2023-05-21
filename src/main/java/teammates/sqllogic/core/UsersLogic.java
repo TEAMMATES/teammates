@@ -4,7 +4,9 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -13,6 +15,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.RequestTracer;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -34,6 +37,10 @@ public final class UsersLogic {
 
     private AccountsLogic accountsLogic;
 
+    private FeedbackResponsesLogic feedbackResponsesLogic;
+
+    private DeadlineExtensionsLogic deadlineExtensionsLogic;
+
     private UsersLogic() {
         // prevent initialization
     }
@@ -42,9 +49,12 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
+            FeedbackResponsesLogic feedbackResponsesLogic, DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
+        this.feedbackResponsesLogic = feedbackResponsesLogic;
+        this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
     /**
@@ -85,6 +95,13 @@ public final class UsersLogic {
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
         return usersDb.getInstructorForEmail(courseId, userEmail);
+    }
+
+    /**
+     * Gets instructors matching any of the specified emails.
+     */
+    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
+        return usersDb.getInstructorsForEmails(courseId, userEmails);
     }
 
     /**
@@ -136,6 +153,21 @@ public final class UsersLogic {
         sortByName(instructorReturnList);
 
         return instructorReturnList;
+    }
+
+    /**
+     * Check if the instructors with the provided emails exist in the course.
+     */
+    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
+        List<Instructor> instructors = usersDb.getInstructorsForEmails(courseId, emails);
+        Map<String, User> emailInstructorMap = convertUserListToEmailUserMap(instructors);
+
+        for (String email : emails) {
+            if (!emailInstructorMap.containsKey(email)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -231,10 +263,32 @@ public final class UsersLogic {
     }
 
     /**
+    * Check if the students with the provided emails exist in the course.
+    */
+    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
+        List<Student> students = usersDb.getStudentsForEmails(courseId, emails);
+        Map<String, User> emailStudentMap = convertUserListToEmailUserMap(students);
+
+        for (String email : emails) {
+            if (!emailStudentMap.containsKey(email)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Gets a list of students with the specified email.
      */
     public List<Student> getAllStudentsForEmail(String email) {
         return usersDb.getAllStudentsForEmail(email);
+    }
+
+    /**
+     * Gets all students associated with a googleId.
+     */
+    public List<Student> getAllStudentsByGoogleId(String googleId) {
+        return usersDb.getAllStudentsByGoogleId(googleId);
     }
 
     /**
@@ -297,6 +351,15 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all students associated with a googleId.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        assert googleId != null;
+
+        return usersDb.getStudentsByGoogleId(googleId);
+    }
+
+    /**
      * Returns true if the user associated with the googleId is a student in any course in the system.
      */
     public boolean isStudentInAnyCourse(String googleId) {
@@ -338,6 +401,45 @@ public final class UsersLogic {
                 .equals(instructorToEdit.getGoogleId()));
         if (isLastRegInstructorWithPrivilege) {
             instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+        }
+    }
+
+    /**
+     * Deletes a student along with its associated feedback responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     */
+    public void deleteStudentCascade(String courseId, String studentEmail) {
+        Student student = getStudentForEmail(courseId, studentEmail);
+
+        if (student == null) {
+            return;
+        }
+
+        feedbackResponsesLogic
+                .deleteFeedbackResponsesForCourseCascade(courseId, studentEmail);
+
+        if (usersDb.getStudentCountForTeam(student.getTeamName(), student.getCourseId()) == 1) {
+            // the student is the only student in the team, delete responses related to the team
+            feedbackResponsesLogic
+                    .deleteFeedbackResponsesForCourseCascade(
+                        student.getCourse().getId(), student.getTeamName());
+        }
+
+        deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
+        usersDb.deleteUser(student);
+        feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
+    }
+
+    /**
+     * Deletes students in the course cascade their associated responses, deadline extensions, and comments.
+     */
+    public void deleteStudentsInCourseCascade(String courseId) {
+        List<Student> studentsInCourse = getStudentsForCourse(courseId);
+
+        for (Student student : studentsInCourse) {
+            RequestTracer.checkRemainingTime();
+            deleteStudentCascade(courseId, student.getEmail());
         }
     }
 
@@ -408,5 +510,18 @@ public final class UsersLogic {
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> instructor.getCourse())
                 .anyMatch(course -> institute.equals(course.getInstitute()));
+    }
+
+    /**
+     * Utility function to convert user list to email-user map for faster email lookup.
+     *
+     * @param users users list which contains users with unique email addresses
+     * @return email-user map for faster email lookup
+     */
+    private Map<String, User> convertUserListToEmailUserMap(List<? extends User> users) {
+        Map<String, User> emailUserMap = new HashMap<>();
+        users.forEach(u -> emailUserMap.put(u.getEmail(), u));
+
+        return emailUserMap;
     }
 }

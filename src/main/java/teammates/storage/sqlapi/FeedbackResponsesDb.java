@@ -45,6 +45,45 @@ public final class FeedbackResponsesDb extends EntitiesDb {
     }
 
     /**
+     * Gets all responses given by a user in a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(
+            String courseId, String giver) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cr = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
+
+        cr.select(frRoot)
+                .where(cb.and(
+                    cb.equal(cJoin.get("id"), courseId),
+                    cb.equal(frRoot.get("giver"), giver)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets all responses given to a user in a course.
+     */
+    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipient) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackResponse> cr = cb.createQuery(FeedbackResponse.class);
+        Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
+        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
+        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
+        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
+
+        cr.select(frRoot)
+                .where(cb.and(
+                    cb.equal(cJoin.get("id"), courseId),
+                    cb.equal(frRoot.get("recipient"), recipient)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Creates a feedbackResponse.
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
@@ -155,4 +194,5 @@ public final class FeedbackResponsesDb extends EntitiesDb {
 
         return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
     }
+
 }

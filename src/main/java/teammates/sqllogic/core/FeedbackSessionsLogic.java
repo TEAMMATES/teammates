@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * Handles operations related to feedback sessions.
@@ -40,6 +41,7 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
+    private CoursesLogic coursesLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -54,6 +56,7 @@ public final class FeedbackSessionsLogic {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
+        this.coursesLogic = coursesLogic;
     }
 
     /**
@@ -106,6 +109,46 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets a list of feedback sessions for instructors.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+
+        List<Instructor> courseNotDeletedInstructorList = instructorList.stream()
+                .filter(instructor -> coursesLogic.getCourse(instructor.getCourseId()).getDeletedAt() == null)
+                .collect(Collectors.toList());
+
+        List<FeedbackSession> fsList = new ArrayList<>();
+
+        for (Instructor instructor : courseNotDeletedInstructorList) {
+            fsList.addAll(getFeedbackSessionsForCourse(instructor.getCourseId()));
+        }
+
+        return fsList;
+    }
+
+    /**
+     * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
+     * <br>
+     * Omits sessions if the corresponding courses are archived or in Recycle Bin
+     */
+    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+
+        List<Instructor> courseNotDeletedInstructorList = instructorList.stream()
+                .filter(instructor -> coursesLogic.getCourse(instructor.getCourseId()).getDeletedAt() == null)
+                .collect(Collectors.toList());
+
+        List<FeedbackSession> fsList = new ArrayList<>();
+
+        for (Instructor instructor : courseNotDeletedInstructorList) {
+            fsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(instructor.getCourseId()));
+        }
+
+        return fsList;
+    }
+
+    /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
     public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
@@ -135,6 +178,18 @@ public final class FeedbackSessionsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert session != null;
         return fsDb.createFeedbackSession(session);
+    }
+
+    /**
+     * Updates a feedback session.
+     *
+     * @return updated feedback session
+     * @throws EntityDoesNotExistException if the feedback session does not exist
+     * @throws InvalidParametersException if the new fields for feedback session are invalid
+     */
+    public FeedbackSession updateFeedbackSession(FeedbackSession session)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return fsDb.updateFeedbackSession(session);
     }
 
     /**

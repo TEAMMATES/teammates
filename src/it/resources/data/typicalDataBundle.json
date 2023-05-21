@@ -17,6 +17,18 @@
       "googleId": "idOfStudent1Course1",
       "name": "Student 1",
       "email": "student1@teammates.tmt"
+    },
+    "student2": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "idOfStudent2Course1",
+      "name": "Student 2",
+      "email": "student2@teammates.tmt"
+    },
+    "student3": {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "googleId": "idOfStudent3Course1",
+      "name": "Student 3",
+      "email": "student3@teammates.tmt"
     }
   },
   "accountRequests": {
@@ -184,6 +196,9 @@
     },
     "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000602",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000004"
+      },
       "course": {
         "id": "course-1"
       },
@@ -196,6 +211,9 @@
     },
     "student3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000603",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000005"
+      },
       "course": {
         "id": "course-1"
       },

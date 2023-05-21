@@ -185,12 +185,56 @@ public class Logic {
     }
 
     /**
+     * Gets all students associated with a googleId.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        return usersLogic.getStudentsByGoogleId(googleId);
+    }
+
+    /**
      * Gets a course by course id.
      * @param courseId courseId of the course.
      * @return the specified course.
      */
     public Course getCourse(String courseId) {
         return coursesLogic.getCourse(courseId);
+    }
+
+    /**
+     * Gets courses associated with student.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public List<Course> getCoursesForStudentAccount(String googleId) {
+        assert googleId != null;
+
+        return coursesLogic.getCoursesForStudentAccount(googleId);
+    }
+
+    /**
+     * Gets courses associated with instructors.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Courses the given instructors is in except for courses in Recycle Bin.
+     */
+    public List<Course> getCoursesForInstructors(List<Instructor> instructorsList) {
+        assert instructorsList != null;
+
+        return coursesLogic.getCoursesForInstructors(instructorsList);
+    }
+
+    /**
+     * Gets courses associated with instructors that are soft deleted.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return Courses in Recycle Bin that the given instructors is in.
+     */
+    public List<Course> getSoftDeletedCoursesForInstructors(List<Instructor> instructorsList) {
+        assert instructorsList != null;
+
+        return coursesLogic.getSoftDeletedCoursesForInstructors(instructorsList);
     }
 
     /**
@@ -268,6 +312,26 @@ public class Logic {
     }
 
     /**
+     * Updates a deadline extension.
+     *
+     * @return updated deadline extension
+     * @throws EntityDoesNotExistException if the deadline extension does not exist
+     * @throws InvalidParametersException if the deadline extension is not valid
+     *
+     */
+    public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return deadlineExtensionsLogic.updateDeadlineExtension(de);
+    }
+
+    /**
+     * Deletes a deadline extension.
+     */
+    public void deleteDeadlineExtension(DeadlineExtension de) {
+        deadlineExtensionsLogic.deleteDeadlineExtension(de);
+    }
+
+    /**
      * Fetch the deadline extension for a given user and session feedback.
      *
      * @return deadline extension instant if exists, else the default end time instant
@@ -320,6 +384,28 @@ public class Logic {
     }
 
     /**
+     * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
+     * <br>
+     * Omits sessions if the corresponding courses are archived or in Recycle Bin
+     */
+    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+        assert instructorList != null;
+
+        return feedbackSessionsLogic.getSoftDeletedFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
+     * Gets a list of feedback sessions for instructors.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForInstructors(
+            List<Instructor> instructorList) {
+        assert instructorList != null;
+
+        return feedbackSessionsLogic.getFeedbackSessionsForInstructors(instructorList);
+    }
+
+    /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
     public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
@@ -327,6 +413,16 @@ public class Logic {
         assert courseId != null;
 
         return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId);
+    }
+
+    /**
+     * Updates a feedback session.
+     *
+     * @return returns the updated feedback session.
+     */
+    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackSessionsLogic.updateFeedbackSession(feedbackSession);
     }
 
     /**
@@ -628,6 +724,20 @@ public class Logic {
     }
 
     /**
+     * Check if the students with the provided emails exist in the course.
+     */
+    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
+        return usersLogic.verifyStudentsExistInCourse(courseId, emails);
+    }
+
+    /**
+     * Check if the instructors with the provided emails exist in the course.
+     */
+    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
+        return usersLogic.verifyInstructorsExistInCourse(courseId, emails);
+    }
+
+    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return Empty list if none found.
@@ -677,6 +787,35 @@ public class Logic {
      */
     public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
         return usersLogic.createStudent(student);
+    }
+
+    /**
+     * Deletes a student cascade its associated feedback responses, deadline
+     * extensions and comments.
+     *
+     * <p>Fails silently if the student does not exist.
+     *
+     * <br/>
+     * Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteStudentCascade(String courseId, String studentEmail) {
+        assert courseId != null;
+        assert studentEmail != null;
+
+        usersLogic.deleteStudentCascade(courseId, studentEmail);
+    }
+
+    /**
+     * Deletes all the students in the course cascade their associated responses, deadline extensions and comments.
+     *
+     * <br/>Preconditions: <br>
+     * Parameter is non-null.
+     */
+    public void deleteStudentsInCourseCascade(String courseId) {
+        assert courseId != null;
+
+        usersLogic.deleteStudentsInCourseCascade(courseId);
     }
 
     /**

@@ -1,6 +1,7 @@
 package teammates.storage.sqlapi;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import teammates.storage.sqlentity.User;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 /**
@@ -144,6 +146,20 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets all students by {@code googleId}.
+     */
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Account> accountsJoin = studentRoot.join("account");
+
+        cr.select(studentRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets a list of students by {@code teamName} and {@code courseId}.
      */
     public List<Student> getStudentsByTeamName(String teamName, String courseId) {
@@ -177,7 +193,7 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Gets all instructors and students by {@code googleId}.
+     * Gets all instructors by {@code googleId}.
      */
     public List<Instructor> getAllInstructorsByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -191,7 +207,7 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Gets all instructors and students by {@code googleId}.
+     * Gets all students by {@code googleId}.
      */
     public List<Student> getAllStudentsByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -274,6 +290,21 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets the list of students for the specified {@code courseId} in batches with {@code batchSize}.
+     */
+    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> root = cr.from(Student.class);
+
+        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+
+        return HibernateUtil.createQuery(cr).setMaxResults(batchSize).getResultList();
+    }
+
+    /**
      * Gets the instructor with the specified {@code userEmail}.
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
@@ -293,6 +324,30 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
+     * Gets instructors with the specified {@code userEmail}.
+     */
+    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
+        assert courseId != null;
+        assert userEmails != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        for (String userEmail : userEmails) {
+            predicates.add(cb.equal(instructorRoot.get("email"), userEmail));
+        }
+
+        cr.select(instructorRoot)
+                .where(cb.and(
+                    cb.equal(instructorRoot.get("courseId"), courseId),
+                    cb.or(predicates.toArray(new Predicate[0]))));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets the student with the specified {@code userEmail}.
      */
     public Student getStudentForEmail(String courseId, String userEmail) {
@@ -309,6 +364,30 @@ public final class UsersDb extends EntitiesDb {
                     cb.equal(studentRoot.get("email"), userEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets students with the specified {@code userEmail}.
+     */
+    public List<Student> getStudentsForEmails(String courseId, List<String> userEmails) {
+        assert courseId != null;
+        assert userEmails != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        for (String userEmail : userEmails) {
+            predicates.add(cb.equal(studentRoot.get("email"), userEmail));
+        }
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                    cb.equal(studentRoot.get("courseId"), courseId),
+                    cb.or(predicates.toArray(new Predicate[0]))));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**
@@ -384,6 +463,27 @@ public final class UsersDb extends EntitiesDb {
                     cb.equal(teamsJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets count of students of a team of a course.
+     */
+    public long getStudentCountForTeam(String teamName, String courseId) {
+        assert teamName != null;
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> courseJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(cb.count(studentRoot.get("id")))
+                .where(cb.and(
+                    cb.equal(courseJoin.get("id"), courseId),
+                    cb.equal(teamsJoin.get("name"), teamName)));
+
+        return HibernateUtil.createQuery(cr).getSingleResult();
     }
 
 }
