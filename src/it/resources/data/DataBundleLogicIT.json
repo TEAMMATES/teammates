@@ -58,7 +58,8 @@
       "feedbackSession": {
         "id": "00000000-0000-4000-8000-000000000701"
       },
-      "endTime": "2027-04-30T23:00:00Z"
+      "endTime": "2027-04-30T23:00:00Z",
+      "isClosingSoonEmailSent": false
     },
     "instructor1InTypicalCourseSession1": {
       "id": "00000000-0000-4000-8000-000000000402",
@@ -69,7 +70,8 @@
       "feedbackSession": {
         "id": "00000000-0000-4000-8000-000000000701"
       },
-      "endTime": "2027-04-30T23:00:00Z"
+      "endTime": "2027-04-30T23:00:00Z",
+      "isClosingSoonEmailSent": false
     }
   },
   "instructors": {
@@ -173,6 +175,10 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": true,
+      "isOpenEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
       "isPublishedEmailSent": false
     },
     "session2InTypicalCourse": {
@@ -191,6 +197,10 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": true,
+      "isOpenEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
       "isPublishedEmailSent": false
     }
   },
