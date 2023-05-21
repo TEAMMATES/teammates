@@ -164,16 +164,16 @@ export class SessionResultCsvService {
         const participantCommentHtml: string =
           response.participantComment ? response.participantComment.commentText : '';
         const participantComment: string = StringHelper.getTextFromHtml(participantCommentHtml);
-        const imgLinks: string = StringHelper.convertImageToLinkInHtml(participantCommentHtml);
-        currRow.push(participantComment + imgLinks);
+        const participantImgLinks: string = StringHelper.convertImageToLinkInHtml(participantCommentHtml);
+        currRow.push(participantComment + participantImgLinks);
 
         if (isInstructorCommentsOnResponsesAllowed) {
           for (const commentOutput of response.instructorComments) {
             const instructorName: string = commentOutput.commentGiverName ? commentOutput.commentGiverName : '';
             const instructorCommentHtml: string = commentOutput.commentText;
             const instructorComment: string = StringHelper.getTextFromHtml(instructorCommentHtml);
-            const imgLinks: string = StringHelper.convertImageToLinkInHtml(instructorCommentHtml);
-            currRow.push(instructorName, instructorComment + imgLinks);
+            const instructorImgLinks: string = StringHelper.convertImageToLinkInHtml(instructorCommentHtml);
+            currRow.push(instructorName, instructorComment + instructorImgLinks);
           }
         }
 
