@@ -49,6 +49,7 @@
   },
   "courses": {
     "course1": {
+      "createdAt": "2012-04-01T23:59:00Z",
       "id": "course-1",
       "name": "Typical Course 1",
       "institute": "TEAMMATES Test Institute 0",
@@ -56,8 +57,15 @@
     },
     "course2": {
       "createdAt": "2012-04-01T23:59:00Z",
-      "id": "idOfCourse2",
+      "id": "course-2",
       "name": "Typical Course 2",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Asia/Singapore"
+    },
+    "course3": {
+      "createdAt": "2012-04-01T23:59:00Z",
+      "id": "course-3",
+      "name": "Typical Course 3",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Asia/Singapore"
     }
@@ -73,7 +81,7 @@
     "section1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000202",
       "course": {
-        "id": "idOfCourse2"
+        "id": "course-2"
       },
       "name": "Section 2"
     }
@@ -176,6 +184,34 @@
         "sectionLevel": {},
         "sessionLevel": {}
       }
+    },
+    "instructor1OfCourse3": {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "course": {
+        "id": "course-3"
+      },
+      "name": "Instructor 1",
+      "email": "instr1@teammates.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
@@ -227,7 +263,7 @@
     "student1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000604",
       "course": {
-        "id": "idOfCourse2"
+        "id": "course-2"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"

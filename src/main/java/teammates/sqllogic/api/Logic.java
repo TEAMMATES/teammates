@@ -834,6 +834,22 @@ public class Logic {
         usersLogic.deleteUser(user);
     }
 
+    /**
+     * Deletes an instructor and cascades deletion to
+     * associated feedback responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the instructor does not exist.
+     *
+     * <br/>Preconditions: <br/>
+     * * All parameters are non-null.
+     */
+    public void deleteInstructorCascade(String courseId, String email) {
+        assert courseId != null;
+        assert email != null;
+
+        usersLogic.deleteInstructorCascade(courseId, email);
+    }
+
     public List<Notification> getAllNotifications() {
         return notificationsLogic.getAllNotifications();
     }
