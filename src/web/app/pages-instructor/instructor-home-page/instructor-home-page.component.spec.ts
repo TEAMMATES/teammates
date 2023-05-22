@@ -281,8 +281,8 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should sort courseTabModels by courseId in ascending order', () => {
-    const TestActiveCourseTabModels: CourseTabModel[] = activeCourseTabModels;
-    TestActiveCourseTabModels.push({
+    const CopytActiveCourseTabModels: CourseTabModel[] = activeCourseTabModels;
+    CopytActiveCourseTabModels.push({
       course: testCourse3,
       instructorPrivilege: testInstructorPrivilege,
       sessionsTableRowModels: [],
@@ -294,7 +294,7 @@ describe('InstructorHomePageComponent', () => {
       isTabExpanded: true,
       hasLoadingFailed: false,
     });
-    component.courseTabModels = TestActiveCourseTabModels;
+    component.courseTabModels = CopytActiveCourseTabModels;
     component.sortCoursesBy(SortBy.COURSE_ID);
     expect(component.courseTabModels[0].course.courseId).toEqual('CS0234');
     expect(component.courseTabModels[0].course.courseName).toEqual('Data Structures');
