@@ -1,8 +1,10 @@
 .side-nav {
-  width: 150px;
+  // width: 150px;
   top: 100px;
-  right: 5%;
-  position: fixed;
+  // right: 5%;
+  position: -webkit-sticky;
+  position: sticky;
+  align-self: flex-start;
 }
 
 .flex-container {
