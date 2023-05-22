@@ -21,6 +21,13 @@ import { ProgressBarModule } from '../../components/progress-bar/progress-bar.mo
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
+interface CourseModel {
+  course: Course;
+  canModifyCourse: boolean;
+  canModifyStudent: boolean;
+  isLoadingCourseStats: boolean;
+}
+
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
   let fixture: ComponentFixture<InstructorCoursesPageComponent>;
@@ -158,28 +165,28 @@ describe('InstructorCoursesPageComponent', () => {
     institute: 'Test Institute',
   };
 
-  const courseModelCS1231: any = {
+  const courseModelCS1231: CourseModel = {
     course: courseCS1231,
     canModifyCourse: true,
     canModifyStudent: true,
     isLoadingCourseStats: false,
   };
 
-  const courseModelCS3281: any = {
+  const courseModelCS3281: CourseModel = {
     course: courseCS3281,
     canModifyCourse: true,
     canModifyStudent: true,
     isLoadingCourseStats: false,
   };
 
-  const courseModelCS3282: any = {
+  const courseModelCS3282: CourseModel = {
     course: courseCS3282,
     canModifyCourse: true,
     canModifyStudent: false,
     isLoadingCourseStats: false,
   };
 
-  const courseModelST4234: any = {
+  const courseModelST4234: CourseModel = {
     course: courseST4234,
     canModifyCourse: false,
     canModifyStudent: true,
@@ -300,6 +307,18 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  fit('should set isCopyingCourse and isCopying to true', () => {
+    component.setIsCopyingCourse(true);
+    expect(component.isCopyingCourse).toEqual(true);
+    expect(component.courseFormModel.isCopying).toEqual(true);
+  });
+
+  fit('should set isCopyingCourse and isCopying to false', () => {
+    component.setIsCopyingCourse(false);
+    expect(component.isCopyingCourse).toEqual(false);
+    expect(component.courseFormModel.isCopying).toEqual(false);
+  });
+
   it('should load all courses by the instructor', () => {
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor').mockImplementation(
       (courseStatus: string): Observable<Courses> => {
@@ -398,6 +417,11 @@ describe('InstructorCoursesPageComponent', () => {
       expect(component.softDeletedCourses.length).toEqual(1);
       expect(component.activeCourses.length).toEqual(0);
     });
+  });
+
+  fit('should find a target course', () => {
+    const courseModelList: CourseModel[] = [courseModelCS1231, courseModelCS3281, courseModelCS3282, courseModelST4234];
+    expect(component.findCourse(courseModelList, "CS3281")).toEqual(courseModelCS3281);
   });
 
   it('should permanently delete a course', async () => {
