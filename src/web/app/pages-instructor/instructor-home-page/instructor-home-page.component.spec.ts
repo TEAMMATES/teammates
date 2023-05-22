@@ -52,6 +52,16 @@ const testCourse2: Course = {
   timeZone: 'Asia/Singapore',
 };
 
+const testCourse3: Course = {
+  courseId: 'CS0234',
+  courseName: 'Data Structures',
+  institute: 'Test Institute',
+  creationTimestamp: 1676841600000, //Sunday, 21 May 2023 08:00:00  GMT+08:00
+  deletionTimestamp: 0,
+  timeZone: 'Asia/Singapore',
+};
+
+
 const testFeedbackSession1: FeedbackSession = {
   feedbackSessionName: 'First Session',
   courseId: 'CS1231',
@@ -270,6 +280,27 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].sessionsTableRowModels[1]
             .feedbackSession.feedbackSessionName).toEqual('First Session');
   });
+
+  it('should sort courseTabModels by courseId in ascending order', () => {
+    const TestActiveCourseTabModels: CourseTabModel[] = activeCourseTabModels
+    TestActiveCourseTabModels.push(  {
+      course: testCourse3,
+      instructorPrivilege: testInstructorPrivilege,
+      sessionsTableRowModels: [],
+      sessionsTableRowModelsSortBy: SortBy.NONE,
+      sessionsTableRowModelsSortOrder: SortOrder.ASC,
+
+      hasPopulated: false,
+      isAjaxSuccess: true,
+      isTabExpanded: true,
+      hasLoadingFailed: false,
+    })
+    component.courseTabModels = TestActiveCourseTabModels;
+    component.sortCoursesBy(SortBy.COURSE_ID);
+    expect(component.courseTabModels[0].course.courseId).toEqual('CS0234');
+    expect(component.courseTabModels[0].course.courseName).toEqual('Data Structures');
+  });
+
 
   it('should snap with default fields', () => {
     expect(fixture).toMatchSnapshot();
