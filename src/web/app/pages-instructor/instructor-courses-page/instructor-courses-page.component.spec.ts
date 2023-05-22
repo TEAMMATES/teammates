@@ -21,14 +21,14 @@ import { ProgressBarModule } from '../../components/progress-bar/progress-bar.mo
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
-interface CourseModel {
-  course: Course;
-  canModifyCourse: boolean;
-  canModifyStudent: boolean;
-  isLoadingCourseStats: boolean;
-}
-
 describe('InstructorCoursesPageComponent', () => {
+  interface CourseModel {
+    course: Course;
+    canModifyCourse: boolean;
+    canModifyStudent: boolean;
+    isLoadingCourseStats: boolean;
+  }
+
   let component: InstructorCoursesPageComponent;
   let fixture: ComponentFixture<InstructorCoursesPageComponent>;
   let courseService: CourseService;
@@ -307,13 +307,13 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should set isCopyingCourse and isCopying to true', () => {
+  it('should set isCopyingCourse and isCopying to true', () => {
     component.setIsCopyingCourse(true);
     expect(component.isCopyingCourse).toEqual(true);
     expect(component.courseFormModel.isCopying).toEqual(true);
   });
 
-  fit('should set isCopyingCourse and isCopying to false', () => {
+  it('should set isCopyingCourse and isCopying to false', () => {
     component.setIsCopyingCourse(false);
     expect(component.isCopyingCourse).toEqual(false);
     expect(component.courseFormModel.isCopying).toEqual(false);
@@ -419,7 +419,7 @@ describe('InstructorCoursesPageComponent', () => {
     });
   });
 
-  fit('should find a target course', () => {
+  it('should find a target course', () => {
     const courseModelList: CourseModel[] = [courseModelCS1231, courseModelCS3281, courseModelCS3282, courseModelST4234];
     expect(component.findCourse(courseModelList, "CS3281")).toEqual(courseModelCS3281);
   });
