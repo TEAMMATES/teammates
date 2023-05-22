@@ -284,6 +284,35 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.hasLoadedAllStudentsFailed).toBeFalsy();
     expect(component.isLoadingFeedbackSession).toBeFalsy();
     expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
+
+    fixture.detectChanges();
+    expect(spyStatusMessageService).toHaveBeenCalled();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should stop loading if feedback session service get feedback session submitted giver set returns 404', () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(
+      throwError(() => ({
+        status: 404,
+        error: { message: 'This is a test message' },
+      })),
+    );
+    jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
+    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+
+    component.ngOnInit();
+
+    expect(component.isLoadingAllInstructors).toBeFalsy();
+    expect(component.hasLoadedAllInstructorsFailed).toBeTruthy();
+    expect(component.isLoadingAllStudents).toBeFalsy();
+    expect(component.hasLoadedAllStudentsFailed).toBeTruthy();
+    expect(component.isLoadingFeedbackSession).toBeFalsy();
+    expect(component.hasLoadingFeedbackSessionFailed).toBeFalsy();
     fixture.detectChanges();
     expect(spyStatusMessageService).toHaveBeenCalled();
     expect(fixture).toMatchSnapshot();
@@ -362,7 +391,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isAllInstructorsSelected).toBeTruthy();
   });
 
-  it('should not select all students and instructors after unselecting', () => {
+   it('should not select all students and instructors after unselecting', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
@@ -479,7 +508,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
     const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
-    expect(component.isPreSelectingNonSubmitters).toBeFalsy();
+    expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
+    expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
     expect(studentOneCheckBox.checked).toBeFalsy();
     expect(studentTwoCheckBox.checked).toBeFalsy();
     expect(studentThreeCheckBox.checked).toBeFalsy();
@@ -505,9 +535,152 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
     const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
-    expect(component.isPreSelectingNonSubmitters).toBeTruthy();
+    expect(component.isAllYetToSubmitInstructorsSelected).toBeTruthy();
+    expect(component.isAllYetToSubmitStudentsSelected).toBeTruthy();
     expect(studentOneCheckBox.checked).toBeTruthy();
     expect(studentTwoCheckBox.checked).toBeFalsy();
     expect(studentThreeCheckBox.checked).toBeTruthy();
+  });
+
+  it(
+    'should select students that have not submitted yet if Select Not Submitted Student Button is checked',
+    () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
+      .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const selectNotSubmittedButton = fixture.debugElement
+     .query(By.css('#select-not-submitted-student-btn')).nativeElement;
+    selectNotSubmittedButton.click();
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+
+    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+
+    expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
+    expect(component.isAllYetToSubmitStudentsSelected).toBeTruthy();
+    expect(studentOneCheckBox.checked).toBeTruthy();
+    expect(studentTwoCheckBox.checked).toBeFalsy();
+    expect(studentThreeCheckBox.checked).toBeTruthy();
+  });
+
+  it(
+    'should unselect only students that have not submitted yet if Select Not Submitted Student Button is unchecked',
+    () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
+      .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const studentRow = fixture.debugElement.query(By.css('#student-row-1')).nativeElement;
+    studentRow.click();
+    fixture.detectChanges();
+
+    const selectNotSubmittedButton = fixture.debugElement
+      .query(By.css('#select-not-submitted-student-btn')).nativeElement;
+    selectNotSubmittedButton.click();
+    selectNotSubmittedButton.click();
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+
+    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+
+    expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
+    expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
+    expect(studentOneCheckBox.checked).toBeFalsy();
+    expect(studentTwoCheckBox.checked).toBeTruthy();
+    expect(studentThreeCheckBox.checked).toBeFalsy();
+  });
+
+  it(
+    'should select those that have not submitted yet if Select Not Submitted Instructor and Student Button is checked',
+    () => {
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+
+    const giverSet: FeedbackSessionSubmittedGiverSet = {
+      giverIdentifiers: [testStudent2.email, testInstructor1.email],
+    };
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
+      .mockReturnValue(of(giverSet));
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const selectNotSubmittedStudentButton = fixture.debugElement
+      .query(By.css('#select-not-submitted-student-btn')).nativeElement;
+    selectNotSubmittedStudentButton.click();
+    fixture.detectChanges();
+
+    const selectNotSubmittedInstructorButton = fixture.debugElement
+      .query(By.css('#select-not-submitted-instructor-btn')).nativeElement;
+    selectNotSubmittedInstructorButton.click();
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    const instructorOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-0');
+    const instructorTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-1');
+    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+
+    expect(component.isAllYetToSubmitInstructorsSelected).toBeTruthy();
+    expect(component.isAllYetToSubmitStudentsSelected).toBeTruthy();
+
+    expect(instructorOneCheckBox.checked).toBeTruthy();
+    expect(instructorTwoCheckBox.checked).toBeFalsy();
+    expect(studentOneCheckBox.checked).toBeTruthy();
+    expect(studentTwoCheckBox.checked).toBeFalsy();
+    expect(studentThreeCheckBox.checked).toBeTruthy();
+  });
+
+  it(
+    'should unselect instructors that have not submitted yet if Select Not Submitted Instructor Button is unchecked',
+    () => {
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+
+    const giverSet: FeedbackSessionSubmittedGiverSet = {
+      giverIdentifiers: [testInstructor1.email],
+    };
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
+      .mockReturnValue(of(giverSet)); // Alice and Alex have not submitted yet
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const instructorRow = fixture.debugElement.query(By.css('#instructor-row-1')).nativeElement;
+    instructorRow.click();
+    fixture.detectChanges();
+
+    const selectNotSubmittedButton = fixture.debugElement
+      .query(By.css('#select-not-submitted-instructor-btn')).nativeElement;
+    selectNotSubmittedButton.click();
+    selectNotSubmittedButton.click();
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+
+    const instructorOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-0');
+    const instructorTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-1');
+
+    expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
+    expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
+    expect(instructorOneCheckBox.checked).toBeFalsy();
+    expect(instructorTwoCheckBox.checked).toBeTruthy();
   });
 });
